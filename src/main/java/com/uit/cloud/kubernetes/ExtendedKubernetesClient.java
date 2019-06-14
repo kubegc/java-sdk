@@ -5,6 +5,7 @@ package com.uit.cloud.kubernetes;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -16,9 +17,11 @@ import com.uit.cloud.kubernetes.api.model.VirtualMachineList;
 
 import io.fabric8.kubernetes.api.model.KubernetesResource;
 import io.fabric8.kubernetes.api.model.apiextensions.CustomResourceDefinition;
+import io.fabric8.kubernetes.client.Config;
 import io.fabric8.kubernetes.client.DefaultKubernetesClient;
-import io.fabric8.kubernetes.client.KubernetesClient;
+import io.fabric8.kubernetes.client.KubernetesClientException;
 import io.fabric8.kubernetes.client.Watcher;
+import io.fabric8.kubernetes.client.utils.Serialization;
 import io.fabric8.kubernetes.internal.KubernetesDeserializer;
 
 /**
@@ -28,7 +31,7 @@ import io.fabric8.kubernetes.internal.KubernetesDeserializer;
  * This code is used to manage CustomResource's lifecycle,
  * such as VirtualMachine
  */
-public class ExtendedKubernetesClient {
+public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 	
 	public final static Logger m_logger = Logger.getLogger(ExtendedKubernetesClient.class.getName());
 	
@@ -36,19 +39,13 @@ public class ExtendedKubernetesClient {
 	
 	public final static String PACKAGE  = ExtendedKubernetesClient.class.getPackage().getName();
 	
-	public final static String SUBPKG   = ".api.model";
+	public final static String SUBPKG   = ".api.model.";
 	
 	public final static Map<String, CustomResourceDefinition> crds = 
 											new HashMap<String, CustomResourceDefinition>();
 	
-	protected final KubernetesClient client;
-	
-    public ExtendedKubernetesClient() throws Exception {
-    	// create kubernetes connection
-		client = DefaultKubernetesClient
-				.fromConfig(new FileInputStream(new File(TOKEN)));
-        
-    	for(File conf : getConfigs()) {
+	protected void initCustomResources() throws Exception {
+		for(File conf : getConfigs()) {
     		// it is not a configure
     		if (!conf.getName().endsWith("conf")) {
     			continue;
@@ -59,10 +56,15 @@ public class ExtendedKubernetesClient {
 			registerToKubernetes(props);
 			
     	}
-		
 	}
 
-    /**
+
+	public ExtendedKubernetesClient(Config config) throws Exception {
+		super(config);
+		initCustomResources();
+	}
+
+	/**
      * @param props
      * @throws Exception
      */
@@ -73,7 +75,8 @@ public class ExtendedKubernetesClient {
 		String version = props.getProperty("GROUP") 
 						+ "/" + props.getProperty("VERSION");
 		
-		crds.put(kind, getCustomResourceDefinition(name));
+		CustomResourceDefinition customResourceDefinition = getCustomResourceDefinition(name);
+		crds.put(kind, customResourceDefinition);
 		KubernetesDeserializer.registerCustomKind(version, kind, 
 									getCustomResourceClass(kind));
     }
@@ -108,7 +111,7 @@ public class ExtendedKubernetesClient {
 	 * @return           the related CustomResourceDefinition
 	 */
 	protected CustomResourceDefinition getCustomResourceDefinition(String name) {
-		return client.customResourceDefinitions()
+		return this.customResourceDefinitions()
 								.withName(name).get();
 	}
   
@@ -128,11 +131,19 @@ public class ExtendedKubernetesClient {
      * @param watcher watcher
      */
     public void watchVirtualMachine(Watcher<VirtualMachine> watcher) {
-    	client.customResources(crds.get("VirtualMachine"), 
+    	this.customResources(crds.get("VirtualMachine"), 
     						VirtualMachine.class, 
     						VirtualMachineList.class, 
     						DoneableVirtualMachine.class)
     								.watch(watcher);
+    }
+    
+    public static ExtendedKubernetesClient defaultConfig(String config) throws Exception {
+    	return new ExtendedKubernetesClient(Serialization.unmarshal(config, Config.class));
+    }
+    
+    public static ExtendedKubernetesClient defaultConfig(InputStream is) throws Exception {
+        return new ExtendedKubernetesClient(Serialization.unmarshal(is, Config.class));
     }
     
 }

@@ -9,7 +9,7 @@ import io.fabric8.kubernetes.client.CustomResourceList;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
- * @since 2019/4/29
+ * @since 2019/6/14
  *
  */
 public class ResourceListGenerator extends AbstractGenerator {
