@@ -19,11 +19,35 @@ import io.fabric8.kubernetes.api.model.KubernetesResource;
 @JsonDeserialize(using = JsonDeserializer.None.class)
 public class VirtualMachineSpec implements KubernetesResource {
 
-	private Domain domain;
+	protected Domain domain;
+	
+	protected String image;
+	
+	protected String nodeName;
 
 	public VirtualMachineSpec() {
 
 	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
+	public String getNodeName() {
+		return nodeName;
+	}
+
+
+
+	public void setNodeName(String nodeName) {
+		this.nodeName = nodeName;
+	}
+
+
 
 	public void setDomain(Domain domain) {
 		this.domain = domain;
