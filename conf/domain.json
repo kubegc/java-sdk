@@ -645,7 +645,7 @@
                         "_removable": "string",
                         "_tray": "string"
                     },
-                    "transient": {},
+                    "_transient": {},
                     "vendor": {
                         "text": "string"
                     },
@@ -850,7 +850,7 @@
                         "_removable": "string",
                         "_tray": "string"
                     },
-                    "transient": {},
+                    "_transient": {},
                     "vendor": {
                         "text": "string"
                     },
@@ -2072,7 +2072,7 @@
             "msrs": {
                 "_unknown": "string"
             },
-            "nested-hv": {
+            "nested_hv": {
                 "_state": "string"
             },
             "pae": {},
@@ -2335,10 +2335,10 @@
             ]
         },
         "pm": {
-            "suspend-to-disk": {
+            "suspend_to_disk": {
                 "_enabled": "string"
             },
-            "suspend-to-mem": {
+            "suspend_to_mem": {
                 "_enabled": "string"
             }
         },

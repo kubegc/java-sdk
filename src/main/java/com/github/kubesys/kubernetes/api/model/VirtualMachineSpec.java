@@ -19,7 +19,7 @@ import io.fabric8.kubernetes.api.model.KubernetesResource;
 public class VirtualMachineSpec implements KubernetesResource {
 
 	protected Domain domain;
-	
+
 	protected Lifecycle lifecycle;
 
 	protected String image;
@@ -45,7 +45,7 @@ public class VirtualMachineSpec implements KubernetesResource {
 	public void setLifecycle(Lifecycle lifecycle) {
 		this.lifecycle = lifecycle;
 	}
-	
+
 	public String getImage() {
 		return image;
 	}
@@ -67,7 +67,7 @@ public class VirtualMachineSpec implements KubernetesResource {
 	 * Domain
 	 * 
 	 *****************************************************/
-	
+
 	public static class Domain {
 
 		private Metadata metadata;
@@ -807,6 +807,8 @@ public class VirtualMachineSpec implements KubernetesResource {
 
 			private Hpt hpt;
 
+			private Nested_hv nested_hv;
+
 			private Privnet privnet;
 
 			private Smm smm;
@@ -822,8 +824,6 @@ public class VirtualMachineSpec implements KubernetesResource {
 			private Ioapic ioapic;
 
 			private Pmu pmu;
-
-			private Nested_hv nested_hv;
 
 			private Hyperv hyperv;
 
@@ -911,6 +911,14 @@ public class VirtualMachineSpec implements KubernetesResource {
 				return this.hpt;
 			}
 
+			public void setNested_hv(Nested_hv nested_hv) {
+				this.nested_hv = nested_hv;
+			}
+
+			public Nested_hv getNested_hv() {
+				return this.nested_hv;
+			}
+
 			public void setPrivnet(Privnet privnet) {
 				this.privnet = privnet;
 			}
@@ -973,14 +981,6 @@ public class VirtualMachineSpec implements KubernetesResource {
 
 			public Pmu getPmu() {
 				return this.pmu;
-			}
-
-			public void setNested_hv(Nested_hv nested_hv) {
-				this.nested_hv = nested_hv;
-			}
-
-			public Nested_hv getNested_hv() {
-				return this.nested_hv;
 			}
 
 			public void setHyperv(Hyperv hyperv) {
@@ -2204,6 +2204,23 @@ public class VirtualMachineSpec implements KubernetesResource {
 				}
 			}
 
+			public static class Nested_hv {
+
+				private String _state;
+
+				public Nested_hv() {
+
+				}
+
+				public void set_state(String _state) {
+					this._state = _state;
+				}
+
+				public String get_state() {
+					return this._state;
+				}
+			}
+
 			public static class Privnet {
 
 				public Privnet() {
@@ -2335,23 +2352,6 @@ public class VirtualMachineSpec implements KubernetesResource {
 				private String _state;
 
 				public Pmu() {
-
-				}
-
-				public void set_state(String _state) {
-					this._state = _state;
-				}
-
-				public String get_state() {
-					return this._state;
-				}
-			}
-
-			public static class Nested_hv {
-
-				private String _state;
-
-				public Nested_hv() {
 
 				}
 
@@ -9334,6 +9334,8 @@ public class VirtualMachineSpec implements KubernetesResource {
 
 				private Source source;
 
+				private _transient _transient;
+
 				private Wwn wwn;
 
 				private Encryption encryption;
@@ -9363,8 +9365,6 @@ public class VirtualMachineSpec implements KubernetesResource {
 				private Driver driver;
 
 				private Serial serial;
-
-				private Transient _transient;
 
 				private BackingStore backingStore;
 
@@ -9422,6 +9422,14 @@ public class VirtualMachineSpec implements KubernetesResource {
 
 				public Source getSource() {
 					return this.source;
+				}
+
+				public void set_transient(_transient _transient) {
+					this._transient = _transient;
+				}
+
+				public _transient get_transient() {
+					return this._transient;
 				}
 
 				public void setWwn(Wwn wwn) {
@@ -9542,14 +9550,6 @@ public class VirtualMachineSpec implements KubernetesResource {
 
 				public Serial getSerial() {
 					return this.serial;
-				}
-
-				public void set_Transient(Transient _transient) {
-					this._transient = _transient;
-				}
-
-				public Transient get_Transient() {
-					return this._transient;
 				}
 
 				public void setBackingStore(BackingStore backingStore) {
@@ -10032,6 +10032,13 @@ public class VirtualMachineSpec implements KubernetesResource {
 						public String get_enabled() {
 							return this._enabled;
 						}
+
+					}
+				}
+
+				public static class _transient {
+
+					public _transient() {
 
 					}
 				}
@@ -10977,13 +10984,6 @@ public class VirtualMachineSpec implements KubernetesResource {
 					}
 				}
 
-				public static class Transient {
-
-					public Transient() {
-
-					}
-				}
-
 				public static class BackingStore {
 
 					private String _index;
@@ -11182,7 +11182,6 @@ public class VirtualMachineSpec implements KubernetesResource {
 							public String get_enabled() {
 								return this._enabled;
 							}
-
 						}
 					}
 				}
@@ -13048,20 +13047,12 @@ public class VirtualMachineSpec implements KubernetesResource {
 
 		public static class Pm {
 
-			private Suspend_to_mem suspend_to_mem;
-
 			private Suspend_to_disk suspend_to_disk;
+
+			private Suspend_to_mem suspend_to_mem;
 
 			public Pm() {
 
-			}
-
-			public void setSuspend_to_mem(Suspend_to_mem suspend_to_mem) {
-				this.suspend_to_mem = suspend_to_mem;
-			}
-
-			public Suspend_to_mem getSuspend_to_mem() {
-				return this.suspend_to_mem;
 			}
 
 			public void setSuspend_to_disk(Suspend_to_disk suspend_to_disk) {
@@ -13072,11 +13063,19 @@ public class VirtualMachineSpec implements KubernetesResource {
 				return this.suspend_to_disk;
 			}
 
-			public static class Suspend_to_mem {
+			public void setSuspend_to_mem(Suspend_to_mem suspend_to_mem) {
+				this.suspend_to_mem = suspend_to_mem;
+			}
+
+			public Suspend_to_mem getSuspend_to_mem() {
+				return this.suspend_to_mem;
+			}
+
+			public static class Suspend_to_disk {
 
 				private String _enabled;
 
-				public Suspend_to_mem() {
+				public Suspend_to_disk() {
 
 				}
 
@@ -13089,11 +13088,11 @@ public class VirtualMachineSpec implements KubernetesResource {
 				}
 			}
 
-			public static class Suspend_to_disk {
+			public static class Suspend_to_mem {
 
 				private String _enabled;
 
-				public Suspend_to_disk() {
+				public Suspend_to_mem() {
 
 				}
 
