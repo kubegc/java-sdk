@@ -1,7 +1,7 @@
 /*
  * Copyright (2019, ) Institute of Software, Chinese Academy of Sciences
  */
-package com.uit.cloud.generators;
+package com.github.kubesys.generators;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -131,8 +131,8 @@ public class ResourceSpecGenerator extends AbstractGenerator {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		ResourceSpecGenerator gen = new ResourceSpecGenerator("com.uit.cloud.kubernetes.api.model");
-		Map parseObject = JSON.parseObject(new FileInputStream(new File("conf/VirtualMachine.json")), Map.class);
+		ResourceSpecGenerator gen = new ResourceSpecGenerator("com.github.kubesys.kubernetes.api.model");
+		Map parseObject = JSON.parseObject(new FileInputStream(new File("conf/lifecycle.json")), Map.class);
 		gen.setObjMap(parseObject);
 		System.out.println(gen.autoGen("VirtualMachine"));
 		

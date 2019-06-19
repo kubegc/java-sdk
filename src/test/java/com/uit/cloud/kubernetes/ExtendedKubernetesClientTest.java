@@ -5,9 +5,10 @@ package com.uit.cloud.kubernetes;
 
 import java.util.List;
 
-import com.uit.cloud.kubernetes.api.model.DoneableVirtualMachine;
-import com.uit.cloud.kubernetes.api.model.VirtualMachine;
-import com.uit.cloud.kubernetes.api.model.VirtualMachineList;
+import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
+import com.github.kubesys.kubernetes.api.model.DoneableVirtualMachine;
+import com.github.kubesys.kubernetes.api.model.VirtualMachine;
+import com.github.kubesys.kubernetes.api.model.VirtualMachineList;
 
 import io.fabric8.kubernetes.api.model.Pod;
 import io.fabric8.kubernetes.api.model.apiextensions.CustomResourceDefinition;

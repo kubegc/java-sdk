@@ -1,7 +1,7 @@
 /**
  * Copyright (2019, ) Institute of Software, Chinese Academy of Sciences
  */
-package com.uit.cloud.kubernetes.api.model;
+package com.github.kubesys.kubernetes.api.model;
 
 import java.util.List;
 import java.util.ArrayList;

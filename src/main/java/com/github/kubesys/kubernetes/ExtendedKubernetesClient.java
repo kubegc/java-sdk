@@ -1,7 +1,7 @@
 /*
  * Copyright (2019, ) Institute of Software, Chinese Academy of Sciences
  */
-package com.uit.cloud.kubernetes;
+package com.github.kubesys.kubernetes;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,9 +11,9 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Logger;
 
-import com.uit.cloud.kubernetes.api.model.DoneableVirtualMachine;
-import com.uit.cloud.kubernetes.api.model.VirtualMachine;
-import com.uit.cloud.kubernetes.api.model.VirtualMachineList;
+import com.github.kubesys.kubernetes.api.model.DoneableVirtualMachine;
+import com.github.kubesys.kubernetes.api.model.VirtualMachine;
+import com.github.kubesys.kubernetes.api.model.VirtualMachineList;
 
 import io.fabric8.kubernetes.api.model.Doneable;
 import io.fabric8.kubernetes.api.model.HasMetadata;

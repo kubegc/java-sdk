@@ -1,7 +1,7 @@
 /*
  * Copyright (2019, ) Institute of Software, Chinese Academy of Sciences
  */
-package com.uit.cloud.generators;
+package com.github.kubesys.generators;
 
 import java.util.ArrayList;
 import java.util.Date;
