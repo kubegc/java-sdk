@@ -137,7 +137,11 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 	 */
 	@SuppressWarnings("unchecked")
 	public void watchVirtualMachine(Watcher<VirtualMachine> watcher) {
-		executors.get(VirtualMachine.class.getSimpleName()).watch(watcher);
+		try {
+			executors.get(VirtualMachine.class.getSimpleName()).watch(watcher);
+		} catch (Exception e) {
+			m_logger.log(Level.SEVERE, "Fail to start.");
+		}
 	}
 
 	/**
