@@ -83,7 +83,7 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 		crds.put(kind, crd);
 		KubernetesDeserializer.registerCustomKind(version, kind, getCustomResourceClass(kind));
 		MixedOperation executor = (MixedOperation) customResources(crds.get(VirtualMachine.class.getSimpleName()),
-				VirtualMachine.class, VirtualMachineList.class, DoneableVirtualMachine.class).inAnyNamespace();
+				VirtualMachine.class, VirtualMachineList.class, DoneableVirtualMachine.class);
 		executors.put(kind, executor);
 	}
 
