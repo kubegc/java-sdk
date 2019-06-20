@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.github.kubesys.kubernetes.api.model.DoneableVirtualMachine;
@@ -48,21 +49,15 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 
 	public final static Map<String, MixedOperation> executors = new HashMap<String, MixedOperation>();
 
-	protected void initCustomResources() throws Exception {
-//		for(File conf : getConfigs()) {
-//    		// it is not a configure
-//    		if (!conf.getName().endsWith("conf")) {
-//    			continue;
-//    		}
-//    		
-//    		
-//			
-//    	}
-		// register to kubernetes
-		Properties props =  new Properties();
-		props.load(getClass()
-				.getResourceAsStream("/VirtualMachine.conf"));
-		registerToKubernetes(props);
+	protected void initCustomResources()  {
+		try {
+			Properties props =  new Properties();
+			props.load(getClass()
+					.getResourceAsStream("/VirtualMachine.conf"));
+			registerToKubernetes(props);
+		} catch (Exception e) {
+			m_logger.log(Level.SEVERE, "Starting scheduler fail.");
+		}
 	}
 
 	public ExtendedKubernetesClient(Config config) throws Exception {
