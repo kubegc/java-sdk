@@ -149,6 +149,7 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
     							.getClassLoader()
     							.getResource("")
     							.getFile());
+    	System.out.println(res.getAbsolutePath());
     	return res.listFiles();
     }
     
