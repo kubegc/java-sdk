@@ -9760,8 +9760,6 @@ public class VirtualMachineSpec implements KubernetesResource {
 
 							private String _managed;
 
-							private Source source;
-
 							private String _enabled;
 
 							public Reservations() {
@@ -9774,14 +9772,6 @@ public class VirtualMachineSpec implements KubernetesResource {
 
 							public String get_managed() {
 								return this._managed;
-							}
-
-							public void setSource(Source source) {
-								this.source = source;
-							}
-
-							public Source getSource() {
-								return this.source;
 							}
 
 							public void set_enabled(String _enabled) {
@@ -10001,8 +9991,6 @@ public class VirtualMachineSpec implements KubernetesResource {
 
 						private String _managed;
 
-						private Source source;
-
 						private String _enabled;
 
 						public Reservations() {
@@ -10015,14 +10003,6 @@ public class VirtualMachineSpec implements KubernetesResource {
 
 						public String get_managed() {
 							return this._managed;
-						}
-
-						public void setSource(Source source) {
-							this.source = source;
-						}
-
-						public Source getSource() {
-							return this.source;
 						}
 
 						public void set_enabled(String _enabled) {
@@ -11151,8 +11131,6 @@ public class VirtualMachineSpec implements KubernetesResource {
 
 							private String _managed;
 
-							private Source source;
-
 							private String _enabled;
 
 							public Reservations() {
@@ -11167,14 +11145,6 @@ public class VirtualMachineSpec implements KubernetesResource {
 								return this._managed;
 							}
 
-							public void setSource(Source source) {
-								this.source = source;
-							}
-
-							public Source getSource() {
-								return this.source;
-							}
-
 							public void set_enabled(String _enabled) {
 								this._enabled = _enabled;
 							}
@@ -11182,6 +11152,7 @@ public class VirtualMachineSpec implements KubernetesResource {
 							public String get_enabled() {
 								return this._enabled;
 							}
+
 						}
 					}
 				}
