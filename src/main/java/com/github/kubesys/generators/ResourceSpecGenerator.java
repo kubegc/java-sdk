@@ -31,9 +31,10 @@ public class ResourceSpecGenerator extends AbstractGenerator {
 	
 	public final static String SUBCLASS       = "\n\npublic static class CLASS {\n";
 	
-	public final static String FIELD          = "\n\tprivate FTYPE FNAME;\n";
+	public final static String FIELD          = "\n\tprotected FTYPE FNAME;\n";
 	
-	public final static String SET_METHOD     =  "\n\tpublic void setMNAME(FTYPE FNAME) {\n" 
+	public final static String SET_METHOD     =  "\n\t/**\n\t*  Ignore the user setting, use 'lifecycle' to update VM's info \n\t*\n\t*/"
+							+ "\n\tpublic void setMNAME(FTYPE FNAME) {\n" 
 							+ "\t\tthis.FNAME = FNAME;\n\t}\n";
 	
 	public final static String GET_METHOD     = "\n\tpublic FTYPE getMNAME() {\n" 
@@ -132,8 +133,8 @@ public class ResourceSpecGenerator extends AbstractGenerator {
 	
 	public static void main(String[] args) throws Exception {
 		ResourceSpecGenerator gen = new ResourceSpecGenerator("com.github.kubesys.kubernetes.api.model");
-//		Map parseObject = JSON.parseObject(new FileInputStream(new File("conf/domain.json")), Map.class);
-		Map parseObject = JSON.parseObject(new FileInputStream(new File("conf/lifecycle.json")), Map.class);
+		Map parseObject = JSON.parseObject(new FileInputStream(new File("conf/domain.json")), Map.class);
+//		Map parseObject = JSON.parseObject(new FileInputStream(new File("conf/lifecycle.json")), Map.class);
 		gen.setObjMap(parseObject);
 		System.out.println(gen.autoGen("VirtualMachine"));
 		

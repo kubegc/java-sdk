@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 import com.github.kubesys.kubernetes.api.model.DoneableVirtualMachine;
 import com.github.kubesys.kubernetes.api.model.VirtualMachine;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineList;
+import com.github.kubesys.kubernetes.impl.VirtualMachineImpl;
 
 import io.fabric8.kubernetes.api.model.Doneable;
 import io.fabric8.kubernetes.api.model.HasMetadata;
@@ -160,6 +161,10 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 	 */
 	public static ExtendedKubernetesClient defaultConfig(InputStream is) throws Exception {
 		return new ExtendedKubernetesClient(Serialization.unmarshal(is, Config.class));
+	}
+	
+	public VirtualMachineImpl virtualMachines() {
+		return null;
 	}
 
 }
