@@ -4,6 +4,7 @@
 package com.github.kubesys.kubernetes.impl;
 
 import com.github.kubesys.kubernetes.api.model.VirtualMachine;
+import com.github.kubesys.kubernetes.api.model.VirtualMachineList;
 
 import io.fabric8.kubernetes.client.dsl.Gettable;
 import io.fabric8.kubernetes.client.dsl.MixedOperation;
@@ -62,6 +63,10 @@ public class VirtualMachineImpl {
 	public VirtualMachine get(String name) {
 		return ((Gettable<VirtualMachine>) 
 				excutor.withName(name)).get();
+	}
+	
+	public VirtualMachineList list() {
+		return (VirtualMachineList) excutor.list();
 	}
 }
 
