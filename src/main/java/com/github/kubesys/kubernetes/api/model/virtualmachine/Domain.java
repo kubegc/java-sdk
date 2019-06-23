@@ -5,6 +5,9 @@ package com.github.kubesys.kubernetes.api.model.virtualmachine;
 
 import java.util.ArrayList;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 /**
  * @author wuheng@otcaix.iscas.ac.cn
  * @author xuyuanjia2017@otcaix.iscas.ac.cn
@@ -12,6 +15,8 @@ import java.util.ArrayList;
  * @author yangchen18@otcaix.iscas.ac.cn
  * @since Thu Jun 22 21:36:39 CST 2019
  **/
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 public class Domain {
 
 	protected Metadata metadata;
@@ -550,6 +555,8 @@ public class Domain {
 		return this.pm;
 	}
 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class Metadata {
 
 		public Metadata() {
@@ -557,6 +564,8 @@ public class Domain {
 		}
 	}
 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class Memory {
 
 		protected String _unit;
@@ -606,6 +615,8 @@ public class Domain {
 		}
 	}
 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class Vcpu {
 
 		protected String _current;
@@ -669,6 +680,8 @@ public class Domain {
 		}
 	}
 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class Seclabel {
 
 		protected Imagelabel imagelabel;
@@ -759,6 +772,8 @@ public class Domain {
 			return this._relabel;
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Imagelabel {
 
 			protected String text;
@@ -780,6 +795,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Baselabel {
 
 			protected String text;
@@ -801,6 +818,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Label {
 
 			protected String text;
@@ -823,6 +842,8 @@ public class Domain {
 		}
 	}
 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class Description {
 
 		protected String text;
@@ -844,6 +865,8 @@ public class Domain {
 		}
 	}
 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class Title {
 
 		protected String text;
@@ -865,6 +888,8 @@ public class Domain {
 		}
 	}
 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class MaxMemory {
 
 		protected String _unit;
@@ -914,6 +939,8 @@ public class Domain {
 		}
 	}
 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class Uuid {
 
 		protected String text;
@@ -935,6 +962,8 @@ public class Domain {
 		}
 	}
 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class Iothreadids {
 
 		protected ArrayList<Iothread> iothread;
@@ -955,6 +984,8 @@ public class Domain {
 			return this.iothread;
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Iothread {
 
 			protected String _id;
@@ -977,6 +1008,8 @@ public class Domain {
 		}
 	}
 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class Features {
 
 		protected Gic gic;
@@ -1263,6 +1296,8 @@ public class Domain {
 			return this.hyperv;
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Gic {
 
 			protected String _version;
@@ -1284,6 +1319,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Htm {
 
 			protected String _state;
@@ -1305,6 +1342,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Capabilities {
 
 			protected Dac_read_Search dac_read_Search;
@@ -1843,6 +1882,8 @@ public class Domain {
 				return this.mac_admin;
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Dac_read_Search {
 
 				protected String _state;
@@ -1864,6 +1905,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Fsetid {
 
 				protected String _state;
@@ -1885,6 +1928,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Dac_override {
 
 				protected String _state;
@@ -1906,6 +1951,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Syslog {
 
 				protected String _state;
@@ -1927,6 +1974,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Net_raw {
 
 				protected String _state;
@@ -1948,6 +1997,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Mac_override {
 
 				protected String _state;
@@ -1969,6 +2020,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Setfcap {
 
 				protected String _state;
@@ -1990,6 +2043,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Mknod {
 
 				protected String _state;
@@ -2011,6 +2066,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Sys_time {
 
 				protected String _state;
@@ -2032,6 +2089,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Sys_tty_config {
 
 				protected String _state;
@@ -2053,6 +2112,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Net_broadcast {
 
 				protected String _state;
@@ -2074,6 +2135,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Setpcap {
 
 				protected String _state;
@@ -2095,6 +2158,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Ipc_lock {
 
 				protected String _state;
@@ -2116,6 +2181,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Net_bind_service {
 
 				protected String _state;
@@ -2137,6 +2204,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Wake_alarm {
 
 				protected String _state;
@@ -2158,6 +2227,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Linux_immutable {
 
 				protected String _state;
@@ -2179,6 +2250,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Sys_pacct {
 
 				protected String _state;
@@ -2200,6 +2273,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Ipc_owner {
 
 				protected String _state;
@@ -2221,6 +2296,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Net_admin {
 
 				protected String _state;
@@ -2242,6 +2319,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Setgid {
 
 				protected String _state;
@@ -2263,6 +2342,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Sys_ptrace {
 
 				protected String _state;
@@ -2284,6 +2365,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Chown {
 
 				protected String _state;
@@ -2305,6 +2388,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Sys_admin {
 
 				protected String _state;
@@ -2326,6 +2411,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Sys_module {
 
 				protected String _state;
@@ -2347,6 +2434,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Sys_nice {
 
 				protected String _state;
@@ -2368,6 +2457,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Kill {
 
 				protected String _state;
@@ -2389,6 +2480,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Audit_control {
 
 				protected String _state;
@@ -2410,6 +2503,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Setuid {
 
 				protected String _state;
@@ -2431,6 +2526,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Fowner {
 
 				protected String _state;
@@ -2452,6 +2549,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Sys_resource {
 
 				protected String _state;
@@ -2473,6 +2572,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Sys_chroot {
 
 				protected String _state;
@@ -2494,6 +2595,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Sys_rawio {
 
 				protected String _state;
@@ -2515,6 +2618,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Audit_write {
 
 				protected String _state;
@@ -2536,6 +2641,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Block_suspend {
 
 				protected String _state;
@@ -2557,6 +2664,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Lease {
 
 				protected String _state;
@@ -2578,6 +2687,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Sys_boot {
 
 				protected String _state;
@@ -2599,6 +2710,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Mac_admin {
 
 				protected String _state;
@@ -2621,6 +2734,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Kvm {
 
 			protected Hidden hidden;
@@ -2641,6 +2756,8 @@ public class Domain {
 				return this.hidden;
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Hidden {
 
 				protected String _state;
@@ -2663,6 +2780,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Apic {
 
 			protected String _eoi;
@@ -2684,6 +2803,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Viridian {
 
 			public Viridian() {
@@ -2691,6 +2812,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Pvspinlock {
 
 			protected String _state;
@@ -2712,6 +2835,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Vmport {
 
 			protected String _state;
@@ -2733,6 +2858,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Vmcoreinfo {
 
 			protected String _state;
@@ -2754,6 +2881,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Hpt {
 
 			protected Maxpagesize maxpagesize;
@@ -2788,6 +2917,8 @@ public class Domain {
 				return this._resizing;
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Maxpagesize {
 
 				protected String _unit;
@@ -2824,6 +2955,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Nested_hv {
 
 			protected String _state;
@@ -2845,6 +2978,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Privnet {
 
 			public Privnet() {
@@ -2852,6 +2987,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Smm {
 
 			protected String _state;
@@ -2886,6 +3023,8 @@ public class Domain {
 				return this.tseg;
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Tseg {
 
 				protected String _unit;
@@ -2922,6 +3061,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Msrs {
 
 			protected String _unknown;
@@ -2943,6 +3084,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Pae {
 
 			public Pae() {
@@ -2950,6 +3093,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Acpi {
 
 			public Acpi() {
@@ -2957,6 +3102,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Hap {
 
 			protected String _state;
@@ -2978,6 +3125,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Ioapic {
 
 			protected String _driver;
@@ -2999,6 +3148,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Pmu {
 
 			protected String _state;
@@ -3020,6 +3171,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Hyperv {
 
 			protected Vpindex vpindex;
@@ -3222,6 +3375,8 @@ public class Domain {
 				return this.frequencies;
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Vpindex {
 
 				protected String _state;
@@ -3243,6 +3398,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Ipi {
 
 				protected String _state;
@@ -3264,6 +3421,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Stimer {
 
 				protected String _state;
@@ -3285,6 +3444,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Reenlightenment {
 
 				protected String _state;
@@ -3306,6 +3467,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Runtime {
 
 				protected String _state;
@@ -3327,6 +3490,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Evmcs {
 
 				protected String _state;
@@ -3348,6 +3513,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Spinlocks {
 
 				protected String _retries;
@@ -3369,6 +3536,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Tlbflush {
 
 				protected String _state;
@@ -3390,6 +3559,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Synic {
 
 				protected String _state;
@@ -3411,6 +3582,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Relaxed {
 
 				protected String _state;
@@ -3432,6 +3605,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Vapic {
 
 				protected String _state;
@@ -3453,6 +3628,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Vendor_id {
 
 				protected String _value;
@@ -3474,6 +3651,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Reset {
 
 				protected String _state;
@@ -3495,6 +3674,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Frequencies {
 
 				protected String _state;
@@ -3518,6 +3699,8 @@ public class Domain {
 		}
 	}
 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class On_crash {
 
 		protected String text;
@@ -3539,6 +3722,8 @@ public class Domain {
 		}
 	}
 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class Blkiotune {
 
 		protected Weight weight;
@@ -3573,6 +3758,8 @@ public class Domain {
 			return this.device;
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Weight {
 
 			protected String text;
@@ -3594,6 +3781,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Device {
 
 			protected Path path;
@@ -3684,6 +3873,8 @@ public class Domain {
 				return this.read_iops_sec;
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Path {
 
 				protected String text;
@@ -3705,6 +3896,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Write_bytes_sec {
 
 				protected String text;
@@ -3726,6 +3919,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Write_iops_sec {
 
 				protected String text;
@@ -3747,6 +3942,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Weight {
 
 				protected String text;
@@ -3768,6 +3965,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Read_bytes_sec {
 
 				protected String text;
@@ -3789,6 +3988,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Read_iops_sec {
 
 				protected String text;
@@ -3812,6 +4013,8 @@ public class Domain {
 		}
 	}
 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class Bootloader {
 
 		protected String text;
@@ -3833,6 +4036,8 @@ public class Domain {
 		}
 	}
 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class Idmap {
 
 		protected ArrayList<Uid> uid;
@@ -3867,6 +4072,8 @@ public class Domain {
 			return this.gid;
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Uid {
 
 			protected String _count;
@@ -3916,6 +4123,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Gid {
 
 			protected String _count;
@@ -3966,6 +4175,8 @@ public class Domain {
 		}
 	}
 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class Sysinfo {
 
 		protected ArrayList<Memory> memory;
@@ -4084,6 +4295,8 @@ public class Domain {
 			return this.processor;
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Memory {
 
 			protected ArrayList<Entry> entry;
@@ -4104,6 +4317,8 @@ public class Domain {
 				return this.entry;
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Entry {
 
 				protected String _name;
@@ -4140,6 +4355,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class System {
 
 			protected ArrayList<Entry> entry;
@@ -4160,6 +4377,8 @@ public class Domain {
 				return this.entry;
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Entry {
 
 				protected String _name;
@@ -4196,6 +4415,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class BaseBoard {
 
 			protected ArrayList<Entry> entry;
@@ -4216,6 +4437,8 @@ public class Domain {
 				return this.entry;
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Entry {
 
 				protected String _name;
@@ -4252,6 +4475,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Bios {
 
 			protected ArrayList<Entry> entry;
@@ -4272,6 +4497,8 @@ public class Domain {
 				return this.entry;
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Entry {
 
 				protected String _name;
@@ -4308,6 +4535,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Chassis {
 
 			protected ArrayList<Entry> entry;
@@ -4328,6 +4557,8 @@ public class Domain {
 				return this.entry;
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Entry {
 
 				protected String _name;
@@ -4364,6 +4595,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class OemStrings {
 
 			protected Entry entry;
@@ -4384,6 +4617,8 @@ public class Domain {
 				return this.entry;
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Entry {
 
 				protected String text;
@@ -4406,6 +4641,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Processor {
 
 			protected ArrayList<Entry> entry;
@@ -4426,6 +4663,8 @@ public class Domain {
 				return this.entry;
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Entry {
 
 				protected String _name;
@@ -4463,6 +4702,8 @@ public class Domain {
 		}
 	}
 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class Memtune {
 
 		protected Soft_limit soft_limit;
@@ -4525,6 +4766,8 @@ public class Domain {
 			return this.hard_limit;
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Soft_limit {
 
 			protected String _unit;
@@ -4560,6 +4803,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Min_guarantee {
 
 			protected String _unit;
@@ -4595,6 +4840,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Swap_hard_limit {
 
 			protected String _unit;
@@ -4630,6 +4877,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Hard_limit {
 
 			protected String _unit;
@@ -4666,6 +4915,8 @@ public class Domain {
 		}
 	}
 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class Numatune {
 
 		protected ArrayList<Memnode> memnode;
@@ -4700,6 +4951,8 @@ public class Domain {
 			return this.memory;
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Memnode {
 
 			protected String _nodeset;
@@ -4749,6 +5002,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Memory {
 
 			protected String _nodeset;
@@ -4799,6 +5054,8 @@ public class Domain {
 		}
 	}
 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class Keywrap {
 
 		protected ArrayList<Cipher> cipher;
@@ -4819,6 +5076,8 @@ public class Domain {
 			return this.cipher;
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Cipher {
 
 			protected String _name;
@@ -4855,6 +5114,8 @@ public class Domain {
 		}
 	}
 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class MemoryBacking {
 
 		protected Hugepages hugepages;
@@ -4959,6 +5220,8 @@ public class Domain {
 			return this.locked;
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Hugepages {
 
 			protected ArrayList<Page> page;
@@ -4979,6 +5242,8 @@ public class Domain {
 				return this.page;
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Page {
 
 				protected String _size;
@@ -5029,6 +5294,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Discard {
 
 			public Discard() {
@@ -5036,6 +5303,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Allocation {
 
 			protected String _mode;
@@ -5057,6 +5326,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Access {
 
 			protected String _mode;
@@ -5078,6 +5349,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Nosharepages {
 
 			public Nosharepages() {
@@ -5085,6 +5358,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Source {
 
 			protected String _type;
@@ -5106,6 +5381,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Locked {
 
 			public Locked() {
@@ -5114,6 +5391,8 @@ public class Domain {
 		}
 	}
 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class Perf {
 
 		protected ArrayList<Event> event;
@@ -5134,6 +5413,8 @@ public class Domain {
 			return this.event;
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Event {
 
 			protected String _name;
@@ -5170,6 +5451,8 @@ public class Domain {
 		}
 	}
 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class LaunchSecurity {
 
 		public LaunchSecurity() {
@@ -5177,6 +5460,8 @@ public class Domain {
 		}
 	}
 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class On_poweroff {
 
 		protected String text;
@@ -5198,6 +5483,8 @@ public class Domain {
 		}
 	}
 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class Bootloader_args {
 
 		protected String text;
@@ -5219,6 +5506,8 @@ public class Domain {
 		}
 	}
 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class Os {
 
 		protected Init init;
@@ -5477,6 +5766,8 @@ public class Domain {
 			return this.initenv;
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Init {
 
 			protected String text;
@@ -5498,6 +5789,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Bios {
 
 			protected String _rebootTimeout;
@@ -5533,6 +5826,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Kernel {
 
 			protected String text;
@@ -5554,6 +5849,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Loader {
 
 			protected String text;
@@ -5576,6 +5873,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Initarg {
 
 			protected String text;
@@ -5597,6 +5896,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Type {
 
 			protected String _machine;
@@ -5646,6 +5947,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Initrd {
 
 			protected String text;
@@ -5667,6 +5970,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Smbios {
 
 			protected String _mode;
@@ -5688,6 +5993,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Cmdline {
 
 			protected String text;
@@ -5709,6 +6016,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Dtb {
 
 			protected String text;
@@ -5730,6 +6039,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Nvram {
 
 			protected String text;
@@ -5752,6 +6063,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Inituser {
 
 			protected String text;
@@ -5773,6 +6086,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Acpi {
 
 			protected ArrayList<Table> table;
@@ -5793,6 +6108,8 @@ public class Domain {
 				return this.table;
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Table {
 
 				protected String _type;
@@ -5829,6 +6146,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Bootmenu {
 
 			protected String _enable;
@@ -5864,6 +6183,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Initgroup {
 
 			protected String text;
@@ -5885,6 +6206,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Boot {
 
 			protected String _dev;
@@ -5906,6 +6229,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Initdir {
 
 			protected String text;
@@ -5927,6 +6252,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Initenv {
 
 			protected String _name;
@@ -5963,6 +6290,8 @@ public class Domain {
 		}
 	}
 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class Devices {
 
 		protected ArrayList<Memory> memory;
@@ -6375,6 +6704,8 @@ public class Domain {
 			return this.lease;
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Memory {
 
 			protected String _discard;
@@ -6479,6 +6810,8 @@ public class Domain {
 				return this.target;
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Address {
 
 				public Address() {
@@ -6486,6 +6819,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Alias {
 
 				protected String _name;
@@ -6507,6 +6842,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Source {
 
 				protected Path path;
@@ -6583,6 +6920,8 @@ public class Domain {
 					return this.pagesize;
 				}
 
+				@JsonInclude(JsonInclude.Include.NON_NULL)
+				@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 				public static class Path {
 
 					protected String text;
@@ -6604,6 +6943,8 @@ public class Domain {
 					}
 				}
 
+				@JsonInclude(JsonInclude.Include.NON_NULL)
+				@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 				public static class Pmem {
 
 					public Pmem() {
@@ -6611,6 +6952,8 @@ public class Domain {
 					}
 				}
 
+				@JsonInclude(JsonInclude.Include.NON_NULL)
+				@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 				public static class Alignsize {
 
 					protected String _unit;
@@ -6646,6 +6989,8 @@ public class Domain {
 					}
 				}
 
+				@JsonInclude(JsonInclude.Include.NON_NULL)
+				@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 				public static class Nodemask {
 
 					protected String text;
@@ -6667,6 +7012,8 @@ public class Domain {
 					}
 				}
 
+				@JsonInclude(JsonInclude.Include.NON_NULL)
+				@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 				public static class Pagesize {
 
 					protected String _unit;
@@ -6703,6 +7050,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Target {
 
 				protected Node node;
@@ -6765,6 +7114,8 @@ public class Domain {
 					return this.label;
 				}
 
+				@JsonInclude(JsonInclude.Include.NON_NULL)
+				@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 				public static class Node {
 
 					protected String text;
@@ -6786,6 +7137,8 @@ public class Domain {
 					}
 				}
 
+				@JsonInclude(JsonInclude.Include.NON_NULL)
+				@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 				public static class Readonly {
 
 					public Readonly() {
@@ -6793,6 +7146,8 @@ public class Domain {
 					}
 				}
 
+				@JsonInclude(JsonInclude.Include.NON_NULL)
+				@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 				public static class Size {
 
 					protected String _unit;
@@ -6828,6 +7183,8 @@ public class Domain {
 					}
 				}
 
+				@JsonInclude(JsonInclude.Include.NON_NULL)
+				@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 				public static class Label {
 
 					protected Size size;
@@ -6848,6 +7205,8 @@ public class Domain {
 						return this.size;
 					}
 
+					@JsonInclude(JsonInclude.Include.NON_NULL)
+					@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 					public static class Size {
 
 						protected String _unit;
@@ -6886,6 +7245,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Redirfilter {
 
 			protected ArrayList<Usbdev> usbdev;
@@ -6906,6 +7267,8 @@ public class Domain {
 				return this.usbdev;
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Usbdev {
 
 				protected String _vendor;
@@ -6984,6 +7347,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Sound {
 
 			protected ArrayList<Codec> codec;
@@ -7046,6 +7411,8 @@ public class Domain {
 				return this._model;
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Codec {
 
 				protected String _type;
@@ -7067,6 +7434,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Address {
 
 				public Address() {
@@ -7074,6 +7443,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Alias {
 
 				protected String _name;
@@ -7096,6 +7467,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Channel {
 
 			protected Protocol protocol;
@@ -7186,6 +7559,8 @@ public class Domain {
 				return this.target;
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Protocol {
 
 				protected String _type;
@@ -7207,6 +7582,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Address {
 
 				public Address() {
@@ -7214,6 +7591,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Log {
 
 				protected String _file;
@@ -7249,6 +7628,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Alias {
 
 				protected String _name;
@@ -7270,6 +7651,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Source {
 
 				public Source() {
@@ -7277,6 +7660,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Target {
 
 				public Target() {
@@ -7285,6 +7670,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Memballoon {
 
 			protected Address address;
@@ -7375,6 +7762,8 @@ public class Domain {
 				return this._autodeflate;
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Address {
 
 				public Address() {
@@ -7382,6 +7771,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Driver {
 
 				protected String _iommu;
@@ -7417,6 +7808,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Stats {
 
 				protected String _period;
@@ -7438,6 +7831,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Alias {
 
 				protected String _name;
@@ -7460,6 +7855,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Graphics {
 
 			public Graphics() {
@@ -7467,6 +7864,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Video {
 
 			protected Address address;
@@ -7529,6 +7928,8 @@ public class Domain {
 				return this.model;
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Address {
 
 				public Address() {
@@ -7536,6 +7937,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Driver {
 
 				protected String _vgaconf;
@@ -7585,6 +7988,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Alias {
 
 				protected String _name;
@@ -7606,6 +8011,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Model {
 
 				protected String _heads;
@@ -7724,6 +8131,8 @@ public class Domain {
 					return this._primary;
 				}
 
+				@JsonInclude(JsonInclude.Include.NON_NULL)
+				@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 				public static class Acceleration {
 
 					protected String _accel3d;
@@ -7761,6 +8170,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class _interface {
 
 			protected Address address;
@@ -8103,6 +8514,8 @@ public class Domain {
 				return this.virtualport;
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Address {
 
 				public Address() {
@@ -8110,6 +8523,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Bandwidth {
 
 				protected Inbound inbound;
@@ -8144,6 +8559,8 @@ public class Domain {
 					return this.outbound;
 				}
 
+				@JsonInclude(JsonInclude.Include.NON_NULL)
+				@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 				public static class Inbound {
 
 					protected String _floor;
@@ -8207,6 +8624,8 @@ public class Domain {
 					}
 				}
 
+				@JsonInclude(JsonInclude.Include.NON_NULL)
+				@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 				public static class Outbound {
 
 					protected String _floor;
@@ -8271,6 +8690,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Ip {
 
 				protected String _address;
@@ -8334,6 +8755,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Coalesce {
 
 				protected Rx rx;
@@ -8354,6 +8777,8 @@ public class Domain {
 					return this.rx;
 				}
 
+				@JsonInclude(JsonInclude.Include.NON_NULL)
+				@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 				public static class Rx {
 
 					protected Frames frames;
@@ -8374,6 +8799,8 @@ public class Domain {
 						return this.frames;
 					}
 
+					@JsonInclude(JsonInclude.Include.NON_NULL)
+					@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 					public static class Frames {
 
 						protected String _max;
@@ -8397,6 +8824,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Link {
 
 				protected String _state;
@@ -8418,6 +8847,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Source {
 
 				public Source() {
@@ -8425,6 +8856,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Filterref {
 
 				protected ArrayList<Parameter> parameter;
@@ -8459,6 +8892,8 @@ public class Domain {
 					return this._filter;
 				}
 
+				@JsonInclude(JsonInclude.Include.NON_NULL)
+				@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 				public static class Parameter {
 
 					protected String _name;
@@ -8495,6 +8930,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Mac {
 
 				protected String _address;
@@ -8516,6 +8953,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Script {
 
 				protected String _path;
@@ -8537,6 +8976,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Tune {
 
 				protected Sndbuf sndbuf;
@@ -8557,6 +8998,8 @@ public class Domain {
 					return this.sndbuf;
 				}
 
+				@JsonInclude(JsonInclude.Include.NON_NULL)
+				@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 				public static class Sndbuf {
 
 					protected String text;
@@ -8579,6 +9022,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Mtu {
 
 				protected String _size;
@@ -8600,6 +9045,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Target {
 
 				protected String _dev;
@@ -8621,6 +9068,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Rom {
 
 				protected String _file;
@@ -8670,6 +9119,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Route {
 
 				protected String _address;
@@ -8761,6 +9212,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Driver {
 
 				protected String _name;
@@ -8921,6 +9374,8 @@ public class Domain {
 					return this._rx_queue_size;
 				}
 
+				@JsonInclude(JsonInclude.Include.NON_NULL)
+				@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 				public static class Host {
 
 					protected String _tso4;
@@ -9026,6 +9481,8 @@ public class Domain {
 					}
 				}
 
+				@JsonInclude(JsonInclude.Include.NON_NULL)
+				@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 				public static class Guest {
 
 					protected String _tso4;
@@ -9104,6 +9561,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Vlan {
 
 				protected String _trunk;
@@ -9138,6 +9597,8 @@ public class Domain {
 					return this.tag;
 				}
 
+				@JsonInclude(JsonInclude.Include.NON_NULL)
+				@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 				public static class Tag {
 
 					protected String _nativeMode;
@@ -9174,6 +9635,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Alias {
 
 				protected String _name;
@@ -9195,6 +9658,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Backend {
 
 				protected String _vhost;
@@ -9230,6 +9695,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Guest {
 
 				protected String _actual;
@@ -9265,6 +9732,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Model {
 
 				protected String _type;
@@ -9286,6 +9755,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Boot {
 
 				protected String _loadparm;
@@ -9321,6 +9792,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Virtualport {
 
 				protected Parameters parameters;
@@ -9341,6 +9814,8 @@ public class Domain {
 					return this.parameters;
 				}
 
+				@JsonInclude(JsonInclude.Include.NON_NULL)
+				@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 				public static class Parameters {
 
 					public Parameters() {
@@ -9350,6 +9825,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Vsock {
 
 			protected Address address;
@@ -9412,6 +9889,8 @@ public class Domain {
 				return this.cid;
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Address {
 
 				public Address() {
@@ -9419,6 +9898,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Alias {
 
 				protected String _name;
@@ -9440,6 +9921,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Cid {
 
 				protected String _address;
@@ -9476,6 +9959,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Hostdev {
 
 			protected Rom rom;
@@ -9552,6 +10037,8 @@ public class Domain {
 				return this.boot;
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Rom {
 
 				protected String _file;
@@ -9601,6 +10088,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Address {
 
 				public Address() {
@@ -9608,6 +10097,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Alias {
 
 				protected String _name;
@@ -9629,6 +10120,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Boot {
 
 				protected String _loadparm;
@@ -9665,6 +10158,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Nvram {
 
 			protected Address address;
@@ -9699,6 +10194,8 @@ public class Domain {
 				return this.alias;
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Address {
 
 				public Address() {
@@ -9706,6 +10203,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Alias {
 
 				protected String _name;
@@ -9728,6 +10227,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Iommu {
 
 			protected Driver driver;
@@ -9762,6 +10263,8 @@ public class Domain {
 				return this._model;
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Driver {
 
 				protected String _caching_mode;
@@ -9826,6 +10329,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Parallel {
 
 			protected Protocol protocol;
@@ -9916,6 +10421,8 @@ public class Domain {
 				return this.target;
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Protocol {
 
 				protected String _type;
@@ -9937,6 +10444,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Address {
 
 				public Address() {
@@ -9944,6 +10453,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Log {
 
 				protected String _file;
@@ -9979,6 +10490,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Alias {
 
 				protected String _name;
@@ -10000,6 +10513,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Source {
 
 				public Source() {
@@ -10007,6 +10522,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Target {
 
 				protected String _type;
@@ -10043,6 +10560,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Console {
 
 			protected Protocol protocol;
@@ -10147,6 +10666,8 @@ public class Domain {
 				return this.target;
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Protocol {
 
 				protected String _type;
@@ -10168,6 +10689,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Address {
 
 				public Address() {
@@ -10175,6 +10698,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Log {
 
 				protected String _file;
@@ -10210,6 +10735,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Alias {
 
 				protected String _name;
@@ -10231,6 +10758,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Source {
 
 				public Source() {
@@ -10238,6 +10767,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Target {
 
 				protected String _type;
@@ -10274,6 +10805,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Controller {
 
 			protected Address address;
@@ -10364,6 +10897,8 @@ public class Domain {
 				return this._model;
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Address {
 
 				public Address() {
@@ -10371,6 +10906,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Driver {
 
 				protected String _max_sectors;
@@ -10476,6 +11013,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Alias {
 
 				protected String _name;
@@ -10498,6 +11037,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Shmem {
 
 			protected Server server;
@@ -10602,6 +11143,8 @@ public class Domain {
 				return this.model;
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Server {
 
 				protected String _path;
@@ -10623,6 +11166,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Msi {
 
 				protected String _vectors;
@@ -10672,6 +11217,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Address {
 
 				public Address() {
@@ -10679,6 +11226,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Size {
 
 				protected String _unit;
@@ -10714,6 +11263,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Alias {
 
 				protected String _name;
@@ -10735,6 +11286,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Model {
 
 				protected String _type;
@@ -10757,6 +11310,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Redirdev {
 
 			protected Protocol protocol;
@@ -10847,6 +11402,8 @@ public class Domain {
 				return this._bus;
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Protocol {
 
 				protected String _type;
@@ -10868,6 +11425,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Address {
 
 				public Address() {
@@ -10875,6 +11434,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Alias {
 
 				protected String _name;
@@ -10896,6 +11457,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Source {
 
 				public Source() {
@@ -10903,6 +11466,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Boot {
 
 				protected String _loadparm;
@@ -10939,6 +11504,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Rng {
 
 			protected Address address;
@@ -11029,6 +11596,8 @@ public class Domain {
 				return this.backend;
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Address {
 
 				public Address() {
@@ -11036,6 +11605,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Driver {
 
 				protected String _iommu;
@@ -11071,6 +11642,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Rate {
 
 				protected String _period;
@@ -11106,6 +11679,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Alias {
 
 				protected String _name;
@@ -11127,6 +11702,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Backend {
 
 				public Backend() {
@@ -11135,6 +11712,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Smartcard {
 
 			protected Database database;
@@ -11225,6 +11804,8 @@ public class Domain {
 				return this.source;
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Database {
 
 				protected String text;
@@ -11246,6 +11827,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Protocol {
 
 				protected String _type;
@@ -11267,6 +11850,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Address {
 
 				public Address() {
@@ -11274,6 +11859,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Certificate {
 
 				protected String text;
@@ -11295,6 +11882,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Alias {
 
 				protected String _name;
@@ -11316,6 +11905,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Source {
 
 				public Source() {
@@ -11324,6 +11915,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Filesystem {
 
 			protected String _accessmode;
@@ -11470,6 +12063,8 @@ public class Domain {
 				return this.target;
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Address {
 
 				public Address() {
@@ -11477,6 +12072,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Driver {
 
 				protected String _name;
@@ -11568,6 +12165,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Readonly {
 
 				public Readonly() {
@@ -11575,6 +12174,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Space_hard_limit {
 
 				protected String _unit;
@@ -11610,6 +12211,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Alias {
 
 				protected String _name;
@@ -11631,6 +12234,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Source {
 
 				public Source() {
@@ -11638,6 +12243,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Space_soft_limit {
 
 				protected String _unit;
@@ -11673,6 +12280,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Target {
 
 				protected String _dir;
@@ -11695,6 +12304,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Panic {
 
 			protected Address address;
@@ -11743,6 +12354,8 @@ public class Domain {
 				return this._model;
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Address {
 
 				public Address() {
@@ -11750,6 +12363,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Alias {
 
 				protected String _name;
@@ -11772,6 +12387,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Tpm {
 
 			protected Address address;
@@ -11834,6 +12451,8 @@ public class Domain {
 				return this.backend;
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Address {
 
 				public Address() {
@@ -11841,6 +12460,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Alias {
 
 				protected String _name;
@@ -11862,6 +12483,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Backend {
 
 				public Backend() {
@@ -11870,6 +12493,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Emulator {
 
 			protected String text;
@@ -11891,6 +12516,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Input {
 
 			protected Address address;
@@ -11995,6 +12622,8 @@ public class Domain {
 				return this._bus;
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Address {
 
 				public Address() {
@@ -12002,6 +12631,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Driver {
 
 				protected String _iommu;
@@ -12037,6 +12668,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Alias {
 
 				protected String _name;
@@ -12058,6 +12691,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Source {
 
 				protected String _evdev;
@@ -12080,6 +12715,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Disk {
 
 			protected Shareable shareable;
@@ -12436,6 +13073,8 @@ public class Domain {
 				return this.geometry;
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Shareable {
 
 				public Shareable() {
@@ -12443,6 +13082,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Mirror {
 
 				protected String _job;
@@ -12505,6 +13146,8 @@ public class Domain {
 					return this.source;
 				}
 
+				@JsonInclude(JsonInclude.Include.NON_NULL)
+				@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 				public static class Format {
 
 					protected String _type;
@@ -12526,6 +13169,8 @@ public class Domain {
 					}
 				}
 
+				@JsonInclude(JsonInclude.Include.NON_NULL)
+				@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 				public static class Source {
 
 					protected String _index;
@@ -12588,6 +13233,8 @@ public class Domain {
 						return this._startupPolicy;
 					}
 
+					@JsonInclude(JsonInclude.Include.NON_NULL)
+					@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 					public static class Encryption {
 
 						protected String _format;
@@ -12622,6 +13269,8 @@ public class Domain {
 							return this.secret;
 						}
 
+						@JsonInclude(JsonInclude.Include.NON_NULL)
+						@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 						public static class Secret {
 
 							protected String _usage;
@@ -12672,6 +13321,8 @@ public class Domain {
 						}
 					}
 
+					@JsonInclude(JsonInclude.Include.NON_NULL)
+					@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 					public static class Reservations {
 
 						protected String _managed;
@@ -12724,6 +13375,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Auth {
 
 				protected String _username;
@@ -12758,6 +13411,8 @@ public class Domain {
 					return this.secret;
 				}
 
+				@JsonInclude(JsonInclude.Include.NON_NULL)
+				@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 				public static class Secret {
 
 					protected String _usage;
@@ -12808,6 +13463,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Blockio {
 
 				protected String _physical_block_size;
@@ -12843,6 +13500,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Source {
 
 				protected String _index;
@@ -12905,6 +13564,8 @@ public class Domain {
 					return this._startupPolicy;
 				}
 
+				@JsonInclude(JsonInclude.Include.NON_NULL)
+				@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 				public static class Encryption {
 
 					protected String _format;
@@ -12939,6 +13600,8 @@ public class Domain {
 						return this.secret;
 					}
 
+					@JsonInclude(JsonInclude.Include.NON_NULL)
+					@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 					public static class Secret {
 
 						protected String _usage;
@@ -12989,6 +13652,8 @@ public class Domain {
 					}
 				}
 
+				@JsonInclude(JsonInclude.Include.NON_NULL)
+				@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 				public static class Reservations {
 
 					protected String _managed;
@@ -13040,6 +13705,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class _transient {
 
 				public _transient() {
@@ -13047,6 +13714,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Wwn {
 
 				protected String text;
@@ -13068,6 +13737,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Encryption {
 
 				protected String _format;
@@ -13102,6 +13773,8 @@ public class Domain {
 					return this.secret;
 				}
 
+				@JsonInclude(JsonInclude.Include.NON_NULL)
+				@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 				public static class Secret {
 
 					protected String _usage;
@@ -13152,6 +13825,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Readonly {
 
 				public Readonly() {
@@ -13159,6 +13834,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Vendor {
 
 				protected String text;
@@ -13180,6 +13857,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Alias {
 
 				protected String _name;
@@ -13201,6 +13880,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Boot {
 
 				protected String _loadparm;
@@ -13236,6 +13917,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Iotune {
 
 				protected Write_iops_sec_max_length write_iops_sec_max_length;
@@ -13522,6 +14205,8 @@ public class Domain {
 					return this.write_bytes_sec_max_length;
 				}
 
+				@JsonInclude(JsonInclude.Include.NON_NULL)
+				@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 				public static class Write_iops_sec_max_length {
 
 					protected String text;
@@ -13543,6 +14228,8 @@ public class Domain {
 					}
 				}
 
+				@JsonInclude(JsonInclude.Include.NON_NULL)
+				@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 				public static class Group_name {
 
 					protected String text;
@@ -13564,6 +14251,8 @@ public class Domain {
 					}
 				}
 
+				@JsonInclude(JsonInclude.Include.NON_NULL)
+				@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 				public static class Write_iops_sec {
 
 					protected String text;
@@ -13585,6 +14274,8 @@ public class Domain {
 					}
 				}
 
+				@JsonInclude(JsonInclude.Include.NON_NULL)
+				@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 				public static class Read_bytes_sec_max {
 
 					protected String text;
@@ -13606,6 +14297,8 @@ public class Domain {
 					}
 				}
 
+				@JsonInclude(JsonInclude.Include.NON_NULL)
+				@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 				public static class Read_bytes_sec_max_length {
 
 					protected String text;
@@ -13627,6 +14320,8 @@ public class Domain {
 					}
 				}
 
+				@JsonInclude(JsonInclude.Include.NON_NULL)
+				@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 				public static class Total_iops_sec {
 
 					protected String text;
@@ -13648,6 +14343,8 @@ public class Domain {
 					}
 				}
 
+				@JsonInclude(JsonInclude.Include.NON_NULL)
+				@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 				public static class Write_iops_sec_max {
 
 					protected String text;
@@ -13669,6 +14366,8 @@ public class Domain {
 					}
 				}
 
+				@JsonInclude(JsonInclude.Include.NON_NULL)
+				@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 				public static class Total_bytes_sec {
 
 					protected String text;
@@ -13690,6 +14389,8 @@ public class Domain {
 					}
 				}
 
+				@JsonInclude(JsonInclude.Include.NON_NULL)
+				@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 				public static class Total_iops_sec_max {
 
 					protected String text;
@@ -13711,6 +14412,8 @@ public class Domain {
 					}
 				}
 
+				@JsonInclude(JsonInclude.Include.NON_NULL)
+				@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 				public static class Total_bytes_sec_max_length {
 
 					protected String text;
@@ -13732,6 +14435,8 @@ public class Domain {
 					}
 				}
 
+				@JsonInclude(JsonInclude.Include.NON_NULL)
+				@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 				public static class Write_bytes_sec {
 
 					protected String text;
@@ -13753,6 +14458,8 @@ public class Domain {
 					}
 				}
 
+				@JsonInclude(JsonInclude.Include.NON_NULL)
+				@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 				public static class Total_bytes_sec_max {
 
 					protected String text;
@@ -13774,6 +14481,8 @@ public class Domain {
 					}
 				}
 
+				@JsonInclude(JsonInclude.Include.NON_NULL)
+				@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 				public static class Write_bytes_sec_max {
 
 					protected String text;
@@ -13795,6 +14504,8 @@ public class Domain {
 					}
 				}
 
+				@JsonInclude(JsonInclude.Include.NON_NULL)
+				@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 				public static class Read_iops_sec_max {
 
 					protected String text;
@@ -13816,6 +14527,8 @@ public class Domain {
 					}
 				}
 
+				@JsonInclude(JsonInclude.Include.NON_NULL)
+				@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 				public static class Read_iops_sec_max_length {
 
 					protected String text;
@@ -13837,6 +14550,8 @@ public class Domain {
 					}
 				}
 
+				@JsonInclude(JsonInclude.Include.NON_NULL)
+				@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 				public static class Size_iops_sec {
 
 					protected String text;
@@ -13858,6 +14573,8 @@ public class Domain {
 					}
 				}
 
+				@JsonInclude(JsonInclude.Include.NON_NULL)
+				@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 				public static class Read_bytes_sec {
 
 					protected String text;
@@ -13879,6 +14596,8 @@ public class Domain {
 					}
 				}
 
+				@JsonInclude(JsonInclude.Include.NON_NULL)
+				@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 				public static class Read_iops_sec {
 
 					protected String text;
@@ -13900,6 +14619,8 @@ public class Domain {
 					}
 				}
 
+				@JsonInclude(JsonInclude.Include.NON_NULL)
+				@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 				public static class Total_iops_sec_max_length {
 
 					protected String text;
@@ -13921,6 +14642,8 @@ public class Domain {
 					}
 				}
 
+				@JsonInclude(JsonInclude.Include.NON_NULL)
+				@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 				public static class Write_bytes_sec_max_length {
 
 					protected String text;
@@ -13943,6 +14666,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Product {
 
 				protected String text;
@@ -13964,6 +14689,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Address {
 
 				public Address() {
@@ -13971,6 +14698,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Target {
 
 				protected String _removable;
@@ -14034,6 +14763,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Driver {
 
 				protected String _detect_zeroes;
@@ -14251,6 +14982,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Serial {
 
 				protected String text;
@@ -14272,6 +15005,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class BackingStore {
 
 				protected String _index;
@@ -14320,6 +15055,8 @@ public class Domain {
 					return this.source;
 				}
 
+				@JsonInclude(JsonInclude.Include.NON_NULL)
+				@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 				public static class Format {
 
 					protected String _type;
@@ -14341,6 +15078,8 @@ public class Domain {
 					}
 				}
 
+				@JsonInclude(JsonInclude.Include.NON_NULL)
+				@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 				public static class Source {
 
 					protected String _index;
@@ -14403,6 +15142,8 @@ public class Domain {
 						return this._startupPolicy;
 					}
 
+					@JsonInclude(JsonInclude.Include.NON_NULL)
+					@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 					public static class Encryption {
 
 						protected String _format;
@@ -14437,6 +15178,8 @@ public class Domain {
 							return this.secret;
 						}
 
+						@JsonInclude(JsonInclude.Include.NON_NULL)
+						@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 						public static class Secret {
 
 							protected String _usage;
@@ -14487,6 +15230,8 @@ public class Domain {
 						}
 					}
 
+					@JsonInclude(JsonInclude.Include.NON_NULL)
+					@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 					public static class Reservations {
 
 						protected String _managed;
@@ -14539,6 +15284,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Geometry {
 
 				protected String _heads;
@@ -14603,6 +15350,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Watchdog {
 
 			protected Address address;
@@ -14665,6 +15414,8 @@ public class Domain {
 				return this._model;
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Address {
 
 				public Address() {
@@ -14672,6 +15423,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Alias {
 
 				protected String _name;
@@ -14694,6 +15447,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Hub {
 
 			protected Address address;
@@ -14742,6 +15497,8 @@ public class Domain {
 				return this.alias;
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Address {
 
 				public Address() {
@@ -14749,6 +15506,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Alias {
 
 				protected String _name;
@@ -14771,6 +15530,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Serial {
 
 			protected Protocol protocol;
@@ -14861,6 +15622,8 @@ public class Domain {
 				return this.target;
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Protocol {
 
 				protected String _type;
@@ -14882,6 +15645,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Address {
 
 				public Address() {
@@ -14889,6 +15654,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Log {
 
 				protected String _file;
@@ -14924,6 +15691,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Alias {
 
 				protected String _name;
@@ -14945,6 +15714,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Source {
 
 				public Source() {
@@ -14952,6 +15723,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Target {
 
 				protected String _type;
@@ -15000,6 +15773,8 @@ public class Domain {
 					return this._port;
 				}
 
+				@JsonInclude(JsonInclude.Include.NON_NULL)
+				@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 				public static class Model {
 
 					protected String _name;
@@ -15023,6 +15798,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Lease {
 
 			protected Lockspace lockspace;
@@ -15071,6 +15848,8 @@ public class Domain {
 				return this.target;
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Lockspace {
 
 				protected String text;
@@ -15092,6 +15871,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Key {
 
 				protected String text;
@@ -15113,6 +15894,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Target {
 
 				protected String _offset;
@@ -15150,6 +15933,8 @@ public class Domain {
 		}
 	}
 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class Resource {
 
 		protected Partition partition;
@@ -15170,6 +15955,8 @@ public class Domain {
 			return this.partition;
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Partition {
 
 			protected String text;
@@ -15192,6 +15979,8 @@ public class Domain {
 		}
 	}
 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class On_reboot {
 
 		protected String text;
@@ -15213,6 +16002,8 @@ public class Domain {
 		}
 	}
 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class Cpu {
 
 		protected Cache cache;
@@ -15345,6 +16136,8 @@ public class Domain {
 			return this._mode;
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Cache {
 
 			protected String _level;
@@ -15380,6 +16173,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Feature {
 
 			protected String _name;
@@ -15415,6 +16210,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Topology {
 
 			protected String _cores;
@@ -15464,6 +16261,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Vendor {
 
 			protected String text;
@@ -15485,6 +16284,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Numa {
 
 			protected ArrayList<Cell> cell;
@@ -15505,6 +16306,8 @@ public class Domain {
 				return this.cell;
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Cell {
 
 				protected String _discard;
@@ -15609,6 +16412,8 @@ public class Domain {
 					return this._id;
 				}
 
+				@JsonInclude(JsonInclude.Include.NON_NULL)
+				@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 				public static class Distances {
 
 					protected ArrayList<Sibling> sibling;
@@ -15629,6 +16434,8 @@ public class Domain {
 						return this.sibling;
 					}
 
+					@JsonInclude(JsonInclude.Include.NON_NULL)
+					@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 					public static class Sibling {
 
 						protected String _value;
@@ -15667,6 +16474,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Model {
 
 			protected String _fallback;
@@ -15717,6 +16526,8 @@ public class Domain {
 		}
 	}
 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class Clock {
 
 		protected String _basis;
@@ -15793,6 +16604,8 @@ public class Domain {
 			return this._timezone;
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Timer {
 
 			protected String _name;
@@ -15897,6 +16710,8 @@ public class Domain {
 				return this._mode;
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Catchup {
 
 				protected String _limit;
@@ -15948,6 +16763,8 @@ public class Domain {
 		}
 	}
 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class Vcpus {
 
 		protected ArrayList<Vcpu> vcpu;
@@ -15968,6 +16785,8 @@ public class Domain {
 			return this.vcpu;
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Vcpu {
 
 			protected String _order;
@@ -16032,6 +16851,8 @@ public class Domain {
 		}
 	}
 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class Cputune {
 
 		protected Global_quota global_quota;
@@ -16262,6 +17083,8 @@ public class Domain {
 			return this.memorytune;
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Global_quota {
 
 			protected String text;
@@ -16283,6 +17106,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Iothreadpin {
 
 			protected String _cpuset;
@@ -16318,6 +17143,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Period {
 
 			protected String text;
@@ -16339,6 +17166,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Emulator_period {
 
 			protected String text;
@@ -16360,6 +17189,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Emulatorpin {
 
 			protected String _cpuset;
@@ -16381,6 +17212,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Vcpusched {
 
 			protected String _scheduler;
@@ -16430,6 +17263,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Iothreadsched {
 
 			protected String _scheduler;
@@ -16479,6 +17314,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Iothread_period {
 
 			protected String text;
@@ -16500,6 +17337,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Global_period {
 
 			protected String text;
@@ -16521,6 +17360,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Emulator_quota {
 
 			protected String text;
@@ -16542,6 +17383,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Shares {
 
 			protected String text;
@@ -16563,6 +17406,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Vcpupin {
 
 			protected String _vcpu;
@@ -16598,6 +17443,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Cachetune {
 
 			protected ArrayList<Cache> cache;
@@ -16646,6 +17493,8 @@ public class Domain {
 				return this._vcpus;
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Cache {
 
 				protected String _size;
@@ -16723,6 +17572,8 @@ public class Domain {
 				}
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Monitor {
 
 				protected String _level;
@@ -16759,6 +17610,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Quota {
 
 			protected String text;
@@ -16780,6 +17633,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Iothread_quota {
 
 			protected String text;
@@ -16801,6 +17656,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Memorytune {
 
 			protected ArrayList<Node> node;
@@ -16835,6 +17692,8 @@ public class Domain {
 				return this._vcpus;
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Node {
 
 				protected String _bandwidth;
@@ -16872,6 +17731,8 @@ public class Domain {
 		}
 	}
 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class Genid {
 
 		protected String text;
@@ -16893,6 +17754,8 @@ public class Domain {
 		}
 	}
 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class Iothreads {
 
 		protected String text;
@@ -16914,6 +17777,8 @@ public class Domain {
 		}
 	}
 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class Name {
 
 		protected String text;
@@ -16935,6 +17800,8 @@ public class Domain {
 		}
 	}
 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class CurrentMemory {
 
 		protected String _unit;
@@ -16970,6 +17837,8 @@ public class Domain {
 		}
 	}
 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class Pm {
 
 		protected Suspend_to_disk suspend_to_disk;
@@ -17004,6 +17873,8 @@ public class Domain {
 			return this.suspend_to_mem;
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Suspend_to_disk {
 
 			protected String _enabled;
@@ -17025,6 +17896,8 @@ public class Domain {
 			}
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Suspend_to_mem {
 
 			protected String _enabled;

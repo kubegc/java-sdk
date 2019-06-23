@@ -48,6 +48,7 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 
 	public final static Map<String, CustomResourceDefinition> crds = new HashMap<String, CustomResourceDefinition>();
 
+	@SuppressWarnings("rawtypes")
 	public final static Map<String, MixedOperation> executors = new HashMap<String, MixedOperation>();
 
 	protected void initCustomResources()  {
@@ -78,8 +79,9 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 		CustomResourceDefinition crd = getCustomResourceDefinition(name);
 		crds.put(kind, crd);
 		KubernetesDeserializer.registerCustomKind(version, kind, getCustomResourceClass(kind));
+		@SuppressWarnings("rawtypes")
 		MixedOperation executor = (MixedOperation) customResources(crds.get(VirtualMachine.class.getSimpleName()),
-				VirtualMachine.class, VirtualMachineList.class, DoneableVirtualMachine.class).inAnyNamespace();
+				VirtualMachine.class, VirtualMachineList.class, DoneableVirtualMachine.class).inNamespace("default");
 		executors.put(kind, executor);
 	}
 
@@ -164,7 +166,7 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 	}
 	
 	public VirtualMachineImpl virtualMachines() {
-		return new VirtualMachineImpl(this);
+		return new VirtualMachineImpl(executors.get(VirtualMachine.class.getSimpleName()));
 	}
 
 }

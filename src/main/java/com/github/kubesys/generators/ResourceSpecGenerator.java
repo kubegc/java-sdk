@@ -29,7 +29,9 @@ public class ResourceSpecGenerator extends AbstractGenerator {
 	
 	public final static String CLASS          = "\npublic class CLASSSpec implements KubernetesResource {\n";
 	
-	public final static String SUBCLASS       = "\n\npublic static class CLASS {\n";
+	public final static String SUBCLASS       = "\n@JsonInclude(JsonInclude.Include.NON_NULL)" 
+													+ "\n@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)" 
+													+ "\npublic static class CLASS {\n";
 	
 	public final static String FIELD          = "\n\tprotected FTYPE FNAME;\n";
 	

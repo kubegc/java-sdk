@@ -43,7 +43,7 @@ public class CreateVirtualMachineTest {
 		vm.setApiVersion("cloudplus.io/v1alpha3");
 		vm.setKind("VirtualMachine");
 		ObjectMeta metadata = new ObjectMeta();
-		metadata.setName("VM1");
+		metadata.setName("vm1");
 		vm.setMetadata(metadata );
 		VirtualMachineSpec spec = new VirtualMachineSpec();
 		Lifecycle lifecycle = new Lifecycle();

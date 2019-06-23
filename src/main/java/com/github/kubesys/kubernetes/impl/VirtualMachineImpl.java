@@ -3,8 +3,11 @@
  */
 package com.github.kubesys.kubernetes.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
+import com.github.kubesys.kubernetes.api.model.DoneableVirtualMachine;
 import com.github.kubesys.kubernetes.api.model.VirtualMachine;
+import com.github.kubesys.kubernetes.api.model.VirtualMachineList;
 
 import io.fabric8.kubernetes.api.model.apiextensions.CustomResourceDefinition;
 import io.fabric8.kubernetes.api.model.apiextensions.CustomResourceDefinitionBuilder;
@@ -19,22 +22,19 @@ import io.fabric8.kubernetes.client.dsl.MixedOperation;
  **/
 public class VirtualMachineImpl {
 	
-	protected final ExtendedKubernetesClient client;
+	@SuppressWarnings("rawtypes")
+	protected final MixedOperation excutor;
 	
-	public VirtualMachineImpl(ExtendedKubernetesClient client) {
+	@SuppressWarnings("rawtypes")
+	public VirtualMachineImpl(MixedOperation excutor) {
 		super();
-		this.client = client;
+		this.excutor = excutor;
 	}
 
+	@SuppressWarnings("unchecked")
 	public boolean create(VirtualMachine vm) {
-		CustomResourceDefinition  crd = new CustomResourceDefinitionBuilder()
-					.withKind(vm.getApiVersion())
-					.withKind(vm.getKind())
-					.withMetadata(vm.getMetadata())
-					.withSpec(vm.getSpec())
-					.build();
 		try {
-			client.customResourceDefinitions().create(crd);
+			excutor.create(vm);
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
