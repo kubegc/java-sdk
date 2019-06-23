@@ -116,7 +116,7 @@ public class ExtendedKubernetesClientTest {
 		ExtendedKubernetesClient client = 
 				ExtendedKubernetesClient.defaultConfig("config");
 		VirtualMachineImpl vmi = client.virtualMachines();
-		VirtualMachine vm = vmi.withName("VM").get();
+		VirtualMachine vm = vmi.get("vm1");
 		VirtualMachineSpec spec = vm.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
 		spec.setLifecycle(lifecycle );

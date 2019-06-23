@@ -3,14 +3,9 @@
  */
 package com.github.kubesys.kubernetes.impl;
 
-import com.alibaba.fastjson.JSON;
-import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
-import com.github.kubesys.kubernetes.api.model.DoneableVirtualMachine;
 import com.github.kubesys.kubernetes.api.model.VirtualMachine;
-import com.github.kubesys.kubernetes.api.model.VirtualMachineList;
 
-import io.fabric8.kubernetes.api.model.apiextensions.CustomResourceDefinition;
-import io.fabric8.kubernetes.api.model.apiextensions.CustomResourceDefinitionBuilder;
+import io.fabric8.kubernetes.client.dsl.Gettable;
 import io.fabric8.kubernetes.client.dsl.MixedOperation;
 
 /**
@@ -25,33 +20,48 @@ public class VirtualMachineImpl {
 	@SuppressWarnings("rawtypes")
 	protected final MixedOperation excutor;
 	
+	protected String name;
+	
 	@SuppressWarnings("rawtypes")
 	public VirtualMachineImpl(MixedOperation excutor) {
 		super();
 		this.excutor = excutor;
 	}
 
+	/**
+	 * return true or an exception
+	 * 
+	 * @param vm   VM's description
+	 * @return true or an exception
+	 * @throws Exception create VM fail
+	 */
 	@SuppressWarnings("unchecked")
-	public boolean create(VirtualMachine vm) {
-		try {
-			excutor.create(vm);
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
+	public boolean create(VirtualMachine vm) throws Exception {
+		excutor.create(vm);
+		return true;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public boolean update(VirtualMachine vm) throws Exception {
+		String name = vm.getMetadata().getName();
+		VirtualMachine vmn = get(name);
+		if (vmn == null) {
+			throw new Exception("VM named " + name + " does not exist.");
 		}
-		return false;
+		excutor.createOrReplace(vm);
+		return true;
 	}
 	
-	public boolean update(VirtualMachine vm) {
-		return false;
-	}
-	
-	public VirtualMachineImpl withName(String name) {
-		return this;
-	}
-	
-	public VirtualMachine get() {
-		return null;
+	/**
+	 * return an object or null
+	 * 
+	 * @param name it is .metadata.name
+	 * @return object or null
+	 */
+	@SuppressWarnings("unchecked")
+	public VirtualMachine get(String name) {
+		return ((Gettable<VirtualMachine>) 
+				excutor.withName(name)).get();
 	}
 }
 
