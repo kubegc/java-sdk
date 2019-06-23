@@ -3,6 +3,7 @@
  */
 package com.uit.cloud.kubernetes;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;

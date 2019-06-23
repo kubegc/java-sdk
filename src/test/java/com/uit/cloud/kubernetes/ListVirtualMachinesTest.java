@@ -3,7 +3,9 @@
  */
 package com.uit.cloud.kubernetes;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
 import com.github.kubesys.kubernetes.api.model.VirtualMachine;
@@ -30,8 +32,11 @@ public class ListVirtualMachinesTest {
 	
 	public static void main(String[] args) throws Exception {
 
+		Map<String, String> labels = new HashMap<String, String>();
+		labels.put("henry", "henry");
+		
 		ExtendedKubernetesClient client = new ExtendedKubernetesClient(config);
-		List<VirtualMachine> vms = client.virtualMachines().list().getItems();
+		List<VirtualMachine> vms = client.virtualMachines().list(labels).getItems();
 		for (VirtualMachine vm : vms) {
 			System.out.println(vm);
 		}

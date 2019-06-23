@@ -3,9 +3,12 @@
  */
 package com.github.kubesys.kubernetes.impl;
 
+import java.util.Map;
+
 import com.github.kubesys.kubernetes.api.model.VirtualMachine;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineList;
 
+import io.fabric8.kubernetes.client.dsl.FilterWatchListDeletable;
 import io.fabric8.kubernetes.client.dsl.Gettable;
 import io.fabric8.kubernetes.client.dsl.MixedOperation;
 
@@ -65,8 +68,22 @@ public class VirtualMachineImpl {
 				excutor.withName(name)).get();
 	}
 	
+	/**
+	 * @return list virtual machines
+	 */
 	public VirtualMachineList list() {
 		return (VirtualMachineList) excutor.list();
+	}
+	
+	/**
+	 * list all VMs with the specified labels 
+	 * 
+	 * @param filter see .metadata.labels
+	 * @return all VMs
+	 */
+	public VirtualMachineList list(Map<String, String> labels) {
+		return (VirtualMachineList)((FilterWatchListDeletable) 
+				excutor.withLabels(labels)).list();
 	}
 }
 
