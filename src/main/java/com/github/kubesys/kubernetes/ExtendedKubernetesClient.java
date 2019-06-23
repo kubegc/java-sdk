@@ -164,7 +164,7 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 	}
 	
 	public VirtualMachineImpl virtualMachines() {
-		return null;
+		return new VirtualMachineImpl(this);
 	}
 
 }

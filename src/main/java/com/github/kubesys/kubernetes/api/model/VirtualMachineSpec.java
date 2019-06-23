@@ -9,6 +9,7 @@ import com.github.kubesys.kubernetes.api.model.virtualmachine.Domain;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle;
 
 import io.fabric8.kubernetes.api.model.KubernetesResource;
+import io.fabric8.kubernetes.api.model.apiextensions.CustomResourceDefinitionSpec;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -18,7 +19,7 @@ import io.fabric8.kubernetes.api.model.KubernetesResource;
  * @since Thu Jun 13 21:44:40 CST 2019
  **/
 @JsonDeserialize(using = JsonDeserializer.None.class)
-public class VirtualMachineSpec implements KubernetesResource {
+public class VirtualMachineSpec extends CustomResourceDefinitionSpec implements KubernetesResource {
 
 	protected Domain domain;
 
