@@ -2663,6 +2663,8 @@ public class Lifecycle {
 
 		protected String original_xml;
 		
+		protected String original;
+		
 		protected String name;
 		
 		protected String file;
@@ -2673,6 +2675,14 @@ public class Lifecycle {
 		
 		public CreateAndStartVMFromImage() {
 			super();
+		}
+
+		public String getOriginal() {
+			return original;
+		}
+
+		public void setOriginal(String original) {
+			this.original = original;
 		}
 
 		public String getOriginal_xml() {
