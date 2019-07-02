@@ -64,12 +64,18 @@ public class Lifecycle {
 	protected DeleteVM deleteVM;
 
 	protected CreateAndStartVM createAndStartVM;
+	
+	protected CreateAndStartVMFromISO createAndStartVMFromISO;
+	
+	protected CreateAndStartVMFromImage createAndStartVMFromImage;
 
 	protected RebootVM rebootVM;
 
 	protected PlugNIC plugNIC;
 
 	protected SaveVM saveVM;
+	
+	protected ConvertVMToTemplate convertVMToTemplate;
 
 	public Lifecycle() {
 
@@ -289,6 +295,15 @@ public class Lifecycle {
 
 	public SaveVM getSaveVM() {
 		return this.saveVM;
+	}
+	
+
+	public ConvertVMToTemplate getConvertVMToTemplate() {
+		return convertVMToTemplate;
+	}
+
+	public void setConvertVMToTemplate(ConvertVMToTemplate convertVMToTemplate) {
+		this.convertVMToTemplate = convertVMToTemplate;
 	}
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
@@ -2155,9 +2170,19 @@ public class Lifecycle {
 		protected String noreboot;
 
 		protected String pm;
+		
+		protected Boolean noautoconsole;
 
 		public CreateAndStartVM() {
 
+		}
+
+		public Boolean isNoautoconsole() {
+			return noautoconsole;
+		}
+
+		public void setNoautoconsole(Boolean noautoconsole) {
+			this.noautoconsole = noautoconsole;
 		}
 
 		public void setContainer(String container) {
@@ -2616,7 +2641,636 @@ public class Lifecycle {
 			return this.pm;
 		}
 	}
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class CreateAndStartVMFromImage {
 
+		protected String original_xml;
+		
+		protected String name;
+		
+		protected String file;
+		
+		public CreateAndStartVMFromImage() {
+			super();
+		}
+
+		public String getOriginal_xml() {
+			return original_xml;
+		}
+
+		public void setOriginal_xml(String original_xml) {
+			this.original_xml = original_xml;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+
+		public String getFile() {
+			return file;
+		}
+
+		public void setFile(String file) {
+			this.file = file;
+		}
+		
+	}
+
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class CreateAndStartVMFromISO {
+
+		protected String container;
+
+		protected String metadata;
+
+		protected String livecd;
+
+		protected String sound;
+
+		protected String channel;
+
+		protected String graphics;
+
+		protected String autostart;
+
+		protected String features;
+
+		protected String hostdev;
+
+		protected String idmap;
+
+		protected String sysinfo;
+
+		protected String numatune;
+
+		protected String events;
+
+		protected String hvm;
+
+		protected String qemu_commandline;
+
+		protected String resource;
+
+		protected String extra_args;
+
+		protected String cpu;
+
+		protected String rng;
+
+		protected String check;
+
+		protected String clock;
+
+		protected String smartcard;
+
+		protected String panic;
+
+		protected String input;
+
+		protected String disk;
+
+		protected String memorybacking;
+
+		protected String name;
+
+		protected String dry_run;
+
+		protected String memory;
+
+		protected String paravirt;
+
+		protected String memballoon;
+
+		protected String network;
+
+		protected String security;
+
+		protected String blkiotune;
+
+		protected String virt_type;
+
+		protected String parallel;
+
+		protected String memtune;
+
+		protected String boot;
+
+		protected String initrd_inject;
+
+		protected String pxe;
+
+		protected String console;
+
+		protected String controller;
+
+		protected String memdev;
+
+		protected String redirdev;
+
+		protected String os_variant;
+
+		protected String vcpus;
+
+		protected String cdrom;
+
+		protected String cputune;
+
+		protected String filesystem;
+
+		protected String tpm;
+
+		protected String watchdog;
+
+		protected String serial;
+
+		protected String machine;
+
+		protected String location;
+
+		protected String arch;
+
+		protected String noreboot;
+
+		protected String pm;
+		
+		protected Boolean noautoconsole;
+
+		public CreateAndStartVMFromISO() {
+
+		}
+
+		public Boolean isNoautoconsole() {
+			return noautoconsole;
+		}
+
+		public void setNoautoconsole(Boolean noautoconsole) {
+			this.noautoconsole = noautoconsole;
+		}
+
+		public void setContainer(String container) {
+			this.container = container;
+		}
+
+		public String getContainer() {
+			return this.container;
+		}
+
+		public void setMetadata(String metadata) {
+			this.metadata = metadata;
+		}
+
+		public String getMetadata() {
+			return this.metadata;
+		}
+
+		public void setLivecd(String livecd) {
+			this.livecd = livecd;
+		}
+
+		public String getLivecd() {
+			return this.livecd;
+		}
+
+		public void setSound(String sound) {
+			this.sound = sound;
+		}
+
+		public String getSound() {
+			return this.sound;
+		}
+
+		public void setChannel(String channel) {
+			this.channel = channel;
+		}
+
+		public String getChannel() {
+			return this.channel;
+		}
+
+		public void setGraphics(String graphics) {
+			this.graphics = graphics;
+		}
+
+		public String getGraphics() {
+			return this.graphics;
+		}
+
+		public void setAutostart(String autostart) {
+			this.autostart = autostart;
+		}
+
+		public String getAutostart() {
+			return this.autostart;
+		}
+
+		public void setFeatures(String features) {
+			this.features = features;
+		}
+
+		public String getFeatures() {
+			return this.features;
+		}
+
+		public void setHostdev(String hostdev) {
+			this.hostdev = hostdev;
+		}
+
+		public String getHostdev() {
+			return this.hostdev;
+		}
+
+		public void setIdmap(String idmap) {
+			this.idmap = idmap;
+		}
+
+		public String getIdmap() {
+			return this.idmap;
+		}
+
+		public void setSysinfo(String sysinfo) {
+			this.sysinfo = sysinfo;
+		}
+
+		public String getSysinfo() {
+			return this.sysinfo;
+		}
+
+		public void setNumatune(String numatune) {
+			this.numatune = numatune;
+		}
+
+		public String getNumatune() {
+			return this.numatune;
+		}
+
+		public void setEvents(String events) {
+			this.events = events;
+		}
+
+		public String getEvents() {
+			return this.events;
+		}
+
+		public void setHvm(String hvm) {
+			this.hvm = hvm;
+		}
+
+		public String getHvm() {
+			return this.hvm;
+		}
+
+		public void setQemu_commandline(String qemu_commandline) {
+			this.qemu_commandline = qemu_commandline;
+		}
+
+		public String getQemu_commandline() {
+			return this.qemu_commandline;
+		}
+
+		public void setResource(String resource) {
+			this.resource = resource;
+		}
+
+		public String getResource() {
+			return this.resource;
+		}
+
+		public void setExtra_args(String extra_args) {
+			this.extra_args = extra_args;
+		}
+
+		public String getExtra_args() {
+			return this.extra_args;
+		}
+
+		public void setCpu(String cpu) {
+			this.cpu = cpu;
+		}
+
+		public String getCpu() {
+			return this.cpu;
+		}
+
+		public void setRng(String rng) {
+			this.rng = rng;
+		}
+
+		public String getRng() {
+			return this.rng;
+		}
+
+		public void setCheck(String check) {
+			this.check = check;
+		}
+
+		public String getCheck() {
+			return this.check;
+		}
+
+		public void setClock(String clock) {
+			this.clock = clock;
+		}
+
+		public String getClock() {
+			return this.clock;
+		}
+
+		public void setSmartcard(String smartcard) {
+			this.smartcard = smartcard;
+		}
+
+		public String getSmartcard() {
+			return this.smartcard;
+		}
+
+		public void setPanic(String panic) {
+			this.panic = panic;
+		}
+
+		public String getPanic() {
+			return this.panic;
+		}
+
+		public void setInput(String input) {
+			this.input = input;
+		}
+
+		public String getInput() {
+			return this.input;
+		}
+
+		public void setDisk(String disk) {
+			this.disk = disk;
+		}
+
+		public String getDisk() {
+			return this.disk;
+		}
+
+		public void setMemorybacking(String memorybacking) {
+			this.memorybacking = memorybacking;
+		}
+
+		public String getMemorybacking() {
+			return this.memorybacking;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+
+		public String getName() {
+			return this.name;
+		}
+
+		public void setDry_run(String dry_run) {
+			this.dry_run = dry_run;
+		}
+
+		public String getDry_run() {
+			return this.dry_run;
+		}
+
+		public void setMemory(String memory) {
+			this.memory = memory;
+		}
+
+		public String getMemory() {
+			return this.memory;
+		}
+
+		public void setParavirt(String paravirt) {
+			this.paravirt = paravirt;
+		}
+
+		public String getParavirt() {
+			return this.paravirt;
+		}
+
+		public void setMemballoon(String memballoon) {
+			this.memballoon = memballoon;
+		}
+
+		public String getMemballoon() {
+			return this.memballoon;
+		}
+
+		public void setNetwork(String network) {
+			this.network = network;
+		}
+
+		public String getNetwork() {
+			return this.network;
+		}
+
+		public void setSecurity(String security) {
+			this.security = security;
+		}
+
+		public String getSecurity() {
+			return this.security;
+		}
+
+		public void setBlkiotune(String blkiotune) {
+			this.blkiotune = blkiotune;
+		}
+
+		public String getBlkiotune() {
+			return this.blkiotune;
+		}
+
+		public void setVirt_type(String virt_type) {
+			this.virt_type = virt_type;
+		}
+
+		public String getVirt_type() {
+			return this.virt_type;
+		}
+
+		public void setParallel(String parallel) {
+			this.parallel = parallel;
+		}
+
+		public String getParallel() {
+			return this.parallel;
+		}
+
+		public void setMemtune(String memtune) {
+			this.memtune = memtune;
+		}
+
+		public String getMemtune() {
+			return this.memtune;
+		}
+
+		public void setBoot(String boot) {
+			this.boot = boot;
+		}
+
+		public String getBoot() {
+			return this.boot;
+		}
+
+		public void setInitrd_inject(String initrd_inject) {
+			this.initrd_inject = initrd_inject;
+		}
+
+		public String getInitrd_inject() {
+			return this.initrd_inject;
+		}
+
+		public void setPxe(String pxe) {
+			this.pxe = pxe;
+		}
+
+		public String getPxe() {
+			return this.pxe;
+		}
+
+		public void setConsole(String console) {
+			this.console = console;
+		}
+
+		public String getConsole() {
+			return this.console;
+		}
+
+		public void setController(String controller) {
+			this.controller = controller;
+		}
+
+		public String getController() {
+			return this.controller;
+		}
+
+		public void setMemdev(String memdev) {
+			this.memdev = memdev;
+		}
+
+		public String getMemdev() {
+			return this.memdev;
+		}
+
+		public void setRedirdev(String redirdev) {
+			this.redirdev = redirdev;
+		}
+
+		public String getRedirdev() {
+			return this.redirdev;
+		}
+
+		public void setOs_variant(String os_variant) {
+			this.os_variant = os_variant;
+		}
+
+		public String getOs_variant() {
+			return this.os_variant;
+		}
+
+		public void setVcpus(String vcpus) {
+			this.vcpus = vcpus;
+		}
+
+		public String getVcpus() {
+			return this.vcpus;
+		}
+
+		public void setCdrom(String cdrom) {
+			this.cdrom = cdrom;
+		}
+
+		public String getCdrom() {
+			return this.cdrom;
+		}
+
+		public void setCputune(String cputune) {
+			this.cputune = cputune;
+		}
+
+		public String getCputune() {
+			return this.cputune;
+		}
+
+		public void setFilesystem(String filesystem) {
+			this.filesystem = filesystem;
+		}
+
+		public String getFilesystem() {
+			return this.filesystem;
+		}
+
+		public void setTpm(String tpm) {
+			this.tpm = tpm;
+		}
+
+		public String getTpm() {
+			return this.tpm;
+		}
+
+		public void setWatchdog(String watchdog) {
+			this.watchdog = watchdog;
+		}
+
+		public String getWatchdog() {
+			return this.watchdog;
+		}
+
+		public void setSerial(String serial) {
+			this.serial = serial;
+		}
+
+		public String getSerial() {
+			return this.serial;
+		}
+
+		public void setMachine(String machine) {
+			this.machine = machine;
+		}
+
+		public String getMachine() {
+			return this.machine;
+		}
+
+		public void setLocation(String location) {
+			this.location = location;
+		}
+
+		public String getLocation() {
+			return this.location;
+		}
+
+		public void setArch(String arch) {
+			this.arch = arch;
+		}
+
+		public String getArch() {
+			return this.arch;
+		}
+
+		public void setNoreboot(String noreboot) {
+			this.noreboot = noreboot;
+		}
+
+		public String getNoreboot() {
+			return this.noreboot;
+		}
+
+		public void setPm(String pm) {
+			this.pm = pm;
+		}
+
+		public String getPm() {
+			return this.pm;
+		}
+	}
+	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class RebootVM {
@@ -2883,4 +3537,11 @@ public class Lifecycle {
 			return this.verbose;
 		}
 	}
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class ConvertVMToTemplate {
+		
+	}
+	
 }
