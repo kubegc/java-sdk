@@ -75,7 +75,7 @@ public class Lifecycle {
 
 	protected SaveVM saveVM;
 	
-	protected ConvertVMToTemplate convertVMToTemplate;
+	protected ConvertVMToImage convertVMToImage;
 
 	public Lifecycle() {
 
@@ -312,14 +312,13 @@ public class Lifecycle {
 	public SaveVM getSaveVM() {
 		return this.saveVM;
 	}
-	
 
-	public ConvertVMToTemplate getConvertVMToTemplate() {
-		return convertVMToTemplate;
+	public ConvertVMToImage getConvertVMToImage() {
+		return convertVMToImage;
 	}
 
-	public void setConvertVMToTemplate(ConvertVMToTemplate convertVMToTemplate) {
-		this.convertVMToTemplate = convertVMToTemplate;
+	public void setConvertVMToImage(ConvertVMToImage convertVMToImage) {
+		this.convertVMToImage = convertVMToImage;
 	}
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
@@ -3576,8 +3575,32 @@ public class Lifecycle {
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class ConvertVMToTemplate {
+	public static class ConvertVMToImage {
 		
+		protected String vmName;
+		
+		protected String imageName;
+		
+		public ConvertVMToImage() {
+			super();
+		}
+
+		public String getVmName() {
+			return vmName;
+		}
+
+		public void setVmName(String vmName) {
+			this.vmName = vmName;
+		}
+
+		public String getImageName() {
+			return imageName;
+		}
+
+		public void setImageName(String imageName) {
+			this.imageName = imageName;
+		}
+
 	}
 	
 }
