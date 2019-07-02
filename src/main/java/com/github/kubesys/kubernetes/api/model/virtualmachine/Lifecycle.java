@@ -177,6 +177,22 @@ public class Lifecycle {
 		return this.createSnapshot;
 	}
 
+	public CreateAndStartVMFromISO getCreateAndStartVMFromISO() {
+		return createAndStartVMFromISO;
+	}
+
+	public void setCreateAndStartVMFromISO(CreateAndStartVMFromISO createAndStartVMFromISO) {
+		this.createAndStartVMFromISO = createAndStartVMFromISO;
+	}
+
+	public CreateAndStartVMFromImage getCreateAndStartVMFromImage() {
+		return createAndStartVMFromImage;
+	}
+
+	public void setCreateAndStartVMFromImage(CreateAndStartVMFromImage createAndStartVMFromImage) {
+		this.createAndStartVMFromImage = createAndStartVMFromImage;
+	}
+
 	public void setResizeDisk(ResizeDisk resizeDisk) {
 		this.resizeDisk = resizeDisk;
 	}
@@ -2652,6 +2668,10 @@ public class Lifecycle {
 		
 		protected String file;
 		
+		protected String vcpus;
+
+		protected String memory;
+		
 		public CreateAndStartVMFromImage() {
 			super();
 		}
@@ -2678,6 +2698,22 @@ public class Lifecycle {
 
 		public void setFile(String file) {
 			this.file = file;
+		}
+
+		public String getVcpus() {
+			return vcpus;
+		}
+
+		public void setVcpus(String vcpus) {
+			this.vcpus = vcpus;
+		}
+
+		public String getMemory() {
+			return memory;
+		}
+
+		public void setMemory(String memory) {
+			this.memory = memory;
 		}
 		
 	}
