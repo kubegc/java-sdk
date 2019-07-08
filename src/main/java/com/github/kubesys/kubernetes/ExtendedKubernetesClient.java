@@ -14,7 +14,10 @@ import java.util.logging.Logger;
 
 import com.github.kubesys.kubernetes.api.model.DoneableVirtualMachine;
 import com.github.kubesys.kubernetes.api.model.VirtualMachine;
+import com.github.kubesys.kubernetes.api.model.VirtualMachineDisk;
+import com.github.kubesys.kubernetes.api.model.VirtualMachineImage;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineList;
+import com.github.kubesys.kubernetes.api.model.VirtualMachineSnapshot;
 import com.github.kubesys.kubernetes.impl.VirtualMachineImpl;
 
 import io.fabric8.kubernetes.api.model.Doneable;
@@ -142,6 +145,33 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 	public void watchVirtualMachine(Watcher<VirtualMachine> watcher) {
 		try {
 			executors.get(VirtualMachine.class.getSimpleName()).watch(watcher);
+		} catch (Exception e) {
+			m_logger.log(Level.SEVERE, "Fail to start.");
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void watchVirtualMachineImage(Watcher<VirtualMachineImage> watcher) {
+		try {
+			executors.get(VirtualMachineImage.class.getSimpleName()).watch(watcher);
+		} catch (Exception e) {
+			m_logger.log(Level.SEVERE, "Fail to start.");
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void watchVirtualMachineDisk(Watcher<VirtualMachineDisk> watcher) {
+		try {
+			executors.get(VirtualMachineDisk.class.getSimpleName()).watch(watcher);
+		} catch (Exception e) {
+			m_logger.log(Level.SEVERE, "Fail to start.");
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void watchVirtualMachineSnapshot(Watcher<VirtualMachineSnapshot> watcher) {
+		try {
+			executors.get(VirtualMachineSnapshot.class.getSimpleName()).watch(watcher);
 		} catch (Exception e) {
 			m_logger.log(Level.SEVERE, "Fail to start.");
 		}
