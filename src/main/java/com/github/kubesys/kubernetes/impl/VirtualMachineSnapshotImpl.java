@@ -5,8 +5,8 @@ package com.github.kubesys.kubernetes.impl;
 
 import java.util.Map;
 
-import com.github.kubesys.kubernetes.api.model.VirtualMachine;
-import com.github.kubesys.kubernetes.api.model.VirtualMachineList;
+import com.github.kubesys.kubernetes.api.model.VirtualMachineSnapshot;
+import com.github.kubesys.kubernetes.api.model.VirtualMachineSnapshotList;
 
 import io.fabric8.kubernetes.client.dsl.FilterWatchListDeletable;
 import io.fabric8.kubernetes.client.dsl.Gettable;
@@ -19,7 +19,7 @@ import io.fabric8.kubernetes.client.dsl.MixedOperation;
  * @author yangchen18@otcaix.iscas.ac.cn
  * @since Thu Jun 13 21:39:55 CST 2019
  **/
-public class VirtualMachineImpl {
+public class VirtualMachineSnapshotImpl {
 	
 	@SuppressWarnings("rawtypes")
 	protected final MixedOperation excutor;
@@ -27,7 +27,7 @@ public class VirtualMachineImpl {
 	protected String name;
 	
 	@SuppressWarnings("rawtypes")
-	public VirtualMachineImpl(MixedOperation excutor) {
+	public VirtualMachineSnapshotImpl(MixedOperation excutor) {
 		super();
 		this.excutor = excutor;
 	}
@@ -35,24 +35,24 @@ public class VirtualMachineImpl {
 	/**
 	 * return true or an exception
 	 * 
-	 * @param vm   VM's description
+	 * @param snapshot   VM's description
 	 * @return true or an exception
 	 * @throws Exception create VM fail
 	 */
 	@SuppressWarnings("unchecked")
-	public boolean create(VirtualMachine vm) throws Exception {
-		excutor.create(vm);
+	public boolean create(VirtualMachineSnapshot snapshot) throws Exception {
+		excutor.create(snapshot);
 		return true;
 	}
 	
 	@SuppressWarnings("unchecked")
-	public boolean update(VirtualMachine vm) throws Exception {
-		String name = vm.getMetadata().getName();
-		VirtualMachine vmn = get(name);
-		if (vmn == null) {
-			throw new Exception("VM " + name + " does not exist.");
+	public boolean update(VirtualMachineSnapshot snapshot) throws Exception {
+		String name = snapshot.getMetadata().getName();
+		VirtualMachineSnapshot vms = get(name);
+		if (vms == null) {
+			throw new Exception("Snapshot " + name + " does not exist.");
 		}
-		excutor.createOrReplace(vm);
+		excutor.createOrReplace(snapshot);
 		return true;
 	}
 	
@@ -63,16 +63,16 @@ public class VirtualMachineImpl {
 	 * @return object or null
 	 */
 	@SuppressWarnings("unchecked")
-	public VirtualMachine get(String name) {
-		return ((Gettable<VirtualMachine>) 
+	public VirtualMachineSnapshot get(String name) {
+		return ((Gettable<VirtualMachineSnapshot>) 
 				excutor.withName(name)).get();
 	}
 	
 	/**
 	 * @return list virtual machines
 	 */
-	public VirtualMachineList list() {
-		return (VirtualMachineList) excutor.list();
+	public VirtualMachineSnapshotList list() {
+		return (VirtualMachineSnapshotList) excutor.list();
 	}
 	
 	/**
@@ -81,8 +81,8 @@ public class VirtualMachineImpl {
 	 * @param filter see .metadata.labels
 	 * @return all VMs
 	 */
-	public VirtualMachineList list(Map<String, String> labels) {
-		return (VirtualMachineList)((FilterWatchListDeletable) 
+	public VirtualMachineSnapshotList list(Map<String, String> labels) {
+		return (VirtualMachineSnapshotList)((FilterWatchListDeletable) 
 				excutor.withLabels(labels)).list();
 	}
 }

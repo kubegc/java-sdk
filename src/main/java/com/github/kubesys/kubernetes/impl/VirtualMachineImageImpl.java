@@ -5,8 +5,8 @@ package com.github.kubesys.kubernetes.impl;
 
 import java.util.Map;
 
-import com.github.kubesys.kubernetes.api.model.VirtualMachine;
-import com.github.kubesys.kubernetes.api.model.VirtualMachineList;
+import com.github.kubesys.kubernetes.api.model.VirtualMachineImage;
+import com.github.kubesys.kubernetes.api.model.VirtualMachineImageList;
 
 import io.fabric8.kubernetes.client.dsl.FilterWatchListDeletable;
 import io.fabric8.kubernetes.client.dsl.Gettable;
@@ -19,7 +19,7 @@ import io.fabric8.kubernetes.client.dsl.MixedOperation;
  * @author yangchen18@otcaix.iscas.ac.cn
  * @since Thu Jun 13 21:39:55 CST 2019
  **/
-public class VirtualMachineImpl {
+public class VirtualMachineImageImpl {
 	
 	@SuppressWarnings("rawtypes")
 	protected final MixedOperation excutor;
@@ -27,7 +27,7 @@ public class VirtualMachineImpl {
 	protected String name;
 	
 	@SuppressWarnings("rawtypes")
-	public VirtualMachineImpl(MixedOperation excutor) {
+	public VirtualMachineImageImpl(MixedOperation excutor) {
 		super();
 		this.excutor = excutor;
 	}
@@ -35,24 +35,24 @@ public class VirtualMachineImpl {
 	/**
 	 * return true or an exception
 	 * 
-	 * @param vm   VM's description
+	 * @param image   VM's description
 	 * @return true or an exception
 	 * @throws Exception create VM fail
 	 */
 	@SuppressWarnings("unchecked")
-	public boolean create(VirtualMachine vm) throws Exception {
-		excutor.create(vm);
+	public boolean create(VirtualMachineImage image) throws Exception {
+		excutor.create(image);
 		return true;
 	}
 	
 	@SuppressWarnings("unchecked")
-	public boolean update(VirtualMachine vm) throws Exception {
-		String name = vm.getMetadata().getName();
-		VirtualMachine vmn = get(name);
-		if (vmn == null) {
-			throw new Exception("VM " + name + " does not exist.");
+	public boolean update(VirtualMachineImage image) throws Exception {
+		String name = image.getMetadata().getName();
+		VirtualMachineImage vmi = get(name);
+		if (vmi == null) {
+			throw new Exception("Image " + name + " does not exist.");
 		}
-		excutor.createOrReplace(vm);
+		excutor.createOrReplace(image);
 		return true;
 	}
 	
@@ -63,16 +63,16 @@ public class VirtualMachineImpl {
 	 * @return object or null
 	 */
 	@SuppressWarnings("unchecked")
-	public VirtualMachine get(String name) {
-		return ((Gettable<VirtualMachine>) 
+	public VirtualMachineImage get(String name) {
+		return ((Gettable<VirtualMachineImage>) 
 				excutor.withName(name)).get();
 	}
 	
 	/**
 	 * @return list virtual machines
 	 */
-	public VirtualMachineList list() {
-		return (VirtualMachineList) excutor.list();
+	public VirtualMachineImageList list() {
+		return (VirtualMachineImageList) excutor.list();
 	}
 	
 	/**
@@ -81,8 +81,8 @@ public class VirtualMachineImpl {
 	 * @param filter see .metadata.labels
 	 * @return all VMs
 	 */
-	public VirtualMachineList list(Map<String, String> labels) {
-		return (VirtualMachineList)((FilterWatchListDeletable) 
+	public VirtualMachineImageList list(Map<String, String> labels) {
+		return (VirtualMachineImageList)((FilterWatchListDeletable) 
 				excutor.withLabels(labels)).list();
 	}
 }

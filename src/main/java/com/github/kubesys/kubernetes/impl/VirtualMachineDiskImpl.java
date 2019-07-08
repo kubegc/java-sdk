@@ -5,8 +5,8 @@ package com.github.kubesys.kubernetes.impl;
 
 import java.util.Map;
 
-import com.github.kubesys.kubernetes.api.model.VirtualMachine;
-import com.github.kubesys.kubernetes.api.model.VirtualMachineList;
+import com.github.kubesys.kubernetes.api.model.VirtualMachineDisk;
+import com.github.kubesys.kubernetes.api.model.VirtualMachineDiskList;
 
 import io.fabric8.kubernetes.client.dsl.FilterWatchListDeletable;
 import io.fabric8.kubernetes.client.dsl.Gettable;
@@ -19,7 +19,7 @@ import io.fabric8.kubernetes.client.dsl.MixedOperation;
  * @author yangchen18@otcaix.iscas.ac.cn
  * @since Thu Jun 13 21:39:55 CST 2019
  **/
-public class VirtualMachineImpl {
+public class VirtualMachineDiskImpl {
 	
 	@SuppressWarnings("rawtypes")
 	protected final MixedOperation excutor;
@@ -27,7 +27,7 @@ public class VirtualMachineImpl {
 	protected String name;
 	
 	@SuppressWarnings("rawtypes")
-	public VirtualMachineImpl(MixedOperation excutor) {
+	public VirtualMachineDiskImpl(MixedOperation excutor) {
 		super();
 		this.excutor = excutor;
 	}
@@ -35,24 +35,24 @@ public class VirtualMachineImpl {
 	/**
 	 * return true or an exception
 	 * 
-	 * @param vm   VM's description
+	 * @param disk   VM's description
 	 * @return true or an exception
 	 * @throws Exception create VM fail
 	 */
 	@SuppressWarnings("unchecked")
-	public boolean create(VirtualMachine vm) throws Exception {
-		excutor.create(vm);
+	public boolean create(VirtualMachineDisk disk) throws Exception {
+		excutor.create(disk);
 		return true;
 	}
 	
 	@SuppressWarnings("unchecked")
-	public boolean update(VirtualMachine vm) throws Exception {
-		String name = vm.getMetadata().getName();
-		VirtualMachine vmn = get(name);
-		if (vmn == null) {
-			throw new Exception("VM " + name + " does not exist.");
+	public boolean update(VirtualMachineDisk disk) throws Exception {
+		String name = disk.getMetadata().getName();
+		VirtualMachineDisk vmd = get(name);
+		if (vmd == null) {
+			throw new Exception("Disk " + name + " does not exist.");
 		}
-		excutor.createOrReplace(vm);
+		excutor.createOrReplace(disk);
 		return true;
 	}
 	
@@ -63,16 +63,16 @@ public class VirtualMachineImpl {
 	 * @return object or null
 	 */
 	@SuppressWarnings("unchecked")
-	public VirtualMachine get(String name) {
-		return ((Gettable<VirtualMachine>) 
+	public VirtualMachineDisk get(String name) {
+		return ((Gettable<VirtualMachineDisk>) 
 				excutor.withName(name)).get();
 	}
 	
 	/**
 	 * @return list virtual machines
 	 */
-	public VirtualMachineList list() {
-		return (VirtualMachineList) excutor.list();
+	public VirtualMachineDiskList list() {
+		return (VirtualMachineDiskList) excutor.list();
 	}
 	
 	/**
@@ -81,8 +81,8 @@ public class VirtualMachineImpl {
 	 * @param filter see .metadata.labels
 	 * @return all VMs
 	 */
-	public VirtualMachineList list(Map<String, String> labels) {
-		return (VirtualMachineList)((FilterWatchListDeletable) 
+	public VirtualMachineDiskList list(Map<String, String> labels) {
+		return (VirtualMachineDiskList)((FilterWatchListDeletable) 
 				excutor.withLabels(labels)).list();
 	}
 }
