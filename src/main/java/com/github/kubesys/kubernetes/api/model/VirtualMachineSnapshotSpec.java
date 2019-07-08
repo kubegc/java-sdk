@@ -7,7 +7,6 @@ import java.util.Map;
 
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.github.kubesys.kubernetes.api.model.virtualmachinesnapshot.Domainsnapshot;
 
 import io.fabric8.kubernetes.api.model.KubernetesResource;
 import io.fabric8.kubernetes.api.model.apiextensions.CustomResourceDefinitionSpec;
@@ -28,8 +27,12 @@ public class VirtualMachineSnapshotSpec extends CustomResourceDefinitionSpec imp
 	 */
 	private static final long serialVersionUID = 1171174592223281364L;
 
-	protected Domainsnapshot domainsnapshot;
+//	protected Domainsnapshot domainsnapshot;
 
+	protected String snapshotName;
+	
+	protected String vmName;
+	
 	protected Map<String, String> description;
 
 	protected String image;
@@ -58,12 +61,20 @@ public class VirtualMachineSnapshotSpec extends CustomResourceDefinitionSpec imp
 		this.status = status;
 	}
 
-	public Domainsnapshot getDomainsnapshot() {
-		return domainsnapshot;
+	public String getSnapshotName() {
+		return snapshotName;
 	}
 
-	public void setDomainsnapshot(Domainsnapshot domainsnapshot) {
-		this.domainsnapshot = domainsnapshot;
+	public void setSnapshotName(String snapshotName) {
+		this.snapshotName = snapshotName;
+	}
+
+	public String getVmName() {
+		return vmName;
+	}
+
+	public void setVmName(String vmName) {
+		this.vmName = vmName;
 	}
 
 	public String getImage() {
