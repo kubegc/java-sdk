@@ -11,23 +11,24 @@ import io.fabric8.kubernetes.client.CustomResource;
  * @author xuyuanjia2017@otcaix.iscas.ac.cn
  * @author xianghao16@otcaix.iscas.ac.cn
  * @author yangchen18@otcaix.iscas.ac.cn
- * @since Thu Jun 13 21:39:55 CST 2019
+ * @since Thu July 8 21:39:55 CST 2019
  **/
-public class VirtualMachine extends CustomResource {
+public class VirtualMachineImage extends CustomResource {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 4669199871773009651L;
+	private static final long serialVersionUID = -5561963208233608008L;
 	
-	private VirtualMachineSpec spec;
+	private VirtualMachineImageSpec spec;
 
-	public void setSpec(VirtualMachineSpec spec) {
+	public VirtualMachineImageSpec getSpec() {
+		return spec;
+	}
+
+	public void setSpec(VirtualMachineImageSpec spec) {
 		this.spec = spec;
 	}
 
-	public VirtualMachineSpec getSpec() {
-		return this.spec;
-	}
 }
 

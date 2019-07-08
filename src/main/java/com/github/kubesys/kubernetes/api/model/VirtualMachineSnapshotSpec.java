@@ -7,8 +7,7 @@ import java.util.Map;
 
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Domain;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle;
+import com.github.kubesys.kubernetes.api.model.virtualmachinesnapshot.Domainsnapshot;
 
 import io.fabric8.kubernetes.api.model.KubernetesResource;
 import io.fabric8.kubernetes.api.model.apiextensions.CustomResourceDefinitionSpec;
@@ -22,18 +21,15 @@ import io.fabric8.kubernetes.api.model.apiextensions.CustomResourceDefinitionSpe
  **/
 @SuppressWarnings("rawtypes")
 @JsonDeserialize(using = JsonDeserializer.None.class)
-public class VirtualMachineSpec extends CustomResourceDefinitionSpec implements KubernetesResource {
+public class VirtualMachineSnapshotSpec extends CustomResourceDefinitionSpec implements KubernetesResource {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -5134652268821098029L;
-	
+	private static final long serialVersionUID = 1171174592223281364L;
 
-	protected Domain domain;
+	protected Domainsnapshot domainsnapshot;
 
-	protected Lifecycle lifecycle;
-	
 	protected Map<String, String> description;
 
 	protected String image;
@@ -42,7 +38,7 @@ public class VirtualMachineSpec extends CustomResourceDefinitionSpec implements 
 	
 	protected String status;
 
-	public VirtualMachineSpec() {
+	public VirtualMachineSnapshotSpec() {
 
 	}
 
@@ -54,8 +50,6 @@ public class VirtualMachineSpec extends CustomResourceDefinitionSpec implements 
 		this.description = description;
 	}
 
-
-
 	public String getStatus() {
 		return status;
 	}
@@ -64,22 +58,12 @@ public class VirtualMachineSpec extends CustomResourceDefinitionSpec implements 
 		this.status = status;
 	}
 
-
-
-	public void setDomain(Domain domain) {
-		this.domain = domain;
+	public Domainsnapshot getDomainsnapshot() {
+		return domainsnapshot;
 	}
 
-	public Domain getDomain() {
-		return this.domain;
-	}
-
-	public Lifecycle getLifecycle() {
-		return lifecycle;
-	}
-
-	public void setLifecycle(Lifecycle lifecycle) {
-		this.lifecycle = lifecycle;
+	public void setDomainsnapshot(Domainsnapshot domainsnapshot) {
+		this.domainsnapshot = domainsnapshot;
 	}
 
 	public String getImage() {

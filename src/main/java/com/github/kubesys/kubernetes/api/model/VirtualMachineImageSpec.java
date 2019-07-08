@@ -7,8 +7,8 @@ import java.util.Map;
 
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Domain;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle;
+import com.github.kubesys.kubernetes.api.model.virtualmachineimage.Domain;
+import com.github.kubesys.kubernetes.api.model.virtualmachineimage.Lifecycle;
 
 import io.fabric8.kubernetes.api.model.KubernetesResource;
 import io.fabric8.kubernetes.api.model.apiextensions.CustomResourceDefinitionSpec;
@@ -22,13 +22,12 @@ import io.fabric8.kubernetes.api.model.apiextensions.CustomResourceDefinitionSpe
  **/
 @SuppressWarnings("rawtypes")
 @JsonDeserialize(using = JsonDeserializer.None.class)
-public class VirtualMachineSpec extends CustomResourceDefinitionSpec implements KubernetesResource {
+public class VirtualMachineImageSpec extends CustomResourceDefinitionSpec implements KubernetesResource {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -5134652268821098029L;
-	
+	private static final long serialVersionUID = 1171174592223281364L;
 
 	protected Domain domain;
 
@@ -42,13 +41,15 @@ public class VirtualMachineSpec extends CustomResourceDefinitionSpec implements 
 	
 	protected String status;
 
-	public VirtualMachineSpec() {
+	public VirtualMachineImageSpec() {
 
 	}
 
 	public Map<String, String> getDescription() {
 		return description;
 	}
+
+
 
 	public void setDescription(Map<String, String> description) {
 		this.description = description;
@@ -63,8 +64,6 @@ public class VirtualMachineSpec extends CustomResourceDefinitionSpec implements 
 	public void setStatus(String status) {
 		this.status = status;
 	}
-
-
 
 	public void setDomain(Domain domain) {
 		this.domain = domain;

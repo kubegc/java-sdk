@@ -12,12 +12,12 @@ import io.fabric8.kubernetes.client.CustomResourceDoneable;
  * @author xuyuanjia2017@otcaix.iscas.ac.cn
  * @author xianghao16@otcaix.iscas.ac.cn
  * @author yangchen18@otcaix.iscas.ac.cn
- * @since Thu Jun 13 21:36:39 CST 2019
+ * @since Thu July 08 21:36:39 CST 2019
  **/
-public class DoneableVirtualMachine extends CustomResourceDoneable<VirtualMachine> {
+public class DoneableVirtualMachineSnapshot extends CustomResourceDoneable<VirtualMachineSnapshot> {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public DoneableVirtualMachine(VirtualMachine resource, Function function) {
+	public DoneableVirtualMachineSnapshot(VirtualMachineSnapshot resource, Function function) {
 		super(resource, function);
 	}
 }

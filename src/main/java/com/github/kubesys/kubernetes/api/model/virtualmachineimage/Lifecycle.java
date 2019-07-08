@@ -1,7 +1,7 @@
 /**
  * Copyright (2019, ) Institute of Software, Chinese Academy of Sciences
  */
-package com.github.kubesys.kubernetes.api.model.virtualmachine;
+package com.github.kubesys.kubernetes.api.model.virtualmachineimage;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -17,308 +17,18 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 @JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 public class Lifecycle {
 
-	protected RestoreVM restoreVM;
-
-	protected ResizeRAM resizeRAM;
-
-	protected SuspendVM suspendVM;
-
-	protected StopVMForce stopVMForce;
-
-	protected UnplugDevice unplugDevice;
-
-	protected DeleteDisk deleteDisk;
-
-	protected UnplugNIC unplugNIC;
-
-	protected DeleteSnapshot deleteSnapshot;
-
-	protected MigrateVM migrateVM;
-
-	protected ChangeNumberOfCPU changeNumberOfCPU;
-
-	protected ResumeVM resumeVM;
-
-	protected CreateSnapshot createSnapshot;
-
-	protected ResizeDisk resizeDisk;
-
-	protected PlugDisk plugDisk;
-
-	protected PlugDevice plugDevice;
-
-	protected ResetVM resetVM;
-
-	protected UnplugDisk unplugDisk;
-
-	protected CreateDisk createDisk;
-
-	protected StopVM stopVM;
-
-	protected CreateVM createVM;
-
-	protected StartVM startVM;
-
-	protected CloneDisk cloneDisk;
-
-	protected DeleteVM deleteVM;
-
-	protected CreateAndStartVM createAndStartVM;
-	
-	protected CreateAndStartVMFromISO createAndStartVMFromISO;
-	
-	protected CreateAndStartVMFromImage createAndStartVMFromImage;
-
-	protected RebootVM rebootVM;
-
-	protected PlugNIC plugNIC;
-
-	protected SaveVM saveVM;
-	
-	protected ConvertVMToImage convertVMToImage;
+	protected ConvertImageToVM convertImageToVM;
 
 	public Lifecycle() {
 
 	}
 
-	public void setRestoreVM(RestoreVM restoreVM) {
-		this.restoreVM = restoreVM;
+	public ConvertImageToVM getConvertImageToVM() {
+		return convertImageToVM;
 	}
 
-	public RestoreVM getRestoreVM() {
-		return this.restoreVM;
-	}
-
-	public void setResizeRAM(ResizeRAM resizeRAM) {
-		this.resizeRAM = resizeRAM;
-	}
-
-	public ResizeRAM getResizeRAM() {
-		return this.resizeRAM;
-	}
-
-	public void setSuspendVM(SuspendVM suspendVM) {
-		this.suspendVM = suspendVM;
-	}
-
-	public SuspendVM getSuspendVM() {
-		return this.suspendVM;
-	}
-
-	public void setStopVMForce(StopVMForce stopVMForce) {
-		this.stopVMForce = stopVMForce;
-	}
-
-	public StopVMForce getStopVMForce() {
-		return this.stopVMForce;
-	}
-
-	public void setUnplugDevice(UnplugDevice unplugDevice) {
-		this.unplugDevice = unplugDevice;
-	}
-
-	public UnplugDevice getUnplugDevice() {
-		return this.unplugDevice;
-	}
-
-	public void setDeleteDisk(DeleteDisk deleteDisk) {
-		this.deleteDisk = deleteDisk;
-	}
-
-	public DeleteDisk getDeleteDisk() {
-		return this.deleteDisk;
-	}
-
-	public void setUnplugNIC(UnplugNIC unplugNIC) {
-		this.unplugNIC = unplugNIC;
-	}
-
-	public UnplugNIC getUnplugNIC() {
-		return this.unplugNIC;
-	}
-
-	public void setDeleteSnapshot(DeleteSnapshot deleteSnapshot) {
-		this.deleteSnapshot = deleteSnapshot;
-	}
-
-	public DeleteSnapshot getDeleteSnapshot() {
-		return this.deleteSnapshot;
-	}
-
-	public void setMigrateVM(MigrateVM migrateVM) {
-		this.migrateVM = migrateVM;
-	}
-
-	public MigrateVM getMigrateVM() {
-		return this.migrateVM;
-	}
-
-	public void setChangeNumberOfCPU(ChangeNumberOfCPU changeNumberOfCPU) {
-		this.changeNumberOfCPU = changeNumberOfCPU;
-	}
-
-	public ChangeNumberOfCPU getChangeNumberOfCPU() {
-		return this.changeNumberOfCPU;
-	}
-
-	public void setResumeVM(ResumeVM resumeVM) {
-		this.resumeVM = resumeVM;
-	}
-
-	public ResumeVM getResumeVM() {
-		return this.resumeVM;
-	}
-
-	public void setCreateSnapshot(CreateSnapshot createSnapshot) {
-		this.createSnapshot = createSnapshot;
-	}
-
-	public CreateSnapshot getCreateSnapshot() {
-		return this.createSnapshot;
-	}
-
-	public CreateAndStartVMFromISO getCreateAndStartVMFromISO() {
-		return createAndStartVMFromISO;
-	}
-
-	public void setCreateAndStartVMFromISO(CreateAndStartVMFromISO createAndStartVMFromISO) {
-		this.createAndStartVMFromISO = createAndStartVMFromISO;
-	}
-
-	public CreateAndStartVMFromImage getCreateAndStartVMFromImage() {
-		return createAndStartVMFromImage;
-	}
-
-	public void setCreateAndStartVMFromImage(CreateAndStartVMFromImage createAndStartVMFromImage) {
-		this.createAndStartVMFromImage = createAndStartVMFromImage;
-	}
-
-	public void setResizeDisk(ResizeDisk resizeDisk) {
-		this.resizeDisk = resizeDisk;
-	}
-
-	public ResizeDisk getResizeDisk() {
-		return this.resizeDisk;
-	}
-
-	public void setPlugDisk(PlugDisk plugDisk) {
-		this.plugDisk = plugDisk;
-	}
-
-	public PlugDisk getPlugDisk() {
-		return this.plugDisk;
-	}
-
-	public void setPlugDevice(PlugDevice plugDevice) {
-		this.plugDevice = plugDevice;
-	}
-
-	public PlugDevice getPlugDevice() {
-		return this.plugDevice;
-	}
-
-	public void setResetVM(ResetVM resetVM) {
-		this.resetVM = resetVM;
-	}
-
-	public ResetVM getResetVM() {
-		return this.resetVM;
-	}
-
-	public void setUnplugDisk(UnplugDisk unplugDisk) {
-		this.unplugDisk = unplugDisk;
-	}
-
-	public UnplugDisk getUnplugDisk() {
-		return this.unplugDisk;
-	}
-
-	public void setCreateDisk(CreateDisk createDisk) {
-		this.createDisk = createDisk;
-	}
-
-	public CreateDisk getCreateDisk() {
-		return this.createDisk;
-	}
-
-	public void setStopVM(StopVM stopVM) {
-		this.stopVM = stopVM;
-	}
-
-	public StopVM getStopVM() {
-		return this.stopVM;
-	}
-
-	public void setCreateVM(CreateVM createVM) {
-		this.createVM = createVM;
-	}
-
-	public CreateVM getCreateVM() {
-		return this.createVM;
-	}
-
-	public void setStartVM(StartVM startVM) {
-		this.startVM = startVM;
-	}
-
-	public StartVM getStartVM() {
-		return this.startVM;
-	}
-
-	public void setCloneDisk(CloneDisk cloneDisk) {
-		this.cloneDisk = cloneDisk;
-	}
-
-	public CloneDisk getCloneDisk() {
-		return this.cloneDisk;
-	}
-
-	public void setDeleteVM(DeleteVM deleteVM) {
-		this.deleteVM = deleteVM;
-	}
-
-	public DeleteVM getDeleteVM() {
-		return this.deleteVM;
-	}
-
-	public void setCreateAndStartVM(CreateAndStartVM createAndStartVM) {
-		this.createAndStartVM = createAndStartVM;
-	}
-
-	public CreateAndStartVM getCreateAndStartVM() {
-		return this.createAndStartVM;
-	}
-
-	public void setRebootVM(RebootVM rebootVM) {
-		this.rebootVM = rebootVM;
-	}
-
-	public RebootVM getRebootVM() {
-		return this.rebootVM;
-	}
-
-	public void setPlugNIC(PlugNIC plugNIC) {
-		this.plugNIC = plugNIC;
-	}
-
-	public PlugNIC getPlugNIC() {
-		return this.plugNIC;
-	}
-
-	public void setSaveVM(SaveVM saveVM) {
-		this.saveVM = saveVM;
-	}
-
-	public SaveVM getSaveVM() {
-		return this.saveVM;
-	}
-
-	public ConvertVMToImage getConvertVMToImage() {
-		return convertVMToImage;
-	}
-
-	public void setConvertVMToImage(ConvertVMToImage convertVMToImage) {
-		this.convertVMToImage = convertVMToImage;
+	public void setConvertImageToVM(ConvertImageToVM convertImageToVM) {
+		this.convertImageToVM = convertImageToVM;
 	}
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
@@ -3585,7 +3295,7 @@ public class Lifecycle {
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class ConvertVMToImage {
+	public static class ConvertImageToVM {
 		
 	}
 	
