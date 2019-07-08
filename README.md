@@ -1,9 +1,12 @@
-# kubernetes-client
-Java Client for Kubernetes
+# kubeclient
+Java Client for Kubernetes-based systems
 
+- [kubevirt](https://github.com/kubesys/kubevirt)
+- [kubemcp](https://github.com/kubesys/kubemcp)
 
-# Roadmap
+Note: kubeclient is a heavy work in progress.
 
-1. 2019.7.1 - 2019.7.31: Support core capacities.
-2. 2019.8.1 - 2019.8.31: Support HA.
-3. 2019.9.1 - 2019.9.30: Support advanced capacities.
+**Authors**
+- wuheng@otcaix.iscas.ac.cn
+- xuyuanjia2017@otcaix.iscas.ac.cn
+
