@@ -27,7 +27,6 @@ public class Lifecycle {
 
 	}
 
-
 	public DeleteSnapshot getDeleteSnapshot() {
 		return deleteSnapshot;
 	}

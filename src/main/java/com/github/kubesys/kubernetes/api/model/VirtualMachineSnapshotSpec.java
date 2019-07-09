@@ -62,20 +62,13 @@ public class VirtualMachineSnapshotSpec extends CustomResourceDefinitionSpec imp
 		this.status = status;
 	}
 
-	public String getSnapshotName() {
-		return snapshotName;
+
+	public Domainsnapshot getDomainsnapshot() {
+		return domainsnapshot;
 	}
 
-	public void setSnapshotName(String snapshotName) {
-		this.snapshotName = snapshotName;
-	}
-
-	public String getVmName() {
-		return vmName;
-	}
-
-	public void setVmName(String vmName) {
-		this.vmName = vmName;
+	public void setDomainsnapshot(Domainsnapshot domainsnapshot) {
+		this.domainsnapshot = domainsnapshot;
 	}
 
 	public String getImage() {
