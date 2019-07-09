@@ -13,11 +13,17 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.github.kubesys.kubernetes.api.model.DoneableVirtualMachine;
+import com.github.kubesys.kubernetes.api.model.DoneableVirtualMachineDisk;
+import com.github.kubesys.kubernetes.api.model.DoneableVirtualMachineImage;
+import com.github.kubesys.kubernetes.api.model.DoneableVirtualMachineSnapshot;
 import com.github.kubesys.kubernetes.api.model.VirtualMachine;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineDisk;
+import com.github.kubesys.kubernetes.api.model.VirtualMachineDiskList;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineImage;
+import com.github.kubesys.kubernetes.api.model.VirtualMachineImageList;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineList;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineSnapshot;
+import com.github.kubesys.kubernetes.api.model.VirtualMachineSnapshotList;
 import com.github.kubesys.kubernetes.impl.VirtualMachineImpl;
 
 import io.fabric8.kubernetes.api.model.Doneable;
@@ -54,12 +60,93 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 	@SuppressWarnings("rawtypes")
 	public final static Map<String, MixedOperation> executors = new HashMap<String, MixedOperation>();
 
-	protected void initCustomResources()  {
+	protected void initCustomVMResources()  {
 		try {
 			Properties props =  new Properties();
 			props.load(getClass()
 					.getResourceAsStream("/VirtualMachine.conf"));
-			registerToKubernetes(props);
+			
+			String name = props.getProperty("PLURAL") + "." + props.getProperty("GROUP");
+			String kind = props.getProperty("KIND");
+			String version = props.getProperty("GROUP") + "/" + props.getProperty("VERSION");
+
+			CustomResourceDefinition crd = getCustomResourceDefinition(name);
+			crds.put(kind, crd);
+			KubernetesDeserializer.registerCustomKind(version, kind, getCustomResourceClass(kind));
+			@SuppressWarnings("rawtypes")
+			MixedOperation executor = (MixedOperation) customResources(crds.get(VirtualMachine.class.getSimpleName()),
+					VirtualMachine.class, VirtualMachineList.class, DoneableVirtualMachine.class).inAnyNamespace();
+			executors.put(kind, executor);
+			
+		} catch (Exception e) {
+			m_logger.log(Level.SEVERE, "Starting scheduler fail.");
+		}
+	}
+	
+	protected void initCustomVMSResources()  {
+		try {
+			Properties props =  new Properties();
+			props.load(getClass()
+					.getResourceAsStream("/VirtualMachineSnapshot.conf"));
+			
+			String name = props.getProperty("PLURAL") + "." + props.getProperty("GROUP");
+			String kind = props.getProperty("KIND");
+			String version = props.getProperty("GROUP") + "/" + props.getProperty("VERSION");
+
+			CustomResourceDefinition crd = getCustomResourceDefinition(name);
+			crds.put(kind, crd);
+			KubernetesDeserializer.registerCustomKind(version, kind, getCustomResourceClass(kind));
+			@SuppressWarnings("rawtypes")
+			MixedOperation executor = (MixedOperation) customResources(crds.get(VirtualMachineSnapshot.class.getSimpleName()),
+					VirtualMachineSnapshot.class, VirtualMachineSnapshotList.class, DoneableVirtualMachineSnapshot.class).inAnyNamespace();
+			executors.put(kind, executor);
+			
+		} catch (Exception e) {
+			m_logger.log(Level.SEVERE, "Starting scheduler fail.");
+		}
+	}
+	
+	protected void initCustomVMIResources()  {
+		try {
+			Properties props =  new Properties();
+			props.load(getClass()
+					.getResourceAsStream("/VirtualMachineImage.conf"));
+			
+			String name = props.getProperty("PLURAL") + "." + props.getProperty("GROUP");
+			String kind = props.getProperty("KIND");
+			String version = props.getProperty("GROUP") + "/" + props.getProperty("VERSION");
+
+			CustomResourceDefinition crd = getCustomResourceDefinition(name);
+			crds.put(kind, crd);
+			KubernetesDeserializer.registerCustomKind(version, kind, getCustomResourceClass(kind));
+			@SuppressWarnings("rawtypes")
+			MixedOperation executor = (MixedOperation) customResources(crds.get(VirtualMachineImage.class.getSimpleName()),
+					VirtualMachineImage.class, VirtualMachineImageList.class, DoneableVirtualMachineImage.class).inAnyNamespace();
+			executors.put(kind, executor);
+			
+		} catch (Exception e) {
+			m_logger.log(Level.SEVERE, "Starting scheduler fail.");
+		}
+	}
+	
+	protected void initCustomVMDResources()  {
+		try {
+			Properties props =  new Properties();
+			props.load(getClass()
+					.getResourceAsStream("/VirtualMachineDisk.conf"));
+			
+			String name = props.getProperty("PLURAL") + "." + props.getProperty("GROUP");
+			String kind = props.getProperty("KIND");
+			String version = props.getProperty("GROUP") + "/" + props.getProperty("VERSION");
+
+			CustomResourceDefinition crd = getCustomResourceDefinition(name);
+			crds.put(kind, crd);
+			KubernetesDeserializer.registerCustomKind(version, kind, getCustomResourceClass(kind));
+			@SuppressWarnings("rawtypes")
+			MixedOperation executor = (MixedOperation) customResources(crds.get(VirtualMachineDisk.class.getSimpleName()),
+					VirtualMachineDisk.class, VirtualMachineDiskList.class, DoneableVirtualMachineDisk.class).inAnyNamespace();
+			executors.put(kind, executor);
+			
 		} catch (Exception e) {
 			m_logger.log(Level.SEVERE, "Starting scheduler fail.");
 		}
@@ -67,25 +154,10 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 
 	public ExtendedKubernetesClient(Config config) throws Exception {
 		super(config);
-		initCustomResources();
-	}
-
-	/**
-	 * @param props
-	 * @throws Exception
-	 */
-	protected void registerToKubernetes(Properties props) throws Exception {
-		String name = props.getProperty("PLURAL") + "." + props.getProperty("GROUP");
-		String kind = props.getProperty("KIND");
-		String version = props.getProperty("GROUP") + "/" + props.getProperty("VERSION");
-
-		CustomResourceDefinition crd = getCustomResourceDefinition(name);
-		crds.put(kind, crd);
-		KubernetesDeserializer.registerCustomKind(version, kind, getCustomResourceClass(kind));
-		@SuppressWarnings("rawtypes")
-		MixedOperation executor = (MixedOperation) customResources(crds.get(VirtualMachine.class.getSimpleName()),
-				VirtualMachine.class, VirtualMachineList.class, DoneableVirtualMachine.class).inAnyNamespace();
-		executors.put(kind, executor);
+		initCustomVMResources();
+		initCustomVMIResources();
+		initCustomVMDResources();
+		initCustomVMSResources();
 	}
 
 	/**
