@@ -16,6 +16,7 @@ import com.github.kubesys.kubernetes.api.model.DoneableVirtualMachine;
 import com.github.kubesys.kubernetes.api.model.DoneableVirtualMachineDisk;
 import com.github.kubesys.kubernetes.api.model.DoneableVirtualMachineImage;
 import com.github.kubesys.kubernetes.api.model.DoneableVirtualMachineSnapshot;
+import com.github.kubesys.kubernetes.api.model.DoneableVirtualMachineUITDisk;
 import com.github.kubesys.kubernetes.api.model.VirtualMachine;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineDisk;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineDiskList;
@@ -24,6 +25,8 @@ import com.github.kubesys.kubernetes.api.model.VirtualMachineImageList;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineList;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineSnapshot;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineSnapshotList;
+import com.github.kubesys.kubernetes.api.model.VirtualMachineUITDisk;
+import com.github.kubesys.kubernetes.api.model.VirtualMachineUITDiskList;
 import com.github.kubesys.kubernetes.impl.VirtualMachineImpl;
 
 import io.fabric8.kubernetes.api.model.Doneable;
@@ -151,12 +154,36 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 			m_logger.log(Level.SEVERE, "Starting scheduler fail.");
 		}
 	}
+	
+	protected void initCustomVMUDResources()  {
+		try {
+			Properties props =  new Properties();
+			props.load(getClass()
+					.getResourceAsStream("/VirtualMachineUITDisk.conf"));
+			
+			String name = props.getProperty("PLURAL") + "." + props.getProperty("GROUP");
+			String kind = props.getProperty("KIND");
+			String version = props.getProperty("GROUP") + "/" + props.getProperty("VERSION");
+
+			CustomResourceDefinition crd = getCustomResourceDefinition(name);
+			crds.put(kind, crd);
+			KubernetesDeserializer.registerCustomKind(version, kind, getCustomResourceClass(kind));
+			@SuppressWarnings("rawtypes")
+			MixedOperation executor = (MixedOperation) customResources(crds.get(VirtualMachineUITDisk.class.getSimpleName()),
+					VirtualMachineUITDisk.class, VirtualMachineUITDiskList.class, DoneableVirtualMachineUITDisk.class).inAnyNamespace();
+			executors.put(kind, executor);
+			
+		} catch (Exception e) {
+			m_logger.log(Level.SEVERE, "Starting scheduler fail.");
+		}
+	}
 
 	public ExtendedKubernetesClient(Config config) throws Exception {
 		super(config);
 		initCustomVMResources();
 		initCustomVMIResources();
 		initCustomVMDResources();
+		initCustomVMUDResources();
 		initCustomVMSResources();
 	}
 
@@ -235,6 +262,15 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 	public void watchVirtualMachineDisk(Watcher<VirtualMachineDisk> watcher) {
 		try {
 			executors.get(VirtualMachineDisk.class.getSimpleName()).watch(watcher);
+		} catch (Exception e) {
+			m_logger.log(Level.SEVERE, "Fail to start.");
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void watchVirtualMachineUITDisk(Watcher<VirtualMachineUITDisk> watcher) {
+		try {
+			executors.get(VirtualMachineUITDisk.class.getSimpleName()).watch(watcher);
 		} catch (Exception e) {
 			m_logger.log(Level.SEVERE, "Fail to start.");
 		}
