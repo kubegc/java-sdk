@@ -17,47 +17,47 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 @JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 public class Lifecycle {
 
-	protected DeleteDisk deleteDisk;
+	protected DeleteUITDisk deleteDisk;
 
-	protected ResizeDisk resizeDisk;
+	protected ResizeUITDisk resizeDisk;
 
-	protected CreateDisk createDisk;
+	protected CreateUITDisk createDisk;
 
-	protected CloneDisk cloneDisk;
+	protected CloneUITDisk cloneDisk;
 	
 	public Lifecycle() {
 
 	}
 
-	public DeleteDisk getDeleteDisk() {
+	public DeleteUITDisk getDeleteDisk() {
 		return deleteDisk;
 	}
 
-	public void setDeleteDisk(DeleteDisk deleteDisk) {
+	public void setDeleteDisk(DeleteUITDisk deleteDisk) {
 		this.deleteDisk = deleteDisk;
 	}
 
-	public ResizeDisk getResizeDisk() {
+	public ResizeUITDisk getResizeDisk() {
 		return resizeDisk;
 	}
 
-	public void setResizeDisk(ResizeDisk resizeDisk) {
+	public void setResizeDisk(ResizeUITDisk resizeDisk) {
 		this.resizeDisk = resizeDisk;
 	}
 
-	public CreateDisk getCreateDisk() {
+	public CreateUITDisk getCreateDisk() {
 		return createDisk;
 	}
 
-	public void setCreateDisk(CreateDisk createDisk) {
+	public void setCreateDisk(CreateUITDisk createDisk) {
 		this.createDisk = createDisk;
 	}
 
-	public CloneDisk getCloneDisk() {
+	public CloneUITDisk getCloneDisk() {
 		return cloneDisk;
 	}
 
-	public void setCloneDisk(CloneDisk cloneDisk) {
+	public void setCloneDisk(CloneUITDisk cloneDisk) {
 		this.cloneDisk = cloneDisk;
 	}
 
@@ -298,7 +298,7 @@ public class Lifecycle {
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class DeleteDisk {
+	public static class DeleteUITDisk {
 
 		protected String vol;
 
@@ -306,7 +306,7 @@ public class Lifecycle {
 
 		protected String pool;
 
-		public DeleteDisk() {
+		public DeleteUITDisk() {
 
 		}
 
@@ -931,7 +931,7 @@ public class Lifecycle {
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class ResizeDisk {
+	public static class ResizeUITDisk {
 
 		protected String vol;
 
@@ -945,7 +945,7 @@ public class Lifecycle {
 
 		protected String capacity;
 
-		public ResizeDisk() {
+		public ResizeUITDisk() {
 
 		}
 
@@ -1376,7 +1376,7 @@ public class Lifecycle {
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class CreateDisk {
+	public static class CreateUITDisk {
 
 		protected String name;
 		
@@ -1619,7 +1619,7 @@ public class Lifecycle {
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class CloneDisk {
+	public static class CloneUITDisk {
 
 		protected Boolean reflink;
 
@@ -1631,7 +1631,7 @@ public class Lifecycle {
 
 		protected String newname;
 
-		public CloneDisk() {
+		public CloneUITDisk() {
 
 		}
 
