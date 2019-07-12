@@ -78,11 +78,11 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 			KubernetesDeserializer.registerCustomKind(version, kind, getCustomResourceClass(kind));
 			@SuppressWarnings("rawtypes")
 			MixedOperation executor = (MixedOperation) customResources(crds.get(VirtualMachine.class.getSimpleName()),
-					VirtualMachine.class, VirtualMachineList.class, DoneableVirtualMachine.class).inAnyNamespace();
+					VirtualMachine.class, VirtualMachineList.class, DoneableVirtualMachine.class).inNamespace("default");
 			executors.put(kind, executor);
 			
 		} catch (Exception e) {
-			m_logger.log(Level.SEVERE, "Starting scheduler fail.");
+			m_logger.log(Level.SEVERE, e.getMessage());
 		}
 	}
 	
@@ -101,11 +101,12 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 			KubernetesDeserializer.registerCustomKind(version, kind, getCustomResourceClass(kind));
 			@SuppressWarnings("rawtypes")
 			MixedOperation executor = (MixedOperation) customResources(crds.get(VirtualMachineSnapshot.class.getSimpleName()),
-					VirtualMachineSnapshot.class, VirtualMachineSnapshotList.class, DoneableVirtualMachineSnapshot.class).inAnyNamespace();
+															VirtualMachineSnapshot.class, VirtualMachineSnapshotList.class, 
+															DoneableVirtualMachineSnapshot.class).inNamespace("default");
 			executors.put(kind, executor);
 			
 		} catch (Exception e) {
-			m_logger.log(Level.SEVERE, "Starting scheduler fail.");
+			m_logger.log(Level.SEVERE, e.getMessage());
 		}
 	}
 	
@@ -128,7 +129,7 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 			executors.put(kind, executor);
 			
 		} catch (Exception e) {
-			m_logger.log(Level.SEVERE, "Starting scheduler fail.");
+			m_logger.log(Level.SEVERE, e.getMessage());
 		}
 	}
 	
@@ -151,7 +152,7 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 			executors.put(kind, executor);
 			
 		} catch (Exception e) {
-			m_logger.log(Level.SEVERE, "Starting scheduler fail.");
+			m_logger.log(Level.SEVERE, e.getMessage());
 		}
 	}
 	
@@ -174,7 +175,7 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 			executors.put(kind, executor);
 			
 		} catch (Exception e) {
-			m_logger.log(Level.SEVERE, "Starting scheduler fail.");
+			m_logger.log(Level.SEVERE, e.getMessage());
 		}
 	}
 
