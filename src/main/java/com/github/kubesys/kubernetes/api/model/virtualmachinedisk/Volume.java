@@ -34,9 +34,6 @@ public class Volume {
 	protected Target target;
 
 	public Volume() {
-		this._type = "String";
-		this.name = "String";
-		this.key = "String";
 
 	}
 

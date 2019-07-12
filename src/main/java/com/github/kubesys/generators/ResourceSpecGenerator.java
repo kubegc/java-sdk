@@ -138,7 +138,8 @@ public class ResourceSpecGenerator extends AbstractGenerator {
 //		Map parseObject = JSON.parseObject(new FileInputStream(new File("conf/domain.json")), Map.class);
 //		Map parseObject = JSON.parseObject(new FileInputStream(new File("conf/lifecycle.json")), Map.class);
 //		Map parseObject = JSON.parseObject(new FileInputStream(new File("conf/volume.json")), Map.class);
-		Map parseObject = JSON.parseObject(new FileInputStream(new File("conf/snapshot.json")), Map.class);
+//		Map parseObject = JSON.parseObject(new FileInputStream(new File("conf/snapshot.json")), Map.class);
+		Map parseObject = JSON.parseObject(new FileInputStream(new File("conf/uitvol.json")), Map.class);
 		gen.setObjMap(parseObject);
 		System.out.println(gen.autoGen("VirtualMachine"));
 		
