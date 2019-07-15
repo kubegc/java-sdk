@@ -86,4 +86,3 @@ public class VirtualMachineDiskImpl {
 				excutor.withLabels(labels)).list();
 	}
 }
-

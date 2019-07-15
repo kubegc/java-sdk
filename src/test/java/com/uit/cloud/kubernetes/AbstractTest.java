@@ -3,34 +3,19 @@
  */
 package com.uit.cloud.kubernetes;
 
-import java.util.HashMap;
-import java.util.List;
-
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
-import com.github.kubesys.kubernetes.api.model.DoneableVirtualMachine;
 import com.github.kubesys.kubernetes.api.model.VirtualMachine;
-import com.github.kubesys.kubernetes.api.model.VirtualMachineList;
-import com.github.kubesys.kubernetes.api.model.VirtualMachineSpec;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle;
-import com.github.kubesys.kubernetes.impl.VirtualMachineImpl;
 
-import io.fabric8.kubernetes.api.model.ObjectMeta;
-import io.fabric8.kubernetes.api.model.Pod;
-import io.fabric8.kubernetes.api.model.apiextensions.CustomResourceDefinition;
 import io.fabric8.kubernetes.client.Config;
 import io.fabric8.kubernetes.client.ConfigBuilder;
-import io.fabric8.kubernetes.client.KubernetesClientException;
-import io.fabric8.kubernetes.client.Watcher;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
- * @since  2019/5/1
+ * @since  2019/7/15
  *
- * This code is used to manage CustomResource's lifecycle,
- * such as VirtualMachine
  */
-public class ExtendedKubernetesClientTest {
-	
+public class AbstractTest {
+
 	public static Config config = new ConfigBuilder()
 			.withApiVersion("v1")
 			.withCaCertData("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUN5RENDQWJDZ0F3SUJBZ0lCQURBTkJna3Foa2lHOXcwQkFRc0ZBREFWTVJNd0VRWURWUVFERXdwcmRXSmwKY201bGRHVnpNQjRYRFRFNU1EWXhOREEyTURZMU4xb1hEVEk1TURZeE1UQTJNRFkxTjFvd0ZURVRNQkVHQTFVRQpBeE1LYTNWaVpYSnVaWFJsY3pDQ0FTSXdEUVlKS29aSWh2Y05BUUVCQlFBRGdnRVBBRENDQVFvQ2dnRUJBTURrCjZRaGowOGU3MTdGQWhmejE4UVdCcHQ0azNjUmtFU0V4YVR5QmR4YklPanBJN3VIYkwwODBkZXg1UENjSE5FdTQKKzJnamZnZWwxWENpWTdqYUV4c3hKM3Q2bVoxWmpQNXQ5dmE0cHJtTmN0bk0xTnlPMkNJelI2L1hyVkZNYmFRawpHV2pma0JjZjlHY2pTRlcxaENJVG9TS1RGL1JGbE1CU0dhNkVEeXh3MVErbHNVK1N2eFIzUVdRSHRnTEZnSElOCnBDRjRibzk4aDh2QWJkYUFOdzR6OEpMcVIrUnZtdlNCd3V5aEhXSi9nT1NvSTh6eElEZlRpV3lVWldDczBpZWoKZDM4TGhIbllZd05pZk5XMVorVGpYWkZiT2h3Ync5YzQ3VHpVUkM2UHFydmNabWVHTlZiMmhiQjBNSjNvajZadwp2WXJsMjhhWkxxNHFvN1pOVFRzQ0F3RUFBYU1qTUNFd0RnWURWUjBQQVFIL0JBUURBZ0trTUE4R0ExVWRFd0VCCi93UUZNQU1CQWY4d0RRWUpLb1pJaHZjTkFRRUxCUUFEZ2dFQkFBV2VyWWY5MHdHaWFwQWRXSGtHQlVYYzAvYUUKSFJkV3pTWCtnWE5aNzZZRzFySW9DeGhxbW9YVkhmenhhcUVwWEc4TWdGcWJaK3VFT2FJbTNaSS92Wkt5RWpYZQo1NVVON1YyZDRLb2dQR3BqejNTbzFBRHZhS2lyQjJYM1pVZStGcis2RUZMMjhOWjFjUTZBUXBoRHJkdUgvMHdrCmhIb2VXWUZoTDRBNGhTSDBLZC9QVUZtdHM2azRlNTViNGpFTFBKclZJT1VmanIrVVFqcElCNnphWFJPK3NDYjAKcnRsYmczUjBJQ1hPMHlvdzlNZGh1aE54R3JPR3JuN1VQWTExSFgvY0s3b3Z5WkVDMTE1THFxNUZmcy9wcDZocgoyaFU2Rm12L3JsTDcwVndobGZtNEd2VzI0RklNRHd1eVRBQUxrVHNNSGQ5MFhTU2k2a3FNVUV2VVFndz0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
@@ -39,88 +24,11 @@ public class ExtendedKubernetesClientTest {
 			.withMasterUrl("https://133.133.135.22:6443")
 			.build();
 	
-	public static void main(String[] args) throws Exception {
-
-		ExtendedKubernetesClient client = new ExtendedKubernetesClient(config);
-
-//		getPods(client);
-		watchVM(client);
-//		DefaultKubernetesClient client = new DefaultKubernetesClient(config);
-//		KubernetesDeserializer.registerCustomKind("cloudplus.io/v1alpha3", "VirtualMachine", VirtualMachine.class);
-//		CustomResourceDefinition crd = client.customResourceDefinitions().withName("virtualmachines.cloudplus.io").get();
-//		
-//		System.out.println(crd);
-//
-//		client.customResource(crd, VirtualMachine.class, VirtualMachineList.class, DoneableVirtualMachine.class)
-//						.inAnyNamespace().watch(new Watcher<VirtualMachine>() {
-//
-//				public void eventReceived(Action action, VirtualMachine resource) {
-//					System.out.println("-" + resource);
-//				}
-//
-//				public void onClose(KubernetesClientException cause) {
-//					System.out.println(cause);
-//				}
-//				
-//			});
-	}
-
-	protected static void listVM(ExtendedKubernetesClient client, CustomResourceDefinition crd) {
-		List<VirtualMachine> vms = client.customResource(crd, VirtualMachine.class, 
-														VirtualMachineList.class, 
-														DoneableVirtualMachine.class)
-						.inAnyNamespace().list().getItems();
-		for (VirtualMachine vm : vms) {
-			System.out.println(vm);
-		}
-	}
-
-	protected static void watchVM(ExtendedKubernetesClient client) {
-		Watcher<VirtualMachine> watcher = new Watcher<VirtualMachine>() {
-
-			public void eventReceived(Action action, VirtualMachine resource) {
-				System.out.println(action + ":" + resource);
-			}
-
-			public void onClose(KubernetesClientException cause) {
-				System.out.println(cause);
-			}
-			
-		};
-		client.watchVirtualMachine(watcher );
-	}
-
-	protected static void getPods(ExtendedKubernetesClient client) {
-		for (Pod pod : client.pods().inAnyNamespace().list().getItems()) {
-			System.out.println(pod.getMetadata().getName());
-		}
+	public static ExtendedKubernetesClient getClient() throws Exception {
+		return new ExtendedKubernetesClient(config);
 	}
 	
-	public void createAndStart() throws Exception {
-		ExtendedKubernetesClient client = 
-				ExtendedKubernetesClient.defaultConfig("config");
-		VirtualMachineImpl vmi = client.virtualMachines();
-		VirtualMachine vm = new VirtualMachine();
-		vm.setApiVersion("cloudplus.io/v1alpha3");
-		vm.setKind("VirtualMachine");
-		ObjectMeta metadata = new ObjectMeta();
-		metadata.setName("VM");
-		vm.setMetadata(metadata );
-		vmi.create(vm );
-		VirtualMachineSpec spec = new VirtualMachineSpec();
-		Lifecycle lifecycle = new Lifecycle();
-		spec.setLifecycle(lifecycle );
-		vm.setSpec(spec );
-	}
-	
-	public void update() throws Exception {
-		ExtendedKubernetesClient client = 
-				ExtendedKubernetesClient.defaultConfig("config");
-		VirtualMachineImpl vmi = client.virtualMachines();
-		VirtualMachine vm = vmi.get("vm1");
-		VirtualMachineSpec spec = vm.getSpec();
-		Lifecycle lifecycle = new Lifecycle();
-		spec.setLifecycle(lifecycle );
-		vmi.update(vm);
+	public static VirtualMachine getVMByName(String name) throws Exception {
+		return getClient().virtualMachines().get(name);
 	}
 }

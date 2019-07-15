@@ -63,7 +63,7 @@ public class Lifecycle {
 
 	protected DeleteVM deleteVM;
 
-	protected CreateAndStartVM createAndStartVM;
+	protected CreateAndStartVMFromISO createAndStartVM;
 	
 	protected CreateAndStartVMFromISO createAndStartVMFromISO;
 	
@@ -291,11 +291,11 @@ public class Lifecycle {
 		return this.deleteVM;
 	}
 
-	public void setCreateAndStartVM(CreateAndStartVM createAndStartVM) {
+	public void setCreateAndStartVM(CreateAndStartVMFromISO createAndStartVM) {
 		this.createAndStartVM = createAndStartVM;
 	}
 
-	public CreateAndStartVM getCreateAndStartVM() {
+	public CreateAndStartVMFromISO getCreateAndStartVM() {
 		return this.createAndStartVM;
 	}
 
@@ -2146,7 +2146,7 @@ public class Lifecycle {
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class CreateAndStartVM {
+	public static class CreateAndStartVMFromISO {
 
 		protected String container;
 
@@ -2264,7 +2264,7 @@ public class Lifecycle {
 		
 		protected Boolean noautoconsole;
 
-		public CreateAndStartVM() {
+		public CreateAndStartVMFromISO() {
 
 		}
 
@@ -2805,7 +2805,7 @@ public class Lifecycle {
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class CreateAndStartVMFromISO {
+	public static class CreateAndStartVM {
 
 		protected String container;
 
@@ -2923,7 +2923,7 @@ public class Lifecycle {
 		
 		protected Boolean noautoconsole;
 
-		public CreateAndStartVMFromISO() {
+		public CreateAndStartVM() {
 
 		}
 
