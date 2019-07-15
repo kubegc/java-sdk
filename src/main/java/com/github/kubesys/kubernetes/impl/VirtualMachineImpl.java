@@ -167,13 +167,10 @@ public class VirtualMachineImpl {
 	}
 
 
-	public boolean createAndStartVMFromImage (String name, CreateAndStartVMFromImage  createAndStartVMFromImage ) throws Exception {
+	public boolean createAndStartVMFromImage (CreateAndStartVMFromImage  createAndStartVMFromImage ) throws Exception {
 		VirtualMachine vm = new VirtualMachine();
 		vm.setApiVersion("cloudplus.io/v1alpha3");
 		vm.setKind("VirtualMachine");
-		ObjectMeta om = new ObjectMeta();
-		om.setName(name);
-		vm.setMetadata(om);
 		VirtualMachineSpec spec = new VirtualMachineSpec();
 		Lifecycle lifecycle = new Lifecycle();
 		lifecycle.setCreateAndStartVMFromImage (createAndStartVMFromImage );
@@ -189,7 +186,7 @@ public class VirtualMachineImpl {
 		if(vm == null || vm.getSpec().getLifecycle() != null) {
 			throw new RuntimeException("VM is not exist or ");
 		}
-		VirtualMachineSpec spec = new VirtualMachineSpec();
+		VirtualMachineSpec spec = vm.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
 		lifecycle.setConvertVMToImage (convertVMToImage );
 		spec.setLifecycle(lifecycle );
@@ -218,7 +215,7 @@ public class VirtualMachineImpl {
 		if(vm == null || vm.getSpec().getLifecycle() != null) {
 			throw new RuntimeException("VM is not exist or ");
 		}
-		VirtualMachineSpec spec = new VirtualMachineSpec();
+		VirtualMachineSpec spec = vm.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
 		lifecycle.setStartVM (startVM );
 		spec.setLifecycle(lifecycle );
@@ -233,7 +230,7 @@ public class VirtualMachineImpl {
 		if(vm == null || vm.getSpec().getLifecycle() != null) {
 			throw new RuntimeException("VM is not exist or ");
 		}
-		VirtualMachineSpec spec = new VirtualMachineSpec();
+		VirtualMachineSpec spec = vm.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
 		lifecycle.setStopVM (stopVM );
 		spec.setLifecycle(lifecycle );
@@ -248,7 +245,7 @@ public class VirtualMachineImpl {
 		if(vm == null || vm.getSpec().getLifecycle() != null) {
 			throw new RuntimeException("VM is not exist or ");
 		}
-		VirtualMachineSpec spec = new VirtualMachineSpec();
+		VirtualMachineSpec spec = vm.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
 		lifecycle.setStopVMForce (stopVMForce );
 		spec.setLifecycle(lifecycle );
@@ -261,10 +258,9 @@ public class VirtualMachineImpl {
 	public boolean deleteVM (String name, DeleteVM  deleteVM ) throws Exception {
 		VirtualMachine vm = get(name);
 		if(vm == null || vm.getSpec().getLifecycle() != null) {
-			delete(vm );
-			return true;
+			delete(vm);
 		}
-		VirtualMachineSpec spec = new VirtualMachineSpec();
+		VirtualMachineSpec spec = vm.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
 		lifecycle.setDeleteVM (deleteVM );
 		spec.setLifecycle(lifecycle );
@@ -277,9 +273,9 @@ public class VirtualMachineImpl {
 	public boolean rebootVM (String name, RebootVM  rebootVM ) throws Exception {
 		VirtualMachine vm = get(name);
 		if(vm == null || vm.getSpec().getLifecycle() != null) {
-			throw new RuntimeException("VM is not exist or it is bee");
+			throw new RuntimeException("VM is not exist or ");
 		}
-		VirtualMachineSpec spec = new VirtualMachineSpec();
+		VirtualMachineSpec spec = vm.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
 		lifecycle.setRebootVM (rebootVM );
 		spec.setLifecycle(lifecycle );
@@ -294,7 +290,7 @@ public class VirtualMachineImpl {
 		if(vm == null || vm.getSpec().getLifecycle() != null) {
 			throw new RuntimeException("VM is not exist or ");
 		}
-		VirtualMachineSpec spec = new VirtualMachineSpec();
+		VirtualMachineSpec spec = vm.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
 		lifecycle.setResetVM (resetVM );
 		spec.setLifecycle(lifecycle );
@@ -309,7 +305,7 @@ public class VirtualMachineImpl {
 		if(vm == null || vm.getSpec().getLifecycle() != null) {
 			throw new RuntimeException("VM is not exist or ");
 		}
-		VirtualMachineSpec spec = new VirtualMachineSpec();
+		VirtualMachineSpec spec = vm.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
 		lifecycle.setResumeVM (resumeVM );
 		spec.setLifecycle(lifecycle );
@@ -324,7 +320,7 @@ public class VirtualMachineImpl {
 		if(vm == null || vm.getSpec().getLifecycle() != null) {
 			throw new RuntimeException("VM is not exist or ");
 		}
-		VirtualMachineSpec spec = new VirtualMachineSpec();
+		VirtualMachineSpec spec = vm.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
 		lifecycle.setSuspendVM (suspendVM );
 		spec.setLifecycle(lifecycle );
@@ -339,7 +335,7 @@ public class VirtualMachineImpl {
 		if(vm == null || vm.getSpec().getLifecycle() != null) {
 			throw new RuntimeException("VM is not exist or ");
 		}
-		VirtualMachineSpec spec = new VirtualMachineSpec();
+		VirtualMachineSpec spec = vm.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
 		lifecycle.setSaveVM (saveVM );
 		spec.setLifecycle(lifecycle );
@@ -354,7 +350,7 @@ public class VirtualMachineImpl {
 		if(vm == null || vm.getSpec().getLifecycle() != null) {
 			throw new RuntimeException("VM is not exist or ");
 		}
-		VirtualMachineSpec spec = new VirtualMachineSpec();
+		VirtualMachineSpec spec = vm.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
 		lifecycle.setRestoreVM (restoreVM );
 		spec.setLifecycle(lifecycle );
@@ -369,7 +365,7 @@ public class VirtualMachineImpl {
 		if(vm == null || vm.getSpec().getLifecycle() != null) {
 			throw new RuntimeException("VM is not exist or ");
 		}
-		VirtualMachineSpec spec = new VirtualMachineSpec();
+		VirtualMachineSpec spec = vm.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
 		lifecycle.setMigrateVM (migrateVM );
 		spec.setLifecycle(lifecycle );
@@ -384,7 +380,7 @@ public class VirtualMachineImpl {
 		if(vm == null || vm.getSpec().getLifecycle() != null) {
 			throw new RuntimeException("VM is not exist or ");
 		}
-		VirtualMachineSpec spec = new VirtualMachineSpec();
+		VirtualMachineSpec spec = vm.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
 		lifecycle.setPlugDevice (plugDevice );
 		spec.setLifecycle(lifecycle );
@@ -399,7 +395,7 @@ public class VirtualMachineImpl {
 		if(vm == null || vm.getSpec().getLifecycle() != null) {
 			throw new RuntimeException("VM is not exist or ");
 		}
-		VirtualMachineSpec spec = new VirtualMachineSpec();
+		VirtualMachineSpec spec = vm.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
 		lifecycle.setUnplugDevice (unplugDevice );
 		spec.setLifecycle(lifecycle );
@@ -414,7 +410,7 @@ public class VirtualMachineImpl {
 		if(vm == null || vm.getSpec().getLifecycle() != null) {
 			throw new RuntimeException("VM is not exist or ");
 		}
-		VirtualMachineSpec spec = new VirtualMachineSpec();
+		VirtualMachineSpec spec = vm.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
 		lifecycle.setPlugDisk (plugDisk );
 		spec.setLifecycle(lifecycle );
@@ -429,7 +425,7 @@ public class VirtualMachineImpl {
 		if(vm == null || vm.getSpec().getLifecycle() != null) {
 			throw new RuntimeException("VM is not exist or ");
 		}
-		VirtualMachineSpec spec = new VirtualMachineSpec();
+		VirtualMachineSpec spec = vm.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
 		lifecycle.setUnplugDisk (unplugDisk );
 		spec.setLifecycle(lifecycle );
@@ -444,7 +440,7 @@ public class VirtualMachineImpl {
 		if(vm == null || vm.getSpec().getLifecycle() != null) {
 			throw new RuntimeException("VM is not exist or ");
 		}
-		VirtualMachineSpec spec = new VirtualMachineSpec();
+		VirtualMachineSpec spec = vm.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
 		lifecycle.setPlugNIC (plugNIC );
 		spec.setLifecycle(lifecycle );
@@ -459,7 +455,7 @@ public class VirtualMachineImpl {
 		if(vm == null || vm.getSpec().getLifecycle() != null) {
 			throw new RuntimeException("VM is not exist or ");
 		}
-		VirtualMachineSpec spec = new VirtualMachineSpec();
+		VirtualMachineSpec spec = vm.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
 		lifecycle.setUnplugNIC (unplugNIC );
 		spec.setLifecycle(lifecycle );
@@ -474,7 +470,7 @@ public class VirtualMachineImpl {
 		if(vm == null || vm.getSpec().getLifecycle() != null) {
 			throw new RuntimeException("VM is not exist or ");
 		}
-		VirtualMachineSpec spec = new VirtualMachineSpec();
+		VirtualMachineSpec spec = vm.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
 		lifecycle.setChangeNumberOfCPU (changeNumberOfCPU );
 		spec.setLifecycle(lifecycle );
@@ -489,7 +485,7 @@ public class VirtualMachineImpl {
 		if(vm == null || vm.getSpec().getLifecycle() != null) {
 			throw new RuntimeException("VM is not exist or ");
 		}
-		VirtualMachineSpec spec = new VirtualMachineSpec();
+		VirtualMachineSpec spec = vm.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
 		lifecycle.setResizeRAM(resizeRAM);
 		spec.setLifecycle(lifecycle );
@@ -518,9 +514,9 @@ public class VirtualMachineImpl {
 				System.out.println("\tpublic boolean " + cmd + "(String name, " + getClassName(cmd) + " " + cmd +") throws Exception {");
 				System.out.println("\t\tVirtualMachine vm = get(name);");
 				System.out.println("\t\tif(vm == null || vm.getSpec().getLifecycle() != null) {");
-				System.out.println("\t\t\tthrow new RuntimeException(\"VM is not exist or \");");
+				System.out.println("\t\t\tdelete(vm);");
 				System.out.println("\t\t}");
-				System.out.println("\t\tVirtualMachineSpec spec = new VirtualMachineSpec();");
+				System.out.println("\t\tVirtualMachineSpec spec = vm.getSpec();");
 				System.out.println("\t\tLifecycle lifecycle = new Lifecycle();");
 				System.out.println("\t\tlifecycle.set" + getClassName(cmd) + "(" + cmd + ");");
 				System.out.println("\t\tspec.setLifecycle(lifecycle );");
@@ -533,7 +529,7 @@ public class VirtualMachineImpl {
 				System.out.println("\t\tif(vm == null || vm.getSpec().getLifecycle() != null) {");
 				System.out.println("\t\t\tthrow new RuntimeException(\"VM is not exist or \");");
 				System.out.println("\t\t}");
-				System.out.println("\t\tVirtualMachineSpec spec = new VirtualMachineSpec();");
+				System.out.println("\t\tVirtualMachineSpec spec = vm.getSpec();");
 				System.out.println("\t\tLifecycle lifecycle = new Lifecycle();");
 				System.out.println("\t\tlifecycle.set" + getClassName(cmd) + "(" + cmd + ");");
 				System.out.println("\t\tspec.setLifecycle(lifecycle );");

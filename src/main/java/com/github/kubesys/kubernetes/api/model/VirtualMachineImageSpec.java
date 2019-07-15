@@ -7,7 +7,7 @@ import java.util.Map;
 
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.github.kubesys.kubernetes.api.model.virtualmachineimage.Domain;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Domain;
 import com.github.kubesys.kubernetes.api.model.virtualmachineimage.Lifecycle;
 
 import io.fabric8.kubernetes.api.model.KubernetesResource;

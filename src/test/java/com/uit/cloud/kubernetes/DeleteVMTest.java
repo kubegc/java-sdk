@@ -20,7 +20,6 @@ import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StopVM;
  */
 public class DeleteVMTest {
 	
-	
 	public static void main(String[] args) throws Exception {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();

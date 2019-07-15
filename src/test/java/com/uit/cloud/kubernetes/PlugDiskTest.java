@@ -25,11 +25,11 @@ public class PlugDiskTest {
 	}
 	
 	public static PlugDisk getPlugDisk() {
-		PlugDisk plugNIC = new PlugDisk();
-		plugNIC.setType("bridge");
-		plugNIC.setSource("virbr0");
-		plugNIC.setLive(true);
-		plugNIC.setConfig(true);
-		return plugNIC;
+		PlugDisk plugDisk = new PlugDisk();
+		plugDisk.setSource("/var/lib/libvirt/images/disk1.qcow2");
+		plugDisk.setTarget("vdb");
+		plugDisk.setLive(true);
+		plugDisk.setConfig(true);
+		return plugDisk;
 	}
 }

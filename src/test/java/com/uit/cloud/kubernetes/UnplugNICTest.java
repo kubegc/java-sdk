@@ -28,7 +28,7 @@ public class UnplugNICTest {
 	public static UnplugNIC getUnplugNIC() {
 		UnplugNIC unplugNIC = new UnplugNIC();
 		unplugNIC.setType("bridge");
-		unplugNIC.setMac("*****");
+		unplugNIC.setMac("52:54:00:20:d0:90");
 		unplugNIC.setLive(true);
 		unplugNIC.setConfig(true);
 		return unplugNIC;
