@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
 import com.github.kubesys.kubernetes.api.model.VirtualMachine;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineList;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineSpec;
@@ -50,9 +51,9 @@ import io.fabric8.kubernetes.client.dsl.MixedOperation;
 public class VirtualMachineImpl {
 	
 	@SuppressWarnings("rawtypes")
-	protected final MixedOperation excutor;
+	protected final MixedOperation client = ExtendedKubernetesClient
+			.crdClients.get(VirtualMachine.class.getSimpleName());;
 	
-	protected String name;
 	
 	protected static List<String> cmds = new ArrayList<String>();
 	
@@ -82,12 +83,6 @@ public class VirtualMachineImpl {
 		cmds.add("resizeRAM");
 	}
 	
-	@SuppressWarnings("rawtypes")
-	public VirtualMachineImpl(MixedOperation excutor) {
-		super();
-		this.excutor = excutor;
-	}
-
 	/**
 	 * return true or an exception
 	 * 
@@ -97,13 +92,13 @@ public class VirtualMachineImpl {
 	 */
 	@SuppressWarnings("unchecked")
 	public boolean create(VirtualMachine vm) throws Exception {
-		excutor.create(vm);
+		client.create(vm);
 		return true;
 	}
 	
 	@SuppressWarnings("unchecked")
 	public boolean delete(VirtualMachine vm) throws Exception {
-		excutor.delete(vm);
+		client.delete(vm);
 		return true;
 	}
 	
@@ -114,7 +109,7 @@ public class VirtualMachineImpl {
 		if (vmn == null) {
 			throw new Exception("VM " + name + " does not exist.");
 		}
-		excutor.createOrReplace(vm);
+		client.createOrReplace(vm);
 		return true;
 	}
 	
@@ -127,14 +122,14 @@ public class VirtualMachineImpl {
 	@SuppressWarnings("unchecked")
 	public VirtualMachine get(String name) {
 		return ((Gettable<VirtualMachine>) 
-				excutor.withName(name)).get();
+				client.withName(name)).get();
 	}
 	
 	/**
 	 * @return list virtual machines
 	 */
 	public VirtualMachineList list() {
-		return (VirtualMachineList) excutor.list();
+		return (VirtualMachineList) client.list();
 	}
 	
 	/**
@@ -145,7 +140,7 @@ public class VirtualMachineImpl {
 	 */
 	public VirtualMachineList list(Map<String, String> labels) {
 		return (VirtualMachineList)((FilterWatchListDeletable) 
-				excutor.withLabels(labels)).list();
+				client.withLabels(labels)).list();
 	}
 	
 	//-----------------------------------------------------------------
@@ -498,8 +493,8 @@ public class VirtualMachineImpl {
 	//----------------------------------------------------------------
 	public static void main(String[] args) {
 		for (String cmd : cmds) {
+			System.out.println("\tpublic boolean " + cmd + "(String name, " + getClassName(cmd) + " " + cmd +") throws Exception {");
 			if (cmd.startsWith("create")) {
-				System.out.println("\tpublic boolean " + cmd + "(" + getClassName(cmd) + " " + cmd +") throws Exception {");
 				System.out.println("\t\tVirtualMachine vm = new VirtualMachine();");
 				System.out.println("\t\tvm.setApiVersion(\"cloudplus.io/v1alpha3\");");
 				System.out.println("\t\tvm.setKind(\"VirtualMachine\");");
@@ -511,7 +506,6 @@ public class VirtualMachineImpl {
 				System.out.println("\t\tcreate(vm );");
 				System.out.println("\t\treturn true;");
 			} else if (cmd.startsWith("delete")) {
-				System.out.println("\tpublic boolean " + cmd + "(String name, " + getClassName(cmd) + " " + cmd +") throws Exception {");
 				System.out.println("\t\tVirtualMachine vm = get(name);");
 				System.out.println("\t\tif(vm == null || vm.getSpec().getLifecycle() != null) {");
 				System.out.println("\t\t\tdelete(vm);");
@@ -524,7 +518,6 @@ public class VirtualMachineImpl {
 				System.out.println("\t\tdelete(vm );");
 				System.out.println("\t\treturn true;");
 			} else {
-				System.out.println("\tpublic boolean " + cmd + "(String name, " + getClassName(cmd) + " " + cmd +") throws Exception {");
 				System.out.println("\t\tVirtualMachine vm = get(name);");
 				System.out.println("\t\tif(vm == null || vm.getSpec().getLifecycle() != null) {");
 				System.out.println("\t\t\tthrow new RuntimeException(\"VM is not exist or \");");

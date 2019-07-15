@@ -142,8 +142,6 @@ public class Volume {
 		protected String text;
 
 		public Allocation() {
-			this._unit = "String";
-			this.text = "String";
 
 		}
 
@@ -233,8 +231,6 @@ public class Volume {
 			protected Secret secret;
 
 			public Auth() {
-				this._type = "String";
-				this._username = "String";
 
 			}
 
@@ -281,7 +277,6 @@ public class Volume {
 				protected String _usage;
 
 				public Secret() {
-					this._usage = "String";
 
 				}
 
@@ -306,8 +301,6 @@ public class Volume {
 			protected String _name;
 
 			public Host() {
-				this._name = "String";
-
 			}
 
 			/**
@@ -330,8 +323,6 @@ public class Volume {
 			protected String _path;
 
 			public Device() {
-				this._path = "String";
-
 			}
 
 			/**
@@ -357,9 +348,6 @@ public class Volume {
 		protected String text;
 
 		public Physical() {
-			this._unit = "String";
-			this.text = "String";
-
 		}
 
 		/**
@@ -396,9 +384,6 @@ public class Volume {
 		protected String text;
 
 		public Capacity() {
-			this._unit = "String";
-			this.text = "String";
-
 		}
 
 		/**
@@ -439,8 +424,6 @@ public class Volume {
 		protected Format format;
 
 		public Target() {
-			this.path = "String";
-
 		}
 
 		/**
@@ -502,10 +485,6 @@ public class Volume {
 			protected String group;
 
 			public Permissions() {
-				this.mode = "String";
-				this.owner = "String";
-				this.group = "String";
-
 			}
 
 			/**
@@ -556,10 +535,6 @@ public class Volume {
 			protected String mtime;
 
 			public Timestamps() {
-				this.atime = "String";
-				this.ctime = "String";
-				this.mtime = "String";
-
 			}
 
 			/**
@@ -606,8 +581,6 @@ public class Volume {
 			protected String _type;
 
 			public Format() {
-				this._type = "String";
-
 			}
 
 			/**

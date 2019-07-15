@@ -5,6 +5,7 @@ package com.github.kubesys.kubernetes.impl;
 
 import java.util.Map;
 
+import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineDisk;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineDiskList;
 
@@ -22,16 +23,9 @@ import io.fabric8.kubernetes.client.dsl.MixedOperation;
 public class VirtualMachineDiskImpl {
 	
 	@SuppressWarnings("rawtypes")
-	protected final MixedOperation excutor;
+	protected final MixedOperation client = ExtendedKubernetesClient
+				.crdClients.get(VirtualMachineDisk.class.getSimpleName());
 	
-	protected String name;
-	
-	@SuppressWarnings("rawtypes")
-	public VirtualMachineDiskImpl(MixedOperation excutor) {
-		super();
-		this.excutor = excutor;
-	}
-
 	/**
 	 * return true or an exception
 	 * 
@@ -41,7 +35,7 @@ public class VirtualMachineDiskImpl {
 	 */
 	@SuppressWarnings("unchecked")
 	public boolean create(VirtualMachineDisk disk) throws Exception {
-		excutor.create(disk);
+		client.create(disk);
 		return true;
 	}
 	
@@ -52,7 +46,7 @@ public class VirtualMachineDiskImpl {
 		if (vmd == null) {
 			throw new Exception("Disk " + name + " does not exist.");
 		}
-		excutor.createOrReplace(disk);
+		client.createOrReplace(disk);
 		return true;
 	}
 	
@@ -65,14 +59,14 @@ public class VirtualMachineDiskImpl {
 	@SuppressWarnings("unchecked")
 	public VirtualMachineDisk get(String name) {
 		return ((Gettable<VirtualMachineDisk>) 
-				excutor.withName(name)).get();
+				client.withName(name)).get();
 	}
 	
 	/**
 	 * @return list virtual machines
 	 */
 	public VirtualMachineDiskList list() {
-		return (VirtualMachineDiskList) excutor.list();
+		return (VirtualMachineDiskList) client.list();
 	}
 	
 	/**
@@ -83,6 +77,7 @@ public class VirtualMachineDiskImpl {
 	 */
 	public VirtualMachineDiskList list(Map<String, String> labels) {
 		return (VirtualMachineDiskList)((FilterWatchListDeletable) 
-				excutor.withLabels(labels)).list();
+				client.withLabels(labels)).list();
 	}
+
 }

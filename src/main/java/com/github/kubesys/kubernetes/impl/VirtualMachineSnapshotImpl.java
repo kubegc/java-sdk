@@ -5,6 +5,8 @@ package com.github.kubesys.kubernetes.impl;
 
 import java.util.Map;
 
+import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
+import com.github.kubesys.kubernetes.api.model.VirtualMachineImage;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineSnapshot;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineSnapshotList;
 
@@ -22,16 +24,11 @@ import io.fabric8.kubernetes.client.dsl.MixedOperation;
 public class VirtualMachineSnapshotImpl {
 	
 	@SuppressWarnings("rawtypes")
-	protected final MixedOperation excutor;
+	protected final MixedOperation excutor = ExtendedKubernetesClient
+			.crdClients.get(VirtualMachineSnapshot.class.getSimpleName());;
 	
 	protected String name;
 	
-	@SuppressWarnings("rawtypes")
-	public VirtualMachineSnapshotImpl(MixedOperation excutor) {
-		super();
-		this.excutor = excutor;
-	}
-
 	/**
 	 * return true or an exception
 	 * 

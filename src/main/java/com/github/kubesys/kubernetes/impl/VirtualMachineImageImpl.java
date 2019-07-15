@@ -5,6 +5,8 @@ package com.github.kubesys.kubernetes.impl;
 
 import java.util.Map;
 
+import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
+import com.github.kubesys.kubernetes.api.model.VirtualMachineDisk;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineImage;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineImageList;
 
@@ -22,16 +24,9 @@ import io.fabric8.kubernetes.client.dsl.MixedOperation;
 public class VirtualMachineImageImpl {
 	
 	@SuppressWarnings("rawtypes")
-	protected final MixedOperation excutor;
+	protected final MixedOperation client = ExtendedKubernetesClient
+			.crdClients.get(VirtualMachineImage.class.getSimpleName());
 	
-	protected String name;
-	
-	@SuppressWarnings("rawtypes")
-	public VirtualMachineImageImpl(MixedOperation excutor) {
-		super();
-		this.excutor = excutor;
-	}
-
 	/**
 	 * return true or an exception
 	 * 
@@ -41,7 +36,7 @@ public class VirtualMachineImageImpl {
 	 */
 	@SuppressWarnings("unchecked")
 	public boolean create(VirtualMachineImage image) throws Exception {
-		excutor.create(image);
+		client.create(image);
 		return true;
 	}
 	
@@ -52,7 +47,7 @@ public class VirtualMachineImageImpl {
 		if (vmi == null) {
 			throw new Exception("Image " + name + " does not exist.");
 		}
-		excutor.createOrReplace(image);
+		client.createOrReplace(image);
 		return true;
 	}
 	
@@ -65,14 +60,14 @@ public class VirtualMachineImageImpl {
 	@SuppressWarnings("unchecked")
 	public VirtualMachineImage get(String name) {
 		return ((Gettable<VirtualMachineImage>) 
-				excutor.withName(name)).get();
+				client.withName(name)).get();
 	}
 	
 	/**
 	 * @return list virtual machines
 	 */
 	public VirtualMachineImageList list() {
-		return (VirtualMachineImageList) excutor.list();
+		return (VirtualMachineImageList) client.list();
 	}
 	
 	/**
@@ -83,7 +78,7 @@ public class VirtualMachineImageImpl {
 	 */
 	public VirtualMachineImageList list(Map<String, String> labels) {
 		return (VirtualMachineImageList)((FilterWatchListDeletable) 
-				excutor.withLabels(labels)).list();
+				client.withLabels(labels)).list();
 	}
 }
 

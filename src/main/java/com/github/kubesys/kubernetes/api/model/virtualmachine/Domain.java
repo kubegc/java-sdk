@@ -10,8 +10,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 /**
  * @author wuheng@otcaix.iscas.ac.cn
  * @author xuyuanjia2017@otcaix.iscas.ac.cn
- * @author xianghao16@otcaix.iscas.ac.cn
- * @author yangchen18@otcaix.iscas.ac.cn
  * @since Thu Jun 22 21:36:39 CST 2019
  **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
