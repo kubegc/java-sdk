@@ -18,14 +18,14 @@ import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StopVM;
  * This code is used to manage CustomResource's lifecycle,
  * such as VirtualMachine
  */
-public class deleteVMTest {
+public class DeleteVMTest {
 	
 	
 	public static void main(String[] args) throws Exception {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.deleteVM("skywind", new DeleteVM());
+				.deleteVM("skywind5", new DeleteVM());
 		System.out.println(successful);
 	}
 	

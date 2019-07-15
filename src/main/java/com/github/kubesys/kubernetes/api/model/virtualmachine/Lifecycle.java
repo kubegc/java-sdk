@@ -688,11 +688,15 @@ public class Lifecycle {
 		protected Boolean live;
 
 		protected String mac;
+		
+		protected String target;
 
 		public UnplugNIC() {
 
 		}
 
+		
+		
 		public void setCurrent(Boolean current) {
 			this.current = current;
 		}
@@ -1377,9 +1381,19 @@ public class Lifecycle {
 		protected Boolean persistent;
 
 		protected Boolean config;
+		
+		protected Boolean live;
 
 		public PlugDisk() {
 
+		}
+
+		public Boolean getLive() {
+			return live;
+		}
+
+		public void setLive(Boolean live) {
+			this.live = live;
 		}
 
 		public void setIothread(String iothread) {

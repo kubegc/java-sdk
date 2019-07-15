@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
 /**
  * @author wuheng@otcaix.iscas.ac.cn
  * @author xuyuanjia2017@otcaix.iscas.ac.cn
@@ -26,7 +25,7 @@ public class Domain {
 	protected Vcpu vcpu;
 
 	protected ArrayList<Seclabel> seclabel;
-
+	
 	protected Description description;
 
 	protected Title title;
@@ -139,13 +138,7 @@ public class Domain {
 	 * Ignore the user setting, use 'lifecycle' to update VM's info
 	 *
 	 */
-	public void setSeclabel(ArrayList<Seclabel> seclabel) {
-		this.seclabel = seclabel;
-	}
-
-	public ArrayList<Seclabel> getSeclabel() {
-		return this.seclabel;
-	}
+	
 
 	/**
 	 * Ignore the user setting, use 'lifecycle' to update VM's info
@@ -153,6 +146,14 @@ public class Domain {
 	 */
 	public void setDescription(Description description) {
 		this.description = description;
+	}
+
+	public ArrayList<Seclabel> getSeclabel() {
+		return seclabel;
+	}
+
+	public void setSeclabel(ArrayList<Seclabel> seclabel) {
+		this.seclabel = seclabel;
 	}
 
 	public Description getDescription() {
@@ -5540,8 +5541,8 @@ public class Domain {
 
 		protected Initgroup initgroup;
 
-		protected ArrayList<Boot> boot;
-
+		protected ArrayList<Boot> Boot;
+		
 		protected Initdir initdir;
 
 		protected ArrayList<Initenv> initenv;
@@ -5734,13 +5735,6 @@ public class Domain {
 		 * Ignore the user setting, use 'lifecycle' to update VM's info
 		 *
 		 */
-		public void setBoot(ArrayList<Boot> boot) {
-			this.boot = boot;
-		}
-
-		public ArrayList<Boot> getBoot() {
-			return this.boot;
-		}
 
 		/**
 		 * Ignore the user setting, use 'lifecycle' to update VM's info
@@ -5748,6 +5742,14 @@ public class Domain {
 		 */
 		public void setInitdir(Initdir initdir) {
 			this.initdir = initdir;
+		}
+
+		public ArrayList<Boot> getBoot() {
+			return Boot;
+		}
+
+		public void setBoot(ArrayList<Boot> boot) {
+			Boot = boot;
 		}
 
 		public Initdir getInitdir() {
@@ -6301,15 +6303,15 @@ public class Domain {
 		protected ArrayList<Sound> sound;
 
 		protected ArrayList<Channel> channel;
-
+		
 		protected Memballoon memballoon;
 
 		protected ArrayList<Graphics> graphics;
-
+		
 		protected ArrayList<Video> video;
-
+		
 		protected ArrayList<_interface> _interface;
-
+		
 		protected Vsock vsock;
 
 		protected ArrayList<Hostdev> hostdev;
@@ -6321,15 +6323,15 @@ public class Domain {
 		protected ArrayList<Parallel> parallel;
 
 		protected ArrayList<Console> console;
-
+		
 		protected ArrayList<Controller> controller;
-
+		
 		protected ArrayList<Shmem> shmem;
 
 		protected ArrayList<Redirdev> redirdev;
 
 		protected ArrayList<Rng> rng;
-
+		
 		protected ArrayList<Smartcard> smartcard;
 
 		protected ArrayList<Filesystem> filesystem;
@@ -6349,9 +6351,9 @@ public class Domain {
 		protected ArrayList<Hub> hub;
 
 		protected ArrayList<Serial> serial;
-
+		
 		protected ArrayList<Lease> lease;
-
+		
 		public Devices() {
 
 		}
@@ -6380,6 +6382,14 @@ public class Domain {
 			return this.redirfilter;
 		}
 
+		public ArrayList<Controller> getController() {
+			return controller;
+		}
+
+		public void setController(ArrayList<Controller> controller) {
+			this.controller = controller;
+		}
+
 		/**
 		 * Ignore the user setting, use 'lifecycle' to update VM's info
 		 *
@@ -6396,13 +6406,7 @@ public class Domain {
 		 * Ignore the user setting, use 'lifecycle' to update VM's info
 		 *
 		 */
-		public void setChannel(ArrayList<Channel> channel) {
-			this.channel = channel;
-		}
-
-		public ArrayList<Channel> getChannel() {
-			return this.channel;
-		}
+		
 
 		/**
 		 * Ignore the user setting, use 'lifecycle' to update VM's info
@@ -6415,43 +6419,8 @@ public class Domain {
 		public Memballoon getMemballoon() {
 			return this.memballoon;
 		}
-
-		/**
-		 * Ignore the user setting, use 'lifecycle' to update VM's info
-		 *
-		 */
-		public void setGraphics(ArrayList<Graphics> graphics) {
-			this.graphics = graphics;
-		}
-
-		public ArrayList<Graphics> getGraphics() {
-			return this.graphics;
-		}
-
-		/**
-		 * Ignore the user setting, use 'lifecycle' to update VM's info
-		 *
-		 */
-		public void setVideo(ArrayList<Video> video) {
-			this.video = video;
-		}
-
-		public ArrayList<Video> getVideo() {
-			return this.video;
-		}
-
-		/**
-		 * Ignore the user setting, use 'lifecycle' to update VM's info
-		 *
-		 */
-		public void set_interface(ArrayList<_interface> _interface) {
-			this._interface = _interface;
-		}
-
-		public ArrayList<_interface> get_interface() {
-			return this._interface;
-		}
-
+		
+	
 		/**
 		 * Ignore the user setting, use 'lifecycle' to update VM's info
 		 *
@@ -6460,8 +6429,65 @@ public class Domain {
 			this.vsock = vsock;
 		}
 
+		public ArrayList<_interface> get_interface() {
+			return _interface;
+		}
+
+		public void set_interface(ArrayList<_interface> _interface) {
+			this._interface = _interface;
+		}
+
+
 		public Vsock getVsock() {
 			return this.vsock;
+		}
+
+		public ArrayList<Channel> getChannel() {
+			return channel;
+		}
+
+		public void setChannel(ArrayList<Channel> channel) {
+			this.channel = channel;
+		}
+
+		public ArrayList<Graphics> getGraphics() {
+			return graphics;
+		}
+
+		public void setGraphics(ArrayList<Graphics> graphics) {
+			this.graphics = graphics;
+		}
+
+		public ArrayList<Video> getVideo() {
+			return video;
+		}
+
+		public void setVideo(ArrayList<Video> video) {
+			this.video = video;
+		}
+
+		public ArrayList<Console> getConsole() {
+			return console;
+		}
+
+		public void setConsole(ArrayList<Console> console) {
+			this.console = console;
+		}
+
+		public ArrayList<Rng> getRng() {
+			return rng;
+		}
+
+		public void setRng(ArrayList<Rng> rng) {
+			this.rng = rng;
+		}
+
+		public ArrayList<Serial> getSerial() {
+			return serial;
+		}
+
+		public void setSerial(ArrayList<Serial> serial) {
+			this.serial = serial;
 		}
 
 		/**
@@ -6516,30 +6542,6 @@ public class Domain {
 		 * Ignore the user setting, use 'lifecycle' to update VM's info
 		 *
 		 */
-		public void setConsole(ArrayList<Console> console) {
-			this.console = console;
-		}
-
-		public ArrayList<Console> getConsole() {
-			return this.console;
-		}
-
-		/**
-		 * Ignore the user setting, use 'lifecycle' to update VM's info
-		 *
-		 */
-		public void setController(ArrayList<Controller> controller) {
-			this.controller = controller;
-		}
-
-		public ArrayList<Controller> getController() {
-			return this.controller;
-		}
-
-		/**
-		 * Ignore the user setting, use 'lifecycle' to update VM's info
-		 *
-		 */
 		public void setShmem(ArrayList<Shmem> shmem) {
 			this.shmem = shmem;
 		}
@@ -6564,13 +6566,6 @@ public class Domain {
 		 * Ignore the user setting, use 'lifecycle' to update VM's info
 		 *
 		 */
-		public void setRng(ArrayList<Rng> rng) {
-			this.rng = rng;
-		}
-
-		public ArrayList<Rng> getRng() {
-			return this.rng;
-		}
 
 		/**
 		 * Ignore the user setting, use 'lifecycle' to update VM's info
@@ -6684,13 +6679,6 @@ public class Domain {
 		 * Ignore the user setting, use 'lifecycle' to update VM's info
 		 *
 		 */
-		public void setSerial(ArrayList<Serial> serial) {
-			this.serial = serial;
-		}
-
-		public ArrayList<Serial> getSerial() {
-			return this.serial;
-		}
 
 		/**
 		 * Ignore the user setting, use 'lifecycle' to update VM's info
@@ -7471,6 +7459,8 @@ public class Domain {
 		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Channel {
 
+			protected String _type;
+			
 			protected Protocol protocol;
 
 			protected Address address;
@@ -7485,6 +7475,15 @@ public class Domain {
 
 			public Channel() {
 
+			}
+
+			
+			public String get_type() {
+				return _type;
+			}
+
+			public void set_type(String _type) {
+				this._type = _type;
 			}
 
 			/**
@@ -7586,9 +7585,59 @@ public class Domain {
 			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Address {
 
+				protected String _bus;
+				
+				protected String _controller;
+				
+				protected String _port;
+				
+				protected String _type;
+				
 				public Address() {
 
 				}
+
+				
+				public String get_controller() {
+					return _controller;
+				}
+
+				public void set_controller(String _controller) {
+					this._controller = _controller;
+				}
+
+				public String get_port() {
+					return _port;
+				}
+
+
+
+				public void set_port(String _port) {
+					this._port = _port;
+				}
+
+
+
+				public String get_type() {
+					return _type;
+				}
+
+
+
+				public void set_type(String _type) {
+					this._type = _type;
+				}
+
+
+
+				public String get_bus() {
+					return _bus;
+				}
+
+				public void set_bus(String _bus) {
+					this._bus = _bus;
+				}
+				
 			}
 
 			@JsonInclude(JsonInclude.Include.NON_NULL)
@@ -7655,18 +7704,70 @@ public class Domain {
 			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Source {
 
+				protected String _mode;
+				
+				protected String _path;
+				
 				public Source() {
-
+					
 				}
+
+				public String get_mode() {
+					return _mode;
+				}
+
+				public void set_mode(String _mode) {
+					this._mode = _mode;
+				}
+
+				public String get_path() {
+					return _path;
+				}
+
+				public void set_path(String _path) {
+					this._path = _path;
+				}
+				
 			}
 
 			@JsonInclude(JsonInclude.Include.NON_NULL)
 			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Target {
 
+				protected String _name;
+				
+				protected String _state;
+				
+				protected String _type;
+				
 				public Target() {
 
 				}
+
+				public String get_name() {
+					return _name;
+				}
+
+				public void set_name(String _name) {
+					this._name = _name;
+				}
+
+				public String get_state() {
+					return _state;
+				}
+
+				public void set_state(String _state) {
+					this._state = _state;
+				}
+
+				public String get_type() {
+					return _type;
+				}
+
+				public void set_type(String _type) {
+					this._type = _type;
+				}
+				
 			}
 		}
 
@@ -7766,9 +7867,61 @@ public class Domain {
 			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Address {
 
+				 protected String _bus;
+				 
+				 protected String _domain;
+				 
+				 protected String _function;
+				 
+				 protected String _slot;
+				 
+				 protected String _type;
+				
 				public Address() {
 
 				}
+
+				public String get_bus() {
+					return _bus;
+				}
+
+				public void set_bus(String _bus) {
+					this._bus = _bus;
+				}
+
+				public String get_domain() {
+					return _domain;
+				}
+
+				public void set_domain(String _domain) {
+					this._domain = _domain;
+				}
+
+				public String get_function() {
+					return _function;
+				}
+
+				public void set_function(String _function) {
+					this._function = _function;
+				}
+
+				public String get_slot() {
+					return _slot;
+				}
+
+				public void set_slot(String _slot) {
+					this._slot = _slot;
+				}
+
+				public String get_type() {
+					return _type;
+				}
+
+				public void set_type(String _type) {
+					this._type = _type;
+				}
+				
+				
 			}
 
 			@JsonInclude(JsonInclude.Include.NON_NULL)
@@ -7859,11 +8012,111 @@ public class Domain {
 		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Graphics {
 
+			protected String _autoport;
+			
+			protected String _listen;
+	        
+			protected String _port;
+			
+			protected String _type;
+			
+			protected Listen listen;
+			
 			public Graphics() {
 
 			}
+
+			
+			public Listen getListen() {
+				return listen;
+			}
+
+
+
+			public void setListen(Listen listen) {
+				this.listen = listen;
+			}
+
+
+
+			public String get_listen() {
+				return _listen;
+			}
+
+
+
+			public void set_listen(String _listen) {
+				this._listen = _listen;
+			}
+
+
+
+			public String get_port() {
+				return _port;
+			}
+
+
+
+			public void set_port(String _port) {
+				this._port = _port;
+			}
+
+
+
+			public String get_type() {
+				return _type;
+			}
+
+
+
+			public void set_type(String _type) {
+				this._type = _type;
+			}
+
+
+
+			public String get_autoport() {
+				return _autoport;
+			}
+
+			public void set_autoport(String _autoport) {
+				this._autoport = _autoport;
+			}
+			
+			
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+		public static class Listen {
+			
+			protected String _address;
+			
+			protected String _type;
+
+			public Listen() {
+				super();
+				// TODO Auto-generated constructor stub
+			}
+
+			public String get_address() {
+				return _address;
+			}
+
+			public void set_address(String _address) {
+				this._address = _address;
+			}
+
+			public String get_type() {
+				return _type;
+			}
+
+			public void set_type(String _type) {
+				this._type = _type;
+			}
+			
+		}
+		
 		@JsonInclude(JsonInclude.Include.NON_NULL)
 		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Video {
@@ -7932,9 +8185,60 @@ public class Domain {
 			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Address {
 
+				protected String _bus;
+				
+				protected String _domain;
+				
+				protected String _function;
+				
+				protected String _slot;
+				
+				protected String _type;
+				
 				public Address() {
 
 				}
+
+				public String get_bus() {
+					return _bus;
+				}
+
+				public void set_bus(String _bus) {
+					this._bus = _bus;
+				}
+
+				public String get_domain() {
+					return _domain;
+				}
+
+				public void set_domain(String _domain) {
+					this._domain = _domain;
+				}
+
+				public String get_function() {
+					return _function;
+				}
+
+				public void set_function(String _function) {
+					this._function = _function;
+				}
+
+				public String get_slot() {
+					return _slot;
+				}
+
+				public void set_slot(String _slot) {
+					this._slot = _slot;
+				}
+
+				public String get_type() {
+					return _type;
+				}
+
+				public void set_type(String _type) {
+					this._type = _type;
+				}
+				
 			}
 
 			@JsonInclude(JsonInclude.Include.NON_NULL)
@@ -8219,12 +8523,24 @@ public class Domain {
 			protected Model model;
 
 			protected Boot boot;
+			
+			protected String _type;
 
 			protected Virtualport virtualport;
 
 			public _interface() {
 
 			}
+
+			public String get_type() {
+				return _type;
+			}
+
+			public void set_type(String _type) {
+				this._type = _type;
+			}
+
+
 
 			/**
 			 * Ignore the user setting, use 'lifecycle' to update VM's info
@@ -8517,10 +8833,61 @@ public class Domain {
 			@JsonInclude(JsonInclude.Include.NON_NULL)
 			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Address {
-
+				
+				protected String _bus;
+				
+				protected String _domain;
+				
+				protected String _function;
+				
+				protected String _slot;
+				
+				protected String _type;
+				
 				public Address() {
 
 				}
+
+				public String get_bus() {
+					return _bus;
+				}
+
+				public void set_bus(String _bus) {
+					this._bus = _bus;
+				}
+
+				public String get_domain() {
+					return _domain;
+				}
+
+				public void set_domain(String _domain) {
+					this._domain = _domain;
+				}
+
+				public String get_function() {
+					return _function;
+				}
+
+				public void set_function(String _function) {
+					this._function = _function;
+				}
+
+				public String get_slot() {
+					return _slot;
+				}
+
+				public void set_slot(String _slot) {
+					this._slot = _slot;
+				}
+
+				public String get_type() {
+					return _type;
+				}
+
+				public void set_type(String _type) {
+					this._type = _type;
+				}
+				
 			}
 
 			@JsonInclude(JsonInclude.Include.NON_NULL)
@@ -8851,9 +9218,20 @@ public class Domain {
 			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Source {
 
+				protected String _bridge;
+				
 				public Source() {
 
 				}
+
+				public String get_bridge() {
+					return _bridge;
+				}
+
+				public void set_bridge(String _bridge) {
+					this._bridge = _bridge;
+				}
+				
 			}
 
 			@JsonInclude(JsonInclude.Include.NON_NULL)
@@ -10571,6 +10949,8 @@ public class Domain {
 			protected Log log;
 
 			protected String _tty;
+			
+			protected String _type;
 
 			protected Alias alias;
 
@@ -10581,6 +10961,18 @@ public class Domain {
 			public Console() {
 
 			}
+
+			public String get_type() {
+				return _type;
+			}
+
+
+
+			public void set_type(String _type) {
+				this._type = _type;
+			}
+
+
 
 			/**
 			 * Ignore the user setting, use 'lifecycle' to update VM's info
@@ -10762,9 +11154,20 @@ public class Domain {
 			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Source {
 
+				protected String _path;
+				
 				public Source() {
 
 				}
+
+				public String get_path() {
+					return _path;
+				}
+
+				public void set_path(String _path) {
+					this._path = _path;
+				}
+				
 			}
 
 			@JsonInclude(JsonInclude.Include.NON_NULL)
@@ -10809,6 +11212,8 @@ public class Domain {
 		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Controller {
 
+			protected Master master;
+			
 			protected Address address;
 
 			protected String _index;
@@ -10823,6 +11228,15 @@ public class Domain {
 
 			public Controller() {
 
+			}
+
+
+			public Master getMaster() {
+				return master;
+			}
+
+			public void setMaster(Master master) {
+				this.master = master;
 			}
 
 			/**
@@ -10899,11 +11313,98 @@ public class Domain {
 
 			@JsonInclude(JsonInclude.Include.NON_NULL)
 			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+			public static class Master {
+				
+				protected String _startport;
+
+				public Master() {
+					super();
+					// TODO Auto-generated constructor stub
+				}
+
+				public String get_startport() {
+					return _startport;
+				}
+
+				public void set_startport(String _startport) {
+					this._startport = _startport;
+				}
+				
+			}
+			
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Address {
 
+				protected String _bus;
+		        
+				protected String _domain;
+		            
+				protected String _function;
+		            
+				protected String _slot;
+		            
+				protected String _type;
+				
+				protected String _multifunction;
+				
 				public Address() {
 
 				}
+
+				
+				public String get_multifunction() {
+					return _multifunction;
+				}
+
+
+
+				public void set_multifunction(String _multifunction) {
+					this._multifunction = _multifunction;
+				}
+
+
+
+				public String get_bus() {
+					return _bus;
+				}
+
+				public void set_bus(String _bus) {
+					this._bus = _bus;
+				}
+
+				public String get_domain() {
+					return _domain;
+				}
+
+				public void set_domain(String _domain) {
+					this._domain = _domain;
+				}
+
+				public String get_function() {
+					return _function;
+				}
+
+				public void set_function(String _function) {
+					this._function = _function;
+				}
+
+				public String get_slot() {
+					return _slot;
+				}
+
+				public void set_slot(String _slot) {
+					this._slot = _slot;
+				}
+
+				public String get_type() {
+					return _type;
+				}
+
+				public void set_type(String _type) {
+					this._type = _type;
+				}
+				
 			}
 
 			@JsonInclude(JsonInclude.Include.NON_NULL)
@@ -11600,10 +12101,64 @@ public class Domain {
 			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Address {
 
+				protected String _bus;
+				
+		        protected String _domain;
+		        
+		        protected String _function;
+		        
+		        protected String _slot;
+		        
+		        protected String _type;
+				
 				public Address() {
 
 				}
+
+				public String get_bus() {
+					return _bus;
+				}
+
+				public void set_bus(String _bus) {
+					this._bus = _bus;
+				}
+
+				public String get_domain() {
+					return _domain;
+				}
+
+				public void set_domain(String _domain) {
+					this._domain = _domain;
+				}
+
+				public String get_function() {
+					return _function;
+				}
+
+				public void set_function(String _function) {
+					this._function = _function;
+				}
+
+				public String get_slot() {
+					return _slot;
+				}
+
+				public void set_slot(String _slot) {
+					this._slot = _slot;
+				}
+
+				public String get_type() {
+					return _type;
+				}
+
+				public void set_type(String _type) {
+					this._type = _type;
+				}
+				
+				
 			}
+			
+			
 
 			@JsonInclude(JsonInclude.Include.NON_NULL)
 			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
@@ -11706,9 +12261,30 @@ public class Domain {
 			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Backend {
 
+				protected String _model;
+				
+				protected String text;
+				
 				public Backend() {
 
 				}
+
+				public String get_model() {
+					return _model;
+				}
+
+				public void set_model(String _model) {
+					this._model = _model;
+				}
+
+				public String getText() {
+					return text;
+				}
+
+				public void setText(String text) {
+					this.text = text;
+				}
+				
 			}
 		}
 
@@ -12626,9 +13202,42 @@ public class Domain {
 			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Address {
 
+				protected String _bus;
+				
+				protected String _port;
+				
+				protected String _type;
+				
 				public Address() {
 
 				}
+
+				public String get_port() {
+					return _port;
+				}
+
+				public void set_port(String _port) {
+					this._port = _port;
+				}
+
+				public String get_type() {
+					return _type;
+				}
+
+				public void set_type(String _type) {
+					this._type = _type;
+				}
+
+
+
+				public String get_bus() {
+					return _bus;
+				}
+
+				public void set_bus(String _bus) {
+					this._bus = _bus;
+				}
+				
 			}
 
 			@JsonInclude(JsonInclude.Include.NON_NULL)
@@ -12719,6 +13328,8 @@ public class Domain {
 		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Disk {
 
+			protected String _type;
+			
 			protected Shareable shareable;
 
 			protected Mirror mirror;
@@ -12771,6 +13382,15 @@ public class Domain {
 
 			public Disk() {
 
+			}
+
+			
+			public String get_type() {
+				return _type;
+			}
+
+			public void set_type(String _type) {
+				this._type = _type;
 			}
 
 			/**
@@ -13511,10 +14131,36 @@ public class Domain {
 				protected Reservations reservations;
 
 				protected String _startupPolicy;
+				
+				protected String _file;
+				
+				protected String _controller;
 
 				public Source() {
 
 				}
+
+				public String get_controller() {
+					return _controller;
+				}
+
+				public void set_controller(String _controller) {
+					this._controller = _controller;
+				}
+
+
+
+				public String get_file() {
+					return _file;
+				}
+
+
+
+				public void set_file(String _file) {
+					this._file = _file;
+				}
+
+
 
 				/**
 				 * Ignore the user setting, use 'lifecycle' to update VM's info
@@ -14693,9 +15339,100 @@ public class Domain {
 			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Address {
 
+				protected String _bus;
+				
+				protected String _domain;
+				
+				protected String _function;
+				
+				protected String _slot;
+				
+				protected String _type;
+				
+				protected String _controller;
+				
+				protected String _target;
+				
+				protected String _unit;
+				
 				public Address() {
 
 				}
+
+				public String get_unit() {
+					return _unit;
+				}
+
+
+
+				public void set_unit(String _unit) {
+					this._unit = _unit;
+				}
+
+
+
+				public String get_target() {
+					return _target;
+				}
+
+
+				public void set_target(String _target) {
+					this._target = _target;
+				}
+
+
+				public String get_controller() {
+					return _controller;
+				}
+
+
+
+				public void set_controller(String _controller) {
+					this._controller = _controller;
+				}
+
+
+
+				public String get_bus() {
+					return _bus;
+				}
+
+				public void set_bus(String _bus) {
+					this._bus = _bus;
+				}
+
+				public String get_domain() {
+					return _domain;
+				}
+
+				public void set_domain(String _domain) {
+					this._domain = _domain;
+				}
+
+				public String get_function() {
+					return _function;
+				}
+
+				public void set_function(String _function) {
+					this._function = _function;
+				}
+
+				public String get_slot() {
+					return _slot;
+				}
+
+				public void set_slot(String _slot) {
+					this._slot = _slot;
+				}
+
+				public String get_type() {
+					return _type;
+				}
+
+				public void set_type(String _type) {
+					this._type = _type;
+				}
+				
 			}
 
 			@JsonInclude(JsonInclude.Include.NON_NULL)
@@ -14986,11 +15723,25 @@ public class Domain {
 			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Serial {
 
+				protected String _type;
+				
 				protected String text;
 
 				public Serial() {
 
 				}
+
+				public String get_type() {
+					return _type;
+				}
+
+
+
+				public void set_type(String _type) {
+					this._type = _type;
+				}
+
+
 
 				/**
 				 * Ignore the user setting, use 'lifecycle' to update VM's info
@@ -15534,6 +16285,8 @@ public class Domain {
 		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Serial {
 
+			protected String _type;
+			
 			protected Protocol protocol;
 
 			protected Address address;
@@ -15549,6 +16302,18 @@ public class Domain {
 			public Serial() {
 
 			}
+
+			public String get_type() {
+				return _type;
+			}
+
+
+
+			public void set_type(String _type) {
+				this._type = _type;
+			}
+
+
 
 			/**
 			 * Ignore the user setting, use 'lifecycle' to update VM's info
@@ -15718,9 +16483,20 @@ public class Domain {
 			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Source {
 
+				protected String _path;
+				
 				public Source() {
 
 				}
+
+				public String get_path() {
+					return _path;
+				}
+
+				public void set_path(String _path) {
+					this._path = _path;
+				}
+				
 			}
 
 			@JsonInclude(JsonInclude.Include.NON_NULL)

@@ -26,7 +26,7 @@ public class CreateAndStartFromISOTest {
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		CreateAndStartVMFromISO createAndStartVMFromISO = get();
 		boolean successful = client.virtualMachines()
-				.createAndStartVMFromISO("skywind", createAndStartVMFromISO);
+				.createAndStartVMFromISO("skywind5", createAndStartVMFromISO);
 		System.out.println(successful);
 	}
 	
@@ -36,7 +36,7 @@ public class CreateAndStartFromISOTest {
 		createAndStartVMFromISO.setVirt_type("kvm");  
 		createAndStartVMFromISO.setMemory("1024");    
 		createAndStartVMFromISO.setVcpus("1");  
-		createAndStartVMFromISO.setCdrom("/var/lib/uus/CentOS-7-x86_64-DVD-1511.iso"); 
+		createAndStartVMFromISO.setCdrom("/opt/ISO/CentOS-7-x86_64-Minimal-1511.iso"); 
 		createAndStartVMFromISO.setDisk("size=10,format=qcow2");      
 		createAndStartVMFromISO.setNetwork("bridge=virbr0");  
 		createAndStartVMFromISO.setGraphics("vnc,listen=0.0.0.0");   

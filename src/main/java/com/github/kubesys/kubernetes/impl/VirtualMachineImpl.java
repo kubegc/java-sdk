@@ -277,7 +277,7 @@ public class VirtualMachineImpl {
 	public boolean rebootVM (String name, RebootVM  rebootVM ) throws Exception {
 		VirtualMachine vm = get(name);
 		if(vm == null || vm.getSpec().getLifecycle() != null) {
-			throw new RuntimeException("VM is not exist or ");
+			throw new RuntimeException("VM is not exist or it is bee");
 		}
 		VirtualMachineSpec spec = new VirtualMachineSpec();
 		Lifecycle lifecycle = new Lifecycle();

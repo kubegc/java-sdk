@@ -4,10 +4,7 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
-import com.github.kubesys.kubernetes.api.model.VirtualMachine;
-import com.github.kubesys.kubernetes.api.model.VirtualMachineSpec;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StartVM;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.SuspendVM;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -16,14 +13,14 @@ import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StartVM;
  * This code is used to manage CustomResource's lifecycle,
  * such as VirtualMachine
  */
-public class startVMTest {
+public class SuspendVMTest {
 	
 	
 	public static void main(String[] args) throws Exception {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.startVM("skywind", new StartVM());
+				.suspendVM("skywind5", new SuspendVM());
 		System.out.println(successful);
 	}
 	
