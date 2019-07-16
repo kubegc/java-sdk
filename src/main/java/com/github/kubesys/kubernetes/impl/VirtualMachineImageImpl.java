@@ -3,10 +3,19 @@
  */
 package com.github.kubesys.kubernetes.impl;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
+import com.github.kubesys.kubernetes.api.model.VirtualMachine;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineImage;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineImageList;
+import com.github.kubesys.kubernetes.api.model.VirtualMachineImageSpec;
+import com.github.kubesys.kubernetes.api.model.virtualmachineimage.Lifecycle;
+import com.github.kubesys.kubernetes.api.model.virtualmachineimage.Lifecycle.ConvertImageToVM;
 
 import io.fabric8.kubernetes.client.dsl.FilterWatchListDeletable;
 import io.fabric8.kubernetes.client.dsl.Gettable;
@@ -21,38 +30,89 @@ import io.fabric8.kubernetes.client.dsl.MixedOperation;
  **/
 public class VirtualMachineImageImpl {
 	
-	@SuppressWarnings("rawtypes")
-	protected final MixedOperation excutor;
+	/**
+	 * m_logger
+	 */
+	protected final static Logger m_logger = Logger.getLogger(VirtualMachineImageImpl.class.getName());
 	
-	protected String name;
-	
+	/**
+	 * 
+	 */
 	@SuppressWarnings("rawtypes")
-	public VirtualMachineImageImpl(MixedOperation excutor) {
-		super();
-		this.excutor = excutor;
+	protected final MixedOperation client = ExtendedKubernetesClient
+			.crdClients.get(VirtualMachineImage.class.getSimpleName());
+	
+	/**
+	 * support commands
+	 */
+	public static List<String> cmds = new ArrayList<String>();
+	
+	static {
+		cmds.add("convertImageToVM ");
 	}
-
+	
+	/*************************************************
+	 * 
+	 *                   Core 
+	 * 
+	 **************************************************/
+	
 	/**
 	 * return true or an exception
 	 * 
-	 * @param image   VM's description
-	 * @return true or an exception
-	 * @throws Exception create VM fail
+	 * @param image              VM image description
+	 * @return                   true or an exception
+	 * @throws Exception         create VM image fail
 	 */
 	@SuppressWarnings("unchecked")
+	@Deprecated
 	public boolean create(VirtualMachineImage image) throws Exception {
-		excutor.create(image);
+		client.create(image);
+		m_logger.log(Level.INFO, "create VirtualMachineImage " 
+				+ image.getMetadata().getName() + " successful.") ;
 		return true;
 	}
 	
+	/**
+	 * @param image         VM image description
+	 * @return              true or an exception
+	 * @throws Exception    delete VM image fail
+	 */
 	@SuppressWarnings("unchecked")
+	@Deprecated
+	public boolean delete(VirtualMachineImage image) throws Exception {
+		client.delete(image);
+		m_logger.log(Level.INFO, "delete VirtualMachineImage " 
+				+ image.getMetadata().getName() + " successful.") ;
+		return true;
+	}
+	
+	/**
+	 * @param image         VM image description
+	 * @return              true or an exception
+	 * @throws Exception    delete VM image fail
+	 */
+	@SuppressWarnings("unchecked")
+	@Deprecated
 	public boolean update(VirtualMachineImage image) throws Exception {
-		String name = image.getMetadata().getName();
-		VirtualMachineImage vmi = get(name);
-		if (vmi == null) {
-			throw new Exception("Image " + name + " does not exist.");
-		}
-		excutor.createOrReplace(image);
+		client.createOrReplace(image);
+		m_logger.log(Level.INFO, "update VirtualMachineImage " 
+				+ image.getMetadata().getName() + " successful.") ;
+		return true;
+	}
+	
+	/**
+	 * @param operator      operator
+	 * @param image         VM image description
+	 * @return              true or an exception
+	 * @throws Exception    update VM image fail
+	 */
+	@SuppressWarnings("unchecked")
+	@Deprecated
+	protected boolean update(String operator, VirtualMachineImage image) throws Exception {
+		client.createOrReplace(image);
+		m_logger.log(Level.INFO, operator + " " + 
+				image.getMetadata().getName() + " successful.") ;
 		return true;
 	}
 	
@@ -65,25 +125,46 @@ public class VirtualMachineImageImpl {
 	@SuppressWarnings("unchecked")
 	public VirtualMachineImage get(String name) {
 		return ((Gettable<VirtualMachineImage>) 
-				excutor.withName(name)).get();
+				client.withName(name)).get();
 	}
 	
 	/**
-	 * @return list virtual machines
+	 * @return     virtual machine image list or null
 	 */
 	public VirtualMachineImageList list() {
-		return (VirtualMachineImageList) excutor.list();
+		return (VirtualMachineImageList) client.list();
 	}
 	
 	/**
-	 * list all VMs with the specified labels 
+	 * list all VM images with the specified labels 
 	 * 
-	 * @param filter see .metadata.labels
-	 * @return all VMs
+	 * @param filter     .metadata.labels
+	 * @return           all VM images or null 
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public VirtualMachineImageList list(Map<String, String> labels) {
 		return (VirtualMachineImageList)((FilterWatchListDeletable) 
-				excutor.withLabels(labels)).list();
+				client.withLabels(labels)).list();
+	}
+	
+	/*************************************************
+	 * 
+	 *                   Generated
+	 * 
+	 **************************************************/
+	
+	public boolean convertImageToVM (String name, ConvertImageToVM  convertImageToVM ) throws Exception {
+		VirtualMachineImage kind = get(name);
+		if(kind == null || kind.getSpec().getLifecycle() != null) {
+			throw new RuntimeException("VirtualMachineImage" + name + " is not exist or it is in a wrong status");
+		}
+		VirtualMachineImageSpec spec = kind.getSpec();
+		Lifecycle lifecycle = new Lifecycle();
+		lifecycle.setConvertImageToVM (convertImageToVM );
+		spec.setLifecycle(lifecycle );
+		kind.setSpec(spec );
+		update("convertImageToVM " , kind );
+		return true;
 	}
 }
 

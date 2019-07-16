@@ -8,9 +8,9 @@ import java.util.Map;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.github.kubesys.kubernetes.api.model.virtualmachinesnapshot.Domainsnapshot;
+import com.github.kubesys.kubernetes.api.model.virtualmachinesnapshot.Lifecycle;
 
 import io.fabric8.kubernetes.api.model.KubernetesResource;
-import io.fabric8.kubernetes.api.model.apiextensions.CustomResourceDefinitionSpec;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -21,7 +21,7 @@ import io.fabric8.kubernetes.api.model.apiextensions.CustomResourceDefinitionSpe
  **/
 @SuppressWarnings("rawtypes")
 @JsonDeserialize(using = JsonDeserializer.None.class)
-public class VirtualMachineSnapshotSpec extends CustomResourceDefinitionSpec implements KubernetesResource {
+public class VirtualMachineSnapshotSpec extends ExtendedCustomResourceDefinitionSpec implements KubernetesResource {
 
 	/**
 	 * 
@@ -30,38 +30,11 @@ public class VirtualMachineSnapshotSpec extends CustomResourceDefinitionSpec imp
 
 	protected Domainsnapshot domainsnapshot;
 
-//	protected String snapshotName;
-//	
-//	protected String vmName;
+	protected Lifecycle lifecycle;
 	
-	protected Map<String, String> description;
-
-	protected String image;
-
-	protected String nodeName;
-	
-	protected String status;
-
 	public VirtualMachineSnapshotSpec() {
 
 	}
-
-	public Map<String, String> getDescription() {
-		return description;
-	}
-
-	public void setDescription(Map<String, String> description) {
-		this.description = description;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
 
 	public Domainsnapshot getDomainsnapshot() {
 		return domainsnapshot;
@@ -71,20 +44,12 @@ public class VirtualMachineSnapshotSpec extends CustomResourceDefinitionSpec imp
 		this.domainsnapshot = domainsnapshot;
 	}
 
-	public String getImage() {
-		return image;
+	public Lifecycle getLifecycle() {
+		return lifecycle;
 	}
 
-	public void setImage(String image) {
-		this.image = image;
+	public void setLifecycle(Lifecycle lifecycle) {
+		this.lifecycle = lifecycle;
 	}
 
-	public String getNodeName() {
-		return nodeName;
-	}
-
-	public void setNodeName(String nodeName) {
-		this.nodeName = nodeName;
-	}
-	
 }

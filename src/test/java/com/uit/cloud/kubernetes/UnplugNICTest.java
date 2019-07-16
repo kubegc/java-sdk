@@ -4,13 +4,8 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
-import com.github.kubesys.kubernetes.api.model.VirtualMachine;
-import com.github.kubesys.kubernetes.api.model.VirtualMachineSpec;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CreateAndStartVMFromISO;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StopVM;
-
-import io.fabric8.kubernetes.api.model.ObjectMeta;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UnplugDisk;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UnplugNIC;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -19,15 +14,23 @@ import io.fabric8.kubernetes.api.model.ObjectMeta;
  * This code is used to manage CustomResource's lifecycle,
  * such as VirtualMachine
  */
-public class StopVMTest {
+public class UnplugNICTest {
 	
 	
 	public static void main(String[] args) throws Exception {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.stopVM("skywind5", new StopVM());
+				.unplugNIC("skywind5", getUnplugNIC());
 		System.out.println(successful);
 	}
 	
+	public static UnplugNIC getUnplugNIC() {
+		UnplugNIC unplugNIC = new UnplugNIC();
+		unplugNIC.setType("bridge");
+		unplugNIC.setMac("52:54:00:20:d0:90");
+		unplugNIC.setLive(true);
+		unplugNIC.setConfig(true);
+		return unplugNIC;
+	}
 }

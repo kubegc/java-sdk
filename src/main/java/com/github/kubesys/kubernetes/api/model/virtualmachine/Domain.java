@@ -7,12 +7,9 @@ import java.util.ArrayList;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
 /**
  * @author wuheng@otcaix.iscas.ac.cn
  * @author xuyuanjia2017@otcaix.iscas.ac.cn
- * @author xianghao16@otcaix.iscas.ac.cn
- * @author yangchen18@otcaix.iscas.ac.cn
  * @since Thu Jun 22 21:36:39 CST 2019
  **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -25,10 +22,8 @@ public class Domain {
 
 	protected Vcpu vcpu;
 
-//	protected ArrayList<Seclabel> seclabel;
+	protected ArrayList<Seclabel> seclabel;
 	
-	protected Seclabel seclabel;
-
 	protected Description description;
 
 	protected Title title;
@@ -151,11 +146,11 @@ public class Domain {
 		this.description = description;
 	}
 
-	public Seclabel getSeclabel() {
+	public ArrayList<Seclabel> getSeclabel() {
 		return seclabel;
 	}
 
-	public void setSeclabel(Seclabel seclabel) {
+	public void setSeclabel(ArrayList<Seclabel> seclabel) {
 		this.seclabel = seclabel;
 	}
 
@@ -5544,10 +5539,8 @@ public class Domain {
 
 		protected Initgroup initgroup;
 
-//		protected ArrayList<Boot> boot;
+		protected ArrayList<Boot> Boot;
 		
-		protected Boot boot;
-
 		protected Initdir initdir;
 
 		protected ArrayList<Initenv> initenv;
@@ -5749,12 +5742,12 @@ public class Domain {
 			this.initdir = initdir;
 		}
 
-		public Boot getBoot() {
-			return boot;
+		public ArrayList<Boot> getBoot() {
+			return Boot;
 		}
 
-		public void setBoot(Boot boot) {
-			this.boot = boot;
+		public void setBoot(ArrayList<Boot> boot) {
+			Boot = boot;
 		}
 
 		public Initdir getInitdir() {
@@ -6307,24 +6300,16 @@ public class Domain {
 
 		protected ArrayList<Sound> sound;
 
-//		protected ArrayList<Channel> channel;
+		protected ArrayList<Channel> channel;
 		
-		protected Channel channel;
-
 		protected Memballoon memballoon;
 
-//		protected ArrayList<Graphics> graphics;
+		protected ArrayList<Graphics> graphics;
 		
-		protected Graphics graphics;
-
-//		protected ArrayList<Video> video;
+		protected ArrayList<Video> video;
 		
-		protected Video video;
-
-//		protected ArrayList<_interface> _interface;
+		protected ArrayList<_interface> _interface;
 		
-		protected _interface _interface;
-
 		protected Vsock vsock;
 
 		protected ArrayList<Hostdev> hostdev;
@@ -6335,22 +6320,16 @@ public class Domain {
 
 		protected ArrayList<Parallel> parallel;
 
-//		protected ArrayList<Console> console;
+		protected ArrayList<Console> console;
 		
-		protected Console console;
-
 		protected ArrayList<Controller> controller;
 		
-//		protected Controller controller;
-
 		protected ArrayList<Shmem> shmem;
 
 		protected ArrayList<Redirdev> redirdev;
 
-//		protected ArrayList<Rng> rng;
+		protected ArrayList<Rng> rng;
 		
-		protected Rng rng;
-
 		protected ArrayList<Smartcard> smartcard;
 
 		protected ArrayList<Filesystem> filesystem;
@@ -6369,10 +6348,8 @@ public class Domain {
 
 		protected ArrayList<Hub> hub;
 
-//		protected ArrayList<Serial> serial;
+		protected ArrayList<Serial> serial;
 		
-		protected Serial serial;
-
 		protected ArrayList<Lease> lease;
 		
 		public Devices() {
@@ -6437,61 +6414,11 @@ public class Domain {
 			this.memballoon = memballoon;
 		}
 
-		public Channel getChannel() {
-			return channel;
-		}
-
-		public void setChannel(Channel channel) {
-			this.channel = channel;
-		}
-
 		public Memballoon getMemballoon() {
 			return this.memballoon;
 		}
-
-		/**
-		 * Ignore the user setting, use 'lifecycle' to update VM's info
-		 *
-		 */
-
-
-		public Graphics getGraphics() {
-			return graphics;
-		}
-
-		public Video getVideo() {
-			return video;
-		}
-
-		public void setVideo(Video video) {
-			this.video = video;
-		}
-
-		public void setGraphics(Graphics graphics) {
-			this.graphics = graphics;
-		}
-
-
-		/**
-		 * Ignore the user setting, use 'lifecycle' to update VM's info
-		 *
-		 */
-//		public void set_interface(ArrayList<_interface> _interface) {
-//			this._interface = _interface;
-//		}
-//
-//		public ArrayList<_interface> get_interface() {
-//			return this._interface;
-//		}
 		
-		public _interface get_interface() {
-			return _interface;
-		}
-
-		public void set_interface(_interface _interface) {
-			this._interface = _interface;
-		}
-
+	
 		/**
 		 * Ignore the user setting, use 'lifecycle' to update VM's info
 		 *
@@ -6500,8 +6427,65 @@ public class Domain {
 			this.vsock = vsock;
 		}
 
+		public ArrayList<_interface> get_interface() {
+			return _interface;
+		}
+
+		public void set_interface(ArrayList<_interface> _interface) {
+			this._interface = _interface;
+		}
+
+
 		public Vsock getVsock() {
 			return this.vsock;
+		}
+
+		public ArrayList<Channel> getChannel() {
+			return channel;
+		}
+
+		public void setChannel(ArrayList<Channel> channel) {
+			this.channel = channel;
+		}
+
+		public ArrayList<Graphics> getGraphics() {
+			return graphics;
+		}
+
+		public void setGraphics(ArrayList<Graphics> graphics) {
+			this.graphics = graphics;
+		}
+
+		public ArrayList<Video> getVideo() {
+			return video;
+		}
+
+		public void setVideo(ArrayList<Video> video) {
+			this.video = video;
+		}
+
+		public ArrayList<Console> getConsole() {
+			return console;
+		}
+
+		public void setConsole(ArrayList<Console> console) {
+			this.console = console;
+		}
+
+		public ArrayList<Rng> getRng() {
+			return rng;
+		}
+
+		public void setRng(ArrayList<Rng> rng) {
+			this.rng = rng;
+		}
+
+		public ArrayList<Serial> getSerial() {
+			return serial;
+		}
+
+		public void setSerial(ArrayList<Serial> serial) {
+			this.serial = serial;
 		}
 
 		/**
@@ -6551,27 +6535,6 @@ public class Domain {
 		public ArrayList<Parallel> getParallel() {
 			return this.parallel;
 		}
-
-		/**
-		 * Ignore the user setting, use 'lifecycle' to update VM's info
-		 *
-		 */
-
-		/**
-		 * Ignore the user setting, use 'lifecycle' to update VM's info
-		 *
-		 */
-		
-
-		public Console getConsole() {
-			return console;
-		}
-
-		public void setConsole(Console console) {
-			this.console = console;
-		}
-
-
 
 		/**
 		 * Ignore the user setting, use 'lifecycle' to update VM's info
@@ -6721,22 +6684,6 @@ public class Domain {
 		 */
 		public void setLease(ArrayList<Lease> lease) {
 			this.lease = lease;
-		}
-
-		public Rng getRng() {
-			return rng;
-		}
-
-		public void setRng(Rng rng) {
-			this.rng = rng;
-		}
-
-		public Serial getSerial() {
-			return serial;
-		}
-
-		public void setSerial(Serial serial) {
-			this.serial = serial;
 		}
 
 		public ArrayList<Lease> getLease() {

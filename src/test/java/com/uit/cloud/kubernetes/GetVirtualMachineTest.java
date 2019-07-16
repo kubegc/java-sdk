@@ -13,7 +13,7 @@ package com.uit.cloud.kubernetes;
 public class GetVirtualMachineTest {
 	
 	public static void main(String[] args) throws Exception {
-		System.out.println(AbstractTest.getVMByName("ddd"));
+		System.out.println(AbstractTest.getVMByName("skywind5"));
 	}
 	
 }

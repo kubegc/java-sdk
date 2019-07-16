@@ -6,7 +6,10 @@ package com.github.kubesys.kubernetes.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
 import com.github.kubesys.kubernetes.api.model.VirtualMachine;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineList;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineSpec;
@@ -15,7 +18,6 @@ import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ChangeNu
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ConvertVMToImage;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CreateAndStartVMFromISO;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CreateAndStartVMFromImage;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CreateVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.DeleteVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.MigrateVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.PlugDevice;
@@ -49,18 +51,29 @@ import io.fabric8.kubernetes.client.dsl.MixedOperation;
  **/
 public class VirtualMachineImpl {
 	
+	
+	/**
+	 * m_logger
+	 */
+	protected final static Logger m_logger = Logger.getLogger(VirtualMachineImpl.class.getName());
+	
+	/**
+	 * client
+	 */
 	@SuppressWarnings("rawtypes")
-	protected final MixedOperation excutor;
+	protected final MixedOperation client = ExtendedKubernetesClient
+			.crdClients.get(VirtualMachine.class.getSimpleName());;
 	
-	protected String name;
 	
-	protected static List<String> cmds = new ArrayList<String>();
+	/**
+	 * support commands
+	 */
+	public static List<String> cmds = new ArrayList<String>();
 	
 	static {
 		cmds.add("createAndStartVMFromISO ");
 		cmds.add("createAndStartVMFromImage ");
 		cmds.add("convertVMToImage ");
-		cmds.add("createVM ");
 		cmds.add("startVM ");
 		cmds.add("stopVM ");
 		cmds.add("stopVMForce ");
@@ -82,471 +95,443 @@ public class VirtualMachineImpl {
 		cmds.add("resizeRAM");
 	}
 	
-	@SuppressWarnings("rawtypes")
-	public VirtualMachineImpl(MixedOperation excutor) {
-		super();
-		this.excutor = excutor;
-	}
-
+	/*************************************************
+	 * 
+	 *                   Core 
+	 * 
+	 **************************************************/
+	
 	/**
 	 * return true or an exception
 	 * 
-	 * @param vm   VM's description
-	 * @return true or an exception
-	 * @throws Exception create VM fail
+	 * @param vm           VM's description
+	 * @return             true or an exception
+	 * @throws Exception   create VM fail
 	 */
 	@SuppressWarnings("unchecked")
+	@Deprecated
 	public boolean create(VirtualMachine vm) throws Exception {
-		excutor.create(vm);
+		client.create(vm);
+		m_logger.log(Level.INFO, "create VirtualMachine " 
+				+ vm.getMetadata().getName() + " successful.") ;
 		return true;
 	}
 	
+	/**
+	 * @param vm            VM's description
+	 * @return              true or an exception
+	 * @throws Exception    delete VM fail
+	 */
 	@SuppressWarnings("unchecked")
+	@Deprecated
 	public boolean delete(VirtualMachine vm) throws Exception {
-		excutor.delete(vm);
+		client.delete(vm);
+		m_logger.log(Level.INFO, "delete VirtualMachine " 
+				+ vm.getMetadata().getName() + " successful.") ;
 		return true;
 	}
 	
+	/**
+	 * @param vm            VM's description
+	 * @return              true or an exception
+	 * @throws Exception    update VM fail
+	 */
 	@SuppressWarnings("unchecked")
+	@Deprecated
 	public boolean update(VirtualMachine vm) throws Exception {
-		String name = vm.getMetadata().getName();
-		VirtualMachine vmn = get(name);
-		if (vmn == null) {
-			throw new Exception("VM " + name + " does not exist.");
-		}
-		excutor.createOrReplace(vm);
+		client.createOrReplace(vm);
+		m_logger.log(Level.INFO, "update VirtualMachine " 
+				+ vm.getMetadata().getName() + " successful.") ;
+		return true;
+	}
+	
+	/**
+	 * @param operator      operator
+	 * @param vm            VM's description
+	 * @return              true or an exception
+	 * @throws Exception    update VM fail
+	 */
+	@SuppressWarnings("unchecked")
+	@Deprecated
+	protected boolean update(String operator, VirtualMachine vm) throws Exception {
+		client.createOrReplace(vm);
+		m_logger.log(Level.INFO, operator + " " + 
+				vm.getMetadata().getName() + " successful.") ;
 		return true;
 	}
 	
 	/**
 	 * return an object or null
 	 * 
-	 * @param name it is .metadata.name
-	 * @return object or null
+	 * @param name     .metadata.name
+	 * @return         object or null
 	 */
 	@SuppressWarnings("unchecked")
 	public VirtualMachine get(String name) {
 		return ((Gettable<VirtualMachine>) 
-				excutor.withName(name)).get();
+				client.withName(name)).get();
 	}
 	
 	/**
-	 * @return list virtual machines
+	 * @return list all virtual machines or null
 	 */
 	public VirtualMachineList list() {
-		return (VirtualMachineList) excutor.list();
+		return (VirtualMachineList) client.list();
 	}
 	
 	/**
 	 * list all VMs with the specified labels 
 	 * 
-	 * @param filter see .metadata.labels
-	 * @return all VMs
+	 * @param filter    .metadata.labels
+	 * @return          all VMs or null
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public VirtualMachineList list(Map<String, String> labels) {
 		return (VirtualMachineList)((FilterWatchListDeletable) 
-				excutor.withLabels(labels)).list();
+				client.withLabels(labels)).list();
 	}
 	
+	
+	/*************************************************
+	 * 
+	 *                   Generated
+	 * 
+	 **************************************************/
 	//-----------------------------------------------------------------
 	
 	public boolean createAndStartVMFromISO (String name, CreateAndStartVMFromISO  createAndStartVMFromISO ) throws Exception {
-		VirtualMachine vm = new VirtualMachine();
-		vm.setApiVersion("cloudplus.io/v1alpha3");
-		vm.setKind("VirtualMachine");
+		VirtualMachine kind = new VirtualMachine();
+		kind.setApiVersion("cloudplus.io/v1alpha3");
+		kind.setKind("VirtualMachine");
+		VirtualMachineSpec spec = new VirtualMachineSpec();
 		ObjectMeta om = new ObjectMeta();
 		om.setName(name);
-		vm.setMetadata(om);
-		VirtualMachineSpec spec = new VirtualMachineSpec();
+		kind.setMetadata(om);
 		Lifecycle lifecycle = new Lifecycle();
 		lifecycle.setCreateAndStartVMFromISO (createAndStartVMFromISO );
 		spec.setLifecycle(lifecycle );
-		vm.setSpec(spec );
-		create(vm );
+		kind.setSpec(spec );
+		create(kind );
 		return true;
 	}
 
 
 	public boolean createAndStartVMFromImage (String name, CreateAndStartVMFromImage  createAndStartVMFromImage ) throws Exception {
-		VirtualMachine vm = new VirtualMachine();
-		vm.setApiVersion("cloudplus.io/v1alpha3");
-		vm.setKind("VirtualMachine");
+		VirtualMachine kind = new VirtualMachine();
+		kind.setApiVersion("cloudplus.io/v1alpha3");
+		kind.setKind("VirtualMachine");
+		VirtualMachineSpec spec = new VirtualMachineSpec();
 		ObjectMeta om = new ObjectMeta();
 		om.setName(name);
-		vm.setMetadata(om);
-		VirtualMachineSpec spec = new VirtualMachineSpec();
+		kind.setMetadata(om);
 		Lifecycle lifecycle = new Lifecycle();
 		lifecycle.setCreateAndStartVMFromImage (createAndStartVMFromImage );
 		spec.setLifecycle(lifecycle );
-		vm.setSpec(spec );
-		create(vm );
+		kind.setSpec(spec );
+		create(kind );
 		return true;
 	}
 
 
 	public boolean convertVMToImage (String name, ConvertVMToImage  convertVMToImage ) throws Exception {
-		VirtualMachine vm = get(name);
-		if(vm == null || vm.getSpec().getLifecycle() != null) {
-			throw new RuntimeException("VM is not exist or ");
+		VirtualMachine kind = get(name);
+		if(kind == null || kind.getSpec().getLifecycle() != null) {
+			throw new RuntimeException("VirtualMachine" + name + " is not exist or it is in a wrong status");
 		}
-		VirtualMachineSpec spec = new VirtualMachineSpec();
+		VirtualMachineSpec spec = kind.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
 		lifecycle.setConvertVMToImage (convertVMToImage );
 		spec.setLifecycle(lifecycle );
-		vm.setSpec(spec );
-		update(vm );
-		return true;
-	}
-
-
-	public boolean createVM (CreateVM  createVM ) throws Exception {
-		VirtualMachine vm = new VirtualMachine();
-		vm.setApiVersion("cloudplus.io/v1alpha3");
-		vm.setKind("VirtualMachine");
-		VirtualMachineSpec spec = new VirtualMachineSpec();
-		Lifecycle lifecycle = new Lifecycle();
-		lifecycle.setCreateVM (createVM );
-		spec.setLifecycle(lifecycle );
-		vm.setSpec(spec );
-		create(vm );
+		kind.setSpec(spec );
+		update("convertVMToImage " , kind );
 		return true;
 	}
 
 
 	public boolean startVM (String name, StartVM  startVM ) throws Exception {
-		VirtualMachine vm = get(name);
-		if(vm == null || vm.getSpec().getLifecycle() != null) {
-			throw new RuntimeException("VM is not exist or ");
+		VirtualMachine kind = get(name);
+		if(kind == null || kind.getSpec().getLifecycle() != null) {
+			throw new RuntimeException("VirtualMachine" + name + " is not exist or it is in a wrong status");
 		}
-		VirtualMachineSpec spec = new VirtualMachineSpec();
+		VirtualMachineSpec spec = kind.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
 		lifecycle.setStartVM (startVM );
 		spec.setLifecycle(lifecycle );
-		vm.setSpec(spec );
-		update(vm );
+		kind.setSpec(spec );
+		update("startVM " , kind );
 		return true;
 	}
 
 
 	public boolean stopVM (String name, StopVM  stopVM ) throws Exception {
-		VirtualMachine vm = get(name);
-		if(vm == null || vm.getSpec().getLifecycle() != null) {
-			throw new RuntimeException("VM is not exist or ");
+		VirtualMachine kind = get(name);
+		if(kind == null || kind.getSpec().getLifecycle() != null) {
+			throw new RuntimeException("VirtualMachine" + name + " is not exist or it is in a wrong status");
 		}
-		VirtualMachineSpec spec = new VirtualMachineSpec();
+		VirtualMachineSpec spec = kind.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
 		lifecycle.setStopVM (stopVM );
 		spec.setLifecycle(lifecycle );
-		vm.setSpec(spec );
-		update(vm );
+		kind.setSpec(spec );
+		update("stopVM " , kind );
 		return true;
 	}
 
 
 	public boolean stopVMForce (String name, StopVMForce  stopVMForce ) throws Exception {
-		VirtualMachine vm = get(name);
-		if(vm == null || vm.getSpec().getLifecycle() != null) {
-			throw new RuntimeException("VM is not exist or ");
+		VirtualMachine kind = get(name);
+		if(kind == null || kind.getSpec().getLifecycle() != null) {
+			throw new RuntimeException("VirtualMachine" + name + " is not exist or it is in a wrong status");
 		}
-		VirtualMachineSpec spec = new VirtualMachineSpec();
+		VirtualMachineSpec spec = kind.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
 		lifecycle.setStopVMForce (stopVMForce );
 		spec.setLifecycle(lifecycle );
-		vm.setSpec(spec );
-		update(vm );
+		kind.setSpec(spec );
+		update("stopVMForce " , kind );
 		return true;
 	}
 
 
 	public boolean deleteVM (String name, DeleteVM  deleteVM ) throws Exception {
-		VirtualMachine vm = get(name);
-		if(vm == null || vm.getSpec().getLifecycle() != null) {
-			delete(vm );
-			return true;
+		VirtualMachine kind = get(name);
+		if(kind == null || kind.getSpec().getLifecycle() != null) {
+			delete(kind);
 		}
-		VirtualMachineSpec spec = new VirtualMachineSpec();
+		VirtualMachineSpec spec = kind.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
 		lifecycle.setDeleteVM (deleteVM );
 		spec.setLifecycle(lifecycle );
-		vm.setSpec(spec );
-		delete(vm );
+		kind.setSpec(spec );
+		delete(kind );
 		return true;
 	}
 
 
 	public boolean rebootVM (String name, RebootVM  rebootVM ) throws Exception {
-		VirtualMachine vm = get(name);
-		if(vm == null || vm.getSpec().getLifecycle() != null) {
-			throw new RuntimeException("VM is not exist or ");
+		VirtualMachine kind = get(name);
+		if(kind == null || kind.getSpec().getLifecycle() != null) {
+			throw new RuntimeException("VirtualMachine" + name + " is not exist or it is in a wrong status");
 		}
-		VirtualMachineSpec spec = new VirtualMachineSpec();
+		VirtualMachineSpec spec = kind.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
 		lifecycle.setRebootVM (rebootVM );
 		spec.setLifecycle(lifecycle );
-		vm.setSpec(spec );
-		update(vm );
+		kind.setSpec(spec );
+		update("rebootVM " , kind );
 		return true;
 	}
 
 
 	public boolean resetVM (String name, ResetVM  resetVM ) throws Exception {
-		VirtualMachine vm = get(name);
-		if(vm == null || vm.getSpec().getLifecycle() != null) {
-			throw new RuntimeException("VM is not exist or ");
+		VirtualMachine kind = get(name);
+		if(kind == null || kind.getSpec().getLifecycle() != null) {
+			throw new RuntimeException("VirtualMachine" + name + " is not exist or it is in a wrong status");
 		}
-		VirtualMachineSpec spec = new VirtualMachineSpec();
+		VirtualMachineSpec spec = kind.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
 		lifecycle.setResetVM (resetVM );
 		spec.setLifecycle(lifecycle );
-		vm.setSpec(spec );
-		update(vm );
+		kind.setSpec(spec );
+		update("resetVM " , kind );
 		return true;
 	}
 
 
 	public boolean resumeVM (String name, ResumeVM  resumeVM ) throws Exception {
-		VirtualMachine vm = get(name);
-		if(vm == null || vm.getSpec().getLifecycle() != null) {
-			throw new RuntimeException("VM is not exist or ");
+		VirtualMachine kind = get(name);
+		if(kind == null || kind.getSpec().getLifecycle() != null) {
+			throw new RuntimeException("VirtualMachine" + name + " is not exist or it is in a wrong status");
 		}
-		VirtualMachineSpec spec = new VirtualMachineSpec();
+		VirtualMachineSpec spec = kind.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
 		lifecycle.setResumeVM (resumeVM );
 		spec.setLifecycle(lifecycle );
-		vm.setSpec(spec );
-		update(vm );
+		kind.setSpec(spec );
+		update("resumeVM " , kind );
 		return true;
 	}
 
 
 	public boolean suspendVM (String name, SuspendVM  suspendVM ) throws Exception {
-		VirtualMachine vm = get(name);
-		if(vm == null || vm.getSpec().getLifecycle() != null) {
-			throw new RuntimeException("VM is not exist or ");
+		VirtualMachine kind = get(name);
+		if(kind == null || kind.getSpec().getLifecycle() != null) {
+			throw new RuntimeException("VirtualMachine" + name + " is not exist or it is in a wrong status");
 		}
-		VirtualMachineSpec spec = new VirtualMachineSpec();
+		VirtualMachineSpec spec = kind.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
 		lifecycle.setSuspendVM (suspendVM );
 		spec.setLifecycle(lifecycle );
-		vm.setSpec(spec );
-		update(vm );
+		kind.setSpec(spec );
+		update("suspendVM " , kind );
 		return true;
 	}
 
 
 	public boolean saveVM (String name, SaveVM  saveVM ) throws Exception {
-		VirtualMachine vm = get(name);
-		if(vm == null || vm.getSpec().getLifecycle() != null) {
-			throw new RuntimeException("VM is not exist or ");
+		VirtualMachine kind = get(name);
+		if(kind == null || kind.getSpec().getLifecycle() != null) {
+			throw new RuntimeException("VirtualMachine" + name + " is not exist or it is in a wrong status");
 		}
-		VirtualMachineSpec spec = new VirtualMachineSpec();
+		VirtualMachineSpec spec = kind.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
 		lifecycle.setSaveVM (saveVM );
 		spec.setLifecycle(lifecycle );
-		vm.setSpec(spec );
-		update(vm );
+		kind.setSpec(spec );
+		update("saveVM " , kind );
 		return true;
 	}
 
 
 	public boolean restoreVM (String name, RestoreVM  restoreVM ) throws Exception {
-		VirtualMachine vm = get(name);
-		if(vm == null || vm.getSpec().getLifecycle() != null) {
-			throw new RuntimeException("VM is not exist or ");
+		VirtualMachine kind = get(name);
+		if(kind == null || kind.getSpec().getLifecycle() != null) {
+			throw new RuntimeException("VirtualMachine" + name + " is not exist or it is in a wrong status");
 		}
-		VirtualMachineSpec spec = new VirtualMachineSpec();
+		VirtualMachineSpec spec = kind.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
 		lifecycle.setRestoreVM (restoreVM );
 		spec.setLifecycle(lifecycle );
-		vm.setSpec(spec );
-		update(vm );
+		kind.setSpec(spec );
+		update("restoreVM " , kind );
 		return true;
 	}
 
 
 	public boolean migrateVM (String name, MigrateVM  migrateVM ) throws Exception {
-		VirtualMachine vm = get(name);
-		if(vm == null || vm.getSpec().getLifecycle() != null) {
-			throw new RuntimeException("VM is not exist or ");
+		VirtualMachine kind = get(name);
+		if(kind == null || kind.getSpec().getLifecycle() != null) {
+			throw new RuntimeException("VirtualMachine" + name + " is not exist or it is in a wrong status");
 		}
-		VirtualMachineSpec spec = new VirtualMachineSpec();
+		VirtualMachineSpec spec = kind.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
 		lifecycle.setMigrateVM (migrateVM );
 		spec.setLifecycle(lifecycle );
-		vm.setSpec(spec );
-		update(vm );
+		kind.setSpec(spec );
+		update("migrateVM " , kind );
 		return true;
 	}
 
 
 	public boolean plugDevice (String name, PlugDevice  plugDevice ) throws Exception {
-		VirtualMachine vm = get(name);
-		if(vm == null || vm.getSpec().getLifecycle() != null) {
-			throw new RuntimeException("VM is not exist or ");
+		VirtualMachine kind = get(name);
+		if(kind == null || kind.getSpec().getLifecycle() != null) {
+			throw new RuntimeException("VirtualMachine" + name + " is not exist or it is in a wrong status");
 		}
-		VirtualMachineSpec spec = new VirtualMachineSpec();
+		VirtualMachineSpec spec = kind.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
 		lifecycle.setPlugDevice (plugDevice );
 		spec.setLifecycle(lifecycle );
-		vm.setSpec(spec );
-		update(vm );
+		kind.setSpec(spec );
+		update("plugDevice " , kind );
 		return true;
 	}
 
 
 	public boolean unplugDevice (String name, UnplugDevice  unplugDevice ) throws Exception {
-		VirtualMachine vm = get(name);
-		if(vm == null || vm.getSpec().getLifecycle() != null) {
-			throw new RuntimeException("VM is not exist or ");
+		VirtualMachine kind = get(name);
+		if(kind == null || kind.getSpec().getLifecycle() != null) {
+			throw new RuntimeException("VirtualMachine" + name + " is not exist or it is in a wrong status");
 		}
-		VirtualMachineSpec spec = new VirtualMachineSpec();
+		VirtualMachineSpec spec = kind.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
 		lifecycle.setUnplugDevice (unplugDevice );
 		spec.setLifecycle(lifecycle );
-		vm.setSpec(spec );
-		update(vm );
+		kind.setSpec(spec );
+		update("unplugDevice " , kind );
 		return true;
 	}
 
 
 	public boolean plugDisk (String name, PlugDisk  plugDisk ) throws Exception {
-		VirtualMachine vm = get(name);
-		if(vm == null || vm.getSpec().getLifecycle() != null) {
-			throw new RuntimeException("VM is not exist or ");
+		VirtualMachine kind = get(name);
+		if(kind == null || kind.getSpec().getLifecycle() != null) {
+			throw new RuntimeException("VirtualMachine" + name + " is not exist or it is in a wrong status");
 		}
-		VirtualMachineSpec spec = new VirtualMachineSpec();
+		VirtualMachineSpec spec = kind.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
 		lifecycle.setPlugDisk (plugDisk );
 		spec.setLifecycle(lifecycle );
-		vm.setSpec(spec );
-		update(vm );
+		kind.setSpec(spec );
+		update("plugDisk " , kind );
 		return true;
 	}
 
 
 	public boolean unplugDisk (String name, UnplugDisk  unplugDisk ) throws Exception {
-		VirtualMachine vm = get(name);
-		if(vm == null || vm.getSpec().getLifecycle() != null) {
-			throw new RuntimeException("VM is not exist or ");
+		VirtualMachine kind = get(name);
+		if(kind == null || kind.getSpec().getLifecycle() != null) {
+			throw new RuntimeException("VirtualMachine" + name + " is not exist or it is in a wrong status");
 		}
-		VirtualMachineSpec spec = new VirtualMachineSpec();
+		VirtualMachineSpec spec = kind.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
 		lifecycle.setUnplugDisk (unplugDisk );
 		spec.setLifecycle(lifecycle );
-		vm.setSpec(spec );
-		update(vm );
+		kind.setSpec(spec );
+		update("unplugDisk " , kind );
 		return true;
 	}
 
 
 	public boolean plugNIC (String name, PlugNIC  plugNIC ) throws Exception {
-		VirtualMachine vm = get(name);
-		if(vm == null || vm.getSpec().getLifecycle() != null) {
-			throw new RuntimeException("VM is not exist or ");
+		VirtualMachine kind = get(name);
+		if(kind == null || kind.getSpec().getLifecycle() != null) {
+			throw new RuntimeException("VirtualMachine" + name + " is not exist or it is in a wrong status");
 		}
-		VirtualMachineSpec spec = new VirtualMachineSpec();
+		VirtualMachineSpec spec = kind.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
 		lifecycle.setPlugNIC (plugNIC );
 		spec.setLifecycle(lifecycle );
-		vm.setSpec(spec );
-		update(vm );
+		kind.setSpec(spec );
+		update("plugNIC " , kind );
 		return true;
 	}
 
 
 	public boolean unplugNIC (String name, UnplugNIC  unplugNIC ) throws Exception {
-		VirtualMachine vm = get(name);
-		if(vm == null || vm.getSpec().getLifecycle() != null) {
-			throw new RuntimeException("VM is not exist or ");
+		VirtualMachine kind = get(name);
+		if(kind == null || kind.getSpec().getLifecycle() != null) {
+			throw new RuntimeException("VirtualMachine" + name + " is not exist or it is in a wrong status");
 		}
-		VirtualMachineSpec spec = new VirtualMachineSpec();
+		VirtualMachineSpec spec = kind.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
 		lifecycle.setUnplugNIC (unplugNIC );
 		spec.setLifecycle(lifecycle );
-		vm.setSpec(spec );
-		update(vm );
+		kind.setSpec(spec );
+		update("unplugNIC " , kind );
 		return true;
 	}
 
 
 	public boolean changeNumberOfCPU (String name, ChangeNumberOfCPU  changeNumberOfCPU ) throws Exception {
-		VirtualMachine vm = get(name);
-		if(vm == null || vm.getSpec().getLifecycle() != null) {
-			throw new RuntimeException("VM is not exist or ");
+		VirtualMachine kind = get(name);
+		if(kind == null || kind.getSpec().getLifecycle() != null) {
+			throw new RuntimeException("VirtualMachine" + name + " is not exist or it is in a wrong status");
 		}
-		VirtualMachineSpec spec = new VirtualMachineSpec();
+		VirtualMachineSpec spec = kind.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
 		lifecycle.setChangeNumberOfCPU (changeNumberOfCPU );
 		spec.setLifecycle(lifecycle );
-		vm.setSpec(spec );
-		update(vm );
+		kind.setSpec(spec );
+		update("changeNumberOfCPU " , kind );
 		return true;
 	}
 
 
 	public boolean resizeRAM(String name, ResizeRAM resizeRAM) throws Exception {
-		VirtualMachine vm = get(name);
-		if(vm == null || vm.getSpec().getLifecycle() != null) {
-			throw new RuntimeException("VM is not exist or ");
+		VirtualMachine kind = get(name);
+		if(kind == null || kind.getSpec().getLifecycle() != null) {
+			throw new RuntimeException("VirtualMachine" + name + " is not exist or it is in a wrong status");
 		}
-		VirtualMachineSpec spec = new VirtualMachineSpec();
+		VirtualMachineSpec spec = kind.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
 		lifecycle.setResizeRAM(resizeRAM);
 		spec.setLifecycle(lifecycle );
-		vm.setSpec(spec );
-		update(vm );
+		kind.setSpec(spec );
+		update("resizeRAM" , kind );
 		return true;
 	}
-
-
 	//----------------------------------------------------------------
-	public static void main(String[] args) {
-		for (String cmd : cmds) {
-			if (cmd.startsWith("create")) {
-				System.out.println("\tpublic boolean " + cmd + "(" + getClassName(cmd) + " " + cmd +") throws Exception {");
-				System.out.println("\t\tVirtualMachine vm = new VirtualMachine();");
-				System.out.println("\t\tvm.setApiVersion(\"cloudplus.io/v1alpha3\");");
-				System.out.println("\t\tvm.setKind(\"VirtualMachine\");");
-				System.out.println("\t\tVirtualMachineSpec spec = new VirtualMachineSpec();");
-				System.out.println("\t\tLifecycle lifecycle = new Lifecycle();");
-				System.out.println("\t\tlifecycle.set" + getClassName(cmd) + "(" + cmd + ");");
-				System.out.println("\t\tspec.setLifecycle(lifecycle );");
-				System.out.println("\t\tvm.setSpec(spec );");
-				System.out.println("\t\tcreate(vm );");
-				System.out.println("\t\treturn true;");
-			} else if (cmd.startsWith("delete")) {
-				System.out.println("\tpublic boolean " + cmd + "(String name, " + getClassName(cmd) + " " + cmd +") throws Exception {");
-				System.out.println("\t\tVirtualMachine vm = get(name);");
-				System.out.println("\t\tif(vm == null || vm.getSpec().getLifecycle() != null) {");
-				System.out.println("\t\t\tthrow new RuntimeException(\"VM is not exist or \");");
-				System.out.println("\t\t}");
-				System.out.println("\t\tVirtualMachineSpec spec = new VirtualMachineSpec();");
-				System.out.println("\t\tLifecycle lifecycle = new Lifecycle();");
-				System.out.println("\t\tlifecycle.set" + getClassName(cmd) + "(" + cmd + ");");
-				System.out.println("\t\tspec.setLifecycle(lifecycle );");
-				System.out.println("\t\tvm.setSpec(spec );");
-				System.out.println("\t\tdelete(vm );");
-				System.out.println("\t\treturn true;");
-			} else {
-				System.out.println("\tpublic boolean " + cmd + "(String name, " + getClassName(cmd) + " " + cmd +") throws Exception {");
-				System.out.println("\t\tVirtualMachine vm = get(name);");
-				System.out.println("\t\tif(vm == null || vm.getSpec().getLifecycle() != null) {");
-				System.out.println("\t\t\tthrow new RuntimeException(\"VM is not exist or \");");
-				System.out.println("\t\t}");
-				System.out.println("\t\tVirtualMachineSpec spec = new VirtualMachineSpec();");
-				System.out.println("\t\tLifecycle lifecycle = new Lifecycle();");
-				System.out.println("\t\tlifecycle.set" + getClassName(cmd) + "(" + cmd + ");");
-				System.out.println("\t\tspec.setLifecycle(lifecycle );");
-				System.out.println("\t\tvm.setSpec(spec );");
-				System.out.println("\t\tupdate(vm );");
-				System.out.println("\t\treturn true;");
-			}
-			System.out.println("\t}\n\n");
-		}
-	}
 	
-	public static String getClassName(String name) {
-		return name.substring(0, 1).toUpperCase() + name.substring(1);
-	}
 }
 

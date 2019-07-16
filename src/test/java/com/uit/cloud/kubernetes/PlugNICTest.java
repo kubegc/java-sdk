@@ -4,13 +4,8 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
-import com.github.kubesys.kubernetes.api.model.VirtualMachine;
-import com.github.kubesys.kubernetes.api.model.VirtualMachineSpec;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CreateAndStartVMFromISO;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StopVM;
-
-import io.fabric8.kubernetes.api.model.ObjectMeta;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.PlugDisk;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.PlugNIC;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -19,15 +14,23 @@ import io.fabric8.kubernetes.api.model.ObjectMeta;
  * This code is used to manage CustomResource's lifecycle,
  * such as VirtualMachine
  */
-public class StopVMTest {
+public class PlugNICTest {
 	
 	
 	public static void main(String[] args) throws Exception {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.stopVM("skywind5", new StopVM());
+				.plugNIC("skywind5", getPlugNIC());
 		System.out.println(successful);
 	}
 	
+	public static PlugNIC getPlugNIC() {
+		PlugNIC plugNIC = new PlugNIC();
+		plugNIC.setType("bridge");
+		plugNIC.setSource("virbr0");
+		plugNIC.setLive(true);
+		plugNIC.setConfig(true);
+		return plugNIC;
+	}
 }
