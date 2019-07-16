@@ -531,7 +531,6 @@ public class VirtualMachineImpl {
 		update("resizeRAM" , kind );
 		return true;
 	}
-
 	//----------------------------------------------------------------
 	
 }

@@ -3,14 +3,12 @@
  */
 package com.github.kubesys.kubernetes.api.model;
 
-import java.util.Map;
-
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Volume;
 
 import io.fabric8.kubernetes.api.model.KubernetesResource;
-import io.fabric8.kubernetes.api.model.apiextensions.CustomResourceDefinitionSpec;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -21,7 +19,7 @@ import io.fabric8.kubernetes.api.model.apiextensions.CustomResourceDefinitionSpe
  **/
 @SuppressWarnings("rawtypes")
 @JsonDeserialize(using = JsonDeserializer.None.class)
-public class VirtualMachineDiskSpec extends CustomResourceDefinitionSpec implements KubernetesResource {
+public class VirtualMachineDiskSpec extends ExtendedCustomResourceDefinitionSpec implements KubernetesResource {
 
 	/**
 	 * 
@@ -30,32 +28,10 @@ public class VirtualMachineDiskSpec extends CustomResourceDefinitionSpec impleme
 
 	protected Volume volume;
 
-	protected Map<String, String> description;
-
-	protected String image;
-
-	protected String nodeName;
-	
-	protected String status;
+	protected Lifecycle lifecycle;
 
 	public VirtualMachineDiskSpec() {
 
-	}
-
-	public Map<String, String> getDescription() {
-		return description;
-	}
-
-	public void setDescription(Map<String, String> description) {
-		this.description = description;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
 	}
 
 	public Volume getVolume() {
@@ -66,20 +42,12 @@ public class VirtualMachineDiskSpec extends CustomResourceDefinitionSpec impleme
 		this.volume = volume;
 	}
 
-	public String getImage() {
-		return image;
+	public Lifecycle getLifecycle() {
+		return lifecycle;
 	}
 
-	public void setImage(String image) {
-		this.image = image;
+	public void setLifecycle(Lifecycle lifecycle) {
+		this.lifecycle = lifecycle;
 	}
 
-	public String getNodeName() {
-		return nodeName;
-	}
-
-	public void setNodeName(String nodeName) {
-		this.nodeName = nodeName;
-	}
-	
 }

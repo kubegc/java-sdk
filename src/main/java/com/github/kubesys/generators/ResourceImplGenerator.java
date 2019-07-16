@@ -5,8 +5,10 @@ package com.github.kubesys.generators;
 
 import java.util.List;
 
-import com.github.kubesys.kubernetes.api.model.VirtualMachine;
-import com.github.kubesys.kubernetes.impl.VirtualMachineImpl;
+import com.github.kubesys.kubernetes.api.model.VirtualMachineDisk;
+import com.github.kubesys.kubernetes.api.model.VirtualMachineSnapshot;
+import com.github.kubesys.kubernetes.impl.VirtualMachineDiskImpl;
+import com.github.kubesys.kubernetes.impl.VirtualMachineSnapshotImpl;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -61,8 +63,14 @@ public class ResourceImplGenerator {
 	}
 	
 	public static void main(String[] args) {
-		generate(VirtualMachine.class.getSimpleName(),
-				"cloudplus.io/v1alpha3", VirtualMachineImpl.cmds);
+//		generate(VirtualMachine.class.getSimpleName(),
+//				"cloudplus.io/v1alpha3", VirtualMachineImpl.cmds);
+//		generate(VirtualMachineImage.class.getSimpleName(),
+//				"cloudplus.io/v1alpha3", VirtualMachineImageImpl.cmds);
+//		generate(VirtualMachineDisk.class.getSimpleName(),
+//				"cloudplus.io/v1alpha3", VirtualMachineDiskImpl.cmds);
+		generate(VirtualMachineSnapshot.class.getSimpleName(),
+				"cloudplus.io/v1alpha3", VirtualMachineSnapshotImpl.cmds);
 	}
 	
 	public static String getClassName(String name) {

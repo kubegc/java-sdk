@@ -11,6 +11,10 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.github.kubesys.kubernetes.api.model.VirtualMachine;
+import com.github.kubesys.kubernetes.api.model.VirtualMachineDisk;
+import com.github.kubesys.kubernetes.api.model.VirtualMachineImage;
+import com.github.kubesys.kubernetes.api.model.VirtualMachineSnapshot;
 import com.github.kubesys.kubernetes.impl.VirtualMachineDiskImpl;
 import com.github.kubesys.kubernetes.impl.VirtualMachineImageImpl;
 import com.github.kubesys.kubernetes.impl.VirtualMachineImpl;
@@ -23,6 +27,7 @@ import io.fabric8.kubernetes.client.CustomResource;
 import io.fabric8.kubernetes.client.CustomResourceDoneable;
 import io.fabric8.kubernetes.client.CustomResourceList;
 import io.fabric8.kubernetes.client.DefaultKubernetesClient;
+import io.fabric8.kubernetes.client.Watcher;
 import io.fabric8.kubernetes.client.dsl.MixedOperation;
 import io.fabric8.kubernetes.internal.KubernetesDeserializer;
 
@@ -185,5 +190,37 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 	 */
 	public VirtualMachineSnapshotImpl virtualMachineSanshots() {
 		return new VirtualMachineSnapshotImpl();
+	}
+	
+	/**
+	 * @return        VirtualMachine 
+	 */
+	@SuppressWarnings("unchecked")
+	public void watchVirtualMachines(Watcher<VirtualMachine> watcher) {
+		crdClients.get(VirtualMachine.class.getSimpleName()).watch(watcher);
+	}
+	
+	/**
+	 * @return        VirtualMachineImage
+	 */
+	@SuppressWarnings("unchecked")
+	public void watchVirtualMachineImages(Watcher<VirtualMachineImage> watcher) {
+		crdClients.get(VirtualMachineImage.class.getSimpleName()).watch(watcher);
+	}
+	
+	/**
+	 * @return        VirtualMachineDisk
+	 */
+	@SuppressWarnings("unchecked")
+	public void watchVirtualMachineDisks(Watcher<VirtualMachineDisk> watcher) {
+		crdClients.get(VirtualMachineDisk.class.getSimpleName()).watch(watcher);
+	}
+	
+	/**
+	 * @return        VirtualMachineSnapshot
+	 */
+	@SuppressWarnings("unchecked")
+	public void watcherVirtualMachineSanshots(Watcher<VirtualMachineSnapshot> watcher) {
+		crdClients.get(VirtualMachineSnapshot.class.getSimpleName()).watch(watcher);
 	}
 }
