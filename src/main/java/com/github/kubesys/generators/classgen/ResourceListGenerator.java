@@ -1,9 +1,11 @@
 /*
  * Copyright (2019, ) Institute of Software, Chinese Academy of Sciences
  */
-package com.github.kubesys.generators;
+package com.github.kubesys.generators.classgen;
 
 import java.util.List;
+
+import com.github.kubesys.generators.AbstractClassGenerator;
 
 import io.fabric8.kubernetes.client.CustomResourceList;
 
@@ -12,7 +14,7 @@ import io.fabric8.kubernetes.client.CustomResourceList;
  * @since 2019/6/14
  *
  */
-public class ResourceListGenerator extends AbstractGenerator {
+public class ResourceListGenerator extends AbstractClassGenerator {
 
 	public final static String CLASS = "\npublic class CLASSList "
 								+ "extends CustomResourceList<CLASS> {\n";

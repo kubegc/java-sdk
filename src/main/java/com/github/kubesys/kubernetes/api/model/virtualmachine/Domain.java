@@ -13945,7 +13945,7 @@ public class Domain {
 
 						protected String _managed;
 
-						protected Source source;
+						protected Domain.Source source;
 
 						protected String _enabled;
 
@@ -13969,11 +13969,11 @@ public class Domain {
 						 * Ignore the user setting, use 'lifecycle' to update VM's info
 						 *
 						 */
-						public void setSource(Source source) {
+						public void setSource(Domain.Source source) {
 							this.source = source;
 						}
 
-						public Source getSource() {
+						public Domain.Source getSource() {
 							return this.source;
 						}
 
@@ -13988,8 +13988,9 @@ public class Domain {
 						public String get_enabled() {
 							return this._enabled;
 						}
-
+						
 					}
+					
 				}
 			}
 
@@ -14302,7 +14303,7 @@ public class Domain {
 
 					protected String _managed;
 
-					protected Source source;
+					protected Domain.Source source;
 
 					protected String _enabled;
 
@@ -14326,11 +14327,11 @@ public class Domain {
 					 * Ignore the user setting, use 'lifecycle' to update VM's info
 					 *
 					 */
-					public void setSource(Source source) {
+					public void setSource(Domain.Source source) {
 						this.source = source;
 					}
 
-					public Source getSource() {
+					public Domain.Source getSource() {
 						return this.source;
 					}
 
@@ -15985,7 +15986,7 @@ public class Domain {
 
 						protected String _managed;
 
-						protected Source source;
+						protected Domain.Source source;
 
 						protected String _enabled;
 
@@ -16009,11 +16010,11 @@ public class Domain {
 						 * Ignore the user setting, use 'lifecycle' to update VM's info
 						 *
 						 */
-						public void setSource(Source source) {
+						public void setSource(Domain.Source source) {
 							this.source = source;
 						}
 
-						public Source getSource() {
+						public Domain.Source getSource() {
 							return this.source;
 						}
 
@@ -18693,4 +18694,56 @@ public class Domain {
 			}
 		}
 	}
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class Source {
+		
+		protected String _type;
+		
+		protected String _path;
+		
+		protected String _mode;
+		
+		protected String _dev;
+
+		public Source() {
+			super();
+			// TODO Auto-generated constructor stub
+		}
+
+		public String get_type() {
+			return _type;
+		}
+
+		public void set_type(String _type) {
+			this._type = _type;
+		}
+
+		public String get_path() {
+			return _path;
+		}
+
+		public void set_path(String _path) {
+			this._path = _path;
+		}
+
+		public String get_mode() {
+			return _mode;
+		}
+
+		public void set_mode(String _mode) {
+			this._mode = _mode;
+		}
+
+		public String get_dev() {
+			return _dev;
+		}
+
+		public void set_dev(String _dev) {
+			this._dev = _dev;
+		}
+	}
 }
+
+

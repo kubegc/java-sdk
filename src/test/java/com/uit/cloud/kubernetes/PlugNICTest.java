@@ -4,7 +4,6 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.PlugDisk;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.PlugNIC;
 
 /**

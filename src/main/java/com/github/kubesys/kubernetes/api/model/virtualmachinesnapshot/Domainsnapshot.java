@@ -178,7 +178,6 @@ public class Domainsnapshot {
 			protected String text;
 
 			public Name() {
-				this.text = "String";
 
 			}
 
@@ -205,8 +204,6 @@ public class Domainsnapshot {
 		protected String _snapshot;
 
 		public Memory() {
-			this._file = "String";
-			this._snapshot = "String";
 
 		}
 
@@ -242,7 +239,6 @@ public class Domainsnapshot {
 		protected String text;
 
 		public CreationTime() {
-			this.text = "String";
 
 		}
 
@@ -294,8 +290,6 @@ public class Domainsnapshot {
 			protected Source source;
 
 			public Disk() {
-				this._snapshot = "String";
-				this._name = "String";
 
 			}
 
@@ -354,7 +348,6 @@ public class Domainsnapshot {
 				protected String _type;
 
 				public Driver() {
-					this._type = "String";
 
 				}
 
@@ -384,8 +377,6 @@ public class Domainsnapshot {
 				protected String _startupPolicy;
 
 				public Source() {
-					this._index = "String";
-					this._startupPolicy = "String";
 
 				}
 
@@ -446,7 +437,6 @@ public class Domainsnapshot {
 					protected Secret secret;
 
 					public Encryption() {
-						this._format = "String";
 
 					}
 
@@ -485,9 +475,6 @@ public class Domainsnapshot {
 						protected String _uuid;
 
 						public Secret() {
-							this._usage = "String";
-							this._type = "String";
-							this._uuid = "String";
 
 						}
 
@@ -535,14 +522,20 @@ public class Domainsnapshot {
 
 					protected String _managed;
 
-					protected Source source;
+					protected Domain.Source source;
 
 					protected String _enabled;
 
 					public Reservations() {
-						this._managed = "String";
-						this._enabled = "String";
 
+					}
+
+					public Domain.Source getSource() {
+						return source;
+					}
+
+					public void setSource(Domain.Source source) {
+						this.source = source;
 					}
 
 					/**
@@ -582,7 +575,6 @@ public class Domainsnapshot {
 		protected String text;
 
 		public Active() {
-			this.text = "String";
 
 		}
 
@@ -606,8 +598,6 @@ public class Domainsnapshot {
 		protected String text;
 
 		public Description() {
-			this.text = "String";
-
 		}
 
 		/**
@@ -630,7 +620,6 @@ public class Domainsnapshot {
 		protected String text;
 
 		public State() {
-			this.text = "String";
 
 		}
 

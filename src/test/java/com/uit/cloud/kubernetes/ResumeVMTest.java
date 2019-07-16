@@ -4,11 +4,7 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
-import com.github.kubesys.kubernetes.api.model.VirtualMachine;
-import com.github.kubesys.kubernetes.api.model.VirtualMachineSpec;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ResumeVM;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StopVM;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
