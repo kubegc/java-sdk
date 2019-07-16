@@ -220,7 +220,8 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 	 * @return        VirtualMachineSnapshot
 	 */
 	@SuppressWarnings("unchecked")
-	public void watcherVirtualMachineSanshots(Watcher<VirtualMachineSnapshot> watcher) {
+	public void watchVirtualMachineSnapshots(Watcher<VirtualMachineSnapshot> watcher) {
 		crdClients.get(VirtualMachineSnapshot.class.getSimpleName()).watch(watcher);
 	}
+
 }
