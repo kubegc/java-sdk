@@ -30,8 +30,6 @@ public abstract class ExtendedCustomResourceDefinitionSpec extends CustomResourc
 
 	protected String nodeName;
 	
-	protected String status;
-	
 	public ExtendedCustomResourceDefinitionSpec() {
 
 	}
@@ -58,14 +56,6 @@ public abstract class ExtendedCustomResourceDefinitionSpec extends CustomResourc
 
 	public void setNodeName(String nodeName) {
 		this.nodeName = nodeName;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
 	}
 
 }
