@@ -5539,7 +5539,7 @@ public class Domain {
 
 		protected Initgroup initgroup;
 
-		protected ArrayList<Boot> Boot;
+		protected ArrayList<Boot> boot;
 		
 		protected Initdir initdir;
 
@@ -5743,11 +5743,11 @@ public class Domain {
 		}
 
 		public ArrayList<Boot> getBoot() {
-			return Boot;
+			return boot;
 		}
 
 		public void setBoot(ArrayList<Boot> boot) {
-			Boot = boot;
+			this.boot = boot;
 		}
 
 		public Initdir getInitdir() {
