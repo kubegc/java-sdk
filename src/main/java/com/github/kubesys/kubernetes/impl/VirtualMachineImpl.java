@@ -4,6 +4,7 @@
 package com.github.kubesys.kubernetes.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -208,10 +209,13 @@ public class VirtualMachineImpl {
 		kind.setApiVersion("cloudplus.io/v1alpha3");
 		kind.setKind("VirtualMachine");
 		VirtualMachineSpec spec = new VirtualMachineSpec();
+		ObjectMeta om = new ObjectMeta();
 		if (nodeName != null) {
+			Map<String, String> labels = new HashMap<String, String>();
+			labels.put("host", nodeName);
+			om.setLabels(labels );
 			spec.setNodeName(nodeName);
 		}
-		ObjectMeta om = new ObjectMeta();
 		om.setName(name);
 		kind.setMetadata(om);
 		Lifecycle lifecycle = new Lifecycle();
@@ -232,11 +236,14 @@ public class VirtualMachineImpl {
 		kind.setApiVersion("cloudplus.io/v1alpha3");
 		kind.setKind("VirtualMachine");
 		VirtualMachineSpec spec = new VirtualMachineSpec();
-		if (nodeName != null) {
-			spec.setNodeName(nodeName);
-		}
 		ObjectMeta om = new ObjectMeta();
 		om.setName(name);
+		if (nodeName != null) {
+			Map<String, String> labels = new HashMap<String, String>();
+			labels.put("host", nodeName);
+			om.setLabels(labels );
+			spec.setNodeName(nodeName);
+		}
 		kind.setMetadata(om);
 		Lifecycle lifecycle = new Lifecycle();
 		lifecycle.setCreateAndStartVMFromImage (createAndStartVMFromImage );
