@@ -198,6 +198,7 @@ public class VirtualMachineDiskImpl {
 		lifecycle.setDeleteDisk (deleteDisk );
 		spec.setLifecycle(lifecycle );
 		kind.setSpec(spec );
+		update(kind);
 		delete(kind );
 		return true;
 	}

@@ -20,7 +20,7 @@ public class RestartVMTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.rebootVM("skywind2", new RebootVM());
+				.rebootVM("skywind7", new RebootVM());
 		System.out.println(successful);
 	}
 	

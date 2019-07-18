@@ -195,6 +195,7 @@ public class VirtualMachineSnapshotImpl {
 		lifecycle.setDeleteSnapshot (deleteSnapshot );
 		spec.setLifecycle(lifecycle );
 		kind.setSpec(spec );
+		update(kind);
 		delete(kind );
 		return true;
 	}

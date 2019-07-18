@@ -3,6 +3,8 @@
  */
 package com.github.kubesys.kubernetes.api.model.virtualmachine;
 
+import java.util.ArrayList;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
@@ -2282,6 +2284,18 @@ public class Lifecycle {
 
 		}
 
+		public String getDisk() {
+			return disk;
+		}
+
+		public void setDisk(String disk) {
+			this.disk = disk;
+		}
+
+		public Boolean getNoautoconsole() {
+			return noautoconsole;
+		}
+
 		public Boolean isNoautoconsole() {
 			return noautoconsole;
 		}
@@ -2482,13 +2496,6 @@ public class Lifecycle {
 			return this.input;
 		}
 
-		public void setDisk(String disk) {
-			this.disk = disk;
-		}
-
-		public String getDisk() {
-			return this.disk;
-		}
 
 		public void setMemorybacking(String memorybacking) {
 			this.memorybacking = memorybacking;
