@@ -4,6 +4,7 @@
 package com.github.kubesys.kubernetes.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -15,7 +16,10 @@ import com.github.kubesys.kubernetes.api.model.VirtualMachineImageList;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineImageSpec;
 import com.github.kubesys.kubernetes.api.model.virtualmachineimage.Lifecycle;
 import com.github.kubesys.kubernetes.api.model.virtualmachineimage.Lifecycle.ConvertImageToVM;
+import com.github.kubesys.kubernetes.api.model.virtualmachineimage.Lifecycle.CreateImage;
+import com.github.kubesys.kubernetes.api.model.virtualmachineimage.Lifecycle.DeleteImage;
 
+import io.fabric8.kubernetes.api.model.ObjectMeta;
 import io.fabric8.kubernetes.client.dsl.FilterWatchListDeletable;
 import io.fabric8.kubernetes.client.dsl.Gettable;
 import io.fabric8.kubernetes.client.dsl.MixedOperation;
@@ -48,6 +52,8 @@ public class VirtualMachineImageImpl {
 	
 	static {
 		cmds.add("convertImageToVM ");
+		cmds.add("createImage ");
+		cmds.add("deleteImage ");
 	}
 	
 	/*************************************************
@@ -165,5 +171,49 @@ public class VirtualMachineImageImpl {
 		update("convertImageToVM " , kind );
 		return true;
 	}
+
+
+	public boolean createImage (String name, CreateImage  createImage ) throws Exception {
+		return createImage(name, null, createImage);
+	}
+	
+	public boolean createImage (String name, String nodeName, CreateImage  createImage ) throws Exception {
+		VirtualMachineImage kind = new VirtualMachineImage();
+		kind.setApiVersion("cloudplus.io/v1alpha3");
+		kind.setKind("VirtualMachineImage");
+		VirtualMachineImageSpec spec = new VirtualMachineImageSpec();
+		ObjectMeta om = new ObjectMeta();
+		om.setName(name);
+		if (nodeName != null) {
+			Map<String, String> labels = new HashMap<String, String>();
+			labels.put("host", nodeName);
+			om.setLabels(labels );
+			spec.setNodeName(nodeName);
+		}
+		kind.setMetadata(om);
+		Lifecycle lifecycle = new Lifecycle();
+		lifecycle.setCreateImage (createImage );
+		spec.setLifecycle(lifecycle );
+		kind.setSpec(spec );
+		create(kind );
+		return true;
+	}
+
+
+	public boolean deleteImage (String name, DeleteImage  deleteImage ) throws Exception {
+		VirtualMachineImage kind = get(name);
+		if(kind == null || kind.getSpec().getLifecycle() != null) {
+			delete(kind);
+		}
+		VirtualMachineImageSpec spec = kind.getSpec();
+		Lifecycle lifecycle = new Lifecycle();
+		lifecycle.setDeleteImage (deleteImage );
+		spec.setLifecycle(lifecycle );
+		kind.setSpec(spec );
+		update(kind );
+		delete(kind);
+		return true;
+	}
+
 }
 

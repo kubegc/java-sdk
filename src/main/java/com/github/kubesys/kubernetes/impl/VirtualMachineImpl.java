@@ -20,6 +20,7 @@ import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ConvertV
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CreateAndStartVMFromISO;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CreateAndStartVMFromImage;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.DeleteVM;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ManageISO;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.MigrateVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.PlugDevice;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.PlugDisk;
@@ -37,6 +38,7 @@ import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.SuspendV
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UnplugDevice;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UnplugDisk;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UnplugNIC;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UpdateOS;
 
 import io.fabric8.kubernetes.api.model.ObjectMeta;
 import io.fabric8.kubernetes.client.dsl.FilterWatchListDeletable;
@@ -86,6 +88,8 @@ public class VirtualMachineImpl {
 		cmds.add("saveVM ");
 		cmds.add("restoreVM ");
 		cmds.add("migrateVM ");
+		cmds.add("manageISO ");
+		cmds.add("updateOS ");
 		cmds.add("plugDevice ");
 		cmds.add("unplugDevice ");
 		cmds.add("plugDisk ");
@@ -253,7 +257,6 @@ public class VirtualMachineImpl {
 		return true;
 	}
 
-
 	public boolean convertVMToImage (String name, ConvertVMToImage  convertVMToImage ) throws Exception {
 		VirtualMachine kind = get(name);
 		if(kind == null || kind.getSpec().getLifecycle() != null) {
@@ -324,8 +327,7 @@ public class VirtualMachineImpl {
 		lifecycle.setDeleteVM (deleteVM );
 		spec.setLifecycle(lifecycle );
 		kind.setSpec(spec );
-		update(kind );
-		delete(kind);
+		delete(kind );
 		return true;
 	}
 
@@ -431,6 +433,36 @@ public class VirtualMachineImpl {
 		spec.setLifecycle(lifecycle );
 		kind.setSpec(spec );
 		update("migrateVM " , kind );
+		return true;
+	}
+
+
+	public boolean manageISO (String name, ManageISO  manageISO ) throws Exception {
+		VirtualMachine kind = get(name);
+		if(kind == null || kind.getSpec().getLifecycle() != null) {
+			throw new RuntimeException("VirtualMachine" + name + " is not exist or it is in a wrong status");
+		}
+		VirtualMachineSpec spec = kind.getSpec();
+		Lifecycle lifecycle = new Lifecycle();
+		lifecycle.setManageISO (manageISO );
+		spec.setLifecycle(lifecycle );
+		kind.setSpec(spec );
+		update("manageISO " , kind );
+		return true;
+	}
+
+
+	public boolean updateOS (String name, UpdateOS  updateOS ) throws Exception {
+		VirtualMachine kind = get(name);
+		if(kind == null || kind.getSpec().getLifecycle() != null) {
+			throw new RuntimeException("VirtualMachine" + name + " is not exist or it is in a wrong status");
+		}
+		VirtualMachineSpec spec = kind.getSpec();
+		Lifecycle lifecycle = new Lifecycle();
+		lifecycle.setUpdateOS (updateOS );
+		spec.setLifecycle(lifecycle );
+		kind.setSpec(spec );
+		update("updateOS " , kind );
 		return true;
 	}
 
