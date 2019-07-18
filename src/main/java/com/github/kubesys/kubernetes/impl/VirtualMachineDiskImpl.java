@@ -161,10 +161,17 @@ public class VirtualMachineDiskImpl {
 	 **************************************************/
 
 	public boolean createDisk (String name, CreateDisk  createDisk ) throws Exception {
+		return createDisk(name, null, createDisk);
+	}
+	
+	public boolean createDisk (String name, String nodeName, CreateDisk  createDisk ) throws Exception {
 		VirtualMachineDisk kind = new VirtualMachineDisk();
 		kind.setApiVersion("cloudplus.io/v1alpha3");
 		kind.setKind("VirtualMachineDisk");
 		VirtualMachineDiskSpec spec = new VirtualMachineDiskSpec();
+		if (nodeName != null) {
+			spec.setNodeName(nodeName);
+		}
 		ObjectMeta om = new ObjectMeta();
 		om.setName(name);
 		kind.setMetadata(om);
