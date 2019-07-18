@@ -31,9 +31,9 @@ public class CreateAndStartFromISOTest {
 		createAndStartVMFromISO.setVirt_type("kvm");  
 		createAndStartVMFromISO.setMemory("1024");    
 		createAndStartVMFromISO.setVcpus("1");  
-		createAndStartVMFromISO.setCdrom("/opt/ISO/CentOS-7-x86_64-Minimal-1511.iso"); 
-		createAndStartVMFromISO.setDisk("size=10,format=qcow2");  
-//		createAndStartVMFromISO.setDisk("device=cdrom,bus=scsi");
+//		createAndStartVMFromISO.setCdrom("/opt/ISO/CentOS-7-x86_64-Minimal-1511.iso"); 
+		createAndStartVMFromISO.setDisk("size=10,format=qcow2");
+		createAndStartVMFromISO.setDisk("/opt/ISO/CentOS-7-x86_64-Minimal-1511.iso,device=cdrom");
 		createAndStartVMFromISO.setNetwork("bridge=virbr0");  
 		createAndStartVMFromISO.setGraphics("vnc,listen=0.0.0.0");   
 		createAndStartVMFromISO.setBoot("cdrom,hd");
