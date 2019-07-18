@@ -324,7 +324,7 @@ public class VirtualMachineImpl {
 		lifecycle.setDeleteVM (deleteVM );
 		spec.setLifecycle(lifecycle );
 		kind.setSpec(spec );
-		delete(kind );
+		update(kind );
 		return true;
 	}
 
