@@ -1,7 +1,7 @@
 /*
  * Copyright (2019, ) Institute of Software, Chinese Academy of Sciences
  */
-package com.github.kubesys.generators;
+package com.github.kubesys.generators.classgen;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,15 +13,16 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.github.kubesys.generators.AbstractClassGenerator;
 
 import io.fabric8.kubernetes.api.model.KubernetesResource;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
- * @since 2019/6/23
+ * @since 2019/6/14
  *
  */
-public class LifecycleGenerator extends AbstractGenerator {
+public class ResourceSpecGenerator extends AbstractClassGenerator {
 
 	public static int num = 0;
 	
@@ -35,7 +36,8 @@ public class LifecycleGenerator extends AbstractGenerator {
 	
 	public final static String FIELD          = "\n\tprotected FTYPE FNAME;\n";
 	
-	public final static String SET_METHOD     =  "\n\tpublic void setMNAME(FTYPE FNAME) {\n" 
+	public final static String SET_METHOD     =  "\n\t/**\n\t*  Ignore the user setting, use 'lifecycle' to update VM's info \n\t*\n\t*/"
+							+ "\n\tpublic void setMNAME(FTYPE FNAME) {\n" 
 							+ "\t\tthis.FNAME = FNAME;\n\t}\n";
 	
 	public final static String GET_METHOD     = "\n\tpublic FTYPE getMNAME() {\n" 
@@ -45,7 +47,7 @@ public class LifecycleGenerator extends AbstractGenerator {
 
 	protected Map objMap;
 	
-	public LifecycleGenerator(String pkgName) {
+	public ResourceSpecGenerator(String pkgName) {
 		super(pkgName);
 	}
 	
@@ -105,30 +107,12 @@ public class LifecycleGenerator extends AbstractGenerator {
 				if (map.get(key).toString().equals("string")) {
 					sb.append(FIELD.replaceAll("FTYPE", String.class.getSimpleName())
 							.replaceAll("FNAME", key.toString()));
-					methods.append(SET_METHOD.replaceAll("FTYPE", String.class.getSimpleName()).replaceAll("MNAME", mname).replaceAll("FNAME", key.toString()));
-					methods.append(GET_METHOD.replaceAll("FTYPE", String.class.getSimpleName()).replaceAll("MNAME", mname).replaceAll("FNAME", key.toString()));
-				} else if (map.get(key).toString().equals("String")) {
-					sb.append(FIELD.replaceAll("FTYPE", String.class.getSimpleName())
-							.replaceAll("FNAME", key.toString()));
-					methods.append(SET_METHOD.replaceAll("FTYPE", String.class.getSimpleName()).replaceAll("MNAME", mname).replaceAll("FNAME", key.toString()));
-					methods.append(GET_METHOD.replaceAll("FTYPE", String.class.getSimpleName()).replaceAll("MNAME", mname).replaceAll("FNAME", key.toString()));
-				} else if (map.get(key).toString().equals("1")) {
-					sb.append(FIELD.replaceAll("FTYPE", Integer.class.getSimpleName())
-							.replaceAll("FNAME", key.toString()));
-					methods.append(SET_METHOD.replaceAll("FTYPE", Integer.class.getSimpleName()).replaceAll("MNAME", mname).replaceAll("FNAME", key.toString()));
-					methods.append(GET_METHOD.replaceAll("FTYPE", Integer.class.getSimpleName()).replaceAll("MNAME", mname).replaceAll("FNAME", key.toString()));
-				} else if (map.get(key).toString().equals("true")) {
-					sb.append(FIELD.replaceAll("FTYPE", Boolean.class.getSimpleName())
-							.replaceAll("FNAME", key.toString()));
-					methods.append(SET_METHOD.replaceAll("FTYPE", Boolean.class.getSimpleName()).replaceAll("MNAME", mname).replaceAll("FNAME", key.toString()));
-					methods.append(GET_METHOD.replaceAll("FTYPE", Boolean.class.getSimpleName()).replaceAll("MNAME", mname).replaceAll("FNAME", key.toString()));
 				} else {
 					sb.append(FIELD.replaceAll("FTYPE", String.class.getSimpleName()).replaceAll("FNAME", key.toString()));
 					constor.append("\t\tthis.").append(key.toString()).append(" = \"").append(map.get(key).toString()).append("\";\n");
-					methods.append(SET_METHOD.replaceAll("FTYPE", String.class.getSimpleName()).replaceAll("MNAME", mname).replaceAll("FNAME", key.toString()));
-					methods.append(GET_METHOD.replaceAll("FTYPE", String.class.getSimpleName()).replaceAll("MNAME", mname).replaceAll("FNAME", key.toString()));
 				}
-				
+				methods.append(SET_METHOD.replaceAll("FTYPE", String.class.getSimpleName()).replaceAll("MNAME", mname).replaceAll("FNAME", key.toString()));
+				methods.append(GET_METHOD.replaceAll("FTYPE", String.class.getSimpleName()).replaceAll("MNAME", mname).replaceAll("FNAME", key.toString()));
 			}
 		}
 			
@@ -151,8 +135,12 @@ public class LifecycleGenerator extends AbstractGenerator {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		LifecycleGenerator gen = new LifecycleGenerator("com.github.kubesys.kubernetes.api.model");
-		Map parseObject = JSON.parseObject(new FileInputStream(new File("conf/lifecycle.json")), Map.class);
+		ResourceSpecGenerator gen = new ResourceSpecGenerator("com.github.kubesys.kubernetes.api.model");
+//		Map parseObject = JSON.parseObject(new FileInputStream(new File("conf/domain.json")), Map.class);
+//		Map parseObject = JSON.parseObject(new FileInputStream(new File("conf/lifecycle.json")), Map.class);
+//		Map parseObject = JSON.parseObject(new FileInputStream(new File("conf/volume.json")), Map.class);
+//		Map parseObject = JSON.parseObject(new FileInputStream(new File("conf/snapshot.json")), Map.class);
+		Map parseObject = JSON.parseObject(new FileInputStream(new File("conf/uitvol.json")), Map.class);
 		gen.setObjMap(parseObject);
 		System.out.println(gen.autoGen("VirtualMachine"));
 		

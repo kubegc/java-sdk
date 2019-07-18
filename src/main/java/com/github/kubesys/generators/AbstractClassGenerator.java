@@ -20,7 +20,7 @@ import java.util.List;
  * 6. class <br>
  * 
  */
-public abstract class AbstractGenerator {
+public abstract class AbstractClassGenerator {
 
 	public final static String COPYRIGHT = "/**\r\n" + " * Copyright (2019, ) Institute of Software, "
 									+ "Chinese Academy of Sciences\r\n" + " */\n";
@@ -53,7 +53,7 @@ public abstract class AbstractGenerator {
 	/**
 	 * @param pkg package name
 	 */
-	public AbstractGenerator(String pkg) {
+	public AbstractClassGenerator(String pkg) {
 		dsb.append(COPYRIGHT)
 			.append(PACKAGE.replaceAll("PACKAGE", pkg))
 			.append(getImports())

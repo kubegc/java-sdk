@@ -200,10 +200,17 @@ public class VirtualMachineImpl {
 	//-----------------------------------------------------------------
 	
 	public boolean createAndStartVMFromISO (String name, CreateAndStartVMFromISO  createAndStartVMFromISO ) throws Exception {
+		return createAndStartVMFromISO(name, null, createAndStartVMFromISO);
+	}
+	
+	public boolean createAndStartVMFromISO (String name, String nodeName, CreateAndStartVMFromISO  createAndStartVMFromISO ) throws Exception {
 		VirtualMachine kind = new VirtualMachine();
 		kind.setApiVersion("cloudplus.io/v1alpha3");
 		kind.setKind("VirtualMachine");
 		VirtualMachineSpec spec = new VirtualMachineSpec();
+		if (nodeName != null) {
+			spec.setNodeName(nodeName);
+		}
 		ObjectMeta om = new ObjectMeta();
 		om.setName(name);
 		kind.setMetadata(om);
@@ -217,10 +224,17 @@ public class VirtualMachineImpl {
 
 
 	public boolean createAndStartVMFromImage (String name, CreateAndStartVMFromImage  createAndStartVMFromImage ) throws Exception {
+		return createAndStartVMFromImage(name, null, createAndStartVMFromImage);
+	}
+	
+	public boolean createAndStartVMFromImage (String name, String nodeName, CreateAndStartVMFromImage  createAndStartVMFromImage ) throws Exception {
 		VirtualMachine kind = new VirtualMachine();
 		kind.setApiVersion("cloudplus.io/v1alpha3");
 		kind.setKind("VirtualMachine");
 		VirtualMachineSpec spec = new VirtualMachineSpec();
+		if (nodeName != null) {
+			spec.setNodeName(nodeName);
+		}
 		ObjectMeta om = new ObjectMeta();
 		om.setName(name);
 		kind.setMetadata(om);

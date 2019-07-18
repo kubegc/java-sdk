@@ -158,10 +158,17 @@ public class VirtualMachineSnapshotImpl {
 	 **************************************************/
 	
 	public boolean createSnapshot (String name, CreateSnapshot  createSnapshot ) throws Exception {
+		return createSnapshot(name, null, createSnapshot);
+	}
+	
+	public boolean createSnapshot (String name, String nodeName, CreateSnapshot  createSnapshot ) throws Exception {
 		VirtualMachineSnapshot kind = new VirtualMachineSnapshot();
 		kind.setApiVersion("cloudplus.io/v1alpha3");
 		kind.setKind("VirtualMachineSnapshot");
 		VirtualMachineSnapshotSpec spec = new VirtualMachineSnapshotSpec();
+		if (nodeName != null) {
+			spec.setNodeName(nodeName);
+		}
 		ObjectMeta om = new ObjectMeta();
 		om.setName(name);
 		kind.setMetadata(om);

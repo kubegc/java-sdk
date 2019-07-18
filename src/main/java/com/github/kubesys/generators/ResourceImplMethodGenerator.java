@@ -15,7 +15,7 @@ import com.github.kubesys.kubernetes.impl.VirtualMachineSnapshotImpl;
  * @since 2019/6/14
  *
  */
-public class ResourceImplGenerator {
+public class ResourceImplMethodGenerator {
 
 	public static void generate(String kind, String apiversion, List<String> cmds) {
 		for (String cmd : cmds) {

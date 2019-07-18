@@ -1,9 +1,11 @@
 /*
  * Copyright (2019, ) Institute of Software, Chinese Academy of Sciences
  */
-package com.github.kubesys.generators;
+package com.github.kubesys.generators.classgen;
 
 import java.util.List;
+
+import com.github.kubesys.generators.AbstractClassGenerator;
 
 import io.fabric8.kubernetes.api.builder.Function;
 import io.fabric8.kubernetes.client.CustomResourceDoneable;
@@ -15,7 +17,7 @@ import io.fabric8.kubernetes.client.CustomResourceDoneable;
  * This code is used for generating Doneable class
  *
  */
-public class DoneableResourceGenerator extends AbstractGenerator{
+public class DoneableResourceGenerator extends AbstractClassGenerator{
 
 	public DoneableResourceGenerator(String pkgName) {
 		super(pkgName);
