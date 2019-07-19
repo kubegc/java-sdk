@@ -4,6 +4,7 @@
 package com.github.kubesys.kubernetes.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -169,11 +170,14 @@ public class VirtualMachineDiskImpl {
 		kind.setApiVersion("cloudplus.io/v1alpha3");
 		kind.setKind("VirtualMachineDisk");
 		VirtualMachineDiskSpec spec = new VirtualMachineDiskSpec();
-		if (nodeName != null) {
-			spec.setNodeName(nodeName);
-		}
 		ObjectMeta om = new ObjectMeta();
 		om.setName(name);
+		if (nodeName != null) {
+			Map<String, String> labels = new HashMap<String, String>();
+			labels.put("host", nodeName);
+			om.setLabels(labels );
+			spec.setNodeName(nodeName);
+		}
 		kind.setMetadata(om);
 		Lifecycle lifecycle = new Lifecycle();
 		lifecycle.setCreateDisk (createDisk );
@@ -194,6 +198,7 @@ public class VirtualMachineDiskImpl {
 		lifecycle.setDeleteDisk (deleteDisk );
 		spec.setLifecycle(lifecycle );
 		kind.setSpec(spec );
+		update(kind);
 		delete(kind );
 		return true;
 	}

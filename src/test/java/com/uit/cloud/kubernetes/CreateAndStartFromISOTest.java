@@ -3,6 +3,8 @@
  */
 package com.uit.cloud.kubernetes;
 
+import java.util.ArrayList;
+
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CreateAndStartVMFromISO;
 
@@ -21,7 +23,7 @@ public class CreateAndStartFromISOTest {
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		CreateAndStartVMFromISO createAndStartVMFromISO = get();
 		boolean successful = client.virtualMachines()
-				.createAndStartVMFromISO("skywind5", createAndStartVMFromISO);
+				.createAndStartVMFromISO("skywind11", "node22", createAndStartVMFromISO);
 		System.out.println(successful);
 	}
 	
@@ -31,10 +33,12 @@ public class CreateAndStartFromISOTest {
 		createAndStartVMFromISO.setVirt_type("kvm");  
 		createAndStartVMFromISO.setMemory("1024");    
 		createAndStartVMFromISO.setVcpus("1");  
-		createAndStartVMFromISO.setCdrom("/opt/ISO/CentOS-7-x86_64-Minimal-1511.iso"); 
-		createAndStartVMFromISO.setDisk("size=10,format=qcow2");      
+//		createAndStartVMFromISO.setCdrom("/opt/ISO/CentOS-7-x86_64-Minimal-1511.iso"); 
+		createAndStartVMFromISO.setDisk("size=10,format=qcow2 --disk /opt/ISO/CentOS-7-x86_64-Minimal-1511.iso,device=cdrom,perms=ro");
 		createAndStartVMFromISO.setNetwork("bridge=virbr0");  
 		createAndStartVMFromISO.setGraphics("vnc,listen=0.0.0.0");   
+		createAndStartVMFromISO.setBoot("cdrom,hd");
+//		createAndStartVMFromISO.setCheck("all=off");
 		createAndStartVMFromISO.setNoautoconsole(true);   
 		return createAndStartVMFromISO;
 	}

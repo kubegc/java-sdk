@@ -20,7 +20,7 @@ public class DeleteVMTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.deleteVM("skywind5", new DeleteVM());
+				.deleteVM("skywind8", new DeleteVM());
 		System.out.println(successful);
 	}
 	

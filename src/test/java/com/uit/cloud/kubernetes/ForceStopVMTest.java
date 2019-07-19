@@ -4,7 +4,7 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StopVM;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StopVMForce;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -13,14 +13,14 @@ import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StopVM;
  * This code is used to manage CustomResource's lifecycle,
  * such as VirtualMachine
  */
-public class StopVMTest {
+public class ForceStopVMTest {
 	
 	
 	public static void main(String[] args) throws Exception {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.stopVM("skywind8", new StopVM());
+				.stopVMForce("skywind8", new StopVMForce());
 		System.out.println(successful);
 	}
 	

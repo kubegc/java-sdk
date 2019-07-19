@@ -17,6 +17,10 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 @JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 public class Lifecycle {
 
+	protected CreateImage createImage;
+	
+	protected DeleteImage deleteImage;
+	
 	protected ConvertImageToVM convertImageToVM;
 
 	public Lifecycle() {
@@ -31,6 +35,72 @@ public class Lifecycle {
 		this.convertImageToVM = convertImageToVM;
 	}
 
+	public CreateImage getCreateImage() {
+		return createImage;
+	}
+
+	public void setCreateImage(CreateImage createImage) {
+		this.createImage = createImage;
+	}
+
+	public DeleteImage getDeleteImage() {
+		return deleteImage;
+	}
+
+	public void setDeleteImage(DeleteImage deleteImage) {
+		this.deleteImage = deleteImage;
+	}
+
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class CreateImage {
+		
+		protected String name;
+		
+		protected String path;
+
+		public CreateImage() {
+			super();
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+
+		public String getPath() {
+			return path;
+		}
+
+		public void setPath(String path) {
+			this.path = path;
+		}
+	}
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class DeleteImage {
+		
+		protected String name;
+
+		public DeleteImage() {
+			super();
+			// TODO Auto-generated constructor stub
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+		
+	}
+	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class ConvertImageToVM {

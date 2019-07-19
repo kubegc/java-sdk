@@ -75,12 +75,32 @@ public class Lifecycle {
 
 	protected SaveVM saveVM;
 	
+	protected ManageISO manageISO;
+	
+	protected UpdateOS updateOS;
+	
 	protected ConvertVMToImage convertVMToImage;
 	
 	protected RevertVirtualMachine revertVirtualMachine;
 
 	public Lifecycle() {
 
+	}
+
+	public ManageISO getManageISO() {
+		return manageISO;
+	}
+
+	public void setManageISO(ManageISO manageISO) {
+		this.manageISO = manageISO;
+	}
+
+	public UpdateOS getUpdateOS() {
+		return updateOS;
+	}
+
+	public void setUpdateOS(UpdateOS updateOS) {
+		this.updateOS = updateOS;
 	}
 
 	public RevertVirtualMachine getRevertVirtualMachine() {
@@ -2282,6 +2302,18 @@ public class Lifecycle {
 
 		}
 
+		public String getDisk() {
+			return disk;
+		}
+
+		public void setDisk(String disk) {
+			this.disk = disk;
+		}
+
+		public Boolean getNoautoconsole() {
+			return noautoconsole;
+		}
+
 		public Boolean isNoautoconsole() {
 			return noautoconsole;
 		}
@@ -2482,13 +2514,6 @@ public class Lifecycle {
 			return this.input;
 		}
 
-		public void setDisk(String disk) {
-			this.disk = disk;
-		}
-
-		public String getDisk() {
-			return this.disk;
-		}
 
 		public void setMemorybacking(String memorybacking) {
 			this.memorybacking = memorybacking;
@@ -3675,8 +3700,169 @@ public class Lifecycle {
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class ManageISO {
+
+		protected String domain;
+		
+		protected String path;
+		
+		protected String source;
+		
+		protected Boolean eject;
+		
+		protected Boolean insert;
+		
+		protected Boolean update;
+		
+		protected Boolean current;
+		
+		protected Boolean live;
+		
+		protected Boolean config;
+		
+		protected Boolean force;
+		
+		protected Boolean block;
+		
+		public ManageISO() {
+			super();
+		}
+
+		public String getDomain() {
+			return domain;
+		}
+
+		public void setDomain(String domain) {
+			this.domain = domain;
+		}
+
+		public String getPath() {
+			return path;
+		}
+
+		public void setPath(String path) {
+			this.path = path;
+		}
+
+		public String getSource() {
+			return source;
+		}
+
+		public void setSource(String source) {
+			this.source = source;
+		}
+
+		public Boolean getEject() {
+			return eject;
+		}
+
+		public void setEject(Boolean eject) {
+			this.eject = eject;
+		}
+
+		public Boolean getInsert() {
+			return insert;
+		}
+
+		public void setInsert(Boolean insert) {
+			this.insert = insert;
+		}
+
+		public Boolean getUpdate() {
+			return update;
+		}
+
+		public void setUpdate(Boolean update) {
+			this.update = update;
+		}
+
+		public Boolean getCurrent() {
+			return current;
+		}
+
+		public void setCurrent(Boolean current) {
+			this.current = current;
+		}
+
+		public Boolean getLive() {
+			return live;
+		}
+
+		public void setLive(Boolean live) {
+			this.live = live;
+		}
+
+		public Boolean getConfig() {
+			return config;
+		}
+
+		public void setConfig(Boolean config) {
+			this.config = config;
+		}
+
+		public Boolean getForce() {
+			return force;
+		}
+
+		public void setForce(Boolean force) {
+			this.force = force;
+		}
+
+		public Boolean getBlock() {
+			return block;
+		}
+
+		public void setBlock(Boolean block) {
+			this.block = block;
+		}
+
+	}
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class UpdateOS {
+		
+		protected String domain;
+		
+		protected String source;
+		
+		protected String target;
+
+		public UpdateOS() {
+			super();
+		}
+
+		public String getDomain() {
+			return domain;
+		}
+
+		public void setDomain(String domain) {
+			this.domain = domain;
+		}
+
+		public String getSource() {
+			return source;
+		}
+
+		public void setSource(String source) {
+			this.source = source;
+		}
+
+		public String getTarget() {
+			return target;
+		}
+
+		public void setTarget(String target) {
+			this.target = target;
+		}
+
+	}
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class ConvertVMToImage {
 		
 	}
+	
 	
 }

@@ -4,24 +4,29 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StopVM;
+import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.DeleteDisk;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
- * @since  2019/7/15
+ * @since  2019/7/18
  *
  * This code is used to manage CustomResource's lifecycle,
  * such as VirtualMachine
  */
-public class StopVMTest {
+public class DeleteDiskTest {
 	
 	
 	public static void main(String[] args) throws Exception {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
-		boolean successful = client.virtualMachines()
-				.stopVM("skywind8", new StopVM());
+		boolean successful = client.virtualMachineDisks()
+				.deleteDisk("disk-skywind10", getDeleteDisk());
 		System.out.println(successful);
 	}
 	
+	public static DeleteDisk getDeleteDisk() {
+		DeleteDisk dleteDisk = new DeleteDisk();
+		dleteDisk.setPool("volumes1");
+		return dleteDisk;
+	}
 }
