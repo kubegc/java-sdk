@@ -23,7 +23,7 @@ public class CreateAndStartFromISOTest {
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		CreateAndStartVMFromISO createAndStartVMFromISO = get();
 		boolean successful = client.virtualMachines()
-				.createAndStartVMFromISO("skywind11", "node22", createAndStartVMFromISO);
+				.createAndStartVMFromISO("skywind11", createAndStartVMFromISO);
 		System.out.println(successful);
 	}
 	

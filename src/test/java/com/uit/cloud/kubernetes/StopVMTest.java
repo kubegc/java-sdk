@@ -20,7 +20,7 @@ public class StopVMTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.stopVM("skywind8", new StopVM());
+				.stopVM("skywind11", new StopVM());
 		System.out.println(successful);
 	}
 	

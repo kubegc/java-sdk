@@ -4,7 +4,7 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.DeleteVM;
+import com.github.kubesys.kubernetes.api.model.virtualmachineimage.Lifecycle.DeleteImage;
 
 
 /**
@@ -14,13 +14,13 @@ import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.DeleteVM
  * This code is used to manage CustomResource's lifecycle,
  * such as VirtualMachine
  */
-public class DeleteVMTest {
+public class DeleteVMImageTest {
 	
 	public static void main(String[] args) throws Exception {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
-		boolean successful = client.virtualMachines()
-				.deleteVM("skywind11", new DeleteVM());
+		boolean successful = client.virtualMachineImages()
+				.deleteImage("skywind11", new DeleteImage());
 		System.out.println(successful);
 	}
 	

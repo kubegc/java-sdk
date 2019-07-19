@@ -304,7 +304,7 @@ public class VirtualMachineImpl {
 
 	public boolean stopVMForce (String name, StopVMForce  stopVMForce ) throws Exception {
 		VirtualMachine kind = get(name);
-		if(kind == null || kind.getSpec().getLifecycle() != null) {
+		if(kind == null) {
 			throw new RuntimeException("VirtualMachine" + name + " is not exist or it is in a wrong status");
 		}
 		VirtualMachineSpec spec = kind.getSpec();

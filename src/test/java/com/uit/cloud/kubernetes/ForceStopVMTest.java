@@ -20,7 +20,7 @@ public class ForceStopVMTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.stopVMForce("skywind8", new StopVMForce());
+				.stopVMForce("skywind11", new StopVMForce());
 		System.out.println(successful);
 	}
 	

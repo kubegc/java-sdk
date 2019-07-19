@@ -20,7 +20,7 @@ public class ConvertVMToImageTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.convertVMToImage("skywind5", new ConvertVMToImage());
+				.convertVMToImage("skywind11", new ConvertVMToImage());
 		System.out.println(successful);
 	}
 }
