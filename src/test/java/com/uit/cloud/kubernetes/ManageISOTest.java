@@ -20,7 +20,7 @@ public class ManageISOTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.manageISO("skywind10", getManageISO());
+				.manageISO("skywind11-clone", getManageISO());
 		System.out.println(successful);
 	}
 	

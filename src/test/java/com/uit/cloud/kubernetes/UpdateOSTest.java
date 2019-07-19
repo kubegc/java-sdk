@@ -20,16 +20,16 @@ public class UpdateOSTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.updateOS("skywind10", getManageISO());
+				.updateOS("skywind11", getManageISO());
 		System.out.println(successful);
 	}
 	
 	public static UpdateOS getManageISO() {
 		UpdateOS os = new UpdateOS();
 		// current VM disk
-		os.setSource("/var/lib/");
+		os.setSource("/var/lib/libvirt/images/fuck-skywind11.qcow2");
 		// target VM disk
-		os.setTarget("/a/a/a/");
+		os.setTarget("/var/lib/libvirt/images/ttt.qcow2");
 		return os;
 	}
 }
