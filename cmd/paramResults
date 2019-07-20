@@ -1335,12 +1335,13 @@ or a number from the virDomainNumatuneMemMode enum
 --algorithm <string>  perform selected wiping algorithm
 
 [virt-install]
---name <string>  Name of the guest instance
---memory <string>       Configure guest memory allocation. Ex:
---vcpus <string>         Number of vcpus to configure for your guest. Ex:
+[--name] <string>  Name of the guest instance
+[--memory] <string>       Configure guest memory allocation. Ex:
+[--vcpus] <string>         Number of vcpus to configure for your guest. Ex:
+[--disk] <string>           Specify storage with various options. Ex.
+[--cdrom] <string>         CD-ROM installation media
 --cpu <string>             CPU model and features. Ex:
 --metadata <string>   Configure guest metadata. Ex:
---cdrom <string>         CD-ROM installation media
 --location <string> LOCATION
 --pxe                 Boot from the network using the PXE protocol
 --import              Build guest around an existing disk image
@@ -1350,7 +1351,6 @@ or a number from the virDomainNumatuneMemMode enum
 --os-variant <string> DISTRO_VARIANT
 --boot <string> BOOT           Configure guest boot settings. Ex:
 --idmap <string>         Enable user namespace for LXC container. Ex:
---disk <string>           Specify storage with various options. Ex.
 --network <string> NETWORK
 --graphics <string>   Configure guest display settings. Ex:
 --controller <string> CONTROLLER
@@ -1399,11 +1399,11 @@ or a number from the virDomainNumatuneMemMode enum
 --check <string>         Enable or disable validation checks. Example:
 
 [virt-clone]
---original <string> ORIGINAL_GUEST
+[--original] <string> ORIGINAL_GUEST
+[--file] <string> NEW_DISKFILE
 --auto-clone          Auto generate clone name and storage paths from the
 --name <string> NEW_NAME
 --reflink             use btrfs COW lightweight copy
---file <string> NEW_DISKFILE
 --force-copy T<string>   Force to copy devices (eg, if 'hdc' is a readonly cdrom device, --force-copy=hdc)
 --nonsparse           Do not use a sparse file for the clone's disk image
 --preserve-data       Do not clone storage, new disk images specified via
