@@ -156,8 +156,9 @@ public class VirtualMachineImageImpl {
 	 * @param name        name
 	 * @param key         key
 	 * @param value       value
+	 * @throws Exception  exception
 	 */
-	public void addTag(String name, String key, String value) {
+	public void addTag(String name, String key, String value) throws Exception {
 		
 		if (key.equals("host")) {
 			m_logger.log(Level.SEVERE, "'host' is a keyword.");
@@ -173,13 +174,16 @@ public class VirtualMachineImageImpl {
 		Map<String, String> tags = image.getMetadata().getLabels();
 		tags = (tags == null) ? new HashMap<String, String>() : tags;
 		tags.put(key, value);
+		
+		update(image);
 	}
 	
 /**
  * @param name     name
  * @param key      key
+ * @throws Exception exception
  */
-public void deleteTag(String name, String key) {
+public void deleteTag(String name, String key) throws Exception {
 		
 		if (key.equals("host")) {
 			m_logger.log(Level.SEVERE, "'host' is a keyword.");
@@ -196,6 +200,8 @@ public void deleteTag(String name, String key) {
 		if (tags != null) {
 			tags.remove(key);
 		}
+		
+		update(image);
 	}
 	
 	/*************************************************

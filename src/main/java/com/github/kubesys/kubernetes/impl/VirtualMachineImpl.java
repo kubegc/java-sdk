@@ -201,8 +201,9 @@ public class VirtualMachineImpl {
 	 * @param name        name
 	 * @param key         key
 	 * @param value       value
+	 * @throws Exception   exception
 	 */
-	public void addTag(String name, String key, String value) {
+	public void addTag(String name, String key, String value) throws Exception {
 		
 		if (key.equals("host")) {
 			m_logger.log(Level.SEVERE, "'host' is a keyword.");
@@ -218,13 +219,15 @@ public class VirtualMachineImpl {
 		Map<String, String> tags = vm.getMetadata().getLabels();
 		tags = (tags == null) ? new HashMap<String, String>() : tags;
 		tags.put(key, value);
+		update(vm);
 	}
 	
 /**
  * @param name     name
  * @param key      key
+ * @throws Exception exception
  */
-public void deleteTag(String name, String key) {
+public void deleteTag(String name, String key) throws Exception {
 		
 		if (key.equals("host")) {
 			m_logger.log(Level.SEVERE, "'host' is a keyword.");
@@ -241,6 +244,7 @@ public void deleteTag(String name, String key) {
 		if (tags != null) {
 			tags.remove(key);
 		}
+		update(vm);
 	}
 	
 	/*************************************************

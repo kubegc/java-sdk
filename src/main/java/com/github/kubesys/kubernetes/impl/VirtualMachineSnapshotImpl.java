@@ -155,30 +155,34 @@ public class VirtualMachineSnapshotImpl {
 	 * @param name        name
 	 * @param key         key
 	 * @param value       value
+	 * @throws Exception  exception
 	 */
-	public void addTag(String name, String key, String value) {
+	public void addTag(String name, String key, String value) throws Exception {
 		
 		if (key.equals("host")) {
 			m_logger.log(Level.SEVERE, "'host' is a keyword.");
 			return;
 		}
 		
-		VirtualMachineSnapshot vm = get(name);
-		if (vm == null) {
+		VirtualMachineSnapshot snapshot = get(name);
+		if (snapshot == null) {
 			m_logger.log(Level.SEVERE, "Snapshot " + name + " not exist.");
 			return;
 		}
 		
-		Map<String, String> tags = vm.getMetadata().getLabels();
+		Map<String, String> tags = snapshot.getMetadata().getLabels();
 		tags = (tags == null) ? new HashMap<String, String>() : tags;
 		tags.put(key, value);
+		
+		update(snapshot);
 	}
 	
 /**
  * @param name     name
  * @param key      key
+ * @throws Exception  exception
  */
-public void deleteTag(String name, String key) {
+public void deleteTag(String name, String key) throws Exception {
 		
 		if (key.equals("host")) {
 			m_logger.log(Level.SEVERE, "'host' is a keyword.");
@@ -195,6 +199,8 @@ public void deleteTag(String name, String key) {
 		if (tags != null) {
 			tags.remove(key);
 		}
+		
+		update(snapshot);
 	}
 	
 	/*************************************************
