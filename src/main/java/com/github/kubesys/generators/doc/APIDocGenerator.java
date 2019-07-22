@@ -59,14 +59,14 @@ public class APIDocGenerator {
 		for (String cmd : cmds.keySet()) {
 			sb.append("## **").append(cmds.get(cmd)).append("**\n\n");
 			
-			sb.append("Parameters:").append("\n\n");
+			sb.append("参数:").append("\n\n");
 			sb.append("| name | type | required | description | ").append("\n");
 			sb.append("| ----- | ------ | ------ | ------ |").append("\n");
 			Map<String, String> cmdParams = new HashMap<String, String>();
 			genParams("[" + cmd + "]", cmdParams);
 			params.put(cmds.get(cmd), cmdParams);
 			
-			sb.append("\n\nExeamples:").append("\n\n");
+			sb.append("\n\nJava代码:").append("\n\n");
 			
 			sb.append("```").append("\n");
 			sb.append("ExtendedKubernetesClient client = AbstractTest.getClient();").append("\n");

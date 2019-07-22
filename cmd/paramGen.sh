@@ -18,6 +18,6 @@ do
 done
 
   echo "[virt-install]" >> paramResults
-  virt-install --help | grep "\-\-"  | awk '{gsub(/^\s+|\s+$/, "");print}' >> paramsResults
+  virt-install --help | grep "\-\-"  | awk '{gsub(/^\s+|\s+$/, "");print}' >> paramResults
   echo "[virt-clone]" >> paramResults
-  virt-clone --help | grep "\-\-" | egrep -v "usage" | awk '{gsub(/^\s+|\s+$/, "");print}' >> paramsResults
+  virt-clone --help | grep "\-\-" | egrep -v "usage" | awk '{gsub(/^\s+|\s+$/, "");print}' >> paramResults

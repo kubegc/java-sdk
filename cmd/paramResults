@@ -1351,4 +1351,80 @@ or a number from the virDomainNumatuneMemMode enum
 
 
 [virt-install]
+--name <string>  客户机实例名称
+--memory <string>       Configure guest memory allocation. Ex:
+--vcpus <string>         配置客户机虚拟 CPU(vcpu) 数量。例如：
+--cpu <string>             CPU model and features. Ex:
+--metadata <string>   配置客户机元数据。例如：
+--cdrom <string>         光驱安装介质
+--location <string> LOCATION
+--pxe                 使用 PXE 协议从网络引导
+--import              在已有的磁盘镜像中构建客户机
+--livecd              将光驱介质视为 Live CD
+--extra-args <string> EXTRA_ARGS
+--initrd-inject <string> INITRD_INJECT
+--os-variant <string> DISTRO_VARIANT
+--boot <string>           配置客户机引导设置。例如：
+--idmap <string>         为 LXC 容器启用用户名称空间。例如：
+--disk <string>           指定存储的各种选项。例如：
+--network <string> NETWORK
+--graphics <string>   配置客户机显示设置。例如：
+--controller <string> CONTROLLER
+--input <string>         配置客户机输入设备。例如：
+--serial <string>       配置客户机串口设备
+--parallel <string>   配置客户机并口设备
+--channel <string>     配置客户机通信通道
+--console <string>     配置文本控制台连接主机与客户机
+--hostdev <string>     配置物理 USB/PCI 等主机设备与客户机共享
+--filesystem <string> FILESYSTEM
+--sound <string>      配置客户机声音设备仿真
+--watchdog <string>   配置客户机 watchdog 设备
+--video <string>         配置客户机视频硬件。
+--smartcard <string> SMARTCARD
+--redirdev <string>   配置客户机重定向设备。例如：
+--memballoon <string> MEMBALLOON
+--tpm <string>             配置客户机 TPM 设备。例如：
+--rng <string>             Configure a guest RNG device. Ex:
+--panic <string>         配置客户机 panic 设备。例如：
+--memdev <string>       Configure a guest memory device. Ex:
+--security <string>   设置域安全驱动配置。
+--cputune <string>     Tune CPU parameters for the domain process.
+--numatune <string>   为域进程调整 NUMA 策略。
+--memtune <string>     为域进程调整内存策略。
+--blkiotune <string> BLKIOTUNE
+--memorybacking <string> MEMORYBACKING
+--features <string>   设置域 <features> XML。例如：
+--clock <string>         设置域 <clock> XML。例如：
+--pm <string>               配置 VM 电源管理功能
+--events <string>       配置 VM 生命周期管理策略
+--resource <string>   配置 VM 资源分区(cgroups)
+--sysinfo <string>     Configure SMBIOS System Information. Ex:
+--qemu-commandline <string> QEMU_COMMANDLINE
+--hvm             这个客户机应该是一个全虚拟化客户机
+--paravirt        这个客户机应该是一个半虚拟化客户机
+--container           这个客户机应该是一个容器客户机
+--virt-type <string>   要使用的管理程序名称 (kvm, qemu, xen, ...)
+--arch <string>           模拟 CPU 架构
+--machine <string>     机器类型为仿真类型
+--autostart           主机启动时自动启动域。
+--transient           Create a transient domain.
+--wait <string>           请等待数分钟以便完成安装。
+--noautoconsole       不要自动尝试连接到客户端控制台
+--noreboot            安装完成后不启动客户机。
+--dry-run             运行安装程序，但不创建设备或定义客户
+--check <string>         启用或禁用验证检查。例如：
+
+
 [virt-clone]
+--original <string> ORIGINAL_GUEST
+--auto-clone          从原始客户机配置中自动生成克隆名称和
+--name <string> NEW_NAME
+--reflink             使用 btrfs COW 轻量副本
+--file <string> NEW_DISKFILE
+--force-copy TARGET   强制复制设备(例如：如果 'hdc'是只读光驱设备，则使用 --force-copy=hdc)
+--nonsparse           不使用稀疏文件作为克隆的磁盘镜像
+--preserve-data       不克隆存储，通过 --file
+--nvram <string>     New file to use as storage for nvram VARS
+--mac <string> NEW_MAC
+--replace             不检查命名冲突，覆盖任何使用相同名称
+--check <string>         启用或禁用验证检查。例如：
