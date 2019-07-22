@@ -52,10 +52,10 @@ public class VirtualMachineDiskImpl {
 	public static List<String> cmds = new ArrayList<String>();
 	
 	static {
-		cmds.add("createDisk ");
-		cmds.add("deleteDisk ");
-		cmds.add("resizeDisk ");
-		cmds.add("cloneDisk ");
+		cmds.add("createDisk");
+		cmds.add("deleteDisk");
+		cmds.add("resizeDisk");
+		cmds.add("cloneDisk");
 	}
 	
 	/*************************************************
@@ -154,6 +154,51 @@ public class VirtualMachineDiskImpl {
 				client.withLabels(labels)).list();
 	}
 	
+	/**
+	 * @param name        name
+	 * @param key         key
+	 * @param value       value
+	 */
+	public void addTag(String name, String key, String value) {
+		
+		if (key.equals("host")) {
+			m_logger.log(Level.SEVERE, "'host' is a keyword.");
+			return;
+		}
+		
+		VirtualMachineDisk disk = get(name);
+		if (disk == null) {
+			m_logger.log(Level.SEVERE, "Disk" + name + " not exist.");
+			return;
+		}
+		
+		Map<String, String> tags = disk.getMetadata().getLabels();
+		tags = (tags == null) ? new HashMap<String, String>() : tags;
+		tags.put(key, value);
+	}
+	
+/**
+ * @param name     name
+ * @param key      key
+ */
+public void deleteTag(String name, String key) {
+		
+		if (key.equals("host")) {
+			m_logger.log(Level.SEVERE, "'host' is a keyword.");
+			return;
+		}
+		
+		VirtualMachineDisk disk = get(name);
+		if (disk == null) {
+			m_logger.log(Level.SEVERE, "Disk " + name + " not exist.");
+			return;
+		}
+		
+		Map<String, String> tags = disk.getMetadata().getLabels();
+		if (tags != null) {
+			tags.remove(key);
+		}
+	}
 	
 	/*************************************************
 	 * 

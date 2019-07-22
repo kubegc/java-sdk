@@ -51,9 +51,9 @@ public class VirtualMachineImageImpl {
 	public static List<String> cmds = new ArrayList<String>();
 	
 	static {
-		cmds.add("convertImageToVM ");
-		cmds.add("createImage ");
-		cmds.add("deleteImage ");
+		cmds.add("convertImageToVM");
+		cmds.add("createImage");
+		cmds.add("deleteImage");
 	}
 	
 	/*************************************************
@@ -150,6 +150,52 @@ public class VirtualMachineImageImpl {
 	public VirtualMachineImageList list(Map<String, String> labels) {
 		return (VirtualMachineImageList)((FilterWatchListDeletable) 
 				client.withLabels(labels)).list();
+	}
+	
+	/**
+	 * @param name        name
+	 * @param key         key
+	 * @param value       value
+	 */
+	public void addTag(String name, String key, String value) {
+		
+		if (key.equals("host")) {
+			m_logger.log(Level.SEVERE, "'host' is a keyword.");
+			return;
+		}
+		
+		VirtualMachineImage image = get(name);
+		if (image == null) {
+			m_logger.log(Level.SEVERE, "Image " + name + " not exist.");
+			return;
+		}
+		
+		Map<String, String> tags = image.getMetadata().getLabels();
+		tags = (tags == null) ? new HashMap<String, String>() : tags;
+		tags.put(key, value);
+	}
+	
+/**
+ * @param name     name
+ * @param key      key
+ */
+public void deleteTag(String name, String key) {
+		
+		if (key.equals("host")) {
+			m_logger.log(Level.SEVERE, "'host' is a keyword.");
+			return;
+		}
+		
+		VirtualMachineImage image = get(name);
+		if (image == null) {
+			m_logger.log(Level.SEVERE, "Image " + name + " not exist.");
+			return;
+		}
+		
+		Map<String, String> tags = image.getMetadata().getLabels();
+		if (tags != null) {
+			tags.remove(key);
+		}
 	}
 	
 	/*************************************************

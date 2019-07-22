@@ -74,29 +74,29 @@ public class VirtualMachineImpl {
 	public static List<String> cmds = new ArrayList<String>();
 	
 	static {
-		cmds.add("createAndStartVMFromISO ");
-		cmds.add("createAndStartVMFromImage ");
-		cmds.add("convertVMToImage ");
-		cmds.add("startVM ");
-		cmds.add("stopVM ");
-		cmds.add("stopVMForce ");
-		cmds.add("deleteVM ");
-		cmds.add("rebootVM ");
-		cmds.add("resetVM ");
-		cmds.add("resumeVM ");
-		cmds.add("suspendVM ");
-		cmds.add("saveVM ");
-		cmds.add("restoreVM ");
-		cmds.add("migrateVM ");
-		cmds.add("manageISO ");
-		cmds.add("updateOS ");
-		cmds.add("plugDevice ");
-		cmds.add("unplugDevice ");
-		cmds.add("plugDisk ");
-		cmds.add("unplugDisk ");
-		cmds.add("plugNIC ");
-		cmds.add("unplugNIC ");
-		cmds.add("changeNumberOfCPU ");
+		cmds.add("createAndStartVMFromISO");
+		cmds.add("createAndStartVMFromImage");
+		cmds.add("convertVMToImage");
+		cmds.add("startVM");
+		cmds.add("stopVM");
+		cmds.add("stopVMForce");
+		cmds.add("deleteVM");
+		cmds.add("rebootVM");
+		cmds.add("resetVM");
+		cmds.add("resumeVM");
+		cmds.add("suspendVM");
+		cmds.add("saveVM");
+		cmds.add("restoreVM");
+		cmds.add("migrateVM");
+		cmds.add("manageISO");
+		cmds.add("updateOS");
+		cmds.add("plugDevice");
+		cmds.add("unplugDevice");
+		cmds.add("plugDisk");
+		cmds.add("unplugDisk");
+		cmds.add("plugNIC");
+		cmds.add("unplugNIC");
+		cmds.add("changeNumberOfCPU");
 		cmds.add("resizeRAM");
 	}
 	
@@ -196,6 +196,52 @@ public class VirtualMachineImpl {
 				client.withLabels(labels)).list();
 	}
 	
+	
+	/**
+	 * @param name        name
+	 * @param key         key
+	 * @param value       value
+	 */
+	public void addTag(String name, String key, String value) {
+		
+		if (key.equals("host")) {
+			m_logger.log(Level.SEVERE, "'host' is a keyword.");
+			return;
+		}
+		
+		VirtualMachine vm = get(name);
+		if (vm == null) {
+			m_logger.log(Level.SEVERE, "VM " + name + " not exist.");
+			return;
+		}
+		
+		Map<String, String> tags = vm.getMetadata().getLabels();
+		tags = (tags == null) ? new HashMap<String, String>() : tags;
+		tags.put(key, value);
+	}
+	
+/**
+ * @param name     name
+ * @param key      key
+ */
+public void deleteTag(String name, String key) {
+		
+		if (key.equals("host")) {
+			m_logger.log(Level.SEVERE, "'host' is a keyword.");
+			return;
+		}
+		
+		VirtualMachine vm = get(name);
+		if (vm == null) {
+			m_logger.log(Level.SEVERE, "VM " + name + " not exist.");
+			return;
+		}
+		
+		Map<String, String> tags = vm.getMetadata().getLabels();
+		if (tags != null) {
+			tags.remove(key);
+		}
+	}
 	
 	/*************************************************
 	 * 

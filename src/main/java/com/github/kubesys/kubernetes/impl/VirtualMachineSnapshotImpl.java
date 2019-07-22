@@ -51,8 +51,8 @@ public class VirtualMachineSnapshotImpl {
 	public static List<String> cmds = new ArrayList<String>();
 	
 	static {
-		cmds.add("createSnapshot ");
-		cmds.add("deleteSnapshot ");
+		cmds.add("createSnapshot");
+		cmds.add("deleteSnapshot");
 	}
 	
 	/*************************************************
@@ -151,6 +151,51 @@ public class VirtualMachineSnapshotImpl {
 				client.withLabels(labels)).list();
 	}
 	
+	/**
+	 * @param name        name
+	 * @param key         key
+	 * @param value       value
+	 */
+	public void addTag(String name, String key, String value) {
+		
+		if (key.equals("host")) {
+			m_logger.log(Level.SEVERE, "'host' is a keyword.");
+			return;
+		}
+		
+		VirtualMachineSnapshot vm = get(name);
+		if (vm == null) {
+			m_logger.log(Level.SEVERE, "Snapshot " + name + " not exist.");
+			return;
+		}
+		
+		Map<String, String> tags = vm.getMetadata().getLabels();
+		tags = (tags == null) ? new HashMap<String, String>() : tags;
+		tags.put(key, value);
+	}
+	
+/**
+ * @param name     name
+ * @param key      key
+ */
+public void deleteTag(String name, String key) {
+		
+		if (key.equals("host")) {
+			m_logger.log(Level.SEVERE, "'host' is a keyword.");
+			return;
+		}
+		
+		VirtualMachineSnapshot snapshot = get(name);
+		if (snapshot == null) {
+			m_logger.log(Level.SEVERE, "Snapshot " + name + " not exist.");
+			return;
+		}
+		
+		Map<String, String> tags = snapshot.getMetadata().getLabels();
+		if (tags != null) {
+			tags.remove(key);
+		}
+	}
 	
 	/*************************************************
 	 * 
