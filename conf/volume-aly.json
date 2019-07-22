@@ -1,0 +1,50 @@
+{
+	"volume": {
+		"allocation": {
+			"text": "String",
+			"unit": "String"
+		},
+		"capacity": {
+			"text": "String",
+			"unit": "String"
+		},
+		"key": "String",
+		"name": "String",
+		"physical": {
+			"text": "String",
+			"unit": "String"
+		},
+		"source": {
+			"auth": {
+				"secret": {
+					"usage": "String"
+				},
+				"type": "String",
+				"username": "String"
+			},
+			"device": {
+				"path": "String"
+			},
+			"host": {
+				"name": "String"
+			}
+		},
+		"target": {
+			"format": {
+				"type": "String"
+			},
+			"path": "String",
+			"permissions": {
+				"group": "String",
+				"mode": "String",
+				"owner": "String"
+			},
+			"timestamps": {
+				"atime": "String",
+				"ctime": "String",
+				"mtime": "String"
+			}
+		},
+		"type": "String"
+	}
+}

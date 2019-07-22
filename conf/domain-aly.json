@@ -1,0 +1,2841 @@
+{
+	"domain": {
+		"blkiotune": {
+			"device": [
+				{
+					"path": {
+						"text": "String"
+					},
+					"read_bytes_sec": {
+						"text": "String"
+					},
+					"read_iops_sec": {
+						"text": "String"
+					},
+					"weight": {
+						"text": "String"
+					},
+					"write_bytes_sec": {
+						"text": "String"
+					},
+					"write_iops_sec": {
+						"text": "String"
+					}
+				},
+				{
+					"path": {
+						"text": "String"
+					},
+					"read_bytes_sec": {
+						"text": "String"
+					},
+					"read_iops_sec": {
+						"text": "String"
+					},
+					"weight": {
+						"text": "String"
+					},
+					"write_bytes_sec": {
+						"text": "String"
+					},
+					"write_iops_sec": {
+						"text": "String"
+					}
+				}
+			],
+			"weight": {
+				"text": "String"
+			}
+		},
+		"bootloader": {
+			"text": "String"
+		},
+		"bootloader_args": {
+			"text": "String"
+		},
+		"clock": {
+			"adjustment": "String",
+			"basis": "String",
+			"offset": "String",
+			"timer": [
+				{
+					"catchup": {
+						"limit": "String",
+						"slew": "String",
+						"threshold": "String"
+					},
+					"frequency": "String",
+					"mode": "String",
+					"name": "String",
+					"present": "String",
+					"tickpolicy": "String",
+					"track": "String"
+				},
+				{
+					"catchup": {
+						"limit": "String",
+						"slew": "String",
+						"threshold": "String"
+					},
+					"frequency": "String",
+					"mode": "String",
+					"name": "String",
+					"present": "String",
+					"tickpolicy": "String",
+					"track": "String"
+				}
+			],
+			"timezone": "String"
+		},
+		"cpu": {
+			"cache": {
+				"level": "String",
+				"mode": "String"
+			},
+			"check": "String",
+			"feature": [
+				{
+					"name": "String",
+					"policy": "String"
+				},
+				{
+					"name": "String",
+					"policy": "String"
+				}
+			],
+			"match": "String",
+			"mode": "String",
+			"model": {
+				"fallback": "String",
+				"text": "String",
+				"vendor_id": "String"
+			},
+			"numa": {
+				"cell": [
+					{
+						"cpus": "String",
+						"discard": "String",
+						"distances": {
+							"sibling": [
+								{
+									"id": "String",
+									"value": "String"
+								},
+								{
+									"id": "String",
+									"value": "String"
+								}
+							]
+						},
+						"id": "String",
+						"memAccess": "String",
+						"memory": "String",
+						"unit": "String"
+					},
+					{
+						"cpus": "String",
+						"discard": "String",
+						"distances": {
+							"sibling": [
+								{
+									"id": "String",
+									"value": "String"
+								},
+								{
+									"id": "String",
+									"value": "String"
+								}
+							]
+						},
+						"id": "String",
+						"memAccess": "String",
+						"memory": "String",
+						"unit": "String"
+					}
+				]
+			},
+			"topology": {
+				"cores": "String",
+				"sockets": "String",
+				"threads": "String"
+			},
+			"vendor": {
+				"text": "String"
+			}
+		},
+		"cputune": {
+			"cachetune": [
+				{
+					"cache": [
+						{
+							"id": "String",
+							"level": "String",
+							"size": "String",
+							"type": "String",
+							"unit": "String"
+						},
+						{
+							"id": "String",
+							"level": "String",
+							"size": "String",
+							"type": "String",
+							"unit": "String"
+						}
+					],
+					"monitor": [
+						{
+							"level": "String",
+							"vcpus": "String"
+						},
+						{
+							"level": "String",
+							"vcpus": "String"
+						}
+					],
+					"vcpus": "String"
+				},
+				{
+					"cache": [
+						{
+							"id": "String",
+							"level": "String",
+							"size": "String",
+							"type": "String",
+							"unit": "String"
+						},
+						{
+							"id": "String",
+							"level": "String",
+							"size": "String",
+							"type": "String",
+							"unit": "String"
+						}
+					],
+					"monitor": [
+						{
+							"level": "String",
+							"vcpus": "String"
+						},
+						{
+							"level": "String",
+							"vcpus": "String"
+						}
+					],
+					"vcpus": "String"
+				}
+			],
+			"emulator_period": {
+				"text": "String"
+			},
+			"emulator_quota": {
+				"text": "String"
+			},
+			"emulatorpin": {
+				"cpuset": "String"
+			},
+			"global_period": {
+				"text": "String"
+			},
+			"global_quota": {
+				"text": "String"
+			},
+			"iothread_period": {
+				"text": "String"
+			},
+			"iothread_quota": {
+				"text": "String"
+			},
+			"iothreadpin": [
+				{
+					"cpuset": "String",
+					"iothread": "String"
+				},
+				{
+					"cpuset": "String",
+					"iothread": "String"
+				}
+			],
+			"iothreadsched": [
+				{
+					"iothreads": "String",
+					"priority": "String",
+					"scheduler": "String"
+				},
+				{
+					"iothreads": "String",
+					"priority": "String",
+					"scheduler": "String"
+				}
+			],
+			"memorytune": [
+				{
+					"node": [
+						{
+							"bandwidth": "String",
+							"id": "String"
+						},
+						{
+							"bandwidth": "String",
+							"id": "String"
+						}
+					],
+					"vcpus": "String"
+				},
+				{
+					"node": [
+						{
+							"bandwidth": "String",
+							"id": "String"
+						},
+						{
+							"bandwidth": "String",
+							"id": "String"
+						}
+					],
+					"vcpus": "String"
+				}
+			],
+			"period": {
+				"text": "String"
+			},
+			"quota": {
+				"text": "String"
+			},
+			"shares": {
+				"text": "String"
+			},
+			"vcpupin": [
+				{
+					"cpuset": "String",
+					"vcpu": "String"
+				},
+				{
+					"cpuset": "String",
+					"vcpu": "String"
+				}
+			],
+			"vcpusched": [
+				{
+					"priority": "String",
+					"scheduler": "String",
+					"vcpus": "String"
+				},
+				{
+					"priority": "String",
+					"scheduler": "String",
+					"vcpus": "String"
+				}
+			]
+		},
+		"currentMemory": {
+			"text": "String",
+			"unit": "String"
+		},
+		"description": {
+			"text": "String"
+		},
+		"devices": {
+			"channel": [
+				{
+					"address": {
+						"bus": "String",
+						"controller": "String",
+						"port": "String",
+						"type": "String"
+					},
+					"alias": {
+						"name": "String"
+					},
+					"log": {
+						"append": "String",
+						"file": "String"
+					},
+					"protocol": {
+						"type": "String"
+					},
+					"source": {
+						"mode": "String",
+						"path": "String"
+					},
+					"target": {
+						"name": "String",
+						"state": "String",
+						"type": "String"
+					},
+					"type": "String"
+				},
+				{
+					"address": {
+						"bus": "String",
+						"controller": "String",
+						"port": "String",
+						"type": "String"
+					},
+					"alias": {
+						"name": "String"
+					},
+					"log": {
+						"append": "String",
+						"file": "String"
+					},
+					"protocol": {
+						"type": "String"
+					},
+					"source": {
+						"mode": "String",
+						"path": "String"
+					},
+					"target": {
+						"name": "String",
+						"state": "String",
+						"type": "String"
+					},
+					"type": "String"
+				}
+			],
+			"console": [
+				{
+					"address": {
+						
+					},
+					"alias": {
+						"name": "String"
+					},
+					"log": {
+						"append": "String",
+						"file": "String"
+					},
+					"protocol": {
+						"type": "String"
+					},
+					"source": {
+						"path": "String"
+					},
+					"target": {
+						"port": "String",
+						"type": "String"
+					},
+					"tty": "String",
+					"type": "String"
+				},
+				{
+					"address": {
+						
+					},
+					"alias": {
+						"name": "String"
+					},
+					"log": {
+						"append": "String",
+						"file": "String"
+					},
+					"protocol": {
+						"type": "String"
+					},
+					"source": {
+						"path": "String"
+					},
+					"target": {
+						"port": "String",
+						"type": "String"
+					},
+					"tty": "String",
+					"type": "String"
+				}
+			],
+			"controller": [
+				{
+					"address": {
+						"bus": "String",
+						"domain": "String",
+						"function": "String",
+						"multifunction": "String",
+						"slot": "String",
+						"type": "String"
+					},
+					"alias": {
+						"name": "String"
+					},
+					"driver": {
+						"ats": "String",
+						"cmd_per_lun": "String",
+						"ioeventfd": "String",
+						"iommu": "String",
+						"iothread": "String",
+						"max_sectors": "String",
+						"queues": "String"
+					},
+					"index": "String",
+					"master": {
+						"startport": "String"
+					},
+					"model": "String",
+					"type": "String"
+				},
+				{
+					"address": {
+						"bus": "String",
+						"domain": "String",
+						"function": "String",
+						"multifunction": "String",
+						"slot": "String",
+						"type": "String"
+					},
+					"alias": {
+						"name": "String"
+					},
+					"driver": {
+						"ats": "String",
+						"cmd_per_lun": "String",
+						"ioeventfd": "String",
+						"iommu": "String",
+						"iothread": "String",
+						"max_sectors": "String",
+						"queues": "String"
+					},
+					"index": "String",
+					"master": {
+						"startport": "String"
+					},
+					"model": "String",
+					"type": "String"
+				}
+			],
+			"disk": [
+				{
+					"address": {
+						"bus": "String",
+						"controller": "String",
+						"domain": "String",
+						"function": "String",
+						"slot": "String",
+						"target": "String",
+						"type": "String",
+						"unit": "String"
+					},
+					"alias": {
+						"name": "String"
+					},
+					"auth": {
+						"secret": {
+							"type": "String",
+							"usage": "String",
+							"uuid": "String"
+						},
+						"username": "String"
+					},
+					"backingStore": {
+						"format": {
+							"type": "String"
+						},
+						"index": "String",
+						"source": {
+							"encryption": {
+								"format": "String",
+								"secret": {
+									"type": "String",
+									"usage": "String",
+									"uuid": "String"
+								}
+							},
+							"index": "String",
+							"reservations": {
+								"enabled": "String",
+								"managed": "String",
+								"source": {
+									"dev": "String",
+									"mode": "String",
+									"path": "String",
+									"type": "String"
+								}
+							},
+							"startupPolicy": "String"
+						}
+					},
+					"blockio": {
+						"logical_block_size": "String",
+						"physical_block_size": "String"
+					},
+					"boot": {
+						"loadparm": "String",
+						"order": "String"
+					},
+					"device": "String",
+					"driver": {
+						"ats": "String",
+						"cache": "String",
+						"copy_on_read": "String",
+						"detect_zeroes": "String",
+						"discard": "String",
+						"error_policy": "String",
+						"event_idx": "String",
+						"io": "String",
+						"ioeventfd": "String",
+						"iommu": "String",
+						"iothread": "String",
+						"name": "String",
+						"queues": "String",
+						"rerror_policy": "String",
+						"type": "String"
+					},
+					"encryption": {
+						"format": "String",
+						"secret": {
+							"type": "String",
+							"usage": "String",
+							"uuid": "String"
+						}
+					},
+					"geometry": {
+						"cyls": "String",
+						"heads": "String",
+						"secs": "String",
+						"trans": "String"
+					},
+					"iotune": {
+						"group_name": {
+							"text": "String"
+						},
+						"read_bytes_sec": {
+							"text": "String"
+						},
+						"read_bytes_sec_max": {
+							"text": "String"
+						},
+						"read_bytes_sec_max_length": {
+							"text": "String"
+						},
+						"read_iops_sec": {
+							"text": "String"
+						},
+						"read_iops_sec_max": {
+							"text": "String"
+						},
+						"read_iops_sec_max_length": {
+							"text": "String"
+						},
+						"size_iops_sec": {
+							"text": "String"
+						},
+						"total_bytes_sec": {
+							"text": "String"
+						},
+						"total_bytes_sec_max": {
+							"text": "String"
+						},
+						"total_bytes_sec_max_length": {
+							"text": "String"
+						},
+						"total_iops_sec": {
+							"text": "String"
+						},
+						"total_iops_sec_max": {
+							"text": "String"
+						},
+						"total_iops_sec_max_length": {
+							"text": "String"
+						},
+						"write_bytes_sec": {
+							"text": "String"
+						},
+						"write_bytes_sec_max": {
+							"text": "String"
+						},
+						"write_bytes_sec_max_length": {
+							"text": "String"
+						},
+						"write_iops_sec": {
+							"text": "String"
+						},
+						"write_iops_sec_max": {
+							"text": "String"
+						},
+						"write_iops_sec_max_length": {
+							"text": "String"
+						}
+					},
+					"mirror": {
+						"format": {
+							"type": "String"
+						},
+						"job": "String",
+						"ready": "String",
+						"source": {
+							"encryption": {
+								"format": "String",
+								"secret": {
+									"type": "String",
+									"usage": "String",
+									"uuid": "String"
+								}
+							},
+							"index": "String",
+							"reservations": {
+								"enabled": "String",
+								"managed": "String",
+								"source": {
+									"dev": "String",
+									"mode": "String",
+									"path": "String",
+									"type": "String"
+								}
+							},
+							"startupPolicy": "String"
+						}
+					},
+					"model": "String",
+					"product": {
+						"text": "String"
+					},
+					"rawio": "String",
+					"readonly": {
+						
+					},
+					"serial": {
+						"text": "String",
+						"type": "String"
+					},
+					"sgio": "String",
+					"shareable": {
+						
+					},
+					"snapshot": "String",
+					"source": {
+						"controller": "String",
+						"encryption": {
+							"format": "String",
+							"secret": {
+								"type": "String",
+								"usage": "String",
+								"uuid": "String"
+							}
+						},
+						"file": "String",
+						"index": "String",
+						"reservations": {
+							"enabled": "String",
+							"managed": "String",
+							"source": {
+								"dev": "String",
+								"mode": "String",
+								"path": "String",
+								"type": "String"
+							}
+						},
+						"startupPolicy": "String"
+					},
+					"target": {
+						"bus": "String",
+						"dev": "String",
+						"removable": "String",
+						"tray": "String"
+					},
+					"transient": {
+						
+					},
+					"type": "String",
+					"vendor": {
+						"text": "String"
+					},
+					"wwn": {
+						"text": "String"
+					}
+				},
+				{
+					"address": {
+						"bus": "String",
+						"controller": "String",
+						"domain": "String",
+						"function": "String",
+						"slot": "String",
+						"target": "String",
+						"type": "String",
+						"unit": "String"
+					},
+					"alias": {
+						"name": "String"
+					},
+					"auth": {
+						"secret": {
+							"type": "String",
+							"usage": "String",
+							"uuid": "String"
+						},
+						"username": "String"
+					},
+					"backingStore": {
+						"format": {
+							"type": "String"
+						},
+						"index": "String",
+						"source": {
+							"encryption": {
+								"format": "String",
+								"secret": {
+									"type": "String",
+									"usage": "String",
+									"uuid": "String"
+								}
+							},
+							"index": "String",
+							"reservations": {
+								"enabled": "String",
+								"managed": "String",
+								"source": {
+									"dev": "String",
+									"mode": "String",
+									"path": "String",
+									"type": "String"
+								}
+							},
+							"startupPolicy": "String"
+						}
+					},
+					"blockio": {
+						"logical_block_size": "String",
+						"physical_block_size": "String"
+					},
+					"boot": {
+						"loadparm": "String",
+						"order": "String"
+					},
+					"device": "String",
+					"driver": {
+						"ats": "String",
+						"cache": "String",
+						"copy_on_read": "String",
+						"detect_zeroes": "String",
+						"discard": "String",
+						"error_policy": "String",
+						"event_idx": "String",
+						"io": "String",
+						"ioeventfd": "String",
+						"iommu": "String",
+						"iothread": "String",
+						"name": "String",
+						"queues": "String",
+						"rerror_policy": "String",
+						"type": "String"
+					},
+					"encryption": {
+						"format": "String",
+						"secret": {
+							"type": "String",
+							"usage": "String",
+							"uuid": "String"
+						}
+					},
+					"geometry": {
+						"cyls": "String",
+						"heads": "String",
+						"secs": "String",
+						"trans": "String"
+					},
+					"iotune": {
+						"group_name": {
+							"text": "String"
+						},
+						"read_bytes_sec": {
+							"text": "String"
+						},
+						"read_bytes_sec_max": {
+							"text": "String"
+						},
+						"read_bytes_sec_max_length": {
+							"text": "String"
+						},
+						"read_iops_sec": {
+							"text": "String"
+						},
+						"read_iops_sec_max": {
+							"text": "String"
+						},
+						"read_iops_sec_max_length": {
+							"text": "String"
+						},
+						"size_iops_sec": {
+							"text": "String"
+						},
+						"total_bytes_sec": {
+							"text": "String"
+						},
+						"total_bytes_sec_max": {
+							"text": "String"
+						},
+						"total_bytes_sec_max_length": {
+							"text": "String"
+						},
+						"total_iops_sec": {
+							"text": "String"
+						},
+						"total_iops_sec_max": {
+							"text": "String"
+						},
+						"total_iops_sec_max_length": {
+							"text": "String"
+						},
+						"write_bytes_sec": {
+							"text": "String"
+						},
+						"write_bytes_sec_max": {
+							"text": "String"
+						},
+						"write_bytes_sec_max_length": {
+							"text": "String"
+						},
+						"write_iops_sec": {
+							"text": "String"
+						},
+						"write_iops_sec_max": {
+							"text": "String"
+						},
+						"write_iops_sec_max_length": {
+							"text": "String"
+						}
+					},
+					"mirror": {
+						"format": {
+							"type": "String"
+						},
+						"job": "String",
+						"ready": "String",
+						"source": {
+							"encryption": {
+								"format": "String",
+								"secret": {
+									"type": "String",
+									"usage": "String",
+									"uuid": "String"
+								}
+							},
+							"index": "String",
+							"reservations": {
+								"enabled": "String",
+								"managed": "String",
+								"source": {
+									"dev": "String",
+									"mode": "String",
+									"path": "String",
+									"type": "String"
+								}
+							},
+							"startupPolicy": "String"
+						}
+					},
+					"model": "String",
+					"product": {
+						"text": "String"
+					},
+					"rawio": "String",
+					"readonly": {
+						
+					},
+					"serial": {
+						"text": "String",
+						"type": "String"
+					},
+					"sgio": "String",
+					"shareable": {
+						
+					},
+					"snapshot": "String",
+					"source": {
+						"controller": "String",
+						"encryption": {
+							"format": "String",
+							"secret": {
+								"type": "String",
+								"usage": "String",
+								"uuid": "String"
+							}
+						},
+						"file": "String",
+						"index": "String",
+						"reservations": {
+							"enabled": "String",
+							"managed": "String",
+							"source": {
+								"dev": "String",
+								"mode": "String",
+								"path": "String",
+								"type": "String"
+							}
+						},
+						"startupPolicy": "String"
+					},
+					"target": {
+						"bus": "String",
+						"dev": "String",
+						"removable": "String",
+						"tray": "String"
+					},
+					"transient": {
+						
+					},
+					"type": "String",
+					"vendor": {
+						"text": "String"
+					},
+					"wwn": {
+						"text": "String"
+					}
+				}
+			],
+			"emulator": {
+				"text": "String"
+			},
+			"filesystem": [
+				{
+					"accessmode": "String",
+					"address": {
+						
+					},
+					"alias": {
+						"name": "String"
+					},
+					"driver": {
+						"ats": "String",
+						"format": "String",
+						"iommu": "String",
+						"name": "String",
+						"type": "String",
+						"wrpolicy": "String"
+					},
+					"model": "String",
+					"readonly": {
+						
+					},
+					"source": {
+						
+					},
+					"space_hard_limit": {
+						"text": "String",
+						"unit": "String"
+					},
+					"space_soft_limit": {
+						"text": "String",
+						"unit": "String"
+					},
+					"target": {
+						"dir": "String"
+					}
+				},
+				{
+					"accessmode": "String",
+					"address": {
+						
+					},
+					"alias": {
+						"name": "String"
+					},
+					"driver": {
+						"ats": "String",
+						"format": "String",
+						"iommu": "String",
+						"name": "String",
+						"type": "String",
+						"wrpolicy": "String"
+					},
+					"model": "String",
+					"readonly": {
+						
+					},
+					"source": {
+						
+					},
+					"space_hard_limit": {
+						"text": "String",
+						"unit": "String"
+					},
+					"space_soft_limit": {
+						"text": "String",
+						"unit": "String"
+					},
+					"target": {
+						"dir": "String"
+					}
+				}
+			],
+			"graphics": [
+				{
+					"autoport": "String",
+					"listen": "String",
+					"port": "String",
+					"type": "String"
+				},
+				{
+					"autoport": "String",
+					"listen": "String",
+					"port": "String",
+					"type": "String"
+				}
+			],
+			"hostdev": [
+				{
+					"address": {
+						
+					},
+					"alias": {
+						"name": "String"
+					},
+					"boot": {
+						"loadparm": "String",
+						"order": "String"
+					},
+					"managed": "String",
+					"rom": {
+						"bar": "String",
+						"enabled": "String",
+						"file": "String"
+					}
+				},
+				{
+					"address": {
+						
+					},
+					"alias": {
+						"name": "String"
+					},
+					"boot": {
+						"loadparm": "String",
+						"order": "String"
+					},
+					"managed": "String",
+					"rom": {
+						"bar": "String",
+						"enabled": "String",
+						"file": "String"
+					}
+				}
+			],
+			"hub": [
+				{
+					"address": {
+						
+					},
+					"alias": {
+						"name": "String"
+					},
+					"type": "String"
+				},
+				{
+					"address": {
+						
+					},
+					"alias": {
+						"name": "String"
+					},
+					"type": "String"
+				}
+			],
+			"input": [
+				{
+					"address": {
+						"bus": "String",
+						"port": "String",
+						"type": "String"
+					},
+					"alias": {
+						"name": "String"
+					},
+					"bus": "String",
+					"driver": {
+						"ats": "String",
+						"iommu": "String"
+					},
+					"model": "String",
+					"source": {
+						"evdev": "String"
+					},
+					"type": "String"
+				},
+				{
+					"address": {
+						"bus": "String",
+						"port": "String",
+						"type": "String"
+					},
+					"alias": {
+						"name": "String"
+					},
+					"bus": "String",
+					"driver": {
+						"ats": "String",
+						"iommu": "String"
+					},
+					"model": "String",
+					"source": {
+						"evdev": "String"
+					},
+					"type": "String"
+				}
+			],
+			"interface": [
+				{
+					"address": {
+						"bus": "String",
+						"domain": "String",
+						"function": "String",
+						"slot": "String",
+						"type": "String"
+					},
+					"alias": {
+						"name": "String"
+					},
+					"backend": {
+						"tap": "String",
+						"vhost": "String"
+					},
+					"bandwidth": {
+						"inbound": {
+							"average": "String",
+							"burst": "String",
+							"floor": "String",
+							"peak": "String"
+						},
+						"outbound": {
+							"average": "String",
+							"burst": "String",
+							"floor": "String",
+							"peak": "String"
+						}
+					},
+					"boot": {
+						"loadparm": "String",
+						"order": "String"
+					},
+					"coalesce": {
+						"rx": {
+							"frames": {
+								"max": "String"
+							}
+						}
+					},
+					"driver": {
+						"ats": "String",
+						"event_idx": "String",
+						"guest": {
+							"csum": "String",
+							"ecn": "String",
+							"tso4": "String",
+							"tso6": "String",
+							"ufo": "String"
+						},
+						"host": {
+							"csum": "String",
+							"ecn": "String",
+							"gso": "String",
+							"mrg_rxbuf": "String",
+							"tso4": "String",
+							"tso6": "String",
+							"ufo": "String"
+						},
+						"ioeventfd": "String",
+						"iommu": "String",
+						"name": "String",
+						"queues": "String",
+						"rx_queue_size": "String",
+						"tx_queue_size": "String",
+						"txmode": "String"
+					},
+					"filterref": {
+						"filter": "String",
+						"parameter": [
+							{
+								"name": "String",
+								"value": "String"
+							},
+							{
+								"name": "String",
+								"value": "String"
+							}
+						]
+					},
+					"guest": {
+						"actual": "String",
+						"dev": "String"
+					},
+					"ip": [
+						{
+							"address": "String",
+							"family": "String",
+							"peer": "String",
+							"prefix": "String"
+						},
+						{
+							"address": "String",
+							"family": "String",
+							"peer": "String",
+							"prefix": "String"
+						}
+					],
+					"link": {
+						"state": "String"
+					},
+					"mac": {
+						"address": "String"
+					},
+					"managed": "String",
+					"model": {
+						"type": "String"
+					},
+					"mtu": {
+						"size": "String"
+					},
+					"rom": {
+						"bar": "String",
+						"enabled": "String",
+						"file": "String"
+					},
+					"route": [
+						{
+							"address": "String",
+							"family": "String",
+							"gateway": "String",
+							"metric": "String",
+							"netmask": "String",
+							"prefix": "String"
+						},
+						{
+							"address": "String",
+							"family": "String",
+							"gateway": "String",
+							"metric": "String",
+							"netmask": "String",
+							"prefix": "String"
+						}
+					],
+					"script": {
+						"path": "String"
+					},
+					"source": {
+						"bridge": "String"
+					},
+					"target": {
+						"dev": "String"
+					},
+					"trustGuestRxFilters": "String",
+					"tune": {
+						"sndbuf": {
+							"text": "String"
+						}
+					},
+					"type": "String",
+					"virtualport": {
+						"parameters": {
+							
+						}
+					},
+					"vlan": {
+						"tag": [
+							{
+								"id": "String",
+								"nativeMode": "String"
+							},
+							{
+								"id": "String",
+								"nativeMode": "String"
+							}
+						],
+						"trunk": "String"
+					}
+				},
+				{
+					"address": {
+						"bus": "String",
+						"domain": "String",
+						"function": "String",
+						"slot": "String",
+						"type": "String"
+					},
+					"alias": {
+						"name": "String"
+					},
+					"backend": {
+						"tap": "String",
+						"vhost": "String"
+					},
+					"bandwidth": {
+						"inbound": {
+							"average": "String",
+							"burst": "String",
+							"floor": "String",
+							"peak": "String"
+						},
+						"outbound": {
+							"average": "String",
+							"burst": "String",
+							"floor": "String",
+							"peak": "String"
+						}
+					},
+					"boot": {
+						"loadparm": "String",
+						"order": "String"
+					},
+					"coalesce": {
+						"rx": {
+							"frames": {
+								"max": "String"
+							}
+						}
+					},
+					"driver": {
+						"ats": "String",
+						"event_idx": "String",
+						"guest": {
+							"csum": "String",
+							"ecn": "String",
+							"tso4": "String",
+							"tso6": "String",
+							"ufo": "String"
+						},
+						"host": {
+							"csum": "String",
+							"ecn": "String",
+							"gso": "String",
+							"mrg_rxbuf": "String",
+							"tso4": "String",
+							"tso6": "String",
+							"ufo": "String"
+						},
+						"ioeventfd": "String",
+						"iommu": "String",
+						"name": "String",
+						"queues": "String",
+						"rx_queue_size": "String",
+						"tx_queue_size": "String",
+						"txmode": "String"
+					},
+					"filterref": {
+						"filter": "String",
+						"parameter": [
+							{
+								"name": "String",
+								"value": "String"
+							},
+							{
+								"name": "String",
+								"value": "String"
+							}
+						]
+					},
+					"guest": {
+						"actual": "String",
+						"dev": "String"
+					},
+					"ip": [
+						{
+							"address": "String",
+							"family": "String",
+							"peer": "String",
+							"prefix": "String"
+						},
+						{
+							"address": "String",
+							"family": "String",
+							"peer": "String",
+							"prefix": "String"
+						}
+					],
+					"link": {
+						"state": "String"
+					},
+					"mac": {
+						"address": "String"
+					},
+					"managed": "String",
+					"model": {
+						"type": "String"
+					},
+					"mtu": {
+						"size": "String"
+					},
+					"rom": {
+						"bar": "String",
+						"enabled": "String",
+						"file": "String"
+					},
+					"route": [
+						{
+							"address": "String",
+							"family": "String",
+							"gateway": "String",
+							"metric": "String",
+							"netmask": "String",
+							"prefix": "String"
+						},
+						{
+							"address": "String",
+							"family": "String",
+							"gateway": "String",
+							"metric": "String",
+							"netmask": "String",
+							"prefix": "String"
+						}
+					],
+					"script": {
+						"path": "String"
+					},
+					"source": {
+						"bridge": "String"
+					},
+					"target": {
+						"dev": "String"
+					},
+					"trustGuestRxFilters": "String",
+					"tune": {
+						"sndbuf": {
+							"text": "String"
+						}
+					},
+					"type": "String",
+					"virtualport": {
+						"parameters": {
+							
+						}
+					},
+					"vlan": {
+						"tag": [
+							{
+								"id": "String",
+								"nativeMode": "String"
+							},
+							{
+								"id": "String",
+								"nativeMode": "String"
+							}
+						],
+						"trunk": "String"
+					}
+				}
+			],
+			"iommu": {
+				"driver": {
+					"caching_mode": "String",
+					"eim": "String",
+					"intremap": "String",
+					"iotlb": "String"
+				},
+				"model": "String"
+			},
+			"lease": [
+				{
+					"key": {
+						"text": "String"
+					},
+					"lockspace": {
+						"text": "String"
+					},
+					"target": {
+						"offset": "String",
+						"path": "String"
+					}
+				},
+				{
+					"key": {
+						"text": "String"
+					},
+					"lockspace": {
+						"text": "String"
+					},
+					"target": {
+						"offset": "String",
+						"path": "String"
+					}
+				}
+			],
+			"memballoon": {
+				"address": {
+					"bus": "String",
+					"domain": "String",
+					"function": "String",
+					"slot": "String",
+					"type": "String"
+				},
+				"alias": {
+					"name": "String"
+				},
+				"autodeflate": "String",
+				"driver": {
+					"ats": "String",
+					"iommu": "String"
+				},
+				"model": "String",
+				"stats": {
+					"period": "String"
+				}
+			},
+			"memory": [
+				{
+					"access": "String",
+					"address": {
+						
+					},
+					"alias": {
+						"name": "String"
+					},
+					"discard": "String",
+					"model": "String",
+					"source": {
+						"alignsize": {
+							"text": "String",
+							"unit": "String"
+						},
+						"nodemask": {
+							"text": "String"
+						},
+						"pagesize": {
+							"text": "String",
+							"unit": "String"
+						},
+						"path": {
+							"text": "String"
+						},
+						"pmem": {
+							
+						}
+					},
+					"target": {
+						"label": {
+							"size": {
+								"text": "String",
+								"unit": "String"
+							}
+						},
+						"node": {
+							"text": "String"
+						},
+						"readonly": {
+							
+						},
+						"size": {
+							"text": "String",
+							"unit": "String"
+						}
+					}
+				},
+				{
+					"access": "String",
+					"address": {
+						
+					},
+					"alias": {
+						"name": "String"
+					},
+					"discard": "String",
+					"model": "String",
+					"source": {
+						"alignsize": {
+							"text": "String",
+							"unit": "String"
+						},
+						"nodemask": {
+							"text": "String"
+						},
+						"pagesize": {
+							"text": "String",
+							"unit": "String"
+						},
+						"path": {
+							"text": "String"
+						},
+						"pmem": {
+							
+						}
+					},
+					"target": {
+						"label": {
+							"size": {
+								"text": "String",
+								"unit": "String"
+							}
+						},
+						"node": {
+							"text": "String"
+						},
+						"readonly": {
+							
+						},
+						"size": {
+							"text": "String",
+							"unit": "String"
+						}
+					}
+				}
+			],
+			"nvram": {
+				"address": {
+					
+				},
+				"alias": {
+					"name": "String"
+				}
+			},
+			"panic": [
+				{
+					"address": {
+						
+					},
+					"alias": {
+						"name": "String"
+					},
+					"model": "String"
+				},
+				{
+					"address": {
+						
+					},
+					"alias": {
+						"name": "String"
+					},
+					"model": "String"
+				}
+			],
+			"parallel": [
+				{
+					"address": {
+						
+					},
+					"alias": {
+						"name": "String"
+					},
+					"log": {
+						"append": "String",
+						"file": "String"
+					},
+					"protocol": {
+						"type": "String"
+					},
+					"source": {
+						
+					},
+					"target": {
+						"port": "String",
+						"type": "String"
+					}
+				},
+				{
+					"address": {
+						
+					},
+					"alias": {
+						"name": "String"
+					},
+					"log": {
+						"append": "String",
+						"file": "String"
+					},
+					"protocol": {
+						"type": "String"
+					},
+					"source": {
+						
+					},
+					"target": {
+						"port": "String",
+						"type": "String"
+					}
+				}
+			],
+			"redirdev": [
+				{
+					"address": {
+						
+					},
+					"alias": {
+						"name": "String"
+					},
+					"boot": {
+						"loadparm": "String",
+						"order": "String"
+					},
+					"bus": "String",
+					"protocol": {
+						"type": "String"
+					},
+					"source": {
+						
+					}
+				},
+				{
+					"address": {
+						
+					},
+					"alias": {
+						"name": "String"
+					},
+					"boot": {
+						"loadparm": "String",
+						"order": "String"
+					},
+					"bus": "String",
+					"protocol": {
+						"type": "String"
+					},
+					"source": {
+						
+					}
+				}
+			],
+			"redirfilter": [
+				{
+					"usbdev": [
+						{
+							"allow": "String",
+							"class": "String",
+							"product": "String",
+							"vendor": "String",
+							"version": "String"
+						},
+						{
+							"allow": "String",
+							"class": "String",
+							"product": "String",
+							"vendor": "String",
+							"version": "String"
+						}
+					]
+				},
+				{
+					"usbdev": [
+						{
+							"allow": "String",
+							"class": "String",
+							"product": "String",
+							"vendor": "String",
+							"version": "String"
+						},
+						{
+							"allow": "String",
+							"class": "String",
+							"product": "String",
+							"vendor": "String",
+							"version": "String"
+						}
+					]
+				}
+			],
+			"rng": [
+				{
+					"address": {
+						"bus": "String",
+						"domain": "String",
+						"function": "String",
+						"slot": "String",
+						"type": "String"
+					},
+					"alias": {
+						"name": "String"
+					},
+					"backend": {
+						"model": "String",
+						"text": "String"
+					},
+					"driver": {
+						"ats": "String",
+						"iommu": "String"
+					},
+					"model": "String",
+					"rate": {
+						"bytes": "String",
+						"period": "String"
+					}
+				},
+				{
+					"address": {
+						"bus": "String",
+						"domain": "String",
+						"function": "String",
+						"slot": "String",
+						"type": "String"
+					},
+					"alias": {
+						"name": "String"
+					},
+					"backend": {
+						"model": "String",
+						"text": "String"
+					},
+					"driver": {
+						"ats": "String",
+						"iommu": "String"
+					},
+					"model": "String",
+					"rate": {
+						"bytes": "String",
+						"period": "String"
+					}
+				}
+			],
+			"serial": [
+				{
+					"address": {
+						
+					},
+					"alias": {
+						"name": "String"
+					},
+					"log": {
+						"append": "String",
+						"file": "String"
+					},
+					"protocol": {
+						"type": "String"
+					},
+					"source": {
+						"path": "String"
+					},
+					"target": {
+						"model": {
+							"name": "String"
+						},
+						"port": "String",
+						"type": "String"
+					},
+					"type": "String"
+				},
+				{
+					"address": {
+						
+					},
+					"alias": {
+						"name": "String"
+					},
+					"log": {
+						"append": "String",
+						"file": "String"
+					},
+					"protocol": {
+						"type": "String"
+					},
+					"source": {
+						"path": "String"
+					},
+					"target": {
+						"model": {
+							"name": "String"
+						},
+						"port": "String",
+						"type": "String"
+					},
+					"type": "String"
+				}
+			],
+			"shmem": [
+				{
+					"address": {
+						
+					},
+					"alias": {
+						"name": "String"
+					},
+					"model": {
+						"type": "String"
+					},
+					"msi": {
+						"enabled": "String",
+						"ioeventfd": "String",
+						"vectors": "String"
+					},
+					"name": "String",
+					"server": {
+						"path": "String"
+					},
+					"size": {
+						"text": "String",
+						"unit": "String"
+					}
+				},
+				{
+					"address": {
+						
+					},
+					"alias": {
+						"name": "String"
+					},
+					"model": {
+						"type": "String"
+					},
+					"msi": {
+						"enabled": "String",
+						"ioeventfd": "String",
+						"vectors": "String"
+					},
+					"name": "String",
+					"server": {
+						"path": "String"
+					},
+					"size": {
+						"text": "String",
+						"unit": "String"
+					}
+				}
+			],
+			"smartcard": [
+				{
+					"address": {
+						
+					},
+					"alias": {
+						"name": "String"
+					},
+					"certificate": [
+						{
+							"text": "String"
+						},
+						{
+							"text": "String"
+						}
+					],
+					"database": {
+						"text": "String"
+					},
+					"protocol": {
+						"type": "String"
+					},
+					"source": {
+						
+					}
+				},
+				{
+					"address": {
+						
+					},
+					"alias": {
+						"name": "String"
+					},
+					"certificate": [
+						{
+							"text": "String"
+						},
+						{
+							"text": "String"
+						}
+					],
+					"database": {
+						"text": "String"
+					},
+					"protocol": {
+						"type": "String"
+					},
+					"source": {
+						
+					}
+				}
+			],
+			"sound": [
+				{
+					"address": {
+						
+					},
+					"alias": {
+						"name": "String"
+					},
+					"codec": [
+						{
+							"type": "String"
+						},
+						{
+							"type": "String"
+						}
+					],
+					"model": "String"
+				},
+				{
+					"address": {
+						
+					},
+					"alias": {
+						"name": "String"
+					},
+					"codec": [
+						{
+							"type": "String"
+						},
+						{
+							"type": "String"
+						}
+					],
+					"model": "String"
+				}
+			],
+			"tpm": [
+				{
+					"address": {
+						
+					},
+					"alias": {
+						"name": "String"
+					},
+					"backend": {
+						
+					},
+					"model": "String"
+				},
+				{
+					"address": {
+						
+					},
+					"alias": {
+						"name": "String"
+					},
+					"backend": {
+						
+					},
+					"model": "String"
+				}
+			],
+			"video": [
+				{
+					"address": {
+						"bus": "String",
+						"domain": "String",
+						"function": "String",
+						"slot": "String",
+						"type": "String"
+					},
+					"alias": {
+						"name": "String"
+					},
+					"driver": {
+						"ats": "String",
+						"iommu": "String",
+						"vgaconf": "String"
+					},
+					"model": {
+						"acceleration": {
+							"accel2d": "String",
+							"accel3d": "String"
+						},
+						"heads": "String",
+						"primary": "String",
+						"ram": "String",
+						"type": "String",
+						"vgamem": "String",
+						"vram": "String",
+						"vram64": "String"
+					}
+				},
+				{
+					"address": {
+						"bus": "String",
+						"domain": "String",
+						"function": "String",
+						"slot": "String",
+						"type": "String"
+					},
+					"alias": {
+						"name": "String"
+					},
+					"driver": {
+						"ats": "String",
+						"iommu": "String",
+						"vgaconf": "String"
+					},
+					"model": {
+						"acceleration": {
+							"accel2d": "String",
+							"accel3d": "String"
+						},
+						"heads": "String",
+						"primary": "String",
+						"ram": "String",
+						"type": "String",
+						"vgamem": "String",
+						"vram": "String",
+						"vram64": "String"
+					}
+				}
+			],
+			"vsock": {
+				"address": {
+					
+				},
+				"alias": {
+					"name": "String"
+				},
+				"cid": {
+					"address": "String",
+					"auto": "String"
+				},
+				"model": "String"
+			},
+			"watchdog": {
+				"action": "String",
+				"address": {
+					
+				},
+				"alias": {
+					"name": "String"
+				},
+				"model": "String"
+			}
+		},
+		"features": {
+			"acpi": {
+				
+			},
+			"apic": {
+				"eoi": "String"
+			},
+			"capabilities": {
+				"audit_control": {
+					"state": "String"
+				},
+				"audit_write": {
+					"state": "String"
+				},
+				"block_suspend": {
+					"state": "String"
+				},
+				"chown": {
+					"state": "String"
+				},
+				"dac_override": {
+					"state": "String"
+				},
+				"dac_read_Search": {
+					"state": "String"
+				},
+				"fowner": {
+					"state": "String"
+				},
+				"fsetid": {
+					"state": "String"
+				},
+				"ipc_lock": {
+					"state": "String"
+				},
+				"ipc_owner": {
+					"state": "String"
+				},
+				"kill": {
+					"state": "String"
+				},
+				"lease": {
+					"state": "String"
+				},
+				"linux_immutable": {
+					"state": "String"
+				},
+				"mac_admin": {
+					"state": "String"
+				},
+				"mac_override": {
+					"state": "String"
+				},
+				"mknod": {
+					"state": "String"
+				},
+				"net_admin": {
+					"state": "String"
+				},
+				"net_bind_service": {
+					"state": "String"
+				},
+				"net_broadcast": {
+					"state": "String"
+				},
+				"net_raw": {
+					"state": "String"
+				},
+				"policy": "String",
+				"setfcap": {
+					"state": "String"
+				},
+				"setgid": {
+					"state": "String"
+				},
+				"setpcap": {
+					"state": "String"
+				},
+				"setuid": {
+					"state": "String"
+				},
+				"sys_admin": {
+					"state": "String"
+				},
+				"sys_boot": {
+					"state": "String"
+				},
+				"sys_chroot": {
+					"state": "String"
+				},
+				"sys_module": {
+					"state": "String"
+				},
+				"sys_nice": {
+					"state": "String"
+				},
+				"sys_pacct": {
+					"state": "String"
+				},
+				"sys_ptrace": {
+					"state": "String"
+				},
+				"sys_rawio": {
+					"state": "String"
+				},
+				"sys_resource": {
+					"state": "String"
+				},
+				"sys_time": {
+					"state": "String"
+				},
+				"sys_tty_config": {
+					"state": "String"
+				},
+				"syslog": {
+					"state": "String"
+				},
+				"wake_alarm": {
+					"state": "String"
+				}
+			},
+			"gic": {
+				"version": "String"
+			},
+			"hap": {
+				"state": "String"
+			},
+			"hpt": {
+				"maxpagesize": {
+					"text": "String",
+					"unit": "String"
+				},
+				"resizing": "String"
+			},
+			"htm": {
+				"state": "String"
+			},
+			"hyperv": {
+				"evmcs": {
+					"state": "String"
+				},
+				"frequencies": {
+					"state": "String"
+				},
+				"ipi": {
+					"state": "String"
+				},
+				"reenlightenment": {
+					"state": "String"
+				},
+				"relaxed": {
+					"state": "String"
+				},
+				"reset": {
+					"state": "String"
+				},
+				"runtime": {
+					"state": "String"
+				},
+				"spinlocks": {
+					"retries": "String"
+				},
+				"stimer": {
+					"state": "String"
+				},
+				"synic": {
+					"state": "String"
+				},
+				"tlbflush": {
+					"state": "String"
+				},
+				"vapic": {
+					"state": "String"
+				},
+				"vendor_id": {
+					"value": "String"
+				},
+				"vpindex": {
+					"state": "String"
+				}
+			},
+			"ioapic": {
+				"driver": "String"
+			},
+			"kvm": {
+				"hidden": {
+					"state": "String"
+				}
+			},
+			"msrs": {
+				"unknown": "String"
+			},
+			"nested_hv": {
+				"state": "String"
+			},
+			"pae": {
+				
+			},
+			"pmu": {
+				"state": "String"
+			},
+			"privnet": {
+				
+			},
+			"pvspinlock": {
+				"state": "String"
+			},
+			"smm": {
+				"state": "String",
+				"tseg": {
+					"text": "String",
+					"unit": "String"
+				}
+			},
+			"viridian": {
+				
+			},
+			"vmcoreinfo": {
+				"state": "String"
+			},
+			"vmport": {
+				"state": "String"
+			}
+		},
+		"genid": {
+			"text": "String"
+		},
+		"id": "String",
+		"idmap": {
+			"gid": [
+				{
+					"count": "String",
+					"start": "String",
+					"target": "String"
+				},
+				{
+					"count": "String",
+					"start": "String",
+					"target": "String"
+				}
+			],
+			"uid": [
+				{
+					"count": "String",
+					"start": "String",
+					"target": "String"
+				},
+				{
+					"count": "String",
+					"start": "String",
+					"target": "String"
+				}
+			]
+		},
+		"iothreadids": {
+			"iothread": [
+				{
+					"id": "String"
+				},
+				{
+					"id": "String"
+				}
+			]
+		},
+		"iothreads": {
+			"text": "String"
+		},
+		"keywrap": {
+			"cipher": [
+				{
+					"name": "String",
+					"state": "String"
+				},
+				{
+					"name": "String",
+					"state": "String"
+				}
+			]
+		},
+		"launchSecurity": {
+			
+		},
+		"maxMemory": {
+			"slots": "String",
+			"text": "String",
+			"unit": "String"
+		},
+		"memory": {
+			"dumpCore": "String",
+			"text": "String",
+			"unit": "String"
+		},
+		"memoryBacking": {
+			"access": {
+				"mode": "String"
+			},
+			"allocation": {
+				"mode": "String"
+			},
+			"discard": {
+				
+			},
+			"hugepages": {
+				"page": [
+					{
+						"nodeset": "String",
+						"size": "String",
+						"unit": "String"
+					},
+					{
+						"nodeset": "String",
+						"size": "String",
+						"unit": "String"
+					}
+				]
+			},
+			"locked": {
+				
+			},
+			"nosharepages": {
+				
+			},
+			"source": {
+				"type": "String"
+			}
+		},
+		"memtune": {
+			"hard_limit": {
+				"text": "String",
+				"unit": "String"
+			},
+			"min_guarantee": {
+				"text": "String",
+				"unit": "String"
+			},
+			"soft_limit": {
+				"text": "String",
+				"unit": "String"
+			},
+			"swap_hard_limit": {
+				"text": "String",
+				"unit": "String"
+			}
+		},
+		"metadata": {
+			
+		},
+		"name": {
+			"text": "String"
+		},
+		"numatune": {
+			"memnode": [
+				{
+					"cellid": "String",
+					"mode": "String",
+					"nodeset": "String"
+				},
+				{
+					"cellid": "String",
+					"mode": "String",
+					"nodeset": "String"
+				}
+			],
+			"memory": {
+				"mode": "String",
+				"nodeset": "String",
+				"placement": "String"
+			}
+		},
+		"on_crash": {
+			"text": "String"
+		},
+		"on_poweroff": {
+			"text": "String"
+		},
+		"on_reboot": {
+			"text": "String"
+		},
+		"os": {
+			"acpi": {
+				"table": [
+					{
+						"text": "String",
+						"type": "String"
+					},
+					{
+						"text": "String",
+						"type": "String"
+					}
+				]
+			},
+			"bios": {
+				"rebootTimeout": "String",
+				"useserial": "String"
+			},
+			"boot": [
+				{
+					"dev": "String"
+				},
+				{
+					"dev": "String"
+				}
+			],
+			"bootmenu": {
+				"enable": "String",
+				"timeout": "String"
+			},
+			"cmdline": {
+				"text": "String"
+			},
+			"dtb": {
+				"text": "String"
+			},
+			"init": {
+				"text": "String"
+			},
+			"initarg": {
+				"text": "String"
+			},
+			"initdir": {
+				"text": "String"
+			},
+			"initenv": [
+				{
+					"name": "String",
+					"text": "String"
+				},
+				{
+					"name": "String",
+					"text": "String"
+				}
+			],
+			"initgroup": {
+				"text": "String"
+			},
+			"initrd": {
+				"text": "String"
+			},
+			"inituser": {
+				"text": "String"
+			},
+			"kernel": {
+				"text": "String"
+			},
+			"loader": {
+				"text": "String"
+			},
+			"nvram": {
+				"text": "String"
+			},
+			"smbios": {
+				"mode": "String"
+			},
+			"type": {
+				"arch": "String",
+				"machine": "String",
+				"text": "String"
+			}
+		},
+		"perf": {
+			"event": [
+				{
+					"enabled": "String",
+					"name": "String"
+				},
+				{
+					"enabled": "String",
+					"name": "String"
+				}
+			]
+		},
+		"pm": {
+			"suspend_to_disk": {
+				"enabled": "String"
+			},
+			"suspend_to_mem": {
+				"enabled": "String"
+			}
+		},
+		"resource": {
+			"partition": {
+				"text": "String"
+			}
+		},
+		"seclabel": [
+			{
+				"baselabel": {
+					"text": "String"
+				},
+				"imagelabel": {
+					"text": "String"
+				},
+				"label": {
+					"text": "String"
+				},
+				"model": "String",
+				"relabel": "String",
+				"type": "String"
+			},
+			{
+				"baselabel": {
+					"text": "String"
+				},
+				"imagelabel": {
+					"text": "String"
+				},
+				"label": {
+					"text": "String"
+				},
+				"model": "String",
+				"relabel": "String",
+				"type": "String"
+			}
+		],
+		"sysinfo": {
+			"baseBoard": [
+				{
+					"entry": [
+						{
+							"name": "String",
+							"text": "String"
+						},
+						{
+							"name": "String",
+							"text": "String"
+						}
+					]
+				},
+				{
+					"entry": [
+						{
+							"name": "String",
+							"text": "String"
+						},
+						{
+							"name": "String",
+							"text": "String"
+						}
+					]
+				}
+			],
+			"bios": {
+				"entry": [
+					{
+						"name": "String",
+						"text": "String"
+					},
+					{
+						"name": "String",
+						"text": "String"
+					}
+				]
+			},
+			"chassis": {
+				"entry": [
+					{
+						"name": "String",
+						"text": "String"
+					},
+					{
+						"name": "String",
+						"text": "String"
+					}
+				]
+			},
+			"memory": [
+				{
+					"entry": [
+						{
+							"name": "String",
+							"text": "String"
+						},
+						{
+							"name": "String",
+							"text": "String"
+						}
+					]
+				},
+				{
+					"entry": [
+						{
+							"name": "String",
+							"text": "String"
+						},
+						{
+							"name": "String",
+							"text": "String"
+						}
+					]
+				}
+			],
+			"oemStrings": {
+				"entry": {
+					"text": "String"
+				}
+			},
+			"processor": [
+				{
+					"entry": [
+						{
+							"name": "String",
+							"text": "String"
+						},
+						{
+							"name": "String",
+							"text": "String"
+						}
+					]
+				},
+				{
+					"entry": [
+						{
+							"name": "String",
+							"text": "String"
+						},
+						{
+							"name": "String",
+							"text": "String"
+						}
+					]
+				}
+			],
+			"system": {
+				"entry": [
+					{
+						"name": "String",
+						"text": "String"
+					},
+					{
+						"name": "String",
+						"text": "String"
+					}
+				]
+			},
+			"type": "String"
+		},
+		"title": {
+			"text": "String"
+		},
+		"type": "String",
+		"uuid": {
+			"text": "String"
+		},
+		"vcpu": {
+			"cpuset": "String",
+			"current": "String",
+			"placement": "String",
+			"text": "String"
+		},
+		"vcpus": {
+			"vcpu": [
+				{
+					"enabled": "String",
+					"hotpluggable": "String",
+					"id": "String",
+					"order": "String"
+				},
+				{
+					"enabled": "String",
+					"hotpluggable": "String",
+					"id": "String",
+					"order": "String"
+				}
+			]
+		}
+	}
+}
