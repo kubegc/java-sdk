@@ -20,7 +20,7 @@ public class StartVMTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.startVM("skywind11", new StartVM());
+				.startVM("t1", new StartVM());
 		System.out.println(successful);
 	}
 	

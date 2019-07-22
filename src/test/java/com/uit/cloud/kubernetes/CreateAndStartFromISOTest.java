@@ -23,7 +23,7 @@ public class CreateAndStartFromISOTest {
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		CreateAndStartVMFromISO createAndStartVMFromISO = get();
 		boolean successful = client.virtualMachines()
-				.createAndStartVMFromISO("skywind11", createAndStartVMFromISO);
+				.createAndStartVMFromISO("t1", createAndStartVMFromISO);
 		System.out.println(successful);
 	}
 	
@@ -38,6 +38,7 @@ public class CreateAndStartFromISOTest {
 		createAndStartVMFromISO.setNetwork("bridge=virbr0");  
 		createAndStartVMFromISO.setGraphics("vnc,listen=0.0.0.0");   
 		createAndStartVMFromISO.setBoot("cdrom,hd");
+		createAndStartVMFromISO.setOs_variant("rhel7");
 //		createAndStartVMFromISO.setCheck("all=off");
 		createAndStartVMFromISO.setNoautoconsole(true);   
 		return createAndStartVMFromISO;

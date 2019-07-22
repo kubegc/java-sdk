@@ -20,7 +20,7 @@ public class ForceStopVMTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.stopVMForce("test3", new StopVMForce());
+				.stopVMForce("t1", new StopVMForce());
 		System.out.println(successful);
 	}
 	

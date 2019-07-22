@@ -20,7 +20,7 @@ public class ManageISOTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.manageISO("skywind11-clone", getManageISO());
+				.manageISO("t1", getManageISO());
 		System.out.println(successful);
 	}
 	
@@ -29,7 +29,7 @@ public class ManageISOTest {
 		iso.setPath("/opt/ISO/CentOS-7-x86_64-Minimal-1511.iso");
 		iso.setEject(true);
 		iso.setForce(true);
-		iso.setLive(true);
+//		iso.setLive(true);
 		iso.setConfig(true);
 		return iso;
 	}
