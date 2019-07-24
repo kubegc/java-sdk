@@ -3,8 +3,6 @@
  */
 package com.uit.cloud.kubernetes;
 
-import java.util.ArrayList;
-
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CreateAndStartVMFromISO;
 
@@ -19,29 +17,63 @@ public class CreateAndStartFromISOTest {
 	
 	
 	public static void main(String[] args) throws Exception {
-
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		CreateAndStartVMFromISO createAndStartVMFromISO = get();
+		// name
 		boolean successful = client.virtualMachines()
-				.createAndStartVMFromISO("t1", createAndStartVMFromISO);
+				.createAndStartVMFromISO("650646e8c17a49d0b83c1c797811e064", createAndStartVMFromISO);
 		System.out.println(successful);
 	}
 	
 	
 	public static CreateAndStartVMFromISO get() throws Exception {
+		
 		CreateAndStartVMFromISO createAndStartVMFromISO = new CreateAndStartVMFromISO();
-		createAndStartVMFromISO.setVirt_type("kvm");  
-		createAndStartVMFromISO.setMemory("1024");    
-		createAndStartVMFromISO.setVcpus("1");  
-//		createAndStartVMFromISO.setCdrom("/opt/ISO/CentOS-7-x86_64-Minimal-1511.iso"); 
-		createAndStartVMFromISO.setDisk("size=10,format=qcow2 --disk /opt/ISO/CentOS-7-x86_64-Minimal-1511.iso,device=cdrom,perms=ro");
+		// default value
+		createAndStartVMFromISO.setMetadata("uuid=650646e8-c17a-49d0-b83c-1c797811e064");
+		createAndStartVMFromISO.setVirt_type("kvm"); 
+		createAndStartVMFromISO.setOs_variant("RHEL");
+		createAndStartVMFromISO.setNoautoconsole(true); 
+		
+		// calculationSpecification
+		calculationSpecification(createAndStartVMFromISO);  
+		
+		// cdrom
+		createAndStartVMFromISO.setCdrom("/opt/ISO/CentOS-7-x86_64-Minimal-1511.iso"); 
+		// Disk and QoS for 1 disk and many disks
+		createAndStartVMFromISO.setDisk("/var/lib/libvirt/volumes1/skywind-001,read_bytes_sec=1024,write_bytes_sec=1024");
+//		createAndStartVMFromISO.setDisk("/var/lib/libvirt/volumes1/skywind-001,read_bytes_sec=1024,write_bytes_sec=1024 --disk otherDisk1 --disk otherDisk2");
+		
+		//network and QoS
 		createAndStartVMFromISO.setNetwork("bridge=virbr0");  
-		createAndStartVMFromISO.setGraphics("vnc,listen=0.0.0.0");   
+		
+		// consoleMode amd passowrd
+		createAndStartVMFromISO.setGraphics("vnc,listen=0.0.0.0" + getconsolePassword("123456"));
+//		createAndStartVMFromISO.setGraphics("spice,listen=0.0.0.0" + getconsolePassword("567890")); 
+		
 		createAndStartVMFromISO.setBoot("cdrom,hd");
 		createAndStartVMFromISO.setOs_variant("rhel7");
-//		createAndStartVMFromISO.setCheck("all=off");
-		createAndStartVMFromISO.setNoautoconsole(true);   
 		return createAndStartVMFromISO;
+	}
+
+
+	protected static void calculationSpecification(CreateAndStartVMFromISO createAndStartVMFromISO) {
+		createAndStartVMFromISO.setMemory("1024");    
+		createAndStartVMFromISO.setVcpus("1" + getCPUSet("1-4,6,8"));
+		createAndStartVMFromISO.setBlkiotune("iotune");
+	}
+	
+	protected static String getCPUSet(String cpuset) {
+		return (cpuset == null || cpuset.length() == 0) 
+				? "" :",cpuset=" + cpuset;
+	}
+	
+	protected static String getconsolePassword(String pwd) {
+		return (pwd == null || pwd.length() == 0) ? "" : ",password=abcdefg";
+	}
+	
+	protected static String getOtherCDROMs() {
+		return "--disk /opt/ISO/CentOS-7-x86_64-Minimal-1511.iso,device=cdrom,perms=ro --disk --disk /opt/ISO/CentOS-7-x86_64-Minimal-1511.iso,device=cdrom,perms=ro";
 	}
 	
 }
