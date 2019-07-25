@@ -15,6 +15,7 @@ import com.github.kubesys.kubernetes.api.model.VirtualMachine;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineDisk;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineImage;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineSnapshot;
+import com.github.kubesys.kubernetes.impl.NodeSelectorImpl;
 import com.github.kubesys.kubernetes.impl.VirtualMachineDiskImpl;
 import com.github.kubesys.kubernetes.impl.VirtualMachineImageImpl;
 import com.github.kubesys.kubernetes.impl.VirtualMachineImpl;
@@ -222,6 +223,13 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 	@SuppressWarnings("unchecked")
 	public void watchVirtualMachineSnapshots(Watcher<VirtualMachineSnapshot> watcher) {
 		crdClients.get(VirtualMachineSnapshot.class.getSimpleName()).watch(watcher);
+	}
+	
+	/**
+	 * @return NodeSelector
+	 */
+	public NodeSelectorImpl getNodeSelector() {
+		return new NodeSelectorImpl(this);
 	}
 
 }
