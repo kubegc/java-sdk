@@ -267,6 +267,7 @@ public void deleteTag(String name, String key) throws Exception {
 		if (nodeName != null) {
 			Map<String, String> labels = new HashMap<String, String>();
 			labels.put("host", nodeName);
+			labels.put("type", "normal");
 			om.setLabels(labels );
 			spec.setNodeName(nodeName);
 		}
@@ -295,6 +296,7 @@ public void deleteTag(String name, String key) throws Exception {
 		if (nodeName != null) {
 			Map<String, String> labels = new HashMap<String, String>();
 			labels.put("host", nodeName);
+			labels.put("type", "normal");
 			om.setLabels(labels );
 			spec.setNodeName(nodeName);
 		}
@@ -380,6 +382,16 @@ public void deleteTag(String name, String key) throws Exception {
 		update(kind );
 		delete(kind );
 		return true;
+	}
+	
+	public boolean temporaryDeleteVM (String name, DeleteVM  deleteVM ) throws Exception {
+		VirtualMachine kind = get(name);
+		if(kind == null) {
+			throw new RuntimeException("VirtualMachine" + name + " is not exist or it is in a wrong status");
+		}
+		kind.getMetadata().getLabels().put("type", "deleted");
+		update(kind);
+		return stopVM(name, new StopVM());
 	}
 
 
