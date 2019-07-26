@@ -41,6 +41,7 @@ public class CreateAndStartFromImageTest {
 		calculationSpecification(createAndStartVMFromImage);  
 		
 		// cdrom
+		createAndStartVMFromImage.setCdrom("/var/lib/libvirt/template/650646e8c17a49d0b83c1c797811e068.qcow2");
 		// Disk and QoS for 1 disk and many disks
 		createAndStartVMFromImage.setDisk("ROOTDISK,read_bytes_sec=1024,write_bytes_sec=1024 --disk size=10,read_bytes_sec=1024,write_bytes_sec=1024");
 		
