@@ -20,7 +20,7 @@ public class DeleteDiskTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineDisks()
-				.deleteDisk("disk-skywind11", getDeleteDisk());
+				.deleteDisk("650646e8c17a49d0b83c1c797811e067", getDeleteDisk());
 		System.out.println(successful);
 	}
 	

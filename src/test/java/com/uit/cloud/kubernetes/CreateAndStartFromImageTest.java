@@ -9,31 +9,71 @@ import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CreateAn
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
- * @since  2019/7/15
+ * @since  2019/7/24
  *
  * This code is used to manage CustomResource's lifecycle,
  * such as VirtualMachine
  */
 public class CreateAndStartFromImageTest {
 	
-	
 	public static void main(String[] args) throws Exception {
-
 		ExtendedKubernetesClient client = AbstractTest.getClient();
-		CreateAndStartVMFromImage createAndStartVMFromImage = get();
+		CreateAndStartVMFromISO createAndStartVMFromISO = get();
+		// name
 		boolean successful = client.virtualMachines()
-				.createAndStartVMFromImage("skywind11-clone", createAndStartVMFromImage);
+				.createAndStartVMFromISO("650646e8c17a49d0b83c1c797811e067", createAndStartVMFromISO);
 		System.out.println(successful);
 	}
 	
 	
-	public static CreateAndStartVMFromImage get() throws Exception {
-		CreateAndStartVMFromImage createAndStartVMFromImage = new CreateAndStartVMFromImage();
-		createAndStartVMFromImage.setMemory("4096");
-		createAndStartVMFromImage.setOriginal("skywind11");
-		createAndStartVMFromImage.setFile("/var/lib/libvirt/images/skywin11_clone.qcow2");
-		createAndStartVMFromImage.setVcpus("4");  
-		return createAndStartVMFromImage;
+	public static CreateAndStartVMFromISO get() throws Exception {
+		
+		CreateAndStartVMFromISO createAndStartVMFromISO = new CreateAndStartVMFromISO();
+		// default value
+		createAndStartVMFromISO.setMetadata("uuid=650646e8-c17a-49d0-b83c-1c797811e067");
+		createAndStartVMFromISO.setVirt_type("kvm"); 
+		createAndStartVMFromISO.setOs_variant("RHEL");
+		createAndStartVMFromISO.setNoautoconsole(true); 
+		
+		// calculationSpecification
+		calculationSpecification(createAndStartVMFromISO);  
+		
+		// cdrom
+		createAndStartVMFromISO.setCdrom("/opt/ISO/CentOS-7-x86_64-Minimal-1511.iso"); 
+		// Disk and QoS for 1 disk and many disks
+		createAndStartVMFromISO.setDisk("size=10,read_bytes_sec=1024,write_bytes_sec=1024 --disk size=10,read_bytes_sec=1024,write_bytes_sec=1024");
+//		createAndStartVMFromISO.setDisk("/var/lib/libvirt/volumes1/skywind-001,read_bytes_sec=1024,write_bytes_sec=1024");
+//		createAndStartVMFromISO.setDisk("/var/lib/libvirt/volumes1/skywind-001,read_bytes_sec=1024,write_bytes_sec=1024 --disk otherDisk1 --disk otherDisk2");
+		
+		//network and QoS
+		createAndStartVMFromISO.setNetwork("bridge=virbr0");  
+		
+		// consoleMode amd passowrd
+		createAndStartVMFromISO.setGraphics("vnc,listen=0.0.0.0" + getconsolePassword("123456"));
+//		createAndStartVMFromISO.setGraphics("spice,listen=0.0.0.0" + getconsolePassword("567890")); 
+		
+		createAndStartVMFromISO.setOs_variant("rhel7");
+		return createAndStartVMFromISO;
+	}
+
+
+	protected static void calculationSpecification(CreateAndStartVMFromISO createAndStartVMFromISO) {
+		createAndStartVMFromISO.setMemory("1024");    
+		createAndStartVMFromISO.setVcpus("1");
+//		createAndStartVMFromISO.setBlkiotune("iotune");
+	}
+	
+	protected static String getCPUSet(String cpuset) {
+		return (cpuset == null || cpuset.length() == 0) 
+				? "" :",cpuset=" + cpuset;
+	}
+	
+	protected static String getconsolePassword(String pwd) {
+		return (pwd == null || pwd.length() == 0) ? "" : ",password=abcdefg";
+	}
+	
+	protected static String getOtherCDROMs() {
+		return "--disk /opt/ISO/CentOS-7-x86_64-Minimal-1511.iso,device=cdrom,perms=ro --disk /opt/ISO/CentOS-7-x86_64-Minimal-1511.iso,device=cdrom,perms=ro";
 	}
 	
 }

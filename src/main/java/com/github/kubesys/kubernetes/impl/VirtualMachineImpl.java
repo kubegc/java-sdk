@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
 import com.github.kubesys.kubernetes.api.model.VirtualMachine;
@@ -54,6 +55,10 @@ import io.fabric8.kubernetes.client.dsl.MixedOperation;
  **/
 public class VirtualMachineImpl {
 	
+	/**
+	 * pattern
+	 */
+	protected final static Pattern pattern = Pattern.compile("[a-z0-9-]{32}");
 	
 	/**
 	 * m_logger
@@ -259,6 +264,9 @@ public void deleteTag(String name, String key) throws Exception {
 	}
 	
 	public boolean createAndStartVMFromISO (String name, String nodeName, CreateAndStartVMFromISO  createAndStartVMFromISO ) throws Exception {
+		if(!pattern.matcher(name).matches()) {
+			throw new RuntimeException("Invalid name.");
+		}
 		VirtualMachine kind = new VirtualMachine();
 		kind.setApiVersion("cloudplus.io/v1alpha3");
 		kind.setKind("VirtualMachine");
@@ -287,6 +295,9 @@ public void deleteTag(String name, String key) throws Exception {
 	}
 	
 	public boolean createAndStartVMFromImage (String name, String nodeName, CreateAndStartVMFromImage  createAndStartVMFromImage ) throws Exception {
+		if(!pattern.matcher(name).matches()) {
+			throw new RuntimeException("Invalid name.");
+		}
 		VirtualMachine kind = new VirtualMachine();
 		kind.setApiVersion("cloudplus.io/v1alpha3");
 		kind.setKind("VirtualMachine");

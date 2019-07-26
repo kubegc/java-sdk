@@ -20,7 +20,7 @@ public class StopVMTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.stopVM("t1", new StopVM());
+				.stopVM("650646e8c17a49d0b83c1c797811e066", new StopVM());
 		System.out.println(successful);
 	}
 	
