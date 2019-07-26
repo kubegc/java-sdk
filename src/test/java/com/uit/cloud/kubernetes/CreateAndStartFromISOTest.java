@@ -21,7 +21,7 @@ public class CreateAndStartFromISOTest {
 		CreateAndStartVMFromISO createAndStartVMFromISO = get();
 		// name
 		boolean successful = client.virtualMachines()
-				.createAndStartVMFromISO("650646e8c17a49d0b83c1c797811e064", createAndStartVMFromISO);
+				.createAndStartVMFromISO("650646e8c17a49d0b83c1c797811e066", createAndStartVMFromISO);
 		System.out.println(successful);
 	}
 	
@@ -30,7 +30,7 @@ public class CreateAndStartFromISOTest {
 		
 		CreateAndStartVMFromISO createAndStartVMFromISO = new CreateAndStartVMFromISO();
 		// default value
-		createAndStartVMFromISO.setMetadata("uuid=650646e8-c17a-49d0-b83c-1c797811e064");
+		createAndStartVMFromISO.setMetadata("uuid=650646e8-c17a-49d0-b83c-1c797811e066");
 		createAndStartVMFromISO.setVirt_type("kvm"); 
 		createAndStartVMFromISO.setOs_variant("RHEL");
 		createAndStartVMFromISO.setNoautoconsole(true); 
@@ -41,7 +41,8 @@ public class CreateAndStartFromISOTest {
 		// cdrom
 		createAndStartVMFromISO.setCdrom("/opt/ISO/CentOS-7-x86_64-Minimal-1511.iso"); 
 		// Disk and QoS for 1 disk and many disks
-		createAndStartVMFromISO.setDisk("/var/lib/libvirt/volumes1/skywind-001,read_bytes_sec=1024,write_bytes_sec=1024");
+		createAndStartVMFromISO.setDisk("size=10,read_bytes_sec=1024,write_bytes_sec=1024 --disk size=10,read_bytes_sec=1024,write_bytes_sec=1024");
+//		createAndStartVMFromISO.setDisk("/var/lib/libvirt/volumes1/skywind-001,read_bytes_sec=1024,write_bytes_sec=1024");
 //		createAndStartVMFromISO.setDisk("/var/lib/libvirt/volumes1/skywind-001,read_bytes_sec=1024,write_bytes_sec=1024 --disk otherDisk1 --disk otherDisk2");
 		
 		//network and QoS
@@ -51,7 +52,6 @@ public class CreateAndStartFromISOTest {
 		createAndStartVMFromISO.setGraphics("vnc,listen=0.0.0.0" + getconsolePassword("123456"));
 //		createAndStartVMFromISO.setGraphics("spice,listen=0.0.0.0" + getconsolePassword("567890")); 
 		
-		createAndStartVMFromISO.setBoot("cdrom,hd");
 		createAndStartVMFromISO.setOs_variant("rhel7");
 		return createAndStartVMFromISO;
 	}
@@ -60,7 +60,7 @@ public class CreateAndStartFromISOTest {
 	protected static void calculationSpecification(CreateAndStartVMFromISO createAndStartVMFromISO) {
 		createAndStartVMFromISO.setMemory("1024");    
 		createAndStartVMFromISO.setVcpus("1" + getCPUSet("1-4,6,8"));
-		createAndStartVMFromISO.setBlkiotune("iotune");
+//		createAndStartVMFromISO.setBlkiotune("iotune");
 	}
 	
 	protected static String getCPUSet(String cpuset) {
@@ -73,7 +73,7 @@ public class CreateAndStartFromISOTest {
 	}
 	
 	protected static String getOtherCDROMs() {
-		return "--disk /opt/ISO/CentOS-7-x86_64-Minimal-1511.iso,device=cdrom,perms=ro --disk --disk /opt/ISO/CentOS-7-x86_64-Minimal-1511.iso,device=cdrom,perms=ro";
+		return "--disk /opt/ISO/CentOS-7-x86_64-Minimal-1511.iso,device=cdrom,perms=ro --disk /opt/ISO/CentOS-7-x86_64-Minimal-1511.iso,device=cdrom,perms=ro";
 	}
 	
 }

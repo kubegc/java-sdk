@@ -3517,6 +3517,8 @@ public class Domain {
 			public static class Spinlocks {
 
 				protected String _retries;
+				
+				protected String _state;
 
 				public Spinlocks() {
 
@@ -3533,6 +3535,15 @@ public class Domain {
 				public String get_retries() {
 					return this._retries;
 				}
+
+				public String get_state() {
+					return _state;
+				}
+
+				public void set_state(String _state) {
+					this._state = _state;
+				}
+				
 			}
 
 			@JsonInclude(JsonInclude.Include.NON_NULL)

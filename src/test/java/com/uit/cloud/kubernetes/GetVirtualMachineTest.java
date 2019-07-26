@@ -13,7 +13,10 @@ package com.uit.cloud.kubernetes;
 public class GetVirtualMachineTest {
 	
 	public static void main(String[] args) throws Exception {
-		System.out.println(AbstractTest.getVMByName("test3"));
+//		System.out.println(AbstractTest
+//				.getVMByName("650646e8c17a49d0b83c1c797811e066"));
+		System.out.println(AbstractTest
+				.getVMByName("win10"));
 	}
 	
 }
