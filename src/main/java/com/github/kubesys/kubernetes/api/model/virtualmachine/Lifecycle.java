@@ -2784,72 +2784,8 @@ public class Lifecycle {
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class CreateAndStartVMFromImage {
+	public static class CreateAndStartVMFromImage extends CreateAndStartVMFromISO {
 
-		protected String original_xml;
-		
-		protected String original;
-		
-		protected String name;
-		
-		protected String file;
-		
-		protected String vcpus;
-
-		protected String memory;
-		
-		public CreateAndStartVMFromImage() {
-			super();
-		}
-
-		public String getOriginal() {
-			return original;
-		}
-
-		public void setOriginal(String original) {
-			this.original = original;
-		}
-
-		public String getOriginal_xml() {
-			return original_xml;
-		}
-
-		public void setOriginal_xml(String original_xml) {
-			this.original_xml = original_xml;
-		}
-
-		public String getName() {
-			return name;
-		}
-
-		public void setName(String name) {
-			this.name = name;
-		}
-
-		public String getFile() {
-			return file;
-		}
-
-		public void setFile(String file) {
-			this.file = file;
-		}
-
-		public String getVcpus() {
-			return vcpus;
-		}
-
-		public void setVcpus(String vcpus) {
-			this.vcpus = vcpus;
-		}
-
-		public String getMemory() {
-			return memory;
-		}
-
-		public void setMemory(String memory) {
-			this.memory = memory;
-		}
-		
 	}
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)

@@ -5,6 +5,7 @@ package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CreateAndStartVMFromISO;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CreateAndStartVMFromImage;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -17,40 +18,40 @@ public class CreateAndStartFromImageTest {
 	
 	public static void main(String[] args) throws Exception {
 		ExtendedKubernetesClient client = AbstractTest.getClient();
-		CreateAndStartVMFromISO createAndStartVMFromISO = get();
+		CreateAndStartVMFromImage createAndStartVMFromImage = get();
 		// name
 		boolean successful = client.virtualMachines()
-				.createAndStartVMFromISO("650646e8c17a49d0b83c1c797811e069",
-						"node30", createAndStartVMFromISO);
+				.createAndStartVMFromImage("650646e8c17a49d0b83c1c797811e069",
+						"node30", createAndStartVMFromImage);
 		System.out.println(successful);
 	}
 	
 	
-	public static CreateAndStartVMFromISO get() throws Exception {
+	public static CreateAndStartVMFromImage get() throws Exception {
 		
-		CreateAndStartVMFromISO createAndStartVMFromISO = new CreateAndStartVMFromISO();
+		CreateAndStartVMFromImage createAndStartVMFromImage = new CreateAndStartVMFromImage();
 		// default value
-		createAndStartVMFromISO.setMetadata("uuid=650646e8-c17a-49d0-b83c-1c797811e069");
-		createAndStartVMFromISO.setVirt_type("kvm"); 
-		createAndStartVMFromISO.setOs_variant("RHEL");
-		createAndStartVMFromISO.set_import(true);
-		createAndStartVMFromISO.setNoautoconsole(true); 
+		createAndStartVMFromImage.setMetadata("uuid=650646e8-c17a-49d0-b83c-1c797811e069");
+		createAndStartVMFromImage.setVirt_type("kvm"); 
+		createAndStartVMFromImage.setOs_variant("RHEL");
+		createAndStartVMFromImage.setBoot("hd");
+		createAndStartVMFromImage.setNoautoconsole(true); 
 		
 		// calculationSpecification
-		calculationSpecification(createAndStartVMFromISO);  
+		calculationSpecification(createAndStartVMFromImage);  
 		
 		// cdrom
 		// Disk and QoS for 1 disk and many disks
-		createAndStartVMFromISO.setDisk("/var/lib/libvirt/template/bbb.qcow2,read_bytes_sec=1024,write_bytes_sec=1024 --disk size=10,read_bytes_sec=1024,write_bytes_sec=1024");
+		createAndStartVMFromImage.setDisk("ROOTDISK,read_bytes_sec=1024,write_bytes_sec=1024 --disk size=10,read_bytes_sec=1024,write_bytes_sec=1024");
 		
 		//network and QoS
-		createAndStartVMFromISO.setNetwork("bridge=virbr0");  
+		createAndStartVMFromImage.setNetwork("bridge=virbr0");  
 		
 		// consoleMode amd passowrd
-		createAndStartVMFromISO.setGraphics("vnc,listen=0.0.0.0" + getconsolePassword("123456"));
+		createAndStartVMFromImage.setGraphics("vnc,listen=0.0.0.0" + getconsolePassword("123456"));
 		
-		createAndStartVMFromISO.setOs_variant("rhel7");
-		return createAndStartVMFromISO;
+		createAndStartVMFromImage.setOs_variant("rhel7");
+		return createAndStartVMFromImage;
 	}
 
 
