@@ -20,7 +20,8 @@ public class CreateAndStartFromImageTest {
 		CreateAndStartVMFromISO createAndStartVMFromISO = get();
 		// name
 		boolean successful = client.virtualMachines()
-				.createAndStartVMFromISO("650646e8c17a49d0b83c1c797811e068", createAndStartVMFromISO);
+				.createAndStartVMFromISO("650646e8c17a49d0b83c1c797811e069",
+						"node30", createAndStartVMFromISO);
 		System.out.println(successful);
 	}
 	
@@ -29,18 +30,18 @@ public class CreateAndStartFromImageTest {
 		
 		CreateAndStartVMFromISO createAndStartVMFromISO = new CreateAndStartVMFromISO();
 		// default value
-		createAndStartVMFromISO.setMetadata("uuid=650646e8-c17a-49d0-b83c-1c797811e068");
+		createAndStartVMFromISO.setMetadata("uuid=650646e8-c17a-49d0-b83c-1c797811e069");
 		createAndStartVMFromISO.setVirt_type("kvm"); 
 		createAndStartVMFromISO.setOs_variant("RHEL");
+		createAndStartVMFromISO.set_import(true);
 		createAndStartVMFromISO.setNoautoconsole(true); 
 		
 		// calculationSpecification
 		calculationSpecification(createAndStartVMFromISO);  
 		
 		// cdrom
-		createAndStartVMFromISO.setCdrom("/opt/ISO/CentOS-7-x86_64-Minimal-1511.iso"); 
 		// Disk and QoS for 1 disk and many disks
-		createAndStartVMFromISO.setDisk("size=10,read_bytes_sec=1024,write_bytes_sec=1024 --disk size=10,read_bytes_sec=1024,write_bytes_sec=1024");
+		createAndStartVMFromISO.setDisk("/var/lib/libvirt/template/bbb.qcow2,read_bytes_sec=1024,write_bytes_sec=1024 --disk size=10,read_bytes_sec=1024,write_bytes_sec=1024");
 		
 		//network and QoS
 		createAndStartVMFromISO.setNetwork("bridge=virbr0");  

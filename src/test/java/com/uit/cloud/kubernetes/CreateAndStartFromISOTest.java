@@ -33,7 +33,6 @@ public class CreateAndStartFromISOTest {
 		createAndStartVMFromISO.setMetadata("uuid=650646e8-c17a-49d0-b83c-1c797811e068");
 		createAndStartVMFromISO.setVirt_type("kvm"); 
 		createAndStartVMFromISO.setOs_variant("RHEL");
-		createAndStartVMFromISO.set_import(true);
 		createAndStartVMFromISO.setNoautoconsole(true); 
 		
 		// calculationSpecification
@@ -42,7 +41,7 @@ public class CreateAndStartFromISOTest {
 		// cdrom
 		createAndStartVMFromISO.setCdrom("/opt/ISO/CentOS-7-x86_64-Minimal-1511.iso"); 
 		// Disk and QoS for 1 disk and many disks
-		createAndStartVMFromISO.setDisk("/var/lib/libvirt/template/bbb.qcow2,read_bytes_sec=1024,write_bytes_sec=1024 --disk size=10,read_bytes_sec=1024,write_bytes_sec=1024");
+		createAndStartVMFromISO.setDisk("size=10,read_bytes_sec=1024,write_bytes_sec=1024 --disk size=10,read_bytes_sec=1024,write_bytes_sec=1024 " + getOtherCDROMs());
 		
 		//network and QoS
 		createAndStartVMFromISO.setNetwork("bridge=virbr0");  

@@ -5,11 +5,14 @@ package com.github.kubesys.kubernetes.impl;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
 
 import io.fabric8.kubernetes.api.model.Node;
+import io.fabric8.kubernetes.api.model.NodeCondition;
+import io.fabric8.kubernetes.api.model.Taint;
 
 
 /**
@@ -26,79 +29,140 @@ public class NodeSelectorImpl {
 	 */
 	protected final static Logger m_logger = Logger.getLogger(NodeSelectorImpl.class.getName());
 
+	/**
+	 * default node
+	 */
+	protected final static String DEFAULT_NODE = null;
+	
+	/**
+	 * client
+	 */
 	protected final ExtendedKubernetesClient client;
 	
+	/**
+	 * @param client  client
+	 */
 	public NodeSelectorImpl(ExtendedKubernetesClient client) {
 		super();
 		this.client = client;
 	}
 
 	public String getNodename(Policy policy) {
-		Node[] nodes =  client.nodes()
-				.list().getItems().toArray(new Node[] {});
+		
+		Node[] nodes = getAllNodesFromKubernetes();
 		
 		if (policy == Policy.minimumCPUUsageHostAllocatorStrategyMode) {
-			Arrays.sort(nodes, new Comparator<Node>() {
-
-				@Override
-				public int compare(Node o1, Node o2) {
-					long lo1 = stringToLong(o1.getStatus()
-							.getAllocatable().get("cpu").getAmount());
-					long lo2 = stringToLong(o2.getStatus()
-							.getAllocatable().get("cpu").getAmount());
-					return (lo2 - lo1 < 0) ? -1 : 1;
-				}
-				
-			});
+			sortByMinimumCPUUsage(nodes);
 		} else if (policy == Policy.minimumMemoryUsageHostAllocatorStrategyMode) {
-			Arrays.sort(nodes, new Comparator<Node>() {
-
-				@Override
-				public int compare(Node o1, Node o2) {
-					long lo1 = stringToLong(o1.getStatus()
-							.getAllocatable().get("memory").getAmount());
-					long lo2 = stringToLong(o2.getStatus()
-							.getAllocatable().get("memory").getAmount());
-					return (lo2 - lo1 < 0) ? -1 : 1;
-				}
-				
-			});
+			sortByMinimumMemoryUsage(nodes);
 		} else if (policy == Policy.maxInstancePerHost) {
-			Arrays.sort(nodes, new Comparator<Node>() {
-
-				@Override
-				public int compare(Node o1, Node o2) {
-					long lo1 = stringToLong(o1.getStatus()
-							.getAllocatable().get("pods").getAmount());
-					long lo2 = stringToLong(o2.getStatus()
-							.getAllocatable().get("pods").getAmount());
-					return (lo1 - lo2 > 0) ? -1 : 1;
-				}
-				
-			});
+			sortByMaxInstancePerHost(nodes);
 		} else if (policy == Policy.minInstancePerHost) {
-			Arrays.sort(nodes, new Comparator<Node>() {
-
-				@Override
-				public int compare(Node o1, Node o2) {
-					long lo1 = stringToLong(o1.getStatus()
-							.getAllocatable().get("pods").getAmount());
-					long lo2 = stringToLong(o2.getStatus()
-							.getAllocatable().get("pods").getAmount());
-					return (lo1 - lo2 < 0) ? -1 : 1;
-				}
-				
-			});
-		}
+			sortByMinInstancePerHost(nodes);
+		} 
 		
 		for (Node node : nodes) {
-			if (node.getMetadata().getLabels()
-					.containsKey("node-role.kubernetes.io/master")) {
+			if (isMaster(node) || notReady(node) || unSched(node)) {
 				continue;
 			}
 			return node.getMetadata().getName();
 		}
-		return null;
+		
+		return DEFAULT_NODE;
+	}
+
+	protected void sortByMinInstancePerHost(Node[] nodes) {
+		Arrays.sort(nodes, new Comparator<Node>() {
+
+			@Override
+			public int compare(Node o1, Node o2) {
+				long lo1 = stringToLong(o1.getStatus()
+						.getAllocatable().get("pods").getAmount());
+				long lo2 = stringToLong(o2.getStatus()
+						.getAllocatable().get("pods").getAmount());
+				return (lo1 - lo2 < 0) ? -1 : 1;
+			}
+			
+		});
+	}
+
+	protected void sortByMaxInstancePerHost(Node[] nodes) {
+		Arrays.sort(nodes, new Comparator<Node>() {
+
+			@Override
+			public int compare(Node o1, Node o2) {
+				long lo1 = stringToLong(o1.getStatus()
+						.getAllocatable().get("pods").getAmount());
+				long lo2 = stringToLong(o2.getStatus()
+						.getAllocatable().get("pods").getAmount());
+				return (lo1 - lo2 > 0) ? -1 : 1;
+			}
+			
+		});
+	}
+
+	protected void sortByMinimumMemoryUsage(Node[] nodes) {
+		Arrays.sort(nodes, new Comparator<Node>() {
+
+			@Override
+			public int compare(Node o1, Node o2) {
+				long lo1 = stringToLong(o1.getStatus()
+						.getAllocatable().get("memory").getAmount());
+				long lo2 = stringToLong(o2.getStatus()
+						.getAllocatable().get("memory").getAmount());
+				return (lo2 - lo1 < 0) ? -1 : 1;
+			}
+			
+		});
+	}
+
+	protected void sortByMinimumCPUUsage(Node[] nodes) {
+		Arrays.sort(nodes, new Comparator<Node>() {
+
+			@Override
+			public int compare(Node o1, Node o2) {
+				long lo1 = stringToLong(o1.getStatus()
+						.getAllocatable().get("cpu").getAmount());
+				long lo2 = stringToLong(o2.getStatus()
+						.getAllocatable().get("cpu").getAmount());
+				return (lo2 - lo1 < 0) ? -1 : 1;
+			}
+			
+		});
+	}
+
+	protected Node[] getAllNodesFromKubernetes() {
+		try {
+			return client.nodes().list()
+					.getItems().toArray(new Node[] {});
+		} catch (Exception ex) {
+			// if client is null or we encounter unknown problem 
+			m_logger.log(Level.SEVERE, ex.getMessage());
+			return new Node[] {};
+		}
+	}
+
+	protected boolean unSched(Node node) {
+		for (Taint taint : node.getSpec().getTaints()) {
+			if (taint.getEffect().equals("NoSchedule")) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	protected boolean notReady(Node node) {
+		for (NodeCondition nc : node.getStatus().getConditions()) {
+			if (nc.getType().equals("Ready")) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	protected boolean isMaster(Node node) {
+		return node.getMetadata().getLabels()
+				.containsKey("node-role.kubernetes.io/master");
 	}
 
 	public static long stringToLong(String value) {
