@@ -2297,9 +2297,19 @@ public class Lifecycle {
 		protected String pm;
 		
 		protected Boolean noautoconsole;
+		
+		protected Boolean _import;
 
 		public CreateAndStartVMFromISO() {
 
+		}
+
+		public Boolean get_import() {
+			return _import;
+		}
+
+		public void set_import(Boolean _import) {
+			this._import = _import;
 		}
 
 		public String getDisk() {

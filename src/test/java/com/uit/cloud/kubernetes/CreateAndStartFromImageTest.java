@@ -5,7 +5,6 @@ package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CreateAndStartVMFromISO;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CreateAndStartVMFromImage;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -21,7 +20,7 @@ public class CreateAndStartFromImageTest {
 		CreateAndStartVMFromISO createAndStartVMFromISO = get();
 		// name
 		boolean successful = client.virtualMachines()
-				.createAndStartVMFromISO("650646e8c17a49d0b83c1c797811e067", createAndStartVMFromISO);
+				.createAndStartVMFromISO("650646e8c17a49d0b83c1c797811e068", createAndStartVMFromISO);
 		System.out.println(successful);
 	}
 	
@@ -30,7 +29,7 @@ public class CreateAndStartFromImageTest {
 		
 		CreateAndStartVMFromISO createAndStartVMFromISO = new CreateAndStartVMFromISO();
 		// default value
-		createAndStartVMFromISO.setMetadata("uuid=650646e8-c17a-49d0-b83c-1c797811e067");
+		createAndStartVMFromISO.setMetadata("uuid=650646e8-c17a-49d0-b83c-1c797811e068");
 		createAndStartVMFromISO.setVirt_type("kvm"); 
 		createAndStartVMFromISO.setOs_variant("RHEL");
 		createAndStartVMFromISO.setNoautoconsole(true); 
@@ -42,15 +41,12 @@ public class CreateAndStartFromImageTest {
 		createAndStartVMFromISO.setCdrom("/opt/ISO/CentOS-7-x86_64-Minimal-1511.iso"); 
 		// Disk and QoS for 1 disk and many disks
 		createAndStartVMFromISO.setDisk("size=10,read_bytes_sec=1024,write_bytes_sec=1024 --disk size=10,read_bytes_sec=1024,write_bytes_sec=1024");
-//		createAndStartVMFromISO.setDisk("/var/lib/libvirt/volumes1/skywind-001,read_bytes_sec=1024,write_bytes_sec=1024");
-//		createAndStartVMFromISO.setDisk("/var/lib/libvirt/volumes1/skywind-001,read_bytes_sec=1024,write_bytes_sec=1024 --disk otherDisk1 --disk otherDisk2");
 		
 		//network and QoS
 		createAndStartVMFromISO.setNetwork("bridge=virbr0");  
 		
 		// consoleMode amd passowrd
 		createAndStartVMFromISO.setGraphics("vnc,listen=0.0.0.0" + getconsolePassword("123456"));
-//		createAndStartVMFromISO.setGraphics("spice,listen=0.0.0.0" + getconsolePassword("567890")); 
 		
 		createAndStartVMFromISO.setOs_variant("rhel7");
 		return createAndStartVMFromISO;
@@ -60,7 +56,6 @@ public class CreateAndStartFromImageTest {
 	protected static void calculationSpecification(CreateAndStartVMFromISO createAndStartVMFromISO) {
 		createAndStartVMFromISO.setMemory("1024");    
 		createAndStartVMFromISO.setVcpus("1");
-//		createAndStartVMFromISO.setBlkiotune("iotune");
 	}
 	
 	protected static String getCPUSet(String cpuset) {
