@@ -34,8 +34,8 @@ public class NodeSelectorImpl {
 	}
 
 	public String getNodename(Policy policy) {
-		Node[] nodes =  (Node[]) client.nodes()
-				.list().getItems().toArray();
+		Node[] nodes =  client.nodes()
+				.list().getItems().toArray(new Node[] {});
 		
 		if (policy == Policy.minimumCPUUsageHostAllocatorStrategyMode) {
 			Arrays.sort(nodes, new Comparator<Node>() {
@@ -46,7 +46,7 @@ public class NodeSelectorImpl {
 							.getAllocatable().get("cpu").getAmount());
 					long lo2 = stringToLong(o2.getStatus()
 							.getAllocatable().get("cpu").getAmount());
-					return (lo1 - lo2 < 0) ? -1 : 1;
+					return (lo2 - lo1 < 0) ? -1 : 1;
 				}
 				
 			});
@@ -59,7 +59,7 @@ public class NodeSelectorImpl {
 							.getAllocatable().get("memory").getAmount());
 					long lo2 = stringToLong(o2.getStatus()
 							.getAllocatable().get("memory").getAmount());
-					return (lo1 - lo2 < 0) ? -1 : 1;
+					return (lo2 - lo1 < 0) ? -1 : 1;
 				}
 				
 			});
@@ -91,7 +91,14 @@ public class NodeSelectorImpl {
 			});
 		}
 		
-		return nodes[0].getMetadata().getName();
+		for (Node node : nodes) {
+			if (node.getMetadata().getLabels()
+					.containsKey("node-role.kubernetes.io/master")) {
+				continue;
+			}
+			return node.getMetadata().getName();
+		}
+		return null;
 	}
 
 	public static long stringToLong(String value) {
