@@ -21,7 +21,7 @@ public class CreateAndStartFromImageTest {
 		CreateAndStartVMFromImage createAndStartVMFromImage = get();
 		// name
 		boolean successful = client.virtualMachines()
-				.createAndStartVMFromImage("650646e8c17a49d0b83c1c797811e069",
+				.createAndStartVMFromImage("650646e8c17a49d0b83c1c797811e083",
 						"node30", createAndStartVMFromImage);
 		System.out.println(successful);
 	}
@@ -31,7 +31,7 @@ public class CreateAndStartFromImageTest {
 		
 		CreateAndStartVMFromImage createAndStartVMFromImage = new CreateAndStartVMFromImage();
 		// default value
-		createAndStartVMFromImage.setMetadata("uuid=650646e8-c17a-49d0-b83c-1c797811e069");
+		createAndStartVMFromImage.setMetadata("uuid=650646e8-c17a-49d0-b83c-1c797811e083");
 		createAndStartVMFromImage.setVirt_type("kvm"); 
 		createAndStartVMFromImage.setOs_variant("RHEL");
 		createAndStartVMFromImage.setBoot("hd");
@@ -41,9 +41,9 @@ public class CreateAndStartFromImageTest {
 		calculationSpecification(createAndStartVMFromImage);  
 		
 		// cdrom
-		createAndStartVMFromImage.setCdrom("/var/lib/libvirt/template/650646e8c17a49d0b83c1c797811e068.qcow2");
+		createAndStartVMFromImage.setCdrom("/var/lib/libvirt/images/ttt.qcow2");
 		// Disk and QoS for 1 disk and many disks
-		createAndStartVMFromImage.setDisk("ROOTDISK,read_bytes_sec=1024,write_bytes_sec=1024 --disk size=10,read_bytes_sec=1024,write_bytes_sec=1024");
+		createAndStartVMFromImage.setDisk("ROOTDISK,read_bytes_sec=1048576,write_bytes_sec=1048576 --disk size=10,read_bytes_sec=1048576,write_bytes_sec=1048576");
 		
 		//network and QoS
 		createAndStartVMFromImage.setNetwork("bridge=virbr0");  

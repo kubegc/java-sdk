@@ -20,7 +20,7 @@ public class DeleteVMImageTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineImages()
-				.deleteImage("skywind11", new DeleteImage());
+				.deleteImage("650646e8c17a49d0b83c1c797811e081", new DeleteImage());
 		System.out.println(successful);
 	}
 	
