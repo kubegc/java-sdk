@@ -79,6 +79,11 @@ public class VirtualMachineDiskImpl {
 		return true;
 	}
 
+	public String getEventId(String name) {
+		VirtualMachineDisk vmd = get(name);
+		return vmd.getMetadata().getLabels().get("eventId");
+	}
+	
 	/**
 	 * @param disk VM disk description
 	 * @return true or an exception

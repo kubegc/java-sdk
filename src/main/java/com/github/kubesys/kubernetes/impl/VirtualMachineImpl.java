@@ -194,6 +194,11 @@ public class VirtualMachineImpl {
 		return (VirtualMachineList) ((FilterWatchListDeletable) client.withLabels(labels)).list();
 	}
 
+	public String getEventId(String name) {
+		VirtualMachine vm = get(name);
+		return vm.getMetadata().getLabels().get("eventId");
+	}
+	
 	/**
 	 * @param name  name
 	 * @param key   key

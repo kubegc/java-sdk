@@ -77,6 +77,11 @@ public class VirtualMachineImageImpl {
 		return true;
 	}
 
+	public String getEventId(String name) {
+		VirtualMachineImage vmi = get(name);
+		return vmi.getMetadata().getLabels().get("eventId");
+	}
+	
 	/**
 	 * @param image VM image description
 	 * @return true or an exception

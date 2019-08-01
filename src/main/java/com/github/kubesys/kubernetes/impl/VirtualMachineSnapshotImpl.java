@@ -76,6 +76,11 @@ public class VirtualMachineSnapshotImpl {
 		return true;
 	}
 
+	public String getEventId(String name) {
+		VirtualMachineSnapshot vms = get(name);
+		return vms.getMetadata().getLabels().get("eventId");
+	}
+	
 	/**
 	 * @param snapshot VM snapshot description
 	 * @return true or an exception
