@@ -3,6 +3,8 @@
  */
 package com.uit.cloud.kubernetes;
 
+import java.util.Map;
+
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
 import com.github.kubesys.kubernetes.api.model.VirtualMachine;
 
@@ -27,7 +29,9 @@ public class ListenVMTest {
 			@Override
 			public void eventReceived(Action action, VirtualMachine resource) {
 				
-				if (!resource.getMetadata().getName().equals("")) {
+				System.out.println(action + ":" + resource.getMetadata().getName());
+				
+				if (!resource.getMetadata().getName().equals("650646e8c17a49d0b83c1c797811e083")) {
 					return;
 				}
 				
@@ -38,14 +42,18 @@ public class ListenVMTest {
 					return;
 				}
 				
-				if (resource.getSpec().getStatus() == null) {
+				if (resource.getSpec().getStatus() == null || resource.getSpec().getStatus().getAdditionalProperties() == null) {
 					System.out.println("虚拟机处理异常，virtctl或virtctl服务异常");
 					return;
 				}
 				
-				if (resource.getSpec().getStatus().getStatus().equals("Exception")
-						|| resource.getSpec().getStatus().getStatus().equals("VirtError")) {
-					System.out.println("错误原因[根据Action的状态]：" + resource.getSpec().getStatus().getMessage());
+				Map<String, Object> statusProps = resource.getSpec().getStatus().getAdditionalProperties();	
+				Map<String, Object> statusCond = (Map<String, Object>) (statusProps.get("conditions"));
+				Map<String, Object> statusStat = (Map<String, Object>) (statusCond.get("state"));
+				Map<String, Object> statusWait = (Map<String, Object>) (statusStat.get("waiting"));
+				if (statusWait.get("reason").equals("Exception")
+						|| statusWait.get("reason").equals("VirtError")) {
+					System.out.println("错误原因[根据Action的状态]：" + statusWait.get("message"));
 					return;
 				}
 				
