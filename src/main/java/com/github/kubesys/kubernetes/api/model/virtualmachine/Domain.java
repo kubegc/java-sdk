@@ -10183,6 +10183,8 @@ public class Domain {
 			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Virtualport {
 
+				protected String _type;
+				
 				protected Parameters parameters;
 
 				public Virtualport() {
@@ -10201,13 +10203,33 @@ public class Domain {
 					return this.parameters;
 				}
 
+				public String get_type() {
+					return _type;
+				}
+
+				public void set_type(String _type) {
+					this._type = _type;
+				}
+
+
 				@JsonInclude(JsonInclude.Include.NON_NULL)
 				@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 				public static class Parameters {
 
+					protected String __interfaceid;
+					
 					public Parameters() {
 
 					}
+
+					public String get__interfaceid() {
+						return __interfaceid;
+					}
+
+					public void set__interfaceid(String __interfaceid) {
+						this.__interfaceid = __interfaceid;
+					}
+					
 				}
 			}
 		}
