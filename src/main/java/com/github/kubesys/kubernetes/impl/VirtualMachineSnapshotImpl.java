@@ -32,188 +32,182 @@ import io.fabric8.kubernetes.client.dsl.MixedOperation;
  * @since Thu Jun 13 21:39:55 CST 2019
  **/
 public class VirtualMachineSnapshotImpl {
-	
+
 	/**
 	 * m_logger
 	 */
 	protected final static Logger m_logger = Logger.getLogger(VirtualMachineSnapshotImpl.class.getName());
-	
+
 	/**
 	 * client
 	 */
 	@SuppressWarnings("rawtypes")
-	protected final MixedOperation client = ExtendedKubernetesClient
-				.crdClients.get(VirtualMachineSnapshot.class.getSimpleName());
-	
+	protected final MixedOperation client = ExtendedKubernetesClient.crdClients
+			.get(VirtualMachineSnapshot.class.getSimpleName());
+
 	/**
 	 * support commands
 	 */
 	public static List<String> cmds = new ArrayList<String>();
-	
+
 	static {
 		cmds.add("createSnapshot");
 		cmds.add("deleteSnapshot");
 	}
-	
+
 	/*************************************************
 	 * 
-	 *                   Core 
+	 * Core
 	 * 
 	 **************************************************/
-	
+
 	/**
 	 * return true or an exception
 	 * 
-	 * @param snapshot     VM snapshot description
-	 * @return             true or an exception
-	 * @throws Exception   create VM disk fail
+	 * @param snapshot VM snapshot description
+	 * @return true or an exception
+	 * @throws Exception create VM disk fail
 	 */
 	@SuppressWarnings("unchecked")
 	@Deprecated
 	public boolean create(VirtualMachineSnapshot snapshot) throws Exception {
 		client.create(snapshot);
-		m_logger.log(Level.INFO, "create VirtualMachineSnapshot " 
-				+ snapshot.getMetadata().getName() + " successful.") ;
+		m_logger.log(Level.INFO, "create VirtualMachineSnapshot " + snapshot.getMetadata().getName() + " successful.");
 		return true;
 	}
-	
+
 	/**
-	 * @param snapshot      VM snapshot description
-	 * @return              true or an exception
-	 * @throws Exception    delete VM disk fail
+	 * @param snapshot VM snapshot description
+	 * @return true or an exception
+	 * @throws Exception delete VM disk fail
 	 */
 	@SuppressWarnings("unchecked")
 	@Deprecated
 	public boolean delete(VirtualMachineSnapshot snapshot) throws Exception {
 		client.delete(snapshot);
-		m_logger.log(Level.INFO, "delete VirtualMachineSnapshot " 
-				+ snapshot.getMetadata().getName() + " successful.") ;
+		m_logger.log(Level.INFO, "delete VirtualMachineSnapshot " + snapshot.getMetadata().getName() + " successful.");
 		return true;
 	}
-	
+
 	/**
-	 * @param snapshot      VM snapshot description
-	 * @return              true or an exception
-	 * @throws Exception    update VM disk fail
+	 * @param snapshot VM snapshot description
+	 * @return true or an exception
+	 * @throws Exception update VM disk fail
 	 */
 	@SuppressWarnings("unchecked")
 	@Deprecated
 	public boolean update(VirtualMachineSnapshot snapshot) throws Exception {
 		client.createOrReplace(snapshot);
-		m_logger.log(Level.INFO, "update VirtualMachineSnapshot " 
-				+ snapshot.getMetadata().getName() + " successful.") ;
+		m_logger.log(Level.INFO, "update VirtualMachineSnapshot " + snapshot.getMetadata().getName() + " successful.");
 		return true;
 	}
-	
+
 	/**
-	 * @param operator      operator
-	 * @param snapshot      VM snapshot description
-	 * @return              true or an exception
-	 * @throws Exception    update VM disk fail
+	 * @param operator operator
+	 * @param snapshot VM snapshot description
+	 * @return true or an exception
+	 * @throws Exception update VM disk fail
 	 */
 	@SuppressWarnings("unchecked")
 	@Deprecated
 	protected boolean update(String operator, VirtualMachineSnapshot snapshot) throws Exception {
 		client.createOrReplace(snapshot);
-		m_logger.log(Level.INFO, operator + " " + 
-				snapshot.getMetadata().getName() + " successful.") ;
+		m_logger.log(Level.INFO, operator + " " + snapshot.getMetadata().getName() + " successful.");
 		return true;
 	}
-	
+
 	/**
 	 * return an object or null
 	 * 
-	 * @param name     .metadata.name
-	 * @return         object or null
+	 * @param name .metadata.name
+	 * @return object or null
 	 */
 	@SuppressWarnings("unchecked")
 	public VirtualMachineSnapshot get(String name) {
-		return ((Gettable<VirtualMachineSnapshot>) 
-				client.withName(name)).get();
+		return ((Gettable<VirtualMachineSnapshot>) client.withName(name)).get();
 	}
-	
+
 	/**
 	 * @return list all virtual machine snapshots or null
 	 */
 	public VirtualMachineSnapshotList list() {
 		return (VirtualMachineSnapshotList) client.list();
 	}
-	
+
 	/**
-	 * list all VM disks with the specified labels 
+	 * list all VM disks with the specified labels
 	 * 
-	 * @param filter    .metadata.labels
-	 * @return          all VM snapshots or null
+	 * @param filter .metadata.labels
+	 * @return all VM snapshots or null
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public VirtualMachineDiskList list(Map<String, String> labels) {
-		return (VirtualMachineDiskList)((FilterWatchListDeletable) 
-				client.withLabels(labels)).list();
+		return (VirtualMachineDiskList) ((FilterWatchListDeletable) client.withLabels(labels)).list();
 	}
-	
+
 	/**
-	 * @param name        name
-	 * @param key         key
-	 * @param value       value
-	 * @throws Exception  exception
+	 * @param name  name
+	 * @param key   key
+	 * @param value value
+	 * @throws Exception exception
 	 */
 	public void addTag(String name, String key, String value) throws Exception {
-		
+
 		if (key.equals("host")) {
 			m_logger.log(Level.SEVERE, "'host' is a keyword.");
 			return;
 		}
-		
+
 		VirtualMachineSnapshot snapshot = get(name);
 		if (snapshot == null) {
 			m_logger.log(Level.SEVERE, "Snapshot " + name + " not exist.");
 			return;
 		}
-		
+
 		Map<String, String> tags = snapshot.getMetadata().getLabels();
 		tags = (tags == null) ? new HashMap<String, String>() : tags;
 		tags.put(key, value);
-		
+
 		update(snapshot);
 	}
-	
-/**
- * @param name     name
- * @param key      key
- * @throws Exception  exception
- */
-public void deleteTag(String name, String key) throws Exception {
-		
+
+	/**
+	 * @param name name
+	 * @param key  key
+	 * @throws Exception exception
+	 */
+	public void deleteTag(String name, String key) throws Exception {
+
 		if (key.equals("host")) {
 			m_logger.log(Level.SEVERE, "'host' is a keyword.");
 			return;
 		}
-		
+
 		VirtualMachineSnapshot snapshot = get(name);
 		if (snapshot == null) {
 			m_logger.log(Level.SEVERE, "Snapshot " + name + " not exist.");
 			return;
 		}
-		
+
 		Map<String, String> tags = snapshot.getMetadata().getLabels();
 		if (tags != null) {
 			tags.remove(key);
 		}
-		
+
 		update(snapshot);
 	}
-	
+
 	/*************************************************
 	 * 
-	 *                   Generated
+	 * Generated
 	 * 
 	 **************************************************/
-	
-	public boolean createSnapshot (String name, CreateSnapshot  createSnapshot ) throws Exception {
+
+	public boolean createSnapshot(String name, CreateSnapshot createSnapshot) throws Exception {
 		return createSnapshot(name, null, createSnapshot);
 	}
-	
-	public boolean createSnapshot (String name, String nodeName, CreateSnapshot  createSnapshot ) throws Exception {
+
+	public boolean createSnapshot(String name, String nodeName, CreateSnapshot createSnapshot) throws Exception {
 		VirtualMachineSnapshot kind = new VirtualMachineSnapshot();
 		kind.setApiVersion("cloudplus.io/v1alpha3");
 		kind.setKind("VirtualMachineSnapshot");
@@ -222,34 +216,82 @@ public void deleteTag(String name, String key) throws Exception {
 		if (nodeName != null) {
 			Map<String, String> labels = new HashMap<String, String>();
 			labels.put("host", nodeName);
-			om.setLabels(labels );
+			om.setLabels(labels);
 			spec.setNodeName(nodeName);
 		}
 		om.setName(name);
 		kind.setMetadata(om);
 		Lifecycle lifecycle = new Lifecycle();
-		lifecycle.setCreateSnapshot (createSnapshot );
-		spec.setLifecycle(lifecycle );
-		kind.setSpec(spec );
-		create(kind );
+		lifecycle.setCreateSnapshot(createSnapshot);
+		spec.setLifecycle(lifecycle);
+		kind.setSpec(spec);
+		create(kind);
 		return true;
 	}
 
-
-	public boolean deleteSnapshot (String name, DeleteSnapshot  deleteSnapshot ) throws Exception {
+	public boolean deleteSnapshot(String name, DeleteSnapshot deleteSnapshot) throws Exception {
 		VirtualMachineSnapshot kind = get(name);
-		if(kind == null || kind.getSpec().getLifecycle() != null) {
+		if (kind == null || kind.getSpec().getLifecycle() != null) {
 			delete(kind);
 		}
 		VirtualMachineSnapshotSpec spec = kind.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
-		lifecycle.setDeleteSnapshot (deleteSnapshot );
-		spec.setLifecycle(lifecycle );
-		kind.setSpec(spec );
+		lifecycle.setDeleteSnapshot(deleteSnapshot);
+		spec.setLifecycle(lifecycle);
+		kind.setSpec(spec);
 		update(kind);
-		delete(kind );
+		delete(kind);
+		return true;
+	}
+	
+	//------------------------------------------------------
+	public boolean createSnapshot(String name, CreateSnapshot createSnapshot, String eventId) throws Exception {
+		return createSnapshot(name, null, createSnapshot, eventId);
+	}
+
+	public boolean createSnapshot(String name, String nodeName, CreateSnapshot createSnapshot, String eventId) throws Exception {
+		VirtualMachineSnapshot kind = new VirtualMachineSnapshot();
+		kind.setApiVersion("cloudplus.io/v1alpha3");
+		kind.setKind("VirtualMachineSnapshot");
+		VirtualMachineSnapshotSpec spec = new VirtualMachineSnapshotSpec();
+		ObjectMeta om = new ObjectMeta();
+		if (nodeName != null) {
+			Map<String, String> labels = new HashMap<String, String>();
+			labels.put("host", nodeName);
+			labels.put("eventId", eventId);
+			om.setLabels(labels);
+			spec.setNodeName(nodeName);
+		}
+		
+		om.setName(name);
+		kind.setMetadata(om);
+		Lifecycle lifecycle = new Lifecycle();
+		lifecycle.setCreateSnapshot(createSnapshot);
+		spec.setLifecycle(lifecycle);
+		kind.setSpec(spec);
+		create(kind);
+		return true;
+	}
+
+	public boolean deleteSnapshot(String name, DeleteSnapshot deleteSnapshot, String eventId) throws Exception {
+		VirtualMachineSnapshot kind = get(name);
+		Map<String, String> labels = kind.getMetadata().getLabels();
+		labels = (labels == null) ? new HashMap<String, String>() : labels;
+		labels.put("eventId", eventId);
+		kind.getMetadata().setLabels(labels);
+		
+		if (kind == null || kind.getSpec().getLifecycle() != null) {
+			delete(kind);
+		}
+		
+		VirtualMachineSnapshotSpec spec = kind.getSpec();
+		Lifecycle lifecycle = new Lifecycle();
+		lifecycle.setDeleteSnapshot(deleteSnapshot);
+		spec.setLifecycle(lifecycle);
+		kind.setSpec(spec);
+		update(kind);
+		delete(kind);
 		return true;
 	}
 
 }
-

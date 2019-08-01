@@ -44,7 +44,7 @@ public class CreateAndStartFromISOTest {
 		createAndStartVMFromISO.setDisk("size=10");
 		
 		//network and QoS
-		createAndStartVMFromISO.setNetwork("bridge=br-native");  
+		createAndStartVMFromISO.setNetwork("bridge=br-int,virtualport_type=openvswitch");  
 		
 		// consoleMode amd passowrd
 		createAndStartVMFromISO.setGraphics("vnc,listen=0.0.0.0");
