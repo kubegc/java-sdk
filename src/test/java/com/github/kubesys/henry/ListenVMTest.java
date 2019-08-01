@@ -1,7 +1,7 @@
 /*
  * Copyright (2019, ) Institute of Software, Chinese Academy of Sciences
  */
-package com.uit.cloud.kubernetes;
+package com.github.kubesys.henry;
 
 import java.util.Map;
 
@@ -28,12 +28,6 @@ public class ListenVMTest {
 
 			@Override
 			public void eventReceived(Action action, VirtualMachine resource) {
-				
-				System.out.println(action + ":" + resource.getMetadata().getName());
-				
-				if (!resource.getMetadata().getName().equals("650646e8c17a49d0b83c1c797811e083")) {
-					return;
-				}
 				
 				//Action can be ADDED, MODIFIED, DELETED, ERROR
 				
