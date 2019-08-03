@@ -9229,6 +9229,8 @@ public class Domain {
 
 				protected String _bridge;
 				
+				protected String _network;
+				
 				public Source() {
 
 				}
@@ -9239,6 +9241,14 @@ public class Domain {
 
 				public void set_bridge(String _bridge) {
 					this._bridge = _bridge;
+				}
+
+				public String get_network() {
+					return _network;
+				}
+
+				public void set_network(String _network) {
+					this._network = _network;
 				}
 				
 			}
