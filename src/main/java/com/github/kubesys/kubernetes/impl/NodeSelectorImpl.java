@@ -142,7 +142,7 @@ public class NodeSelectorImpl {
 		}
 	}
 
-	protected boolean unSched(Node node) {
+	public static  boolean unSched(Node node) {
 		for (Taint taint : node.getSpec().getTaints()) {
 			if (taint.getEffect().equals("NoSchedule")) {
 				return true;
@@ -151,7 +151,7 @@ public class NodeSelectorImpl {
 		return false;
 	}
 
-	protected boolean notReady(Node node) {
+	public static boolean notReady(Node node) {
 		for (NodeCondition nc : node.getStatus().getConditions()) {
 			if (nc.getType().equals("Ready")) {
 				return false;
@@ -160,7 +160,7 @@ public class NodeSelectorImpl {
 		return true;
 	}
 
-	protected boolean isMaster(Node node) {
+	public static  boolean isMaster(Node node) {
 		return node.getMetadata().getLabels()
 				.containsKey("node-role.kubernetes.io/master");
 	}
