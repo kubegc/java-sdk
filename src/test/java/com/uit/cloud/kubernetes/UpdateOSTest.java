@@ -27,7 +27,7 @@ public class UpdateOSTest {
 	public static UpdateOS getManageISO() {
 		UpdateOS os = new UpdateOS();
 		// current VM disk
-		os.setSource("/var/lib/libvirt/images/test3.qcow2");
+		os.setSource("/var/lib/libvirt/images/950646e8c17a49d0b83c1c797811e081.qcow2");
 		// target VM disk
 		os.setTarget("/var/lib/libvirt/images/ttt.qcow2");
 		return os;
