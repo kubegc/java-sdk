@@ -27,7 +27,7 @@ public class Volume {
 
 	protected Physical physical;
 
-	protected String key;
+	protected Key key;
 
 	protected Capacity capacity;
 
@@ -101,12 +101,13 @@ public class Volume {
 	 * Ignore the user setting, use 'lifecycle' to update VM's info
 	 *
 	 */
-	public void setKey(String key) {
-		this.key = key;
+	
+	public Key getKey() {
+		return key;
 	}
 
-	public String getKey() {
-		return this.key;
+	public void setKey(Key key) {
+		this.key = key;
 	}
 
 	/**
@@ -133,6 +134,28 @@ public class Volume {
 		return this.target;
 	}
 
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class Key {
+		
+		protected String text;
+
+		public Key() {
+			super();
+			// TODO Auto-generated constructor stub
+		}
+
+		public String getText() {
+			return text;
+		}
+
+		public void setText(String text) {
+			this.text = text;
+		}
+		
+	}
+	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class Allocation {
