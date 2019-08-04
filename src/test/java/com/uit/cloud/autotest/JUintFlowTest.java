@@ -100,6 +100,8 @@ public class JUintFlowTest {
 		if (vm != null) {
 			client.virtualMachines().stopVMForce(NAME, new StopVMForce());
 			Thread.sleep(5000);
+			client.virtualMachines().manageISO(NAME, getEjectISO());
+			Thread.sleep(5000);
 			client.virtualMachines().deleteVM(NAME, new DeleteVM());
 		} 
 	}
