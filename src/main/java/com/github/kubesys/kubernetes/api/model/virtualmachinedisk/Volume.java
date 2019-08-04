@@ -21,7 +21,7 @@ public class Volume {
 
 	protected String _type;
 
-	protected String name;
+	protected Name name;
 
 	protected Source source;
 
@@ -65,12 +65,13 @@ public class Volume {
 	 * Ignore the user setting, use 'lifecycle' to update VM's info
 	 *
 	 */
-	public void setName(String name) {
-		this.name = name;
+
+	public Name getName() {
+		return name;
 	}
 
-	public String getName() {
-		return this.name;
+	public void setName(Name name) {
+		this.name = name;
 	}
 
 	/**
@@ -80,6 +81,7 @@ public class Volume {
 	public void setSource(Source source) {
 		this.source = source;
 	}
+
 
 	public Source getSource() {
 		return this.source;
@@ -134,6 +136,25 @@ public class Volume {
 		return this.target;
 	}
 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class Name {
+		
+		protected String text;
+
+		public Name() {
+			super();
+		}
+
+		public String getText() {
+			return text;
+		}
+
+		public void setText(String text) {
+			this.text = text;
+		}
+		
+	}
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
@@ -143,7 +164,6 @@ public class Volume {
 
 		public Key() {
 			super();
-			// TODO Auto-generated constructor stub
 		}
 
 		public String getText() {
