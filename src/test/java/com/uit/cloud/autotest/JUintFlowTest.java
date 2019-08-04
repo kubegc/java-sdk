@@ -120,6 +120,8 @@ public class JUintFlowTest {
 		while (num-- > 0) {
 			if (checkStatus(client)) {
 				return true; 
+			} else {
+				Thread.sleep(3000);
 			}
 		}
 		return false;

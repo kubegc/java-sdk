@@ -5,6 +5,7 @@ package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
 import com.github.kubesys.kubernetes.api.model.VirtualMachine;
+import com.github.kubesys.kubernetes.api.model.VirtualMachineDisk;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineImage;
 
 import io.fabric8.kubernetes.client.Config;
@@ -35,5 +36,9 @@ public class AbstractTest {
 	
 	public static VirtualMachineImage getVMImageByName(String name) throws Exception {
 		return getClient().virtualMachineImages().get(name);
+	}
+	
+	public static VirtualMachineDisk getVMDiskByName(String name) throws Exception {
+		return getClient().virtualMachineDisks().get(name);
 	}
 }
