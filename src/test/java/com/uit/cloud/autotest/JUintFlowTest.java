@@ -99,10 +99,9 @@ public class JUintFlowTest {
 		VirtualMachine vm = AbstractTest.getVMByName(NAME);
 		if (vm != null) {
 			client.virtualMachines().stopVMForce(NAME, new StopVMForce());
+			Thread.sleep(5000);
 			client.virtualMachines().deleteVM(NAME, new DeleteVM());
-		} else {
-			Thread.sleep(3000);
-		}
+		} 
 	}
 	
 	public static ManageISO getEjectISO() {
