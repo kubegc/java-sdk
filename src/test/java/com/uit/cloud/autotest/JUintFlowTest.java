@@ -153,11 +153,13 @@ public class JUintFlowTest {
 	
 	public int getVMDiskNum() throws Exception {
 		VirtualMachine vm = AbstractTest.getVMByName(NAME);
-		return vm.getSpec().getDomain().getDevices().getDisk().size();
+		int size = vm.getSpec().getDomain().getDevices().getDisk().size();
+		return size;
 	}
 	
 	public int getVMNICNum() throws Exception {
 		VirtualMachine vm = AbstractTest.getVMByName(NAME);
-		return vm.getSpec().getDomain().getDevices().get_interface().size();
+		int size = vm.getSpec().getDomain().getDevices().get_interface().size();
+		return size;
 	}
 }
