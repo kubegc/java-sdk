@@ -16,7 +16,7 @@ public class GetVirtualMachineDiskTest {
 //		System.out.println(AbstractTest
 //				.getVMByName("650646e8c17a49d0b83c1c797811e066"));
 		System.out.println(AbstractTest
-				.getVMDiskByName("disk1"));
+				.getVMDiskByName("950646e8c17a49d0b83c1c797811e041-2.qcow2"));
 	}
 	
 }

@@ -465,11 +465,31 @@ public class Volume {
 		protected Timestamps timestamps;
 
 		protected Format format;
+		
+		protected Compat compat;
+		
+		protected Features features;
 
 		public Target() {
 		}
 
+		public Compat getCompat() {
+			return compat;
+		}
+
+		public void setCompat(Compat compat) {
+			this.compat = compat;
+		}
+
 		
+		public Features getFeatures() {
+			return features;
+		}
+
+		public void setFeatures(Features features) {
+			this.features = features;
+		}
+
 		/**
 		 * Ignore the user setting, use 'lifecycle' to update VM's info
 		 *
@@ -519,6 +539,57 @@ public class Volume {
 			return this.format;
 		}
 
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+		public static class Features {
+
+			protected Lazy_refcounts lazy_refcounts;
+			
+			public Features() {
+				super();
+			}
+
+			public Lazy_refcounts getLazy_refcounts() {
+				return lazy_refcounts;
+			}
+
+			public void setLazy_refcounts(Lazy_refcounts lazy_refcounts) {
+				this.lazy_refcounts = lazy_refcounts;
+			}
+			
+			
+		}
+		
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+		public static class Lazy_refcounts {
+			
+			public Lazy_refcounts() {
+				super();
+			}
+
+		}
+		
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+		public static class Compat {
+			
+			protected String text;
+
+			public Compat() {
+				super();
+			}
+
+			public String getText() {
+				return text;
+			}
+
+			public void setText(String text) {
+				this.text = text;
+			}
+			
+		}
+		
 		@JsonInclude(JsonInclude.Include.NON_NULL)
 		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Path {

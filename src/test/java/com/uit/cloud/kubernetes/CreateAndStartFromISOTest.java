@@ -21,7 +21,7 @@ public class CreateAndStartFromISOTest {
 		CreateAndStartVMFromISO createAndStartVMFromISO = get();
 		// name
 		boolean successful = client.virtualMachines()
-				.createAndStartVMFromISO("950646e8c17a49d0b83c1c797811e081", createAndStartVMFromISO);
+				.createAndStartVMFromISO("950646e8c17a49d0b83c1c797811e041", "node30", createAndStartVMFromISO);
 		System.out.println(successful);
 	}
 	
@@ -30,7 +30,7 @@ public class CreateAndStartFromISOTest {
 		
 		CreateAndStartVMFromISO createAndStartVMFromISO = new CreateAndStartVMFromISO();
 		// default value
-		createAndStartVMFromISO.setMetadata("uuid=950646e8-c17a-49d0-b83c-1c797811e081");
+		createAndStartVMFromISO.setMetadata("uuid=950646e8-c17a-49d0-b83c-1c797811e041");
 		createAndStartVMFromISO.setVirt_type("kvm"); 
 		createAndStartVMFromISO.setOs_variant("centos7.0");
 		createAndStartVMFromISO.setNoautoconsole(true); 

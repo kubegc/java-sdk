@@ -20,14 +20,14 @@ public class ResizeDiskTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineDisks()
-				.resizeDisk("skywind11", get());
+				.resizeDisk("950646e8c17a49d0b83c1c797811e041-2.qcow2", get());
 		System.out.println(successful);
 	}
 
 	protected static ResizeDisk get() {
 		ResizeDisk resizeDisk = new ResizeDisk();
-		resizeDisk.setCapacity("20G");
-		resizeDisk.setVol("/var");
+		resizeDisk.setCapacity("40G");
+		resizeDisk.setPool("default");
 		return resizeDisk;
 	}
 }

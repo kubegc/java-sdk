@@ -20,16 +20,16 @@ public class UpdateOSTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.updateOS("test3", getManageISO());
+				.updateOS("950646e8c17a49d0b83c1c797811e041", getManageISO());
 		System.out.println(successful);
 	}
 	
 	public static UpdateOS getManageISO() {
 		UpdateOS os = new UpdateOS();
 		// current VM disk
-		os.setSource("/var/lib/libvirt/images/950646e8c17a49d0b83c1c797811e081.qcow2");
+		os.setSource("/var/lib/libvirt/images/950646e8c17a49d0b83c1c797811e041-2.qcow2");
 		// target VM disk
-		os.setTarget("/var/lib/libvirt/images/ttt.qcow2");
+		os.setTarget("/var/lib/libvirt/templates/test.qcow2");
 		return os;
 	}
 }
