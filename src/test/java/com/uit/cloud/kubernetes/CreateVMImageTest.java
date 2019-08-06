@@ -25,7 +25,7 @@ public class CreateVMImageTest {
 
 	private static CreateImage get() {
 		CreateImage image = new CreateImage();
-		image.setPath("/var/lib/");
+		image.setDisk("/var/lib/");
 		return image;
 	}
 	

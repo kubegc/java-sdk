@@ -57,7 +57,7 @@ public class Lifecycle {
 		
 		protected String name;
 		
-		protected String path;
+		protected String disk;
 
 		public CreateImage() {
 			super();
@@ -71,13 +71,14 @@ public class Lifecycle {
 			this.name = name;
 		}
 
-		public String getPath() {
-			return path;
+		public String getDisk() {
+			return disk;
 		}
 
-		public void setPath(String path) {
-			this.path = path;
+		public void setDisk(String disk) {
+			this.disk = disk;
 		}
+		
 	}
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
