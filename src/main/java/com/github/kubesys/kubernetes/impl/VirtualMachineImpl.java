@@ -223,6 +223,44 @@ public class VirtualMachineImpl {
 		tags.put(key, value);
 		update(vm);
 	}
+	
+	/**
+	 * @param name  name
+	 * @throws Exception exception
+	 */
+	public boolean setHA(String name) throws Exception {
+
+		VirtualMachine vm = get(name);
+		if (vm == null) {
+			m_logger.log(Level.SEVERE, "VM " + name + " not exist.");
+			return false;
+		}
+
+		Map<String, String> tags = vm.getMetadata().getLabels();
+		tags = (tags == null) ? new HashMap<String, String>() : tags;
+		tags.put("ha", "true");
+		update(vm);
+		return true;
+	}
+	
+	/**
+	 * @param name  name
+	 * @throws Exception exception
+	 */
+	public boolean unsetHA(String name) throws Exception {
+
+		VirtualMachine vm = get(name);
+		if (vm == null) {
+			m_logger.log(Level.SEVERE, "VM " + name + " not exist.");
+			return false;
+		}
+
+		Map<String, String> tags = vm.getMetadata().getLabels();
+		tags = (tags == null) ? new HashMap<String, String>() : tags;
+		tags.remove("ha");
+		update(vm);
+		return true;
+	}
 
 	/**
 	 * @param name name
