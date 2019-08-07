@@ -20,12 +20,15 @@ public class CreateVMImageTest {
 	public static void main(String[] args) throws Exception {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
-		client.virtualMachineImages().createImage("aaa", get());
+		client.virtualMachineImages().createImage("aaa", "nodeNmae", get());
 	}
 
 	private static CreateImage get() {
 		CreateImage image = new CreateImage();
-		image.setDisk("/var/lib/");
+		// template
+		image.setDisk("/var/lib/aaa.qcow2");
+		// or ISO
+//		image.setDisk("/opt/ISO/CentOS-7-x86_64-Minimal-1511.iso,device=cdrom,perms=ro");
 		return image;
 	}
 	

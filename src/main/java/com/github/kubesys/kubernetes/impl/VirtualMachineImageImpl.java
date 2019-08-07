@@ -223,10 +223,6 @@ public class VirtualMachineImageImpl {
 		return true;
 	}
 
-	public boolean createImage(String name, CreateImage createImage) throws Exception {
-		return createImage(name, null, createImage);
-	}
-
 	public boolean createImage(String name, String nodeName, CreateImage createImage) throws Exception {
 		VirtualMachineImage kind = new VirtualMachineImage();
 		kind.setApiVersion("cloudplus.io/v1alpha3");
