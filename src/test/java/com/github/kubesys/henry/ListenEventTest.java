@@ -26,7 +26,8 @@ public class ListenEventTest {
 
 			@Override
 			public void eventReceived(Action action, Event resource) {
-				if (!resource.getInvolvedObject().getKind().equals("VirtualMachine")) {
+				if (!resource.getInvolvedObject().getKind().equals("VirtualMachine")
+					|| action != Action.MODIFIED)  {
 					return;
 				}
 				System.out.println(action + ":" + resource);
