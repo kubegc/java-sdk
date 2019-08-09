@@ -40,7 +40,7 @@ public class CreateAndStartFromISOTest {
 		calculationSpecification(createAndStartVMFromISO);  
 		
 		// cdrom
-		createAndStartVMFromISO.setCdrom("/opt/iso/CentOS-7-x86_64-Minimal-1810.iso"); 
+		createAndStartVMFromISO.setCdrom("/opt/ISO/CentOS-7-x86_64-Minimal-1511.iso"); 
 		// Disk and QoS for 1 disk and many disks
 		createAndStartVMFromISO.setDisk("size=10");
 		

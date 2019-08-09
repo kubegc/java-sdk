@@ -915,8 +915,9 @@ public class VirtualMachineImpl {
 
 	public boolean deleteVM(String name, DeleteVM deleteVM) throws Exception {
 		VirtualMachine kind = get(name);
-		if (kind == null || kind.getSpec().getLifecycle() != null) {
+		if (kind == null || kind.getSpec().getDomain() == null) {
 			delete(kind);
+			return true;
 		}
 		VirtualMachineSpec spec = kind.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
