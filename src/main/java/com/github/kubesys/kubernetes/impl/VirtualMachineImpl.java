@@ -445,6 +445,7 @@ public class VirtualMachineImpl {
 		
 		if (kind == null || kind.getSpec().getLifecycle() != null) {
 			delete(kind);
+			return true;
 		}
 		
 		VirtualMachineSpec spec = kind.getSpec();
