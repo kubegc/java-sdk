@@ -309,14 +309,14 @@ public class VirtualMachineImpl {
 		kind.setKind("VirtualMachine");
 		VirtualMachineSpec spec = new VirtualMachineSpec();
 		ObjectMeta om = new ObjectMeta();
+		Map<String, String> labels = new HashMap<String, String>();
+		labels.put("type", "normal");
+		labels.put("eventId", eventId);
 		if (nodeName != null) {
-			Map<String, String> labels = new HashMap<String, String>();
 			labels.put("host", nodeName);
-			labels.put("type", "normal");
-			labels.put("eventId", eventId);
-			om.setLabels(labels);
 			spec.setNodeName(nodeName);
 		}
+		om.setLabels(labels);
 		om.setName(name);
 		kind.setMetadata(om);
 		Lifecycle lifecycle = new Lifecycle();
@@ -343,14 +343,14 @@ public class VirtualMachineImpl {
 		VirtualMachineSpec spec = new VirtualMachineSpec();
 		ObjectMeta om = new ObjectMeta();
 		om.setName(name);
+		Map<String, String> labels = new HashMap<String, String>();
+		labels.put("type", "normal");
+		labels.put("eventId", eventId);
 		if (nodeName != null) {
-			Map<String, String> labels = new HashMap<String, String>();
 			labels.put("host", nodeName);
-			labels.put("type", "normal");
-			labels.put("eventId", eventId);
-			om.setLabels(labels);
 			spec.setNodeName(nodeName);
 		}
+		om.setLabels(labels);
 		kind.setMetadata(om);
 		Lifecycle lifecycle = new Lifecycle();
 		lifecycle.setCreateAndStartVMFromImage(createAndStartVMFromImage);

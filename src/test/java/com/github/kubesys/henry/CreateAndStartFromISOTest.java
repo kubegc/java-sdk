@@ -17,11 +17,12 @@ public class CreateAndStartFromISOTest {
 	
 	
 	public static void main(String[] args) throws Exception {
-		ExtendedKubernetesClient client = AbstractTest.getClient();
+		ExtendedKubernetesClient client = com.uit.cloud.kubernetes.AbstractTest.getClient();
 		CreateAndStartVMFromISO createAndStartVMFromISO = get();
 		// name
 		boolean successful = client.virtualMachines()
-				.createAndStartVMFromISO("650646e8c17a49d0b83c1c797811e081", createAndStartVMFromISO);
+				.createAndStartVMFromISO("650646e8c17a49d0b83c1c797811e081", 
+						createAndStartVMFromISO, "12345678");
 		System.out.println(successful);
 	}
 	
