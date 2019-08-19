@@ -18,9 +18,6 @@ import com.github.kubesys.kubernetes.api.model.VirtualMachine;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineDisk;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineImage;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineSnapshot;
-import com.github.kubesys.kubernetes.api.model.UITDisk;
-import com.github.kubesys.kubernetes.api.model.UITStoragePool;
-import com.github.kubesys.kubernetes.api.model.UITSnapshot;
 import com.github.kubesys.kubernetes.impl.NodeSelectorImpl;
 import com.github.kubesys.kubernetes.impl.VirtualMachineDiskImpl;
 import com.github.kubesys.kubernetes.impl.VirtualMachineImageImpl;
@@ -79,6 +76,7 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 		configs.add("/VirtualMachineImage.conf");
 		configs.add("/VirtualMachineDisk.conf");
 		configs.add("/VirtualMachineSnapshot.conf");
+		configs.add("/VirtualMachineNetwork.conf");
 		configs.add("/VirtualMachineUITPool.conf");
 		configs.add("/VirtualMachineUITDisk.conf");
 		configs.add("/VirtualMachineUITSnapshot.conf");

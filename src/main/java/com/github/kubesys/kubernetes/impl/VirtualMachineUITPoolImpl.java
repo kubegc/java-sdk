@@ -15,8 +15,8 @@ import com.github.kubesys.kubernetes.api.model.UITStoragePool;
 import com.github.kubesys.kubernetes.api.model.UITStoragePoolList;
 import com.github.kubesys.kubernetes.api.model.UITStoragePoolSpec;
 import com.github.kubesys.kubernetes.api.model.UITStoragePoolSpec.Lifecycle;
-import com.github.kubesys.kubernetes.api.model.UITStoragePoolSpec.Lifecycle.CreatePool;
-import com.github.kubesys.kubernetes.api.model.UITStoragePoolSpec.Lifecycle.DeletePool;
+import com.github.kubesys.kubernetes.api.model.UITStoragePoolSpec.Lifecycle.CreateUITPool;
+import com.github.kubesys.kubernetes.api.model.UITStoragePoolSpec.Lifecycle.DeleteUITPool;
 
 import io.fabric8.kubernetes.api.model.ObjectMeta;
 import io.fabric8.kubernetes.client.dsl.FilterWatchListDeletable;
@@ -206,11 +206,11 @@ public class VirtualMachineUITPoolImpl {
 	 * 
 	 **************************************************/
 
-	public boolean createPool(String name, CreatePool createPool) throws Exception {
+	public boolean createPool(String name, CreateUITPool createPool) throws Exception {
 		return createPool(name, null, createPool);
 	}
 
-	public boolean createPool(String name, String nodeName, CreatePool createPool) throws Exception {
+	public boolean createPool(String name, String nodeName, CreateUITPool createPool) throws Exception {
 		UITStoragePool kind = new UITStoragePool();
 		kind.setApiVersion("cloudplus.io/v1alpha3");
 		kind.setKind("UITStoragePool");
@@ -232,7 +232,7 @@ public class VirtualMachineUITPoolImpl {
 		return true;
 	}
 
-	public boolean deletePool(String name, DeletePool deletePool) throws Exception {
+	public boolean deletePool(String name, DeleteUITPool deletePool) throws Exception {
 		UITStoragePool kind = get(name);
 		if (kind == null || kind.getSpec().getLifecycle() != null) {
 			delete(kind);
@@ -248,11 +248,11 @@ public class VirtualMachineUITPoolImpl {
 	}
 
 	//------------------------------------------------
-	public boolean createPool(String name, CreatePool createPool, String eventId) throws Exception {
+	public boolean createPool(String name, CreateUITPool createPool, String eventId) throws Exception {
 		return createPool(name, null, createPool, eventId);
 	}
 
-	public boolean createPool(String name, String nodeName, CreatePool createPool, String eventId) throws Exception {
+	public boolean createPool(String name, String nodeName, CreateUITPool createPool, String eventId) throws Exception {
 		UITStoragePool kind = new UITStoragePool();
 		kind.setApiVersion("cloudplus.io/v1alpha3");
 		kind.setKind("UITStoragePool");
@@ -275,7 +275,7 @@ public class VirtualMachineUITPoolImpl {
 		return true;
 	}
 
-	public boolean deletePool(String name, DeletePool deletePool, String eventId) throws Exception {
+	public boolean deletePool(String name, DeleteUITPool deletePool, String eventId) throws Exception {
 		UITStoragePool kind = get(name);
 		Map<String, String> labels = kind.getMetadata().getLabels();
 		labels = (labels == null) ? new HashMap<String, String>() : labels;

@@ -4,7 +4,7 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
-import com.github.kubesys.kubernetes.api.model.UITStoragePoolSpec.Lifecycle.CreatePool;
+import com.github.kubesys.kubernetes.api.model.UITStoragePoolSpec.Lifecycle.CreateUITPool;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -24,8 +24,8 @@ public class CreatePoolTest {
 		System.out.println(successful);
 	}
 	
-	public static CreatePool get() {
-		CreatePool createPool = new CreatePool();
+	public static CreateUITPool get() {
+		CreateUITPool createPool = new CreateUITPool();
 		createPool.setPoolType("localfs");
 		createPool.setUrl("localfs:///dev/sdb:/pool2");
 		return createPool;

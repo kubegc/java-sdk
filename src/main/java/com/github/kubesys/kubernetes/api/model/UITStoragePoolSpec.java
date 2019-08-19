@@ -230,29 +230,29 @@ public class UITStoragePoolSpec extends CustomResourceDefinitionSpec implements 
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class Lifecycle {
 		
-		protected CreatePool createPool;
+		protected CreateUITPool createUITPool;
 		
-		protected DeletePool deletePool;
+		protected DeleteUITPool deleteUITPool;
 		
-		public CreatePool getCreatePool() {
-			return createPool;
+		public CreateUITPool getCreatePool() {
+			return createUITPool;
 		}
 
-		public void setCreatePool(CreatePool createPool) {
-			this.createPool = createPool;
+		public void setCreatePool(CreateUITPool createPool) {
+			this.createUITPool = createPool;
 		}
 
-		public DeletePool getDeletePool() {
-			return deletePool;
+		public DeleteUITPool getDeletePool() {
+			return deleteUITPool;
 		}
 
-		public void setDeletePool(DeletePool deletePool) {
-			this.deletePool = deletePool;
+		public void setDeletePool(DeleteUITPool deletePool) {
+			this.deleteUITPool = deletePool;
 		}
 
 		@JsonInclude(JsonInclude.Include.NON_NULL)
 		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-		public static class CreatePool {
+		public static class CreateUITPool {
 			
 			protected String poolType;
 			
@@ -288,7 +288,7 @@ public class UITStoragePoolSpec extends CustomResourceDefinitionSpec implements 
 		
 		@JsonInclude(JsonInclude.Include.NON_NULL)
 		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-		public static class DeletePool {
+		public static class DeleteUITPool {
 			
 			protected String poolname;
 
