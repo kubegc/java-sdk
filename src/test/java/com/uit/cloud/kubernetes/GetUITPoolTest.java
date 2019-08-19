@@ -13,8 +13,7 @@ package com.uit.cloud.kubernetes;
 public class GetUITPoolTest {
 	
 	public static void main(String[] args) throws Exception {
-		System.out.println(AbstractTest
-				.getVMDiskByName("950646e8c17a49d0b83c1c797811e041-2.qcow2"));
+		System.out.println(AbstractTest.getUITPoolByName("p1"));
 	}
 	
 }
