@@ -11,13 +11,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
-import com.github.kubesys.kubernetes.api.model.UITDisk;
-import com.github.kubesys.kubernetes.api.model.UITDiskList;
-import com.github.kubesys.kubernetes.api.model.UITDiskSpec;
-import com.github.kubesys.kubernetes.api.model.UITDiskSpec.Lifecycle;
-import com.github.kubesys.kubernetes.api.model.UITDiskSpec.Lifecycle.CreateUITDisk;
-import com.github.kubesys.kubernetes.api.model.UITDiskSpec.Lifecycle.DeleteUITDisk;
-import com.github.kubesys.kubernetes.api.model.UITDiskSpec.Lifecycle.ExpandUITDisk;
+import com.github.kubesys.kubernetes.api.model.UITStoragePool;
+import com.github.kubesys.kubernetes.api.model.UITStoragePoolList;
+import com.github.kubesys.kubernetes.api.model.UITStoragePoolSpec;
+import com.github.kubesys.kubernetes.api.model.UITStoragePoolSpec.Lifecycle;
+import com.github.kubesys.kubernetes.api.model.UITStoragePoolSpec.Lifecycle.CreateUITPool;
+import com.github.kubesys.kubernetes.api.model.UITStoragePoolSpec.Lifecycle.DeleteUITPool;
 
 import io.fabric8.kubernetes.api.model.ObjectMeta;
 import io.fabric8.kubernetes.client.dsl.FilterWatchListDeletable;
@@ -31,19 +30,19 @@ import io.fabric8.kubernetes.client.dsl.MixedOperation;
  * @author yangchen18@otcaix.iscas.ac.cn
  * @since Thu Jun 13 21:39:55 CST 2019
  **/
-public class VirtualMachineUITDiskImpl {
+public class UITPoolImpl {
 
 	/**
 	 * m_logger
 	 */
-	protected final static Logger m_logger = Logger.getLogger(VirtualMachineUITDiskImpl.class.getName());
+	protected final static Logger m_logger = Logger.getLogger(UITPoolImpl.class.getName());
 
 	/**
 	 * client
 	 */
 	@SuppressWarnings("rawtypes")
 	protected final MixedOperation client = ExtendedKubernetesClient.crdClients
-			.get(UITDisk.class.getSimpleName());
+			.get(UITStoragePool.class.getSimpleName());
 
 	/**
 	 * support commands
@@ -51,9 +50,8 @@ public class VirtualMachineUITDiskImpl {
 	public static List<String> cmds = new ArrayList<String>();
 
 	static {
-		cmds.add("createUITDisk");
-		cmds.add("deleteUITDisk");
-		cmds.add("expandUITDisk");
+		cmds.add("createUITPool");
+		cmds.add("deleteUITPool");
 	}
 
 	/*************************************************
@@ -65,60 +63,60 @@ public class VirtualMachineUITDiskImpl {
 	/**
 	 * return true or an exception
 	 * 
-	 * @param disk VM disk description
+	 * @param pool VM disk description
 	 * @return true or an exception
 	 * @throws Exception create VM disk fail
 	 */
 	@SuppressWarnings("unchecked")
 	@Deprecated
-	public boolean create(UITDisk disk) throws Exception {
-		client.create(disk);
-		m_logger.log(Level.INFO, "create UITDisk " + disk.getMetadata().getName() + " successful.");
+	public boolean create(UITStoragePool pool) throws Exception {
+		client.create(pool);
+		m_logger.log(Level.INFO, "create VirtualMachinePool " + pool.getMetadata().getName() + " successful.");
 		return true;
 	}
 
-	public String getEventId(String name) {
-		UITDisk vmd = get(name);
-		return vmd.getMetadata().getLabels().get("eventId");
+	public String getEventId(String pool) {
+		UITStoragePool uitp = get(pool);
+		return uitp.getMetadata().getLabels().get("eventId");
 	}
 	
 	/**
-	 * @param disk VM disk description
+	 * @param pool VM disk description
 	 * @return true or an exception
 	 * @throws Exception delete VM disk fail
 	 */
 	@SuppressWarnings("unchecked")
 	@Deprecated
-	public boolean delete(UITDisk disk) throws Exception {
-		client.delete(disk);
-		m_logger.log(Level.INFO, "delete UITDisk " + disk.getMetadata().getName() + " successful.");
+	public boolean delete(UITStoragePool pool) throws Exception {
+		client.delete(pool);
+		m_logger.log(Level.INFO, "delete VirtualMachinePool " + pool.getMetadata().getName() + " successful.");
 		return true;
 	}
 
 	/**
-	 * @param disk VM disk description
+	 * @param pool VM disk description
 	 * @return true or an exception
 	 * @throws Exception update VM disk fail
 	 */
 	@SuppressWarnings("unchecked")
 	@Deprecated
-	public boolean update(UITDisk disk) throws Exception {
-		client.createOrReplace(disk);
-		m_logger.log(Level.INFO, "update VirtualMachine " + disk.getMetadata().getName() + " successful.");
+	public boolean update(UITStoragePool pool) throws Exception {
+		client.createOrReplace(pool);
+		m_logger.log(Level.INFO, "update VirtualMachinePool " + pool.getMetadata().getName() + " successful.");
 		return true;
 	}
 
 	/**
 	 * @param operator operator
-	 * @param disk     VM disk description
+	 * @param pool     VM disk description
 	 * @return true or an exception
 	 * @throws Exception update VM disk fail
 	 */
 	@SuppressWarnings("unchecked")
 	@Deprecated
-	protected boolean update(String operator, UITDisk disk) throws Exception {
-		client.createOrReplace(disk);
-		m_logger.log(Level.INFO, operator + " " + disk.getMetadata().getName() + " successful.");
+	protected boolean update(String operator, UITStoragePool pool) throws Exception {
+		client.createOrReplace(pool);
+		m_logger.log(Level.INFO, operator + " " + pool.getMetadata().getName() + " successful.");
 		return true;
 	}
 
@@ -129,15 +127,15 @@ public class VirtualMachineUITDiskImpl {
 	 * @return object or null
 	 */
 	@SuppressWarnings("unchecked")
-	public UITDisk get(String name) {
-		return ((Gettable<UITDisk>) client.withName(name)).get();
+	public UITStoragePool get(String name) {
+		return ((Gettable<UITStoragePool>) client.withName(name)).get();
 	}
 
 	/**
 	 * @return list all virtual machine disks or null
 	 */
-	public UITDiskList list() {
-		return (UITDiskList) client.list();
+	public UITStoragePoolList list() {
+		return (UITStoragePoolList) client.list();
 	}
 
 	/**
@@ -147,8 +145,8 @@ public class VirtualMachineUITDiskImpl {
 	 * @return all VM disk or null
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public UITDiskList list(Map<String, String> labels) {
-		return (UITDiskList) ((FilterWatchListDeletable) client.withLabels(labels)).list();
+	public UITStoragePoolList list(Map<String, String> labels) {
+		return (UITStoragePoolList) ((FilterWatchListDeletable) client.withLabels(labels)).list();
 	}
 
 	/**
@@ -164,16 +162,16 @@ public class VirtualMachineUITDiskImpl {
 			return;
 		}
 
-		UITDisk disk = get(name);
-		if (disk == null) {
+		UITStoragePool pool = get(name);
+		if (pool == null) {
 			m_logger.log(Level.SEVERE, "Disk" + name + " not exist.");
 			return;
 		}
 
-		Map<String, String> tags = disk.getMetadata().getLabels();
+		Map<String, String> tags = pool.getMetadata().getLabels();
 		tags = (tags == null) ? new HashMap<String, String>() : tags;
 		tags.put(key, value);
-		update(disk);
+		update(pool);
 	}
 
 	/**
@@ -188,18 +186,18 @@ public class VirtualMachineUITDiskImpl {
 			return;
 		}
 
-		UITDisk disk = get(name);
-		if (disk == null) {
+		UITStoragePool pool = get(name);
+		if (pool == null) {
 			m_logger.log(Level.SEVERE, "Disk " + name + " not exist.");
 			return;
 		}
 
-		Map<String, String> tags = disk.getMetadata().getLabels();
+		Map<String, String> tags = pool.getMetadata().getLabels();
 		if (tags != null) {
 			tags.remove(key);
 		}
 
-		update(disk);
+		update(pool);
 	}
 
 	/*************************************************
@@ -208,15 +206,15 @@ public class VirtualMachineUITDiskImpl {
 	 * 
 	 **************************************************/
 
-	public boolean createDisk(String name, CreateUITDisk createDisk) throws Exception {
-		return createDisk(name, null, createDisk);
+	public boolean createPool(String name, CreateUITPool createPool) throws Exception {
+		return createPool(name, null, createPool);
 	}
 
-	public boolean createDisk(String name, String nodeName, CreateUITDisk createDisk) throws Exception {
-		UITDisk kind = new UITDisk();
+	public boolean createPool(String name, String nodeName, CreateUITPool createPool) throws Exception {
+		UITStoragePool kind = new UITStoragePool();
 		kind.setApiVersion("cloudplus.io/v1alpha3");
-		kind.setKind("UITDisk");
-		UITDiskSpec spec = new UITDiskSpec();
+		kind.setKind("UITStoragePool");
+		UITStoragePoolSpec spec = new UITStoragePoolSpec();
 		ObjectMeta om = new ObjectMeta();
 		om.setName(name);
 		if (nodeName != null) {
@@ -227,21 +225,21 @@ public class VirtualMachineUITDiskImpl {
 		}
 		kind.setMetadata(om);
 		Lifecycle lifecycle = new Lifecycle();
-		lifecycle.setCreateUITDisk(createDisk);
+		lifecycle.setCreatePool(createPool);
 		spec.setLifecycle(lifecycle);
 		kind.setSpec(spec);
 		create(kind);
 		return true;
 	}
 
-	public boolean deleteDisk(String name, DeleteUITDisk deleteDisk) throws Exception {
-		UITDisk kind = get(name);
+	public boolean deletePool(String name, DeleteUITPool deletePool) throws Exception {
+		UITStoragePool kind = get(name);
 		if (kind == null || kind.getSpec().getLifecycle() != null) {
 			delete(kind);
 		}
-		UITDiskSpec spec = kind.getSpec();
+		UITStoragePoolSpec spec = kind.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
-		lifecycle.setDeleteUITDisk(deleteDisk);
+		lifecycle.setDeletePool(deletePool);
 		spec.setLifecycle(lifecycle);
 		kind.setSpec(spec);
 		update(kind);
@@ -249,31 +247,16 @@ public class VirtualMachineUITDiskImpl {
 		return true;
 	}
 
-	public boolean resizeDisk(String name, ExpandUITDisk resizeDisk) throws Exception {
-		UITDisk kind = get(name);
-		if (kind == null || kind.getSpec().getLifecycle() != null) {
-			throw new RuntimeException("UITDisk" + name + " is not exist or it is in a wrong status");
-		}
-		UITDiskSpec spec = kind.getSpec();
-		Lifecycle lifecycle = new Lifecycle();
-		lifecycle.setExpandUITDisk(resizeDisk);
-		spec.setLifecycle(lifecycle);
-		kind.setSpec(spec);
-		update("resizeDisk ", kind);
-		return true;
-	}
-
-	
 	//------------------------------------------------
-	public boolean createDisk(String name, CreateUITDisk createDisk, String eventId) throws Exception {
-		return createDisk(name, null, createDisk, eventId);
+	public boolean createPool(String name, CreateUITPool createPool, String eventId) throws Exception {
+		return createPool(name, null, createPool, eventId);
 	}
 
-	public boolean createDisk(String name, String nodeName, CreateUITDisk createDisk, String eventId) throws Exception {
-		UITDisk kind = new UITDisk();
+	public boolean createPool(String name, String nodeName, CreateUITPool createPool, String eventId) throws Exception {
+		UITStoragePool kind = new UITStoragePool();
 		kind.setApiVersion("cloudplus.io/v1alpha3");
-		kind.setKind("UITDisk");
-		UITDiskSpec spec = new UITDiskSpec();
+		kind.setKind("UITStoragePool");
+		UITStoragePoolSpec spec = new UITStoragePoolSpec();
 		ObjectMeta om = new ObjectMeta();
 		om.setName(name);
 		if (nodeName != null) {
@@ -285,15 +268,15 @@ public class VirtualMachineUITDiskImpl {
 		}
 		kind.setMetadata(om);
 		Lifecycle lifecycle = new Lifecycle();
-		lifecycle.setCreateUITDisk(createDisk);
+		lifecycle.setCreatePool(createPool);
 		spec.setLifecycle(lifecycle);
 		kind.setSpec(spec);
 		create(kind);
 		return true;
 	}
 
-	public boolean deleteDisk(String name, DeleteUITDisk deleteDisk, String eventId) throws Exception {
-		UITDisk kind = get(name);
+	public boolean deletePool(String name, DeleteUITPool deletePool, String eventId) throws Exception {
+		UITStoragePool kind = get(name);
 		Map<String, String> labels = kind.getMetadata().getLabels();
 		labels = (labels == null) ? new HashMap<String, String>() : labels;
 		labels.put("eventId", eventId);
@@ -303,9 +286,9 @@ public class VirtualMachineUITDiskImpl {
 			delete(kind);
 		}
 		
-		UITDiskSpec spec = kind.getSpec();
+		UITStoragePoolSpec spec = kind.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
-		lifecycle.setDeleteUITDisk(deleteDisk);
+		lifecycle.setDeletePool(deletePool);
 		spec.setLifecycle(lifecycle);
 		kind.setSpec(spec);
 		update(kind);
@@ -313,24 +296,4 @@ public class VirtualMachineUITDiskImpl {
 		return true;
 	}
 
-	public boolean resizeDisk(String name, ExpandUITDisk resizeDisk, String eventId) throws Exception {
-		UITDisk kind = get(name);
-		if (kind == null || kind.getSpec().getLifecycle() != null) {
-			throw new RuntimeException("UITDisk" + name + " is not exist or it is in a wrong status");
-		}
-		Map<String, String> labels = kind.getMetadata().getLabels();
-		labels = (labels == null) ? new HashMap<String, String>() : labels;
-		labels.put("eventId", eventId);
-		kind.getMetadata().setLabels(labels);
-		
-		UITDiskSpec spec = kind.getSpec();
-		Lifecycle lifecycle = new Lifecycle();
-		lifecycle.setExpandUITDisk(resizeDisk);
-		spec.setLifecycle(lifecycle);
-		kind.setSpec(spec);
-		update("resizeDisk ", kind);
-		return true;
-	}
-
-	
 }

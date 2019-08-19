@@ -23,9 +23,9 @@ import com.github.kubesys.kubernetes.impl.VirtualMachineDiskImpl;
 import com.github.kubesys.kubernetes.impl.VirtualMachineImageImpl;
 import com.github.kubesys.kubernetes.impl.VirtualMachineImpl;
 import com.github.kubesys.kubernetes.impl.VirtualMachineSnapshotImpl;
-import com.github.kubesys.kubernetes.impl.VirtualMachineUITDiskImpl;
-import com.github.kubesys.kubernetes.impl.VirtualMachineUITPoolImpl;
-import com.github.kubesys.kubernetes.impl.VirtualMachineUITSnapshotImpl;
+import com.github.kubesys.kubernetes.impl.UITDiskImpl;
+import com.github.kubesys.kubernetes.impl.UITPoolImpl;
+import com.github.kubesys.kubernetes.impl.UITSnapshotImpl;
 
 import io.fabric8.kubernetes.api.model.KubernetesResource;
 import io.fabric8.kubernetes.api.model.apiextensions.CustomResourceDefinition;
@@ -200,22 +200,22 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 	/**
 	 * @return        VirtualMachineUITPool
 	 */
-	public VirtualMachineUITPoolImpl virtualMachineUITPool() {
-		return new VirtualMachineUITPoolImpl();
+	public UITPoolImpl virtualMachineUITPool() {
+		return new UITPoolImpl();
 	}
 	
 	/**
 	 * @return        VirtualMachineUITDisk
 	 */
-	public VirtualMachineUITDiskImpl virtualMachineUITDisk() {
-		return new VirtualMachineUITDiskImpl();
+	public UITDiskImpl virtualMachineUITDisk() {
+		return new UITDiskImpl();
 	}
 	
 	/**
 	 * @return        VirtualMachineUITDisk
 	 */
-	public VirtualMachineUITSnapshotImpl virtualMachineUITSnapshot() {
-		return new VirtualMachineUITSnapshotImpl();
+	public UITSnapshotImpl virtualMachineUITSnapshot() {
+		return new UITSnapshotImpl();
 	}
 	
 	/**
