@@ -20,7 +20,7 @@ public class DeleteUITDiskTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineUITDisk()
-				.deleteDisk("disk3", new UITDiskSpec.Lifecycle.DeleteUITDisk());
+				.deleteDisk("disk1", new UITDiskSpec.Lifecycle.DeleteUITDisk());
 		System.out.println(successful);
 	}
 	

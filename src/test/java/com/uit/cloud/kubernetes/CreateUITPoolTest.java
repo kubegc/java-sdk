@@ -20,14 +20,14 @@ public class CreateUITPoolTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineUITPool()
-				.createPool("p1", "node31", get());
+				.createPool("test", "node31", get());
 		System.out.println(successful);
 	}
 	
 	public static CreateUITPool get() {
 		CreateUITPool createPool = new CreateUITPool();
 		createPool.setPoolType("localfs");
-		createPool.setUrl("localfs:///dev/sdb:/pool2");
+		createPool.setUrl("localfs:///dev/sdb:/pool");
 		return createPool;
 	}
 }
