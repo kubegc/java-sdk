@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import io.fabric8.kubernetes.api.model.KubernetesResource;
+import io.fabric8.kubernetes.api.model.Status;
 import io.fabric8.kubernetes.api.model.apiextensions.CustomResourceDefinitionSpec;
 
 /**
@@ -41,6 +42,7 @@ public class UITStoragePoolSpec extends CustomResourceDefinitionSpec implements 
 	
 	protected Lifecycle lifecycle;
 	
+	protected Status status;
 	
 	public UITStoragePoolSpec() {
 
@@ -89,6 +91,13 @@ public class UITStoragePoolSpec extends CustomResourceDefinitionSpec implements 
 	}
 
 
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}
 
 	public Map<String, String> getDescription() {
 		return description;
@@ -233,21 +242,21 @@ public class UITStoragePoolSpec extends CustomResourceDefinitionSpec implements 
 		protected CreateUITPool createUITPool;
 		
 		protected DeleteUITPool deleteUITPool;
-		
-		public CreateUITPool getCreatePool() {
+
+		public CreateUITPool getCreateUITPool() {
 			return createUITPool;
 		}
 
-		public void setCreatePool(CreateUITPool createPool) {
-			this.createUITPool = createPool;
+		public void setCreateUITPool(CreateUITPool createUITPool) {
+			this.createUITPool = createUITPool;
 		}
 
-		public DeleteUITPool getDeletePool() {
+		public DeleteUITPool getDeleteUITPool() {
 			return deleteUITPool;
 		}
 
-		public void setDeletePool(DeleteUITPool deletePool) {
-			this.deleteUITPool = deletePool;
+		public void setDeleteUITPool(DeleteUITPool deleteUITPool) {
+			this.deleteUITPool = deleteUITPool;
 		}
 
 		@JsonInclude(JsonInclude.Include.NON_NULL)

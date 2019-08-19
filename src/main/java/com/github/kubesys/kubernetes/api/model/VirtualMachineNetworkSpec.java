@@ -5,8 +5,8 @@ package com.github.kubesys.kubernetes.api.model;
 
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle;
-import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Volume;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Domain;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle;
 
 import io.fabric8.kubernetes.api.model.KubernetesResource;
 import io.fabric8.kubernetes.api.model.Status;
@@ -16,33 +16,33 @@ import io.fabric8.kubernetes.api.model.Status;
  * @author xuyuanjia2017@otcaix.iscas.ac.cn
  * @author xianghao16@otcaix.iscas.ac.cn
  * @author yangchen18@otcaix.iscas.ac.cn
- * @since Thu Jun 13 21:44:40 CST 2019
+ * @since Thu Aug 19 21:44:40 CST 2019
  **/
 @SuppressWarnings("rawtypes")
 @JsonDeserialize(using = JsonDeserializer.None.class)
-public class VirtualMachineDiskSpec extends ExtendedCustomResourceDefinitionSpec implements KubernetesResource {
+public class VirtualMachineNetworkSpec extends ExtendedCustomResourceDefinitionSpec implements KubernetesResource {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1171174592223281364L;
+	private static final long serialVersionUID = -5134652268821098029L;
 
-	protected Volume volume;
+	protected Domain domain;
 
 	protected Lifecycle lifecycle;
 	
 	protected Status status;
-
-	public VirtualMachineDiskSpec() {
+	
+	public VirtualMachineNetworkSpec() {
 
 	}
 
-	public Volume getVolume() {
-		return volume;
+	public Domain getDomain() {
+		return domain;
 	}
 
-	public void setVolume(Volume volume) {
-		this.volume = volume;
+	public void setDomain(Domain domain) {
+		this.domain = domain;
 	}
 
 	public Lifecycle getLifecycle() {

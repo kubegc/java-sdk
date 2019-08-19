@@ -13,7 +13,7 @@ import com.github.kubesys.kubernetes.api.model.UITStoragePoolSpec.Lifecycle.Crea
  * This code is used to manage CustomResource's lifecycle,
  * such as VirtualMachine
  */
-public class CreatePoolTest {
+public class CreateUITPoolTest {
 	
 	
 	public static void main(String[] args) throws Exception {

@@ -11,13 +11,9 @@ import io.fabric8.kubernetes.client.CustomResourceList;
  * @author xuyuanjia2017@otcaix.iscas.ac.cn
  * @author xianghao16@otcaix.iscas.ac.cn
  * @author yangchen18@otcaix.iscas.ac.cn
- * @since Thu July 08 21:47:50 CST 2019
+ * @since Thu Aug 19 21:47:50 CST 2019
  **/
-public class UITSnapshotList extends CustomResourceList<UITSnapshot> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 8153024376233249249L;
+@SuppressWarnings("serial")
+public class VirtualMachineNetworkList extends CustomResourceList<VirtualMachineNetwork> {
 }
 

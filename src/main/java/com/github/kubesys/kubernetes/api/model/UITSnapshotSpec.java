@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import io.fabric8.kubernetes.api.model.KubernetesResource;
+import io.fabric8.kubernetes.api.model.Status;
 import io.fabric8.kubernetes.api.model.apiextensions.CustomResourceDefinitionSpec;
 
 /**
@@ -39,6 +40,8 @@ public class UITSnapshotSpec extends CustomResourceDefinitionSpec implements Kub
 	protected String obj;
 	
 	protected Lifecycle lifecycle;
+	
+	protected Status status;
 	
 	public UITSnapshotSpec() {
 
@@ -90,6 +93,14 @@ public class UITSnapshotSpec extends CustomResourceDefinitionSpec implements Kub
 
 	public void setDescription(Map<String, String> description) {
 		this.description = description;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
