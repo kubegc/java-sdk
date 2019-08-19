@@ -225,7 +225,7 @@ public class UITPoolImpl {
 		}
 		kind.setMetadata(om);
 		Lifecycle lifecycle = new Lifecycle();
-		lifecycle.setCreatePool(createPool);
+		lifecycle.setCreateUITPool(createPool);
 		spec.setLifecycle(lifecycle);
 		kind.setSpec(spec);
 		create(kind);
@@ -239,7 +239,7 @@ public class UITPoolImpl {
 		}
 		UITStoragePoolSpec spec = kind.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
-		lifecycle.setDeletePool(deletePool);
+		lifecycle.setDeleteUITPool(deletePool);
 		spec.setLifecycle(lifecycle);
 		kind.setSpec(spec);
 		update(kind);
@@ -268,7 +268,7 @@ public class UITPoolImpl {
 		}
 		kind.setMetadata(om);
 		Lifecycle lifecycle = new Lifecycle();
-		lifecycle.setCreatePool(createPool);
+		lifecycle.setCreateUITPool(createPool);
 		spec.setLifecycle(lifecycle);
 		kind.setSpec(spec);
 		create(kind);
@@ -288,7 +288,7 @@ public class UITPoolImpl {
 		
 		UITStoragePoolSpec spec = kind.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
-		lifecycle.setDeletePool(deletePool);
+		lifecycle.setDeleteUITPool(deletePool);
 		spec.setLifecycle(lifecycle);
 		kind.setSpec(spec);
 		update(kind);
