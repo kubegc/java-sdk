@@ -8,8 +8,8 @@ import com.github.kubesys.kubernetes.api.model.UITStoragePoolSpec;
 import com.github.kubesys.kubernetes.api.model.UITStoragePoolSpec.Lifecycle.CreateUITPool;
 
 /**
- * @author wuheng@otcaix.iscas.ac.cn
- * @since  2019/8/18
+ * @author liuhe18@otcaix.iscas.ac.cn
+ * @since  2019/8/19
  *
  * This code is used to manage CustomResource's lifecycle,
  * such as VirtualMachine
