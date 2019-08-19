@@ -7,6 +7,8 @@ import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
 import com.github.kubesys.kubernetes.api.model.VirtualMachine;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineDisk;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineImage;
+import com.github.kubesys.kubernetes.api.model.UITDisk;
+import com.github.kubesys.kubernetes.api.model.UITStoragePool;
 
 import io.fabric8.kubernetes.client.Config;
 import io.fabric8.kubernetes.client.ConfigBuilder;
@@ -41,4 +43,16 @@ public class AbstractTest {
 	public static VirtualMachineDisk getVMDiskByName(String name) throws Exception {
 		return getClient().virtualMachineDisks().get(name);
 	}
+	
+	public static UITStoragePool getUITPoolByName(String name) throws Exception {
+		return getClient().virtualMachineUITPool().get(name);
+	}
+	
+//	public static VirtualMachineUITDisk getUITDiskByName(String name) throws Exception {
+//		return getClient().virtualMachineUITDisk().get(name);
+//	}
+//	
+//	public static VirtualMachineSnapshotDisk getUITSnapshotByName(String name) throws Exception {
+//		return getClient().virtualMachineSanshots().get(name);
+//	}
 }

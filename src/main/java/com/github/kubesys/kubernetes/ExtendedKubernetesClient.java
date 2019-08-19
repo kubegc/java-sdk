@@ -11,15 +11,24 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.github.kubesys.kubernetes.api.model.UITDisk;
+import com.github.kubesys.kubernetes.api.model.UITSnapshot;
+import com.github.kubesys.kubernetes.api.model.UITStoragePool;
 import com.github.kubesys.kubernetes.api.model.VirtualMachine;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineDisk;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineImage;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineSnapshot;
+import com.github.kubesys.kubernetes.api.model.UITDisk;
+import com.github.kubesys.kubernetes.api.model.UITStoragePool;
+import com.github.kubesys.kubernetes.api.model.UITSnapshot;
 import com.github.kubesys.kubernetes.impl.NodeSelectorImpl;
 import com.github.kubesys.kubernetes.impl.VirtualMachineDiskImpl;
 import com.github.kubesys.kubernetes.impl.VirtualMachineImageImpl;
 import com.github.kubesys.kubernetes.impl.VirtualMachineImpl;
 import com.github.kubesys.kubernetes.impl.VirtualMachineSnapshotImpl;
+import com.github.kubesys.kubernetes.impl.VirtualMachineUITDiskImpl;
+import com.github.kubesys.kubernetes.impl.VirtualMachineUITPoolImpl;
+import com.github.kubesys.kubernetes.impl.VirtualMachineUITSnapshotImpl;
 
 import io.fabric8.kubernetes.api.model.KubernetesResource;
 import io.fabric8.kubernetes.api.model.apiextensions.CustomResourceDefinition;
@@ -70,6 +79,9 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 		configs.add("/VirtualMachineImage.conf");
 		configs.add("/VirtualMachineDisk.conf");
 		configs.add("/VirtualMachineSnapshot.conf");
+		configs.add("/VirtualMachineUITPool.conf");
+		configs.add("/VirtualMachineUITDisk.conf");
+		configs.add("/VirtualMachineUITSnapshot.conf");
 	}
 	
 	/**
@@ -186,6 +198,28 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 		return new VirtualMachineDiskImpl();
 	}
 	
+	
+	/**
+	 * @return        VirtualMachineUITPool
+	 */
+	public VirtualMachineUITPoolImpl virtualMachineUITPool() {
+		return new VirtualMachineUITPoolImpl();
+	}
+	
+	/**
+	 * @return        VirtualMachineUITDisk
+	 */
+	public VirtualMachineUITDiskImpl virtualMachineUITDisk() {
+		return new VirtualMachineUITDiskImpl();
+	}
+	
+	/**
+	 * @return        VirtualMachineUITDisk
+	 */
+	public VirtualMachineUITSnapshotImpl virtualMachineUITSnapshot() {
+		return new VirtualMachineUITSnapshotImpl();
+	}
+	
 	/**
 	 * @return        VirtualMachineSnapshot
 	 */
@@ -223,6 +257,30 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 	@SuppressWarnings("unchecked")
 	public void watchVirtualMachineSnapshots(Watcher<VirtualMachineSnapshot> watcher) {
 		crdClients.get(VirtualMachineSnapshot.class.getSimpleName()).watch(watcher);
+	}
+	
+	/**
+	 * @return        VirtualMachineUITPool
+	 */
+	@SuppressWarnings("unchecked")
+	public void watchVirtualMachineUITPools(Watcher<UITStoragePool> watcher) {
+		crdClients.get(UITStoragePool.class.getSimpleName()).watch(watcher);
+	}
+	
+	/**
+	 * @return        VirtualMachineUITDisk
+	 */
+	@SuppressWarnings("unchecked")
+	public void watchVirtualMachineUITDisks(Watcher<UITDisk> watcher) {
+		crdClients.get(UITDisk.class.getSimpleName()).watch(watcher);
+	}
+	
+	/**
+	 * @return        VirtualMachineUITSnapshot
+	 */
+	@SuppressWarnings("unchecked")
+	public void watchVirtualMachineSnapshorts(Watcher<UITSnapshot> watcher) {
+		crdClients.get(UITSnapshot.class.getSimpleName()).watch(watcher);
 	}
 	
 	/**

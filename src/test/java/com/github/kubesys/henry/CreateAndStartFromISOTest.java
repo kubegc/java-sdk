@@ -21,7 +21,7 @@ public class CreateAndStartFromISOTest {
 		CreateAndStartVMFromISO createAndStartVMFromISO = get();
 		// name
 		boolean successful = client.virtualMachines()
-				.createAndStartVMFromISO("650646e8c17a49d0b83c1c797811e081", "node30",
+				.createAndStartVMFromISO("650646e8c17a49d0b83c1c797811e085", 
 						createAndStartVMFromISO, "eventid-create");
 		System.out.println(successful);
 	}

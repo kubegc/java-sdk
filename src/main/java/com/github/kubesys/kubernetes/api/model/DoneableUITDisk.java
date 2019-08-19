@@ -14,10 +14,10 @@ import io.fabric8.kubernetes.client.CustomResourceDoneable;
  * @author yangchen18@otcaix.iscas.ac.cn
  * @since Thu July 08 21:36:39 CST 2019
  **/
-public class DoneableVirtualMachineUITDisk extends CustomResourceDoneable<VirtualMachineUITDisk> {
+public class DoneableUITDisk extends CustomResourceDoneable<UITDisk> {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public DoneableVirtualMachineUITDisk(VirtualMachineUITDisk resource, Function function) {
+	public DoneableUITDisk(UITDisk resource, Function function) {
 		super(resource, function);
 	}
 }
