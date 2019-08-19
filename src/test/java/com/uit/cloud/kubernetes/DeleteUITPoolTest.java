@@ -4,6 +4,7 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
+import com.github.kubesys.kubernetes.api.model.UITStoragePoolSpec;
 import com.github.kubesys.kubernetes.api.model.UITStoragePoolSpec.Lifecycle.CreateUITPool;
 
 /**
@@ -13,21 +14,15 @@ import com.github.kubesys.kubernetes.api.model.UITStoragePoolSpec.Lifecycle.Crea
  * This code is used to manage CustomResource's lifecycle,
  * such as VirtualMachine
  */
-public class CreateUITPoolTest {
+public class DeleteUITPoolTest {
 	
 	
 	public static void main(String[] args) throws Exception {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineUITPool()
-				.createPool("p1", "node31", get());
+				.deletePool("p1",new UITStoragePoolSpec.Lifecycle.DeleteUITPool());
 		System.out.println(successful);
 	}
-	
-	public static CreateUITPool get() {
-		CreateUITPool createPool = new CreateUITPool();
-		createPool.setPoolType("localfs");
-		createPool.setUrl("localfs:///dev/sdb:/pool2");
-		return createPool;
-	}
+
 }
