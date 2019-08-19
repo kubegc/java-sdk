@@ -4,11 +4,12 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
+import com.github.kubesys.kubernetes.api.model.UITDisk;
+import com.github.kubesys.kubernetes.api.model.UITSnapshot;
+import com.github.kubesys.kubernetes.api.model.UITStoragePool;
 import com.github.kubesys.kubernetes.api.model.VirtualMachine;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineDisk;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineImage;
-import com.github.kubesys.kubernetes.api.model.UITDisk;
-import com.github.kubesys.kubernetes.api.model.UITStoragePool;
 
 import io.fabric8.kubernetes.client.Config;
 import io.fabric8.kubernetes.client.ConfigBuilder;
@@ -48,11 +49,11 @@ public class AbstractTest {
 		return getClient().virtualMachineUITPool().get(name);
 	}
 	
-//	public static VirtualMachineUITDisk getUITDiskByName(String name) throws Exception {
-//		return getClient().virtualMachineUITDisk().get(name);
-//	}
-//	
-//	public static VirtualMachineSnapshotDisk getUITSnapshotByName(String name) throws Exception {
-//		return getClient().virtualMachineSanshots().get(name);
-//	}
+	public static UITDisk getUITDiskByName(String name) throws Exception {
+		return getClient().virtualMachineUITDisk().get(name);
+	}
+	
+	public static UITSnapshot getUITSnapshotByName(String name) throws Exception {
+		return getClient().virtualMachineUITSnapshot().get(name);
+	}
 }
