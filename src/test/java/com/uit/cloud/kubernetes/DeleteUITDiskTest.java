@@ -23,6 +23,5 @@ public class DeleteUITDiskTest {
 				.deleteDisk("disk1", new UITDiskSpec.Lifecycle.DeleteUITDisk());
 		System.out.println(successful);
 	}
-	
 
 }
