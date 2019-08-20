@@ -10,10 +10,10 @@ package com.uit.cloud.kubernetes;
  * This code is used to manage CustomResource's lifecycle,
  * such as VirtualMachine
  */
-public class GetUITDiskTest {
+public class GetUITSnapshotTest {
 	
 	public static void main(String[] args) throws Exception {
-		System.out.println(AbstractTest.getUITDiskByName("disk1"));
+		System.out.println(AbstractTest.getUITSnapshotByName("s1"));
 	}
 	
 }

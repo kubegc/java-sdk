@@ -20,7 +20,7 @@ public class CreateUITPoolTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineUITPool()
-				.createPool("test", "node31", get());
+				.createPool("test1", "node31", get());
 		System.out.println(successful);
 	}
 	

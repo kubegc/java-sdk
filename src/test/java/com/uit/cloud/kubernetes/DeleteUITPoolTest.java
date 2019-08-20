@@ -21,7 +21,7 @@ public class DeleteUITPoolTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineUITPool()
-				.deletePool("p1",new UITStoragePoolSpec.Lifecycle.DeleteUITPool());
+				.deletePool("test1",new UITStoragePoolSpec.Lifecycle.DeleteUITPool());
 		System.out.println(successful);
 	}
 

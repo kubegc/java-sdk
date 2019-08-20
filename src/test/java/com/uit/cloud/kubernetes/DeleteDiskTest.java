@@ -20,7 +20,7 @@ public class DeleteDiskTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineDisks()
-				.deleteDisk("disk3", getDeleteDisk());
+				.deleteDisk("disk4", getDeleteDisk());
 		System.out.println(successful);
 	}
 	

@@ -20,7 +20,7 @@ public class UnplugDiskTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.unplugDisk("skywind5", getUnplugDisk());
+				.unplugDisk("magic1", getUnplugDisk());
 		System.out.println(successful);
 	}
 	

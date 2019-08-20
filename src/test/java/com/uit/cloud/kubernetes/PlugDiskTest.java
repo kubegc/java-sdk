@@ -20,16 +20,17 @@ public class PlugDiskTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.plugDisk("skywind5", getPlugDisk());
+				.plugDisk("magic1", getPlugDisk());
 		System.out.println(successful);
 	}
 	
 	public static PlugDisk getPlugDisk() {
 		PlugDisk plugDisk = new PlugDisk();
-		plugDisk.setSource("/var/lib/libvirt/images/disk1.qcow2");
+		plugDisk.setSource("/pool/test/disk1");
 		plugDisk.setTarget("vdb");
 		plugDisk.setLive(true);
 		plugDisk.setConfig(true);
+		plugDisk.setSubdriver("qcow2");
 		return plugDisk;
 	}
 }

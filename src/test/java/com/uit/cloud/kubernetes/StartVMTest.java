@@ -20,7 +20,7 @@ public class StartVMTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.startVM("950646e8c17a49d0b83c1c797811e041", new StartVM());
+				.startVM("magic1", new StartVM());
 		System.out.println(successful);
 	}
 	

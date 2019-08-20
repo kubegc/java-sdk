@@ -20,7 +20,7 @@ public class CreateUITDiskTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineUITDisk()
-				.createDisk("disk2", "node31", getCreateDisk());
+				.createDisk("disk1", "node31", getCreateDisk());
 		System.out.println(successful);
 	}
 	
