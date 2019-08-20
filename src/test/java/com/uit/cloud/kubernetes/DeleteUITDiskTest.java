@@ -5,6 +5,7 @@ package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
 import com.github.kubesys.kubernetes.api.model.UITDiskSpec;
+import com.github.kubesys.kubernetes.api.model.UITDiskSpec.Lifecycle.DeleteUITDisk;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -20,8 +21,14 @@ public class DeleteUITDiskTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineUITDisk()
-				.deleteDisk("disk1", new UITDiskSpec.Lifecycle.DeleteUITDisk());
+				.deleteDisk("disk1", get());
 		System.out.println(successful);
+	}
+	
+	public static DeleteUITDisk get() {
+		DeleteUITDisk disk = new DeleteUITDisk();
+		disk.setPoolname("");
+		return disk;
 	}
 
 }

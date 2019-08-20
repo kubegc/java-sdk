@@ -13,7 +13,7 @@ package com.uit.cloud.kubernetes;
 public class GetUITDiskTest {
 	
 	public static void main(String[] args) throws Exception {
-		System.out.println(AbstractTest.getUITDiskByName("disk1"));
+		System.out.println(AbstractTest.getUITDiskByName("disk2"));
 	}
 	
 }
