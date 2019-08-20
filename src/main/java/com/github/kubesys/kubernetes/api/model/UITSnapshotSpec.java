@@ -215,39 +215,39 @@ public class UITSnapshotSpec extends CustomResourceDefinitionSpec implements Kub
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class Lifecycle {
 		
-		protected CreateUITDiskSnapshot createUITDiskSnapshot;
+		protected CreateUITSnapshot createUITSnapshot;
 		
-		protected RecoveryUITDiskSnapshot recoveryUITDiskSnapshot;
+		protected RecoveryUITSnapshot recoveryUITSnapshot;
 		
-		protected RemoveUITDiskSnapshot removeUITDiskSnapshot;
+		protected RemoveUITSnapshot removeUITSnapshot;
 		
-		public CreateUITDiskSnapshot getCreateUITDiskSnapshot() {
-			return createUITDiskSnapshot;
+		public CreateUITSnapshot getCreateUITSnapshot() {
+			return createUITSnapshot;
 		}
 
-		public void setCreateUITDiskSnapshot(CreateUITDiskSnapshot createUITDiskSnapshot) {
-			this.createUITDiskSnapshot = createUITDiskSnapshot;
+		public void setCreateUITSnapshot(CreateUITSnapshot createUITSnapshot) {
+			this.createUITSnapshot = createUITSnapshot;
 		}
 
-		public RecoveryUITDiskSnapshot getRecoveryUITDiskSnapshot() {
-			return recoveryUITDiskSnapshot;
+		public RecoveryUITSnapshot getRecoveryUITSnapshot() {
+			return recoveryUITSnapshot;
 		}
 
-		public void setRecoveryUITDiskSnapshot(RecoveryUITDiskSnapshot recoveryUITDiskSnapshot) {
-			this.recoveryUITDiskSnapshot = recoveryUITDiskSnapshot;
+		public void setRecoveryUITSnapshot(RecoveryUITSnapshot recoveryUITSnapshot) {
+			this.recoveryUITSnapshot = recoveryUITSnapshot;
 		}
 
-		public RemoveUITDiskSnapshot getRemoveUITDiskSnapshot() {
-			return removeUITDiskSnapshot;
+		public RemoveUITSnapshot getRemoveUITSnapshot() {
+			return removeUITSnapshot;
 		}
 
-		public void setRemoveUITDiskSnapshot(RemoveUITDiskSnapshot removeUITDiskSnapshot) {
-			this.removeUITDiskSnapshot = removeUITDiskSnapshot;
+		public void setRemoveUITSnapshot(RemoveUITSnapshot removeUITSnapshot) {
+			this.removeUITSnapshot = removeUITSnapshot;
 		}
 
 		@JsonInclude(JsonInclude.Include.NON_NULL)
 		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-		public static class CreateUITDiskSnapshot {
+		public static class CreateUITSnapshot {
 			
 			protected String poolname;
 			
@@ -283,7 +283,7 @@ public class UITSnapshotSpec extends CustomResourceDefinitionSpec implements Kub
 		
 		@JsonInclude(JsonInclude.Include.NON_NULL)
 		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-		public static class RecoveryUITDiskSnapshot {
+		public static class RecoveryUITSnapshot {
 			
 			protected String poolname;
 			
@@ -319,7 +319,7 @@ public class UITSnapshotSpec extends CustomResourceDefinitionSpec implements Kub
 		
 		@JsonInclude(JsonInclude.Include.NON_NULL)
 		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-		public static class RemoveUITDiskSnapshot {
+		public static class RemoveUITSnapshot {
 			
 			protected String poolname;
 			

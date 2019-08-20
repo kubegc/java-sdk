@@ -20,13 +20,13 @@ public class DeleteUITSnapshotTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineUITSnapshot()
-				.deleteSnapshot("s1", getCreateSnapshot());
+				.deleteUITSnapshot("s1", get());
 		System.out.println(successful);
 	}
 
-	protected static UITSnapshotSpec.Lifecycle.RemoveUITDiskSnapshot getCreateSnapshot() {
+	protected static UITSnapshotSpec.Lifecycle.RemoveUITSnapshot get() {
 
-		UITSnapshotSpec.Lifecycle.RemoveUITDiskSnapshot  createSnapshot = new UITSnapshotSpec.Lifecycle.RemoveUITDiskSnapshot ();
+		UITSnapshotSpec.Lifecycle.RemoveUITSnapshot  createSnapshot = new UITSnapshotSpec.Lifecycle.RemoveUITSnapshot ();
 		createSnapshot.setPoolname("test");
 		createSnapshot.setName("disk1");
 		createSnapshot.setSname("s1");

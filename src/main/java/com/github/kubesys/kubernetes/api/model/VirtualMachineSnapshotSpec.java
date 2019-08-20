@@ -3,8 +3,6 @@
  */
 package com.github.kubesys.kubernetes.api.model;
 
-import java.util.Map;
-
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.github.kubesys.kubernetes.api.model.virtualmachinesnapshot.Domainsnapshot;

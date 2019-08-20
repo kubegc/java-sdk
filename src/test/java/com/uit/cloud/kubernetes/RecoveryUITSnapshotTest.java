@@ -20,13 +20,13 @@ public class RecoveryUITSnapshotTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineUITSnapshot()
-				.createSnapshot("s1", getCreateSnapshot());
+				.recoveryUITSnapshot("s1", get());
 		System.out.println(successful);
 	}
 
-	protected static UITSnapshotSpec.Lifecycle.RecoveryUITDiskSnapshot getCreateSnapshot() {
+	protected static UITSnapshotSpec.Lifecycle.RecoveryUITSnapshot get() {
 
-		UITSnapshotSpec.Lifecycle.RecoveryUITDiskSnapshot  createSnapshot = new UITSnapshotSpec.Lifecycle.RecoveryUITDiskSnapshot ();
+		UITSnapshotSpec.Lifecycle.RecoveryUITSnapshot  createSnapshot = new UITSnapshotSpec.Lifecycle.RecoveryUITSnapshot ();
 		createSnapshot.setPoolname("test");
 		createSnapshot.setName("disk1");
 		createSnapshot.setSname("s1");

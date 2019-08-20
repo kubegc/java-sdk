@@ -15,8 +15,9 @@ import com.github.kubesys.kubernetes.api.model.UITSnapshot;
 import com.github.kubesys.kubernetes.api.model.UITSnapshotList;
 import com.github.kubesys.kubernetes.api.model.UITSnapshotSpec;
 import com.github.kubesys.kubernetes.api.model.UITSnapshotSpec.Lifecycle;
-import com.github.kubesys.kubernetes.api.model.UITSnapshotSpec.Lifecycle.CreateUITDiskSnapshot;
-import com.github.kubesys.kubernetes.api.model.UITSnapshotSpec.Lifecycle.RemoveUITDiskSnapshot;
+import com.github.kubesys.kubernetes.api.model.UITSnapshotSpec.Lifecycle.CreateUITSnapshot;
+import com.github.kubesys.kubernetes.api.model.UITSnapshotSpec.Lifecycle.RecoveryUITSnapshot;
+import com.github.kubesys.kubernetes.api.model.UITSnapshotSpec.Lifecycle.RemoveUITSnapshot;
 
 import io.fabric8.kubernetes.api.model.ObjectMeta;
 import io.fabric8.kubernetes.client.dsl.FilterWatchListDeletable;
@@ -208,11 +209,11 @@ public class UITSnapshotImpl {
 	 * 
 	 **************************************************/
 
-	public boolean createSnapshot(String name, CreateUITDiskSnapshot createSnapshot) throws Exception {
-		return createSnapshot(name, null, createSnapshot);
+	public boolean createUITSnapshot(String name, CreateUITSnapshot createSnapshot) throws Exception {
+		return createUITSnapshot(name, null, createSnapshot);
 	}
 
-	public boolean createSnapshot(String name, String nodeName, CreateUITDiskSnapshot createSnapshot) throws Exception {
+	public boolean createUITSnapshot(String name, String nodeName, CreateUITSnapshot createSnapshot) throws Exception {
 		UITSnapshot kind = new UITSnapshot();
 		kind.setApiVersion("cloudplus.io/v1alpha3");
 		kind.setKind("UITSnapshot");
@@ -227,21 +228,21 @@ public class UITSnapshotImpl {
 		om.setName(name);
 		kind.setMetadata(om);
 		Lifecycle lifecycle = new Lifecycle();
-		lifecycle.setCreateUITDiskSnapshot(createSnapshot);
+		lifecycle.setCreateUITSnapshot(createSnapshot);
 		spec.setLifecycle(lifecycle);
 		kind.setSpec(spec);
 		create(kind);
 		return true;
 	}
 
-	public boolean deleteSnapshot(String name, RemoveUITDiskSnapshot deleteSnapshot) throws Exception {
+	public boolean deleteUITSnapshot(String name, RemoveUITSnapshot deleteSnapshot) throws Exception {
 		UITSnapshot kind = get(name);
 		if (kind == null || kind.getSpec().getLifecycle() != null) {
 			delete(kind);
 		}
 		UITSnapshotSpec spec = kind.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
-		lifecycle.setRemoveUITDiskSnapshot(deleteSnapshot);
+		lifecycle.setRemoveUITSnapshot(deleteSnapshot);
 		spec.setLifecycle(lifecycle);
 		kind.setSpec(spec);
 		update(kind);
@@ -250,11 +251,11 @@ public class UITSnapshotImpl {
 	}
 	
 	//------------------------------------------------------
-	public boolean createSnapshot(String name, CreateUITDiskSnapshot createSnapshot, String eventId) throws Exception {
-		return createSnapshot(name, null, createSnapshot, eventId);
+	public boolean createUITSnapshot(String name, CreateUITSnapshot createSnapshot, String eventId) throws Exception {
+		return createUITSnapshot(name, null, createSnapshot, eventId);
 	}
 
-	public boolean createSnapshot(String name, String nodeName, CreateUITDiskSnapshot createSnapshot, String eventId) throws Exception {
+	public boolean createUITSnapshot(String name, String nodeName, CreateUITSnapshot createSnapshot, String eventId) throws Exception {
 		UITSnapshot kind = new UITSnapshot();
 		kind.setApiVersion("cloudplus.io/v1alpha3");
 		kind.setKind("UITSnapshot");
@@ -271,14 +272,14 @@ public class UITSnapshotImpl {
 		om.setName(name);
 		kind.setMetadata(om);
 		Lifecycle lifecycle = new Lifecycle();
-		lifecycle.setCreateUITDiskSnapshot(createSnapshot);
+		lifecycle.setCreateUITSnapshot(createSnapshot);
 		spec.setLifecycle(lifecycle);
 		kind.setSpec(spec);
 		create(kind);
 		return true;
 	}
 
-	public boolean deleteSnapshot(String name, RemoveUITDiskSnapshot deleteSnapshot, String eventId) throws Exception {
+	public boolean deleteUITSnapshot(String name, RemoveUITSnapshot deleteSnapshot, String eventId) throws Exception {
 		UITSnapshot kind = get(name);
 		Map<String, String> labels = kind.getMetadata().getLabels();
 		labels = (labels == null) ? new HashMap<String, String>() : labels;
@@ -291,12 +292,35 @@ public class UITSnapshotImpl {
 		
 		UITSnapshotSpec spec = kind.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
-		lifecycle.setRemoveUITDiskSnapshot(deleteSnapshot);
+		lifecycle.setRemoveUITSnapshot(deleteSnapshot);
 		spec.setLifecycle(lifecycle);
 		kind.setSpec(spec);
 		update(kind);
 		delete(kind);
 		return true;
 	}
-
+	
+	public boolean recoveryUITSnapshot(String name, RecoveryUITSnapshot recoveryUITSnapshot) throws Exception {
+		return recoveryUITSnapshot(name, recoveryUITSnapshot, null);
+	}
+	
+	public boolean recoveryUITSnapshot(String name, RecoveryUITSnapshot recoveryUITSnapshot, String eventId) throws Exception {
+		UITSnapshot kind = get(name);
+		if (kind == null || kind.getSpec().getLifecycle() != null) {
+			throw new RuntimeException("VirtualMachineSnapshot" + name + " is not exist or it is in a wrong status");
+		}
+		
+		Map<String, String> labels = kind.getMetadata().getLabels();
+		labels = (labels == null) ? new HashMap<String, String>() : labels;
+		labels.put("eventId", eventId);
+		kind.getMetadata().setLabels(labels);
+		
+		UITSnapshotSpec spec = kind.getSpec();
+		Lifecycle lifecycle = new Lifecycle();
+		lifecycle.setRecoveryUITSnapshot(recoveryUITSnapshot);
+		spec.setLifecycle(lifecycle);
+		kind.setSpec(spec);
+		update(kind);
+		return true;
+	}
 }

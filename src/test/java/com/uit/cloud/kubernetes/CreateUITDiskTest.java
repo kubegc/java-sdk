@@ -5,7 +5,6 @@ package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
 import com.github.kubesys.kubernetes.api.model.UITDiskSpec;
-import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CreateDisk;
 
 /**
  * @author liuhe18@otcaix.iscas.ac.cn

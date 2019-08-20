@@ -5,8 +5,8 @@ package com.github.kubesys.kubernetes.api.model;
 
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Domain;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle;
+import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Data;
+import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle;
 
 import io.fabric8.kubernetes.api.model.KubernetesResource;
 import io.fabric8.kubernetes.api.model.Status;
@@ -27,8 +27,10 @@ public class VirtualMachineNetworkSpec extends ExtendedCustomResourceDefinitionS
 	 */
 	private static final long serialVersionUID = -5134652268821098029L;
 
-	protected Domain domain;
-
+	protected String type;
+	
+	protected Data data;
+	
 	protected Lifecycle lifecycle;
 	
 	protected Status status;
@@ -37,12 +39,28 @@ public class VirtualMachineNetworkSpec extends ExtendedCustomResourceDefinitionS
 
 	}
 
-	public Domain getDomain() {
-		return domain;
+	public Status getStatus() {
+		return status;
 	}
 
-	public void setDomain(Domain domain) {
-		this.domain = domain;
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public Data getData() {
+		return data;
+	}
+
+	public void setData(Data data) {
+		this.data = data;
 	}
 
 	public Lifecycle getLifecycle() {
@@ -51,14 +69,6 @@ public class VirtualMachineNetworkSpec extends ExtendedCustomResourceDefinitionS
 
 	public void setLifecycle(Lifecycle lifecycle) {
 		this.lifecycle = lifecycle;
-	}
-
-	public Status getStatus() {
-		return status;
-	}
-
-	public void setStatus(Status status) {
-		this.status = status;
 	}
 
 }

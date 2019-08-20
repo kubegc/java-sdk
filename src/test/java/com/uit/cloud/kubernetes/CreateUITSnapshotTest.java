@@ -22,13 +22,13 @@ public class CreateUITSnapshotTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineUITSnapshot()
-				.createSnapshot("s1", "node31", getCreateSnapshot());
+				.createUITSnapshot("s1", "node31", get());
 		System.out.println(successful);
 	}
 
-	protected static UITSnapshotSpec.Lifecycle.CreateUITDiskSnapshot getCreateSnapshot() {
+	protected static UITSnapshotSpec.Lifecycle.CreateUITSnapshot get() {
 
-		UITSnapshotSpec.Lifecycle.CreateUITDiskSnapshot  createSnapshot = new UITSnapshotSpec.Lifecycle.CreateUITDiskSnapshot ();
+		UITSnapshotSpec.Lifecycle.CreateUITSnapshot  createSnapshot = new UITSnapshotSpec.Lifecycle.CreateUITSnapshot ();
 		createSnapshot.setPoolname("test");
 		createSnapshot.setName("disk1");
 		createSnapshot.setSname("s1");
