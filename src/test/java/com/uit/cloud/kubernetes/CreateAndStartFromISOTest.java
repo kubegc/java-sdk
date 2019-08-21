@@ -44,9 +44,9 @@ public class CreateAndStartFromISOTest {
 		createAndStartVMFromISO.setDisk("size=10,read_bytes_sec=1024000000,write_bytes_sec=1024000000 --disk size=20,read_bytes_sec=1024000000,write_bytes_sec=1024000000 " + getOtherCDROMs());
 		
 		//network and QoS
-		createAndStartVMFromISO.setNetwork("bridge=virbr0"); 
+//		createAndStartVMFromISO.setNetwork("bridge=virbr0"); 
 //		createAndStartVMFromISO.setNetwork("bridge=br-int,virtualport_type=openvswitch");  
-//		createAndStartVMFromISO.setNetwork("ovsbridge=br-int,virtualport_type=openvswitch,inbound=102400,outbound=102400,mac=52:54:00:20:d0:11,ip=192.168.3.3,switch=nettt");  
+		createAndStartVMFromISO.setNetwork("ovsbridge=br-int,virtualport_type=openvswitch,inbound=102400,outbound=102400,mac=52:54:00:20:d0:11,ip=192.168.3.3,switch=nettt");  
 		
 		// consoleMode amd passowrd
 		createAndStartVMFromISO.setGraphics("vnc,listen=0.0.0.0" + getconsolePassword("123456"));
