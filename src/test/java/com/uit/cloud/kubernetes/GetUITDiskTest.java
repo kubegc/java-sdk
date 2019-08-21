@@ -3,6 +3,8 @@
  */
 package com.uit.cloud.kubernetes;
 
+import com.alibaba.fastjson.JSON;
+
 /**
  * @author wuheng@otcaix.iscas.ac.cn
  * @since  2019/5/1
@@ -13,7 +15,8 @@ package com.uit.cloud.kubernetes;
 public class GetUITDiskTest {
 	
 	public static void main(String[] args) throws Exception {
-		System.out.println(AbstractTest.getUITDiskByName("disk1"));
+		System.out.println(JSON.toJSONString(
+				AbstractTest.getUITDiskByName("disk3"), true));
 	}
 	
 }
