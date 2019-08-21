@@ -7,5 +7,4 @@ Note: kubeclient is a heavy work in progress.
 
 **Authors**
 - wuheng@otcaix.iscas.ac.cn
-- xuyuanjia2017@otcaix.iscas.ac.cn
-
+- liuhe18@otcaix.iscas.ac.cn
