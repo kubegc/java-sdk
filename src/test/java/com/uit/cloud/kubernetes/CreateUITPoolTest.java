@@ -1,5 +1,5 @@
 /*
-  * Copyright (2019, ) Institute of Software, Chinese Academy of Sciences
+ * Copyright (2019, ) Institute of Software, Chinese Academy of Sciences
  */
 package com.uit.cloud.kubernetes;
 
@@ -14,8 +14,8 @@ import com.github.kubesys.kubernetes.api.model.UITStoragePoolSpec.Lifecycle.Crea
  * such as VirtualMachine
  */
 public class CreateUITPoolTest {
-	
-	
+
+
 	public static void main(String[] args) throws Exception {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
@@ -23,7 +23,7 @@ public class CreateUITPoolTest {
 				.createPool("test1", "node31", get());
 		System.out.println(successful);
 	}
-	
+
 	public static CreateUITPool get() {
 		CreateUITPool createPool = new CreateUITPool();
 		createPool.setPoolType("localfs");

@@ -14,8 +14,8 @@ import com.github.kubesys.kubernetes.api.model.UITDiskSpec;
  * such as VirtualMachine
  */
 public class CreateUITDiskTest {
-	
-	
+
+
 	public static void main(String[] args) throws Exception {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
@@ -23,7 +23,7 @@ public class CreateUITDiskTest {
 				.createDisk("disk1", "node31", getCreateDisk());
 		System.out.println(successful);
 	}
-	
+
 	public static UITDiskSpec.Lifecycle.CreateUITDisk getCreateDisk() {
 		UITDiskSpec.Lifecycle.CreateUITDisk createDisk = new UITDiskSpec.Lifecycle.CreateUITDisk();
 		createDisk.setPoolname("test");
