@@ -21,7 +21,7 @@ public class CreateAndStartFromISOTest {
 		CreateAndStartVMFromISO createAndStartVMFromISO = get();
 		// name
 		boolean successful = client.virtualMachines()
-				.createAndStartVMFromISO("950646e8c17a49d0b83c1c797811e041", "node30", createAndStartVMFromISO);
+				.createAndStartVMFromISO("950646e8c17a49d0b83c1c797811e043", "node30", createAndStartVMFromISO, "123");
 		System.out.println(successful);
 	}
 	
@@ -30,7 +30,7 @@ public class CreateAndStartFromISOTest {
 		
 		CreateAndStartVMFromISO createAndStartVMFromISO = new CreateAndStartVMFromISO();
 		// default value
-		createAndStartVMFromISO.setMetadata("uuid=950646e8-c17a-49d0-b83c-1c797811e041");
+		createAndStartVMFromISO.setMetadata("uuid=950646e8-c17a-49d0-b83c-1c797811e043");
 		createAndStartVMFromISO.setVirt_type("kvm"); 
 		createAndStartVMFromISO.setOs_variant("centos7.0");
 		createAndStartVMFromISO.setNoautoconsole(true); 
@@ -44,7 +44,9 @@ public class CreateAndStartFromISOTest {
 		createAndStartVMFromISO.setDisk("size=10,read_bytes_sec=1024000000,write_bytes_sec=1024000000 --disk size=20,read_bytes_sec=1024000000,write_bytes_sec=1024000000 " + getOtherCDROMs());
 		
 		//network and QoS
-		createAndStartVMFromISO.setNetwork("bridge=virbr0");  
+		createAndStartVMFromISO.setNetwork("bridge=virbr0"); 
+//		createAndStartVMFromISO.setNetwork("bridge=br-int,virtualport_type=openvswitch");  
+//		createAndStartVMFromISO.setNetwork("ovsbridge=br-int,virtualport_type=openvswitch,inbound=102400,outbound=102400,mac=52:54:00:20:d0:11,ip=192.168.3.3,switch=nettt");  
 		
 		// consoleMode amd passowrd
 		createAndStartVMFromISO.setGraphics("vnc,listen=0.0.0.0" + getconsolePassword("123456"));

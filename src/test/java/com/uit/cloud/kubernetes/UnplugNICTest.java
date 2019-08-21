@@ -20,12 +20,13 @@ public class UnplugNICTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.unplugNIC("skywind5", get("52:54:00:20:d0:90"));
+				.unplugNIC("950646e8c17a49d0b83c1c797811e042", get("52:54:00:20:d0:81"));
 		System.out.println(successful);
 	}
 	
 	public static UnplugNIC get(String mac) {
 		UnplugNIC unplugNIC = new UnplugNIC();
+//		unplugNIC.setType("ovsbridge");
 		unplugNIC.setType("bridge");
 		unplugNIC.setMac(mac);
 		unplugNIC.setLive(true);

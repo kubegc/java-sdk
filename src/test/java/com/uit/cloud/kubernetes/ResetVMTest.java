@@ -20,7 +20,7 @@ public class ResetVMTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.resetVM("t1", new ResetVM());
+				.resetVM("950646e8c17a49d0b83c1c797811e042", new ResetVM());
 		System.out.println(successful);
 	}
 	

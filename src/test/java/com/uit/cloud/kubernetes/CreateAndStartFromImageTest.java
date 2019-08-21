@@ -22,7 +22,7 @@ public class CreateAndStartFromImageTest {
 		// name
 		boolean successful = client.virtualMachines()
 				.createAndStartVMFromImage("650646e8c17a49d0b83c1c797811e083",
-						"node30", createAndStartVMFromImage);
+						"node22", createAndStartVMFromImage);
 		System.out.println(successful);
 	}
 	
@@ -41,12 +41,14 @@ public class CreateAndStartFromImageTest {
 		calculationSpecification(createAndStartVMFromImage);  
 		
 		// cdrom
-		createAndStartVMFromImage.setCdrom("/var/lib/libvirt/images/ttt.qcow2");
+		createAndStartVMFromImage.setCdrom("/var/lib/libvirt/templates/650646e8c17a49d0b83c1c797811e081.qcow2");
 		// Disk and QoS for 1 disk and many disks
 		createAndStartVMFromImage.setDisk("ROOTDISK,read_bytes_sec=1048576,write_bytes_sec=1048576 --disk size=10,read_bytes_sec=1048576,write_bytes_sec=1048576");
 		
 		//network and QoS
-		createAndStartVMFromImage.setNetwork("bridge=virbr0");  
+		createAndStartVMFromImage.setNetwork("bridge=virbr0"); 
+//		createAndStartVMFromImage.setNetwork("bridge=br-int,virtualport_type=openvswitch");  
+//		createAndStartVMFromImage.setNetwork("ovsbridge=br-int,virtualport_type=openvswitch,inbound=102400,outbound=102400,mac=52:54:00:20:d0:11,ip=192.168.3.3,switch=nettt");
 		
 		// consoleMode amd passowrd
 		createAndStartVMFromImage.setGraphics("vnc,listen=0.0.0.0" + getconsolePassword("123456"));

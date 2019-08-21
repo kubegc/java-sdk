@@ -20,14 +20,15 @@ public class PlugNICTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.plugNIC("skywind5", get("52:54:00:20:d0:90"));
+				.plugNIC("950646e8c17a49d0b83c1c797811e042", get("52:54:00:20:d0:81"));
 		System.out.println(successful);
 	}
 	
 	public static PlugNIC get(String mac) {
 		PlugNIC plugNIC = new PlugNIC();
+//		plugNIC.setType("ovsbridge");
 		plugNIC.setType("bridge");
-		plugNIC.setSource("virbr0");
+		plugNIC.setSource("br-native");
 		plugNIC.setMac(mac);
 		plugNIC.setLive(true);
 		plugNIC.setConfig(true);
