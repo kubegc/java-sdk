@@ -11,21 +11,17 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.github.kubesys.kubernetes.api.model.UITDisk;
-import com.github.kubesys.kubernetes.api.model.UITSnapshot;
-import com.github.kubesys.kubernetes.api.model.UITStoragePool;
 import com.github.kubesys.kubernetes.api.model.VirtualMachine;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineDisk;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineImage;
+import com.github.kubesys.kubernetes.api.model.VirtualMachinePool;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineSnapshot;
 import com.github.kubesys.kubernetes.impl.NodeSelectorImpl;
 import com.github.kubesys.kubernetes.impl.VirtualMachineDiskImpl;
 import com.github.kubesys.kubernetes.impl.VirtualMachineImageImpl;
 import com.github.kubesys.kubernetes.impl.VirtualMachineImpl;
+import com.github.kubesys.kubernetes.impl.VirtualMachinePoolImpl;
 import com.github.kubesys.kubernetes.impl.VirtualMachineSnapshotImpl;
-import com.github.kubesys.kubernetes.impl.UITDiskImpl;
-import com.github.kubesys.kubernetes.impl.UITPoolImpl;
-import com.github.kubesys.kubernetes.impl.UITSnapshotImpl;
 
 import io.fabric8.kubernetes.api.model.KubernetesResource;
 import io.fabric8.kubernetes.api.model.apiextensions.CustomResourceDefinition;
@@ -77,9 +73,10 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 		configs.add("/VirtualMachineDisk.conf");
 		configs.add("/VirtualMachineSnapshot.conf");
 		configs.add("/VirtualMachineNetwork.conf");
-		configs.add("/VirtualMachineUITPool.conf");
-		configs.add("/VirtualMachineUITDisk.conf");
-		configs.add("/VirtualMachineUITSnapshot.conf");
+		configs.add("/VirtualMachineNetworkPool.conf");
+//		configs.add("/VirtualMachineUITPool.conf");
+//		configs.add("/VirtualMachineUITDisk.conf");
+//		configs.add("/VirtualMachineUITSnapshot.conf");
 	}
 	
 	/**
@@ -196,27 +193,34 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 		return new VirtualMachineDiskImpl();
 	}
 	
-	
 	/**
-	 * @return        VirtualMachineUITPool
+	 * @return        VirtualMachinePool
 	 */
-	public UITPoolImpl virtualMachineUITPool() {
-		return new UITPoolImpl();
+	public VirtualMachinePoolImpl virtualMachinePools() {
+		return new VirtualMachinePoolImpl();
 	}
 	
-	/**
-	 * @return        VirtualMachineUITDisk
-	 */
-	public UITDiskImpl virtualMachineUITDisk() {
-		return new UITDiskImpl();
-	}
 	
-	/**
-	 * @return        VirtualMachineUITDisk
-	 */
-	public UITSnapshotImpl virtualMachineUITSnapshot() {
-		return new UITSnapshotImpl();
-	}
+//	/**
+//	 * @return        VirtualMachineUITPool
+//	 */
+//	public UITPoolImpl virtualMachineUITPool() {
+//		return new UITPoolImpl();
+//	}
+//	
+//	/**
+//	 * @return        VirtualMachineUITDisk
+//	 */
+//	public UITDiskImpl virtualMachineUITDisk() {
+//		return new UITDiskImpl();
+//	}
+//	
+//	/**
+//	 * @return        VirtualMachineUITDisk
+//	 */
+//	public UITSnapshotImpl virtualMachineUITSnapshot() {
+//		return new UITSnapshotImpl();
+//	}
 	
 	/**
 	 * @return        VirtualMachineSnapshot
@@ -258,28 +262,36 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 	}
 	
 	/**
-	 * @return        VirtualMachineUITPool
+	 * @return        VirtualMachineSnapshot
 	 */
 	@SuppressWarnings("unchecked")
-	public void watchVirtualMachineUITPools(Watcher<UITStoragePool> watcher) {
-		crdClients.get(UITStoragePool.class.getSimpleName()).watch(watcher);
+	public void watchVirtualMachinePools(Watcher<VirtualMachinePool> watcher) {
+		crdClients.get(VirtualMachinePool.class.getSimpleName()).watch(watcher);
 	}
 	
-	/**
-	 * @return        VirtualMachineUITDisk
-	 */
-	@SuppressWarnings("unchecked")
-	public void watchVirtualMachineUITDisks(Watcher<UITDisk> watcher) {
-		crdClients.get(UITDisk.class.getSimpleName()).watch(watcher);
-	}
+//	/**
+//	 * @return        VirtualMachineUITPool
+//	 */
+//	@SuppressWarnings("unchecked")
+//	public void watchVirtualMachineUITPools(Watcher<UITStoragePool> watcher) {
+//		crdClients.get(UITStoragePool.class.getSimpleName()).watch(watcher);
+//	}
+//	
+//	/**
+//	 * @return        VirtualMachineUITDisk
+//	 */
+//	@SuppressWarnings("unchecked")
+//	public void watchVirtualMachineUITDisks(Watcher<UITDisk> watcher) {
+//		crdClients.get(UITDisk.class.getSimpleName()).watch(watcher);
+//	}
 	
-	/**
-	 * @return        VirtualMachineUITSnapshot
-	 */
-	@SuppressWarnings("unchecked")
-	public void watchVirtualMachineSnapshorts(Watcher<UITSnapshot> watcher) {
-		crdClients.get(UITSnapshot.class.getSimpleName()).watch(watcher);
-	}
+//	/**
+//	 * @return        VirtualMachineUITSnapshot
+//	 */
+//	@SuppressWarnings("unchecked")
+//	public void watchVirtualMachineSnapshorts(Watcher<UITSnapshot> watcher) {
+//		crdClients.get(UITSnapshot.class.getSimpleName()).watch(watcher);
+//	}
 	
 	/**
 	 * @return NodeSelector

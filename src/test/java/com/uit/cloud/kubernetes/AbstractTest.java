@@ -45,15 +45,15 @@ public class AbstractTest {
 		return getClient().virtualMachineDisks().get(name);
 	}
 	
-	public static UITStoragePool getUITPoolByName(String name) throws Exception {
-		return getClient().virtualMachineUITPool().get(name);
-	}
-	
-	public static UITDisk getUITDiskByName(String name) throws Exception {
-		return getClient().virtualMachineUITDisk().get(name);
-	}
-	
-	public static UITSnapshot getUITSnapshotByName(String name) throws Exception {
-		return getClient().virtualMachineUITSnapshot().get(name);
-	}
+//	public static UITStoragePool getUITPoolByName(String name) throws Exception {
+//		return getClient().virtualMachineUITPool().get(name);
+//	}
+//	
+//	public static UITDisk getUITDiskByName(String name) throws Exception {
+//		return getClient().virtualMachineUITDisk().get(name);
+//	}
+//	
+//	public static UITSnapshot getUITSnapshotByName(String name) throws Exception {
+//		return getClient().virtualMachineUITSnapshot().get(name);
+//	}
 }
