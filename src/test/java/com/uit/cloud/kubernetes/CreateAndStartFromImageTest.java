@@ -52,11 +52,15 @@ public class CreateAndStartFromImageTest {
 		 * 		type of network support values: "bridge", "l2bridge" and "l3bridge"
 		 * 	source
 		 * 		network source name
+		 * 	inbound (optional)
+		 * 		inbound bandwidth in KB
+		 * 	outbound (optional)
+		 * 		outbound bandwidth in KB
 		 * 	mac (optional)
 		 * 		if no mac, create a random mac
 		 * 		Note! Mac address is unique and does not support a value that start with "fe:" (e.g. fe:54:00:05:37:b3)
 		 */
-//		createAndStartVMFromImage.setNetwork("type=bridge,source=virbr0"); 
+//		createAndStartVMFromImage.setNetwork("type=bridge,source=virbr0,inbound=102400,outbound=102400"); 
 		
 		/*
 		 * l2 network example
@@ -95,7 +99,7 @@ public class CreateAndStartFromImageTest {
 		 * 		switch name
 		 */
 		
-		createAndStartVMFromImage.setNetwork("type=l3bridge,source=br-int,inbound=102400,outbound=102400,ip=192.168.4.6,switch=ls1");  
+		createAndStartVMFromImage.setNetwork("type=l3bridge,source=br-int,inbound=102400,outbound=102400,ip=192.168.4.6,switch=ls1"); 
 		
 		// consoleMode amd passowrd
 		createAndStartVMFromImage.setGraphics("vnc,listen=0.0.0.0" + getconsolePassword("123456"));
