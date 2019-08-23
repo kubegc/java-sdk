@@ -43,10 +43,49 @@ public class CreateAndStartFromISOTest {
 		// Disk and QoS for 1 disk and many disks
 		createAndStartVMFromISO.setDisk("size=10,read_bytes_sec=1024000000,write_bytes_sec=1024000000 --disk size=20,read_bytes_sec=1024000000,write_bytes_sec=1024000000 " + getOtherCDROMs());
 		
-		//network and QoS
+		/*
+		 * libvirt bridge network
+		 * Parameters:
+		 * 	bridge
+		 * 		libvirt bridge name, default is "virbr0"
+		 */
 //		createAndStartVMFromISO.setNetwork("bridge=virbr0"); 
-//		createAndStartVMFromISO.setNetwork("bridge=br-int,virtualport_type=openvswitch");  
-		createAndStartVMFromISO.setNetwork("ovsbridge=br-int,virtualport_type=openvswitch,inbound=102400,outbound=102400,mac=52:54:00:20:d0:11,ip=192.168.3.3,switch=nettt");  
+		
+		/*
+		 * l2 network example
+		 * Parameters:
+		 * 	ovsbridge
+		 * 		ovs bridge name
+		 * 	virtual_type
+		 * 		(optional) default is "openvswitch"
+		 * 	inbound
+		 * 		inbound bandwidth in KB
+		 * 	outbound
+		 * 		outbound bandwidth in KB
+		 */
+//		createAndStartVMFromISO.setNetwork("ovsbridge=br-native,virtualport_type=openvswitch,inbound=102400,outbound=102400");
+		
+		/*
+		 * l3 network example
+		 * Parameters:
+		 * 	ovsbridge
+		 * 		ovs bridge name
+		 * 	virtualport_type
+		 * 		(optional) default is "openvswitch"
+		 * 	inbound
+		 * 		inbound bandwidth in KB
+		 * 	outbound
+		 * 		outbound bandwidth in KB
+		 * 	mac
+		 * 		(optional) if no mac, create a random mac
+		 * 		Note! Mac address cannot start with fe: (e.g. fe:54:00:05:37:b3)
+		 * 	ip
+		 * 		ip address in l3 network
+		 * 	switch
+		 * 		switch name
+		 */
+		
+		createAndStartVMFromISO.setNetwork("ovsbridge=br-int,virtualport_type=openvswitch,inbound=102400,outbound=102400,ip=192.168.4.6,switch=ls1");  
 		
 		// consoleMode amd passowrd
 		createAndStartVMFromISO.setGraphics("vnc,listen=0.0.0.0" + getconsolePassword("123456"));

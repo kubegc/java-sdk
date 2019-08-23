@@ -43,12 +43,51 @@ public class CreateAndStartFromImageTest {
 		// cdrom
 		createAndStartVMFromImage.setCdrom("/var/lib/libvirt/templates/650646e8c17a49d0b83c1c797811e081.qcow2");
 		// Disk and QoS for 1 disk and many disks
-		createAndStartVMFromImage.setDisk("ROOTDISK,read_bytes_sec=1048576,write_bytes_sec=1048576 --disk size=10,read_bytes_sec=1048576,write_bytes_sec=1048576");
+		createAndStartVMFromImage.setDisk("ROOTDISK,read_bytes_sec=1024000000,write_bytes_sec=1024000000 --disk size=10,read_bytes_sec=1024000000,write_bytes_sec=1024000000");
 		
-		//network and QoS
-		createAndStartVMFromImage.setNetwork("bridge=virbr0"); 
-//		createAndStartVMFromImage.setNetwork("bridge=br-int,virtualport_type=openvswitch");  
-//		createAndStartVMFromImage.setNetwork("ovsbridge=br-int,virtualport_type=openvswitch,inbound=102400,outbound=102400,mac=52:54:00:20:d0:11,ip=192.168.3.3,switch=nettt");
+		/*
+		 * libvirt bridge network
+		 * Parameters:
+		 * 	bridge
+		 * 		libvirt bridge name, default is "virbr0"
+		 */
+//		createAndStartVMFromImage.setNetwork("bridge=virbr0"); 
+		
+		/*
+		 * l2 network example
+		 * Parameters:
+		 * 	ovsbridge
+		 * 		ovs bridge name
+		 * 	virtual_type
+		 * 		(optional) default is "openvswitch"
+		 * 	inbound
+		 * 		inbound bandwidth in KB
+		 * 	outbound
+		 * 		outbound bandwidth in KB
+		 */
+//		createAndStartVMFromImage.setNetwork("ovsbridge=br-native,virtualport_type=openvswitch,inbound=102400,outbound=102400");
+		
+		/*
+		 * l3 network example
+		 * Parameters:
+		 * 	ovsbridge
+		 * 		ovs bridge name
+		 * 	virtualport_type
+		 * 		(optional) default is "openvswitch"
+		 * 	inbound
+		 * 		inbound bandwidth in KB
+		 * 	outbound
+		 * 		outbound bandwidth in KB
+		 * 	mac
+		 * 		(optional) if no mac, create a random mac
+		 * 		Note! Mac address cannot start with fe: (e.g. fe:54:00:05:37:b3)
+		 * 	ip
+		 * 		ip address in l3 network
+		 * 	switch
+		 * 		switch name
+		 */
+		
+		createAndStartVMFromImage.setNetwork("ovsbridge=br-int,virtualport_type=openvswitch,inbound=102400,outbound=102400,ip=192.168.4.6,switch=ls1"); 
 		
 		// consoleMode amd passowrd
 		createAndStartVMFromImage.setGraphics("vnc,listen=0.0.0.0" + getconsolePassword("123456"));
