@@ -48,32 +48,34 @@ public class CreateAndStartFromImageTest {
 		/*
 		 * libvirt bridge network
 		 * Parameters:
-		 * 	bridge
-		 * 		libvirt bridge name, default is "virbr0"
+		 * 	type
+		 * 		type of network support values: "bridge", "l2bridge" and "l3bridge"
+		 * 	source
+		 * 		network source name
 		 */
-//		createAndStartVMFromImage.setNetwork("bridge=virbr0"); 
+//		createAndStartVMFromImage.setNetwork("type=bridge,source=virbr0"); 
 		
 		/*
 		 * l2 network example
 		 * Parameters:
-		 * 	l2bridge
-		 * 		ovs bridge name
-		 * 	virtual_type (optional)
-		 * 		default is "openvswitch"
+		 * 	type
+		 * 		type of network support values: "bridge", "l2bridge" and "l3bridge"
+		 * 	source
+		 * 		network source name
 		 * 	inbound (optional)
 		 * 		inbound bandwidth in KB
 		 * 	outbound (optional)
 		 * 		outbound bandwidth in KB
 		 */
-//		createAndStartVMFromImage.setNetwork("l2bridge=br-native,inbound=102400,outbound=102400");
+//		createAndStartVMFromImage.setNetwork("type=l2bridge,source=br-native,inbound=102400,outbound=102400");
 		
 		/*
 		 * l3 network example
 		 * Parameters:
-		 * 	l3bridge
-		 * 		ovs bridge name
-		 * 	virtualport_type (optional)
-		 * 		default is "openvswitch"
+		 * 	type
+		 * 		type of network support values: "bridge", "l2bridge" and "l3bridge"
+		 * 	source
+		 * 		network source name
 		 * 	inbound (optional)
 		 * 		inbound bandwidth limitation in KB, default is no limitation
 		 * 	outbound (optional)
@@ -87,7 +89,7 @@ public class CreateAndStartFromImageTest {
 		 * 		switch name
 		 */
 		
-		createAndStartVMFromImage.setNetwork("l3bridge=br-int,inbound=102400,outbound=102400,ip=192.168.4.6,switch=ls1");  
+		createAndStartVMFromImage.setNetwork("type=l3bridge,source=br-int,inbound=102400,outbound=102400,ip=192.168.4.6,switch=ls1");  
 		
 		// consoleMode amd passowrd
 		createAndStartVMFromImage.setGraphics("vnc,listen=0.0.0.0" + getconsolePassword("123456"));

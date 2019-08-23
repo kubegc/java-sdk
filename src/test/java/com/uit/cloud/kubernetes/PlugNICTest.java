@@ -34,7 +34,7 @@ public class PlugNICTest {
 		 * 		libvirt bridge name, default is "virbr0"
 		 */
 //		plugNIC.setType("bridge");
-//		plugNIC.setSource("bridge=virbr0");
+//		plugNIC.setSource("name=virbr0");
 		
 		/*
 		 * l2 network example
