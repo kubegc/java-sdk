@@ -52,6 +52,9 @@ public class CreateAndStartFromImageTest {
 		 * 		type of network support values: "bridge", "l2bridge" and "l3bridge"
 		 * 	source
 		 * 		network source name
+		 * 	mac (optional)
+		 * 		if no mac, create a random mac
+		 * 		Note! Mac address is unique and does not support a value that start with "fe:" (e.g. fe:54:00:05:37:b3)
 		 */
 //		createAndStartVMFromImage.setNetwork("type=bridge,source=virbr0"); 
 		
@@ -66,6 +69,9 @@ public class CreateAndStartFromImageTest {
 		 * 		inbound bandwidth in KB
 		 * 	outbound (optional)
 		 * 		outbound bandwidth in KB
+		 * 	mac (optional)
+		 * 		if no mac, create a random mac
+		 * 		Note! Mac address is unique and does not support a value that start with "fe:" (e.g. fe:54:00:05:37:b3)
 		 */
 //		createAndStartVMFromImage.setNetwork("type=l2bridge,source=br-native,inbound=102400,outbound=102400");
 		
