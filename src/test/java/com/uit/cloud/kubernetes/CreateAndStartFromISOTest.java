@@ -21,7 +21,7 @@ public class CreateAndStartFromISOTest {
 		CreateAndStartVMFromISO createAndStartVMFromISO = get();
 		// name
 		boolean successful = client.virtualMachines()
-				.createAndStartVMFromISO("950646e8c17a49d0b83c1c797811e043", "node30", createAndStartVMFromISO, "123");
+				.createAndStartVMFromISO("950646e8c17a49d0b83c1c797811e045", "node30", createAndStartVMFromISO, "123");
 		System.out.println(successful);
 	}
 	
@@ -30,7 +30,7 @@ public class CreateAndStartFromISOTest {
 		
 		CreateAndStartVMFromISO createAndStartVMFromISO = new CreateAndStartVMFromISO();
 		// default value
-		createAndStartVMFromISO.setMetadata("uuid=950646e8-c17a-49d0-b83c-1c797811e043");
+		createAndStartVMFromISO.setMetadata("uuid=950646e8-c17a-49d0-b83c-1c797811e045");
 		createAndStartVMFromISO.setVirt_type("kvm"); 
 		createAndStartVMFromISO.setOs_variant("centos7.0");
 		createAndStartVMFromISO.setNoautoconsole(true); 
@@ -97,7 +97,7 @@ public class CreateAndStartFromISOTest {
 		 * 		switch name
 		 */
 		
-		createAndStartVMFromISO.setNetwork("type=l3bridge,source=br-int,inbound=102400,outbound=102400,ip=192.168.4.6,switch=ls1");  
+		createAndStartVMFromISO.setNetwork("type=l3bridge,source=br-int,inbound=102400,outbound=102400,ip=192.168.4.8,switch=ls1");  
 		
 		// consoleMode amd passowrd
 		createAndStartVMFromISO.setGraphics("vnc,listen=0.0.0.0" + getconsolePassword("123456"));

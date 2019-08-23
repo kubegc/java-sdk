@@ -38,8 +38,6 @@ public class JUintFlowTest {
 	
 	public final static String NAME     = "950646e8c17a49d0b83c1c797811e081";
 	
-	public final static String MAC      = "52:54:00:20:d0:90";
-	
 	@SuppressWarnings("deprecation")
 	@Test
 	public void test() throws Exception {
@@ -75,11 +73,11 @@ public class JUintFlowTest {
 		client.virtualMachines().resumeVM(NAME, new ResumeVM());
 		Assert.assertEquals(successful(client), true);
 		
-		client.virtualMachines().plugNIC(NAME, PlugNICTest.get(MAC));
+		client.virtualMachines().plugNIC(NAME, PlugNICTest.get());
 		Assert.assertEquals(successful(client), true);
 		Assert.assertEquals(getVMNICNum(), 2);
 		
-		client.virtualMachines().unplugNIC(NAME, UnplugNICTest.get(MAC));
+		client.virtualMachines().unplugNIC(NAME, UnplugNICTest.get());
 		Assert.assertEquals(successful(client), true);
 		Assert.assertEquals(getVMNICNum(), 1);
 		
