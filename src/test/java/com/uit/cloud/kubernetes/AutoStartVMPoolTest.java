@@ -4,7 +4,7 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
-import com.github.kubesys.kubernetes.api.model.virtualmachinesnapshot.Lifecycle.DeleteSnapshot;
+import com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -13,21 +13,22 @@ import com.github.kubesys.kubernetes.api.model.virtualmachinesnapshot.Lifecycle.
  * This code is used to manage CustomResource's lifecycle,
  * such as VirtualMachine
  */
-public class DeleteSnapshotTest {
+public class AutoStartVMPoolTest {
 	
 	
 	public static void main(String[] args) throws Exception {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
-		boolean successful = client.virtualMachineSanshots()
-				.deleteSnapshot("skywind5", getDeleteSnapshot());
+		boolean successful = client.virtualMachinePools()
+				.createPool("hello", "node31", getPool());
 		System.out.println(successful);
 	}
 
-	protected static DeleteSnapshot getDeleteSnapshot() {
-		DeleteSnapshot deleteSnapshot = new DeleteSnapshot();
-		deleteSnapshot.setSnapshotname("hello");
-		return deleteSnapshot;
+	protected static Lifecycle.CreatePool getPool() {
+		Lifecycle.CreatePool createPool = new Lifecycle.CreatePool();
+		createPool.setType("dir");
+		createPool.setTarget("/pool");
+		return createPool;
 	}
 	
 }
