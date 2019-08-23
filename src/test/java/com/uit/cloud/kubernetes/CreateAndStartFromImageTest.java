@@ -21,8 +21,8 @@ public class CreateAndStartFromImageTest {
 		CreateAndStartVMFromImage createAndStartVMFromImage = get();
 		// name
 		boolean successful = client.virtualMachines()
-				.createAndStartVMFromImage("650646e8c17a49d0b83c1c797811e083",
-						"node22", createAndStartVMFromImage);
+				.createAndStartVMFromImage("650646e8c17a49d0b83c1c797811e084",
+						"node30", createAndStartVMFromImage);
 		System.out.println(successful);
 	}
 	
@@ -31,7 +31,7 @@ public class CreateAndStartFromImageTest {
 		
 		CreateAndStartVMFromImage createAndStartVMFromImage = new CreateAndStartVMFromImage();
 		// default value
-		createAndStartVMFromImage.setMetadata("uuid=650646e8-c17a-49d0-b83c-1c797811e083");
+		createAndStartVMFromImage.setMetadata("uuid=650646e8-c17a-49d0-b83c-1c797811e084");
 		createAndStartVMFromImage.setVirt_type("kvm"); 
 		createAndStartVMFromImage.setOs_variant("RHEL");
 		createAndStartVMFromImage.setBoot("hd");
@@ -41,7 +41,7 @@ public class CreateAndStartFromImageTest {
 		calculationSpecification(createAndStartVMFromImage);  
 		
 		// cdrom
-		createAndStartVMFromImage.setCdrom("/var/lib/libvirt/templates/650646e8c17a49d0b83c1c797811e081.qcow2");
+		createAndStartVMFromImage.setCdrom("/var/lib/libvirt/templates/centos7.qcow2");
 		// Disk and QoS for 1 disk and many disks
 		createAndStartVMFromImage.setDisk("ROOTDISK,read_bytes_sec=1024000000,write_bytes_sec=1024000000 --disk size=10,read_bytes_sec=1024000000,write_bytes_sec=1024000000");
 		
@@ -99,7 +99,7 @@ public class CreateAndStartFromImageTest {
 		 * 		switch name
 		 */
 		
-		createAndStartVMFromImage.setNetwork("type=l3bridge,source=br-int,inbound=102400,outbound=102400,ip=192.168.4.6,switch=ls1"); 
+		createAndStartVMFromImage.setNetwork("type=l3bridge,source=br-int,inbound=102400,outbound=102400,ip=192.168.4.8,switch=ls1"); 
 		
 		// consoleMode amd passowrd
 		createAndStartVMFromImage.setGraphics("vnc,listen=0.0.0.0" + getconsolePassword("123456"));

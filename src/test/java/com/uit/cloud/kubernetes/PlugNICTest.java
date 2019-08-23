@@ -20,7 +20,7 @@ public class PlugNICTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.plugNIC("950646e8c17a49d0b83c1c797811e042", get());
+				.plugNIC("650646e8c17a49d0b83c1c797811e084", get());
 		System.out.println(successful);
 	}
 	
@@ -30,38 +30,34 @@ public class PlugNICTest {
 		/*
 		 * libvirt bridge network
 		 * Parameters:
-		 * 	bridge
-		 * 		libvirt bridge name, default is "virbr0"
+		 * 	source
+		 * 		network source name
 		 */
-//		plugNIC.setType("bridge");
-//		plugNIC.setSource("name=virbr0");
+		plugNIC.setType("bridge");
+		plugNIC.setSource("source=virbr0");
 		
 		/*
 		 * l2 network example
 		 * Parameters:
-		 * 	name
-		 * 		ovs bridge name
-		 * 	virtual_type (optional)
-		 * 		default is "openvswitch"
+		 * 	source
+		 * 		network source name
 		 */
 //		plugNIC.setType("l2bridge"); 
-//		plugNIC.setSource("name=br-native");
+//		plugNIC.setSource("source=br-native");
 		
 		
 		/*
 		 * l3 network example
 		 * Parameters:
-		 * 	name
-		 * 		ovs bridge name
-		 * 	virtualport_type (optional)
-		 * 		default is "openvswitch"
+		 * 	source
+		 * 		network source name
 		 * 	ip (optional)
 		 * 		ip address for l3 network, default is "dynamic" from DHCP
 		 * 	switch
 		 * 		switch name
 		 */
-		plugNIC.setType("l3bridge"); 
-		plugNIC.setSource("name=br-int,ip=192.168.4.6,switch=ls1");
+//		plugNIC.setType("l3bridge"); 
+//		plugNIC.setSource("source=br-int,ip=192.168.4.5,switch=ls1");
 		
 		/*
 		 * 	mac address
