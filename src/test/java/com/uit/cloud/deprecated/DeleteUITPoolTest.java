@@ -1,33 +1,29 @@
 /*
- * Copyright (2019, ) Institute of Software, Chinese Academy of Sciences
+  * Copyright (2019, ) Institute of Software, Chinese Academy of Sciences
  */
-package com.uit.cloud.kubernetes;
+package com.uit.cloud.deprecated;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
+import com.github.kubesys.kubernetes.api.model.UITStoragePoolSpec;
 import com.github.kubesys.kubernetes.api.model.UITStoragePoolSpec.Lifecycle.CreateUITPool;
+import com.uit.cloud.kubernetes.AbstractTest;
 
 /**
- * @author wuheng@otcaix.iscas.ac.cn
- * @since  2019/8/18
+ * @author liuhe18@otcaix.iscas.ac.cn
+ * @since  2019/8/19
  *
  * This code is used to manage CustomResource's lifecycle,
  * such as VirtualMachine
  */
-public class CreateUITPoolTest {
-
-
+public class DeleteUITPoolTest {
+	
+	
 	public static void main(String[] args) throws Exception {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineUITPool()
-				.createPool("test1", "node31", get());
+				.deletePool("test1",new UITStoragePoolSpec.Lifecycle.DeleteUITPool());
 		System.out.println(successful);
 	}
 
-	public static CreateUITPool get() {
-		CreateUITPool createPool = new CreateUITPool();
-		createPool.setPoolType("localfs");
-		createPool.setUrl("localfs:///dev/sdb:/pool");
-		return createPool;
-	}
 }

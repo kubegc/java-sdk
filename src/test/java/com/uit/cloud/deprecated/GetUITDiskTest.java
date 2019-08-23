@@ -1,9 +1,10 @@
 /*
  * Copyright (2019, ) Institute of Software, Chinese Academy of Sciences
  */
-package com.uit.cloud.kubernetes;
+package com.uit.cloud.deprecated;
 
 import com.alibaba.fastjson.JSON;
+import com.uit.cloud.kubernetes.AbstractTest;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -12,11 +13,11 @@ import com.alibaba.fastjson.JSON;
  * This code is used to manage CustomResource's lifecycle,
  * such as VirtualMachine
  */
-public class GetUITSnapshotTest {
+public class GetUITDiskTest {
 	
 	public static void main(String[] args) throws Exception {
 		System.out.println(JSON.toJSONString(
-						AbstractTest.getUITSnapshotByName("ss5"), true));
+				AbstractTest.getUITDiskByName("disk3"), true));
 	}
 	
 }

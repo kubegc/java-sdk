@@ -1,12 +1,13 @@
 /*
  * Copyright (2019, ) Institute of Software, Chinese Academy of Sciences
  */
-package com.uit.cloud.kubernetes;
+package com.uit.cloud.deprecated;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
 import com.github.kubesys.kubernetes.api.model.UITSnapshot;
 import com.github.kubesys.kubernetes.api.model.UITSnapshotSpec;
 import com.github.kubesys.kubernetes.api.model.virtualmachinesnapshot.Lifecycle.CreateSnapshot;
+import com.uit.cloud.kubernetes.AbstractTest;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn

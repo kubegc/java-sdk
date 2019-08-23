@@ -1,34 +1,34 @@
 /*
  * Copyright (2019, ) Institute of Software, Chinese Academy of Sciences
  */
-package com.uit.cloud.kubernetes;
+package com.uit.cloud.deprecated;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
 import com.github.kubesys.kubernetes.api.model.UITDiskSpec;
-import com.github.kubesys.kubernetes.api.model.UITDiskSpec.Lifecycle.DeleteUITDisk;
+import com.uit.cloud.kubernetes.AbstractTest;
 
 /**
- * @author wuheng@otcaix.iscas.ac.cn
- * @since  2019/7/18
+ * @author liuhe18@otcaix.iscas.ac.cn
+ * @since  2019/8/19
  *
  * This code is used to manage CustomResource's lifecycle,
  * such as VirtualMachine
  */
-public class DeleteUITDiskTest {
-	
-	
+public class CreateUITDiskTest {
+
+
 	public static void main(String[] args) throws Exception {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineUITDisk()
-				.deleteDisk("disk4", get());
+				.createDisk("disk1", "node31", getCreateDisk());
 		System.out.println(successful);
 	}
-	
-	public static DeleteUITDisk get() {
-		DeleteUITDisk disk = new DeleteUITDisk();
-		disk.setPoolname("test");
-		return disk;
-	}
 
+	public static UITDiskSpec.Lifecycle.CreateUITDisk getCreateDisk() {
+		UITDiskSpec.Lifecycle.CreateUITDisk createDisk = new UITDiskSpec.Lifecycle.CreateUITDisk();
+		createDisk.setPoolname("test");
+		createDisk.setSize((long) 1);
+		return createDisk;
+	}
 }

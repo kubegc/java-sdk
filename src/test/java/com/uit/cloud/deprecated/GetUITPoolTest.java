@@ -1,9 +1,10 @@
 /*
  * Copyright (2019, ) Institute of Software, Chinese Academy of Sciences
  */
-package com.uit.cloud.kubernetes;
+package com.uit.cloud.deprecated;
 
 import com.alibaba.fastjson.JSON;
+import com.uit.cloud.kubernetes.AbstractTest;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
