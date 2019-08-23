@@ -54,38 +54,38 @@ public class CreateAndStartFromISOTest {
 		/*
 		 * l2 network example
 		 * Parameters:
-		 * 	ovsbridge
+		 * 	l2bridge
 		 * 		ovs bridge name
-		 * 	virtual_type
-		 * 		(optional) default is "openvswitch"
-		 * 	inbound
+		 * 	virtual_type (optional)
+		 * 		default is "openvswitch"
+		 * 	inbound (optional)
 		 * 		inbound bandwidth in KB
-		 * 	outbound
+		 * 	outbound (optional)
 		 * 		outbound bandwidth in KB
 		 */
-//		createAndStartVMFromISO.setNetwork("ovsbridge=br-native,virtualport_type=openvswitch,inbound=102400,outbound=102400");
+//		createAndStartVMFromISO.setNetwork("l2bridge=br-native,inbound=102400,outbound=102400");
 		
 		/*
 		 * l3 network example
 		 * Parameters:
-		 * 	ovsbridge
+		 * 	l3bridge
 		 * 		ovs bridge name
-		 * 	virtualport_type
-		 * 		(optional) default is "openvswitch"
-		 * 	inbound
-		 * 		inbound bandwidth in KB
-		 * 	outbound
-		 * 		outbound bandwidth in KB
-		 * 	mac
-		 * 		(optional) if no mac, create a random mac
-		 * 		Note! Mac address cannot start with fe: (e.g. fe:54:00:05:37:b3)
-		 * 	ip
-		 * 		ip address in l3 network
+		 * 	virtualport_type (optional)
+		 * 		default is "openvswitch"
+		 * 	inbound (optional)
+		 * 		inbound bandwidth limitation in KB, default is no limitation
+		 * 	outbound (optional)
+		 * 		outbound bandwidth limitation in KB, default is no limitation
+		 * 	mac (optional)
+		 * 		if no mac, create a random mac
+		 * 		Note! Mac address is unique and does not support a value that start with "fe:" (e.g. fe:54:00:05:37:b3)
+		 * 	ip (optional)
+		 * 		ip address for l3 network, default is "dynamic" from DHCP
 		 * 	switch
 		 * 		switch name
 		 */
 		
-		createAndStartVMFromISO.setNetwork("ovsbridge=br-int,virtualport_type=openvswitch,inbound=102400,outbound=102400,ip=192.168.4.6,switch=ls1");  
+		createAndStartVMFromISO.setNetwork("l3bridge=br-int,inbound=102400,outbound=102400,ip=192.168.4.6,switch=ls1");  
 		
 		// consoleMode amd passowrd
 		createAndStartVMFromISO.setGraphics("vnc,listen=0.0.0.0" + getconsolePassword("123456"));
