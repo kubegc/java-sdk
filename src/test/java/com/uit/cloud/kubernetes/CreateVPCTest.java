@@ -4,7 +4,7 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
-import com.github.kubesys.kubernetes.api.model.virtualmachineimage.Lifecycle.CreateImage;
+import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.CreateSwitch;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -13,20 +13,20 @@ import com.github.kubesys.kubernetes.api.model.virtualmachineimage.Lifecycle.Cre
  * This code is used to manage CustomResource's lifecycle,
  * such as VirtualMachine
  */
-public class CreateISOTest {
+public class CreateVPCTest {
 	
 	
 	public static void main(String[] args) throws Exception {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
-		boolean successful = client.virtualMachineImages()
-				.createImage("win1000", "node30", get());
+		boolean successful = client.virtualMachineNetworks()
+				.createSwitch("sw11", "node30", get());
 		System.out.println(successful);
 	}
 
-	protected static CreateImage get() {
-		CreateImage createImage = new CreateImage();
-		createImage.setDisk("/opt/ISO/cn_windows_10_enterprise_x64_dvd_6846957.iso");
-		return createImage;
+	protected static CreateSwitch get() {
+		CreateSwitch createSwitch = new CreateSwitch();
+		createSwitch.setSubnet("192.168.7.0/24");
+		return createSwitch;
 	}
 }
