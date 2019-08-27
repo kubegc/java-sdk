@@ -20,13 +20,13 @@ public class CreateISOTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineImages()
-				.createImage("win1000", "node30", get());
+				.createImage("win10", "node30", get());
 		System.out.println(successful);
 	}
 
 	protected static CreateImage get() {
 		CreateImage createImage = new CreateImage();
-		createImage.setDisk("/opt/ISO/cn_windows_10_enterprise_x64_dvd_6846957.iso");
+		createImage.setDisk("/opt/ISO/cn_windows_10_enterprise_x64_dvd_6846957.iso,device=cdrom,perms=ro");
 		return createImage;
 	}
 }
