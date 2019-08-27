@@ -4,7 +4,7 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
-import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CreateDisk;
+import com.github.kubesys.kubernetes.api.model.virtualmachineimage.Lifecycle.CreateImage;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -13,24 +13,20 @@ import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.Crea
  * This code is used to manage CustomResource's lifecycle,
  * such as VirtualMachine
  */
-public class CreateDiskTest {
+public class CreateISOTest {
 	
 	
 	public static void main(String[] args) throws Exception {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
-		boolean successful = client.virtualMachineDisks()
-				.createDisk("test11", "node30", get());
+		boolean successful = client.virtualMachineImages()
+				.createImage("iso", "node30", get());
 		System.out.println(successful);
 	}
 
-	protected static CreateDisk get() {
-		CreateDisk createDisk = new CreateDisk();
-		createDisk.setPool("default");
-		// bytes 10G
-		Long size = 10L*1024*1024*1024;
-		createDisk.setCapacity(String.valueOf(size));
-		createDisk.setFormat("qcow2");
-		return createDisk;
+	protected static CreateImage get() {
+		CreateImage createImage = new CreateImage();
+		createImage.setDisk("/opt/ISO/CentOS-7-x86_64-Minimal-1511.iso");
+		return createImage;
 	}
 }
