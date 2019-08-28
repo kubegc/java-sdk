@@ -260,15 +260,19 @@ public class VirtualMachineNetworkImpl {
 
 	public boolean deleteSwitch(String name, DeleteSwitch deleteSwitch, String eventId) throws Exception {
 		VirtualMachineNetwork kind = get(name);
+		if (kind == null ) {
+			return true;
+		}
+		
+		if (kind.getSpec().getLifecycle() != null) {
+			delete(kind);
+			return true;
+		}
+		
 		Map<String, String> labels = kind.getMetadata().getLabels();
 		labels = (labels == null) ? new HashMap<String, String>() : labels;
 		labels.put("eventId", eventId);
 		kind.getMetadata().setLabels(labels);
-		
-		if (kind == null || kind.getSpec().getLifecycle() != null) {
-			delete(kind);
-			return true;
-		}
 		
 		VirtualMachineNetworkSpec spec = kind.getSpec();
 		Lifecycle lifecycle = new Lifecycle();

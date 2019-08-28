@@ -438,15 +438,20 @@ public class VirtualMachineImpl {
 
 	public boolean deleteVM(String name, DeleteVM deleteVM, String eventId) throws Exception {
 		VirtualMachine kind = get(name);
+		
+		if (kind == null) {
+			return true;
+		}
+		
+		if (kind.getSpec().getLifecycle() != null) {
+			delete(kind);
+			return true;
+		}
+		
 		Map<String, String> labels = kind.getMetadata().getLabels();
 		labels = (labels == null) ? new HashMap<String, String>() : labels;
 		labels.put("eventId", eventId);
 		kind.getMetadata().setLabels(labels);
-		
-		if (kind == null || kind.getSpec().getLifecycle() != null) {
-			delete(kind);
-			return true;
-		}
 		
 		VirtualMachineSpec spec = kind.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
@@ -916,7 +921,11 @@ public class VirtualMachineImpl {
 
 	public boolean deleteVM(String name, DeleteVM deleteVM) throws Exception {
 		VirtualMachine kind = get(name);
-		if (kind == null || kind.getSpec().getDomain() == null) {
+		if (kind == null) {
+			return true;
+		}
+		
+		if (kind.getSpec().getDomain() == null) {
 			delete(kind);
 			return true;
 		}

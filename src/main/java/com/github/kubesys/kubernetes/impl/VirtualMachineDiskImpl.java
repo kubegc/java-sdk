@@ -238,7 +238,12 @@ public class VirtualMachineDiskImpl {
 
 	public boolean deleteDisk(String name, DeleteDisk deleteDisk) throws Exception {
 		VirtualMachineDisk kind = get(name);
-		if (kind == null || kind.getSpec().getLifecycle() != null) {
+		
+		if (kind == null) {
+			return true;
+		}
+		
+		if (kind.getSpec().getLifecycle() != null) {
 			delete(kind);
 			return true;
 		}
@@ -310,15 +315,20 @@ public class VirtualMachineDiskImpl {
 
 	public boolean deleteDisk(String name, DeleteDisk deleteDisk, String eventId) throws Exception {
 		VirtualMachineDisk kind = get(name);
+		
+		if (kind == null) {
+			return true;
+		}
+		
+		if (kind.getSpec().getLifecycle() != null) {
+			delete(kind);
+			return true;
+		}
+		
 		Map<String, String> labels = kind.getMetadata().getLabels();
 		labels = (labels == null) ? new HashMap<String, String>() : labels;
 		labels.put("eventId", eventId);
 		kind.getMetadata().setLabels(labels);
-		
-		if (kind == null || kind.getSpec().getLifecycle() != null) {
-			delete(kind);
-		}
-		
 		VirtualMachineDiskSpec spec = kind.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
 		lifecycle.setDeleteDisk(deleteDisk);
