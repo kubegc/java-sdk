@@ -236,6 +236,7 @@ public class VirtualMachinePoolImpl {
 		VirtualMachinePool kind = get(name);
 		if (kind == null || kind.getSpec().getLifecycle() != null) {
 			delete(kind);
+			return true;
 		}
 		VirtualMachinePoolSpec spec = kind.getSpec();
 		Lifecycle lifecycle = new Lifecycle();

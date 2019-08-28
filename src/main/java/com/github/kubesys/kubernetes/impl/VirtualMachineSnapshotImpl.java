@@ -238,6 +238,7 @@ public class VirtualMachineSnapshotImpl {
 		VirtualMachineSnapshot kind = get(name);
 		if (kind == null || kind.getSpec().getLifecycle() != null) {
 			delete(kind);
+			return true;
 		}
 		VirtualMachineSnapshotSpec spec = kind.getSpec();
 		Lifecycle lifecycle = new Lifecycle();

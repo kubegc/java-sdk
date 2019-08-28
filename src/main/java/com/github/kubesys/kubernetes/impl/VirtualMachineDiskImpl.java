@@ -240,6 +240,7 @@ public class VirtualMachineDiskImpl {
 		VirtualMachineDisk kind = get(name);
 		if (kind == null || kind.getSpec().getLifecycle() != null) {
 			delete(kind);
+			return true;
 		}
 		VirtualMachineDiskSpec spec = kind.getSpec();
 		Lifecycle lifecycle = new Lifecycle();

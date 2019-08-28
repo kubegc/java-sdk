@@ -249,6 +249,7 @@ public class VirtualMachineImageImpl {
 		VirtualMachineImage kind = get(name);
 		if (kind == null || kind.getSpec().getLifecycle() != null) {
 			delete(kind);
+			return true;
 		}
 		VirtualMachineImageSpec spec = kind.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
