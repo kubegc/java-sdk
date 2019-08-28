@@ -28,6 +28,7 @@ public class ManageISOTest {
 		ManageISO iso = new ManageISO();
 		iso.setPath("/opt/ISO/CentOS-7-x86_64-Minimal-1511.iso");
 		iso.setEject(true);
+//		iso.setInsert(true);
 		iso.setForce(true);
 //		iso.setLive(true);
 		iso.setConfig(true);

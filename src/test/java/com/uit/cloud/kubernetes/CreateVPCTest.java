@@ -20,7 +20,7 @@ public class CreateVPCTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineNetworks()
-				.createSwitch("sw11", "node30", get());
+				.createSwitch("sw12", "node30", get());
 		System.out.println(successful);
 	}
 

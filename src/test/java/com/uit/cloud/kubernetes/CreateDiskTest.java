@@ -20,7 +20,7 @@ public class CreateDiskTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineDisks()
-				.createDisk("test11", "node30", get());
+				.createDisk("test11", "node30", get(), "abc");
 		System.out.println(successful);
 	}
 

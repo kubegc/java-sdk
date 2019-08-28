@@ -158,7 +158,7 @@ public class VirtualMachineNetworkImpl {
 
 	public String getEventId(String name) {
 		VirtualMachineNetwork vmn = get(name);
-		return vmn.getMetadata().getLabels().get("eventid");
+		return vmn.getMetadata().getLabels().get("eventId");
 	}
 	
 	/**
@@ -223,9 +223,9 @@ public class VirtualMachineNetworkImpl {
 		return createSwitch(name, null, createSwitch, null);
 	}
 	
-	public boolean createSwitch(String name, CreateSwitch createSwitch, String eventid)
+	public boolean createSwitch(String name, CreateSwitch createSwitch, String eventId)
 			throws Exception {
-		return createSwitch(name, null, createSwitch, eventid);
+		return createSwitch(name, null, createSwitch, eventId);
 	}
 	
 	public boolean createSwitch(String name, String nodeName, CreateSwitch createSwitch)
@@ -234,7 +234,7 @@ public class VirtualMachineNetworkImpl {
 	}
 
 	public boolean createSwitch(String name, String nodeName,
-			CreateSwitch createSwitch, String eventid) throws Exception {
+			CreateSwitch createSwitch, String eventId) throws Exception {
 		VirtualMachineNetwork kind = new VirtualMachineNetwork();
 		kind.setApiVersion("cloudplus.io/v1alpha3");
 		kind.setKind("VirtualMachineNetwork");
@@ -242,7 +242,7 @@ public class VirtualMachineNetworkImpl {
 		ObjectMeta om = new ObjectMeta();
 		Map<String, String> labels = new HashMap<String, String>();
 		labels.put("type", "normal");
-		labels.put("eventid", eventid);
+		labels.put("eventId", eventId);
 		if (nodeName != null) {
 			labels.put("host", nodeName);
 			spec.setNodeName(nodeName);
@@ -258,11 +258,11 @@ public class VirtualMachineNetworkImpl {
 		return true;
 	}
 
-	public boolean deleteSwitch(String name, DeleteSwitch deleteSwitch, String eventid) throws Exception {
+	public boolean deleteSwitch(String name, DeleteSwitch deleteSwitch, String eventId) throws Exception {
 		VirtualMachineNetwork kind = get(name);
 		Map<String, String> labels = kind.getMetadata().getLabels();
 		labels = (labels == null) ? new HashMap<String, String>() : labels;
-		labels.put("eventid", eventid);
+		labels.put("eventId", eventId);
 		kind.getMetadata().setLabels(labels);
 		
 		if (kind == null || kind.getSpec().getLifecycle() != null) {

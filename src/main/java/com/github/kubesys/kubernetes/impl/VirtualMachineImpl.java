@@ -196,7 +196,7 @@ public class VirtualMachineImpl {
 
 	public String getEventId(String name) {
 		VirtualMachine vm = get(name);
-		return vm.getMetadata().getLabels().get("eventid");
+		return vm.getMetadata().getLabels().get("eventId");
 	}
 	
 	/**
@@ -294,13 +294,13 @@ public class VirtualMachineImpl {
 	 **************************************************/
 	// -----------------------------------------------------------------
 
-	public boolean createAndStartVMFromISO(String name, CreateAndStartVMFromISO createAndStartVMFromISO, String eventid)
+	public boolean createAndStartVMFromISO(String name, CreateAndStartVMFromISO createAndStartVMFromISO, String eventId)
 			throws Exception {
-		return createAndStartVMFromISO(name, null, createAndStartVMFromISO, eventid);
+		return createAndStartVMFromISO(name, null, createAndStartVMFromISO, eventId);
 	}
 
 	public boolean createAndStartVMFromISO(String name, String nodeName,
-			CreateAndStartVMFromISO createAndStartVMFromISO, String eventid) throws Exception {
+			CreateAndStartVMFromISO createAndStartVMFromISO, String eventId) throws Exception {
 		if (!pattern.matcher(name).matches()) {
 			throw new RuntimeException("Invalid name.");
 		}
@@ -311,7 +311,7 @@ public class VirtualMachineImpl {
 		ObjectMeta om = new ObjectMeta();
 		Map<String, String> labels = new HashMap<String, String>();
 		labels.put("type", "normal");
-		labels.put("eventid", eventid);
+		labels.put("eventId", eventId);
 		if (nodeName != null) {
 			labels.put("host", nodeName);
 			spec.setNodeName(nodeName);
@@ -327,13 +327,13 @@ public class VirtualMachineImpl {
 		return true;
 	}
 
-	public boolean createAndStartVMFromImage(String name, CreateAndStartVMFromImage createAndStartVMFromImage, String eventid)
+	public boolean createAndStartVMFromImage(String name, CreateAndStartVMFromImage createAndStartVMFromImage, String eventId)
 			throws Exception {
 		return createAndStartVMFromImage(name, null, createAndStartVMFromImage);
 	}
 
 	public boolean createAndStartVMFromImage(String name, String nodeName,
-			CreateAndStartVMFromImage createAndStartVMFromImage, String eventid) throws Exception {
+			CreateAndStartVMFromImage createAndStartVMFromImage, String eventId) throws Exception {
 		if (!pattern.matcher(name).matches()) {
 			throw new RuntimeException("Invalid name.");
 		}
@@ -345,7 +345,7 @@ public class VirtualMachineImpl {
 		om.setName(name);
 		Map<String, String> labels = new HashMap<String, String>();
 		labels.put("type", "normal");
-		labels.put("eventid", eventid);
+		labels.put("eventId", eventId);
 		if (nodeName != null) {
 			labels.put("host", nodeName);
 			spec.setNodeName(nodeName);
@@ -360,14 +360,14 @@ public class VirtualMachineImpl {
 		return true;
 	}
 
-	public boolean convertVMToImage(String name, ConvertVMToImage convertVMToImage, String eventid) throws Exception {
+	public boolean convertVMToImage(String name, ConvertVMToImage convertVMToImage, String eventId) throws Exception {
 		VirtualMachine kind = get(name);
 		if (kind == null || kind.getSpec().getLifecycle() != null) {
 			throw new RuntimeException("VirtualMachine" + name + " is not exist or it is in a wrong status");
 		}
 		Map<String, String> labels = kind.getMetadata().getLabels();
 		labels = (labels == null) ? new HashMap<String, String>() : labels;
-		labels.put("eventid", eventid);
+		labels.put("eventId", eventId);
 		kind.getMetadata().setLabels(labels);
 		
 		VirtualMachineSpec spec = kind.getSpec();
@@ -379,14 +379,14 @@ public class VirtualMachineImpl {
 		return true;
 	}
 
-	public boolean startVM(String name, StartVM startVM, String eventid) throws Exception {
+	public boolean startVM(String name, StartVM startVM, String eventId) throws Exception {
 		VirtualMachine kind = get(name);
 		if (kind == null || kind.getSpec().getLifecycle() != null) {
 			throw new RuntimeException("VirtualMachine" + name + " is not exist or it is in a wrong status");
 		}
 		Map<String, String> labels = kind.getMetadata().getLabels();
 		labels = (labels == null) ? new HashMap<String, String>() : labels;
-		labels.put("eventid", eventid);
+		labels.put("eventId", eventId);
 		kind.getMetadata().setLabels(labels);
 		
 		VirtualMachineSpec spec = kind.getSpec();
@@ -398,14 +398,14 @@ public class VirtualMachineImpl {
 		return true;
 	}
 
-	public boolean stopVM(String name, StopVM stopVM, String eventid) throws Exception {
+	public boolean stopVM(String name, StopVM stopVM, String eventId) throws Exception {
 		VirtualMachine kind = get(name);
 		if (kind == null || kind.getSpec().getLifecycle() != null) {
 			throw new RuntimeException("VirtualMachine" + name + " is not exist or it is in a wrong status");
 		}
 		Map<String, String> labels = kind.getMetadata().getLabels();
 		labels = (labels == null) ? new HashMap<String, String>() : labels;
-		labels.put("eventid", eventid);
+		labels.put("eventId", eventId);
 		kind.getMetadata().setLabels(labels);
 		
 		VirtualMachineSpec spec = kind.getSpec();
@@ -417,14 +417,14 @@ public class VirtualMachineImpl {
 		return true;
 	}
 
-	public boolean stopVMForce(String name, StopVMForce stopVMForce, String eventid) throws Exception {
+	public boolean stopVMForce(String name, StopVMForce stopVMForce, String eventId) throws Exception {
 		VirtualMachine kind = get(name);
 		if (kind == null) {
 			throw new RuntimeException("VirtualMachine" + name + " is not exist or it is in a wrong status");
 		}
 		Map<String, String> labels = kind.getMetadata().getLabels();
 		labels = (labels == null) ? new HashMap<String, String>() : labels;
-		labels.put("eventid", eventid);
+		labels.put("eventId", eventId);
 		kind.getMetadata().setLabels(labels);
 		
 		VirtualMachineSpec spec = kind.getSpec();
@@ -436,11 +436,11 @@ public class VirtualMachineImpl {
 		return true;
 	}
 
-	public boolean deleteVM(String name, DeleteVM deleteVM, String eventid) throws Exception {
+	public boolean deleteVM(String name, DeleteVM deleteVM, String eventId) throws Exception {
 		VirtualMachine kind = get(name);
 		Map<String, String> labels = kind.getMetadata().getLabels();
 		labels = (labels == null) ? new HashMap<String, String>() : labels;
-		labels.put("eventid", eventid);
+		labels.put("eventId", eventId);
 		kind.getMetadata().setLabels(labels);
 		
 		if (kind == null || kind.getSpec().getLifecycle() != null) {
@@ -458,28 +458,28 @@ public class VirtualMachineImpl {
 		return true;
 	}
 
-	public boolean temporaryDeleteVM(String name, DeleteVM deleteVM, String eventid) throws Exception {
+	public boolean temporaryDeleteVM(String name, DeleteVM deleteVM, String eventId) throws Exception {
 		VirtualMachine kind = get(name);
 		if (kind == null) {
 			throw new RuntimeException("VirtualMachine" + name + " is not exist or it is in a wrong status");
 		}
 		Map<String, String> labels = kind.getMetadata().getLabels();
 		labels = (labels == null) ? new HashMap<String, String>() : labels;
-		labels.put("eventid", eventid);
+		labels.put("eventId", eventId);
 		kind.getMetadata().setLabels(labels);
 		kind.getMetadata().getLabels().put("type", "deleted");
 		update(kind);
 		return stopVM(name, new StopVM());
 	}
 
-	public boolean rebootVM(String name, RebootVM rebootVM, String eventid) throws Exception {
+	public boolean rebootVM(String name, RebootVM rebootVM, String eventId) throws Exception {
 		VirtualMachine kind = get(name);
 		if (kind == null || kind.getSpec().getLifecycle() != null) {
 			throw new RuntimeException("VirtualMachine" + name + " is not exist or it is in a wrong status");
 		}
 		Map<String, String> labels = kind.getMetadata().getLabels();
 		labels = (labels == null) ? new HashMap<String, String>() : labels;
-		labels.put("eventid", eventid);
+		labels.put("eventId", eventId);
 		kind.getMetadata().setLabels(labels);
 		VirtualMachineSpec spec = kind.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
@@ -490,14 +490,14 @@ public class VirtualMachineImpl {
 		return true;
 	}
 
-	public boolean resetVM(String name, ResetVM resetVM, String eventid) throws Exception {
+	public boolean resetVM(String name, ResetVM resetVM, String eventId) throws Exception {
 		VirtualMachine kind = get(name);
 		if (kind == null || kind.getSpec().getLifecycle() != null) {
 			throw new RuntimeException("VirtualMachine" + name + " is not exist or it is in a wrong status");
 		}
 		Map<String, String> labels = kind.getMetadata().getLabels();
 		labels = (labels == null) ? new HashMap<String, String>() : labels;
-		labels.put("eventid", eventid);
+		labels.put("eventId", eventId);
 		kind.getMetadata().setLabels(labels);
 		
 		VirtualMachineSpec spec = kind.getSpec();
@@ -509,14 +509,14 @@ public class VirtualMachineImpl {
 		return true;
 	}
 
-	public boolean resumeVM(String name, ResumeVM resumeVM, String eventid) throws Exception {
+	public boolean resumeVM(String name, ResumeVM resumeVM, String eventId) throws Exception {
 		VirtualMachine kind = get(name);
 		if (kind == null || kind.getSpec().getLifecycle() != null) {
 			throw new RuntimeException("VirtualMachine" + name + " is not exist or it is in a wrong status");
 		}
 		Map<String, String> labels = kind.getMetadata().getLabels();
 		labels = (labels == null) ? new HashMap<String, String>() : labels;
-		labels.put("eventid", eventid);
+		labels.put("eventId", eventId);
 		kind.getMetadata().setLabels(labels);
 		
 		VirtualMachineSpec spec = kind.getSpec();
@@ -528,14 +528,14 @@ public class VirtualMachineImpl {
 		return true;
 	}
 
-	public boolean suspendVM(String name, SuspendVM suspendVM, String eventid) throws Exception {
+	public boolean suspendVM(String name, SuspendVM suspendVM, String eventId) throws Exception {
 		VirtualMachine kind = get(name);
 		if (kind == null || kind.getSpec().getLifecycle() != null) {
 			throw new RuntimeException("VirtualMachine" + name + " is not exist or it is in a wrong status");
 		}
 		Map<String, String> labels = kind.getMetadata().getLabels();
 		labels = (labels == null) ? new HashMap<String, String>() : labels;
-		labels.put("eventid", eventid);
+		labels.put("eventId", eventId);
 		kind.getMetadata().setLabels(labels);
 		
 		VirtualMachineSpec spec = kind.getSpec();
@@ -547,14 +547,14 @@ public class VirtualMachineImpl {
 		return true;
 	}
 
-	public boolean saveVM(String name, SaveVM saveVM, String eventid) throws Exception {
+	public boolean saveVM(String name, SaveVM saveVM, String eventId) throws Exception {
 		VirtualMachine kind = get(name);
 		if (kind == null || kind.getSpec().getLifecycle() != null) {
 			throw new RuntimeException("VirtualMachine" + name + " is not exist or it is in a wrong status");
 		}
 		Map<String, String> labels = kind.getMetadata().getLabels();
 		labels = (labels == null) ? new HashMap<String, String>() : labels;
-		labels.put("eventid", eventid);
+		labels.put("eventId", eventId);
 		kind.getMetadata().setLabels(labels);
 		
 		VirtualMachineSpec spec = kind.getSpec();
@@ -566,14 +566,14 @@ public class VirtualMachineImpl {
 		return true;
 	}
 
-	public boolean restoreVM(String name, RestoreVM restoreVM, String eventid) throws Exception {
+	public boolean restoreVM(String name, RestoreVM restoreVM, String eventId) throws Exception {
 		VirtualMachine kind = get(name);
 		if (kind == null || kind.getSpec().getLifecycle() != null) {
 			throw new RuntimeException("VirtualMachine" + name + " is not exist or it is in a wrong status");
 		}
 		Map<String, String> labels = kind.getMetadata().getLabels();
 		labels = (labels == null) ? new HashMap<String, String>() : labels;
-		labels.put("eventid", eventid);
+		labels.put("eventId", eventId);
 		kind.getMetadata().setLabels(labels);
 		
 		VirtualMachineSpec spec = kind.getSpec();
@@ -585,14 +585,14 @@ public class VirtualMachineImpl {
 		return true;
 	}
 
-	public boolean migrateVM(String name, MigrateVM migrateVM, String eventid) throws Exception {
+	public boolean migrateVM(String name, MigrateVM migrateVM, String eventId) throws Exception {
 		VirtualMachine kind = get(name);
 		if (kind == null || kind.getSpec().getLifecycle() != null) {
 			throw new RuntimeException("VirtualMachine" + name + " is not exist or it is in a wrong status");
 		}
 		Map<String, String> labels = kind.getMetadata().getLabels();
 		labels = (labels == null) ? new HashMap<String, String>() : labels;
-		labels.put("eventid", eventid);
+		labels.put("eventId", eventId);
 		kind.getMetadata().setLabels(labels);
 		
 		VirtualMachineSpec spec = kind.getSpec();
@@ -604,14 +604,14 @@ public class VirtualMachineImpl {
 		return true;
 	}
 
-	public boolean manageISO(String name, ManageISO manageISO, String eventid) throws Exception {
+	public boolean manageISO(String name, ManageISO manageISO, String eventId) throws Exception {
 		VirtualMachine kind = get(name);
 		if (kind == null || kind.getSpec().getLifecycle() != null) {
 			throw new RuntimeException("VirtualMachine" + name + " is not exist or it is in a wrong status");
 		}
 		Map<String, String> labels = kind.getMetadata().getLabels();
 		labels = (labels == null) ? new HashMap<String, String>() : labels;
-		labels.put("eventid", eventid);
+		labels.put("eventId", eventId);
 		kind.getMetadata().setLabels(labels);
 		
 		VirtualMachineSpec spec = kind.getSpec();
@@ -623,14 +623,14 @@ public class VirtualMachineImpl {
 		return true;
 	}
 
-	public boolean updateOS(String name, UpdateOS updateOS, String eventid) throws Exception {
+	public boolean updateOS(String name, UpdateOS updateOS, String eventId) throws Exception {
 		VirtualMachine kind = get(name);
 		if (kind == null || kind.getSpec().getLifecycle() != null) {
 			throw new RuntimeException("VirtualMachine" + name + " is not exist or it is in a wrong status");
 		}
 		Map<String, String> labels = kind.getMetadata().getLabels();
 		labels = (labels == null) ? new HashMap<String, String>() : labels;
-		labels.put("eventid", eventid);
+		labels.put("eventId", eventId);
 		kind.getMetadata().setLabels(labels);
 		
 		VirtualMachineSpec spec = kind.getSpec();
@@ -642,14 +642,14 @@ public class VirtualMachineImpl {
 		return true;
 	}
 
-	public boolean plugDevice(String name, PlugDevice plugDevice, String eventid) throws Exception {
+	public boolean plugDevice(String name, PlugDevice plugDevice, String eventId) throws Exception {
 		VirtualMachine kind = get(name);
 		if (kind == null || kind.getSpec().getLifecycle() != null) {
 			throw new RuntimeException("VirtualMachine" + name + " is not exist or it is in a wrong status");
 		}
 		Map<String, String> labels = kind.getMetadata().getLabels();
 		labels = (labels == null) ? new HashMap<String, String>() : labels;
-		labels.put("eventid", eventid);
+		labels.put("eventId", eventId);
 		kind.getMetadata().setLabels(labels);
 		
 		VirtualMachineSpec spec = kind.getSpec();
@@ -661,14 +661,14 @@ public class VirtualMachineImpl {
 		return true;
 	}
 
-	public boolean unplugDevice(String name, UnplugDevice unplugDevice, String eventid) throws Exception {
+	public boolean unplugDevice(String name, UnplugDevice unplugDevice, String eventId) throws Exception {
 		VirtualMachine kind = get(name);
 		if (kind == null || kind.getSpec().getLifecycle() != null) {
 			throw new RuntimeException("VirtualMachine" + name + " is not exist or it is in a wrong status");
 		}
 		Map<String, String> labels = kind.getMetadata().getLabels();
 		labels = (labels == null) ? new HashMap<String, String>() : labels;
-		labels.put("eventid", eventid);
+		labels.put("eventId", eventId);
 		kind.getMetadata().setLabels(labels);
 		
 		VirtualMachineSpec spec = kind.getSpec();
@@ -680,14 +680,14 @@ public class VirtualMachineImpl {
 		return true;
 	}
 
-	public boolean plugDisk(String name, PlugDisk plugDisk, String eventid) throws Exception {
+	public boolean plugDisk(String name, PlugDisk plugDisk, String eventId) throws Exception {
 		VirtualMachine kind = get(name);
 		if (kind == null || kind.getSpec().getLifecycle() != null) {
 			throw new RuntimeException("VirtualMachine" + name + " is not exist or it is in a wrong status");
 		}
 		Map<String, String> labels = kind.getMetadata().getLabels();
 		labels = (labels == null) ? new HashMap<String, String>() : labels;
-		labels.put("eventid", eventid);
+		labels.put("eventId", eventId);
 		kind.getMetadata().setLabels(labels);
 		
 		VirtualMachineSpec spec = kind.getSpec();
@@ -699,14 +699,14 @@ public class VirtualMachineImpl {
 		return true;
 	}
 
-	public boolean unplugDisk(String name, UnplugDisk unplugDisk, String eventid) throws Exception {
+	public boolean unplugDisk(String name, UnplugDisk unplugDisk, String eventId) throws Exception {
 		VirtualMachine kind = get(name);
 		if (kind == null || kind.getSpec().getLifecycle() != null) {
 			throw new RuntimeException("VirtualMachine" + name + " is not exist or it is in a wrong status");
 		}
 		Map<String, String> labels = kind.getMetadata().getLabels();
 		labels = (labels == null) ? new HashMap<String, String>() : labels;
-		labels.put("eventid", eventid);
+		labels.put("eventId", eventId);
 		kind.getMetadata().setLabels(labels);
 		
 		VirtualMachineSpec spec = kind.getSpec();
@@ -718,14 +718,14 @@ public class VirtualMachineImpl {
 		return true;
 	}
 
-	public boolean plugNIC(String name, PlugNIC plugNIC, String eventid) throws Exception {
+	public boolean plugNIC(String name, PlugNIC plugNIC, String eventId) throws Exception {
 		VirtualMachine kind = get(name);
 		if (kind == null || kind.getSpec().getLifecycle() != null) {
 			throw new RuntimeException("VirtualMachine" + name + " is not exist or it is in a wrong status");
 		}
 		Map<String, String> labels = kind.getMetadata().getLabels();
 		labels = (labels == null) ? new HashMap<String, String>() : labels;
-		labels.put("eventid", eventid);
+		labels.put("eventId", eventId);
 		kind.getMetadata().setLabels(labels);
 		VirtualMachineSpec spec = kind.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
@@ -736,14 +736,14 @@ public class VirtualMachineImpl {
 		return true;
 	}
 
-	public boolean unplugNIC(String name, UnplugNIC unplugNIC, String eventid) throws Exception {
+	public boolean unplugNIC(String name, UnplugNIC unplugNIC, String eventId) throws Exception {
 		VirtualMachine kind = get(name);
 		if (kind == null || kind.getSpec().getLifecycle() != null) {
 			throw new RuntimeException("VirtualMachine" + name + " is not exist or it is in a wrong status");
 		}
 		Map<String, String> labels = kind.getMetadata().getLabels();
 		labels = (labels == null) ? new HashMap<String, String>() : labels;
-		labels.put("eventid", eventid);
+		labels.put("eventId", eventId);
 		kind.getMetadata().setLabels(labels);
 		
 		VirtualMachineSpec spec = kind.getSpec();
@@ -755,14 +755,14 @@ public class VirtualMachineImpl {
 		return true;
 	}
 
-	public boolean changeNumberOfCPU(String name, ChangeNumberOfCPU changeNumberOfCPU, String eventid) throws Exception {
+	public boolean changeNumberOfCPU(String name, ChangeNumberOfCPU changeNumberOfCPU, String eventId) throws Exception {
 		VirtualMachine kind = get(name);
 		if (kind == null || kind.getSpec().getLifecycle() != null) {
 			throw new RuntimeException("VirtualMachine" + name + " is not exist or it is in a wrong status");
 		}
 		Map<String, String> labels = kind.getMetadata().getLabels();
 		labels = (labels == null) ? new HashMap<String, String>() : labels;
-		labels.put("eventid", eventid);
+		labels.put("eventId", eventId);
 		kind.getMetadata().setLabels(labels);
 		
 		VirtualMachineSpec spec = kind.getSpec();
@@ -774,14 +774,14 @@ public class VirtualMachineImpl {
 		return true;
 	}
 
-	public boolean resizeRAM(String name, ResizeRAM resizeRAM, String eventid) throws Exception {
+	public boolean resizeRAM(String name, ResizeRAM resizeRAM, String eventId) throws Exception {
 		VirtualMachine kind = get(name);
 		if (kind == null || kind.getSpec().getLifecycle() != null) {
 			throw new RuntimeException("VirtualMachine" + name + " is not exist or it is in a wrong status");
 		}
 		Map<String, String> labels = kind.getMetadata().getLabels();
 		labels = (labels == null) ? new HashMap<String, String>() : labels;
-		labels.put("eventid", eventid);
+		labels.put("eventId", eventId);
 		kind.getMetadata().setLabels(labels);
 		
 		VirtualMachineSpec spec = kind.getSpec();

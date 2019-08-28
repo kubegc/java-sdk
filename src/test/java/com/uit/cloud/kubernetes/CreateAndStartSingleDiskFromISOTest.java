@@ -21,7 +21,7 @@ public class CreateAndStartSingleDiskFromISOTest {
 		CreateAndStartVMFromISO createAndStartVMFromISO = get();
 		// name
 		boolean successful = client.virtualMachines()
-				.createAndStartVMFromISO("950646e8c17a49d0b83c1c797811e055", "node30", createAndStartVMFromISO, "123");
+				.createAndStartVMFromISO("950646e8c17a49d0b83c1c797811e055", "vm.node31", createAndStartVMFromISO, "123");
 		System.out.println(successful);
 	}
 	
@@ -96,7 +96,7 @@ public class CreateAndStartSingleDiskFromISOTest {
 		 * 		switch name
 		 */
 		
-		createAndStartVMFromISO.setNetwork("type=l3bridge,source=br-int,inbound=102400,outbound=102400,ip=192.168.4.9,switch=ls1");  
+		createAndStartVMFromISO.setNetwork("type=l3bridge,source=br-int,inbound=102400,outbound=102400,ip=192.168.4.9,switch=switch");  
 		
 		// consoleMode amd passowrd
 		createAndStartVMFromISO.setGraphics("vnc,listen=0.0.0.0" + getconsolePassword("123456"));
