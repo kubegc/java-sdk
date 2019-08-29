@@ -42,22 +42,6 @@ public class CreateAndStartSingleDiskFromISOTest {
 		// path /var/lib/libvirt/images/test11 can be get by CreateDiskTest
 		createAndStartVMFromISO.setDisk("/var/lib/libvirt/images/test11,read_bytes_sec=1024000000,write_bytes_sec=1024000000");
 		createAndStartVMFromISO.setCdrom("/opt/ISO/CentOS-7-x86_64-Minimal-1511.iso");
-		/*
-		 * libvirt bridge network
-		 * Parameters:
-		 * 	type
-		 * 		type of network support values: "bridge", "l2bridge" and "l3bridge"
-		 * 	source
-		 * 		network source name
-		 * 	inbound (optional)
-		 * 		inbound bandwidth in KB
-		 * 	outbound (optional)
-		 * 		outbound bandwidth in KB
-		 * 	mac (optional)
-		 * 		if no mac, create a random mac
-		 * 		Note! Mac address is unique and does not support a value that start with "fe:" (e.g. fe:54:00:05:37:b3)
-		 */
-//		createAndStartVMFromISO.setNetwork("type=bridge,source=virbr0,inbound=102400,outbound=102400"); 
 		
 		/*
 		 * l2 network example
