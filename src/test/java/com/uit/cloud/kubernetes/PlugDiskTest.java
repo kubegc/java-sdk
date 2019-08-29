@@ -20,13 +20,13 @@ public class PlugDiskTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.plugDisk("magic1", getPlugDisk());
+				.plugDisk("950646e8c17a49d0b83c1c797811e001", getPlugDisk());
 		System.out.println(successful);
 	}
 	
 	public static PlugDisk getPlugDisk() {
 		PlugDisk plugDisk = new PlugDisk();
-		plugDisk.setSource("/pool/test/disk1");
+		plugDisk.setSource("/var/lib/libvirt/images/newdiskabc");
 		plugDisk.setTarget("vdb");
 		plugDisk.setLive(true);
 		plugDisk.setConfig(true);
