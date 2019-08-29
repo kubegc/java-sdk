@@ -8,7 +8,6 @@ import java.util.Map;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-import io.fabric8.kubernetes.api.model.NodeSelector;
 import io.fabric8.kubernetes.api.model.Status;
 import io.fabric8.kubernetes.api.model.apiextensions.CustomResourceDefinitionSpec;
 
@@ -49,7 +48,7 @@ public abstract class ExtendedCustomResourceDefinitionSpec extends CustomResourc
 	/**
 	 * advanced scheduling policy based on node selector
 	 */
-	protected NodeSelector nodeSelector;
+	protected Map<String, String> nodeSelector;
 	
 	/**
 	 * CRD status
@@ -104,19 +103,18 @@ public abstract class ExtendedCustomResourceDefinitionSpec extends CustomResourc
 		this.nodeName = nodeName;
 	}
 
+
 	/**
-	 * @return                       node selector
+	 * @return                      node selector
 	 */
-	public NodeSelector getNodeSelector() {
+	public Map<String, String> getNodeSelector() {
 		return nodeSelector;
 	}
 
 	/**
-	 * set node selector
-	 * 
 	 * @param nodeSelector          node selector
 	 */
-	public void setNodeSelector(NodeSelector nodeSelector) {
+	public void setNodeSelector(Map<String, String> nodeSelector) {
 		this.nodeSelector = nodeSelector;
 	}
 
