@@ -9,7 +9,6 @@ import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Data;
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle;
 
 import io.fabric8.kubernetes.api.model.KubernetesResource;
-import io.fabric8.kubernetes.api.model.Status;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -33,18 +32,8 @@ public class VirtualMachineNetworkSpec extends ExtendedCustomResourceDefinitionS
 	
 	protected Lifecycle lifecycle;
 	
-	protected Status status;
-	
 	public VirtualMachineNetworkSpec() {
 
-	}
-
-	public Status getStatus() {
-		return status;
-	}
-
-	public void setStatus(Status status) {
-		this.status = status;
 	}
 
 	public String getType() {
