@@ -243,7 +243,7 @@ public class UITPoolImpl {
 		spec.setLifecycle(lifecycle);
 		kind.setSpec(spec);
 		update(kind);
-		delete(kind);
+//		delete(kind);
 		return true;
 	}
 
@@ -292,7 +292,7 @@ public class UITPoolImpl {
 		spec.setLifecycle(lifecycle);
 		kind.setSpec(spec);
 		update(kind);
-		delete(kind);
+//		delete(kind);
 		return true;
 	}
 

@@ -246,7 +246,7 @@ public class UITSnapshotImpl {
 		spec.setLifecycle(lifecycle);
 		kind.setSpec(spec);
 		update(kind);
-		delete(kind);
+//		delete(kind);
 		return true;
 	}
 	
@@ -296,7 +296,7 @@ public class UITSnapshotImpl {
 		spec.setLifecycle(lifecycle);
 		kind.setSpec(spec);
 		update(kind);
-		delete(kind);
+//		delete(kind);
 		return true;
 	}
 	

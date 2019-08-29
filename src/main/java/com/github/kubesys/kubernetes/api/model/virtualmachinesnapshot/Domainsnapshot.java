@@ -4,6 +4,7 @@
 package com.github.kubesys.kubernetes.api.model.virtualmachinesnapshot;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -18,6 +19,8 @@ import com.github.kubesys.kubernetes.api.model.virtualmachine.Domain.Name;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 public class Domainsnapshot {
+	
+	protected Cookie cookie;
 
 	protected Parent parent;
 
@@ -39,6 +42,14 @@ public class Domainsnapshot {
 
 	public Domainsnapshot() {
 
+	}
+	
+	public Cookie getCookie() {
+		return cookie;
+	}
+
+	public void setCookie(Cookie cookie) {
+		this.cookie = cookie;
 	}
 
 	/**
@@ -147,6 +158,127 @@ public class Domainsnapshot {
 
 	public State getState() {
 		return this.state;
+	}
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class Cookie {
+		protected Cpu cpu;
+
+		public Cpu getCpu() {
+			return cpu;
+		}
+
+		public void setCpu(Cpu cpu) {
+			this.cpu = cpu;
+		}
+		
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+		public static class Cpu {
+			
+			protected String _check;
+			
+			protected String _match;
+			
+			protected String _mode;
+			
+			protected List<Feature> feature;
+			
+			protected Model model;
+
+			public String get_check() {
+				return _check;
+			}
+
+			public void set_check(String _check) {
+				this._check = _check;
+			}
+
+			public String get_match() {
+				return _match;
+			}
+
+			public void set_match(String _match) {
+				this._match = _match;
+			}
+
+			public String get_mode() {
+				return _mode;
+			}
+
+			public void set_mode(String _mode) {
+				this._mode = _mode;
+			}
+
+			public List<Feature> getFeature() {
+				return feature;
+			}
+
+			public void setFeature(List<Feature> feature) {
+				this.feature = feature;
+			}
+
+			public Model getModel() {
+				return model;
+			}
+
+			public void setModel(Model model) {
+				this.model = model;
+			}
+			
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+			public static class Feature {
+				
+				protected String _name;
+				
+				protected String _policy;
+
+				public String get_name() {
+					return _name;
+				}
+
+				public void set_name(String _name) {
+					this._name = _name;
+				}
+
+				public String get_policy() {
+					return _policy;
+				}
+
+				public void set_policy(String _policy) {
+					this._policy = _policy;
+				}
+
+			}
+			
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+			public static class Model {
+				
+				protected String _fallback;
+				
+				protected String text;
+
+				public String get_fallback() {
+					return _fallback;
+				}
+
+				public void set_fallback(String _fallback) {
+					this._fallback = _fallback;
+				}
+
+				public String getText() {
+					return text;
+				}
+
+				public void setText(String text) {
+					this.text = text;
+				}
+				
+			}
+		}
 	}
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)

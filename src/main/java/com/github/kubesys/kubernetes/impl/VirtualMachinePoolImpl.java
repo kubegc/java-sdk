@@ -249,7 +249,7 @@ public class VirtualMachinePoolImpl {
 		spec.setLifecycle(lifecycle);
 		kind.setSpec(spec);
 		update(kind);
-		delete(kind);
+//		delete(kind);
 		return true;
 	}
 
@@ -304,7 +304,7 @@ public class VirtualMachinePoolImpl {
 		spec.setLifecycle(lifecycle);
 		kind.setSpec(spec);
 		update(kind);
-		delete(kind);
+//		delete(kind);
 		return true;
 	}
 

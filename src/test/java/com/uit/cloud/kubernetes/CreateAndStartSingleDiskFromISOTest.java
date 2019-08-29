@@ -21,7 +21,7 @@ public class CreateAndStartSingleDiskFromISOTest {
 		CreateAndStartVMFromISO createAndStartVMFromISO = get();
 		// name
 		boolean successful = client.virtualMachines()
-				.createAndStartVMFromISO("950646e8c17a49d0b83c1c797811e055", "vm.node31", createAndStartVMFromISO, "123");
+				.createAndStartVMFromISO("950646e8c17a49d0b83c1c797811e001", "vm.node30", createAndStartVMFromISO, "123");
 		System.out.println(successful);
 	}
 	
@@ -30,7 +30,7 @@ public class CreateAndStartSingleDiskFromISOTest {
 		
 		CreateAndStartVMFromISO createAndStartVMFromISO = new CreateAndStartVMFromISO();
 		// default value
-		createAndStartVMFromISO.setMetadata("uuid=950646e8-c17a-49d0-b83c-1c797811e055");
+		createAndStartVMFromISO.setMetadata("uuid=950646e8-c17a-49d0-b83c-1c797811e001");
 		createAndStartVMFromISO.setVirt_type("kvm"); 
 		createAndStartVMFromISO.setOs_variant("centos7.0");
 		createAndStartVMFromISO.setNoautoconsole(true); 
@@ -96,7 +96,7 @@ public class CreateAndStartSingleDiskFromISOTest {
 		 * 		switch name
 		 */
 		
-		createAndStartVMFromISO.setNetwork("type=l3bridge,source=br-int,inbound=102400,outbound=102400,ip=192.168.4.9,switch=switch");  
+		createAndStartVMFromISO.setNetwork("type=l3bridge,source=br-int,inbound=102400,outbound=102400,ip=192.168.5.9,switch=switch");  
 		
 		// consoleMode amd passowrd
 		createAndStartVMFromISO.setGraphics("vnc,listen=0.0.0.0" + getconsolePassword("123456"));

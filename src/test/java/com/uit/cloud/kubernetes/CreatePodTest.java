@@ -4,7 +4,7 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
-import com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle;
+import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CreateDisk;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -13,20 +13,24 @@ import com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle;
  * This code is used to manage CustomResource's lifecycle,
  * such as VirtualMachine
  */
-public class DeleteVMPoolTest {
+public class CreatePodTest {
 	
 	
 	public static void main(String[] args) throws Exception {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
-		boolean successful = client.virtualMachinePools()
-				.deletePool("poold", getPool());
+		boolean successful = client.virtualMachineDisks()
+				.createDisk("test2", "node30", get(), "abc");
 		System.out.println(successful);
 	}
 
-	protected static Lifecycle.DeletePool getPool() {
-		Lifecycle.DeletePool createPool = new Lifecycle.DeletePool();
-		return createPool;
+	protected static CreateDisk get() {
+		CreateDisk createDisk = new CreateDisk();
+		createDisk.setPool("default");
+		// bytes 10G
+		Long size = 10L*1024*1024*1024;
+		createDisk.setCapacity(String.valueOf(size));
+		createDisk.setFormat("qcow2");
+		return createDisk;
 	}
-	
 }
