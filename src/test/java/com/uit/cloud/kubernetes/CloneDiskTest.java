@@ -20,14 +20,14 @@ public class CloneDiskTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineDisks()
-				.cloneDisk("skywind11", getCreateDisk());
+				.cloneDisk("diskacopy", getCreateDisk());
 		System.out.println(successful);
 	}
 	
 	public static CloneDisk getCreateDisk() {
 		CloneDisk createDisk = new CloneDisk();
-		createDisk.setPool("volumes1");
-		createDisk.setVol("");
+		createDisk.setPool("poolb");
+		createDisk.setNewname("diskacopy1");
 		return createDisk;
 	}
 }

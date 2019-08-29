@@ -3,6 +3,7 @@
  */
 package com.github.kubesys.kubernetes;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,7 +25,9 @@ import com.github.kubesys.kubernetes.impl.VirtualMachineImpl;
 import com.github.kubesys.kubernetes.impl.VirtualMachineNetworkImpl;
 import com.github.kubesys.kubernetes.impl.VirtualMachinePoolImpl;
 import com.github.kubesys.kubernetes.impl.VirtualMachineSnapshotImpl;
+import com.github.kubesys.kubernetes.json.JSONImpl;
 
+import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.api.model.KubernetesResource;
 import io.fabric8.kubernetes.api.model.apiextensions.CustomResourceDefinition;
 import io.fabric8.kubernetes.client.Config;
@@ -34,6 +37,7 @@ import io.fabric8.kubernetes.client.CustomResourceList;
 import io.fabric8.kubernetes.client.DefaultKubernetesClient;
 import io.fabric8.kubernetes.client.Watcher;
 import io.fabric8.kubernetes.client.dsl.MixedOperation;
+import io.fabric8.kubernetes.client.dsl.ParameterNamespaceListVisitFromServerGetDeleteRecreateWaitApplicable;
 import io.fabric8.kubernetes.internal.KubernetesDeserializer;
 
 /**
@@ -86,6 +90,8 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 		initKube();
 	}
 
+	
+	
 	/**
 	 * extend Kubernetes to support custom resources
 	 */
@@ -268,4 +274,11 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 		return new NodeSelectorImpl(this);
 	}
 
+	public ParameterNamespaceListVisitFromServerGetDeleteRecreateWaitApplicable<HasMetadata, Boolean> load(String kind, InputStream is) {
+		try {
+			return new JSONImpl(this, kind, is);
+		} catch (Exception ex) {
+			return load(is);
+		}
+	}
 }

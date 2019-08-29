@@ -9,7 +9,6 @@ import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Volume;
 
 import io.fabric8.kubernetes.api.model.KubernetesResource;
-import io.fabric8.kubernetes.api.model.Status;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -31,8 +30,6 @@ public class VirtualMachineDiskSpec extends ExtendedCustomResourceDefinitionSpec
 
 	protected Lifecycle lifecycle;
 	
-	protected Status status;
-
 	public VirtualMachineDiskSpec() {
 
 	}
@@ -51,14 +48,6 @@ public class VirtualMachineDiskSpec extends ExtendedCustomResourceDefinitionSpec
 
 	public void setLifecycle(Lifecycle lifecycle) {
 		this.lifecycle = lifecycle;
-	}
-
-	public Status getStatus() {
-		return status;
-	}
-
-	public void setStatus(Status status) {
-		this.status = status;
 	}
 
 }

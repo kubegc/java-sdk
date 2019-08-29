@@ -9,7 +9,6 @@ import com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle;
 import com.github.kubesys.kubernetes.api.model.virtualmachinepool.Pool;
 
 import io.fabric8.kubernetes.api.model.KubernetesResource;
-import io.fabric8.kubernetes.api.model.Status;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -32,8 +31,6 @@ public class VirtualMachinePoolSpec extends ExtendedCustomResourceDefinitionSpec
 
 	protected Lifecycle lifecycle;
 	
-	protected Status status;
-	
 	public VirtualMachinePoolSpec() {
 
 	}
@@ -52,14 +49,6 @@ public class VirtualMachinePoolSpec extends ExtendedCustomResourceDefinitionSpec
 
 	public void setLifecycle(Lifecycle lifecycle) {
 		this.lifecycle = lifecycle;
-	}
-
-	public Status getStatus() {
-		return status;
-	}
-
-	public void setStatus(Status status) {
-		this.status = status;
 	}
 
 }

@@ -9,7 +9,6 @@ import com.github.kubesys.kubernetes.api.model.virtualmachine.Domain;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle;
 
 import io.fabric8.kubernetes.api.model.KubernetesResource;
-import io.fabric8.kubernetes.api.model.Status;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -32,8 +31,6 @@ public class VirtualMachineSpec extends ExtendedCustomResourceDefinitionSpec imp
 
 	protected Lifecycle lifecycle;
 	
-	protected Status status;
-	
 	public VirtualMachineSpec() {
 
 	}
@@ -52,14 +49,6 @@ public class VirtualMachineSpec extends ExtendedCustomResourceDefinitionSpec imp
 
 	public void setLifecycle(Lifecycle lifecycle) {
 		this.lifecycle = lifecycle;
-	}
-
-	public Status getStatus() {
-		return status;
-	}
-
-	public void setStatus(Status status) {
-		this.status = status;
 	}
 
 }

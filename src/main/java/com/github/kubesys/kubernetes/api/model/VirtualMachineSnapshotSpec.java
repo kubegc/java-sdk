@@ -9,7 +9,6 @@ import com.github.kubesys.kubernetes.api.model.virtualmachinesnapshot.Domainsnap
 import com.github.kubesys.kubernetes.api.model.virtualmachinesnapshot.Lifecycle;
 
 import io.fabric8.kubernetes.api.model.KubernetesResource;
-import io.fabric8.kubernetes.api.model.Status;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -28,10 +27,8 @@ public class VirtualMachineSnapshotSpec extends ExtendedCustomResourceDefinition
 	private static final long serialVersionUID = 1171174592223281364L;
 
 	protected Domainsnapshot domainsnapshot;
-
-	protected Lifecycle lifecycle;
 	
-	protected Status status;
+	protected Lifecycle lifecycle;
 	
 	public VirtualMachineSnapshotSpec() {
 
@@ -51,14 +48,6 @@ public class VirtualMachineSnapshotSpec extends ExtendedCustomResourceDefinition
 
 	public void setLifecycle(Lifecycle lifecycle) {
 		this.lifecycle = lifecycle;
-	}
-
-	public Status getStatus() {
-		return status;
-	}
-
-	public void setStatus(Status status) {
-		this.status = status;
 	}
 
 }

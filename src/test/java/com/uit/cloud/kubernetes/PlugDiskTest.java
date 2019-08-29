@@ -26,7 +26,7 @@ public class PlugDiskTest {
 	
 	public static PlugDisk getPlugDisk() {
 		PlugDisk plugDisk = new PlugDisk();
-		plugDisk.setSource("/var/lib/libvirt/images/t1");
+		plugDisk.setSource("/var/lib/libvirt/images/newdiskabc");
 		plugDisk.setTarget("vdb");
 		plugDisk.setLive(true);
 		plugDisk.setConfig(true);
