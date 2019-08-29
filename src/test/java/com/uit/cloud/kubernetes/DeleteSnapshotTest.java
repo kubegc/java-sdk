@@ -20,13 +20,12 @@ public class DeleteSnapshotTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineSanshots()
-				.deleteSnapshot("skywind5", getDeleteSnapshot());
+				.deleteSnapshot("hello11", getDeleteSnapshot());
 		System.out.println(successful);
 	}
 
 	protected static DeleteSnapshot getDeleteSnapshot() {
 		DeleteSnapshot deleteSnapshot = new DeleteSnapshot();
-		deleteSnapshot.setSnapshotname("hello");
 		return deleteSnapshot;
 	}
 	
