@@ -20,21 +20,12 @@ public class PlugNICTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.plugNIC("650646e8c17a49d0b83c1c797811e084", get());
+				.plugNIC("950646e8c17a49d0b83c1c797811e001", get());
 		System.out.println(successful);
 	}
 	
 	public static PlugNIC get() {
 		PlugNIC plugNIC = new PlugNIC();
-		
-		/*
-		 * libvirt bridge network
-		 * Parameters:
-		 * 	source
-		 * 		network source name
-		 */
-		plugNIC.setType("bridge");
-		plugNIC.setSource("source=virbr0");
 		
 		/*
 		 * l2 network example
@@ -56,15 +47,15 @@ public class PlugNICTest {
 		 * 	switch
 		 * 		switch name
 		 */
-//		plugNIC.setType("l3bridge"); 
-//		plugNIC.setSource("source=br-int,ip=192.168.4.5,switch=ls1");
+		plugNIC.setType("l3bridge"); 
+		plugNIC.setSource("source=br-int,ip=192.168.5.2,switch=switch");
 		
 		/*
 		 * 	mac address
 		 * 		if no mac, create a random mac
 		 * 		Note! Mac address is unique and does not support a value that start with "fe:" (e.g. fe:54:00:05:37:b3)
 		 */
-		plugNIC.setMac("52:54:00:20:d0:81");
+//		plugNIC.setMac("52:54:00:20:d0:81");
 		// inbound bandwidth limitation in KB, default is no limitation
 		plugNIC.setInbound("102400");
 		// outbound bandwidth limitation in KB, default is no limitation

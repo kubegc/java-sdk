@@ -31,6 +31,10 @@ public class PlugDiskTest {
 		plugDisk.setLive(true);
 		plugDisk.setConfig(true);
 		plugDisk.setSubdriver("qcow2");
+		plugDisk.setRead_bytes_sec("1024000000");
+		plugDisk.setWrite_bytes_sec("1024000000");
+		plugDisk.setRead_iops_sec("40000");
+		plugDisk.setWrite_iops_sec("40000");
 		return plugDisk;
 	}
 }
