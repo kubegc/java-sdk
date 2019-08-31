@@ -151,6 +151,8 @@ public class Data {
 		
 		protected List<Port> port;
 		
+		protected List<Nat> nat;
+		
 		public RouterInfo() {
 			super();
 		}
@@ -188,6 +190,8 @@ public class Data {
 			protected String mac;
 			
 			protected String networks;
+			
+			protected String gateway;
 
 			public Port() {
 				super();
@@ -216,7 +220,35 @@ public class Data {
 			public void setNetworks(String networks) {
 				this.networks = networks;
 			}
+
+			public String getGateway() {
+				return gateway;
+			}
+
+			public void setGateway(String gateway) {
+				this.gateway = gateway;
+			}
 			
+		}
+		
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+		public static class Nat {
+			
+			protected String name;
+			
+			protected String externalIP;
+			
+			protected String logicalIP;
+			
+			protected String type;
+			
+			protected String gateway;
+
+			public Nat() {
+				super();
+			}
+
 		}
 
 	}
