@@ -8,6 +8,7 @@ import java.util.Map;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+import io.fabric8.kubernetes.api.model.Affinity;
 import io.fabric8.kubernetes.api.model.Status;
 import io.fabric8.kubernetes.api.model.apiextensions.CustomResourceDefinitionSpec;
 
@@ -49,6 +50,11 @@ public abstract class ExtendedCustomResourceDefinitionSpec extends CustomResourc
 	 * advanced scheduling policy based on node selector
 	 */
 	protected Map<String, String> nodeSelector;
+
+	/**
+	 * affinity and anti-affinity
+	 */
+	protected Affinity affinity;
 	
 	/**
 	 * CRD status
@@ -116,6 +122,20 @@ public abstract class ExtendedCustomResourceDefinitionSpec extends CustomResourc
 	 */
 	public void setNodeSelector(Map<String, String> nodeSelector) {
 		this.nodeSelector = nodeSelector;
+	}
+
+	/**
+	 * @return                      affinity
+	 */
+	public Affinity getAffinity() {
+		return affinity;
+	}
+
+	/**
+	 * @param affinity              set affinity
+	 */
+	public void setAffinity(Affinity affinity) {
+		this.affinity = affinity;
 	}
 
 	/**
