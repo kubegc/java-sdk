@@ -26,7 +26,7 @@ resources alongside all other resources Kubernetes provides:
 
 **Note:** KubeVMM is a heavy work in progress.
 
-# 2.2 kubeVMM Architecture
+## 2.2 kubeVMM Architecture
 
 ![avatar](docs/images/arch.png)
 
