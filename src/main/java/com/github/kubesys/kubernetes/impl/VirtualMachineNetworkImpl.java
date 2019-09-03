@@ -5,8 +5,6 @@ package com.github.kubesys.kubernetes.impl;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import com.github.kubesys.kubernetes.api.model.VirtualMachineNetwork;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineNetworkList;
@@ -25,11 +23,6 @@ import io.fabric8.kubernetes.api.model.ObjectMeta;
  **/
 public class VirtualMachineNetworkImpl extends AbstractImpl<VirtualMachineNetwork, VirtualMachineNetworkList> {
 
-	/**
-	 * m_logger
-	 */
-	protected final static Logger m_logger = Logger.getLogger(VirtualMachineNetworkImpl.class.getName());
-
 	static {
 		cmds.add("createSwitch");
 		cmds.add("deleteSwitch");
@@ -39,56 +32,6 @@ public class VirtualMachineNetworkImpl extends AbstractImpl<VirtualMachineNetwor
 		cmds.add("deleteFloatIP");
 		cmds.add("bindFloatIP");
 		cmds.add("unbindFloatIP");
-	}
-
-	/**
-	 * @param name  name
-	 * @param key   key
-	 * @param value value
-	 * @throws Exception exception
-	 */
-	public void addTag(String name, String key, String value) throws Exception {
-
-		if (key.equals("host")) {
-			m_logger.log(Level.SEVERE, "'host' is a keyword.");
-			return;
-		}
-
-		VirtualMachineNetwork vmn = get(name);
-		if (vmn == null) {
-			m_logger.log(Level.SEVERE, "VM " + name + " not exist.");
-			return;
-		}
-
-		Map<String, String> tags = vmn.getMetadata().getLabels();
-		tags = (tags == null) ? new HashMap<String, String>() : tags;
-		tags.put(key, value);
-		update("addTag", vmn);
-	}
-	
-	/**
-	 * @param name name
-	 * @param key  key
-	 * @throws Exception exception
-	 */
-	public void deleteTag(String name, String key) throws Exception {
-
-		if (key.equals("host")) {
-			m_logger.log(Level.SEVERE, "'host' is a keyword.");
-			return;
-		}
-
-		VirtualMachineNetwork vmn = get(name);
-		if (vmn == null) {
-			m_logger.log(Level.SEVERE, "Network " + name + " not exist.");
-			return;
-		}
-
-		Map<String, String> tags = vmn.getMetadata().getLabels();
-		if (tags != null) {
-			tags.remove(key);
-		}
-		update("deleteTag", vmn);
 	}
 
 	/*************************************************

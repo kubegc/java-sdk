@@ -5,10 +5,9 @@ package com.github.kubesys.kubernetes.impl;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
+import com.github.kubesys.kubernetes.ExtendedKubernetesConstants;
 import com.github.kubesys.kubernetes.api.model.VirtualMachine;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineList;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineSpec;
@@ -53,11 +52,6 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 	 */
 	protected final static Pattern pattern = Pattern.compile("[a-z0-9-]{32}");
 
-	/**
-	 * m_logger
-	 */
-	protected final static Logger m_logger = Logger.getLogger(VirtualMachineImpl.class.getName());
-
 	static {
 		cmds.add("createAndStartVMFromISO");
 		cmds.add("createAndStartVMFromImage");
@@ -90,46 +84,10 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 
 	/**
 	 * @param name  name
-	 * @param key   key
-	 * @param value value
-	 * @throws Exception exception
-	 */
-	public void addTag(String name, String key, String value) throws Exception {
-
-		if (key.equals("host")) {
-			m_logger.log(Level.SEVERE, "'host' is a keyword.");
-			return;
-		}
-
-		VirtualMachine vm = get(name);
-		if (vm == null) {
-			m_logger.log(Level.SEVERE, "VM " + name + " not exist.");
-			return;
-		}
-
-		Map<String, String> tags = vm.getMetadata().getLabels();
-		tags = (tags == null) ? new HashMap<String, String>() : tags;
-		tags.put(key, value);
-		update("addTag", vm);
-	}
-	
-	/**
-	 * @param name  name
 	 * @throws Exception exception
 	 */
 	public boolean setHA(String name) throws Exception {
-
-		VirtualMachine vm = get(name);
-		if (vm == null) {
-			m_logger.log(Level.SEVERE, "VM " + name + " not exist.");
-			return false;
-		}
-
-		Map<String, String> tags = vm.getMetadata().getLabels();
-		tags = (tags == null) ? new HashMap<String, String>() : tags;
-		tags.put("ha", "true");
-		update("setHA", vm);
-		return true;
+		return this.addTag(name, ExtendedKubernetesConstants.LABEL_VM_HA, String.valueOf(true));
 	}
 	
 	/**
@@ -137,44 +95,9 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 	 * @throws Exception exception
 	 */
 	public boolean unsetHA(String name) throws Exception {
-
-		VirtualMachine vm = get(name);
-		if (vm == null) {
-			m_logger.log(Level.SEVERE, "VM " + name + " not exist.");
-			return false;
-		}
-
-		Map<String, String> tags = vm.getMetadata().getLabels();
-		tags = (tags == null) ? new HashMap<String, String>() : tags;
-		tags.remove("ha");
-		update("unsetHA", vm);
-		return true;
+		return deleteTag(name, ExtendedKubernetesConstants.LABEL_VM_HA);
 	}
 
-	/**
-	 * @param name name
-	 * @param key  key
-	 * @throws Exception exception
-	 */
-	public void deleteTag(String name, String key) throws Exception {
-
-		if (key.equals("host")) {
-			m_logger.log(Level.SEVERE, "'host' is a keyword.");
-			return;
-		}
-
-		VirtualMachine vm = get(name);
-		if (vm == null) {
-			m_logger.log(Level.SEVERE, "VM " + name + " not exist.");
-			return;
-		}
-
-		Map<String, String> tags = vm.getMetadata().getLabels();
-		if (tags != null) {
-			tags.remove(key);
-		}
-		update("deleteTag", vm);
-	}
 
 	/*************************************************
 	 * 

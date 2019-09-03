@@ -12,6 +12,15 @@ package com.github.kubesys.kubernetes;
  */
 public class ExtendedKubernetesConstants {
 
-	public final static String LABEL_EVENTID = "eventId";
+	public final static String LABEL_EVENTID    = "eventId";
+	
+	public final static String LABEL_HOST       = "host";
+	
+	public final static String LABEL_VM_HA      = "vm.ha";
+	
+	
+	public final static String OPERATOR_ADD_TAG = "AddTag";
+	
+	public final static String OPERATOR_DEL_TAG = "DeleteTag";
 
 }

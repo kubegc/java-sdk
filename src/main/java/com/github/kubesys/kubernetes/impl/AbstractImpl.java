@@ -4,6 +4,7 @@
 package com.github.kubesys.kubernetes.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -146,12 +147,55 @@ public abstract class AbstractImpl<R, S> {
 	/**
 	 * list all resources with the specified labels
 	 * 
-	 * @param  labels           .metadata.labels
-	 * @return                   all resource, or null, or throw an exception
+	 * @param  labels          resource labels, the .metadata.labels
+	 * @return                 all resource, or null, or throw an exception
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public S list(Map<String, String> labels) {
 		return (S) ((FilterWatchListDeletable) client.withLabels(labels)).list();
+	}
+	
+	/**
+	 * @param name               resource name, the .metadata.name
+	 * @param key                key
+	 * @param value              value
+	 * @return                   true, or false, or an exception
+	 * @throws Exception         exception
+	 */
+	public boolean addTag(String name, String key, String value) throws Exception {
+
+		R res = get(name);
+		if (res == null) {
+			m_logger.log(Level.SEVERE, type + " " + name 
+				+ " not exist so that we cannot add this tag.");
+			return false;
+		}
+
+		HasMetadata metadata = (HasMetadata)res;
+		Map<String, String> tags = metadata.getMetadata().getLabels();
+		tags = (tags == null) ? new HashMap<String, String>() : tags;
+		tags.put(key, value);
+		return update(ExtendedKubernetesConstants.OPERATOR_ADD_TAG, metadata);
+	}
+
+	/**
+	 * @param name               resource name, the .metadata.name
+	 * @param key                key
+	 * @return                   true, or false, or an exception
+	 * @throws Exception         exception
+	 */
+	public boolean deleteTag(String name, String key) throws Exception {
+
+		R res = get(name);
+		if (res == null) {
+			m_logger.log(Level.SEVERE, type + " " + name + " not exist.");
+			return false;
+		}
+
+		HasMetadata metadata = (HasMetadata)res;
+		Map<String, String> tags = metadata.getMetadata().getLabels();
+		if (tags != null) {	tags.remove(key);}
+		return update(ExtendedKubernetesConstants.OPERATOR_DEL_TAG, metadata);
 	}
 
 }

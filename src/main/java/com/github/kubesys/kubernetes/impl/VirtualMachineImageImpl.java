@@ -5,8 +5,6 @@ package com.github.kubesys.kubernetes.impl;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import com.github.kubesys.kubernetes.api.model.VirtualMachineImage;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineImageList;
@@ -26,10 +24,6 @@ import io.fabric8.kubernetes.api.model.ObjectMeta;
  **/
 public class VirtualMachineImageImpl extends AbstractImpl<VirtualMachineImage, VirtualMachineImageList> {
 
-	/**
-	 * m_logger
-	 */
-	protected final static Logger m_logger = Logger.getLogger(VirtualMachineImageImpl.class.getName());
 
 	static {
 		cmds.add("convertImageToVM");
@@ -37,57 +31,6 @@ public class VirtualMachineImageImpl extends AbstractImpl<VirtualMachineImage, V
 		cmds.add("deleteImage");
 	}
 
-
-	/**
-	 * @param name  name
-	 * @param key   key
-	 * @param value value
-	 * @throws Exception exception
-	 */
-	public void addTag(String name, String key, String value) throws Exception {
-
-		if (key.equals("host")) {
-			m_logger.log(Level.SEVERE, "'host' is a keyword.");
-			return;
-		}
-
-		VirtualMachineImage image = get(name);
-		if (image == null) {
-			m_logger.log(Level.SEVERE, "Image " + name + " not exist.");
-			return;
-		}
-
-		Map<String, String> tags = image.getMetadata().getLabels();
-		tags = (tags == null) ? new HashMap<String, String>() : tags;
-		tags.put(key, value);
-		update("addTag", image);
-	}
-
-	/**
-	 * @param name name
-	 * @param key  key
-	 * @throws Exception exception
-	 */
-	public void deleteTag(String name, String key) throws Exception {
-
-		if (key.equals("host")) {
-			m_logger.log(Level.SEVERE, "'host' is a keyword.");
-			return;
-		}
-
-		VirtualMachineImage image = get(name);
-		if (image == null) {
-			m_logger.log(Level.SEVERE, "Image " + name + " not exist.");
-			return;
-		}
-
-		Map<String, String> tags = image.getMetadata().getLabels();
-		if (tags != null) {
-			tags.remove(key);
-		}
-
-		update("deleteTag", image);
-	}
 
 	/*************************************************
 	 * 
