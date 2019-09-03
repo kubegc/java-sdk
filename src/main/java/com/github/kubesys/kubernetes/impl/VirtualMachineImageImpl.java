@@ -17,8 +17,6 @@ import com.github.kubesys.kubernetes.api.model.virtualmachineimage.Lifecycle.Cre
 import com.github.kubesys.kubernetes.api.model.virtualmachineimage.Lifecycle.DeleteImage;
 
 import io.fabric8.kubernetes.api.model.ObjectMeta;
-import io.fabric8.kubernetes.client.dsl.FilterWatchListDeletable;
-import io.fabric8.kubernetes.client.dsl.Gettable;
 
 /**
  * @author  wuheng@otcaix.iscas.ac.cn
@@ -26,7 +24,7 @@ import io.fabric8.kubernetes.client.dsl.Gettable;
  * @version 1.0.0
  * @since   2019/9/1
  **/
-public class VirtualMachineImageImpl extends AbstractImpl {
+public class VirtualMachineImageImpl extends AbstractImpl<VirtualMachineImage, VirtualMachineImageList> {
 
 	/**
 	 * m_logger
@@ -39,39 +37,6 @@ public class VirtualMachineImageImpl extends AbstractImpl {
 		cmds.add("deleteImage");
 	}
 
-	public String getEventId(String name) {
-		VirtualMachineImage vmi = get(name);
-		return vmi.getMetadata().getLabels().get("eventId");
-	}
-	
-	/**
-	 * return an object or null
-	 * 
-	 * @param name it is .metadata.name
-	 * @return object or null
-	 */
-	@SuppressWarnings("unchecked")
-	public VirtualMachineImage get(String name) {
-		return ((Gettable<VirtualMachineImage>) client.withName(name)).get();
-	}
-
-	/**
-	 * @return virtual machine image list or null
-	 */
-	public VirtualMachineImageList list() {
-		return (VirtualMachineImageList) client.list();
-	}
-
-	/**
-	 * list all VM images with the specified labels
-	 * 
-	 * @param filter .metadata.labels
-	 * @return all VM images or null
-	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public VirtualMachineImageList list(Map<String, String> labels) {
-		return (VirtualMachineImageList) ((FilterWatchListDeletable) client.withLabels(labels)).list();
-	}
 
 	/**
 	 * @param name  name

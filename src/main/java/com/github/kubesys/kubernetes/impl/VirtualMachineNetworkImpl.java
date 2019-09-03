@@ -3,15 +3,11 @@
  */
 package com.github.kubesys.kubernetes.impl;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Pattern;
 
-import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineNetwork;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineNetworkList;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineNetworkSpec;
@@ -20,9 +16,6 @@ import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.C
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.DeleteSwitch;
 
 import io.fabric8.kubernetes.api.model.ObjectMeta;
-import io.fabric8.kubernetes.client.dsl.FilterWatchListDeletable;
-import io.fabric8.kubernetes.client.dsl.Gettable;
-import io.fabric8.kubernetes.client.dsl.MixedOperation;
 
 /**
  * @author  wuheng@otcaix.iscas.ac.cn
@@ -30,7 +23,7 @@ import io.fabric8.kubernetes.client.dsl.MixedOperation;
  * @version 1.0.0
  * @since   2019/9/1
  **/
-public class VirtualMachineNetworkImpl extends AbstractImpl {
+public class VirtualMachineNetworkImpl extends AbstractImpl<VirtualMachineNetwork, VirtualMachineNetworkList> {
 
 	/**
 	 * m_logger
@@ -48,40 +41,6 @@ public class VirtualMachineNetworkImpl extends AbstractImpl {
 		cmds.add("unbindFloatIP");
 	}
 
-	/**
-	 * return an object or null
-	 * 
-	 * @param name .metadata.name
-	 * @return object or null
-	 */
-	@SuppressWarnings("unchecked")
-	public VirtualMachineNetwork get(String name) {
-		return ((Gettable<VirtualMachineNetwork>) client.withName(name)).get();
-	}
-
-	/**
-	 * @return list all virtual machines or null
-	 */
-	public VirtualMachineNetworkList list() {
-		return (VirtualMachineNetworkList) client.list();
-	}
-
-	/**
-	 * list all VMs with the specified labels
-	 * 
-	 * @param filter .metadata.labels
-	 * @return all VMs or null
-	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public VirtualMachineNetworkList list(Map<String, String> labels) {
-		return (VirtualMachineNetworkList) ((FilterWatchListDeletable) client.withLabels(labels)).list();
-	}
-
-	public String getEventId(String name) {
-		VirtualMachineNetwork vmn = get(name);
-		return vmn.getMetadata().getLabels().get("eventId");
-	}
-	
 	/**
 	 * @param name  name
 	 * @param key   key

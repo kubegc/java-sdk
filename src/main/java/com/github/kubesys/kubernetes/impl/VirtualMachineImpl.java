@@ -39,8 +39,6 @@ import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UnplugNI
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UpdateOS;
 
 import io.fabric8.kubernetes.api.model.ObjectMeta;
-import io.fabric8.kubernetes.client.dsl.FilterWatchListDeletable;
-import io.fabric8.kubernetes.client.dsl.Gettable;
 
 /**
  * @author  wuheng@otcaix.iscas.ac.cn
@@ -48,7 +46,7 @@ import io.fabric8.kubernetes.client.dsl.Gettable;
  * @version 1.0.0
  * @since   2019/9/1
  **/
-public class VirtualMachineImpl extends AbstractImpl {
+public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMachineList> {
 
 	/**
 	 * pattern
@@ -87,40 +85,9 @@ public class VirtualMachineImpl extends AbstractImpl {
 		cmds.add("resizeRAM");
 	}
 
-	/**
-	 * return an object or null
-	 * 
-	 * @param name .metadata.name
-	 * @return object or null
-	 */
-	@SuppressWarnings("unchecked")
-	public VirtualMachine get(String name) {
-		return ((Gettable<VirtualMachine>) client.withName(name)).get();
-	}
 
-	/**
-	 * @return list all virtual machines or null
-	 */
-	public VirtualMachineList list() {
-		return (VirtualMachineList) client.list();
-	}
-
-	/**
-	 * list all VMs with the specified labels
-	 * 
-	 * @param filter .metadata.labels
-	 * @return all VMs or null
-	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public VirtualMachineList list(Map<String, String> labels) {
-		return (VirtualMachineList) ((FilterWatchListDeletable) client.withLabels(labels)).list();
-	}
-
-	public String getEventId(String name) {
-		VirtualMachine vm = get(name);
-		return vm.getMetadata().getLabels().get("eventId");
-	}
 	
+
 	/**
 	 * @param name  name
 	 * @param key   key

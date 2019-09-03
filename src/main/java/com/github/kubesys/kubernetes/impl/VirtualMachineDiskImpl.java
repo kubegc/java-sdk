@@ -18,8 +18,6 @@ import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.Dele
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.ResizeDisk;
 
 import io.fabric8.kubernetes.api.model.ObjectMeta;
-import io.fabric8.kubernetes.client.dsl.FilterWatchListDeletable;
-import io.fabric8.kubernetes.client.dsl.Gettable;
 
 /**
  * @author  wuheng@otcaix.iscas.ac.cn
@@ -27,7 +25,7 @@ import io.fabric8.kubernetes.client.dsl.Gettable;
  * @version 1.0.0
  * @since   2019/9/1
  **/
-public class VirtualMachineDiskImpl extends AbstractImpl {
+public class VirtualMachineDiskImpl extends AbstractImpl<VirtualMachineDisk, VirtualMachineDiskList> {
 
 	/**
 	 * m_logger
@@ -42,39 +40,6 @@ public class VirtualMachineDiskImpl extends AbstractImpl {
 		cmds.add("cloneDisk");
 	}
 
-	public String getEventId(String name) {
-		VirtualMachineDisk vmd = get(name);
-		return vmd.getMetadata().getLabels().get("eventId");
-	}
-	
-	/**
-	 * return an object or null
-	 * 
-	 * @param name .metadata.name
-	 * @return object or null
-	 */
-	@SuppressWarnings("unchecked")
-	public VirtualMachineDisk get(String name) {
-		return ((Gettable<VirtualMachineDisk>) client.withName(name)).get();
-	}
-
-	/**
-	 * @return list all virtual machine disks or null
-	 */
-	public VirtualMachineDiskList list() {
-		return (VirtualMachineDiskList) client.list();
-	}
-
-	/**
-	 * list all VM disks with the specified labels
-	 * 
-	 * @param filter .metadata.labels
-	 * @return all VM disk or null
-	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public VirtualMachineDiskList list(Map<String, String> labels) {
-		return (VirtualMachineDiskList) ((FilterWatchListDeletable) client.withLabels(labels)).list();
-	}
 
 	/**
 	 * @param name  name

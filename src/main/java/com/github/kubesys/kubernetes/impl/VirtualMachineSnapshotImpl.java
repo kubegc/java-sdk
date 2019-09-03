@@ -3,15 +3,11 @@
  */
 package com.github.kubesys.kubernetes.impl;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
-import com.github.kubesys.kubernetes.api.model.VirtualMachineDiskList;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineSnapshot;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineSnapshotList;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineSnapshotSpec;
@@ -21,9 +17,6 @@ import com.github.kubesys.kubernetes.api.model.virtualmachinesnapshot.Lifecycle.
 import com.github.kubesys.kubernetes.api.model.virtualmachinesnapshot.Lifecycle.RevertVirtualMachine;
 
 import io.fabric8.kubernetes.api.model.ObjectMeta;
-import io.fabric8.kubernetes.client.dsl.FilterWatchListDeletable;
-import io.fabric8.kubernetes.client.dsl.Gettable;
-import io.fabric8.kubernetes.client.dsl.MixedOperation;
 
 /**
  * @author  wuheng@otcaix.iscas.ac.cn
@@ -31,7 +24,7 @@ import io.fabric8.kubernetes.client.dsl.MixedOperation;
  * @version 1.0.0
  * @since   2019/9/1
  **/
-public class VirtualMachineSnapshotImpl extends AbstractImpl {
+public class VirtualMachineSnapshotImpl extends AbstractImpl<VirtualMachineSnapshot, VirtualMachineSnapshotList> {
 
 	/**
 	 * m_logger
@@ -43,34 +36,6 @@ public class VirtualMachineSnapshotImpl extends AbstractImpl {
 		cmds.add("deleteSnapshot");
 	}
 
-	/**
-	 * return an object or null
-	 * 
-	 * @param name .metadata.name
-	 * @return object or null
-	 */
-	@SuppressWarnings("unchecked")
-	public VirtualMachineSnapshot get(String name) {
-		return ((Gettable<VirtualMachineSnapshot>) client.withName(name)).get();
-	}
-
-	/**
-	 * @return list all virtual machine snapshots or null
-	 */
-	public VirtualMachineSnapshotList list() {
-		return (VirtualMachineSnapshotList) client.list();
-	}
-
-	/**
-	 * list all VM disks with the specified labels
-	 * 
-	 * @param filter .metadata.labels
-	 * @return all VM snapshots or null
-	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public VirtualMachineDiskList list(Map<String, String> labels) {
-		return (VirtualMachineDiskList) ((FilterWatchListDeletable) client.withLabels(labels)).list();
-	}
 
 	/**
 	 * @param name  name

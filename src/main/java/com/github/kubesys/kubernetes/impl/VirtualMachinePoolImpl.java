@@ -3,14 +3,11 @@
  */
 package com.github.kubesys.kubernetes.impl;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
 import com.github.kubesys.kubernetes.api.model.VirtualMachinePool;
 import com.github.kubesys.kubernetes.api.model.VirtualMachinePoolList;
 import com.github.kubesys.kubernetes.api.model.VirtualMachinePoolSpec;
@@ -19,9 +16,6 @@ import com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle.Crea
 import com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle.DeletePool;
 
 import io.fabric8.kubernetes.api.model.ObjectMeta;
-import io.fabric8.kubernetes.client.dsl.FilterWatchListDeletable;
-import io.fabric8.kubernetes.client.dsl.Gettable;
-import io.fabric8.kubernetes.client.dsl.MixedOperation;
 
 /**
  * @author  wuheng@otcaix.iscas.ac.cn
@@ -29,7 +23,7 @@ import io.fabric8.kubernetes.client.dsl.MixedOperation;
  * @version 1.0.0
  * @since   2019/9/1
  **/
-public class VirtualMachinePoolImpl extends AbstractImpl {
+public class VirtualMachinePoolImpl extends AbstractImpl<VirtualMachinePool, VirtualMachinePoolList> {
 
 	/**
 	 * m_logger
@@ -41,34 +35,6 @@ public class VirtualMachinePoolImpl extends AbstractImpl {
 		cmds.add("deletePool");
 	}
 
-	/**
-	 * return an object or null
-	 * 
-	 * @param name .metadata.name
-	 * @return object or null
-	 */
-	@SuppressWarnings("unchecked")
-	public VirtualMachinePool get(String name) {
-		return ((Gettable<VirtualMachinePool>) client.withName(name)).get();
-	}
-
-	/**
-	 * @return list all virtual machine disks or null
-	 */
-	public VirtualMachinePoolList list() {
-		return (VirtualMachinePoolList) client.list();
-	}
-
-	/**
-	 * list all VM disks with the specified labels
-	 * 
-	 * @param filter .metadata.labels
-	 * @return all VM disk or null
-	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public VirtualMachinePoolList list(Map<String, String> labels) {
-		return (VirtualMachinePoolList) ((FilterWatchListDeletable) client.withLabels(labels)).list();
-	}
 
 	/**
 	 * @param name  name

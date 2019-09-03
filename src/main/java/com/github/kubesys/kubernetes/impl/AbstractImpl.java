@@ -5,12 +5,16 @@ package com.github.kubesys.kubernetes.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
+import com.github.kubesys.kubernetes.ExtendedKubernetesConstants;
 
 import io.fabric8.kubernetes.api.model.HasMetadata;
+import io.fabric8.kubernetes.client.dsl.FilterWatchListDeletable;
+import io.fabric8.kubernetes.client.dsl.Gettable;
 import io.fabric8.kubernetes.client.dsl.MixedOperation;
 
 /**
@@ -26,7 +30,7 @@ import io.fabric8.kubernetes.client.dsl.MixedOperation;
  * VirtualMachineDisk, VirtualMachineSnapshot, and so on
  * 
  **/
-public abstract class AbstractImpl {
+public abstract class AbstractImpl<R, S> {
 
 	/**
 	 * m_logger
@@ -109,6 +113,45 @@ public abstract class AbstractImpl {
 		m_logger.log(Level.INFO, type + ": " + operator + " " 
 					+ object.getMetadata().getName() + " successful.");
 		return true;
+	}
+	
+	/**
+	 * 
+	 * @param name            resource name, the .metadata.name
+	 * @return                the object, or null, or throw an exception
+	 */
+	@SuppressWarnings("unchecked")
+	public R get(String name)  {
+		return ((Gettable<R>) client.withName(name)).get();
+	}
+	
+	/**
+	 * @param name          resource name, the .metadata.name
+	 * @return              the object, or null, or throw an exception
+	 */
+	public String getEventId(String name) {
+		R resource = get(name);
+		return ((HasMetadata)resource).getMetadata().getLabels()
+				.get(ExtendedKubernetesConstants.LABEL_EVENTID);
+	}
+	
+	/**
+	 * @return                  list all resource, or null, or throw an exception
+	 */
+	@SuppressWarnings("unchecked")
+	public S list() {
+		return (S) client.list();
+	}
+	
+	/**
+	 * list all resources with the specified labels
+	 * 
+	 * @param  labels           .metadata.labels
+	 * @return                   all resource, or null, or throw an exception
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public S list(Map<String, String> labels) {
+		return (S) ((FilterWatchListDeletable) client.withLabels(labels)).list();
 	}
 
 }
