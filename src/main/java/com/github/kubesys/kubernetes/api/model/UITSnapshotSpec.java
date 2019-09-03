@@ -22,6 +22,7 @@ import io.fabric8.kubernetes.api.model.apiextensions.CustomResourceDefinitionSpe
  **/
 @SuppressWarnings("rawtypes")
 @JsonDeserialize(using = JsonDeserializer.None.class)
+@Deprecated
 public class UITSnapshotSpec extends CustomResourceDefinitionSpec implements KubernetesResource {
 
 	/**

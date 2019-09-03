@@ -16,11 +16,14 @@ import io.fabric8.kubernetes.api.model.Taint;
 
 
 /**
- * @author wuheng@otcaix.iscas.ac.cn
- * @author xuyuanjia2017@otcaix.iscas.ac.cn
- * @author xianghao16@otcaix.iscas.ac.cn
- * @author yangchen18@otcaix.iscas.ac.cn
- * @since Thu July 25 21:39:55 CST 2019
+ * @author  wuheng@otcaix.iscas.ac.cn
+ * 
+ * @version 1.0.0
+ * @since   2019/9/1
+ * 
+ * <p>
+ * <code>NodeSelectorImpl<code> is used for
+ * 
  **/
 public class NodeSelectorImpl {
 	
@@ -178,10 +181,6 @@ public class NodeSelectorImpl {
 		minimumCPUUsageHostAllocatorStrategyMode,
 		maxInstancePerHost,
 		minInstancePerHost
-	}
-	
-	public static void main(String[] args) {
-		System.out.println(stringToLong("100Ki"));
 	}
 }
 

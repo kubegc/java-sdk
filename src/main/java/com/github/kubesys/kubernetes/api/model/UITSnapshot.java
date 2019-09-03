@@ -13,6 +13,7 @@ import io.fabric8.kubernetes.client.CustomResource;
  * @author yangchen18@otcaix.iscas.ac.cn
  * @since Thu July 8 21:39:55 CST 2019
  **/
+@Deprecated
 public class UITSnapshot extends CustomResource {
 
 	/**
