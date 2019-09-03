@@ -25,35 +25,17 @@ import io.fabric8.kubernetes.client.dsl.Gettable;
 import io.fabric8.kubernetes.client.dsl.MixedOperation;
 
 /**
- * @author wuheng@otcaix.iscas.ac.cn
- * @author xuyuanjia2017@otcaix.iscas.ac.cn
- * @author xianghao16@otcaix.iscas.ac.cn
- * @author yangchen18@otcaix.iscas.ac.cn
- * @since Thu Jun 13 21:39:55 CST 2019
+ * @author  wuheng@otcaix.iscas.ac.cn
+ * 
+ * @version 1.0.0
+ * @since   2019/9/1
  **/
-public class VirtualMachineNetworkImpl {
-
-	/**
-	 * pattern
-	 */
-	protected final static Pattern pattern = Pattern.compile("[a-z0-9-]{32}");
+public class VirtualMachineNetworkImpl extends AbstractImpl {
 
 	/**
 	 * m_logger
 	 */
 	protected final static Logger m_logger = Logger.getLogger(VirtualMachineNetworkImpl.class.getName());
-
-	/**
-	 * client
-	 */
-	@SuppressWarnings("rawtypes")
-	protected final MixedOperation client = ExtendedKubernetesClient.crdClients
-			.get(VirtualMachineNetwork.class.getSimpleName());;
-
-	/**
-	 * support commands
-	 */
-	public static List<String> cmds = new ArrayList<String>();
 
 	static {
 		cmds.add("createSwitch");
@@ -64,67 +46,6 @@ public class VirtualMachineNetworkImpl {
 		cmds.add("deleteFloatIP");
 		cmds.add("bindFloatIP");
 		cmds.add("unbindFloatIP");
-	}
-
-	/*************************************************
-	 * 
-	 * Core
-	 * 
-	 **************************************************/
-
-	/**
-	 * return true or an exception
-	 * 
-	 * @param vmn VM's description
-	 * @return true or an exception
-	 * @throws Exception create VM fail
-	 */
-	@SuppressWarnings("unchecked")
-	@Deprecated
-	public boolean create(VirtualMachineNetwork vmn) throws Exception {
-		client.create(vmn);
-		m_logger.log(Level.INFO, "create VirtualMachineNetwork " + vmn.getMetadata().getName() + " successful.");
-		return true;
-	}
-
-	/**
-	 * @param vmn VM's description
-	 * @return true or an exception
-	 * @throws Exception delete VM fail
-	 */
-	@SuppressWarnings("unchecked")
-	@Deprecated
-	public boolean delete(VirtualMachineNetwork vmn) throws Exception {
-		client.delete(vmn);
-		m_logger.log(Level.INFO, "delete VirtualMachineNetwork " + vmn.getMetadata().getName() + " successful.");
-		return true;
-	}
-
-	/**
-	 * @param vm VM's description
-	 * @return true or an exception
-	 * @throws Exception update VM fail
-	 */
-	@SuppressWarnings("unchecked")
-	@Deprecated
-	public boolean update(VirtualMachineNetwork vmn) throws Exception {
-		client.createOrReplace(vmn);
-		m_logger.log(Level.INFO, "update VirtualMachineNetwork " + vmn.getMetadata().getName() + " successful.");
-		return true;
-	}
-
-	/**
-	 * @param operator operator
-	 * @param vmn       VM's description
-	 * @return true or an exception
-	 * @throws Exception update VM fail
-	 */
-	@SuppressWarnings("unchecked")
-	@Deprecated
-	protected boolean update(String operator, VirtualMachineNetwork vmn) throws Exception {
-		client.createOrReplace(vmn);
-		m_logger.log(Level.INFO, operator + " " + vmn.getMetadata().getName() + " successful.");
-		return true;
 	}
 
 	/**
@@ -183,7 +104,7 @@ public class VirtualMachineNetworkImpl {
 		Map<String, String> tags = vmn.getMetadata().getLabels();
 		tags = (tags == null) ? new HashMap<String, String>() : tags;
 		tags.put(key, value);
-		update(vmn);
+		update("addTag", vmn);
 	}
 	
 	/**
@@ -208,7 +129,7 @@ public class VirtualMachineNetworkImpl {
 		if (tags != null) {
 			tags.remove(key);
 		}
-		update(vmn);
+		update("deleteTag", vmn);
 	}
 
 	/*************************************************
@@ -279,7 +200,7 @@ public class VirtualMachineNetworkImpl {
 		lifecycle.setDeleteSwitch(deleteSwitch);
 		spec.setLifecycle(lifecycle);
 		kind.setSpec(spec);
-		update(kind);
+		update(DeleteSwitch.class.getSimpleName(), kind);
 //		delete(kind);
 		return true;
 	}

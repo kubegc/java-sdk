@@ -3,14 +3,11 @@
  */
 package com.github.kubesys.kubernetes.impl;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineDisk;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineDiskList;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineDiskSpec;
@@ -23,33 +20,20 @@ import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.Resi
 import io.fabric8.kubernetes.api.model.ObjectMeta;
 import io.fabric8.kubernetes.client.dsl.FilterWatchListDeletable;
 import io.fabric8.kubernetes.client.dsl.Gettable;
-import io.fabric8.kubernetes.client.dsl.MixedOperation;
 
 /**
- * @author wuheng@otcaix.iscas.ac.cn
- * @author xuyuanjia2017@otcaix.iscas.ac.cn
- * @author xianghao16@otcaix.iscas.ac.cn
- * @author yangchen18@otcaix.iscas.ac.cn
- * @since Thu Jun 13 21:39:55 CST 2019
+ * @author  wuheng@otcaix.iscas.ac.cn
+ * 
+ * @version 1.0.0
+ * @since   2019/9/1
  **/
-public class VirtualMachineDiskImpl {
+public class VirtualMachineDiskImpl extends AbstractImpl {
 
 	/**
 	 * m_logger
 	 */
 	protected final static Logger m_logger = Logger.getLogger(VirtualMachineDiskImpl.class.getName());
 
-	/**
-	 * client
-	 */
-	@SuppressWarnings("rawtypes")
-	protected final MixedOperation client = ExtendedKubernetesClient.crdClients
-			.get(VirtualMachineDisk.class.getSimpleName());
-
-	/**
-	 * support commands
-	 */
-	public static List<String> cmds = new ArrayList<String>();
 
 	static {
 		cmds.add("createDisk");
@@ -58,72 +42,11 @@ public class VirtualMachineDiskImpl {
 		cmds.add("cloneDisk");
 	}
 
-	/*************************************************
-	 * 
-	 * Core
-	 * 
-	 **************************************************/
-
-	/**
-	 * return true or an exception
-	 * 
-	 * @param disk VM disk description
-	 * @return true or an exception
-	 * @throws Exception create VM disk fail
-	 */
-	@SuppressWarnings("unchecked")
-	@Deprecated
-	public boolean create(VirtualMachineDisk disk) throws Exception {
-		client.create(disk);
-		m_logger.log(Level.INFO, "create VirtualMachineDisk " + disk.getMetadata().getName() + " successful.");
-		return true;
-	}
-
 	public String getEventId(String name) {
 		VirtualMachineDisk vmd = get(name);
 		return vmd.getMetadata().getLabels().get("eventId");
 	}
 	
-	/**
-	 * @param disk VM disk description
-	 * @return true or an exception
-	 * @throws Exception delete VM disk fail
-	 */
-	@SuppressWarnings("unchecked")
-	@Deprecated
-	public boolean delete(VirtualMachineDisk disk) throws Exception {
-		client.delete(disk);
-		m_logger.log(Level.INFO, "delete VirtualMachineDisk " + disk.getMetadata().getName() + " successful.");
-		return true;
-	}
-
-	/**
-	 * @param disk VM disk description
-	 * @return true or an exception
-	 * @throws Exception update VM disk fail
-	 */
-	@SuppressWarnings("unchecked")
-	@Deprecated
-	public boolean update(VirtualMachineDisk disk) throws Exception {
-		client.createOrReplace(disk);
-		m_logger.log(Level.INFO, "update VirtualMachine " + disk.getMetadata().getName() + " successful.");
-		return true;
-	}
-
-	/**
-	 * @param operator operator
-	 * @param disk     VM disk description
-	 * @return true or an exception
-	 * @throws Exception update VM disk fail
-	 */
-	@SuppressWarnings("unchecked")
-	@Deprecated
-	protected boolean update(String operator, VirtualMachineDisk disk) throws Exception {
-		client.createOrReplace(disk);
-		m_logger.log(Level.INFO, operator + " " + disk.getMetadata().getName() + " successful.");
-		return true;
-	}
-
 	/**
 	 * return an object or null
 	 * 
@@ -175,7 +98,7 @@ public class VirtualMachineDiskImpl {
 		Map<String, String> tags = disk.getMetadata().getLabels();
 		tags = (tags == null) ? new HashMap<String, String>() : tags;
 		tags.put(key, value);
-		update(disk);
+		update("addTag", disk);
 	}
 
 	/**
@@ -201,7 +124,7 @@ public class VirtualMachineDiskImpl {
 			tags.remove(key);
 		}
 
-		update(disk);
+		update("deleteTag", disk);
 	}
 
 	/*************************************************
@@ -252,7 +175,7 @@ public class VirtualMachineDiskImpl {
 		lifecycle.setDeleteDisk(deleteDisk);
 		spec.setLifecycle(lifecycle);
 		kind.setSpec(spec);
-		update(kind);
+		update(DeleteDisk.class.getSimpleName(), kind);
 //		delete(kind);
 		return true;
 	}
@@ -334,7 +257,7 @@ public class VirtualMachineDiskImpl {
 		lifecycle.setDeleteDisk(deleteDisk);
 		spec.setLifecycle(lifecycle);
 		kind.setSpec(spec);
-		update(kind);
+		update(DeleteDisk.class.getName(), kind);
 //		delete(kind);
 		return true;
 	}

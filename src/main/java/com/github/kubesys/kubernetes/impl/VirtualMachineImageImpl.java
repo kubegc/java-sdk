@@ -3,14 +3,11 @@
  */
 package com.github.kubesys.kubernetes.impl;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineImage;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineImageList;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineImageSpec;
@@ -22,33 +19,19 @@ import com.github.kubesys.kubernetes.api.model.virtualmachineimage.Lifecycle.Del
 import io.fabric8.kubernetes.api.model.ObjectMeta;
 import io.fabric8.kubernetes.client.dsl.FilterWatchListDeletable;
 import io.fabric8.kubernetes.client.dsl.Gettable;
-import io.fabric8.kubernetes.client.dsl.MixedOperation;
 
 /**
- * @author wuheng@otcaix.iscas.ac.cn
- * @author xuyuanjia2017@otcaix.iscas.ac.cn
- * @author xianghao16@otcaix.iscas.ac.cn
- * @author yangchen18@otcaix.iscas.ac.cn
- * @since Thu Jun 13 21:39:55 CST 2019
+ * @author  wuheng@otcaix.iscas.ac.cn
+ * 
+ * @version 1.0.0
+ * @since   2019/9/1
  **/
-public class VirtualMachineImageImpl {
+public class VirtualMachineImageImpl extends AbstractImpl {
 
 	/**
 	 * m_logger
 	 */
 	protected final static Logger m_logger = Logger.getLogger(VirtualMachineImageImpl.class.getName());
-
-	/**
-	 * 
-	 */
-	@SuppressWarnings("rawtypes")
-	protected final MixedOperation client = ExtendedKubernetesClient.crdClients
-			.get(VirtualMachineImage.class.getSimpleName());
-
-	/**
-	 * support commands
-	 */
-	public static List<String> cmds = new ArrayList<String>();
 
 	static {
 		cmds.add("convertImageToVM");
@@ -56,72 +39,11 @@ public class VirtualMachineImageImpl {
 		cmds.add("deleteImage");
 	}
 
-	/*************************************************
-	 * 
-	 * Core
-	 * 
-	 **************************************************/
-
-	/**
-	 * return true or an exception
-	 * 
-	 * @param image VM image description
-	 * @return true or an exception
-	 * @throws Exception create VM image fail
-	 */
-	@SuppressWarnings("unchecked")
-	@Deprecated
-	public boolean create(VirtualMachineImage image) throws Exception {
-		client.create(image);
-		m_logger.log(Level.INFO, "create VirtualMachineImage " + image.getMetadata().getName() + " successful.");
-		return true;
-	}
-
 	public String getEventId(String name) {
 		VirtualMachineImage vmi = get(name);
 		return vmi.getMetadata().getLabels().get("eventId");
 	}
 	
-	/**
-	 * @param image VM image description
-	 * @return true or an exception
-	 * @throws Exception delete VM image fail
-	 */
-	@SuppressWarnings("unchecked")
-	@Deprecated
-	public boolean delete(VirtualMachineImage image) throws Exception {
-		client.delete(image);
-		m_logger.log(Level.INFO, "delete VirtualMachineImage " + image.getMetadata().getName() + " successful.");
-		return true;
-	}
-
-	/**
-	 * @param image VM image description
-	 * @return true or an exception
-	 * @throws Exception delete VM image fail
-	 */
-	@SuppressWarnings("unchecked")
-	@Deprecated
-	public boolean update(VirtualMachineImage image) throws Exception {
-		client.createOrReplace(image);
-		m_logger.log(Level.INFO, "update VirtualMachineImage " + image.getMetadata().getName() + " successful.");
-		return true;
-	}
-
-	/**
-	 * @param operator operator
-	 * @param image    VM image description
-	 * @return true or an exception
-	 * @throws Exception update VM image fail
-	 */
-	@SuppressWarnings("unchecked")
-	@Deprecated
-	protected boolean update(String operator, VirtualMachineImage image) throws Exception {
-		client.createOrReplace(image);
-		m_logger.log(Level.INFO, operator + " " + image.getMetadata().getName() + " successful.");
-		return true;
-	}
-
 	/**
 	 * return an object or null
 	 * 
@@ -173,8 +95,7 @@ public class VirtualMachineImageImpl {
 		Map<String, String> tags = image.getMetadata().getLabels();
 		tags = (tags == null) ? new HashMap<String, String>() : tags;
 		tags.put(key, value);
-
-		update(image);
+		update("addTag", image);
 	}
 
 	/**
@@ -200,7 +121,7 @@ public class VirtualMachineImageImpl {
 			tags.remove(key);
 		}
 
-		update(image);
+		update("deleteTag", image);
 	}
 
 	/*************************************************
@@ -261,7 +182,7 @@ public class VirtualMachineImageImpl {
 		lifecycle.setDeleteImage(deleteImage);
 		spec.setLifecycle(lifecycle);
 		kind.setSpec(spec);
-		update(kind);
+		update(DeleteImage.class.getSimpleName(), kind);
 //		delete(kind);
 		return true;
 	}
@@ -335,7 +256,7 @@ public class VirtualMachineImageImpl {
 		lifecycle.setDeleteImage(deleteImage);
 		spec.setLifecycle(lifecycle);
 		kind.setSpec(spec);
-		update(kind);
+		update(DeleteImage.class.getSimpleName(), kind);
 //		delete(kind);
 		return true;
 	}

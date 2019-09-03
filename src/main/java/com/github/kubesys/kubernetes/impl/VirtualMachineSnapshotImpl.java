@@ -26,100 +26,21 @@ import io.fabric8.kubernetes.client.dsl.Gettable;
 import io.fabric8.kubernetes.client.dsl.MixedOperation;
 
 /**
- * @author wuheng@otcaix.iscas.ac.cn
- * @author xuyuanjia2017@otcaix.iscas.ac.cn
- * @author xianghao16@otcaix.iscas.ac.cn
- * @author yangchen18@otcaix.iscas.ac.cn
- * @since Thu Jun 13 21:39:55 CST 2019
+ * @author  wuheng@otcaix.iscas.ac.cn
+ * 
+ * @version 1.0.0
+ * @since   2019/9/1
  **/
-public class VirtualMachineSnapshotImpl {
+public class VirtualMachineSnapshotImpl extends AbstractImpl {
 
 	/**
 	 * m_logger
 	 */
 	protected final static Logger m_logger = Logger.getLogger(VirtualMachineSnapshotImpl.class.getName());
 
-	/**
-	 * client
-	 */
-	@SuppressWarnings("rawtypes")
-	protected final MixedOperation client = ExtendedKubernetesClient.crdClients
-			.get(VirtualMachineSnapshot.class.getSimpleName());
-
-	/**
-	 * support commands
-	 */
-	public static List<String> cmds = new ArrayList<String>();
-
 	static {
 		cmds.add("createSnapshot");
 		cmds.add("deleteSnapshot");
-	}
-
-	/*************************************************
-	 * 
-	 * Core
-	 * 
-	 **************************************************/
-
-	/**
-	 * return true or an exception
-	 * 
-	 * @param snapshot VM snapshot description
-	 * @return true or an exception
-	 * @throws Exception create VM disk fail
-	 */
-	@SuppressWarnings("unchecked")
-	@Deprecated
-	public boolean create(VirtualMachineSnapshot snapshot) throws Exception {
-		client.create(snapshot);
-		m_logger.log(Level.INFO, "create VirtualMachineSnapshot " + snapshot.getMetadata().getName() + " successful.");
-		return true;
-	}
-
-	public String getEventId(String name) {
-		VirtualMachineSnapshot vms = get(name);
-		return vms.getMetadata().getLabels().get("eventId");
-	}
-	
-	/**
-	 * @param snapshot VM snapshot description
-	 * @return true or an exception
-	 * @throws Exception delete VM disk fail
-	 */
-	@SuppressWarnings("unchecked")
-	@Deprecated
-	public boolean delete(VirtualMachineSnapshot snapshot) throws Exception {
-		client.delete(snapshot);
-		m_logger.log(Level.INFO, "delete VirtualMachineSnapshot " + snapshot.getMetadata().getName() + " successful.");
-		return true;
-	}
-
-	/**
-	 * @param snapshot VM snapshot description
-	 * @return true or an exception
-	 * @throws Exception update VM disk fail
-	 */
-	@SuppressWarnings("unchecked")
-	@Deprecated
-	public boolean update(VirtualMachineSnapshot snapshot) throws Exception {
-		client.createOrReplace(snapshot);
-		m_logger.log(Level.INFO, "update VirtualMachineSnapshot " + snapshot.getMetadata().getName() + " successful.");
-		return true;
-	}
-
-	/**
-	 * @param operator operator
-	 * @param snapshot VM snapshot description
-	 * @return true or an exception
-	 * @throws Exception update VM disk fail
-	 */
-	@SuppressWarnings("unchecked")
-	@Deprecated
-	protected boolean update(String operator, VirtualMachineSnapshot snapshot) throws Exception {
-		client.createOrReplace(snapshot);
-		m_logger.log(Level.INFO, operator + " " + snapshot.getMetadata().getName() + " successful.");
-		return true;
 	}
 
 	/**
@@ -174,7 +95,7 @@ public class VirtualMachineSnapshotImpl {
 		tags = (tags == null) ? new HashMap<String, String>() : tags;
 		tags.put(key, value);
 
-		update(snapshot);
+		update("addTag", snapshot);
 	}
 
 	/**
@@ -200,7 +121,7 @@ public class VirtualMachineSnapshotImpl {
 			tags.remove(key);
 		}
 
-		update(snapshot);
+		update("deleteTag", snapshot);
 	}
 
 	/*************************************************
@@ -252,7 +173,7 @@ public class VirtualMachineSnapshotImpl {
 		lifecycle.setDeleteSnapshot(deleteSnapshot);
 		spec.setLifecycle(lifecycle);
 		kind.setSpec(spec);
-		update(kind);
+		update(DeleteSnapshot.class.getSimpleName(), kind);
 //		delete(kind);
 		return true;
 	}
@@ -307,7 +228,7 @@ public class VirtualMachineSnapshotImpl {
 		lifecycle.setDeleteSnapshot(deleteSnapshot);
 		spec.setLifecycle(lifecycle);
 		kind.setSpec(spec);
-		update(kind);
+		update(DeleteSnapshot.class.getSimpleName(), kind);
 //		delete(kind);
 		return true;
 	}
@@ -336,7 +257,7 @@ public class VirtualMachineSnapshotImpl {
 		lifecycle.setRevertVirtualMachine(revertVirtualMachine);
 		spec.setLifecycle(lifecycle);
 		kind.setSpec(spec);
-		update(kind);
+		update(RevertVirtualMachine.class.getSimpleName(), kind);
 		return true;
 	}
 

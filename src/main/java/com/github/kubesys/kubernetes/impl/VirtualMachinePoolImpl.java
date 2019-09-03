@@ -24,100 +24,21 @@ import io.fabric8.kubernetes.client.dsl.Gettable;
 import io.fabric8.kubernetes.client.dsl.MixedOperation;
 
 /**
- * @author wuheng@otcaix.iscas.ac.cn
- * @author xuyuanjia2017@otcaix.iscas.ac.cn
- * @author xianghao16@otcaix.iscas.ac.cn
- * @author yangchen18@otcaix.iscas.ac.cn
- * @since Thu Jun 13 21:39:55 CST 2019
+ * @author  wuheng@otcaix.iscas.ac.cn
+ * 
+ * @version 1.0.0
+ * @since   2019/9/1
  **/
-public class VirtualMachinePoolImpl {
+public class VirtualMachinePoolImpl extends AbstractImpl {
 
 	/**
 	 * m_logger
 	 */
 	protected final static Logger m_logger = Logger.getLogger(VirtualMachinePoolImpl.class.getName());
 
-	/**
-	 * client
-	 */
-	@SuppressWarnings("rawtypes")
-	protected final MixedOperation client = ExtendedKubernetesClient.crdClients
-			.get(VirtualMachinePool.class.getSimpleName());
-
-	/**
-	 * support commands
-	 */
-	public static List<String> cmds = new ArrayList<String>();
-
 	static {
-		cmds.add("createUITPool");
-		cmds.add("deleteUITPool");
-	}
-
-	/*************************************************
-	 * 
-	 * Core
-	 * 
-	 **************************************************/
-
-	/**
-	 * return true or an exception
-	 * 
-	 * @param pool VM disk description
-	 * @return true or an exception
-	 * @throws Exception create VM disk fail
-	 */
-	@SuppressWarnings("unchecked")
-	@Deprecated
-	public boolean create(VirtualMachinePool pool) throws Exception {
-		client.create(pool);
-		m_logger.log(Level.INFO, "create VirtualMachinePool " + pool.getMetadata().getName() + " successful.");
-		return true;
-	}
-
-	public String getEventId(String pool) {
-		VirtualMachinePool uitp = get(pool);
-		return uitp.getMetadata().getLabels().get("eventId");
-	}
-	
-	/**
-	 * @param pool VM disk description
-	 * @return true or an exception
-	 * @throws Exception delete VM disk fail
-	 */
-	@SuppressWarnings("unchecked")
-	@Deprecated
-	public boolean delete(VirtualMachinePool pool) throws Exception {
-		client.delete(pool);
-		m_logger.log(Level.INFO, "delete VirtualMachinePool " + pool.getMetadata().getName() + " successful.");
-		return true;
-	}
-
-	/**
-	 * @param pool VM disk description
-	 * @return true or an exception
-	 * @throws Exception update VM disk fail
-	 */
-	@SuppressWarnings("unchecked")
-	@Deprecated
-	public boolean update(VirtualMachinePool pool) throws Exception {
-		client.createOrReplace(pool);
-		m_logger.log(Level.INFO, "update VirtualMachinePool " + pool.getMetadata().getName() + " successful.");
-		return true;
-	}
-
-	/**
-	 * @param operator operator
-	 * @param pool     VM disk description
-	 * @return true or an exception
-	 * @throws Exception update VM disk fail
-	 */
-	@SuppressWarnings("unchecked")
-	@Deprecated
-	protected boolean update(String operator, VirtualMachinePool pool) throws Exception {
-		client.createOrReplace(pool);
-		m_logger.log(Level.INFO, operator + " " + pool.getMetadata().getName() + " successful.");
-		return true;
+		cmds.add("createPool");
+		cmds.add("deletePool");
 	}
 
 	/**
@@ -171,7 +92,7 @@ public class VirtualMachinePoolImpl {
 		Map<String, String> tags = pool.getMetadata().getLabels();
 		tags = (tags == null) ? new HashMap<String, String>() : tags;
 		tags.put(key, value);
-		update(pool);
+		update("addTag", pool);
 	}
 
 	/**
@@ -197,7 +118,7 @@ public class VirtualMachinePoolImpl {
 			tags.remove(key);
 		}
 
-		update(pool);
+		update("deleteTag", pool);
 	}
 
 	/*************************************************
@@ -248,7 +169,7 @@ public class VirtualMachinePoolImpl {
 		lifecycle.setDeletePool(deletePool);
 		spec.setLifecycle(lifecycle);
 		kind.setSpec(spec);
-		update(kind);
+		update(DeletePool.class.getSimpleName(), kind);
 //		delete(kind);
 		return true;
 	}
@@ -303,7 +224,7 @@ public class VirtualMachinePoolImpl {
 		lifecycle.setDeletePool(deletePool);
 		spec.setLifecycle(lifecycle);
 		kind.setSpec(spec);
-		update(kind);
+		update(DeletePool.class.getSimpleName(), kind);
 //		delete(kind);
 		return true;
 	}

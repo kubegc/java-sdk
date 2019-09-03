@@ -25,7 +25,6 @@ import com.github.kubesys.kubernetes.impl.VirtualMachineImpl;
 import com.github.kubesys.kubernetes.impl.VirtualMachineNetworkImpl;
 import com.github.kubesys.kubernetes.impl.VirtualMachinePoolImpl;
 import com.github.kubesys.kubernetes.impl.VirtualMachineSnapshotImpl;
-import com.github.kubesys.kubernetes.json.JSONImpl;
 
 import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.api.model.KubernetesResource;
@@ -306,18 +305,4 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 		return new NodeSelectorImpl(this);
 	}
 
-	/***************************************************************
-	 * 
-	 *                 Ignore the following methods
-	 * 
-	 ****************************************************************/
-	
-	@SuppressWarnings("unchecked")
-	public ParameterNamespaceListVisitFromServerGetDeleteRecreateWaitApplicable<HasMetadata, Boolean> load(String kind, InputStream is) {
-		try {
-			return new JSONImpl(this, kind, is);
-		} catch (Exception ex) {
-			return load(is);
-		}
-	}
 }

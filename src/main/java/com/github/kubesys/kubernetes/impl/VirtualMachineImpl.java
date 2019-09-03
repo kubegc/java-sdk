@@ -3,15 +3,12 @@
  */
 package com.github.kubesys.kubernetes.impl;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
-import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
 import com.github.kubesys.kubernetes.api.model.VirtualMachine;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineList;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineSpec;
@@ -44,16 +41,14 @@ import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UpdateOS
 import io.fabric8.kubernetes.api.model.ObjectMeta;
 import io.fabric8.kubernetes.client.dsl.FilterWatchListDeletable;
 import io.fabric8.kubernetes.client.dsl.Gettable;
-import io.fabric8.kubernetes.client.dsl.MixedOperation;
 
 /**
- * @author wuheng@otcaix.iscas.ac.cn
- * @author xuyuanjia2017@otcaix.iscas.ac.cn
- * @author xianghao16@otcaix.iscas.ac.cn
- * @author yangchen18@otcaix.iscas.ac.cn
- * @since Thu Jun 13 21:39:55 CST 2019
+ * @author  wuheng@otcaix.iscas.ac.cn
+ * 
+ * @version 1.0.0
+ * @since   2019/9/1
  **/
-public class VirtualMachineImpl {
+public class VirtualMachineImpl extends AbstractImpl {
 
 	/**
 	 * pattern
@@ -64,18 +59,6 @@ public class VirtualMachineImpl {
 	 * m_logger
 	 */
 	protected final static Logger m_logger = Logger.getLogger(VirtualMachineImpl.class.getName());
-
-	/**
-	 * client
-	 */
-	@SuppressWarnings("rawtypes")
-	protected final MixedOperation client = ExtendedKubernetesClient.crdClients
-			.get(VirtualMachine.class.getSimpleName());;
-
-	/**
-	 * support commands
-	 */
-	public static List<String> cmds = new ArrayList<String>();
 
 	static {
 		cmds.add("createAndStartVMFromISO");
@@ -102,67 +85,6 @@ public class VirtualMachineImpl {
 		cmds.add("unplugNIC");
 		cmds.add("changeNumberOfCPU");
 		cmds.add("resizeRAM");
-	}
-
-	/*************************************************
-	 * 
-	 * Core
-	 * 
-	 **************************************************/
-
-	/**
-	 * return true or an exception
-	 * 
-	 * @param vm VM's description
-	 * @return true or an exception
-	 * @throws Exception create VM fail
-	 */
-	@SuppressWarnings("unchecked")
-	@Deprecated
-	public boolean create(VirtualMachine vm) throws Exception {
-		client.create(vm);
-		m_logger.log(Level.INFO, "create VirtualMachine " + vm.getMetadata().getName() + " successful.");
-		return true;
-	}
-
-	/**
-	 * @param vm VM's description
-	 * @return true or an exception
-	 * @throws Exception delete VM fail
-	 */
-	@SuppressWarnings("unchecked")
-	@Deprecated
-	public boolean delete(VirtualMachine vm) throws Exception {
-		client.delete(vm);
-		m_logger.log(Level.INFO, "delete VirtualMachine " + vm.getMetadata().getName() + " successful.");
-		return true;
-	}
-
-	/**
-	 * @param vm VM's description
-	 * @return true or an exception
-	 * @throws Exception update VM fail
-	 */
-	@SuppressWarnings("unchecked")
-	@Deprecated
-	public boolean update(VirtualMachine vm) throws Exception {
-		client.createOrReplace(vm);
-		m_logger.log(Level.INFO, "update VirtualMachine " + vm.getMetadata().getName() + " successful.");
-		return true;
-	}
-
-	/**
-	 * @param operator operator
-	 * @param vm       VM's description
-	 * @return true or an exception
-	 * @throws Exception update VM fail
-	 */
-	@SuppressWarnings("unchecked")
-	@Deprecated
-	protected boolean update(String operator, VirtualMachine vm) throws Exception {
-		client.createOrReplace(vm);
-		m_logger.log(Level.INFO, operator + " " + vm.getMetadata().getName() + " successful.");
-		return true;
 	}
 
 	/**
@@ -221,7 +143,7 @@ public class VirtualMachineImpl {
 		Map<String, String> tags = vm.getMetadata().getLabels();
 		tags = (tags == null) ? new HashMap<String, String>() : tags;
 		tags.put(key, value);
-		update(vm);
+		update("addTag", vm);
 	}
 	
 	/**
@@ -239,7 +161,7 @@ public class VirtualMachineImpl {
 		Map<String, String> tags = vm.getMetadata().getLabels();
 		tags = (tags == null) ? new HashMap<String, String>() : tags;
 		tags.put("ha", "true");
-		update(vm);
+		update("setHA", vm);
 		return true;
 	}
 	
@@ -258,7 +180,7 @@ public class VirtualMachineImpl {
 		Map<String, String> tags = vm.getMetadata().getLabels();
 		tags = (tags == null) ? new HashMap<String, String>() : tags;
 		tags.remove("ha");
-		update(vm);
+		update("unsetHA", vm);
 		return true;
 	}
 
@@ -284,7 +206,7 @@ public class VirtualMachineImpl {
 		if (tags != null) {
 			tags.remove(key);
 		}
-		update(vm);
+		update("deleteTag", vm);
 	}
 
 	/*************************************************
@@ -458,7 +380,7 @@ public class VirtualMachineImpl {
 		lifecycle.setDeleteVM(deleteVM);
 		spec.setLifecycle(lifecycle);
 		kind.setSpec(spec);
-		update(kind);
+		update(DeleteVM.class.getSimpleName(), kind);
 //		delete(kind);
 		return true;
 	}
@@ -473,7 +395,7 @@ public class VirtualMachineImpl {
 		labels.put("eventId", eventId);
 		kind.getMetadata().setLabels(labels);
 		kind.getMetadata().getLabels().put("type", "deleted");
-		update(kind);
+		update(DeleteVM.class.getSimpleName(), kind);
 		return stopVM(name, new StopVM());
 	}
 
@@ -934,7 +856,7 @@ public class VirtualMachineImpl {
 		lifecycle.setDeleteVM(deleteVM);
 		spec.setLifecycle(lifecycle);
 		kind.setSpec(spec);
-		update(kind);
+		update(DeleteVM.class.getSimpleName(), kind);
 //		delete(kind);
 		return true;
 	}
@@ -945,7 +867,7 @@ public class VirtualMachineImpl {
 			throw new RuntimeException("VirtualMachine" + name + " is not exist or it is in a wrong status");
 		}
 		kind.getMetadata().getLabels().put("type", "deleted");
-		update(kind);
+		update(DeleteVM.class.getSimpleName(), kind);
 		return stopVM(name, new StopVM());
 	}
 
