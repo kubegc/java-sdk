@@ -20,14 +20,14 @@ public class CreateVMPoolTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachinePools()
-				.createPool("poolf", "vm.node30", getPool());
+				.createPool("poolg", "vm.node30", getPool());
 		System.out.println(successful);
 	}
 
 	protected static Lifecycle.CreatePool getPool() {
 		Lifecycle.CreatePool createPool = new Lifecycle.CreatePool();
 		createPool.setType("dir");
-		createPool.setTarget("/var/lib/libvirt/poolf");
+		createPool.setTarget("/var/lib/libvirt/poolg");
 		return createPool;
 	}
 	

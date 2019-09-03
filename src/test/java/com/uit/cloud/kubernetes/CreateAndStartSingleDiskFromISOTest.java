@@ -32,7 +32,8 @@ public class CreateAndStartSingleDiskFromISOTest {
 		// default value
 		createAndStartVMFromISO.setMetadata("uuid=950646e8-c17a-49d0-b83c-1c797811e001");
 		createAndStartVMFromISO.setVirt_type("kvm"); 
-		createAndStartVMFromISO.setOs_variant("centos7.0");
+		// windos use os_variant= "windows" serials. See support serials by running cmd in compute node `osinfo-query os`.
+		createAndStartVMFromISO.setOs_variant("centos7");
 		createAndStartVMFromISO.setNoautoconsole(true); 
 		
 		// calculationSpecification
@@ -86,14 +87,13 @@ public class CreateAndStartSingleDiskFromISOTest {
 		createAndStartVMFromISO.setGraphics("vnc,listen=0.0.0.0" + getconsolePassword("123456"));
 //		createAndStartVMFromISO.setGraphics("spice,listen=0.0.0.0" + getconsolePassword("567890")); 
 		
-		createAndStartVMFromISO.setOs_variant("rhel7");
 		return createAndStartVMFromISO;
 	}
 
 
 	protected static void calculationSpecification(CreateAndStartVMFromISO createAndStartVMFromISO) {
-		createAndStartVMFromISO.setMemory("1024");    
-		createAndStartVMFromISO.setVcpus("1" + getCPUSet("1-4,6,8"));
+		createAndStartVMFromISO.setMemory("4096");    
+		createAndStartVMFromISO.setVcpus("4" + getCPUSet("1-4,6,8"));
 	}
 	
 	protected static String getCPUSet(String cpuset) {

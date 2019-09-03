@@ -13,7 +13,7 @@ import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CreateAn
  * This code is used to manage CustomResource's lifecycle,
  * such as VirtualMachine
  */
-public class CreateAndStartFromISOTest {
+public class CreateAndStartSingleDiskWindowsFromISOTest {
 	
 	
 	public static void main(String[] args) throws Exception {
@@ -21,7 +21,7 @@ public class CreateAndStartFromISOTest {
 		CreateAndStartVMFromISO createAndStartVMFromISO = get();
 		// name
 		boolean successful = client.virtualMachines()
-				.createAndStartVMFromISO("950646e8c17a49d0b83c1c797811e045", "node30", createAndStartVMFromISO, "123");
+				.createAndStartVMFromISO("950646e8c17a49d0b83c1c797811e002", "vm.node30", createAndStartVMFromISO, "123");
 		System.out.println(successful);
 	}
 	
@@ -30,18 +30,20 @@ public class CreateAndStartFromISOTest {
 		
 		CreateAndStartVMFromISO createAndStartVMFromISO = new CreateAndStartVMFromISO();
 		// default value
-		createAndStartVMFromISO.setMetadata("uuid=950646e8-c17a-49d0-b83c-1c797811e045");
+		createAndStartVMFromISO.setMetadata("uuid=950646e8-c17a-49d0-b83c-1c797811e002");
 		createAndStartVMFromISO.setVirt_type("kvm"); 
-		createAndStartVMFromISO.setOs_variant("centos7");
+		// windos use os_variant= "windows" serials. See support serials by running cmd in compute node `osinfo-query os`.
+		createAndStartVMFromISO.setOs_variant("win7");
 		createAndStartVMFromISO.setNoautoconsole(true); 
 		
 		// calculationSpecification
 		calculationSpecification(createAndStartVMFromISO);  
 		
-		// cdrom
-		createAndStartVMFromISO.setCdrom("/opt/ISO/CentOS-7-x86_64-Minimal-1511.iso"); 
 		// Disk and QoS for 1 disk and many disks
-		createAndStartVMFromISO.setDisk("size=10,read_bytes_sec=1024000000,write_bytes_sec=1024000000 --disk size=20,read_bytes_sec=1024000000,write_bytes_sec=1024000000 " + getOtherCDROMs());
+		// path /var/lib/libvirt/images/test11 can be get by CreateDiskTest
+		// windos use target=hda as boot disk.
+		createAndStartVMFromISO.setDisk("size=30,target=hda,read_bytes_sec=1024000000,write_bytes_sec=1024000000");
+		createAndStartVMFromISO.setCdrom("/opt/ISO/cn_windows_7_ultimate_with_sp1_x64_dvd_u_677408.iso");
 		
 		/*
 		 * l2 network example
@@ -80,7 +82,7 @@ public class CreateAndStartFromISOTest {
 		 * 		switch name
 		 */
 		
-		createAndStartVMFromISO.setNetwork("type=l3bridge,source=br-int,inbound=102400,outbound=102400,ip=192.168.4.8,switch=ls1");  
+		createAndStartVMFromISO.setNetwork("type=l3bridge,source=br-int,inbound=102400,outbound=102400,ip=192.168.5.9,switch=switch");  
 		
 		// consoleMode amd passowrd
 		createAndStartVMFromISO.setGraphics("vnc,listen=0.0.0.0" + getconsolePassword("123456"));
@@ -91,8 +93,8 @@ public class CreateAndStartFromISOTest {
 
 
 	protected static void calculationSpecification(CreateAndStartVMFromISO createAndStartVMFromISO) {
-		createAndStartVMFromISO.setMemory("1024");    
-		createAndStartVMFromISO.setVcpus("1" + getCPUSet("1-4,6,8"));
+		createAndStartVMFromISO.setMemory("4096");    
+		createAndStartVMFromISO.setVcpus("4" + getCPUSet("1-4,6,8"));
 	}
 	
 	protected static String getCPUSet(String cpuset) {

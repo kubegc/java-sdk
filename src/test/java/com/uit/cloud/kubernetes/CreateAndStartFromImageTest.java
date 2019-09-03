@@ -33,7 +33,7 @@ public class CreateAndStartFromImageTest {
 		// default value
 		createAndStartVMFromImage.setMetadata("uuid=650646e8-c17a-49d0-b83c-1c797811e084");
 		createAndStartVMFromImage.setVirt_type("kvm"); 
-		createAndStartVMFromImage.setOs_variant("RHEL");
+		createAndStartVMFromImage.setOs_variant("centos7");
 		createAndStartVMFromImage.setBoot("hd");
 		createAndStartVMFromImage.setNoautoconsole(true); 
 		
@@ -87,7 +87,6 @@ public class CreateAndStartFromImageTest {
 		// consoleMode amd passowrd
 		createAndStartVMFromImage.setGraphics("vnc,listen=0.0.0.0" + getconsolePassword("123456"));
 		
-		createAndStartVMFromImage.setOs_variant("rhel7");
 		return createAndStartVMFromImage;
 	}
 
