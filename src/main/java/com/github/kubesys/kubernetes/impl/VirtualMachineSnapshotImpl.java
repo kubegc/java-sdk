@@ -18,6 +18,7 @@ import com.github.kubesys.kubernetes.api.model.VirtualMachineSnapshotSpec;
 import com.github.kubesys.kubernetes.api.model.virtualmachinesnapshot.Lifecycle;
 import com.github.kubesys.kubernetes.api.model.virtualmachinesnapshot.Lifecycle.CreateSnapshot;
 import com.github.kubesys.kubernetes.api.model.virtualmachinesnapshot.Lifecycle.DeleteSnapshot;
+import com.github.kubesys.kubernetes.api.model.virtualmachinesnapshot.Lifecycle.RevertVirtualMachine;
 
 import io.fabric8.kubernetes.api.model.ObjectMeta;
 import io.fabric8.kubernetes.client.dsl.FilterWatchListDeletable;
@@ -308,6 +309,34 @@ public class VirtualMachineSnapshotImpl {
 		kind.setSpec(spec);
 		update(kind);
 //		delete(kind);
+		return true;
+	}
+	
+	public boolean revertVirtualMachine(String name, RevertVirtualMachine revertVirtualMachine, String eventId) throws Exception {
+		return revertVirtualMachine(name, null, revertVirtualMachine, eventId);
+	}
+
+	public boolean revertVirtualMachine(String name, String nodeName, RevertVirtualMachine revertVirtualMachine, String eventId) throws Exception {
+		VirtualMachineSnapshot kind = new VirtualMachineSnapshot();
+		kind.setApiVersion("cloudplus.io/v1alpha3");
+		kind.setKind("VirtualMachineSnapshot");
+		VirtualMachineSnapshotSpec spec = new VirtualMachineSnapshotSpec();
+		ObjectMeta om = new ObjectMeta();
+		if (nodeName != null) {
+			Map<String, String> labels = new HashMap<String, String>();
+			labels.put("host", nodeName);
+			labels.put("eventId", eventId);
+			om.setLabels(labels);
+			spec.setNodeName(nodeName);
+		}
+		
+		om.setName(name);
+		kind.setMetadata(om);
+		Lifecycle lifecycle = new Lifecycle();
+		lifecycle.setRevertVirtualMachine(revertVirtualMachine);
+		spec.setLifecycle(lifecycle);
+		kind.setSpec(spec);
+		update(kind);
 		return true;
 	}
 

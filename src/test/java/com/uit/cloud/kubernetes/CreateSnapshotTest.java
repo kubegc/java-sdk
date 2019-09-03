@@ -19,7 +19,7 @@ public class CreateSnapshotTest {
 	public static void main(String[] args) throws Exception {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
-		boolean successful = client.virtualMachineSanshots()
+		boolean successful = client.virtualMachineSnapshots()
 				.createSnapshot("hello12", "vm.node30", getCreateSnapshot());
 		System.out.println(successful);
 	}

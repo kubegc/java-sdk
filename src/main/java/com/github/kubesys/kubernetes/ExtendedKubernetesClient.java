@@ -215,7 +215,7 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 	/**
 	 * @return        VirtualMachineSnapshot
 	 */
-	public VirtualMachineSnapshotImpl virtualMachineSanshots() {
+	public VirtualMachineSnapshotImpl virtualMachineSnapshots() {
 		return new VirtualMachineSnapshotImpl();
 	}
 	

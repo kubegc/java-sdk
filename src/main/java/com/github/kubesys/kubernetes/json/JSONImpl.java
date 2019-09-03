@@ -52,7 +52,7 @@ public class JSONImpl implements ParameterNamespaceListVisitFromServerGetDeleteR
 			} else if (VirtualMachineDisk.class.getSimpleName().equals("kind")) {
 				client.virtualMachineDisks().create((VirtualMachineDisk) obj);
 			} else if (VirtualMachineSnapshot.class.getSimpleName().equals("kind")) {
-				client.virtualMachineSanshots().create((VirtualMachineSnapshot) obj);
+				client.virtualMachineSnapshots().create((VirtualMachineSnapshot) obj);
 			} else if (VirtualMachinePool.class.getSimpleName().equals("kind")) {
 				client.virtualMachinePools().create((VirtualMachinePool) obj);
 			} else if (VirtualMachineImage.class.getSimpleName().equals("kind")) {
@@ -67,7 +67,7 @@ public class JSONImpl implements ParameterNamespaceListVisitFromServerGetDeleteR
 				} else if (VirtualMachineDisk.class.getSimpleName().equals("kind")) {
 					client.virtualMachineDisks().update((VirtualMachineDisk) obj);
 				} else if (VirtualMachineSnapshot.class.getSimpleName().equals("kind")) {
-					client.virtualMachineSanshots().update((VirtualMachineSnapshot) obj);
+					client.virtualMachineSnapshots().update((VirtualMachineSnapshot) obj);
 				} else if (VirtualMachinePool.class.getSimpleName().equals("kind")) {
 					client.virtualMachinePools().update((VirtualMachinePool) obj);
 				} else if (VirtualMachineImage.class.getSimpleName().equals("kind")) {
@@ -90,7 +90,7 @@ public class JSONImpl implements ParameterNamespaceListVisitFromServerGetDeleteR
 			} else if (VirtualMachineDisk.class.getSimpleName().equals("kind")) {
 				client.virtualMachineDisks().delete((VirtualMachineDisk) obj);
 			} else if (VirtualMachineSnapshot.class.getSimpleName().equals("kind")) {
-				client.virtualMachineSanshots().delete((VirtualMachineSnapshot) obj);
+				client.virtualMachineSnapshots().delete((VirtualMachineSnapshot) obj);
 			} else if (VirtualMachinePool.class.getSimpleName().equals("kind")) {
 				client.virtualMachinePools().delete((VirtualMachinePool) obj);
 			} else if (VirtualMachineImage.class.getSimpleName().equals("kind")) {
