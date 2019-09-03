@@ -42,7 +42,9 @@ import io.fabric8.kubernetes.internal.KubernetesDeserializer;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
- * @since 2019/7/15
+ * 
+ * @version 1.0.0
+ * @since   2019/9/3
  *
  */
 public class ExtendedKubernetesClient extends DefaultKubernetesClient {
@@ -91,6 +93,20 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 	}
 
 	
+	/***************************************************************
+	 * 
+	 *                        Core
+	 * 
+	 * 1. initKube: read and initialize all configuration in variable configs. 
+	 *    1.1 loadConfigFile:     load each configuration
+	 *    1.2 registerCrdToKube:  register each configuration as a Kubernetes CRD   
+	 *    1.3 registerCrdClients: generate a CRD client for each registered Kubernetes CRD 
+	 * 
+	 * Here, CRD is a concept of Kubernetes, please see
+	 * https://kubernetes.io/docs/tasks/access-kubernetes-api
+	 *  		/custom-resources/custom-resource-definitions/
+	 *  
+	 ****************************************************************/
 	
 	/**
 	 * extend Kubernetes to support custom resources
@@ -177,6 +193,17 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 					.inNamespace("default");
 	}
 
+	/***************************************************************
+	 * 
+	 *                         Utils
+	 *  following the fabric8 JDK style and providing CRD 
+	 *  
+	 *  Here, CRD is a concept of Kubernetes, please see
+	 *  https://kubernetes.io/docs/tasks/access-kubernetes-api
+	 *  		/custom-resources/custom-resource-definitions/
+	 * 
+	 ****************************************************************/
+	
 	/**
 	 * @return        VirtualMachine 
 	 */
@@ -274,6 +301,13 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 		return new NodeSelectorImpl(this);
 	}
 
+	/***************************************************************
+	 * 
+	 *                 Ignore the following methods
+	 * 
+	 ****************************************************************/
+	
+	@SuppressWarnings("unchecked")
 	public ParameterNamespaceListVisitFromServerGetDeleteRecreateWaitApplicable<HasMetadata, Boolean> load(String kind, InputStream is) {
 		try {
 			return new JSONImpl(this, kind, is);
