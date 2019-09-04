@@ -12,11 +12,16 @@ import io.fabric8.kubernetes.api.model.KubernetesResource;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
- * @author xuyuanjia2017@otcaix.iscas.ac.cn
- * @author xianghao16@otcaix.iscas.ac.cn
- * @author yangchen18@otcaix.iscas.ac.cn
- * @since Thu Jun 13 21:44:40 CST 2019
- **/
+ * 
+ * @version 1.2.0
+ * @since   2019/9/4
+ *
+ * <p>
+ * <code>ExtendedKubernetesClient<code> extends <code>DefaultKubernetesClient<code>
+ * to provide the lifecycle of VirtualMachine, VirtualMachinePool, VirtualMachineDisk,
+ * VirtualMachineImage, VirtualMachineSnapshot, VirtualMachineNetwork
+ * 
+ */
 @SuppressWarnings("rawtypes")
 @JsonDeserialize(using = JsonDeserializer.None.class)
 public class VirtualMachineSpec extends ExtendedCustomResourceDefinitionSpec implements KubernetesResource {

@@ -1,7 +1,7 @@
 /*
  * Copyright (2019, ) Institute of Software, Chinese Academy of Sciences
  */
-package com.github.kubesys.generators;
+package com.github.kubesys.interior.generators;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -39,11 +39,11 @@ public class LibvirtSpecialFieldGenerator {
 		primitives.add("long");
 	}
 	
-	protected static void analyser(Class clazz) throws Exception {
+	protected static void analyser(Class<?> clazz) throws Exception {
 		analyser(clazz.getSimpleName().toLowerCase(), clazz);
 	}
 	
-	protected static void analyser(String parent, Class clazz) throws Exception {
+	protected static void analyser(String parent, Class<?> clazz) throws Exception {
 		for (Field field : clazz.getDeclaredFields()) {
 			String typename = field.getType().getName();
 			if (primitives.contains(typename)) {

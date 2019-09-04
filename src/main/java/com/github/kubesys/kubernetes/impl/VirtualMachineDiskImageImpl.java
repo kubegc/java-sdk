@@ -47,6 +47,7 @@ public class VirtualMachineDiskImageImpl extends AbstractImpl<VirtualMachineDisk
 	 * 
 	 **************************************************/
 
+	
 	public boolean convertDiskImageToDisk(String name, ConvertDiskImageToDisk convertDiskImageToDisk) throws Exception {
 		return convertDiskImageToDisk(name, convertDiskImageToDisk, null);
 	}

@@ -1,7 +1,7 @@
 /*
  * Copyright (2019, ) Institute of Software, Chinese Academy of Sciences
  */
-package com.github.kubesys.generators;
+package com.github.kubesys.interior.generators;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -10,13 +10,6 @@ import java.util.List;
 import java.util.Set;
 
 import com.alibaba.fastjson.JSON;
-
-
-
-
-
-
-
 
 /**
  * @version 1.0.0

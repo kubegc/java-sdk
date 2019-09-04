@@ -5,6 +5,10 @@ package com.github.kubesys.kubernetes.api.model.virtualmachine;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.github.kubesys.interior.annotations.Function;
+import com.github.kubesys.interior.annotations.Parameter;
+import com.github.kubesys.interior.annotations.Parent;
+import com.github.kubesys.kubernetes.ExtendedKubernetesConstants;
 
 /**
  * @author  wuheng@otcaix.iscas.ac.cn
@@ -15,54 +19,139 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
  **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+@Parent(value = "VirtualMachine")
 public class Lifecycle {
 
-	protected RestoreVM restoreVM;
-
+	@Function(shortName = "虚拟机内存扩容", description = "对虚拟机内存扩容，" 
+					+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
+	  prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VM, 
+	  exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
 	protected ResizeRAM resizeRAM;
 
+	@Function(shortName = "虚拟机暂停", description = "对运行的虚拟机进行暂停操作，已经暂停虚拟机执行暂停会报错" 
+			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
+	  prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VM, 
+	  exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
 	protected SuspendVM suspendVM;
 
+	@Function(shortName = "强制关闭虚拟机", description = "强制关闭虚拟机，虚拟机在某些情况下无法关闭，本质相当于拔掉电源" 
+			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
+	  prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VM, 
+	  exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
 	protected StopVMForce stopVMForce;
 
+	@Function(shortName = "虚拟机卸载设备", description = "卸载GPU、云盘、网卡等资源，" 
+			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
+	  prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VM, 
+	  exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
 	protected UnplugDevice unplugDevice;
 
+	@Function(shortName = "虚拟机卸载网卡", description = "卸载网卡，" 
+			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
+	  prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VM, 
+	  exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
 	protected UnplugNIC unplugNIC;
 
+	@Function(shortName = "虚拟机迁移", description = "虚拟机迁移，必须依赖共享存储" 
+			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
+	  prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VM, 
+	  exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
 	protected MigrateVM migrateVM;
 
+	@Function(shortName = "虚拟机CPU设置", description = "修改虚拟机CPU个数" 
+			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
+	  prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VM, 
+	  exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
 	protected ChangeNumberOfCPU changeNumberOfCPU;
 
+	@Function(shortName = "恢复虚拟机", description = "恢复暂停的虚拟机，对运行的虚拟机执行恢复会报错" 
+			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
+	  prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VM, 
+	  exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
 	protected ResumeVM resumeVM;
 
+	@Function(shortName = "虚拟机添加云盘", description = "添加云盘，云盘必须通过CreateVirtualMachineDisk预先创建好" 
+			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
+	  prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VM + ",或CreateVirtualMachineDisk", 
+	  exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
 	protected PlugDisk plugDisk;
 
+	@Function(shortName = "虚拟机添加设备", description = "添加GPU、云盘、网卡等，这种方法相对于pluginDisk等可设置高级选项，如QoS" 
+			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
+	  prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VM, 
+	  exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
 	protected PlugDevice plugDevice;
 
+	@Function(shortName = "强制重启虚拟机", description = "强制重置虚拟机，即强制重启虚拟机" 
+			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
+	  prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VM, 
+	  exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
 	protected ResetVM resetVM;
 
+	@Function(shortName = "虚拟机卸载云盘", description = "卸载虚拟机云盘" 
+			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
+	  prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VM + ",或CreateVirtualMachineDisk", 
+	  exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
 	protected UnplugDisk unplugDisk;
 
+	@Function(shortName = "虚拟机关机", description = "关闭虚拟机，但不一定能关闭，如虚拟机中OS受损，对关闭虚拟机再执行关闭会报错" 
+			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
+	  prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VM, 
+	  exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
 	protected StopVM stopVM;
 
+	@Function(shortName = "启动虚拟机", description = "启动虚拟机，能否正常启动取决于虚拟机OS是否受损，对运行虚拟机执行启动会报错" 
+			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
+	  prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VM, 
+	  exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
 	protected StartVM startVM;
 
+	@Function(shortName = "删除虚拟机", description = "删除虚拟机，需要先关闭虚拟机" 
+			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
+	  prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VM + "或StopVM，或StopVMForce", 
+	  exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
 	protected DeleteVM deleteVM;
 
+	@Function(shortName = "通过ISO安装虚拟机", description = "通过光驱安装云OS，光驱必须存在" 
+			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
+	  prerequisite = "", 
+	  exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
 	protected CreateAndStartVMFromISO createAndStartVMFromISO;
 	
+	@Function(shortName = "通过镜像安装虚拟机", description = "通过虚拟机镜像VirtualMachineImage创建云OS" 
+			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
+	  prerequisite = "", 
+	  exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
 	protected CreateAndStartVMFromImage createAndStartVMFromImage;
 
+	@Function(shortName = "虚拟机重启", description = "重启虚拟机，能否正常重新启动取决于虚拟机OS是否受损" 
+			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
+	  prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VM, 
+	  exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
 	protected RebootVM rebootVM;
 
+	@Function(shortName = "虚拟机添加网卡", description = "给虚拟机添加网卡" 
+			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
+	  prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VM, 
+	  exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
 	protected PlugNIC plugNIC;
 
-	protected SaveVM saveVM;
-	
+	@Function(shortName = "插入或拔出光驱", description = "插入或者拔出光驱" 
+			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
+	  prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VM + "或plugDevice", 
+	  exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
 	protected ManageISO manageISO;
 	
+	@Function(shortName = "更换虚拟机OS", description = "更换云主机的OS，云主机必须关机" 
+			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
+	  prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VM, 
+	  exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
 	protected UpdateOS updateOS;
 	
+	@Function(shortName = "转化为虚拟机模板", description = "转化为虚拟机镜像" 
+			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
+	  prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VM, 
+	  exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
 	protected ConvertVMToImage convertVMToImage;
 	
 	public Lifecycle() {
@@ -83,14 +172,6 @@ public class Lifecycle {
 
 	public void setUpdateOS(UpdateOS updateOS) {
 		this.updateOS = updateOS;
-	}
-
-	public void setRestoreVM(RestoreVM restoreVM) {
-		this.restoreVM = restoreVM;
-	}
-
-	public RestoreVM getRestoreVM() {
-		return this.restoreVM;
 	}
 
 	public void setResizeRAM(ResizeRAM resizeRAM) {
@@ -245,14 +326,6 @@ public class Lifecycle {
 		return this.plugNIC;
 	}
 
-	public void setSaveVM(SaveVM saveVM) {
-		this.saveVM = saveVM;
-	}
-
-	public SaveVM getSaveVM() {
-		return this.saveVM;
-	}
-
 	public ConvertVMToImage getConvertVMToImage() {
 		return convertVMToImage;
 	}
@@ -263,73 +336,18 @@ public class Lifecycle {
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class RestoreVM {
-
-		protected Boolean running;
-
-		protected Boolean bypass_cache;
-
-		protected Boolean paused;
-
-		protected String file;
-
-		protected String xml;
-
-		public RestoreVM() {
-
-		}
-
-		public void setRunning(Boolean running) {
-			this.running = running;
-		}
-
-		public Boolean getRunning() {
-			return this.running;
-		}
-
-		public void setBypass_cache(Boolean bypass_cache) {
-			this.bypass_cache = bypass_cache;
-		}
-
-		public Boolean getBypass_cache() {
-			return this.bypass_cache;
-		}
-
-		public void setPaused(Boolean paused) {
-			this.paused = paused;
-		}
-
-		public Boolean getPaused() {
-			return this.paused;
-		}
-
-		public void setFile(String file) {
-			this.file = file;
-		}
-
-		public String getFile() {
-			return this.file;
-		}
-
-		public void setXml(String xml) {
-			this.xml = xml;
-		}
-
-		public String getXml() {
-			return this.xml;
-		}
-	}
-
-	@JsonInclude(JsonInclude.Include.NON_NULL)
-	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class ResizeRAM {
 
+		@Parameter(required = false, description = "", constraint = "", example = "")
 		protected Boolean current;
 
-		protected Integer size;
+		@Parameter(required = true,  description = "内存大小，单位为KiB", constraint = "", example = "")
+		protected String size;
 
+		@Parameter(required = false, description = "下一次启动生效", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected Boolean config;
 
+		@Parameter(required = false, description = "本次生效，如果虚拟机开机状态使用", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected Boolean live;
 
 		public ResizeRAM() {
@@ -344,12 +362,12 @@ public class Lifecycle {
 			return this.current;
 		}
 
-		public void setSize(Integer size) {
-			this.size = size;
+		public String getSize() {
+			return size;
 		}
 
-		public Integer getSize() {
-			return this.size;
+		public void setSize(String size) {
+			this.size = size;
 		}
 
 		public void setConfig(Boolean config) {
@@ -2178,74 +2196,6 @@ public class Lifecycle {
 		}
 	}
 
-	@JsonInclude(JsonInclude.Include.NON_NULL)
-	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class SaveVM {
-
-		protected Boolean running;
-
-		protected Boolean bypass_cache;
-
-		protected Boolean paused;
-
-		protected String file;
-
-		protected String xml;
-
-		protected Boolean verbose;
-
-		public SaveVM() {
-
-		}
-
-		public void setRunning(Boolean running) {
-			this.running = running;
-		}
-
-		public Boolean getRunning() {
-			return this.running;
-		}
-
-		public void setBypass_cache(Boolean bypass_cache) {
-			this.bypass_cache = bypass_cache;
-		}
-
-		public Boolean getBypass_cache() {
-			return this.bypass_cache;
-		}
-
-		public void setPaused(Boolean paused) {
-			this.paused = paused;
-		}
-
-		public Boolean getPaused() {
-			return this.paused;
-		}
-
-		public void setFile(String file) {
-			this.file = file;
-		}
-
-		public String getFile() {
-			return this.file;
-		}
-
-		public void setXml(String xml) {
-			this.xml = xml;
-		}
-
-		public String getXml() {
-			return this.xml;
-		}
-
-		public void setVerbose(Boolean verbose) {
-			this.verbose = verbose;
-		}
-
-		public Boolean getVerbose() {
-			return this.verbose;
-		}
-	}
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)

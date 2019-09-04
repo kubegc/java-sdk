@@ -1,18 +1,17 @@
 /*
  * Copyright (2019, ) Institute of Software, Chinese Academy of Sciences
  */
-package com.github.kubesys.generators.doc;
+package com.github.kubesys.interior.generators;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.github.kubesys.kubernetes.impl.VirtualMachineDiskImpl;
-import com.github.kubesys.kubernetes.impl.VirtualMachineImageImpl;
-import com.github.kubesys.kubernetes.impl.VirtualMachineImpl;
-import com.github.kubesys.kubernetes.impl.VirtualMachineSnapshotImpl;
+import com.github.kubesys.interior.annotations.Function;
+import com.github.kubesys.interior.annotations.Parent;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -137,12 +136,6 @@ public class APIDocGenerator {
 		return sb;
 	}
 
-	public static void main(String[] args) throws Exception {
-		APIDocGenerator gen = new APIDocGenerator();
-		gen.genDoc();
-		System.out.println(gen.getDoc().toString());
-	}
-	
 	protected static String setMethod(String name) {
 		return "set" + name.substring(0, 1).toUpperCase()
 							+ name.substring(1);
@@ -153,21 +146,56 @@ public class APIDocGenerator {
 							+ name.substring(1);
 	}
 	
-//	protected static String getImpl(String name) {
-//		String tmp = "client.TYPE().CMD(\"NAME\", CMD);)";
-//		if (VirtualMachineImpl.cmds.contains(name)) {
-//			return tmp.replaceAll("TYPE", "virtualmachines")
-//					.replaceAll("NAME", "vm").replaceAll("CMD", name);
-//		} else if (VirtualMachineDiskImpl.cmds.contains(name)) {
-//			return tmp.replaceAll("TYPE", "virtualmachinedisks")
-//					.replaceAll("NAME", "disk").replaceAll("CMD", name);
-//		} else if (VirtualMachineImageImpl.cmds.contains(name)) {
-//			return tmp.replaceAll("TYPE", "virtualmachineimages")
-//					.replaceAll("NAME", "image").replaceAll("CMD", name);
-//		} else if (VirtualMachineSnapshotImpl.cmds.contains(name)) {
-//			return tmp.replaceAll("TYPE", "virtualmachinesnapshots")
-//					.replaceAll("NAME", "snapshot").replaceAll("CMD", name);
-//		}
-//		return null;
-//	}
+	public static void main(String[] args) throws Exception {
+		StringBuffer sb = new StringBuffer();
+		
+		int i = 1; 
+		for (String classname : JSONGenerator.list) {
+			
+			Class<?> forName = Class.forName(classname);
+			Parent parent = forName.getAnnotation(Parent.class);
+			if (parent == null) {
+				continue;
+			}
+			
+			sb.append("# ").append(i).append(" ")
+				.append(parent.value()).append("\n\n");
+			
+			int j = 1;
+			for (Field field : forName.getDeclaredFields()) {
+				Function function = field.getAnnotation(Function.class);
+				
+				sb.append("## ").append(i).append(".").append(j++).append(" ")
+						.append(field.getType().getSimpleName())
+						.append("(").append(function.shortName()).append(")").append("\n\n");
+				
+				if (function != null) {
+					sb.append("**接口功能:**").append("\n");
+					sb.append("\t").append(function.description()).append("\n\n");
+					
+					sb.append("**接口依赖:**").append("\n");
+					sb.append("\t").append(function.prerequisite()).append("\n\n");
+					
+					sb.append("**接口所属:**").append("\n");
+					sb.append("\t").append(classname).append(".").append(field.getType().getSimpleName()).append("\n\n");
+					
+					sb.append("**参数描述:**").append("\n\n");
+					
+					sb.append("**接口异常:**").append("\n\n");
+					sb.append("异常分为两类:(1)在调用本方法时因资源重名或不存在，或上一次操作未处理完导致;"
+							+ "(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况"
+							+ "请查看" + field.getType().getSimpleName() + "spec下的status域，从message中获取详细异常信息").append("\n\n");
+					sb.append("| name  | description | ").append("\n");
+					sb.append("| ----- | ----- | ").append("\n");
+					sb.append("| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |").append("\n");
+					sb.append("| VirtctlError | Libvirt不支持的生命周期    |").append("\n");
+					sb.append("| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |").append("\n");
+					sb.append("| Exception    | 后台代码异常退出    |").append("\n\n");
+				}
+			}
+			i++;
+		}
+		
+		System.out.println(sb.toString());
+	}
 }

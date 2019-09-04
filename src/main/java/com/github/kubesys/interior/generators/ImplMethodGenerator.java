@@ -1,7 +1,7 @@
 /*
  * Copyright (2019, ) Institute of Software, Chinese Academy of Sciences
  */
-package com.github.kubesys.generators;
+package com.github.kubesys.interior.generators;
 
 import com.github.kubesys.kubernetes.impl.AbstractImpl;
 import com.github.kubesys.kubernetes.impl.VirtualMachineDiskImageImpl;

@@ -5,6 +5,9 @@ package com.github.kubesys.kubernetes.api.model.virtualmachinedisk;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.github.kubesys.interior.annotations.Function;
+import com.github.kubesys.interior.annotations.Parent;
+import com.github.kubesys.kubernetes.ExtendedKubernetesConstants;
 
 /**
  * @author  wuheng@otcaix.iscas.ac.cn
@@ -15,16 +18,37 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
  **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+@Parent(value = "VirtualMachineDisk")
 public class Lifecycle {
 
+	@Function(shortName = "删除云盘", description = "删除云盘，" 
+			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
+		prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VMD, 
+		exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
 	protected DeleteDisk deleteDisk;
 
+	@Function(shortName = "调整云盘大小", description = "调整云盘大小，" 
+			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
+		prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VMD, 
+		exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
 	protected ResizeDisk resizeDisk;
 
+	@Function(shortName = "创建云盘", description = "创建云盘，" 
+			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
+		prerequisite = "", 
+		exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
 	protected CreateDisk createDisk;
 	
+	@Function(shortName = "从镜像创建云盘", description = "从镜像创建云盘，" 
+			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
+		prerequisite = "", 
+		exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
 	protected CreateDiskFromDiskImage createDiskFromDiskImage;
 	
+	@Function(shortName = "保存为云盘镜像", description = "保存为云盘镜像，" 
+			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
+		prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VMD, 
+		exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
 	protected ConvertDiskToDiskImage convertDiskToDiskImage;
 
 	protected CloneDisk cloneDisk;

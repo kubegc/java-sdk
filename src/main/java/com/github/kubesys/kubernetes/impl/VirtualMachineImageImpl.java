@@ -3,9 +3,6 @@
  */
 package com.github.kubesys.kubernetes.impl;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.github.kubesys.kubernetes.api.model.VirtualMachineImage;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineImageList;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineImageSpec;
