@@ -13,8 +13,6 @@ import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle;
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.CreateSwitch;
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.DeleteSwitch;
 
-import io.fabric8.kubernetes.api.model.ObjectMeta;
-
 /**
  * @author  wuheng@otcaix.iscas.ac.cn
  * 
@@ -23,18 +21,6 @@ import io.fabric8.kubernetes.api.model.ObjectMeta;
  **/
 public class VirtualMachineNetworkImpl extends AbstractImpl<VirtualMachineNetwork, VirtualMachineNetworkList, VirtualMachineNetworkSpec> {
 
-	static {
-		cmds.add("createSwitch");
-		cmds.add("deleteSwitch");
-		cmds.add("setBridgeVlan");
-		cmds.add("unsetBridgeVlan");
-		cmds.add("createFloatIP");
-		cmds.add("deleteFloatIP");
-		cmds.add("bindFloatIP");
-		cmds.add("unbindFloatIP");
-	}
-
-	
 	@Override
 	public VirtualMachineNetwork getModel() {
 		return new VirtualMachineNetwork();

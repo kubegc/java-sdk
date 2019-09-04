@@ -77,7 +77,7 @@ public class APIDocGenerator {
 				sb.append("\tcmd." + setMethod(name) + "(" + type + ");").append("\n");
 			}
 			sb.append("}").append("\n");
-			sb.append(getImpl(cmds.get(cmd))).append("\n");
+//			sb.append(getImpl(cmds.get(cmd))).append("\n");
 			sb.append("```").append("\n\n");
 		}
 	}
@@ -153,21 +153,21 @@ public class APIDocGenerator {
 							+ name.substring(1);
 	}
 	
-	protected static String getImpl(String name) {
-		String tmp = "client.TYPE().CMD(\"NAME\", CMD);)";
-		if (VirtualMachineImpl.cmds.contains(name)) {
-			return tmp.replaceAll("TYPE", "virtualmachines")
-					.replaceAll("NAME", "vm").replaceAll("CMD", name);
-		} else if (VirtualMachineDiskImpl.cmds.contains(name)) {
-			return tmp.replaceAll("TYPE", "virtualmachinedisks")
-					.replaceAll("NAME", "disk").replaceAll("CMD", name);
-		} else if (VirtualMachineImageImpl.cmds.contains(name)) {
-			return tmp.replaceAll("TYPE", "virtualmachineimages")
-					.replaceAll("NAME", "image").replaceAll("CMD", name);
-		} else if (VirtualMachineSnapshotImpl.cmds.contains(name)) {
-			return tmp.replaceAll("TYPE", "virtualmachinesnapshots")
-					.replaceAll("NAME", "snapshot").replaceAll("CMD", name);
-		}
-		return null;
-	}
+//	protected static String getImpl(String name) {
+//		String tmp = "client.TYPE().CMD(\"NAME\", CMD);)";
+//		if (VirtualMachineImpl.cmds.contains(name)) {
+//			return tmp.replaceAll("TYPE", "virtualmachines")
+//					.replaceAll("NAME", "vm").replaceAll("CMD", name);
+//		} else if (VirtualMachineDiskImpl.cmds.contains(name)) {
+//			return tmp.replaceAll("TYPE", "virtualmachinedisks")
+//					.replaceAll("NAME", "disk").replaceAll("CMD", name);
+//		} else if (VirtualMachineImageImpl.cmds.contains(name)) {
+//			return tmp.replaceAll("TYPE", "virtualmachineimages")
+//					.replaceAll("NAME", "image").replaceAll("CMD", name);
+//		} else if (VirtualMachineSnapshotImpl.cmds.contains(name)) {
+//			return tmp.replaceAll("TYPE", "virtualmachinesnapshots")
+//					.replaceAll("NAME", "snapshot").replaceAll("CMD", name);
+//		}
+//		return null;
+//	}
 }

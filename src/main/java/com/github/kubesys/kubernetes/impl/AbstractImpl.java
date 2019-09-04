@@ -3,6 +3,7 @@
  */
 package com.github.kubesys.kubernetes.impl;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,6 +14,7 @@ import java.util.logging.Logger;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
 import com.github.kubesys.kubernetes.ExtendedKubernetesConstants;
+import com.github.kubesys.kubernetes.api.model.ExtendedCustomResourceDefinitionSpec;
 
 import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.api.model.ObjectMeta;
@@ -50,12 +52,6 @@ public abstract class AbstractImpl<R, S, T> {
 	 * resource type
 	 */
 	protected final String type;
-
-	/**
-	 * support commands
-	 */
-	public static List<String> cmds = new ArrayList<String>();
-
 
 	/**
 	 * @param client         the client can manage the lifecyle of the specified 
@@ -212,6 +208,24 @@ public abstract class AbstractImpl<R, S, T> {
 	 */
 	public String getKind() {
 		return type;
+	}
+	
+	/**
+	 * @return                     all support cmds
+	 * @throws Exception           an exception
+	 */
+	public List<String> getSupportCmds() throws Exception {
+		String rootPkg = ExtendedCustomResourceDefinitionSpec.class.getPackage().getName();
+		String fullPkg = rootPkg + "." + type.toLowerCase();
+		String className = fullPkg + ".Lifecycle";
+		Class<?> clazz = Class.forName(className);
+		
+		List<String> cmds = new ArrayList<String>();
+		for (Field f : clazz.getDeclaredFields()) {
+			cmds.add(f.getName());
+		}
+		
+		return cmds;
 	}
 	
 	/*******************************************************
@@ -412,4 +426,7 @@ public abstract class AbstractImpl<R, S, T> {
 		om.setLabels(labels);
 		return om;
 	}
+	
+
+	
 }

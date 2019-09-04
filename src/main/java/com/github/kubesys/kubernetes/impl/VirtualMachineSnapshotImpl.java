@@ -24,15 +24,6 @@ import io.fabric8.kubernetes.api.model.ObjectMeta;
  **/
 public class VirtualMachineSnapshotImpl extends AbstractImpl<VirtualMachineSnapshot, VirtualMachineSnapshotList, VirtualMachineSnapshotSpec> {
 
-	static {
-		// 创建快照
-		cmds.add("createSnapshot");
-		// 删除快照
-		cmds.add("deleteSnapshot");
-		// 恢复成虚拟机
-		cmds.add("revertVirtualMachine");
-	}
-
 	@Override
 	public VirtualMachineSnapshot getModel() {
 		return new VirtualMachineSnapshot();

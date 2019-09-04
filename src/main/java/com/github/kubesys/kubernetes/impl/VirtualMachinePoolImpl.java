@@ -13,8 +13,6 @@ import com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle;
 import com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle.CreatePool;
 import com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle.DeletePool;
 
-import io.fabric8.kubernetes.api.model.ObjectMeta;
-
 /**
  * @author  wuheng@otcaix.iscas.ac.cn
  * 
@@ -22,12 +20,6 @@ import io.fabric8.kubernetes.api.model.ObjectMeta;
  * @since   2019/9/1
  **/
 public class VirtualMachinePoolImpl extends AbstractImpl<VirtualMachinePool, VirtualMachinePoolList, VirtualMachinePoolSpec> {
-
-	static {
-		cmds.add("createPool");
-		cmds.add("deletePool");
-	}
-
 
 	@Override
 	public VirtualMachinePool getModel() {

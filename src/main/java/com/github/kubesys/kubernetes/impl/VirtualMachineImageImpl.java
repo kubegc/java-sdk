@@ -22,13 +22,6 @@ import com.github.kubesys.kubernetes.api.model.virtualmachineimage.Lifecycle.Del
  **/
 public class VirtualMachineImageImpl extends AbstractImpl<VirtualMachineImage, VirtualMachineImageList, VirtualMachineImageSpec> {
 
-
-	static {
-		cmds.add("convertImageToVM");
-		cmds.add("createImage");
-		cmds.add("deleteImage");
-	}
-
 	@Override
 	public VirtualMachineImage getModel() {
 		return new VirtualMachineImage();

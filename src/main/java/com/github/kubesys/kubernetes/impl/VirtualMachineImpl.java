@@ -44,34 +44,6 @@ import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UpdateOS
  **/
 public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMachineList, VirtualMachineSpec> {
 
-	static {
-		cmds.add("createAndStartVMFromISO");
-		cmds.add("createAndStartVMFromImage");
-		cmds.add("convertVMToImage");
-		cmds.add("startVM");
-		cmds.add("stopVM");
-		cmds.add("stopVMForce");
-		cmds.add("deleteVM");
-		cmds.add("rebootVM");
-		cmds.add("resetVM");
-		cmds.add("resumeVM");
-		cmds.add("suspendVM");
-		cmds.add("saveVM");
-		cmds.add("restoreVM");
-		cmds.add("migrateVM");
-		cmds.add("manageISO");
-		cmds.add("updateOS");
-		cmds.add("plugDevice");
-		cmds.add("unplugDevice");
-		cmds.add("plugDisk");
-		cmds.add("unplugDisk");
-		cmds.add("plugNIC");
-		cmds.add("unplugNIC");
-		cmds.add("changeNumberOfCPU");
-		cmds.add("resizeRAM");
-	}
-
-
 
 	@Override
 	public VirtualMachine getModel() {
