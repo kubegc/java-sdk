@@ -21,7 +21,7 @@ public class CreateAndStartSingleDiskFromISOTest {
 		CreateAndStartVMFromISO createAndStartVMFromISO = get();
 		// name
 		boolean successful = client.virtualMachines()
-				.createAndStartVMFromISO("650646e8c17a49d0b83c1c797811e083", "node30", createAndStartVMFromISO, "123");
+				.createAndStartVMFromISO("650646e8c17a49d0b83c1c797811e083", "vm.node30", createAndStartVMFromISO, "123");
 		System.out.println(successful);
 	}
 	

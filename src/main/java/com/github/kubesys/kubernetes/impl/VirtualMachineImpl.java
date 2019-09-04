@@ -5,7 +5,6 @@ package com.github.kubesys.kubernetes.impl;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesConstants;
 import com.github.kubesys.kubernetes.api.model.VirtualMachine;
@@ -37,20 +36,13 @@ import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UnplugDi
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UnplugNIC;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UpdateOS;
 
-import io.fabric8.kubernetes.api.model.ObjectMeta;
-
 /**
  * @author  wuheng@otcaix.iscas.ac.cn
  * 
  * @version 1.0.0
  * @since   2019/9/1
  **/
-public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMachineList> {
-
-	/**
-	 * pattern
-	 */
-	protected final static Pattern pattern = Pattern.compile("[a-z0-9-]{32}");
+public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMachineList, VirtualMachineSpec> {
 
 	static {
 		cmds.add("createAndStartVMFromISO");
@@ -80,7 +72,21 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 	}
 
 
-	
+
+	@Override
+	public VirtualMachine getModel() {
+		return new VirtualMachine();
+	}
+
+	@Override
+	public VirtualMachineSpec getSpec() {
+		return new VirtualMachineSpec();
+	}
+
+	@Override
+	public Object getLifecycle() {
+		return new Lifecycle();
+	}
 
 	/**
 	 * @param name  name
@@ -106,6 +112,16 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 	 **************************************************/
 	// -----------------------------------------------------------------
 
+	public boolean createAndStartVMFromISO(String name, CreateAndStartVMFromISO createAndStartVMFromISO)
+			throws Exception {
+		return createAndStartVMFromISO(name, null, createAndStartVMFromISO);
+	}
+
+	public boolean createAndStartVMFromISO(String name, String nodeName,
+			CreateAndStartVMFromISO createAndStartVMFromISO) throws Exception {
+		return createAndStartVMFromISO(name, nodeName, createAndStartVMFromISO, null);
+	}
+	
 	public boolean createAndStartVMFromISO(String name, CreateAndStartVMFromISO createAndStartVMFromISO, String eventId)
 			throws Exception {
 		return createAndStartVMFromISO(name, null, createAndStartVMFromISO, eventId);
@@ -113,63 +129,29 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 
 	public boolean createAndStartVMFromISO(String name, String nodeName,
 			CreateAndStartVMFromISO createAndStartVMFromISO, String eventId) throws Exception {
-		if (!pattern.matcher(name).matches()) {
-			throw new RuntimeException("Invalid name.");
-		}
-		VirtualMachine kind = new VirtualMachine();
-		kind.setApiVersion("cloudplus.io/v1alpha3");
-		kind.setKind("VirtualMachine");
-		VirtualMachineSpec spec = new VirtualMachineSpec();
-		ObjectMeta om = new ObjectMeta();
-		Map<String, String> labels = new HashMap<String, String>();
-		labels.put("type", "normal");
-		labels.put("eventId", eventId);
-		if (nodeName != null) {
-			labels.put("host", nodeName);
-			spec.setNodeName(nodeName);
-		}
-		om.setLabels(labels);
-		om.setName(name);
-		kind.setMetadata(om);
-		Lifecycle lifecycle = new Lifecycle();
-		lifecycle.setCreateAndStartVMFromISO(createAndStartVMFromISO);
-		spec.setLifecycle(lifecycle);
-		kind.setSpec(spec);
-		create(kind);
-		return true;
+		return create(getModel(), createMetadata(name, nodeName, eventId), 
+				createSpec(nodeName, createLifecycle(createAndStartVMFromISO)));
 	}
 
 	public boolean createAndStartVMFromImage(String name, CreateAndStartVMFromImage createAndStartVMFromImage, String eventId)
 			throws Exception {
-		return createAndStartVMFromImage(name, null, createAndStartVMFromImage);
+		return createAndStartVMFromImage(name, null, createAndStartVMFromImage, eventId);
+	}
+
+	public boolean createAndStartVMFromImage(String name, CreateAndStartVMFromImage createAndStartVMFromImage)
+			throws Exception {
+		return createAndStartVMFromImage(name, null, createAndStartVMFromImage, null);
 	}
 
 	public boolean createAndStartVMFromImage(String name, String nodeName,
+			CreateAndStartVMFromImage createAndStartVMFromImage) throws Exception {
+		return createAndStartVMFromImage(name, nodeName, createAndStartVMFromImage, null);
+	}
+	
+	public boolean createAndStartVMFromImage(String name, String nodeName,
 			CreateAndStartVMFromImage createAndStartVMFromImage, String eventId) throws Exception {
-		if (!pattern.matcher(name).matches()) {
-			throw new RuntimeException("Invalid name.");
-		}
-		VirtualMachine kind = new VirtualMachine();
-		kind.setApiVersion("cloudplus.io/v1alpha3");
-		kind.setKind("VirtualMachine");
-		VirtualMachineSpec spec = new VirtualMachineSpec();
-		ObjectMeta om = new ObjectMeta();
-		om.setName(name);
-		Map<String, String> labels = new HashMap<String, String>();
-		labels.put("type", "normal");
-		labels.put("eventId", eventId);
-		if (nodeName != null) {
-			labels.put("host", nodeName);
-			spec.setNodeName(nodeName);
-		}
-		om.setLabels(labels);
-		kind.setMetadata(om);
-		Lifecycle lifecycle = new Lifecycle();
-		lifecycle.setCreateAndStartVMFromImage(createAndStartVMFromImage);
-		spec.setLifecycle(lifecycle);
-		kind.setSpec(spec);
-		create(kind);
-		return true;
+		return create(getModel(), createMetadata(name, nodeName, eventId), 
+				createSpec(nodeName, createLifecycle(createAndStartVMFromImage)));
 	}
 
 	public boolean convertVMToImage(String name, ConvertVMToImage convertVMToImage, String eventId) throws Exception {
@@ -611,69 +593,9 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 	}
 	// ----------------------------------------------------------------
 
-	public boolean createAndStartVMFromISO(String name, CreateAndStartVMFromISO createAndStartVMFromISO)
-			throws Exception {
-		return createAndStartVMFromISO(name, null, createAndStartVMFromISO);
-	}
+	
 
-	public boolean createAndStartVMFromISO(String name, String nodeName,
-			CreateAndStartVMFromISO createAndStartVMFromISO) throws Exception {
-		if (!pattern.matcher(name).matches()) {
-			throw new RuntimeException("Invalid name.");
-		}
-		VirtualMachine kind = new VirtualMachine();
-		kind.setApiVersion("cloudplus.io/v1alpha3");
-		kind.setKind("VirtualMachine");
-		VirtualMachineSpec spec = new VirtualMachineSpec();
-		ObjectMeta om = new ObjectMeta();
-		if (nodeName != null) {
-			Map<String, String> labels = new HashMap<String, String>();
-			labels.put("host", nodeName);
-			labels.put("type", "normal");
-			om.setLabels(labels);
-			spec.setNodeName(nodeName);
-		}
-		om.setName(name);
-		kind.setMetadata(om);
-		Lifecycle lifecycle = new Lifecycle();
-		lifecycle.setCreateAndStartVMFromISO(createAndStartVMFromISO);
-		spec.setLifecycle(lifecycle);
-		kind.setSpec(spec);
-		create(kind);
-		return true;
-	}
-
-	public boolean createAndStartVMFromImage(String name, CreateAndStartVMFromImage createAndStartVMFromImage)
-			throws Exception {
-		return createAndStartVMFromImage(name, null, createAndStartVMFromImage);
-	}
-
-	public boolean createAndStartVMFromImage(String name, String nodeName,
-			CreateAndStartVMFromImage createAndStartVMFromImage) throws Exception {
-		if (!pattern.matcher(name).matches()) {
-			throw new RuntimeException("Invalid name.");
-		}
-		VirtualMachine kind = new VirtualMachine();
-		kind.setApiVersion("cloudplus.io/v1alpha3");
-		kind.setKind("VirtualMachine");
-		VirtualMachineSpec spec = new VirtualMachineSpec();
-		ObjectMeta om = new ObjectMeta();
-		om.setName(name);
-		if (nodeName != null) {
-			Map<String, String> labels = new HashMap<String, String>();
-			labels.put("host", nodeName);
-			labels.put("type", "normal");
-			om.setLabels(labels);
-			spec.setNodeName(nodeName);
-		}
-		kind.setMetadata(om);
-		Lifecycle lifecycle = new Lifecycle();
-		lifecycle.setCreateAndStartVMFromImage(createAndStartVMFromImage);
-		spec.setLifecycle(lifecycle);
-		kind.setSpec(spec);
-		create(kind);
-		return true;
-	}
+	
 
 	public boolean convertVMToImage(String name, ConvertVMToImage convertVMToImage) throws Exception {
 		VirtualMachine kind = get(name);

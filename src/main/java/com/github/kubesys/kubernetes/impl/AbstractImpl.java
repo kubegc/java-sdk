@@ -3,6 +3,7 @@
  */
 package com.github.kubesys.kubernetes.impl;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +15,7 @@ import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
 import com.github.kubesys.kubernetes.ExtendedKubernetesConstants;
 
 import io.fabric8.kubernetes.api.model.HasMetadata;
+import io.fabric8.kubernetes.api.model.ObjectMeta;
 import io.fabric8.kubernetes.client.dsl.FilterWatchListDeletable;
 import io.fabric8.kubernetes.client.dsl.Gettable;
 import io.fabric8.kubernetes.client.dsl.MixedOperation;
@@ -31,7 +33,7 @@ import io.fabric8.kubernetes.client.dsl.MixedOperation;
  * VirtualMachineDisk, VirtualMachineSnapshot, and so on
  * 
  **/
-public abstract class AbstractImpl<R, S> {
+public abstract class AbstractImpl<R, S, T> {
 
 	/**
 	 * m_logger
@@ -197,5 +199,86 @@ public abstract class AbstractImpl<R, S> {
 		if (tags != null) {	tags.remove(key);}
 		return update(ExtendedKubernetesConstants.OPERATOR_DEL_TAG, metadata);
 	}
-
+	
+	/**
+	 * @return                  api version
+	 */
+	public String getAPIVersion() {
+		return "cloudplus.io/v1alpha3";
+	}
+	
+	/**
+	 * @return                  kind
+	 */
+	public String getKind() {
+		return type;
+	}
+	
+	public abstract R getModel();
+	
+	public abstract T getSpec();
+	
+	public abstract Object getLifecycle();
+	
+	public boolean create(R r, ObjectMeta om, T spec) throws Exception {
+		
+		// r.setApiVersion(apiversion)
+		Method setVersion = r.getClass().getMethod("setApiVersion", String.class);
+		setVersion.invoke(r, getAPIVersion());
+		
+		// r.setKind(kind)
+		Method setKind = r.getClass().getMethod("setKind", String.class);
+		setKind.invoke(r, getKind());
+		
+		// r.setMetadata(metadata)
+		Method setMeta = r.getClass().getMethod("setMetadata", ObjectMeta.class);
+		setMeta.invoke(r, om);
+		
+		// r.setSpec(spec)
+		Method setSpec = r.getClass().getMethod("setSpec", spec.getClass());
+		setSpec.invoke(r, spec);
+		
+		return create((HasMetadata) r);
+	}
+	
+	public T createSpec(String nodeName, Object lifecycle) throws Exception {
+		T t = getSpec();
+		if (nodeName != null) {
+			// t.setNodeName(nodeName)
+			Method setNode = t.getClass().getMethod("setNodeName", String.class);
+			setNode.invoke(t, nodeName);
+		}
+		
+		// t.setLifecycle(lifecycle)
+		Method setLifecycle = t.getClass().getMethod("setLifecycle", lifecycle.getClass());
+		setLifecycle.invoke(t, lifecycle);
+		
+		return t;
+	}
+	
+	public Object createLifecycle(Object operator) throws Exception {
+		Object lifecycle = getLifecycle();
+		String name = "set" + operator.getClass().getSimpleName();
+		Method setOperator = lifecycle.getClass().getMethod(name, operator.getClass());
+		setOperator.invoke(lifecycle, operator);
+		return lifecycle;
+	}
+	
+	/**
+	 * @param name                  metadata.name
+	 * @param nodeName              metadata.labels.host
+	 * @param eventId               metadata.labels.eventId
+	 * @return                      ObjectMeta  
+	 */
+	protected ObjectMeta createMetadata(String name, String nodeName, String eventId) {
+		ObjectMeta om = new ObjectMeta();
+		om.setName(name);
+		if (nodeName != null) {
+			Map<String, String> labels = new HashMap<String, String>();
+			labels.put(ExtendedKubernetesConstants.LABEL_HOST, nodeName);
+			labels.put(ExtendedKubernetesConstants.LABEL_EVENTID, eventId);
+			om.setLabels(labels);
+		}
+		return om;
+	}
 }

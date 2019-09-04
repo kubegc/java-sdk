@@ -15,15 +15,13 @@ import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.Crea
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.DeleteDisk;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.ResizeDisk;
 
-import io.fabric8.kubernetes.api.model.ObjectMeta;
-
 /**
  * @author  wuheng@otcaix.iscas.ac.cn
  * 
  * @version 1.0.0
  * @since   2019/9/1
  **/
-public class VirtualMachineDiskImpl extends AbstractImpl<VirtualMachineDisk, VirtualMachineDiskList> {
+public class VirtualMachineDiskImpl extends AbstractImpl<VirtualMachineDisk, VirtualMachineDiskList, VirtualMachineDiskSpec> {
 
 	static {
 		cmds.add("createDisk");
@@ -32,6 +30,21 @@ public class VirtualMachineDiskImpl extends AbstractImpl<VirtualMachineDisk, Vir
 		cmds.add("cloneDisk");
 	}
 
+	@Override
+	public VirtualMachineDisk getModel() {
+		return new VirtualMachineDisk();
+	}
+
+	@Override
+	public VirtualMachineDiskSpec getSpec() {
+		return new VirtualMachineDiskSpec();
+	}
+	
+
+	@Override
+	public Object getLifecycle() {
+		return new Lifecycle();
+	}
 
 	/*************************************************
 	 * 
@@ -40,30 +53,19 @@ public class VirtualMachineDiskImpl extends AbstractImpl<VirtualMachineDisk, Vir
 	 **************************************************/
 
 	public boolean createDisk(String name, CreateDisk createDisk) throws Exception {
-		return createDisk(name, null, createDisk);
+		return createDisk(name, null, createDisk, null);
 	}
 
+	
 	public boolean createDisk(String name, String nodeName, CreateDisk createDisk) throws Exception {
-		VirtualMachineDisk kind = new VirtualMachineDisk();
-		kind.setApiVersion("cloudplus.io/v1alpha3");
-		kind.setKind("VirtualMachineDisk");
-		VirtualMachineDiskSpec spec = new VirtualMachineDiskSpec();
-		ObjectMeta om = new ObjectMeta();
-		om.setName(name);
-		if (nodeName != null) {
-			Map<String, String> labels = new HashMap<String, String>();
-			labels.put("host", nodeName);
-			om.setLabels(labels);
-			spec.setNodeName(nodeName);
-		}
-		kind.setMetadata(om);
-		Lifecycle lifecycle = new Lifecycle();
-		lifecycle.setCreateDisk(createDisk);
-		spec.setLifecycle(lifecycle);
-		kind.setSpec(spec);
-		create(kind);
-		return true;
+		return createDisk(name, nodeName, createDisk, null);
 	}
+	
+	public boolean createDisk(String name, CreateDisk createDisk, String eventId) throws Exception {
+		return createDisk(name, null, createDisk, eventId);
+	}
+	
+	
 
 	public boolean deleteDisk(String name, DeleteDisk deleteDisk) throws Exception {
 		VirtualMachineDisk kind = get(name);
@@ -114,33 +116,15 @@ public class VirtualMachineDiskImpl extends AbstractImpl<VirtualMachineDisk, Vir
 		return true;
 	}
 	
-	//------------------------------------------------
-	public boolean createDisk(String name, CreateDisk createDisk, String eventId) throws Exception {
-		return createDisk(name, null, createDisk, eventId);
-	}
-
 	public boolean createDisk(String name, String nodeName, CreateDisk createDisk, String eventId) throws Exception {
-		VirtualMachineDisk kind = new VirtualMachineDisk();
-		kind.setApiVersion("cloudplus.io/v1alpha3");
-		kind.setKind("VirtualMachineDisk");
-		VirtualMachineDiskSpec spec = new VirtualMachineDiskSpec();
-		ObjectMeta om = new ObjectMeta();
-		om.setName(name);
-		if (nodeName != null) {
-			Map<String, String> labels = new HashMap<String, String>();
-			labels.put("host", nodeName);
-			labels.put("eventId", eventId);
-			om.setLabels(labels);
-			spec.setNodeName(nodeName);
-		}
-		kind.setMetadata(om);
-		Lifecycle lifecycle = new Lifecycle();
-		lifecycle.setCreateDisk(createDisk);
-		spec.setLifecycle(lifecycle);
-		kind.setSpec(spec);
-		create(kind);
-		return true;
+		return create(getModel(), createMetadata(name, nodeName, eventId), 
+				createSpec(nodeName, createLifecycle(createDisk)));
 	}
+	
+	//------------------------------------------------
+	
+
+	
 
 	public boolean deleteDisk(String name, DeleteDisk deleteDisk, String eventId) throws Exception {
 		VirtualMachineDisk kind = get(name);
@@ -205,4 +189,6 @@ public class VirtualMachineDiskImpl extends AbstractImpl<VirtualMachineDisk, Vir
 		update("cloneDisk ", kind);
 		return true;
 	}
+
+
 }

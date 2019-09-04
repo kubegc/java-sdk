@@ -22,94 +22,70 @@ import io.fabric8.kubernetes.api.model.ObjectMeta;
  * @version 1.0.0
  * @since   2019/9/1
  **/
-public class VirtualMachineSnapshotImpl extends AbstractImpl<VirtualMachineSnapshot, VirtualMachineSnapshotList> {
+public class VirtualMachineSnapshotImpl extends AbstractImpl<VirtualMachineSnapshot, VirtualMachineSnapshotList, VirtualMachineSnapshotSpec> {
 
 	static {
+		// 创建快照
 		cmds.add("createSnapshot");
+		// 删除快照
 		cmds.add("deleteSnapshot");
+		// 恢复成虚拟机
+		cmds.add("revertVirtualMachine");
 	}
 
+	@Override
+	public VirtualMachineSnapshot getModel() {
+		return new VirtualMachineSnapshot();
+	}
+
+	@Override
+	public VirtualMachineSnapshotSpec getSpec() {
+		return new VirtualMachineSnapshotSpec();
+	}
+
+	@Override
+	public Object getLifecycle() {
+		return new Lifecycle();
+	}
 
 	/*************************************************
 	 * 
 	 * Generated
 	 * 
 	 **************************************************/
-
 	public boolean createSnapshot(String name, CreateSnapshot createSnapshot) throws Exception {
-		return createSnapshot(name, null, createSnapshot);
+		return createSnapshot(name, null, createSnapshot, null);
 	}
 
 	public boolean createSnapshot(String name, String nodeName, CreateSnapshot createSnapshot) throws Exception {
-		VirtualMachineSnapshot kind = new VirtualMachineSnapshot();
-		kind.setApiVersion("cloudplus.io/v1alpha3");
-		kind.setKind("VirtualMachineSnapshot");
-		VirtualMachineSnapshotSpec spec = new VirtualMachineSnapshotSpec();
-		ObjectMeta om = new ObjectMeta();
-		if (nodeName != null) {
-			Map<String, String> labels = new HashMap<String, String>();
-			labels.put("host", nodeName);
-			om.setLabels(labels);
-			spec.setNodeName(nodeName);
-		}
-		om.setName(name);
-		kind.setMetadata(om);
-		Lifecycle lifecycle = new Lifecycle();
-		lifecycle.setCreateSnapshot(createSnapshot);
-		spec.setLifecycle(lifecycle);
-		kind.setSpec(spec);
-		create(kind);
-		return true;
+		return createSnapshot(name, nodeName, createSnapshot, null);
 	}
 
+	public boolean createSnapshot(String name, CreateSnapshot createSnapshot, String eventId) throws Exception {
+		return createSnapshot(name, null, createSnapshot, eventId);
+	}
+
+	public boolean createSnapshot(String name, String nodeName, CreateSnapshot createSnapshot, String eventId) throws Exception {
+		return create(getModel(), createMetadata(name, nodeName, eventId), 
+				createSpec(nodeName, createLifecycle(createSnapshot))); 
+	}
+	
+	//------------------------------------------------------
 	public boolean deleteSnapshot(String name, DeleteSnapshot deleteSnapshot) throws Exception {
 		VirtualMachineSnapshot kind = get(name);
-		
 		if (kind == null) {
 			return true;
 		}
-		
 		if (kind.getSpec().getLifecycle() != null) {
 			delete(kind);
 			return true;
 		}
-		
 		VirtualMachineSnapshotSpec spec = kind.getSpec();
 		Lifecycle lifecycle = new Lifecycle();
 		lifecycle.setDeleteSnapshot(deleteSnapshot);
 		spec.setLifecycle(lifecycle);
 		kind.setSpec(spec);
 		update(DeleteSnapshot.class.getSimpleName(), kind);
-//		delete(kind);
-		return true;
-	}
-	
-	//------------------------------------------------------
-	public boolean createSnapshot(String name, CreateSnapshot createSnapshot, String eventId) throws Exception {
-		return createSnapshot(name, null, createSnapshot, eventId);
-	}
-
-	public boolean createSnapshot(String name, String nodeName, CreateSnapshot createSnapshot, String eventId) throws Exception {
-		VirtualMachineSnapshot kind = new VirtualMachineSnapshot();
-		kind.setApiVersion("cloudplus.io/v1alpha3");
-		kind.setKind("VirtualMachineSnapshot");
-		VirtualMachineSnapshotSpec spec = new VirtualMachineSnapshotSpec();
-		ObjectMeta om = new ObjectMeta();
-		if (nodeName != null) {
-			Map<String, String> labels = new HashMap<String, String>();
-			labels.put("host", nodeName);
-			labels.put("eventId", eventId);
-			om.setLabels(labels);
-			spec.setNodeName(nodeName);
-		}
-		
-		om.setName(name);
-		kind.setMetadata(om);
-		Lifecycle lifecycle = new Lifecycle();
-		lifecycle.setCreateSnapshot(createSnapshot);
-		spec.setLifecycle(lifecycle);
-		kind.setSpec(spec);
-		create(kind);
 		return true;
 	}
 
@@ -135,7 +111,6 @@ public class VirtualMachineSnapshotImpl extends AbstractImpl<VirtualMachineSnaps
 		spec.setLifecycle(lifecycle);
 		kind.setSpec(spec);
 		update(DeleteSnapshot.class.getSimpleName(), kind);
-//		delete(kind);
 		return true;
 	}
 	

@@ -21,7 +21,7 @@ import io.fabric8.kubernetes.api.model.ObjectMeta;
  * @version 1.0.0
  * @since   2019/9/1
  **/
-public class VirtualMachineNetworkImpl extends AbstractImpl<VirtualMachineNetwork, VirtualMachineNetworkList> {
+public class VirtualMachineNetworkImpl extends AbstractImpl<VirtualMachineNetwork, VirtualMachineNetworkList, VirtualMachineNetworkSpec> {
 
 	static {
 		cmds.add("createSwitch");
@@ -32,6 +32,22 @@ public class VirtualMachineNetworkImpl extends AbstractImpl<VirtualMachineNetwor
 		cmds.add("deleteFloatIP");
 		cmds.add("bindFloatIP");
 		cmds.add("unbindFloatIP");
+	}
+
+	
+	@Override
+	public VirtualMachineNetwork getModel() {
+		return new VirtualMachineNetwork();
+	}
+
+	@Override
+	public VirtualMachineNetworkSpec getSpec() {
+		return new VirtualMachineNetworkSpec();
+	}
+	
+	@Override
+	public Object getLifecycle() {
+		return new Lifecycle();
 	}
 
 	/*************************************************
@@ -58,27 +74,8 @@ public class VirtualMachineNetworkImpl extends AbstractImpl<VirtualMachineNetwor
 
 	public boolean createSwitch(String name, String nodeName,
 			CreateSwitch createSwitch, String eventId) throws Exception {
-		VirtualMachineNetwork kind = new VirtualMachineNetwork();
-		kind.setApiVersion("cloudplus.io/v1alpha3");
-		kind.setKind("VirtualMachineNetwork");
-		VirtualMachineNetworkSpec spec = new VirtualMachineNetworkSpec();
-		ObjectMeta om = new ObjectMeta();
-		Map<String, String> labels = new HashMap<String, String>();
-		labels.put("type", "normal");
-		labels.put("eventId", eventId);
-		if (nodeName != null) {
-			labels.put("host", nodeName);
-			spec.setNodeName(nodeName);
-		}
-		om.setLabels(labels);
-		om.setName(name);
-		kind.setMetadata(om);
-		Lifecycle lifecycle = new Lifecycle();
-		lifecycle.setCreateSwitch(createSwitch);
-		spec.setLifecycle(lifecycle);
-		kind.setSpec(spec);
-		create(kind);
-		return true;
+		return create(getModel(), createMetadata(name, nodeName, eventId), 
+				createSpec(nodeName, createLifecycle(createSwitch)));
 	}
 
 	public boolean deleteSwitch(String name, DeleteSwitch deleteSwitch, String eventId) throws Exception {

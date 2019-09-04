@@ -14,15 +14,13 @@ import com.github.kubesys.kubernetes.api.model.virtualmachineimage.Lifecycle.Con
 import com.github.kubesys.kubernetes.api.model.virtualmachineimage.Lifecycle.CreateImage;
 import com.github.kubesys.kubernetes.api.model.virtualmachineimage.Lifecycle.DeleteImage;
 
-import io.fabric8.kubernetes.api.model.ObjectMeta;
-
 /**
  * @author  wuheng@otcaix.iscas.ac.cn
  * 
  * @version 1.0.0
  * @since   2019/9/1
  **/
-public class VirtualMachineImageImpl extends AbstractImpl<VirtualMachineImage, VirtualMachineImageList> {
+public class VirtualMachineImageImpl extends AbstractImpl<VirtualMachineImage, VirtualMachineImageList, VirtualMachineImageSpec> {
 
 
 	static {
@@ -31,6 +29,20 @@ public class VirtualMachineImageImpl extends AbstractImpl<VirtualMachineImage, V
 		cmds.add("deleteImage");
 	}
 
+	@Override
+	public VirtualMachineImage getModel() {
+		return new VirtualMachineImage();
+	}
+
+	@Override
+	public VirtualMachineImageSpec getSpec() {
+		return new VirtualMachineImageSpec();
+	}
+
+	@Override
+	public Object getLifecycle() {
+		return new Lifecycle();
+	}
 
 	/*************************************************
 	 * 
@@ -38,6 +50,23 @@ public class VirtualMachineImageImpl extends AbstractImpl<VirtualMachineImage, V
 	 * 
 	 **************************************************/
 
+	public boolean createImage(String name, CreateImage createImage) throws Exception {
+		return createImage(name, null, createImage, null);
+	}
+	
+	public boolean createImage(String name, CreateImage createImage, String eventId) throws Exception {
+		return createImage(name, null, createImage, eventId);
+	}
+
+	public boolean createImage(String name, String nodeName, CreateImage createImage) throws Exception {
+		return createImage(name, nodeName, createImage, null);
+	}
+	
+	public boolean createImage(String name, String nodeName, CreateImage createImage, String eventId) throws Exception {
+		return create(getModel(), createMetadata(name, nodeName, eventId), 
+				createSpec(nodeName, createLifecycle(createImage)));
+	}
+	
 	public boolean convertImageToVM(String name, ConvertImageToVM convertImageToVM) throws Exception {
 		VirtualMachineImage kind = get(name);
 		if (kind == null || kind.getSpec().getLifecycle() != null) {
@@ -52,27 +81,7 @@ public class VirtualMachineImageImpl extends AbstractImpl<VirtualMachineImage, V
 		return true;
 	}
 
-	public boolean createImage(String name, String nodeName, CreateImage createImage) throws Exception {
-		VirtualMachineImage kind = new VirtualMachineImage();
-		kind.setApiVersion("cloudplus.io/v1alpha3");
-		kind.setKind("VirtualMachineImage");
-		VirtualMachineImageSpec spec = new VirtualMachineImageSpec();
-		ObjectMeta om = new ObjectMeta();
-		om.setName(name);
-		if (nodeName != null) {
-			Map<String, String> labels = new HashMap<String, String>();
-			labels.put("host", nodeName);
-			om.setLabels(labels);
-			spec.setNodeName(nodeName);
-		}
-		kind.setMetadata(om);
-		Lifecycle lifecycle = new Lifecycle();
-		lifecycle.setCreateImage(createImage);
-		spec.setLifecycle(lifecycle);
-		kind.setSpec(spec);
-		create(kind);
-		return true;
-	}
+	
 
 	public boolean deleteImage(String name, DeleteImage deleteImage) throws Exception {
 		VirtualMachineImage kind = get(name);
@@ -115,32 +124,7 @@ public class VirtualMachineImageImpl extends AbstractImpl<VirtualMachineImage, V
 		return true;
 	}
 
-	public boolean createImage(String name, CreateImage createImage, String eventId) throws Exception {
-		return createImage(name, null, createImage, eventId);
-	}
-
-	public boolean createImage(String name, String nodeName, CreateImage createImage, String eventId) throws Exception {
-		VirtualMachineImage kind = new VirtualMachineImage();
-		kind.setApiVersion("cloudplus.io/v1alpha3");
-		kind.setKind("VirtualMachineImage");
-		VirtualMachineImageSpec spec = new VirtualMachineImageSpec();
-		ObjectMeta om = new ObjectMeta();
-		om.setName(name);
-		if (nodeName != null) {
-			Map<String, String> labels = new HashMap<String, String>();
-			labels.put("host", nodeName);
-			labels.put("eventId", eventId);
-			om.setLabels(labels);
-			spec.setNodeName(nodeName);
-		}
-		kind.setMetadata(om);
-		Lifecycle lifecycle = new Lifecycle();
-		lifecycle.setCreateImage(createImage);
-		spec.setLifecycle(lifecycle);
-		kind.setSpec(spec);
-		create(kind);
-		return true;
-	}
+	
 
 	public boolean deleteImage(String name, DeleteImage deleteImage, String eventId) throws Exception {
 		VirtualMachineImage kind = get(name);
@@ -168,5 +152,6 @@ public class VirtualMachineImageImpl extends AbstractImpl<VirtualMachineImage, V
 //		delete(kind);
 		return true;
 	}
+
 
 }
