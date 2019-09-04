@@ -16,11 +16,15 @@ import io.fabric8.kubernetes.api.model.Taint;
 
 
 /**
- * @author wuheng@otcaix.iscas.ac.cn
- * @author xuyuanjia2017@otcaix.iscas.ac.cn
- * @author xianghao16@otcaix.iscas.ac.cn
- * @author yangchen18@otcaix.iscas.ac.cn
- * @since Thu July 25 21:39:55 CST 2019
+ * @author  wuheng@otcaix.iscas.ac.cn
+ * 
+ * @version 1.0.0
+ * @since   2019/9/1
+ * 
+ * <p>
+ * <code>NodeSelectorImpl<code> is used for selecting a optimal
+ * machine based on the specified policy for each VM.
+ * 
  **/
 public class NodeSelectorImpl {
 	
@@ -47,9 +51,16 @@ public class NodeSelectorImpl {
 		this.client = client;
 	}
 
+	/**
+	 * Note that we only consider the RAM size in Ki, Mi, Gi and Ti,
+	 * otherwise you will get an exception.
+	 * 
+	 * @param policy             policy
+	 * @return                   node name or null
+	 */
 	public String getNodename(Policy policy) {
 		
-		Node[] nodes = getAllNodesFromKubernetes();
+		Node[] nodes = getNodeCandidates();
 		
 		if (policy == Policy.minimumCPUUsageHostAllocatorStrategyMode) {
 			sortByMinimumCPUUsage(nodes);
@@ -61,6 +72,7 @@ public class NodeSelectorImpl {
 			sortByMinInstancePerHost(nodes);
 		} 
 		
+		// get the optimized node name 
 		for (Node node : nodes) {
 			if (isMaster(node) || notReady(node) || unSched(node)) {
 				continue;
@@ -71,6 +83,9 @@ public class NodeSelectorImpl {
 		return DEFAULT_NODE;
 	}
 
+	/**
+	 * @param nodes     the node with minimum instances
+	 */
 	protected void sortByMinInstancePerHost(Node[] nodes) {
 		Arrays.sort(nodes, new Comparator<Node>() {
 
@@ -86,6 +101,9 @@ public class NodeSelectorImpl {
 		});
 	}
 
+	/**
+	 * @param nodes      the node with maximum instances
+	 */ 
 	protected void sortByMaxInstancePerHost(Node[] nodes) {
 		Arrays.sort(nodes, new Comparator<Node>() {
 
@@ -101,6 +119,9 @@ public class NodeSelectorImpl {
 		});
 	}
 
+	/**
+	 * @param nodes             the node with minimum used RAM
+	 */ 
 	protected void sortByMinimumMemoryUsage(Node[] nodes) {
 		Arrays.sort(nodes, new Comparator<Node>() {
 
@@ -116,6 +137,9 @@ public class NodeSelectorImpl {
 		});
 	}
 
+	/**
+	 * @param nodes             the node with minimum used CPU
+	 */
 	protected void sortByMinimumCPUUsage(Node[] nodes) {
 		Arrays.sort(nodes, new Comparator<Node>() {
 
@@ -131,7 +155,10 @@ public class NodeSelectorImpl {
 		});
 	}
 
-	protected Node[] getAllNodesFromKubernetes() {
+	/**
+	 * @return      get all nodes from Kubernetes
+	 */
+	protected Node[] getNodeCandidates() {
 		try {
 			return client.nodes().list()
 					.getItems().toArray(new Node[] {});
@@ -142,7 +169,11 @@ public class NodeSelectorImpl {
 		}
 	}
 
-	public static  boolean unSched(Node node) {
+	/**
+	 * @param node         node
+	 * @return             if this node is disable scheduling
+	 */
+	protected boolean unSched(Node node) {
 		for (Taint taint : node.getSpec().getTaints()) {
 			if (taint.getEffect().equals("NoSchedule")) {
 				return true;
@@ -151,7 +182,11 @@ public class NodeSelectorImpl {
 		return false;
 	}
 
-	public static boolean notReady(Node node) {
+	/**
+	 * @param node          node
+	 * @return              if this node encounters some errors 
+	 */
+	protected boolean notReady(Node node) {
 		for (NodeCondition nc : node.getStatus().getConditions()) {
 			if (nc.getType().equals("Ready")) {
 				return false;
@@ -160,28 +195,59 @@ public class NodeSelectorImpl {
 		return true;
 	}
 
-	public static  boolean isMaster(Node node) {
+	/**
+	 * @param node           node
+	 * @return               if this node is master
+	 */
+	protected boolean isMaster(Node node) {
 		return node.getMetadata().getLabels()
 				.containsKey("node-role.kubernetes.io/master");
 	}
 
-	public static long stringToLong(String value) {
+	/**
+	 * @param value           node available capacity, such as CPU or RAM
+	 * @return                real value    
+	 */
+	protected long stringToLong(String value) {
+		long weight = 1;
 		if (value.endsWith("Ki")) {
 			value = value.substring(0, value.length() - 2);
-		}
+			weight = 1;
+		} else if (value.endsWith("Mi")) {
+			value = value.substring(0, value.length() - 2);
+			weight = 1024;
+		} else if (value.endsWith("Gi")) {
+			value = value.substring(0, value.length() - 2);
+			weight = 1024*1024;
+		} else if (value.endsWith("Ti")) {
+			value = value.substring(0, value.length() - 2);
+			weight = 1024*1024*1024;
+		} 
 		
-		return Long.parseLong(value);
+		return Long.parseLong(value) * weight;
 	}
 	
+	/**
+	 * @author wuheng@otcaix.iscas.ac.cn
+	 *
+	 */
 	public static enum Policy {
+		/**
+		 * tthe node with minimum used RAM 
+		 */
 		minimumMemoryUsageHostAllocatorStrategyMode,
+		/**
+		 * the node with minimum used CPU 
+		 */
 		minimumCPUUsageHostAllocatorStrategyMode,
+		/**
+		 * the node with maximum instances
+		 */
 		maxInstancePerHost,
+		/**
+		 * the node with minimum instances
+		 */
 		minInstancePerHost
-	}
-	
-	public static void main(String[] args) {
-		System.out.println(stringToLong("100Ki"));
 	}
 }
 

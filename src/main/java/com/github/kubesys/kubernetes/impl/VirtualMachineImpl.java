@@ -3,15 +3,10 @@
  */
 package com.github.kubesys.kubernetes.impl;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.regex.Pattern;
 
-import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
+import com.github.kubesys.kubernetes.ExtendedKubernetesConstants;
 import com.github.kubesys.kubernetes.api.model.VirtualMachine;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineList;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineSpec;
@@ -41,41 +36,13 @@ import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UnplugDi
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UnplugNIC;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UpdateOS;
 
-import io.fabric8.kubernetes.api.model.ObjectMeta;
-import io.fabric8.kubernetes.client.dsl.FilterWatchListDeletable;
-import io.fabric8.kubernetes.client.dsl.Gettable;
-import io.fabric8.kubernetes.client.dsl.MixedOperation;
-
 /**
- * @author wuheng@otcaix.iscas.ac.cn
- * @author xuyuanjia2017@otcaix.iscas.ac.cn
- * @author xianghao16@otcaix.iscas.ac.cn
- * @author yangchen18@otcaix.iscas.ac.cn
- * @since Thu Jun 13 21:39:55 CST 2019
+ * @author  wuheng@otcaix.iscas.ac.cn
+ * 
+ * @version 1.0.0
+ * @since   2019/9/1
  **/
-public class VirtualMachineImpl {
-
-	/**
-	 * pattern
-	 */
-	protected final static Pattern pattern = Pattern.compile("[a-z0-9-]{32}");
-
-	/**
-	 * m_logger
-	 */
-	protected final static Logger m_logger = Logger.getLogger(VirtualMachineImpl.class.getName());
-
-	/**
-	 * client
-	 */
-	@SuppressWarnings("rawtypes")
-	protected final MixedOperation client = ExtendedKubernetesClient.crdClients
-			.get(VirtualMachine.class.getSimpleName());;
-
-	/**
-	 * support commands
-	 */
-	public static List<String> cmds = new ArrayList<String>();
+public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMachineList, VirtualMachineSpec> {
 
 	static {
 		cmds.add("createAndStartVMFromISO");
@@ -104,143 +71,34 @@ public class VirtualMachineImpl {
 		cmds.add("resizeRAM");
 	}
 
-	/*************************************************
-	 * 
-	 * Core
-	 * 
-	 **************************************************/
 
-	/**
-	 * return true or an exception
-	 * 
-	 * @param vm VM's description
-	 * @return true or an exception
-	 * @throws Exception create VM fail
-	 */
-	@SuppressWarnings("unchecked")
-	@Deprecated
-	public boolean create(VirtualMachine vm) throws Exception {
-		client.create(vm);
-		m_logger.log(Level.INFO, "create VirtualMachine " + vm.getMetadata().getName() + " successful.");
-		return true;
+
+	@Override
+	public VirtualMachine getModel() {
+		return new VirtualMachine();
 	}
 
-	/**
-	 * @param vm VM's description
-	 * @return true or an exception
-	 * @throws Exception delete VM fail
-	 */
-	@SuppressWarnings("unchecked")
-	@Deprecated
-	public boolean delete(VirtualMachine vm) throws Exception {
-		client.delete(vm);
-		m_logger.log(Level.INFO, "delete VirtualMachine " + vm.getMetadata().getName() + " successful.");
-		return true;
+	@Override
+	public VirtualMachineSpec getSpec() {
+		return new VirtualMachineSpec();
 	}
 
-	/**
-	 * @param vm VM's description
-	 * @return true or an exception
-	 * @throws Exception update VM fail
-	 */
-	@SuppressWarnings("unchecked")
-	@Deprecated
-	public boolean update(VirtualMachine vm) throws Exception {
-		client.createOrReplace(vm);
-		m_logger.log(Level.INFO, "update VirtualMachine " + vm.getMetadata().getName() + " successful.");
-		return true;
+	@Override
+	public Object getLifecycle() {
+		return new Lifecycle();
 	}
 
-	/**
-	 * @param operator operator
-	 * @param vm       VM's description
-	 * @return true or an exception
-	 * @throws Exception update VM fail
-	 */
-	@SuppressWarnings("unchecked")
-	@Deprecated
-	protected boolean update(String operator, VirtualMachine vm) throws Exception {
-		client.createOrReplace(vm);
-		m_logger.log(Level.INFO, operator + " " + vm.getMetadata().getName() + " successful.");
-		return true;
+	@Override
+	public VirtualMachineSpec getSpec(VirtualMachine r) {
+		return r.getSpec();
 	}
 
-	/**
-	 * return an object or null
-	 * 
-	 * @param name .metadata.name
-	 * @return object or null
-	 */
-	@SuppressWarnings("unchecked")
-	public VirtualMachine get(String name) {
-		return ((Gettable<VirtualMachine>) client.withName(name)).get();
-	}
-
-	/**
-	 * @return list all virtual machines or null
-	 */
-	public VirtualMachineList list() {
-		return (VirtualMachineList) client.list();
-	}
-
-	/**
-	 * list all VMs with the specified labels
-	 * 
-	 * @param filter .metadata.labels
-	 * @return all VMs or null
-	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public VirtualMachineList list(Map<String, String> labels) {
-		return (VirtualMachineList) ((FilterWatchListDeletable) client.withLabels(labels)).list();
-	}
-
-	public String getEventId(String name) {
-		VirtualMachine vm = get(name);
-		return vm.getMetadata().getLabels().get("eventId");
-	}
-	
-	/**
-	 * @param name  name
-	 * @param key   key
-	 * @param value value
-	 * @throws Exception exception
-	 */
-	public void addTag(String name, String key, String value) throws Exception {
-
-		if (key.equals("host")) {
-			m_logger.log(Level.SEVERE, "'host' is a keyword.");
-			return;
-		}
-
-		VirtualMachine vm = get(name);
-		if (vm == null) {
-			m_logger.log(Level.SEVERE, "VM " + name + " not exist.");
-			return;
-		}
-
-		Map<String, String> tags = vm.getMetadata().getLabels();
-		tags = (tags == null) ? new HashMap<String, String>() : tags;
-		tags.put(key, value);
-		update(vm);
-	}
-	
 	/**
 	 * @param name  name
 	 * @throws Exception exception
 	 */
 	public boolean setHA(String name) throws Exception {
-
-		VirtualMachine vm = get(name);
-		if (vm == null) {
-			m_logger.log(Level.SEVERE, "VM " + name + " not exist.");
-			return false;
-		}
-
-		Map<String, String> tags = vm.getMetadata().getLabels();
-		tags = (tags == null) ? new HashMap<String, String>() : tags;
-		tags.put("ha", "true");
-		update(vm);
-		return true;
+		return this.addTag(name, ExtendedKubernetesConstants.LABEL_VM_HA, String.valueOf(true));
 	}
 	
 	/**
@@ -248,44 +106,9 @@ public class VirtualMachineImpl {
 	 * @throws Exception exception
 	 */
 	public boolean unsetHA(String name) throws Exception {
-
-		VirtualMachine vm = get(name);
-		if (vm == null) {
-			m_logger.log(Level.SEVERE, "VM " + name + " not exist.");
-			return false;
-		}
-
-		Map<String, String> tags = vm.getMetadata().getLabels();
-		tags = (tags == null) ? new HashMap<String, String>() : tags;
-		tags.remove("ha");
-		update(vm);
-		return true;
+		return deleteTag(name, ExtendedKubernetesConstants.LABEL_VM_HA);
 	}
 
-	/**
-	 * @param name name
-	 * @param key  key
-	 * @throws Exception exception
-	 */
-	public void deleteTag(String name, String key) throws Exception {
-
-		if (key.equals("host")) {
-			m_logger.log(Level.SEVERE, "'host' is a keyword.");
-			return;
-		}
-
-		VirtualMachine vm = get(name);
-		if (vm == null) {
-			m_logger.log(Level.SEVERE, "VM " + name + " not exist.");
-			return;
-		}
-
-		Map<String, String> tags = vm.getMetadata().getLabels();
-		if (tags != null) {
-			tags.remove(key);
-		}
-		update(vm);
-	}
 
 	/*************************************************
 	 * 
@@ -294,6 +117,16 @@ public class VirtualMachineImpl {
 	 **************************************************/
 	// -----------------------------------------------------------------
 
+	public boolean createAndStartVMFromISO(String name, CreateAndStartVMFromISO createAndStartVMFromISO)
+			throws Exception {
+		return createAndStartVMFromISO(name, null, createAndStartVMFromISO);
+	}
+
+	public boolean createAndStartVMFromISO(String name, String nodeName,
+			CreateAndStartVMFromISO createAndStartVMFromISO) throws Exception {
+		return createAndStartVMFromISO(name, nodeName, createAndStartVMFromISO, null);
+	}
+	
 	public boolean createAndStartVMFromISO(String name, CreateAndStartVMFromISO createAndStartVMFromISO, String eventId)
 			throws Exception {
 		return createAndStartVMFromISO(name, null, createAndStartVMFromISO, eventId);
@@ -301,63 +134,29 @@ public class VirtualMachineImpl {
 
 	public boolean createAndStartVMFromISO(String name, String nodeName,
 			CreateAndStartVMFromISO createAndStartVMFromISO, String eventId) throws Exception {
-		if (!pattern.matcher(name).matches()) {
-			throw new RuntimeException("Invalid name.");
-		}
-		VirtualMachine kind = new VirtualMachine();
-		kind.setApiVersion("cloudplus.io/v1alpha3");
-		kind.setKind("VirtualMachine");
-		VirtualMachineSpec spec = new VirtualMachineSpec();
-		ObjectMeta om = new ObjectMeta();
-		Map<String, String> labels = new HashMap<String, String>();
-		labels.put("type", "normal");
-		labels.put("eventId", eventId);
-		if (nodeName != null) {
-			labels.put("host", nodeName);
-			spec.setNodeName(nodeName);
-		}
-		om.setLabels(labels);
-		om.setName(name);
-		kind.setMetadata(om);
-		Lifecycle lifecycle = new Lifecycle();
-		lifecycle.setCreateAndStartVMFromISO(createAndStartVMFromISO);
-		spec.setLifecycle(lifecycle);
-		kind.setSpec(spec);
-		create(kind);
-		return true;
+		return create(getModel(), createMetadata(name, nodeName, eventId), 
+				createSpec(nodeName, createLifecycle(createAndStartVMFromISO)));
 	}
 
 	public boolean createAndStartVMFromImage(String name, CreateAndStartVMFromImage createAndStartVMFromImage, String eventId)
 			throws Exception {
-		return createAndStartVMFromImage(name, null, createAndStartVMFromImage);
+		return createAndStartVMFromImage(name, null, createAndStartVMFromImage, eventId);
+	}
+
+	public boolean createAndStartVMFromImage(String name, CreateAndStartVMFromImage createAndStartVMFromImage)
+			throws Exception {
+		return createAndStartVMFromImage(name, null, createAndStartVMFromImage, null);
 	}
 
 	public boolean createAndStartVMFromImage(String name, String nodeName,
+			CreateAndStartVMFromImage createAndStartVMFromImage) throws Exception {
+		return createAndStartVMFromImage(name, nodeName, createAndStartVMFromImage, null);
+	}
+	
+	public boolean createAndStartVMFromImage(String name, String nodeName,
 			CreateAndStartVMFromImage createAndStartVMFromImage, String eventId) throws Exception {
-		if (!pattern.matcher(name).matches()) {
-			throw new RuntimeException("Invalid name.");
-		}
-		VirtualMachine kind = new VirtualMachine();
-		kind.setApiVersion("cloudplus.io/v1alpha3");
-		kind.setKind("VirtualMachine");
-		VirtualMachineSpec spec = new VirtualMachineSpec();
-		ObjectMeta om = new ObjectMeta();
-		om.setName(name);
-		Map<String, String> labels = new HashMap<String, String>();
-		labels.put("type", "normal");
-		labels.put("eventId", eventId);
-		if (nodeName != null) {
-			labels.put("host", nodeName);
-			spec.setNodeName(nodeName);
-		}
-		om.setLabels(labels);
-		kind.setMetadata(om);
-		Lifecycle lifecycle = new Lifecycle();
-		lifecycle.setCreateAndStartVMFromImage(createAndStartVMFromImage);
-		spec.setLifecycle(lifecycle);
-		kind.setSpec(spec);
-		create(kind);
-		return true;
+		return create(getModel(), createMetadata(name, nodeName, eventId), 
+				createSpec(nodeName, createLifecycle(createAndStartVMFromImage)));
 	}
 
 	public boolean convertVMToImage(String name, ConvertVMToImage convertVMToImage, String eventId) throws Exception {
@@ -458,7 +257,7 @@ public class VirtualMachineImpl {
 		lifecycle.setDeleteVM(deleteVM);
 		spec.setLifecycle(lifecycle);
 		kind.setSpec(spec);
-		update(kind);
+		update(DeleteVM.class.getSimpleName(), kind);
 //		delete(kind);
 		return true;
 	}
@@ -473,7 +272,7 @@ public class VirtualMachineImpl {
 		labels.put("eventId", eventId);
 		kind.getMetadata().setLabels(labels);
 		kind.getMetadata().getLabels().put("type", "deleted");
-		update(kind);
+		update(DeleteVM.class.getSimpleName(), kind);
 		return stopVM(name, new StopVM());
 	}
 
@@ -799,69 +598,9 @@ public class VirtualMachineImpl {
 	}
 	// ----------------------------------------------------------------
 
-	public boolean createAndStartVMFromISO(String name, CreateAndStartVMFromISO createAndStartVMFromISO)
-			throws Exception {
-		return createAndStartVMFromISO(name, null, createAndStartVMFromISO);
-	}
+	
 
-	public boolean createAndStartVMFromISO(String name, String nodeName,
-			CreateAndStartVMFromISO createAndStartVMFromISO) throws Exception {
-		if (!pattern.matcher(name).matches()) {
-			throw new RuntimeException("Invalid name.");
-		}
-		VirtualMachine kind = new VirtualMachine();
-		kind.setApiVersion("cloudplus.io/v1alpha3");
-		kind.setKind("VirtualMachine");
-		VirtualMachineSpec spec = new VirtualMachineSpec();
-		ObjectMeta om = new ObjectMeta();
-		if (nodeName != null) {
-			Map<String, String> labels = new HashMap<String, String>();
-			labels.put("host", nodeName);
-			labels.put("type", "normal");
-			om.setLabels(labels);
-			spec.setNodeName(nodeName);
-		}
-		om.setName(name);
-		kind.setMetadata(om);
-		Lifecycle lifecycle = new Lifecycle();
-		lifecycle.setCreateAndStartVMFromISO(createAndStartVMFromISO);
-		spec.setLifecycle(lifecycle);
-		kind.setSpec(spec);
-		create(kind);
-		return true;
-	}
-
-	public boolean createAndStartVMFromImage(String name, CreateAndStartVMFromImage createAndStartVMFromImage)
-			throws Exception {
-		return createAndStartVMFromImage(name, null, createAndStartVMFromImage);
-	}
-
-	public boolean createAndStartVMFromImage(String name, String nodeName,
-			CreateAndStartVMFromImage createAndStartVMFromImage) throws Exception {
-		if (!pattern.matcher(name).matches()) {
-			throw new RuntimeException("Invalid name.");
-		}
-		VirtualMachine kind = new VirtualMachine();
-		kind.setApiVersion("cloudplus.io/v1alpha3");
-		kind.setKind("VirtualMachine");
-		VirtualMachineSpec spec = new VirtualMachineSpec();
-		ObjectMeta om = new ObjectMeta();
-		om.setName(name);
-		if (nodeName != null) {
-			Map<String, String> labels = new HashMap<String, String>();
-			labels.put("host", nodeName);
-			labels.put("type", "normal");
-			om.setLabels(labels);
-			spec.setNodeName(nodeName);
-		}
-		kind.setMetadata(om);
-		Lifecycle lifecycle = new Lifecycle();
-		lifecycle.setCreateAndStartVMFromImage(createAndStartVMFromImage);
-		spec.setLifecycle(lifecycle);
-		kind.setSpec(spec);
-		create(kind);
-		return true;
-	}
+	
 
 	public boolean convertVMToImage(String name, ConvertVMToImage convertVMToImage) throws Exception {
 		VirtualMachine kind = get(name);
@@ -934,7 +673,7 @@ public class VirtualMachineImpl {
 		lifecycle.setDeleteVM(deleteVM);
 		spec.setLifecycle(lifecycle);
 		kind.setSpec(spec);
-		update(kind);
+		update(DeleteVM.class.getSimpleName(), kind);
 //		delete(kind);
 		return true;
 	}
@@ -945,7 +684,7 @@ public class VirtualMachineImpl {
 			throw new RuntimeException("VirtualMachine" + name + " is not exist or it is in a wrong status");
 		}
 		kind.getMetadata().getLabels().put("type", "deleted");
-		update(kind);
+		update(DeleteVM.class.getSimpleName(), kind);
 		return stopVM(name, new StopVM());
 	}
 

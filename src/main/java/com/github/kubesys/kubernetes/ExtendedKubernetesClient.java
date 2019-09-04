@@ -3,7 +3,6 @@
  */
 package com.github.kubesys.kubernetes;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,9 +24,7 @@ import com.github.kubesys.kubernetes.impl.VirtualMachineImpl;
 import com.github.kubesys.kubernetes.impl.VirtualMachineNetworkImpl;
 import com.github.kubesys.kubernetes.impl.VirtualMachinePoolImpl;
 import com.github.kubesys.kubernetes.impl.VirtualMachineSnapshotImpl;
-import com.github.kubesys.kubernetes.json.JSONImpl;
 
-import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.api.model.KubernetesResource;
 import io.fabric8.kubernetes.api.model.apiextensions.CustomResourceDefinition;
 import io.fabric8.kubernetes.client.Config;
@@ -37,13 +34,19 @@ import io.fabric8.kubernetes.client.CustomResourceList;
 import io.fabric8.kubernetes.client.DefaultKubernetesClient;
 import io.fabric8.kubernetes.client.Watcher;
 import io.fabric8.kubernetes.client.dsl.MixedOperation;
-import io.fabric8.kubernetes.client.dsl.ParameterNamespaceListVisitFromServerGetDeleteRecreateWaitApplicable;
 import io.fabric8.kubernetes.internal.KubernetesDeserializer;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
- * @since 2019/7/15
+ * 
+ * @version 1.0.0
+ * @since   2019/9/3
  *
+ * <p>
+ * <code>ExtendedKubernetesClient<code> extends <code>DefaultKubernetesClient<code>
+ * to provide the lifecycle of VirtualMachine, VirtualMachinePool, VirtualMachineDisk,
+ * VirtualMachineImage, VirtualMachineSnapshot, VirtualMachineNetwork
+ * 
  */
 public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 
@@ -91,6 +94,20 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 	}
 
 	
+	/***************************************************************
+	 * 
+	 *                        Core
+	 * 
+	 * 1. initKube: read and initialize all configuration in variable configs. 
+	 *    1.1 loadConfigFile:     load each configuration
+	 *    1.2 registerCrdToKube:  register each configuration as a Kubernetes CRD   
+	 *    1.3 registerCrdClients: generate a CRD client for each registered Kubernetes CRD 
+	 * 
+	 * Here, CRD is a concept of Kubernetes, please see
+	 * https://kubernetes.io/docs/tasks/access-kubernetes-api
+	 *  		/custom-resources/custom-resource-definitions/
+	 *  
+	 ****************************************************************/
 	
 	/**
 	 * extend Kubernetes to support custom resources
@@ -177,6 +194,17 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 					.inNamespace("default");
 	}
 
+	/***************************************************************
+	 * 
+	 *                         Utils
+	 *  following the fabric8 JDK style and providing CRD 
+	 *  
+	 *  Here, CRD is a concept of Kubernetes, please see
+	 *  https://kubernetes.io/docs/tasks/access-kubernetes-api
+	 *  		/custom-resources/custom-resource-definitions/
+	 * 
+	 ****************************************************************/
+	
 	/**
 	 * @return        VirtualMachine 
 	 */
@@ -215,7 +243,7 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 	/**
 	 * @return        VirtualMachineSnapshot
 	 */
-	public VirtualMachineSnapshotImpl virtualMachineSanshots() {
+	public VirtualMachineSnapshotImpl virtualMachineSnapshots() {
 		return new VirtualMachineSnapshotImpl();
 	}
 	
@@ -274,11 +302,4 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 		return new NodeSelectorImpl(this);
 	}
 
-	public ParameterNamespaceListVisitFromServerGetDeleteRecreateWaitApplicable<HasMetadata, Boolean> load(String kind, InputStream is) {
-		try {
-			return new JSONImpl(this, kind, is);
-		} catch (Exception ex) {
-			return load(is);
-		}
-	}
 }

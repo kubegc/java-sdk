@@ -5,29 +5,30 @@ package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
 import com.github.kubesys.kubernetes.api.model.virtualmachinesnapshot.Lifecycle.DeleteSnapshot;
+import com.github.kubesys.kubernetes.api.model.virtualmachinesnapshot.Lifecycle.RevertVirtualMachine;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
- * @since  2019/7/18
  *
  * This code is used to manage CustomResource's lifecycle,
  * such as VirtualMachine
  */
-public class DeleteSnapshotTest {
+public class RevertSnapshotTest {
 	
 	
 	public static void main(String[] args) throws Exception {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineSnapshots()
-				.deleteSnapshot("hello12", getDeleteSnapshot());
+				.revertVirtualMachine("hello12", get(), "123456");
 		System.out.println(successful);
 	}
 
-	protected static DeleteSnapshot getDeleteSnapshot() {
-		DeleteSnapshot deleteSnapshot = new DeleteSnapshot();
-		deleteSnapshot.setDomain("950646e8c17a49d0b83c1c797811e001");
-		return deleteSnapshot;
+	protected static RevertVirtualMachine get() {
+		RevertVirtualMachine revertVM = new RevertVirtualMachine();
+		revertVM.setSnapshotname("abcde");
+		revertVM.setCurrent(true);
+		return revertVM;
 	}
 	
 }

@@ -42,6 +42,14 @@ public class Lifecycle {
 	public void setCreateSnapshot(CreateSnapshot createSnapshot) {
 		this.createSnapshot = createSnapshot;
 	}
+	
+	public RevertVirtualMachine getRevertVirtualMachine() {
+		return revertVirtualMachine;
+	}
+
+	public void setRevertVirtualMachine(RevertVirtualMachine revertVirtualMachine) {
+		this.revertVirtualMachine = revertVirtualMachine;
+	}
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)

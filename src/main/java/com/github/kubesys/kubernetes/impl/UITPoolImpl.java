@@ -30,6 +30,7 @@ import io.fabric8.kubernetes.client.dsl.MixedOperation;
  * @author yangchen18@otcaix.iscas.ac.cn
  * @since Thu Jun 13 21:39:55 CST 2019
  **/
+@Deprecated
 public class UITPoolImpl {
 
 	/**

@@ -3,14 +3,9 @@
  */
 package com.github.kubesys.kubernetes.impl;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineImage;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineImageList;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineImageSpec;
@@ -19,36 +14,14 @@ import com.github.kubesys.kubernetes.api.model.virtualmachineimage.Lifecycle.Con
 import com.github.kubesys.kubernetes.api.model.virtualmachineimage.Lifecycle.CreateImage;
 import com.github.kubesys.kubernetes.api.model.virtualmachineimage.Lifecycle.DeleteImage;
 
-import io.fabric8.kubernetes.api.model.ObjectMeta;
-import io.fabric8.kubernetes.client.dsl.FilterWatchListDeletable;
-import io.fabric8.kubernetes.client.dsl.Gettable;
-import io.fabric8.kubernetes.client.dsl.MixedOperation;
-
 /**
- * @author wuheng@otcaix.iscas.ac.cn
- * @author xuyuanjia2017@otcaix.iscas.ac.cn
- * @author xianghao16@otcaix.iscas.ac.cn
- * @author yangchen18@otcaix.iscas.ac.cn
- * @since Thu Jun 13 21:39:55 CST 2019
+ * @author  wuheng@otcaix.iscas.ac.cn
+ * 
+ * @version 1.0.0
+ * @since   2019/9/1
  **/
-public class VirtualMachineImageImpl {
+public class VirtualMachineImageImpl extends AbstractImpl<VirtualMachineImage, VirtualMachineImageList, VirtualMachineImageSpec> {
 
-	/**
-	 * m_logger
-	 */
-	protected final static Logger m_logger = Logger.getLogger(VirtualMachineImageImpl.class.getName());
-
-	/**
-	 * 
-	 */
-	@SuppressWarnings("rawtypes")
-	protected final MixedOperation client = ExtendedKubernetesClient.crdClients
-			.get(VirtualMachineImage.class.getSimpleName());
-
-	/**
-	 * support commands
-	 */
-	public static List<String> cmds = new ArrayList<String>();
 
 	static {
 		cmds.add("convertImageToVM");
@@ -56,151 +29,24 @@ public class VirtualMachineImageImpl {
 		cmds.add("deleteImage");
 	}
 
-	/*************************************************
-	 * 
-	 * Core
-	 * 
-	 **************************************************/
-
-	/**
-	 * return true or an exception
-	 * 
-	 * @param image VM image description
-	 * @return true or an exception
-	 * @throws Exception create VM image fail
-	 */
-	@SuppressWarnings("unchecked")
-	@Deprecated
-	public boolean create(VirtualMachineImage image) throws Exception {
-		client.create(image);
-		m_logger.log(Level.INFO, "create VirtualMachineImage " + image.getMetadata().getName() + " successful.");
-		return true;
+	@Override
+	public VirtualMachineImage getModel() {
+		return new VirtualMachineImage();
 	}
 
-	public String getEventId(String name) {
-		VirtualMachineImage vmi = get(name);
-		return vmi.getMetadata().getLabels().get("eventId");
-	}
-	
-	/**
-	 * @param image VM image description
-	 * @return true or an exception
-	 * @throws Exception delete VM image fail
-	 */
-	@SuppressWarnings("unchecked")
-	@Deprecated
-	public boolean delete(VirtualMachineImage image) throws Exception {
-		client.delete(image);
-		m_logger.log(Level.INFO, "delete VirtualMachineImage " + image.getMetadata().getName() + " successful.");
-		return true;
+	@Override
+	public VirtualMachineImageSpec getSpec() {
+		return new VirtualMachineImageSpec();
 	}
 
-	/**
-	 * @param image VM image description
-	 * @return true or an exception
-	 * @throws Exception delete VM image fail
-	 */
-	@SuppressWarnings("unchecked")
-	@Deprecated
-	public boolean update(VirtualMachineImage image) throws Exception {
-		client.createOrReplace(image);
-		m_logger.log(Level.INFO, "update VirtualMachineImage " + image.getMetadata().getName() + " successful.");
-		return true;
+	@Override
+	public Object getLifecycle() {
+		return new Lifecycle();
 	}
 
-	/**
-	 * @param operator operator
-	 * @param image    VM image description
-	 * @return true or an exception
-	 * @throws Exception update VM image fail
-	 */
-	@SuppressWarnings("unchecked")
-	@Deprecated
-	protected boolean update(String operator, VirtualMachineImage image) throws Exception {
-		client.createOrReplace(image);
-		m_logger.log(Level.INFO, operator + " " + image.getMetadata().getName() + " successful.");
-		return true;
-	}
-
-	/**
-	 * return an object or null
-	 * 
-	 * @param name it is .metadata.name
-	 * @return object or null
-	 */
-	@SuppressWarnings("unchecked")
-	public VirtualMachineImage get(String name) {
-		return ((Gettable<VirtualMachineImage>) client.withName(name)).get();
-	}
-
-	/**
-	 * @return virtual machine image list or null
-	 */
-	public VirtualMachineImageList list() {
-		return (VirtualMachineImageList) client.list();
-	}
-
-	/**
-	 * list all VM images with the specified labels
-	 * 
-	 * @param filter .metadata.labels
-	 * @return all VM images or null
-	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public VirtualMachineImageList list(Map<String, String> labels) {
-		return (VirtualMachineImageList) ((FilterWatchListDeletable) client.withLabels(labels)).list();
-	}
-
-	/**
-	 * @param name  name
-	 * @param key   key
-	 * @param value value
-	 * @throws Exception exception
-	 */
-	public void addTag(String name, String key, String value) throws Exception {
-
-		if (key.equals("host")) {
-			m_logger.log(Level.SEVERE, "'host' is a keyword.");
-			return;
-		}
-
-		VirtualMachineImage image = get(name);
-		if (image == null) {
-			m_logger.log(Level.SEVERE, "Image " + name + " not exist.");
-			return;
-		}
-
-		Map<String, String> tags = image.getMetadata().getLabels();
-		tags = (tags == null) ? new HashMap<String, String>() : tags;
-		tags.put(key, value);
-
-		update(image);
-	}
-
-	/**
-	 * @param name name
-	 * @param key  key
-	 * @throws Exception exception
-	 */
-	public void deleteTag(String name, String key) throws Exception {
-
-		if (key.equals("host")) {
-			m_logger.log(Level.SEVERE, "'host' is a keyword.");
-			return;
-		}
-
-		VirtualMachineImage image = get(name);
-		if (image == null) {
-			m_logger.log(Level.SEVERE, "Image " + name + " not exist.");
-			return;
-		}
-
-		Map<String, String> tags = image.getMetadata().getLabels();
-		if (tags != null) {
-			tags.remove(key);
-		}
-
-		update(image);
+	@Override
+	public VirtualMachineImageSpec getSpec(VirtualMachineImage r) {
+		return r.getSpec();
 	}
 
 	/*************************************************
@@ -209,6 +55,23 @@ public class VirtualMachineImageImpl {
 	 * 
 	 **************************************************/
 
+	public boolean createImage(String name, CreateImage createImage) throws Exception {
+		return createImage(name, null, createImage, null);
+	}
+	
+	public boolean createImage(String name, CreateImage createImage, String eventId) throws Exception {
+		return createImage(name, null, createImage, eventId);
+	}
+
+	public boolean createImage(String name, String nodeName, CreateImage createImage) throws Exception {
+		return createImage(name, nodeName, createImage, null);
+	}
+	
+	public boolean createImage(String name, String nodeName, CreateImage createImage, String eventId) throws Exception {
+		return create(getModel(), createMetadata(name, nodeName, eventId), 
+				createSpec(nodeName, createLifecycle(createImage)));
+	}
+	
 	public boolean convertImageToVM(String name, ConvertImageToVM convertImageToVM) throws Exception {
 		VirtualMachineImage kind = get(name);
 		if (kind == null || kind.getSpec().getLifecycle() != null) {
@@ -223,27 +86,7 @@ public class VirtualMachineImageImpl {
 		return true;
 	}
 
-	public boolean createImage(String name, String nodeName, CreateImage createImage) throws Exception {
-		VirtualMachineImage kind = new VirtualMachineImage();
-		kind.setApiVersion("cloudplus.io/v1alpha3");
-		kind.setKind("VirtualMachineImage");
-		VirtualMachineImageSpec spec = new VirtualMachineImageSpec();
-		ObjectMeta om = new ObjectMeta();
-		om.setName(name);
-		if (nodeName != null) {
-			Map<String, String> labels = new HashMap<String, String>();
-			labels.put("host", nodeName);
-			om.setLabels(labels);
-			spec.setNodeName(nodeName);
-		}
-		kind.setMetadata(om);
-		Lifecycle lifecycle = new Lifecycle();
-		lifecycle.setCreateImage(createImage);
-		spec.setLifecycle(lifecycle);
-		kind.setSpec(spec);
-		create(kind);
-		return true;
-	}
+	
 
 	public boolean deleteImage(String name, DeleteImage deleteImage) throws Exception {
 		VirtualMachineImage kind = get(name);
@@ -261,7 +104,7 @@ public class VirtualMachineImageImpl {
 		lifecycle.setDeleteImage(deleteImage);
 		spec.setLifecycle(lifecycle);
 		kind.setSpec(spec);
-		update(kind);
+		update(DeleteImage.class.getSimpleName(), kind);
 //		delete(kind);
 		return true;
 	}
@@ -286,32 +129,7 @@ public class VirtualMachineImageImpl {
 		return true;
 	}
 
-	public boolean createImage(String name, CreateImage createImage, String eventId) throws Exception {
-		return createImage(name, null, createImage, eventId);
-	}
-
-	public boolean createImage(String name, String nodeName, CreateImage createImage, String eventId) throws Exception {
-		VirtualMachineImage kind = new VirtualMachineImage();
-		kind.setApiVersion("cloudplus.io/v1alpha3");
-		kind.setKind("VirtualMachineImage");
-		VirtualMachineImageSpec spec = new VirtualMachineImageSpec();
-		ObjectMeta om = new ObjectMeta();
-		om.setName(name);
-		if (nodeName != null) {
-			Map<String, String> labels = new HashMap<String, String>();
-			labels.put("host", nodeName);
-			labels.put("eventId", eventId);
-			om.setLabels(labels);
-			spec.setNodeName(nodeName);
-		}
-		kind.setMetadata(om);
-		Lifecycle lifecycle = new Lifecycle();
-		lifecycle.setCreateImage(createImage);
-		spec.setLifecycle(lifecycle);
-		kind.setSpec(spec);
-		create(kind);
-		return true;
-	}
+	
 
 	public boolean deleteImage(String name, DeleteImage deleteImage, String eventId) throws Exception {
 		VirtualMachineImage kind = get(name);
@@ -335,9 +153,10 @@ public class VirtualMachineImageImpl {
 		lifecycle.setDeleteImage(deleteImage);
 		spec.setLifecycle(lifecycle);
 		kind.setSpec(spec);
-		update(kind);
+		update(DeleteImage.class.getSimpleName(), kind);
 //		delete(kind);
 		return true;
 	}
+
 
 }
