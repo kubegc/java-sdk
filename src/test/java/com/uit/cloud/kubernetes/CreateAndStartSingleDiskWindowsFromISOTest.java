@@ -32,7 +32,7 @@ public class CreateAndStartSingleDiskWindowsFromISOTest {
 		// default value
 		createAndStartVMFromISO.setMetadata("uuid=950646e8-c17a-49d0-b83c-1c797811e002");
 		createAndStartVMFromISO.setVirt_type("kvm"); 
-		// windos use os_variant= "windows" serials. See support serials by running cmd in compute node `osinfo-query os`.
+		// @see https://github.com/uit-plus/api/blob/master/src/main/java/com/github/uitplus/utils/OSDistroUtils.java
 		createAndStartVMFromISO.setOs_variant("win7");
 		createAndStartVMFromISO.setNoautoconsole(true); 
 		

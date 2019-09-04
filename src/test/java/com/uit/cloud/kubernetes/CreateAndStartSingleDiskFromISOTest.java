@@ -21,7 +21,7 @@ public class CreateAndStartSingleDiskFromISOTest {
 		CreateAndStartVMFromISO createAndStartVMFromISO = get();
 		// name
 		boolean successful = client.virtualMachines()
-				.createAndStartVMFromISO("650646e8c17a49d0b83c1c797811e083", "vm.node30", createAndStartVMFromISO, "123");
+				.createAndStartVMFromISO("950646e8c17a49d0b83c1c797811e001", "vm.node30", createAndStartVMFromISO, "123");
 		System.out.println(successful);
 	}
 	
@@ -32,8 +32,8 @@ public class CreateAndStartSingleDiskFromISOTest {
 		// default value
 		createAndStartVMFromISO.setMetadata("uuid=950646e8-c17a-49d0-b83c-1c797811e001");
 		createAndStartVMFromISO.setVirt_type("kvm"); 
-		// windos use os_variant= "windows" serials. See support serials by running cmd in compute node `osinfo-query os`.
-		createAndStartVMFromISO.setOs_variant("centos7");
+		// @see https://github.com/uit-plus/api/blob/master/src/main/java/com/github/uitplus/utils/OSDistroUtils.java
+		createAndStartVMFromISO.setOs_variant("centos7.0");
 		createAndStartVMFromISO.setNoautoconsole(true); 
 		
 		// calculationSpecification
@@ -41,7 +41,7 @@ public class CreateAndStartSingleDiskFromISOTest {
 		
 		// Disk and QoS for 1 disk and many disks
 		// path /var/lib/libvirt/images/test11 can be get by CreateDiskTest
-		createAndStartVMFromISO.setDisk("/var/lib/libvirt/images/test11,read_bytes_sec=1024000000,write_bytes_sec=1024000000");
+		createAndStartVMFromISO.setDisk("/var/lib/libvirt/images/t1,read_bytes_sec=1024000000,write_bytes_sec=1024000000");
 		createAndStartVMFromISO.setCdrom("/opt/ISO/CentOS-7-x86_64-Minimal-1511.iso");
 		
 		/*

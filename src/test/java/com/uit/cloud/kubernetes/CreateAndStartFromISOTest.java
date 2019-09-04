@@ -32,7 +32,8 @@ public class CreateAndStartFromISOTest {
 		// default value
 		createAndStartVMFromISO.setMetadata("uuid=950646e8-c17a-49d0-b83c-1c797811e045");
 		createAndStartVMFromISO.setVirt_type("kvm"); 
-		createAndStartVMFromISO.setOs_variant("centos7");
+		// @see https://github.com/uit-plus/api/blob/master/src/main/java/com/github/uitplus/utils/OSDistroUtils.java
+		createAndStartVMFromISO.setOs_variant("centos7.0");
 		createAndStartVMFromISO.setNoautoconsole(true); 
 		
 		// calculationSpecification

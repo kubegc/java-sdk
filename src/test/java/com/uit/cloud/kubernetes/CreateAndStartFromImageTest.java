@@ -32,8 +32,9 @@ public class CreateAndStartFromImageTest {
 		CreateAndStartVMFromImage createAndStartVMFromImage = new CreateAndStartVMFromImage();
 		// default value
 		createAndStartVMFromImage.setMetadata("uuid=650646e8-c17a-49d0-b83c-1c797811e084");
-		createAndStartVMFromImage.setVirt_type("kvm"); 
-		createAndStartVMFromImage.setOs_variant("centos7");
+		createAndStartVMFromImage.setVirt_type("kvm");
+		// @see https://github.com/uit-plus/api/blob/master/src/main/java/com/github/uitplus/utils/OSDistroUtils.java
+		createAndStartVMFromImage.setOs_variant("centos7.0");
 		createAndStartVMFromImage.setBoot("hd");
 		createAndStartVMFromImage.setNoautoconsole(true); 
 		
