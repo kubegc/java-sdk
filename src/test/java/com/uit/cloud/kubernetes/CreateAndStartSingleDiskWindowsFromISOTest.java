@@ -42,7 +42,7 @@ public class CreateAndStartSingleDiskWindowsFromISOTest {
 		// Disk and QoS for 1 disk and many disks
 		// path /var/lib/libvirt/images/test11 can be get by CreateDiskTest
 		// windos use target=hda as boot disk.
-		createAndStartVMFromISO.setDisk("size=30,target=hda,read_bytes_sec=1024000000,write_bytes_sec=1024000000");
+		createAndStartVMFromISO.setDisk("/var/lib/libvirt/templates/win7,target=hda,read_bytes_sec=1024000000,write_bytes_sec=1024000000");
 		createAndStartVMFromISO.setCdrom("/opt/ISO/cn_windows_7_ultimate_with_sp1_x64_dvd_u_677408.iso");
 		
 		/*
@@ -82,7 +82,7 @@ public class CreateAndStartSingleDiskWindowsFromISOTest {
 		 * 		switch name
 		 */
 		
-		createAndStartVMFromISO.setNetwork("type=l3bridge,source=br-int,inbound=102400,outbound=102400,ip=192.168.5.9,switch=switch");  
+		createAndStartVMFromISO.setNetwork("type=l3bridge,source=br-int,model=e1000,inbound=102400,outbound=102400,ip=192.168.5.9,switch=switch");  
 		
 		// consoleMode amd passowrd
 		createAndStartVMFromISO.setGraphics("vnc,listen=0.0.0.0" + getconsolePassword("123456"));

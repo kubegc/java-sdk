@@ -22,8 +22,18 @@ public class Lifecycle {
 	protected ResizeDisk resizeDisk;
 
 	protected CreateDisk createDisk;
+	
+	protected CreateDiskFromDiskImage createDiskFromDiskImage;
 
 	protected CloneDisk cloneDisk;
+	
+	public CreateDiskFromDiskImage getCreateDiskFromDiskImage() {
+		return createDiskFromDiskImage;
+	}
+	
+	public void setCreateDiskFromDiskImage(CreateDiskFromDiskImage createDiskFromDiskImage) {
+		this.createDiskFromDiskImage = createDiskFromDiskImage;
+	}
 	
 	public Lifecycle() {
 
@@ -1470,6 +1480,30 @@ public class Lifecycle {
 
 		public String getCapacity() {
 			return this.capacity;
+		}
+	}
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class CreateDiskFromDiskImage {
+		protected String pool;
+		
+		protected String image;
+
+		public String getImage() {
+			return image;
+		}
+
+		public void setImage(String image) {
+			this.image = image;
+		}
+
+		public String getPool() {
+			return pool;
+		}
+
+		public void setPool(String pool) {
+			this.pool = pool;
 		}
 	}
 

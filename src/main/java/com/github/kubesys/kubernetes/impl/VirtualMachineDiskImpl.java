@@ -17,6 +17,7 @@ import com.github.kubesys.kubernetes.api.model.VirtualMachineDiskSpec;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CloneDisk;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CreateDisk;
+import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CreateDiskFromDiskImage;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.DeleteDisk;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.ResizeDisk;
 
@@ -307,6 +308,29 @@ public class VirtualMachineDiskImpl {
 		kind.setMetadata(om);
 		Lifecycle lifecycle = new Lifecycle();
 		lifecycle.setCreateDisk(createDisk);
+		spec.setLifecycle(lifecycle);
+		kind.setSpec(spec);
+		create(kind);
+		return true;
+	}
+	
+	public boolean createDiskFromDiskImage(String name, String nodeName, CreateDiskFromDiskImage createDisk, String eventId) throws Exception {
+		VirtualMachineDisk kind = new VirtualMachineDisk();
+		kind.setApiVersion("cloudplus.io/v1alpha3");
+		kind.setKind("VirtualMachineDisk");
+		VirtualMachineDiskSpec spec = new VirtualMachineDiskSpec();
+		ObjectMeta om = new ObjectMeta();
+		om.setName(name);
+		if (nodeName != null) {
+			Map<String, String> labels = new HashMap<String, String>();
+			labels.put("host", nodeName);
+			labels.put("eventId", eventId);
+			om.setLabels(labels);
+			spec.setNodeName(nodeName);
+		}
+		kind.setMetadata(om);
+		Lifecycle lifecycle = new Lifecycle();
+		lifecycle.setCreateDiskFromDiskImage(createDisk);
 		spec.setLifecycle(lifecycle);
 		kind.setSpec(spec);
 		create(kind);
