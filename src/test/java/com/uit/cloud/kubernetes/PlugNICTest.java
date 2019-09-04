@@ -28,6 +28,15 @@ public class PlugNICTest {
 		PlugNIC plugNIC = new PlugNIC();
 		
 		/*
+		 * libvirt default bridge
+		 * Parameters:
+		 * 	source
+		 * 		network source name
+		 */
+//		plugNIC.setType("bridge"); 
+//		plugNIC.setSource("source=virbr0");
+		
+		/*
 		 * l2 network example
 		 * Parameters:
 		 * 	source

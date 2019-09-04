@@ -44,6 +44,23 @@ public class CreateAndStartSingleDiskWindowsFromISOTest {
 		// windos use target=hda as boot disk.
 		createAndStartVMFromISO.setDisk("/var/lib/libvirt/templates/win7,target=hda,read_bytes_sec=1024000000,write_bytes_sec=1024000000");
 		createAndStartVMFromISO.setCdrom("/opt/ISO/cn_windows_7_ultimate_with_sp1_x64_dvd_u_677408.iso");
+
+		/*
+		 * libivrt default bridge
+		 * Parameters:
+		 * 	type
+		 * 		type of network support values: "bridge", "l2bridge" and "l3bridge"
+		 * 	source
+		 * 		network source name
+		 * 	inbound (optional)
+		 * 		inbound bandwidth in KB
+		 * 	outbound (optional)
+		 * 		outbound bandwidth in KB
+		 * 	mac (optional)
+		 * 		if no mac, create a random mac
+		 * 		Note! Mac address is unique and does not support a value that start with "fe:" (e.g. fe:54:00:05:37:b3)
+		 */
+//		createAndStartVMFromISO.setNetwork("type=bridge,source=virbr0,inbound=102400,outbound=102400");
 		
 		/*
 		 * l2 network example

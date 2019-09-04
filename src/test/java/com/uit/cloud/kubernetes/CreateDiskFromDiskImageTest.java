@@ -20,7 +20,7 @@ public class CreateDiskFromDiskImageTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineDisks()
-				.createDiskFromDiskImage("t4", "vm.node30", get(), "abc");
+				.createDiskFromDiskImage("t6", "vm.node30", get(), "abc");
 		System.out.println(successful);
 	}
 
@@ -29,7 +29,7 @@ public class CreateDiskFromDiskImageTest {
 		// create a volume in this pool
 		createDisk.setPool("default");
 		// vm disk image name
-		createDisk.setImage("abc");
+		createDisk.setImage("t5");
 		return createDisk;
 	}
 }

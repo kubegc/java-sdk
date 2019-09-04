@@ -26,7 +26,11 @@ public class UnplugNICTest {
 	
 	public static UnplugNIC get() {
 		UnplugNIC unplugNIC = new UnplugNIC();
+		// Libvirt default bridge
+//		unplugNIC.setType("bridge");
+		// Ovs layer2 bridge
 //		unplugNIC.setType("l2bridge");
+		// Ovs layer3 bridge
 		unplugNIC.setType("l3bridge");
 		unplugNIC.setMac("52:54:00:4d:27:1e");
 		unplugNIC.setLive(true);
