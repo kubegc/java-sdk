@@ -35,5 +35,7 @@ public class ExtendedKubernetesConstants {
 	public final static String DESC_FUNCTION_VM   = "虚拟机存在，即已调用过CreateAndStartVMFromISO,或CreateAndStartVMFromImage";
 	
 	public final static String DESC_FUNCTION_VMD  = "云盘存在，即已调用过CreateDisk，或CreateDiskFromDiskImage";
+	
+	public final static String DESC_FUNCTION_VMDI = "云盘镜像存在，即已调用过CreateDiskImage，或ConvertDiskToDiskImage";
 
 }

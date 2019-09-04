@@ -5,6 +5,9 @@ package com.github.kubesys.kubernetes.api.model.virtualmachinediskimage;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.github.kubesys.interior.annotations.Function;
+import com.github.kubesys.interior.annotations.Parent;
+import com.github.kubesys.kubernetes.ExtendedKubernetesConstants;
 
 /**
  * @author  wuheng@otcaix.iscas.ac.cn
@@ -15,12 +18,25 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
  **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+@Parent(value = "VirtualMachineDiskImage")
 public class Lifecycle {
 
+	@Function(shortName = "将云盘镜像转化为云盘", description = "将云盘镜像转化为云盘，" 
+			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
+		prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VMDI, 
+		exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
 	protected ConvertDiskImageToDisk convertDiskImageToDisk;
 
+	@Function(shortName = "删除云盘镜像", description = "删除云盘镜像，" 
+			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
+		prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VMDI, 
+		exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
 	protected DeleteDiskImage deleteDiskImage;
 	
+	@Function(shortName = "创建云盘镜像", description = "创建云盘镜像，" 
+			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
+		prerequisite = "", 
+		exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
 	protected CreateDiskImage createDiskImage;
 	
 	public ConvertDiskImageToDisk getConvertDiskImageToDisk() {
