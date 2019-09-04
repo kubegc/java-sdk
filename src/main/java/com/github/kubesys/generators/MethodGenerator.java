@@ -72,12 +72,12 @@ public class MethodGenerator {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		System.out.println(generate(new VirtualMachineDiskImpl()));
+//		System.out.println(generate(new VirtualMachineDiskImpl()));
 //		System.out.println(generate(new VirtualMachineImpl()));
 //		System.out.println(generate(new VirtualMachinePoolImpl()));
 //		System.out.println(generate(new VirtualMachineImageImpl()));
 //		System.out.println(generate(new VirtualMachineSnapshotImpl()));
-//		System.out.println(generate(new VirtualMachineNetworkImpl()));
+		System.out.println(generate(new VirtualMachineNetworkImpl()));
 	}
 	
 	public static String getClassName(String name) {

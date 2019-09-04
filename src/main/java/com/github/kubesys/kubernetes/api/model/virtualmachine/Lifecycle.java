@@ -27,21 +27,13 @@ public class Lifecycle {
 
 	protected UnplugDevice unplugDevice;
 
-	protected DeleteDisk deleteDisk;
-
 	protected UnplugNIC unplugNIC;
-
-	protected DeleteSnapshot deleteSnapshot;
 
 	protected MigrateVM migrateVM;
 
 	protected ChangeNumberOfCPU changeNumberOfCPU;
 
 	protected ResumeVM resumeVM;
-
-	protected CreateSnapshot createSnapshot;
-
-	protected ResizeDisk resizeDisk;
 
 	protected PlugDisk plugDisk;
 
@@ -51,20 +43,12 @@ public class Lifecycle {
 
 	protected UnplugDisk unplugDisk;
 
-	protected CreateDisk createDisk;
-
 	protected StopVM stopVM;
-
-	protected CreateVM createVM;
 
 	protected StartVM startVM;
 
-	protected CloneDisk cloneDisk;
-
 	protected DeleteVM deleteVM;
 
-	protected CreateAndStartVMFromISO createAndStartVM;
-	
 	protected CreateAndStartVMFromISO createAndStartVMFromISO;
 	
 	protected CreateAndStartVMFromImage createAndStartVMFromImage;
@@ -81,8 +65,6 @@ public class Lifecycle {
 	
 	protected ConvertVMToImage convertVMToImage;
 	
-	protected RevertVirtualMachine revertVirtualMachine;
-
 	public Lifecycle() {
 
 	}
@@ -101,14 +83,6 @@ public class Lifecycle {
 
 	public void setUpdateOS(UpdateOS updateOS) {
 		this.updateOS = updateOS;
-	}
-
-	public RevertVirtualMachine getRevertVirtualMachine() {
-		return revertVirtualMachine;
-	}
-
-	public void setRevertVirtualMachine(RevertVirtualMachine revertVirtualMachine) {
-		this.revertVirtualMachine = revertVirtualMachine;
 	}
 
 	public void setRestoreVM(RestoreVM restoreVM) {
@@ -151,28 +125,12 @@ public class Lifecycle {
 		return this.unplugDevice;
 	}
 
-	public void setDeleteDisk(DeleteDisk deleteDisk) {
-		this.deleteDisk = deleteDisk;
-	}
-
-	public DeleteDisk getDeleteDisk() {
-		return this.deleteDisk;
-	}
-
 	public void setUnplugNIC(UnplugNIC unplugNIC) {
 		this.unplugNIC = unplugNIC;
 	}
 
 	public UnplugNIC getUnplugNIC() {
 		return this.unplugNIC;
-	}
-
-	public void setDeleteSnapshot(DeleteSnapshot deleteSnapshot) {
-		this.deleteSnapshot = deleteSnapshot;
-	}
-
-	public DeleteSnapshot getDeleteSnapshot() {
-		return this.deleteSnapshot;
 	}
 
 	public void setMigrateVM(MigrateVM migrateVM) {
@@ -199,14 +157,6 @@ public class Lifecycle {
 		return this.resumeVM;
 	}
 
-	public void setCreateSnapshot(CreateSnapshot createSnapshot) {
-		this.createSnapshot = createSnapshot;
-	}
-
-	public CreateSnapshot getCreateSnapshot() {
-		return this.createSnapshot;
-	}
-
 	public CreateAndStartVMFromISO getCreateAndStartVMFromISO() {
 		return createAndStartVMFromISO;
 	}
@@ -221,14 +171,6 @@ public class Lifecycle {
 
 	public void setCreateAndStartVMFromImage(CreateAndStartVMFromImage createAndStartVMFromImage) {
 		this.createAndStartVMFromImage = createAndStartVMFromImage;
-	}
-
-	public void setResizeDisk(ResizeDisk resizeDisk) {
-		this.resizeDisk = resizeDisk;
-	}
-
-	public ResizeDisk getResizeDisk() {
-		return this.resizeDisk;
 	}
 
 	public void setPlugDisk(PlugDisk plugDisk) {
@@ -263,28 +205,12 @@ public class Lifecycle {
 		return this.unplugDisk;
 	}
 
-	public void setCreateDisk(CreateDisk createDisk) {
-		this.createDisk = createDisk;
-	}
-
-	public CreateDisk getCreateDisk() {
-		return this.createDisk;
-	}
-
 	public void setStopVM(StopVM stopVM) {
 		this.stopVM = stopVM;
 	}
 
 	public StopVM getStopVM() {
 		return this.stopVM;
-	}
-
-	public void setCreateVM(CreateVM createVM) {
-		this.createVM = createVM;
-	}
-
-	public CreateVM getCreateVM() {
-		return this.createVM;
 	}
 
 	public void setStartVM(StartVM startVM) {
@@ -295,28 +221,12 @@ public class Lifecycle {
 		return this.startVM;
 	}
 
-	public void setCloneDisk(CloneDisk cloneDisk) {
-		this.cloneDisk = cloneDisk;
-	}
-
-	public CloneDisk getCloneDisk() {
-		return this.cloneDisk;
-	}
-
 	public void setDeleteVM(DeleteVM deleteVM) {
 		this.deleteVM = deleteVM;
 	}
 
 	public DeleteVM getDeleteVM() {
 		return this.deleteVM;
-	}
-
-	public void setCreateAndStartVM(CreateAndStartVMFromISO createAndStartVM) {
-		this.createAndStartVM = createAndStartVM;
-	}
-
-	public CreateAndStartVMFromISO getCreateAndStartVM() {
-		return this.createAndStartVM;
 	}
 
 	public void setRebootVM(RebootVM rebootVM) {

@@ -18,7 +18,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 public class Lifecycle {
 
 	
-	protected Autostart autoStart;
+	protected AutoStart autoStart;
 	
 	protected CreatePool createPool;
 	
@@ -33,11 +33,11 @@ public class Lifecycle {
 	protected UnregisterPool unregisterPool;
 	
 
-	public Autostart getAutoStart() {
+	public AutoStart getAutoStart() {
 		return autoStart;
 	}
 
-	public void setAutoStart(Autostart autoStart) {
+	public void setAutoStart(AutoStart autoStart) {
 		this.autoStart = autoStart;
 	}
 
@@ -88,10 +88,11 @@ public class Lifecycle {
 	public void setUnregisterPool(UnregisterPool unregisterPool) {
 		this.unregisterPool = unregisterPool;
 	}
-
+	
+	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class Autostart {
+	public static class AutoStart {
 
 		protected String pool;
 		
