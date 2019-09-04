@@ -44,6 +44,12 @@ public class VirtualMachinePoolImpl extends AbstractImpl<VirtualMachinePool, Vir
 		return new Lifecycle();
 	}
 
+	
+	@Override
+	public VirtualMachinePoolSpec getSpec(VirtualMachinePool r) {
+		return r.getSpec();
+	}
+
 	/*************************************************
 	 * 
 	 * Generated

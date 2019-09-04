@@ -44,6 +44,11 @@ public class VirtualMachineImageImpl extends AbstractImpl<VirtualMachineImage, V
 		return new Lifecycle();
 	}
 
+	@Override
+	public VirtualMachineImageSpec getSpec(VirtualMachineImage r) {
+		return r.getSpec();
+	}
+
 	/*************************************************
 	 * 
 	 * Generated

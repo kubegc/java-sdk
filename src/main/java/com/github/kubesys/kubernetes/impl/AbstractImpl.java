@@ -214,12 +214,44 @@ public abstract class AbstractImpl<R, S, T> {
 		return type;
 	}
 	
+	/*******************************************************
+	 * 
+	 *                Framework
+	 * 
+	 ********************************************************/
+	/**
+	 * @return                   Model, see fabric8 example
+	 */
 	public abstract R getModel();
 	
+	/**
+	 * @return                   Spec, see fabric8 example
+	 */
 	public abstract T getSpec();
 	
+	/**
+	 * @param t                  model
+	 * @return                   spec, see fabric8 example
+	 */
+	public abstract T getSpec(R r);
+	
+	/**
+	 * @return                   Lifecycle, see fabric8 example
+	 */
 	public abstract Object getLifecycle();
 	
+	/******************************************************
+	 * 
+	 *               Core
+	 * 
+	 *******************************************************/
+	/**
+	 * @param r                  model
+	 * @param om                 objectMeta
+	 * @param spec               spec
+	 * @return                   true, or an exception
+	 * @throws Exception         exception  
+	 */
 	public boolean create(R r, ObjectMeta om, T spec) throws Exception {
 		
 		// r.setApiVersion(apiversion)
@@ -241,6 +273,81 @@ public abstract class AbstractImpl<R, S, T> {
 		return create((HasMetadata) r);
 	}
 	
+	/**
+	 * @param name                    name
+	 * @param om                      ObjectMeta  
+	 * @param operator                operator
+	 * @return                        true or an exception
+	 * @throws Exception
+	 */
+	public boolean update(String name, ObjectMeta om, Object operator) throws Exception {
+		
+		R r = get(name);
+		if (r == null) {
+			throw new RuntimeException(type + " " + name + " is not exist");
+		}
+		
+		T t = getSpec(r);
+		Method glf = t.getClass().getMethod("getLifecycle");
+		Object gva = glf.invoke(t);
+		if (gva != null) {
+			throw new RuntimeException(type + " " + name + " is now under processing");
+		}
+		
+		Object lifecycle = createLifecycle(operator);
+		
+		// t.setLifecycle(lifecycle)
+		Method setLifecycle = t.getClass().getMethod("setLifecycle", lifecycle.getClass());
+		setLifecycle.invoke(t, lifecycle);
+		
+		// r.setSpec(spec)
+		Method setSpec = r.getClass().getMethod("setSpec", t.getClass());
+		setSpec.invoke(r, t);
+
+		// r.setMetadata(metadata)
+		Method setMeta = r.getClass().getMethod("setMetadata", ObjectMeta.class);
+		setMeta.invoke(r, om);
+		
+		return update(operator.getClass().getSimpleName(), (HasMetadata) r);
+	}
+	
+	/**
+	 * @param name                    name
+	 * @param om                      ObjectMeta
+	 * @param operator                operator
+	 * @return                        true or an exception
+	 * @throws Exception              exception
+	 */
+	public boolean delete(String name, ObjectMeta om, Object operator) throws Exception {
+		
+		R r = get(name);
+		if (r == null) {
+			throw new RuntimeException(type + " " + name + " is not exist");
+		}
+		
+		T t = getSpec(r);
+		Method glf = t.getClass().getMethod("getLifecycle");
+		Object gva = glf.invoke(t);
+		if (gva != null) {
+			delete((HasMetadata) r);
+			return true;
+		}
+		
+		return update(name, om, operator);
+	}
+	
+	/*************************************************
+	 * 
+	 *              Utils
+	 * 
+	 *************************************************/
+	
+	/**
+	 * @param nodeName             nodeName
+	 * @param lifecycle            lifecycle
+	 * @return                     Spec, or an exception
+	 * @throws Exception           exception
+	 */
 	public T createSpec(String nodeName, Object lifecycle) throws Exception {
 		T t = getSpec();
 		if (nodeName != null) {
@@ -256,6 +363,11 @@ public abstract class AbstractImpl<R, S, T> {
 		return t;
 	}
 	
+	/**
+	 * @param operator               operator
+	 * @return                       lifecycle, or an exception
+	 * @throws Exception             exception
+	 */
 	public Object createLifecycle(Object operator) throws Exception {
 		Object lifecycle = getLifecycle();
 		String name = "set" + operator.getClass().getSimpleName();
@@ -273,12 +385,31 @@ public abstract class AbstractImpl<R, S, T> {
 	protected ObjectMeta createMetadata(String name, String nodeName, String eventId) {
 		ObjectMeta om = new ObjectMeta();
 		om.setName(name);
-		if (nodeName != null) {
-			Map<String, String> labels = new HashMap<String, String>();
-			labels.put(ExtendedKubernetesConstants.LABEL_HOST, nodeName);
-			labels.put(ExtendedKubernetesConstants.LABEL_EVENTID, eventId);
-			om.setLabels(labels);
+		Map<String, String> labels = new HashMap<String, String>();
+		labels.put(ExtendedKubernetesConstants.LABEL_HOST, nodeName);
+		labels.put(ExtendedKubernetesConstants.LABEL_EVENTID, eventId);
+		om.setLabels(labels);
+		return om;
+	}
+	
+	/**
+	 * @param name                      name
+	 * @param eventId                   eventId
+	 * @return                          ObjectMeta 
+	 * @throws Exception 
+	 */
+	protected ObjectMeta updateMetadata(String name, String eventId) throws Exception {
+		R r = get(name);
+		if (r == null) {
+			throw new RuntimeException(type + " " + name + " is not exist");
 		}
+
+		Method m = r.getClass().getMethod("getMetadata");
+		ObjectMeta om = (ObjectMeta) m.invoke(r);
+		Map<String, String> labels = om.getLabels();
+		labels = (labels == null) ? new HashMap<String, String>() : labels;
+		labels.put(ExtendedKubernetesConstants.LABEL_EVENTID, eventId);
+		om.setLabels(labels);
 		return om;
 	}
 }

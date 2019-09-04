@@ -50,6 +50,12 @@ public class VirtualMachineNetworkImpl extends AbstractImpl<VirtualMachineNetwor
 		return new Lifecycle();
 	}
 
+	
+	@Override
+	public VirtualMachineNetworkSpec getSpec(VirtualMachineNetwork r) {
+		return r.getSpec();
+	}
+
 	/*************************************************
 	 * 
 	 * Generated

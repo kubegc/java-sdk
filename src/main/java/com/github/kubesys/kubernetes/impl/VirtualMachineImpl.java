@@ -88,6 +88,11 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 		return new Lifecycle();
 	}
 
+	@Override
+	public VirtualMachineSpec getSpec(VirtualMachine r) {
+		return r.getSpec();
+	}
+
 	/**
 	 * @param name  name
 	 * @throws Exception exception

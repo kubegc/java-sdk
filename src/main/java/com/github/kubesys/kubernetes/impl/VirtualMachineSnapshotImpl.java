@@ -48,6 +48,12 @@ public class VirtualMachineSnapshotImpl extends AbstractImpl<VirtualMachineSnaps
 		return new Lifecycle();
 	}
 
+	
+	@Override
+	public VirtualMachineSnapshotSpec getSpec(VirtualMachineSnapshot r) {
+		return r.getSpec();
+	}
+
 	/*************************************************
 	 * 
 	 * Generated
