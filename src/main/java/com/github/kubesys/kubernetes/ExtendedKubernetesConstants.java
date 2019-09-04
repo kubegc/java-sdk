@@ -23,6 +23,11 @@ public class ExtendedKubernetesConstants {
 	
 	public final static String OPERATOR_DEL_TAG  = "DeleteTag";
 	
+	/*****************************************************************
+	 * 
+	 *                   These variables are used for generating API
+	 * 
+	 *****************************************************************/
 	
 	public final static String DESC_BOOLEAN       = "True或者False";
 	
@@ -37,5 +42,7 @@ public class ExtendedKubernetesConstants {
 	public final static String DESC_FUNCTION_VMD  = "云盘存在，即已调用过CreateDisk，或CreateDiskFromDiskImage";
 	
 	public final static String DESC_FUNCTION_VMDI = "云盘镜像存在，即已调用过CreateDiskImage，或ConvertDiskToDiskImage";
+	
+	public final static String DESC_FUNCTION_VMI  = "虚拟机镜像存在，即已调用过CreateImage，或ConvertVMToImage";
 
 }

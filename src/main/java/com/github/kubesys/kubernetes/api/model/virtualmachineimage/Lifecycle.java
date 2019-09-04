@@ -5,6 +5,9 @@ package com.github.kubesys.kubernetes.api.model.virtualmachineimage;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.github.kubesys.interior.annotations.Function;
+import com.github.kubesys.interior.annotations.Parent;
+import com.github.kubesys.kubernetes.ExtendedKubernetesConstants;
 
 /**
  * @author  wuheng@otcaix.iscas.ac.cn
@@ -15,12 +18,25 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
  **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+@Parent(value = "VirtualMachineImage")
 public class Lifecycle {
 
+	@Function(shortName = "创建虚拟机镜像", description = "创建虚拟机镜像，" 
+			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
+		prerequisite = "", 
+		exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
 	protected CreateImage createImage;
 	
+	@Function(shortName = "删除虚拟机镜像", description = "删除虚拟机镜像，" 
+			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
+		prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VMI, 
+		exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
 	protected DeleteImage deleteImage;
 	
+	@Function(shortName = "将虚拟机镜像转化为虚拟机", description = "将虚拟机镜像转化为虚拟机，" 
+			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
+		prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VMI, 
+		exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
 	protected ConvertImageToVM convertImageToVM;
 
 	public Lifecycle() {
