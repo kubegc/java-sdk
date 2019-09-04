@@ -12,8 +12,10 @@ import com.github.kubesys.kubernetes.impl.VirtualMachineDiskImageImpl;
  * @version 1.0.0
  * @since   2019/9/3
  *
+ * generate methods in Impl, such as <code>VirtualMachineImpl<code>,
+ * <code>VirtualMachinePoolImpl<code>, and so one 
  */
-public class MethodGenerator {
+public class ImplMethodGenerator {
 
 	public static String generate(Object obj) throws Exception {
 		StringBuffer sb = new StringBuffer();

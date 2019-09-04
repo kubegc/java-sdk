@@ -7,9 +7,7 @@ import com.github.kubesys.kubernetes.api.model.VirtualMachineNetwork;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineNetworkList;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineNetworkSpec;
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle;
-import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.CreateSwPort;
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.CreateSwitch;
-import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.DeleteSwPort;
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.DeleteSwitch;
 
 /**
@@ -71,29 +69,4 @@ public class VirtualMachineNetworkImpl extends AbstractImpl<VirtualMachineNetwor
 		return delete(name, updateMetadata(name, eventId), deleteSwitch);
 	}
 
-	public boolean createSwPort(String name, CreateSwPort createSwPort) throws Exception {
-		return createSwPort(name, null, createSwPort, null);
-	}
-
-	public boolean createSwPort(String name, String nodeName, CreateSwPort createSwPort) throws Exception {
-		return createSwPort(name, nodeName, createSwPort, null);
-	}
-
-	public boolean createSwPort(String name, CreateSwPort createSwPort, String eventId) throws Exception {
-		return createSwPort(name, null, createSwPort, eventId);
-	}
-
-	public boolean createSwPort(String name, String nodeName,CreateSwPort createSwPort, String eventId) throws Exception {
-		return create(getModel(), createMetadata(name, nodeName, eventId), 
-				createSpec(nodeName, createLifecycle(createSwPort)));
-	}
-
-	public boolean deleteSwPort(String name, DeleteSwPort deleteSwPort) throws Exception {
-		return deleteSwPort(name, deleteSwPort, null);
-	}
-
-	public boolean deleteSwPort(String name,DeleteSwPort deleteSwPort, String eventId) throws Exception {
-		return delete(name, updateMetadata(name, eventId), deleteSwPort);
-	}
-	
 }

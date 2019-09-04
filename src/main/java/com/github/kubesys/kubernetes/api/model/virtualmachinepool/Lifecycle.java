@@ -7,11 +7,11 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
- * @author wuheng@otcaix.iscas.ac.cn
- * @author xuyuanjia2017@otcaix.iscas.ac.cn
- * @author xianghao16@otcaix.iscas.ac.cn
- * @author yangchen18@otcaix.iscas.ac.cn
- * @since Thu Aug 20 21:36:39 CST 2019
+ * @author  wuheng@otcaix.iscas.ac.cn
+ * 
+ * @version 1.0.0
+ * @since   2019/9/4
+ * 
  **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
@@ -94,17 +94,7 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class AutoStart {
 
-		protected String pool;
-		
 		protected Boolean disable;
-
-		public String getPool() {
-			return pool;
-		}
-
-		public void setPool(String pool) {
-			this.pool = pool;
-		}
 
 		public Boolean getDisable() {
 			return disable;
@@ -119,8 +109,6 @@ public class Lifecycle {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class CreatePool {
-
-		protected String name;
 
 		protected String type;
 		
@@ -163,14 +151,6 @@ public class Lifecycle {
 		protected Boolean no_overwrite;
 		
 		protected Boolean overwrite;
-
-		public String getName() {
-			return name;
-		}
-
-		public void setName(String name) {
-			this.name = name;
-		}
 
 		public String getType() {
 			return type;
@@ -346,8 +326,6 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class RegisterPool {
 
-		protected String name;
-
 		protected String type;
 		
 		protected String source_host;
@@ -383,14 +361,6 @@ public class Lifecycle {
 		protected String adapter_parent_wwpn;
 		
 		protected String adapter_parent_fabric_wwn;
-
-		public String getName() {
-			return name;
-		}
-
-		public void setName(String name) {
-			this.name = name;
-		}
 
 		public String getType() {
 			return type;
@@ -543,21 +513,11 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class StartPool {
 		
-		protected String pool;
-		
 		protected Boolean build;
 		
 		protected Boolean no_overwrite;
 		
 		protected Boolean overwrite;
-
-		public String getPool() {
-			return pool;
-		}
-
-		public void setPool(String pool) {
-			this.pool = pool;
-		}
 
 		public Boolean getBuild() {
 			return build;
@@ -589,46 +549,18 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class StopPool {
 		
-		protected String pool;
-
-		public String getPool() {
-			return pool;
-		}
-
-		public void setPool(String pool) {
-			this.pool = pool;
-		}
-		
 	}
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class DeletePool {
 		
-		protected String pool;
-
-		public String getPool() {
-			return pool;
-		}
-
-		public void setPool(String pool) {
-			this.pool = pool;
-		}
 	}
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class UnregisterPool {
 		
-		protected String pool;
-
-		public String getPool() {
-			return pool;
-		}
-
-		public void setPool(String pool) {
-			this.pool = pool;
-		}
 	}
 
 }

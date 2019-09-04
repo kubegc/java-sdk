@@ -13,7 +13,6 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.github.kubesys.generators.AbstractClassGenerator;
 
 import io.fabric8.kubernetes.api.model.KubernetesResource;
 

@@ -5,8 +5,6 @@ package com.github.kubesys.generators.classgen;
 
 import java.util.List;
 
-import com.github.kubesys.generators.AbstractClassGenerator;
-
 import io.fabric8.kubernetes.client.CustomResourceList;
 
 /**
