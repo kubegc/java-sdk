@@ -25,7 +25,9 @@ public class ConvertDiskImageToDiskTest {
 	}
 
 	protected static ConvertDiskImageToDisk get() {
-		ConvertDiskImageToDisk convertDisk = new ConvertDiskImageToDisk();
-		return convertDisk;
+		ConvertDiskImageToDisk convertDiskImage = new ConvertDiskImageToDisk();
+		// need pool to store disk
+		convertDiskImage.setPool("default");
+		return convertDiskImage;
 	}
 }
