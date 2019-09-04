@@ -174,8 +174,6 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class DeleteSnapshot {
 
-		protected Boolean current;
-
 		protected Boolean metadata;
 
 		protected Boolean children;
@@ -186,14 +184,6 @@ public class Lifecycle {
 
 		public DeleteSnapshot() {
 
-		}
-
-		public void setCurrent(Boolean current) {
-			this.current = current;
-		}
-
-		public Boolean getCurrent() {
-			return this.current;
 		}
 
 		public void setMetadata(Boolean metadata) {
@@ -235,34 +225,24 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class RevertVirtualMachine {
 		
-		protected String snapshotname;
-		
-		protected Boolean current;
-		
+		protected String domain;
+
 		protected Boolean running;
 		
 		protected Boolean paused;
 		
 		protected Boolean force;
 
-		public String getSnapshotname() {
-			return snapshotname;
-		}
-
-		public void setSnapshotname(String snapshotname) {
-			this.snapshotname = snapshotname;
-		}
-
-		public Boolean getCurrent() {
-			return current;
-		}
-
-		public void setCurrent(Boolean current) {
-			this.current = current;
-		}
-
 		public Boolean getRunning() {
 			return running;
+		}
+		
+		public String getDomain() {
+			return domain;
+		}
+		
+		public void setDomain(String domain) {
+			this.domain = domain;
 		}
 
 		public void setRunning(Boolean running) {
