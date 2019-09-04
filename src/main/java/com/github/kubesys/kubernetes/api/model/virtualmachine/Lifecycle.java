@@ -472,6 +472,14 @@ public class Lifecycle {
 
 		}
 
+		public String getTarget() {
+			return target;
+		}
+
+		public void setTarget(String target) {
+			this.target = target;
+		}
+
 		public void setCurrent(Boolean current) {
 			this.current = current;
 		}

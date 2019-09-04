@@ -9,12 +9,33 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import com.alibaba.fastjson.JSON;
+
+
+
+
+
+
+
+
 /**
  * @version 1.0.0
  * @since   2019/9/3
  *
  */
 public class JSONGenerator {
+	
+	public final static List<String> list = new ArrayList<String>();
+	
+	static {
+		list.add("com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle");
+		list.add("com.github.kubesys.kubernetes.api.model.virtualmachinesnapshot.Lifecycle");
+		list.add("com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle");
+		list.add("com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle");
+		list.add("com.github.kubesys.kubernetes.api.model.virtualmachineimage.Lifecycle");
+		list.add("com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle");
+		list.add("com.github.kubesys.kubernetes.api.model.virtualmachinediskimage.Lifecycle");
+	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	protected static void instance(Object obj) throws Exception {
@@ -72,6 +93,14 @@ public class JSONGenerator {
 	protected static String setMethod(String name) {
 		return "set" + name.substring(0, 1).toUpperCase()
 							+ name.substring(1);
+	}
+	
+	public static void main(String[] args) throws Exception {
+		for (String name : list) {
+			Object obj = Class.forName(name).newInstance();
+			instance(obj);
+			System.out.println(JSON.toJSONString(obj, true));
+		}
 	}
 	
 }
