@@ -4,12 +4,7 @@
 package com.github.kubesys.generators;
 
 import com.github.kubesys.kubernetes.impl.AbstractImpl;
-import com.github.kubesys.kubernetes.impl.VirtualMachineDiskImpl;
-import com.github.kubesys.kubernetes.impl.VirtualMachineImageImpl;
-import com.github.kubesys.kubernetes.impl.VirtualMachineImpl;
-import com.github.kubesys.kubernetes.impl.VirtualMachineNetworkImpl;
-import com.github.kubesys.kubernetes.impl.VirtualMachinePoolImpl;
-import com.github.kubesys.kubernetes.impl.VirtualMachineSnapshotImpl;
+import com.github.kubesys.kubernetes.impl.VirtualMachineDiskImageImpl;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -77,7 +72,8 @@ public class MethodGenerator {
 //		System.out.println(generate(new VirtualMachinePoolImpl()));
 //		System.out.println(generate(new VirtualMachineImageImpl()));
 //		System.out.println(generate(new VirtualMachineSnapshotImpl()));
-		System.out.println(generate(new VirtualMachineNetworkImpl()));
+//		System.out.println(generate(new VirtualMachineNetworkImpl()));
+		System.out.println(generate(new VirtualMachineDiskImageImpl()));
 	}
 	
 	public static String getClassName(String name) {

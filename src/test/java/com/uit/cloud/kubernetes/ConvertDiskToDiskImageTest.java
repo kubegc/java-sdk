@@ -4,7 +4,7 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
-import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CreateDiskFromDiskImage;
+import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.ConvertDiskToDiskImage;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -13,23 +13,21 @@ import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.Crea
  * This code is used to manage CustomResource's lifecycle,
  * such as VirtualMachine
  */
-public class CreateDiskFromDiskImageTest {
+public class ConvertDiskToDiskImageTest {
 	
 	
 	public static void main(String[] args) throws Exception {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineDisks()
-				.createDiskFromDiskImage("t4", "vm.node30", get(), "abc");
+				.convertDiskToDiskImage("t4", get(), "abc");
 		System.out.println(successful);
 	}
 
-	protected static CreateDiskFromDiskImage get() {
-		CreateDiskFromDiskImage createDisk = new CreateDiskFromDiskImage();
+	protected static ConvertDiskToDiskImage get() {
+		ConvertDiskToDiskImage createDisk = new ConvertDiskToDiskImage();
 		// create a volume in this pool
 		createDisk.setPool("default");
-		// vm disk image name
-		createDisk.setImage("abc");
 		return createDisk;
 	}
 }

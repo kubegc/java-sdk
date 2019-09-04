@@ -8,7 +8,9 @@ import com.github.kubesys.kubernetes.api.model.VirtualMachineDiskList;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineDiskSpec;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CloneDisk;
+import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.ConvertDiskToDiskImage;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CreateDisk;
+import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CreateDiskFromDiskImage;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.DeleteDisk;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.ResizeDisk;
 
@@ -79,6 +81,31 @@ public class VirtualMachineDiskImpl extends AbstractImpl<VirtualMachineDisk, Vir
 	public boolean createDisk(String name, String nodeName,CreateDisk createDisk, String eventId) throws Exception {
 		return create(getModel(), createMetadata(name, nodeName, eventId), 
 				createSpec(nodeName, createLifecycle(createDisk)));
+	}
+
+	public boolean createDiskFromDiskImage(String name, CreateDiskFromDiskImage createDiskFromDiskImage) throws Exception {
+		return createDiskFromDiskImage(name, null, createDiskFromDiskImage, null);
+	}
+
+	public boolean createDiskFromDiskImage(String name, String nodeName, CreateDiskFromDiskImage createDiskFromDiskImage) throws Exception {
+		return createDiskFromDiskImage(name, nodeName, createDiskFromDiskImage, null);
+	}
+
+	public boolean createDiskFromDiskImage(String name, CreateDiskFromDiskImage createDiskFromDiskImage, String eventId) throws Exception {
+		return createDiskFromDiskImage(name, null, createDiskFromDiskImage, eventId);
+	}
+
+	public boolean createDiskFromDiskImage(String name, String nodeName,CreateDiskFromDiskImage createDiskFromDiskImage, String eventId) throws Exception {
+		return create(getModel(), createMetadata(name, nodeName, eventId), 
+				createSpec(nodeName, createLifecycle(createDiskFromDiskImage)));
+	}
+
+	public boolean convertDiskToDiskImage(String name, ConvertDiskToDiskImage convertDiskToDiskImage) throws Exception {
+		return convertDiskToDiskImage(name, convertDiskToDiskImage, null);
+	}
+
+	public boolean convertDiskToDiskImage(String name,ConvertDiskToDiskImage convertDiskToDiskImage, String eventId) throws Exception {
+		return update(name, updateMetadata(name, eventId), convertDiskToDiskImage);
 	}
 
 	public boolean cloneDisk(String name, CloneDisk cloneDisk) throws Exception {

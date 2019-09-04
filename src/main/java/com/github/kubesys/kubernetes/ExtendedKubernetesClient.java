@@ -13,11 +13,13 @@ import java.util.logging.Logger;
 
 import com.github.kubesys.kubernetes.api.model.VirtualMachine;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineDisk;
+import com.github.kubesys.kubernetes.api.model.VirtualMachineDiskImage;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineImage;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineNetwork;
 import com.github.kubesys.kubernetes.api.model.VirtualMachinePool;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineSnapshot;
 import com.github.kubesys.kubernetes.impl.NodeSelectorImpl;
+import com.github.kubesys.kubernetes.impl.VirtualMachineDiskImageImpl;
 import com.github.kubesys.kubernetes.impl.VirtualMachineDiskImpl;
 import com.github.kubesys.kubernetes.impl.VirtualMachineImageImpl;
 import com.github.kubesys.kubernetes.impl.VirtualMachineImpl;
@@ -83,6 +85,7 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 		configs.add("/VirtualMachineSnapshot.conf");
 		configs.add("/VirtualMachineNetwork.conf");
 		configs.add("/VirtualMachinePool.conf");
+		configs.add("/VirtualMachineDiskImage.conf");
 	}
 	
 	/**
@@ -241,6 +244,13 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 	}
 	
 	/**
+	 * @return        VirtualMachinePool
+	 */
+	public VirtualMachineDiskImageImpl virtualMachineDiskImages() {
+		return new VirtualMachineDiskImageImpl();
+	}
+	
+	/**
 	 * @return        VirtualMachineSnapshot
 	 */
 	public VirtualMachineSnapshotImpl virtualMachineSnapshots() {
@@ -293,6 +303,14 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 	@SuppressWarnings("unchecked")
 	public void watchVirtualMachineNetworks(Watcher<VirtualMachineNetwork> watcher) {
 		crdClients.get(VirtualMachineNetwork.class.getSimpleName()).watch(watcher);
+	}
+	
+	/**
+	 * @return        VirtualMachineSnapshot
+	 */
+	@SuppressWarnings("unchecked")
+	public void watchVirtualMachineDiskImages(Watcher<VirtualMachineDiskImage> watcher) {
+		crdClients.get(VirtualMachineDiskImage.class.getSimpleName()).watch(watcher);
 	}
 	
 	/**
