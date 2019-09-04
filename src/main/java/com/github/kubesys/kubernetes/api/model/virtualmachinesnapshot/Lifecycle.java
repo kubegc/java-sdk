@@ -235,7 +235,7 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class RevertVirtualMachine {
 		
-		protected String domain;
+		protected String snapshotname;
 		
 		protected Boolean current;
 		
@@ -245,12 +245,12 @@ public class Lifecycle {
 		
 		protected Boolean force;
 
-		public String getDomain() {
-			return domain;
+		public String getSnapshotname() {
+			return snapshotname;
 		}
 
-		public void setDomain(String domain) {
-			this.domain = domain;
+		public void setSnapshotname(String snapshotname) {
+			this.snapshotname = snapshotname;
 		}
 
 		public Boolean getCurrent() {
