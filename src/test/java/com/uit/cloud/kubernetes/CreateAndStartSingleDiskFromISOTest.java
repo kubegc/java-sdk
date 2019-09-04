@@ -33,7 +33,7 @@ public class CreateAndStartSingleDiskFromISOTest {
 		createAndStartVMFromISO.setMetadata("uuid=950646e8-c17a-49d0-b83c-1c797811e001");
 		createAndStartVMFromISO.setVirt_type("kvm"); 
 		// @see https://github.com/uit-plus/api/blob/master/src/main/java/com/github/uitplus/utils/OSDistroUtils.java
-		createAndStartVMFromISO.setOs_variant("centos7.0");
+		createAndStartVMFromISO.setOs_variant("centos7");
 		createAndStartVMFromISO.setNoautoconsole(true); 
 		
 		// calculationSpecification
