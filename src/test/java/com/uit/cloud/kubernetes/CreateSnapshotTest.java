@@ -26,6 +26,7 @@ public class CreateSnapshotTest {
 
 	protected static CreateSnapshot getCreateSnapshot() {
 		CreateSnapshot createSnapshot = new CreateSnapshot();
+		// domain name
 		createSnapshot.setDomain("950646e8c17a49d0b83c1c797811e001");
 		return createSnapshot;
 	}

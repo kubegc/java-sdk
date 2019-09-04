@@ -20,7 +20,7 @@ public class ConvertDiskImageToDiskTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineDiskImages()
-				.convertDiskImageToDisk("t3", get(), "abc");
+				.convertDiskImageToDisk("t5", get(), "abc");
 		System.out.println(successful);
 	}
 

@@ -41,7 +41,7 @@ public class CreateAndStartSingleDiskFromISOTest {
 		
 		// Disk and QoS for 1 disk and many disks
 		// path /var/lib/libvirt/images/test11 can be get by CreateDiskTest
-		createAndStartVMFromISO.setDisk("/var/lib/libvirt/images/t1,read_bytes_sec=1024000000,write_bytes_sec=1024000000");
+		createAndStartVMFromISO.setDisk("/var/lib/libvirt/images/test3.qcow2,read_bytes_sec=1024000000,write_bytes_sec=1024000000");
 		createAndStartVMFromISO.setCdrom("/opt/ISO/CentOS-7-x86_64-Minimal-1511.iso");
 
 		/*

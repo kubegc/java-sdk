@@ -26,8 +26,10 @@ public class RevertSnapshotTest {
 
 	protected static RevertVirtualMachine get() {
 		RevertVirtualMachine revertVM = new RevertVirtualMachine();
-		revertVM.setSnapshotname("abcde");
-		revertVM.setCurrent(true);
+		// domain name
+		revertVM.setDomain("950646e8c17a49d0b83c1c797811e001");
+		// after reverting, change state to running
+		revertVM.setRunning(true);
 		return revertVM;
 	}
 	
