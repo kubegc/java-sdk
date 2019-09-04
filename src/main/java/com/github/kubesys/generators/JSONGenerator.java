@@ -9,26 +9,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import com.alibaba.fastjson.JSON;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Domain;
-import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Volume;
-import com.github.kubesys.kubernetes.api.model.virtualmachinesnapshot.Domainsnapshot;
-
 /**
- * @author wuheng@otcaix.iscas.ac.cn
- * @since 2019/7/16
+ * @version 1.0.0
+ * @since   2019/9/3
  *
  */
 public class JSONGenerator {
 	
-	public static void main(String[] args) throws Exception {
-//		Domain obj = new Domain();
-//		Volume obj = new Volume();
-		Domainsnapshot obj = new Domainsnapshot();
-		instance(obj);
-		System.out.println(JSON.toJSONString(obj, true));
-	}
-
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	protected static void instance(Object obj) throws Exception {
 		Class<? extends Object> clazz = obj.getClass();
 		for (Field field : clazz.getDeclaredFields()) {
@@ -85,4 +73,5 @@ public class JSONGenerator {
 		return "set" + name.substring(0, 1).toUpperCase()
 							+ name.substring(1);
 	}
+	
 }

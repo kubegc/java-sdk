@@ -7,11 +7,11 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
- * @author wuheng@otcaix.iscas.ac.cn
- * @author xuyuanjia2017@otcaix.iscas.ac.cn
- * @author xianghao16@otcaix.iscas.ac.cn
- * @author yangchen18@otcaix.iscas.ac.cn
- * @since Thu Jun 22 21:36:39 CST 2019
+ * @author  wuheng@otcaix.iscas.ac.cn
+ * 
+ * @version 1.0.0
+ * @since   2019/9/4
+ * 
  **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
@@ -50,6 +50,7 @@ public class Lifecycle {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class ConvertDiskImageToDisk {
+		
 		protected String pool;
 
 		public String getPool() {
@@ -70,6 +71,7 @@ public class Lifecycle {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class CreateDiskImage {
+		
 		protected String source;
 
 		public String getSource() {

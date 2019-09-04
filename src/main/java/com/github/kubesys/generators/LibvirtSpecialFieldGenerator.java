@@ -1,7 +1,7 @@
 /*
  * Copyright (2019, ) Institute of Software, Chinese Academy of Sciences
  */
-package com.github.kubesys.analyzers;
+package com.github.kubesys.generators;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -9,13 +9,21 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Domain;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Volume;
+import com.github.kubesys.kubernetes.api.model.virtualmachinesnapshot.Domainsnapshot;
+
 
 /**
- * @author xuyuanjia2017@otcaix.iscas.ac.cn
- * @since 2019/6/14
+ * @author wuheng@otcaix.iscas.ac.cn
+ * 
+ * @version 1.0.0
+ * @since   2019/9/3
+ * 
+ * Libvirt use the xml style, some attributes should 
+ * convert from String to ArrayList
  */
-public class ArrayListAnalyzer {
+public class LibvirtSpecialFieldGenerator {
 
 	public static Set<String>  primitives = new HashSet<String>();
 	
@@ -31,16 +39,6 @@ public class ArrayListAnalyzer {
 		primitives.add("long");
 	}
 	
-	public static void main(String[] args) throws Exception {
-//		analyser(Class.forName(Domain.class.getName()));
-		analyser(Class.forName(Volume.class.getName()));
-//		analyser(Class.forName(Domainsnapshot.class.getName()));
-		for (String res : results) {
-			System.out.println(res);
-		}
-		
-	}
-
 	protected static void analyser(Class clazz) throws Exception {
 		analyser(clazz.getSimpleName().toLowerCase(), clazz);
 	}
@@ -56,6 +54,16 @@ public class ArrayListAnalyzer {
 				analyser(parent + "-" + field.getName(), Class.forName(typename));
 			}
 		}
+	}
+	
+	public static void main(String[] args) throws Exception {
+		analyser(Class.forName(Domain.class.getName()));
+		analyser(Class.forName(Volume.class.getName()));
+		analyser(Class.forName(Domainsnapshot.class.getName()));
+		for (String res : results) {
+			System.out.println(res);
+		}
+		
 	}
 	
 }
