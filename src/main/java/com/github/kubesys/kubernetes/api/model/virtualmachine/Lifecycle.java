@@ -409,7 +409,7 @@ public class Lifecycle {
 		@Parameter(required = false, description = "对配置进行持久化", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected Boolean persistent;
 
-		@Parameter(required = false, description = "下一次启动生效，对于关机虚拟机，与--live不能同时设置为true", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		@Parameter(required = false, description = "如果不设置，当前配置下次不会生效", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected Boolean config;
 
 		@Parameter(required = false, description = "立即生效，对于开机虚拟机", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
@@ -474,7 +474,7 @@ public class Lifecycle {
 		@Parameter(required = false, description = "对配置进行持久化", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected Boolean persistent;
 
-		@Parameter(required = false, description = "下一次启动生效，对于关机虚拟机，与--live不能同时设置为true", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		@Parameter(required = false, description = "如果不设置，当前配置下次不会生效", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected Boolean config;
 
 		@Parameter(required = false, description = "立即生效，对于开机虚拟机", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
@@ -742,7 +742,7 @@ public class Lifecycle {
 		@Parameter(required = false, description = "对当前虚拟机生效", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected Boolean current;
 
-		@Parameter(required = false, description = "下一次启动生效，对于关机虚拟机，与--live不能同时设置为true", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		@Parameter(required = false, description = "如果不设置，当前配置下次不会生效", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected Boolean config;
 
 		@Parameter(required = false, description = "立即生效，对于开机虚拟机", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
@@ -825,7 +825,7 @@ public class Lifecycle {
 		@Parameter(required = false, description = "对配置进行持久化", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected Boolean persistent;
 
-		@Parameter(required = false, description = "下一次启动生效，对于关机虚拟机，与--live不能同时设置为true", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		@Parameter(required = false, description = "如果不设置，当前配置下次不会生效", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected Boolean config;
 
 		@Parameter(required = false, description = "立即生效，对于开机虚拟机", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
@@ -1071,7 +1071,7 @@ public class Lifecycle {
 		@Parameter(required = false, description = "对配置进行持久化", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected Boolean persistent;
 
-		@Parameter(required = false, description = "下一次启动生效，对于关机虚拟机，与--live不能同时设置为true", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		@Parameter(required = false, description = "如果不设置，当前配置下次不会生效", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected Boolean config;
 
 		@Parameter(required = false, description = "立即生效，对于开机虚拟机", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
@@ -1141,7 +1141,7 @@ public class Lifecycle {
 		@Parameter(required = false, description = "对配置进行持久化", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected Boolean persistent;
 
-		@Parameter(required = false, description = "下一次启动生效，对于关机虚拟机，与--live不能同时设置为true", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		@Parameter(required = false, description = "如果不设置，当前配置下次不会生效", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected Boolean config;
 
 		@Parameter(required = false, description = "立即生效，对于开机虚拟机", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
@@ -1849,6 +1849,18 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class PlugNIC {
 
+		@Parameter(required = false, description = "对当前虚拟机生效", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		protected Boolean current;
+
+		@Parameter(required = false, description = "对配置进行持久化", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		protected Boolean persistent;
+
+		@Parameter(required = false, description = "如果不设置，当前配置下次不会生效", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		protected Boolean config;
+
+		@Parameter(required = false, description = "立即生效，对于开机虚拟机", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		protected Boolean live;
+		
 		protected String inbound;
 
 		protected String source;
@@ -1861,19 +1873,11 @@ public class Lifecycle {
 
 		protected String target;
 
-		protected Boolean current;
-
 		protected Boolean managed;
 
 		protected String outbound;
 
 		protected String model;
-
-		protected Boolean persistent;
-
-		protected Boolean config;
-
-		protected Boolean live;
 
 		public PlugNIC() {
 
@@ -1992,7 +1996,7 @@ public class Lifecycle {
 		@Parameter(required = false, description = "对当前虚拟机生效", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected Boolean current;
 
-		@Parameter(required = false, description = "下一次启动生效，对于关机虚拟机，与--live不能同时设置为true", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		@Parameter(required = false, description = "如果不设置，当前配置下次不会生效", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected Boolean config;
 
 		@Parameter(required = false, description = "立即生效，对于开机虚拟机", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
@@ -2001,14 +2005,19 @@ public class Lifecycle {
 		@Parameter(required = true, description = "模板虚拟机的路径", constraint= "文件路径", example = "/opt/target.iso")
 		protected String path;
 		
+		@Parameter(required = true, description = "弹出光驱，与--insert不可同时设置为true", constraint= ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected Boolean eject;
 		
+		@Parameter(required = true, description = "插入光驱", constraint= ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected Boolean insert;
 		
+		@Parameter(required = true, description = "更新操作", constraint= ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected Boolean update;
 		
+		@Parameter(required = true, description = "强制执行", constraint= ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected Boolean force;
 		
+		@Parameter(required = true, description = "如果适用物理机光驱，应该设置为true", constraint= ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected Boolean block;
 		
 		public ManageISO() {
