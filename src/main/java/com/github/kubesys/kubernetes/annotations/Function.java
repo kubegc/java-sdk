@@ -1,7 +1,7 @@
 /*
  * Copyright (2019, ) Institute of Software, Chinese Academy of Sciences
  */
-package com.github.kubesys.interior.annotations;
+package com.github.kubesys.kubernetes.annotations;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -24,13 +24,13 @@ import java.lang.annotation.Target;
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface Parameter {
+public @interface Function {
 
-	boolean required();
+	String shortName();
 	
 	String description();
 	
-	String constraint();
+	String prerequisite();
 	
-	String example();
+	String exception();
 }

@@ -5,10 +5,10 @@ package com.github.kubesys.kubernetes.api.model.virtualmachinedisk;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.github.kubesys.interior.annotations.Function;
-import com.github.kubesys.interior.annotations.Parameter;
-import com.github.kubesys.interior.annotations.Parent;
 import com.github.kubesys.kubernetes.ExtendedKubernetesConstants;
+import com.github.kubesys.kubernetes.annotations.Function;
+import com.github.kubesys.kubernetes.annotations.Parameter;
+import com.github.kubesys.kubernetes.annotations.Parent;
 
 /**
  * @author  wuheng@otcaix.iscas.ac.cn

@@ -11,9 +11,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSON;
-import com.github.kubesys.interior.annotations.Function;
-import com.github.kubesys.interior.annotations.Parameter;
-import com.github.kubesys.interior.annotations.Parent;
+import com.github.kubesys.kubernetes.annotations.Function;
+import com.github.kubesys.kubernetes.annotations.Parameter;
+import com.github.kubesys.kubernetes.annotations.Parent;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn

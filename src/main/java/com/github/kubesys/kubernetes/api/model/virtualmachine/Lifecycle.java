@@ -5,10 +5,10 @@ package com.github.kubesys.kubernetes.api.model.virtualmachine;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.github.kubesys.interior.annotations.Function;
-import com.github.kubesys.interior.annotations.Parameter;
-import com.github.kubesys.interior.annotations.Parent;
 import com.github.kubesys.kubernetes.ExtendedKubernetesConstants;
+import com.github.kubesys.kubernetes.annotations.Function;
+import com.github.kubesys.kubernetes.annotations.Parameter;
+import com.github.kubesys.kubernetes.annotations.Parent;
 
 /**
  * @author  wuheng@otcaix.iscas.ac.cn
@@ -344,7 +344,7 @@ public class Lifecycle {
 		@Parameter(required = true,  description = "内存大小，单位为KiB", constraint = "100MiB到100GiB", example = "1GiB: 1048576")
 		protected String size;
 
-		@Parameter(required = false, description = "下一次启动生效，如果虚拟机是关闭状态，与--live不可同时设置为true", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		@Parameter(required = false, description = "如果不设置，当前配置下次不会生效", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected Boolean config;
 
 		@Parameter(required = false, description = "本次生效，如果虚拟机开机状态使用", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
@@ -415,7 +415,7 @@ public class Lifecycle {
 		@Parameter(required = false, description = "立即生效，对于开机虚拟机", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected Boolean live;
 		
-		@Parameter(required = true, description = "设备xml文件，可以是GPU、硬盘、网卡、光驱等", constraint= "文件路径", example = "/opt/unplug.xml")
+		@Parameter(required = true, description = "设备xml文件，可以是GPU、硬盘、网卡、光驱等", constraint= "文件路径", example = "/var/lib/libvirt/unplug.xml")
 		protected String file;
 
 		public UnplugDevice() {
@@ -840,6 +840,7 @@ public class Lifecycle {
 
 		protected String io;
 
+		@Parameter(required = false, description = "云盘源路径", constraint = "文件路径", example = "true")
 		protected String source;
 
 		protected String targetbus;
@@ -1077,7 +1078,7 @@ public class Lifecycle {
 		@Parameter(required = false, description = "立即生效，对于开机虚拟机", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected Boolean live;
 		
-		@Parameter(required = true, description = "设备xml文件，可以是GPU、硬盘、网卡、光驱等", constraint= "文件路径", example = "/opt/unplug.xml")
+		@Parameter(required = true, description = "设备xml文件，可以是GPU、硬盘、网卡、光驱等", constraint= "文件路径", example = "/var/lib/libvirt/unplug.xml")
 		protected String file;
 
 		public PlugDevice() {
@@ -1861,12 +1862,16 @@ public class Lifecycle {
 		@Parameter(required = false, description = "立即生效，对于开机虚拟机", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected Boolean live;
 		
+		@Parameter(required = false, description = "网络输入带宽QoS限制，单位为KiB，示例参考https://libvirt.org/formatnetwork.html#elementQoS", constraint = "0~10240000", example = "1000MiB: 1024000")
 		protected String inbound;
 
+		@Parameter(required = false, description = "网络源设置", constraint = "source=源网桥（必填），ip=IP地址（选填，只有type=l3bridge类型支持该参数），switch=ovn交换机名称（选填，只有type=l3bridge类型支持该参数）", example = "source=br-int,ip=192.168.5.2,switch=switch")
 		protected String source;
 
+		@Parameter(required = false, description = "网络源类型设置", constraint = "支持的类型：bridge（libvirt默认网桥virbr0）, l2bridge（ovs网桥）, l3bridge（支持ovn的ovs网桥）", example = "bridge")
 		protected String type;
 
+		@Parameter(required = true, description = "mac地址", constraint = "mac地址不能以fe开头", example = "7e:0c:b0:ef:6a:04")
 		protected String mac;
 
 		protected String script;
@@ -1875,6 +1880,7 @@ public class Lifecycle {
 
 		protected Boolean managed;
 
+		@Parameter(required = false, description = "网络输出带宽QoS限制，单位为KiB，示例参考https://libvirt.org/formatnetwork.html#elementQoS", constraint = "0~10240000", example = "1000MiB: 1024000")
 		protected String outbound;
 
 		protected String model;
@@ -2002,7 +2008,7 @@ public class Lifecycle {
 		@Parameter(required = false, description = "立即生效，对于开机虚拟机", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected Boolean live;
 		
-		@Parameter(required = true, description = "模板虚拟机的路径", constraint= "文件路径", example = "/opt/target.iso")
+		@Parameter(required = true, description = "模板虚拟机的路径", constraint= "文件路径", example = "/var/lib/libvirt/target.iso")
 		protected String path;
 		
 		@Parameter(required = true, description = "弹出光驱，与--insert不可同时设置为true", constraint= ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
@@ -2102,10 +2108,10 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class UpdateOS {
 		
-		@Parameter(required = true, description = "需要被替换的虚拟机路径", constraint= "文件路径", example = "/opt/source.xml")
+		@Parameter(required = true, description = "需要被替换的虚拟机路径", constraint= "文件路径", example = "/var/lib/libvirt/source.xml")
 		protected String source;
 		
-		@Parameter(required = true, description = "模板虚拟机的路径", constraint= "文件路径", example = "/opt/target.xml")
+		@Parameter(required = true, description = "模板虚拟机的路径", constraint= "文件路径", example = "/var/lib/libvirt/target.xml")
 		protected String target;
 
 		public UpdateOS() {

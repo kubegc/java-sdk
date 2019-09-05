@@ -1,7 +1,7 @@
 /*
  * Copyright (2019, ) Institute of Software, Chinese Academy of Sciences
  */
-package com.github.kubesys.interior.annotations;
+package com.github.kubesys.kubernetes.annotations;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
