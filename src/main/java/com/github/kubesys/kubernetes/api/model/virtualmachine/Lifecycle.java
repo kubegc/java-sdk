@@ -742,9 +742,6 @@ public class Lifecycle {
 		@Parameter(required = false, description = "对当前虚拟机生效", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected Boolean current;
 
-		@Parameter(required = false, description = "对配置进行持久化", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
-		protected Boolean persistent;
-
 		@Parameter(required = false, description = "下一次启动生效，对于关机虚拟机，与--live不能同时设置为true", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected Boolean config;
 
@@ -2000,9 +1997,6 @@ public class Lifecycle {
 
 		@Parameter(required = false, description = "立即生效，对于开机虚拟机", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected Boolean live;
-		
-		@Parameter(required = false, description = "设备xml文件，可以是GPU、硬盘、网卡、光驱等", constraint= "文件路径", example = "/opt/unplug.xml")
-		protected String file;
 		
 		@Parameter(required = true, description = "模板虚拟机的路径", constraint= "文件路径", example = "/opt/target.iso")
 		protected String path;
