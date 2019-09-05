@@ -338,13 +338,13 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class ResizeRAM {
 
-		@Parameter(required = false, description = "", constraint = "", example = "")
+		@Parameter(required = false, description = "对当前虚拟机生效", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected Boolean current;
 
-		@Parameter(required = true,  description = "内存大小，单位为KiB", constraint = "", example = "")
+		@Parameter(required = true,  description = "内存大小，单位为KiB", constraint = "100MiB到100GiB", example = "1GiB: 1048576")
 		protected String size;
 
-		@Parameter(required = false, description = "下一次启动生效", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		@Parameter(required = false, description = "下一次启动生效，如果虚拟机是关闭状态，与--live不可同时设置为true", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected Boolean config;
 
 		@Parameter(required = false, description = "本次生效，如果虚拟机开机状态使用", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
@@ -397,30 +397,26 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class StopVMForce {
 
-		protected Boolean graceful;
-
-		public void setGraceful(Boolean graceful) {
-			this.graceful = graceful;
-		}
-
-		public Boolean getGraceful() {
-			return this.graceful;
-		}
 	}
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class UnplugDevice {
 
+		@Parameter(required = false, description = "对当前虚拟机生效", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected Boolean current;
 
-		protected String file;
-
+		@Parameter(required = false, description = "对配置进行持久化", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected Boolean persistent;
 
+		@Parameter(required = false, description = "下一次启动生效，对于关机虚拟机，与--live不能同时设置为true", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected Boolean config;
 
+		@Parameter(required = false, description = "立即生效，对于开机虚拟机", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected Boolean live;
+		
+		@Parameter(required = true, description = "设备xml文件，可以是GPU、硬盘、网卡、光驱等", constraint= "文件路径", example = "/opt/unplug.xml")
+		protected String file;
 
 		public UnplugDevice() {
 
@@ -472,32 +468,24 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class UnplugNIC {
 
+		@Parameter(required = false, description = "对当前虚拟机生效", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected Boolean current;
 
+		@Parameter(required = false, description = "对配置进行持久化", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected Boolean persistent;
 
-		protected String type;
-
+		@Parameter(required = false, description = "下一次启动生效，对于关机虚拟机，与--live不能同时设置为true", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected Boolean config;
 
+		@Parameter(required = false, description = "立即生效，对于开机虚拟机", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected Boolean live;
 
+		@Parameter(required = true, description = "虚拟机网络类型", constraint = ExtendedKubernetesConstants.DESC_BRIDGE_DESC, example = "true")
+		protected String type;
+
+		@Parameter(required = true, description = "mac地址", constraint = "mac地址不能以fe开头", example = "7e:0c:b0:ef:6a:04")
 		protected String mac;
 		
-		protected String target;
-
-		public UnplugNIC() {
-
-		}
-
-		public String getTarget() {
-			return target;
-		}
-
-		public void setTarget(String target) {
-			this.target = target;
-		}
-
 		public void setCurrent(Boolean current) {
 			this.current = current;
 		}
@@ -751,19 +739,27 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class ChangeNumberOfCPU {
 
+		@Parameter(required = false, description = "对当前虚拟机生效", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected Boolean current;
 
-		protected Boolean hotpluggable;
+		@Parameter(required = false, description = "对配置进行持久化", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		protected Boolean persistent;
 
-		protected Integer count;
-
-		protected Boolean maximum;
-
-		protected Boolean guest;
-
+		@Parameter(required = false, description = "下一次启动生效，对于关机虚拟机，与--live不能同时设置为true", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected Boolean config;
 
+		@Parameter(required = false, description = "立即生效，对于开机虚拟机", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected Boolean live;
+
+		@Parameter(required = false, description = "对于开机虚拟机进行运行时插拔，与--live等价", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		protected Boolean hotpluggable;
+
+		@Parameter(required = true, description = "vcpu数量", constraint = "1-99个", example = "16")
+		protected Integer count;
+
+		@Parameter(required = false, description = "修改虚拟机CPU状态", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		protected Boolean guest;
+
 
 		public ChangeNumberOfCPU() {
 
@@ -791,14 +787,6 @@ public class Lifecycle {
 
 		public Integer getCount() {
 			return this.count;
-		}
-
-		public void setMaximum(Boolean maximum) {
-			this.maximum = maximum;
-		}
-
-		public Boolean getMaximum() {
-			return this.maximum;
 		}
 
 		public void setGuest(Boolean guest) {
@@ -835,77 +823,18 @@ public class Lifecycle {
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class ResizeDisk {
-
-		protected String vol;
-
-		protected Boolean allocate;
-
-		protected Boolean shrink;
-
-		protected Boolean delta;
-
-		protected String pool;
-
-		protected String capacity;
-
-		public ResizeDisk() {
-
-		}
-
-		public void setVol(String vol) {
-			this.vol = vol;
-		}
-
-		public String getVol() {
-			return this.vol;
-		}
-
-		public void setAllocate(Boolean allocate) {
-			this.allocate = allocate;
-		}
-
-		public Boolean getAllocate() {
-			return this.allocate;
-		}
-
-		public void setShrink(Boolean shrink) {
-			this.shrink = shrink;
-		}
-
-		public Boolean getShrink() {
-			return this.shrink;
-		}
-
-		public void setDelta(Boolean delta) {
-			this.delta = delta;
-		}
-
-		public Boolean getDelta() {
-			return this.delta;
-		}
-
-		public void setPool(String pool) {
-			this.pool = pool;
-		}
-
-		public String getPool() {
-			return this.pool;
-		}
-
-		public void setCapacity(String capacity) {
-			this.capacity = capacity;
-		}
-
-		public String getCapacity() {
-			return this.capacity;
-		}
-	}
-
-	@JsonInclude(JsonInclude.Include.NON_NULL)
-	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class PlugDisk {
 
+		@Parameter(required = false, description = "对配置进行持久化", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		protected Boolean persistent;
+
+		@Parameter(required = false, description = "下一次启动生效，对于关机虚拟机，与--live不能同时设置为true", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		protected Boolean config;
+
+		@Parameter(required = false, description = "立即生效，对于开机虚拟机", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		protected Boolean live;
+		
+		@Parameter(required = false, description = "立即生效，对于开机虚拟机", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected String iothread;
 
 		protected String cache;
@@ -937,8 +866,6 @@ public class Lifecycle {
 		protected Boolean rawio;
 
 		protected String sourcetype;
-
-		protected Boolean persistent;
 		
 		protected String read_bytes_sec;
 		
@@ -947,10 +874,6 @@ public class Lifecycle {
 		protected String read_iops_sec;
 		
 		protected String write_iops_sec;
-
-		protected Boolean config;
-		
-		protected Boolean live;
 
 		public PlugDisk() {
 
@@ -1145,15 +1068,20 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class PlugDevice {
 
+		@Parameter(required = false, description = "对当前虚拟机生效", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected Boolean current;
 
-		protected String file;
-
+		@Parameter(required = false, description = "对配置进行持久化", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected Boolean persistent;
 
+		@Parameter(required = false, description = "下一次启动生效，对于关机虚拟机，与--live不能同时设置为true", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected Boolean config;
 
+		@Parameter(required = false, description = "立即生效，对于开机虚拟机", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected Boolean live;
+		
+		@Parameter(required = true, description = "设备xml文件，可以是GPU、硬盘、网卡、光驱等", constraint= "文件路径", example = "/opt/unplug.xml")
+		protected String file;
 
 		public PlugDevice() {
 
@@ -1210,14 +1138,19 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class UnplugDisk {
 
+		@Parameter(required = false, description = "对当前虚拟机生效", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected Boolean current;
 
+		@Parameter(required = false, description = "对配置进行持久化", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected Boolean persistent;
 
+		@Parameter(required = false, description = "下一次启动生效，对于关机虚拟机，与--live不能同时设置为true", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected Boolean config;
 
+		@Parameter(required = false, description = "立即生效，对于开机虚拟机", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected Boolean live;
 
+		@Parameter(required = true, description = "设备的目标，即在虚拟机中fdisk -l看到的硬盘标记", constraint = ExtendedKubernetesConstants.DESC_TARGET_DESC, example = "windows: hdb, Linux: vdb")
 		protected String target;
 
 		public UnplugDisk() {
@@ -1270,16 +1203,6 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class StopVM {
 
-		protected String mode;
-
-		public void setMode(String mode) {
-			this.mode = mode;
-		}
-
-		public String getMode() {
-			return this.mode;
-		}
-
 	}
 
 
@@ -1287,110 +1210,18 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class StartVM {
 
-		protected Boolean bypass_cache;
-
-		protected Boolean console;
-
-		protected Boolean paused;
-
-		protected Boolean force_boot;
-
-		protected String pass_fds;
-
-		protected Boolean autodestroy;
-
-		public StartVM() {
-
-		}
-
-		public void setBypass_cache(Boolean bypass_cache) {
-			this.bypass_cache = bypass_cache;
-		}
-
-		public Boolean getBypass_cache() {
-			return this.bypass_cache;
-		}
-
-		public void setConsole(Boolean console) {
-			this.console = console;
-		}
-
-		public Boolean getConsole() {
-			return this.console;
-		}
-
-		public void setPaused(Boolean paused) {
-			this.paused = paused;
-		}
-
-		public Boolean getPaused() {
-			return this.paused;
-		}
-
-		public void setForce_boot(Boolean force_boot) {
-			this.force_boot = force_boot;
-		}
-
-		public Boolean getForce_boot() {
-			return this.force_boot;
-		}
-
-		public void setPass_fds(String pass_fds) {
-			this.pass_fds = pass_fds;
-		}
-
-		public String getPass_fds() {
-			return this.pass_fds;
-		}
-
-		public void setAutodestroy(Boolean autodestroy) {
-			this.autodestroy = autodestroy;
-		}
-
-		public Boolean getAutodestroy() {
-			return this.autodestroy;
-		}
 	}
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class DeleteVM {
 
-		protected Boolean wipe_storage;
-
-		protected Boolean snapshots_metadata;
-
+		@Parameter(required = false, description = "删除虚拟机所有快照，否则如果虚拟机还存在快照，会导致删除失败", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected Boolean delete_snapshots;
 
-		protected Boolean nvram;
-
-		protected Boolean managed_save;
-
+		@Parameter(required = false, description = "是否删除虚拟机所有快照对应的磁盘存储", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected Boolean remove_all_storage;
 
-		protected Boolean keep_nvram;
-
-		protected String storage;
-
-		public DeleteVM() {
-
-		}
-
-		public void setWipe_storage(Boolean wipe_storage) {
-			this.wipe_storage = wipe_storage;
-		}
-
-		public Boolean getWipe_storage() {
-			return this.wipe_storage;
-		}
-
-		public void setSnapshots_metadata(Boolean snapshots_metadata) {
-			this.snapshots_metadata = snapshots_metadata;
-		}
-
-		public Boolean getSnapshots_metadata() {
-			return this.snapshots_metadata;
-		}
 
 		public void setDelete_snapshots(Boolean delete_snapshots) {
 			this.delete_snapshots = delete_snapshots;
@@ -1400,21 +1231,6 @@ public class Lifecycle {
 			return this.delete_snapshots;
 		}
 
-		public void setNvram(Boolean nvram) {
-			this.nvram = nvram;
-		}
-
-		public Boolean getNvram() {
-			return this.nvram;
-		}
-
-		public void setManaged_save(Boolean managed_save) {
-			this.managed_save = managed_save;
-		}
-
-		public Boolean getManaged_save() {
-			return this.managed_save;
-		}
 
 		public void setRemove_all_storage(Boolean remove_all_storage) {
 			this.remove_all_storage = remove_all_storage;
@@ -1424,21 +1240,6 @@ public class Lifecycle {
 			return this.remove_all_storage;
 		}
 
-		public void setKeep_nvram(Boolean keep_nvram) {
-			this.keep_nvram = keep_nvram;
-		}
-
-		public Boolean getKeep_nvram() {
-			return this.keep_nvram;
-		}
-
-		public void setStorage(String storage) {
-			this.storage = storage;
-		}
-
-		public String getStorage() {
-			return this.storage;
-		}
 	}
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
@@ -2045,16 +1846,6 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class RebootVM {
 
-		protected String mode;
-
-		public void setMode(String mode) {
-			this.mode = mode;
-		}
-
-		public String getMode() {
-			return this.mode;
-		}
-
 	}
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
@@ -2201,21 +1992,26 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class ManageISO {
 
-		protected String path;
+		@Parameter(required = false, description = "对当前虚拟机生效", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		protected Boolean current;
+
+		@Parameter(required = false, description = "下一次启动生效，对于关机虚拟机，与--live不能同时设置为true", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		protected Boolean config;
+
+		@Parameter(required = false, description = "立即生效，对于开机虚拟机", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		protected Boolean live;
 		
-		protected String source;
+		@Parameter(required = false, description = "设备xml文件，可以是GPU、硬盘、网卡、光驱等", constraint= "文件路径", example = "/opt/unplug.xml")
+		protected String file;
+		
+		@Parameter(required = true, description = "模板虚拟机的路径", constraint= "文件路径", example = "/opt/target.iso")
+		protected String path;
 		
 		protected Boolean eject;
 		
 		protected Boolean insert;
 		
 		protected Boolean update;
-		
-		protected Boolean current;
-		
-		protected Boolean live;
-		
-		protected Boolean config;
 		
 		protected Boolean force;
 		
@@ -2231,14 +2027,6 @@ public class Lifecycle {
 
 		public void setPath(String path) {
 			this.path = path;
-		}
-
-		public String getSource() {
-			return source;
-		}
-
-		public void setSource(String source) {
-			this.source = source;
 		}
 
 		public Boolean getEject() {
@@ -2311,8 +2099,10 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class UpdateOS {
 		
+		@Parameter(required = true, description = "需要被替换的虚拟机路径", constraint= "文件路径", example = "/opt/source.xml")
 		protected String source;
 		
+		@Parameter(required = true, description = "模板虚拟机的路径", constraint= "文件路径", example = "/opt/target.xml")
 		protected String target;
 
 		public UpdateOS() {
