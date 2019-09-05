@@ -198,7 +198,7 @@ public class Lifecycle {
 
 		protected Boolean children_only;
 
-		@Parameter(required = true, description = "要删除快照的虚拟机name", constraint = "已存在的虚拟机名", example = "vm1")
+		@Parameter(required = true, description = "要删除快照的虚拟机name", constraint = "由8-32位的数字和小写字母组成，已存在的虚拟机名", example = "vm1")
 		protected String domain;
 
 		public DeleteSnapshot() {
@@ -244,7 +244,7 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class RevertVirtualMachine {
 
-		@Parameter(required = true, description = "要恢复到快照状态的虚拟机name", constraint = "已存在的虚拟机名", example = "vm1")
+		@Parameter(required = true, description = "要恢复到快照状态的虚拟机name", constraint = "由8-32位的数字和小写字母组成，已存在的虚拟机名", example = "vm1")
 		protected String domain;
 
 		@Parameter(required = false, description = "恢复到快照的状态后，是否将虚拟机转换到开机状态", constraint=ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")

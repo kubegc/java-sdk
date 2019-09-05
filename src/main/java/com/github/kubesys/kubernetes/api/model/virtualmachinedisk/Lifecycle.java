@@ -279,10 +279,10 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class CreateDiskFromDiskImage {
 
-		@Parameter(required = true, description = "创建磁盘所在的存储池名", constraint = "已创建出的存储池", example = "pool2")
+		@Parameter(required = true, description = "创建磁盘所在的存储池名", constraint = "由8-32位的数字和小写字母组成，已创建出的存储池", example = "pool2")
 		protected String pool;
 
-		@Parameter(required = true, description = "磁盘镜像名", constraint = "已存在的磁盘镜像名", example = "pool2")
+		@Parameter(required = true, description = "磁盘镜像名", constraint = "由8-32位的数字和小写字母组成，已存在的磁盘镜像名", example = "pool2")
 		protected String image;
 
 		public String getImage() {
@@ -310,10 +310,10 @@ public class Lifecycle {
 
 		protected Boolean prealloc_metadata;
 
-		@Parameter(required = true, description = "磁盘所在的存储池名", constraint = "已创建出的存储池", example = "pool2")
+		@Parameter(required = true, description = "磁盘所在的存储池名", constraint = "由8-32位的数字和小写字母组成，已创建出的存储池", example = "pool2")
 		protected String pool;
 
-		@Parameter(required = true, description = "新磁盘的name", constraint = "数字和字母组合", example = "newdisk")
+		@Parameter(required = true, description = "新磁盘的name", constraint = "由8-32位的数字和小写字母组成", example = "newdisk")
 		protected String newname;
 
 		public CloneDisk() {
@@ -358,7 +358,7 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class ConvertDiskToDiskImage {
 
-		@Parameter(required = true, description = "磁盘所在的存储池名", constraint = "已创建出的存储池", example = "pool2")
+		@Parameter(required = true, description = "磁盘所在的存储池名", constraint = "由8-32位的数字和小写字母组成，已创建出的存储池", example = "pool2")
 		protected String pool;
 
 		public String getPool() {
