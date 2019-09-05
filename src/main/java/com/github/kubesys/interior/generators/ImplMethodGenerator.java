@@ -21,7 +21,7 @@ public class ImplMethodGenerator {
 		StringBuffer sb = new StringBuffer();
 		AbstractImpl<?, ?, ?> impl = (AbstractImpl<?, ?, ?>) obj;
 		for (String cmd : impl.getSupportCmds()) {
-			if (cmd.startsWith("create")) {
+			if (cmd.startsWith("create") && !cmd.startsWith("createDiskSnapshot")) {
 				sb.append("\tpublic boolean " + cmd +"(String name, " 
 									+ getClassName(cmd) + " " + cmd + ") throws Exception {\n");
 				sb.append("\t\treturn "+ cmd + "(name, null, " + cmd + ", null);\n");

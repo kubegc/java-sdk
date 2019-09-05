@@ -58,6 +58,48 @@ public class Lifecycle {
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected CloneDisk cloneDisk;
 	
+	@Function(shortName = "创建云盘快照", description = "创建云盘快照，" 
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+		prerequisite = AnnotationUtils.DESC_FUNCTION_VMD, 
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected CreateDiskSnapshot createDiskSnapshot;
+	
+	@Function(shortName = "从云盘快照恢复", description = "从云盘快照恢复，" 
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+		prerequisite = AnnotationUtils.DESC_FUNCTION_VMD, 
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected RevertDiskSnapshot revertDiskSnapshot;
+	
+	@Function(shortName = "删除云盘快照", description = "删除云盘快照，" 
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+		prerequisite = AnnotationUtils.DESC_FUNCTION_VMD, 
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected DeleteDiskSnapshot deleteDiskSnapshot;
+	
+	public CreateDiskSnapshot getCreateDiskSnapshot() {
+		return createDiskSnapshot;
+	}
+
+	public void setCreateDiskSnapshot(CreateDiskSnapshot createDiskSnapshot) {
+		this.createDiskSnapshot = createDiskSnapshot;
+	}
+
+	public RevertDiskSnapshot getRevertDiskSnapshot() {
+		return revertDiskSnapshot;
+	}
+
+	public void setRevertDiskSnapshot(RevertDiskSnapshot revertDiskSnapshot) {
+		this.revertDiskSnapshot = revertDiskSnapshot;
+	}
+
+	public DeleteDiskSnapshot getDeleteDiskSnapshot() {
+		return deleteDiskSnapshot;
+	}
+
+	public void setDeleteDiskSnapshot(DeleteDiskSnapshot deleteDiskSnapshot) {
+		this.deleteDiskSnapshot = deleteDiskSnapshot;
+	}
+	
 	public ConvertDiskToDiskImage getConvertDiskToDiskImage() {
 		return convertDiskToDiskImage;
 	}
@@ -374,6 +416,90 @@ public class Lifecycle {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class ConvertImageToVM {
+		
+	}
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class CreateDiskSnapshot {
+		
+		@Parameter(required = true, description = "云盘所在的存储池名", constraint = "由8-32位的数字和小写字母组成，已创建出的存储池", example = "pool2")
+		protected String pool;
+		
+		@Parameter(required = true, description = "快照的名字", constraint = "由8-32位的数字和小写字母组成", example = "snap1")
+		protected String snapshotname;
+
+		public String getPool() {
+			return pool;
+		}
+
+		public void setPool(String pool) {
+			this.pool = pool;
+		}
+
+		public String getSnapshotname() {
+			return snapshotname;
+		}
+
+		public void setSnapshotname(String snapshotname) {
+			this.snapshotname = snapshotname;
+		}
+		
+	}
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class RevertDiskSnapshot {
+		
+		@Parameter(required = true, description = "云盘所在的存储池名", constraint = "由8-32位的数字和小写字母组成，已创建出的存储池", example = "pool2")
+		protected String pool;
+		
+		@Parameter(required = true, description = "快照的名字", constraint = "由8-32位的数字和小写字母组成", example = "snap1")
+		protected String snapshotname;
+
+		public String getPool() {
+			return pool;
+		}
+
+		public void setPool(String pool) {
+			this.pool = pool;
+		}
+
+		public String getSnapshotname() {
+			return snapshotname;
+		}
+
+		public void setSnapshotname(String snapshotname) {
+			this.snapshotname = snapshotname;
+		}
+		
+	}
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class DeleteDiskSnapshot {
+		
+		@Parameter(required = true, description = "云盘所在的存储池名", constraint = "由8-32位的数字和小写字母组成，已创建出的存储池", example = "pool2")
+		protected String pool;
+		
+		@Parameter(required = true, description = "快照的名字", constraint = "由8-32位的数字和小写字母组成", example = "snap1")
+		protected String snapshotname;
+
+		public String getPool() {
+			return pool;
+		}
+
+		public void setPool(String pool) {
+			this.pool = pool;
+		}
+
+		public String getSnapshotname() {
+			return snapshotname;
+		}
+
+		public void setSnapshotname(String snapshotname) {
+			this.snapshotname = snapshotname;
+		}
 		
 	}
 	

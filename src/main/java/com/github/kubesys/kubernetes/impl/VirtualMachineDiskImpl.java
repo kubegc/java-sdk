@@ -13,8 +13,11 @@ import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.Clon
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.ConvertDiskToDiskImage;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CreateDisk;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CreateDiskFromDiskImage;
+import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CreateDiskSnapshot;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.DeleteDisk;
+import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.DeleteDiskSnapshot;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.ResizeDisk;
+import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.RevertDiskSnapshot;
 import com.github.kubesys.kubernetes.utils.RegExpUtils;
 
 /**
@@ -141,6 +144,42 @@ public class VirtualMachineDiskImpl extends AbstractImpl<VirtualMachineDisk, Vir
 			throw new IllegalArgumentException("the length must be between 8 and 43, and it can only includes a-z, 0-9 and -.");
 		}
 		return update(name, updateMetadata(name, eventId), cloneDisk);
+	}
+
+	public boolean createDiskSnapshot(String name, CreateDiskSnapshot createDiskSnapshot) throws Exception {
+		return createDiskSnapshot(name, createDiskSnapshot, null);
+	}
+
+	public boolean createDiskSnapshot(String name,CreateDiskSnapshot createDiskSnapshot, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 8 and 43, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), createDiskSnapshot);
+	}
+
+	public boolean revertDiskSnapshot(String name, RevertDiskSnapshot revertDiskSnapshot) throws Exception {
+		return revertDiskSnapshot(name, revertDiskSnapshot, null);
+	}
+
+	public boolean revertDiskSnapshot(String name,RevertDiskSnapshot revertDiskSnapshot, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 8 and 43, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), revertDiskSnapshot);
+	}
+
+	public boolean deleteDiskSnapshot(String name, DeleteDiskSnapshot deleteDiskSnapshot) throws Exception {
+		return deleteDiskSnapshot(name, deleteDiskSnapshot, null);
+	}
+
+	public boolean deleteDiskSnapshot(String name,DeleteDiskSnapshot deleteDiskSnapshot, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 8 and 43, and it can only includes a-z, 0-9 and -.");
+		}
+		return delete(name, updateMetadata(name, eventId), deleteDiskSnapshot);
 	}
 
 }

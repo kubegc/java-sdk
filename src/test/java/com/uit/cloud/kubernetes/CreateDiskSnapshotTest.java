@@ -5,6 +5,7 @@ package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CreateDisk;
+import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CreateDiskSnapshot;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -13,24 +14,21 @@ import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.Crea
  * This code is used to manage CustomResource's lifecycle,
  * such as VirtualMachine
  */
-public class CreateDiskTest {
+public class CreateDiskSnapshotTest {
 	
 	
 	public static void main(String[] args) throws Exception {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineDisks()
-				.createDisk("test6", "vm.node30", get(), "abc");
+				.createDiskSnapshot("test1.qcow2", get(), "abc");
 		System.out.println(successful);
 	}
 
-	protected static CreateDisk get() {
-		CreateDisk createDisk = new CreateDisk();
-		createDisk.setPool("default");
-		// bytes 10G
-		Long size = 10L*1024*1024*1024;
-		createDisk.setCapacity(String.valueOf(size));
-		createDisk.setFormat("qcow2");
-		return createDisk;
+	protected static CreateDiskSnapshot get() {
+		CreateDiskSnapshot createDiskSnapshot = new CreateDiskSnapshot();
+		createDiskSnapshot.setPool("default");
+		createDiskSnapshot.setSnapshotname("snap6");
+		return createDiskSnapshot;
 	}
 }

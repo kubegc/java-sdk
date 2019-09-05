@@ -4,7 +4,7 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
-import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CreateDisk;
+import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.RevertDiskSnapshot;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -13,24 +13,21 @@ import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.Crea
  * This code is used to manage CustomResource's lifecycle,
  * such as VirtualMachine
  */
-public class CreateDiskTest {
+public class RevertDiskSnapshotTest {
 	
 	
 	public static void main(String[] args) throws Exception {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineDisks()
-				.createDisk("test6", "vm.node30", get(), "abc");
+				.revertDiskSnapshot("test1.qcow2", get(), "abc");
 		System.out.println(successful);
 	}
 
-	protected static CreateDisk get() {
-		CreateDisk createDisk = new CreateDisk();
-		createDisk.setPool("default");
-		// bytes 10G
-		Long size = 10L*1024*1024*1024;
-		createDisk.setCapacity(String.valueOf(size));
-		createDisk.setFormat("qcow2");
-		return createDisk;
+	protected static RevertDiskSnapshot get() {
+		RevertDiskSnapshot revertDiskSnapshot = new RevertDiskSnapshot();
+		revertDiskSnapshot.setPool("default");
+		revertDiskSnapshot.setSnapshotname("snap6");
+		return revertDiskSnapshot;
 	}
 }

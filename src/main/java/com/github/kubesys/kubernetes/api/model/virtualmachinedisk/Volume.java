@@ -3,6 +3,8 @@
  */
 package com.github.kubesys.kubernetes.api.model.virtualmachinedisk;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
@@ -32,9 +34,15 @@ public class Volume {
 	protected Capacity capacity;
 
 	protected Target target;
+	
+	protected List<Snapshot> snapshot;
 
-	public Volume() {
+	public List<Snapshot> getSnapshot() {
+		return snapshot;
+	}
 
+	public void setSnapshot(List<Snapshot> snapshot) {
+		this.snapshot = snapshot;
 	}
 
 	/**
@@ -829,6 +837,41 @@ public class Volume {
 			public String get_type() {
 				return this._type;
 			}
+		}
+	}
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class Snapshot {
+		
+		protected String date;
+
+		protected String id;
+		
+		protected String name;
+		
+		public String getDate() {
+			return date;
+		}
+		
+		public void setDate(String date) {
+			this.date = date;
+		}
+		
+		public String getId() {
+			return id;
+		}
+		
+		public void setId(String id) {
+			this.id = id;
+		}
+		
+		public String getName() {
+			return name;
+		}
+		
+		public void setName(String name) {
+			this.name = name;
 		}
 	}
 }
