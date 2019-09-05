@@ -5,10 +5,10 @@ package com.github.kubesys.kubernetes.api.model.virtualmachinepool;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.github.kubesys.kubernetes.ExtendedKubernetesConstants;
 import com.github.kubesys.kubernetes.annotations.Function;
 import com.github.kubesys.kubernetes.annotations.Parameter;
 import com.github.kubesys.kubernetes.annotations.Parent;
+import com.github.kubesys.kubernetes.utils.AnnotationUtils;
 
 /**
  * @author  wuheng@otcaix.iscas.ac.cn
@@ -23,45 +23,45 @@ import com.github.kubesys.kubernetes.annotations.Parent;
 public class Lifecycle {
 	
 	@Function(shortName = "开机启动存储池", description = "开机启动存储池，否则开机该存储池会连接不上，导致不可用。适用libvirt指令创建存储池情况。" 
-			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
-		prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VMP, 
-		exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+		prerequisite = AnnotationUtils.DESC_FUNCTION_VMP, 
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected AutoStart autoStart;
 	
 	@Function(shortName = "创建存储池", description = "创建存储池，适用libvirt指令创建存储池情况。" 
-			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = "", 
-		exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected CreatePool createPool;
 	
 	@Function(shortName = "启动存储池", description = "启动存储池，如果存储池处于Inactive状态，可以启动。适用libvirt指令创建存储池情况。" 
-			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
-		prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VMP, 
-		exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+		prerequisite = AnnotationUtils.DESC_FUNCTION_VMP, 
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected StartPool startPool;
 	
 	@Function(shortName = "注册存储池", description = "注册存储池，将挂载的存储信息注册到Libvirt中，适用与采用外部存储池情况，与CreatePool等价" 
-			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
-		prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VMP, 
-		exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+		prerequisite = AnnotationUtils.DESC_FUNCTION_VMP, 
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected RegisterPool registerPool;
 	
 	@Function(shortName = "停止存储池", description = "停止存储池，将存储池状态设置为Inactive，适用libvirt指令创建存储池情况。" 
-			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
-		prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VMP, 
-		exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+		prerequisite = AnnotationUtils.DESC_FUNCTION_VMP, 
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected StopPool stopPool;
 	
 	@Function(shortName = "删除存储池", description = "删除存储池，适用libvirt指令创建存储池情况。" 
-			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
-		prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VMP, 
-		exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+		prerequisite = AnnotationUtils.DESC_FUNCTION_VMP, 
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected DeletePool deletePool;
 	
 	@Function(shortName = "反注册存储池", description = "反注册存储池，将存储池信息从libvirt里面注销" 
-			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
-		prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VMP, 
-		exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+		prerequisite = AnnotationUtils.DESC_FUNCTION_VMP, 
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected UnregisterPool unregisterPool;
 	
 
@@ -126,7 +126,7 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class AutoStart {
 
-		@Parameter(required = true, description = "修改存储池autostart状态", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		@Parameter(required = true, description = "修改存储池autostart状态", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean disable;
 
 		public Boolean getDisable() {

@@ -5,10 +5,10 @@ package com.github.kubesys.kubernetes.api.model.virtualmachine;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.github.kubesys.kubernetes.ExtendedKubernetesConstants;
 import com.github.kubesys.kubernetes.annotations.Function;
 import com.github.kubesys.kubernetes.annotations.Parameter;
 import com.github.kubesys.kubernetes.annotations.Parent;
+import com.github.kubesys.kubernetes.utils.AnnotationUtils;
 
 /**
  * @author  wuheng@otcaix.iscas.ac.cn
@@ -23,135 +23,135 @@ import com.github.kubesys.kubernetes.annotations.Parent;
 public class Lifecycle {
 
 	@Function(shortName = "通过ISO安装虚拟机", description = "通过光驱安装云OS，光驱必须存在" 
-			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 	  prerequisite = "", 
-	  exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
+	  exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected CreateAndStartVMFromISO createAndStartVMFromISO;
 	
 	@Function(shortName = "通过镜像安装虚拟机", description = "通过虚拟机镜像VirtualMachineImage创建云OS" 
-			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 	  prerequisite = "", 
-	  exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
+	  exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected CreateAndStartVMFromImage createAndStartVMFromImage;
 	
 	@Function(shortName = "虚拟机内存扩容", description = "对虚拟机内存扩容，" 
-					+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
-	  prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VM, 
-	  exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
+					+ AnnotationUtils.DESC_FUNCTION_DESC, 
+	  prerequisite = AnnotationUtils.DESC_FUNCTION_VM, 
+	  exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected ResizeRAM resizeRAM;
 
 	@Function(shortName = "虚拟机暂停", description = "对运行的虚拟机进行暂停操作，已经暂停虚拟机执行暂停会报错" 
-			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
-	  prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VM, 
-	  exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+	  prerequisite = AnnotationUtils.DESC_FUNCTION_VM, 
+	  exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected SuspendVM suspendVM;
 
 	@Function(shortName = "强制关闭虚拟机", description = "强制关闭虚拟机，虚拟机在某些情况下无法关闭，本质相当于拔掉电源" 
-			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
-	  prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VM, 
-	  exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+	  prerequisite = AnnotationUtils.DESC_FUNCTION_VM, 
+	  exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected StopVMForce stopVMForce;
 
 	@Function(shortName = "虚拟机卸载设备", description = "卸载GPU、云盘、网卡等资源，" 
-			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
-	  prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VM, 
-	  exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+	  prerequisite = AnnotationUtils.DESC_FUNCTION_VM, 
+	  exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected UnplugDevice unplugDevice;
 
 	@Function(shortName = "虚拟机卸载网卡", description = "卸载网卡，" 
-			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
-	  prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VM, 
-	  exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+	  prerequisite = AnnotationUtils.DESC_FUNCTION_VM, 
+	  exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected UnplugNIC unplugNIC;
 
 	@Function(shortName = "虚拟机迁移", description = "虚拟机迁移，必须依赖共享存储" 
-			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
-	  prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VM, 
-	  exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+	  prerequisite = AnnotationUtils.DESC_FUNCTION_VM, 
+	  exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected MigrateVM migrateVM;
 
 	@Function(shortName = "虚拟机CPU设置", description = "修改虚拟机CPU个数" 
-			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
-	  prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VM, 
-	  exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+	  prerequisite = AnnotationUtils.DESC_FUNCTION_VM, 
+	  exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected ChangeNumberOfCPU changeNumberOfCPU;
 
 	@Function(shortName = "恢复虚拟机", description = "恢复暂停的虚拟机，对运行的虚拟机执行恢复会报错" 
-			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
-	  prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VM, 
-	  exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+	  prerequisite = AnnotationUtils.DESC_FUNCTION_VM, 
+	  exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected ResumeVM resumeVM;
 
 	@Function(shortName = "虚拟机添加云盘", description = "添加云盘，云盘必须通过CreateVirtualMachineDisk预先创建好" 
-			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
-	  prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VM + ",或CreateVirtualMachineDisk", 
-	  exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+	  prerequisite = AnnotationUtils.DESC_FUNCTION_VM + ",或CreateVirtualMachineDisk", 
+	  exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected PlugDisk plugDisk;
 
 	@Function(shortName = "虚拟机添加设备", description = "添加GPU、云盘、网卡等，这种方法相对于pluginDisk等可设置高级选项，如QoS" 
-			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
-	  prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VM, 
-	  exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+	  prerequisite = AnnotationUtils.DESC_FUNCTION_VM, 
+	  exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected PlugDevice plugDevice;
 
 	@Function(shortName = "强制重启虚拟机", description = "强制重置虚拟机，即强制重启虚拟机" 
-			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
-	  prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VM, 
-	  exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+	  prerequisite = AnnotationUtils.DESC_FUNCTION_VM, 
+	  exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected ResetVM resetVM;
 
 	@Function(shortName = "虚拟机卸载云盘", description = "卸载虚拟机云盘" 
-			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
-	  prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VM + ",或CreateVirtualMachineDisk", 
-	  exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+	  prerequisite = AnnotationUtils.DESC_FUNCTION_VM + ",或CreateVirtualMachineDisk", 
+	  exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected UnplugDisk unplugDisk;
 
 	@Function(shortName = "虚拟机关机", description = "关闭虚拟机，但不一定能关闭，如虚拟机中OS受损，对关闭虚拟机再执行关闭会报错" 
-			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
-	  prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VM, 
-	  exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+	  prerequisite = AnnotationUtils.DESC_FUNCTION_VM, 
+	  exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected StopVM stopVM;
 
 	@Function(shortName = "启动虚拟机", description = "启动虚拟机，能否正常启动取决于虚拟机OS是否受损，对运行虚拟机执行启动会报错" 
-			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
-	  prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VM, 
-	  exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+	  prerequisite = AnnotationUtils.DESC_FUNCTION_VM, 
+	  exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected StartVM startVM;
 
 	@Function(shortName = "删除虚拟机", description = "删除虚拟机，需要先关闭虚拟机" 
-			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
-	  prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VM + "或StopVM，或StopVMForce", 
-	  exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+	  prerequisite = AnnotationUtils.DESC_FUNCTION_VM + "或StopVM，或StopVMForce", 
+	  exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected DeleteVM deleteVM;
 
 	@Function(shortName = "虚拟机重启", description = "重启虚拟机，能否正常重新启动取决于虚拟机OS是否受损" 
-			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
-	  prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VM, 
-	  exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+	  prerequisite = AnnotationUtils.DESC_FUNCTION_VM, 
+	  exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected RebootVM rebootVM;
 
 	@Function(shortName = "虚拟机添加网卡", description = "给虚拟机添加网卡" 
-			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
-	  prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VM, 
-	  exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+	  prerequisite = AnnotationUtils.DESC_FUNCTION_VM, 
+	  exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected PlugNIC plugNIC;
 
 	@Function(shortName = "插入或拔出光驱", description = "插入或者拔出光驱" 
-			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
-	  prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VM + "或plugDevice", 
-	  exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+	  prerequisite = AnnotationUtils.DESC_FUNCTION_VM + "或plugDevice", 
+	  exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected ManageISO manageISO;
 	
 	@Function(shortName = "更换虚拟机OS", description = "更换云主机的OS，云主机必须关机" 
-			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
-	  prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VM, 
-	  exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+	  prerequisite = AnnotationUtils.DESC_FUNCTION_VM, 
+	  exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected UpdateOS updateOS;
 	
 	@Function(shortName = "转化为虚拟机模板", description = "转化为虚拟机镜像" 
-			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
-	  prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VM, 
-	  exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+	  prerequisite = AnnotationUtils.DESC_FUNCTION_VM, 
+	  exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected ConvertVMToImage convertVMToImage;
 	
 	public Lifecycle() {
@@ -338,16 +338,16 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class ResizeRAM {
 
-		@Parameter(required = false, description = "对当前虚拟机生效", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		@Parameter(required = false, description = "对当前虚拟机生效", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean current;
 
 		@Parameter(required = true,  description = "内存大小，单位为KiB", constraint = "100MiB到100GiB", example = "1GiB: 1048576")
 		protected String size;
 
-		@Parameter(required = false, description = "如果不设置，当前配置下次不会生效", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		@Parameter(required = false, description = "如果不设置，当前配置下次不会生效", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean config;
 
-		@Parameter(required = false, description = "本次生效，如果虚拟机开机状态使用", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		@Parameter(required = false, description = "本次生效，如果虚拟机开机状态使用", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean live;
 
 		public ResizeRAM() {
@@ -403,16 +403,16 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class UnplugDevice {
 
-		@Parameter(required = false, description = "对当前虚拟机生效", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		@Parameter(required = false, description = "对当前虚拟机生效", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean current;
 
-		@Parameter(required = false, description = "对配置进行持久化", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		@Parameter(required = false, description = "对配置进行持久化", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean persistent;
 
-		@Parameter(required = false, description = "如果不设置，当前配置下次不会生效", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		@Parameter(required = false, description = "如果不设置，当前配置下次不会生效", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean config;
 
-		@Parameter(required = false, description = "立即生效，对于开机虚拟机", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		@Parameter(required = false, description = "立即生效，对于开机虚拟机", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean live;
 		
 		@Parameter(required = true, description = "设备xml文件，可以是GPU、硬盘、网卡、光驱等", constraint= "文件路径", example = "/var/lib/libvirt/unplug.xml")
@@ -468,19 +468,19 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class UnplugNIC {
 
-		@Parameter(required = false, description = "对当前虚拟机生效", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		@Parameter(required = false, description = "对当前虚拟机生效", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean current;
 
-		@Parameter(required = false, description = "对配置进行持久化", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		@Parameter(required = false, description = "对配置进行持久化", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean persistent;
 
-		@Parameter(required = false, description = "如果不设置，当前配置下次不会生效", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		@Parameter(required = false, description = "如果不设置，当前配置下次不会生效", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean config;
 
-		@Parameter(required = false, description = "立即生效，对于开机虚拟机", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		@Parameter(required = false, description = "立即生效，对于开机虚拟机", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean live;
 
-		@Parameter(required = true, description = "虚拟机网络类型", constraint = ExtendedKubernetesConstants.DESC_BRIDGE_DESC, example = "true")
+		@Parameter(required = true, description = "虚拟机网络类型", constraint = AnnotationUtils.DESC_BRIDGE_DESC, example = "true")
 		protected String type;
 
 		@Parameter(required = true, description = "mac地址", constraint = "mac地址不能以fe开头", example = "7e:0c:b0:ef:6a:04")
@@ -739,22 +739,22 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class ChangeNumberOfCPU {
 
-		@Parameter(required = false, description = "对当前虚拟机生效", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		@Parameter(required = false, description = "对当前虚拟机生效", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean current;
 
-		@Parameter(required = false, description = "如果不设置，当前配置下次不会生效", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		@Parameter(required = false, description = "如果不设置，当前配置下次不会生效", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean config;
 
-		@Parameter(required = false, description = "立即生效，对于开机虚拟机", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		@Parameter(required = false, description = "立即生效，对于开机虚拟机", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean live;
 
-		@Parameter(required = false, description = "对于开机虚拟机进行运行时插拔，与--live等价", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		@Parameter(required = false, description = "对于开机虚拟机进行运行时插拔，与--live等价", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean hotpluggable;
 
 		@Parameter(required = true, description = "vcpu数量", constraint = "1-99个", example = "16")
 		protected Integer count;
 
-		@Parameter(required = false, description = "修改虚拟机CPU状态", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		@Parameter(required = false, description = "修改虚拟机CPU状态", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean guest;
 
 
@@ -822,16 +822,16 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class PlugDisk {
 
-		@Parameter(required = false, description = "对配置进行持久化", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		@Parameter(required = false, description = "对配置进行持久化", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean persistent;
 
-		@Parameter(required = false, description = "如果不设置，当前配置下次不会生效", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		@Parameter(required = false, description = "如果不设置，当前配置下次不会生效", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean config;
 
-		@Parameter(required = false, description = "立即生效，对于开机虚拟机", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		@Parameter(required = false, description = "立即生效，对于开机虚拟机", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean live;
 		
-		@Parameter(required = false, description = "立即生效，对于开机虚拟机", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		@Parameter(required = false, description = "立即生效，对于开机虚拟机", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected String iothread;
 
 		protected String cache;
@@ -1075,16 +1075,16 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class PlugDevice {
 
-		@Parameter(required = false, description = "对当前虚拟机生效", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		@Parameter(required = false, description = "对当前虚拟机生效", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean current;
 
-		@Parameter(required = false, description = "对配置进行持久化", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		@Parameter(required = false, description = "对配置进行持久化", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean persistent;
 
-		@Parameter(required = false, description = "如果不设置，当前配置下次不会生效", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		@Parameter(required = false, description = "如果不设置，当前配置下次不会生效", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean config;
 
-		@Parameter(required = false, description = "立即生效，对于开机虚拟机", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		@Parameter(required = false, description = "立即生效，对于开机虚拟机", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean live;
 		
 		@Parameter(required = true, description = "设备xml文件，可以是GPU、硬盘、网卡、光驱等", constraint= "文件路径", example = "/var/lib/libvirt/unplug.xml")
@@ -1145,19 +1145,19 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class UnplugDisk {
 
-		@Parameter(required = false, description = "对当前虚拟机生效", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		@Parameter(required = false, description = "对当前虚拟机生效", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean current;
 
-		@Parameter(required = false, description = "对配置进行持久化", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		@Parameter(required = false, description = "对配置进行持久化", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean persistent;
 
-		@Parameter(required = false, description = "如果不设置，当前配置下次不会生效", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		@Parameter(required = false, description = "如果不设置，当前配置下次不会生效", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean config;
 
-		@Parameter(required = false, description = "立即生效，对于开机虚拟机", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		@Parameter(required = false, description = "立即生效，对于开机虚拟机", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean live;
 
-		@Parameter(required = true, description = "设备的目标，即在虚拟机中fdisk -l看到的硬盘标记", constraint = ExtendedKubernetesConstants.DESC_TARGET_DESC, example = "windows: hdb, Linux: vdb")
+		@Parameter(required = true, description = "设备的目标，即在虚拟机中fdisk -l看到的硬盘标记", constraint = AnnotationUtils.DESC_TARGET_DESC, example = "windows: hdb, Linux: vdb")
 		protected String target;
 
 		public UnplugDisk() {
@@ -1223,10 +1223,10 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class DeleteVM {
 
-		@Parameter(required = false, description = "删除虚拟机所有快照，否则如果虚拟机还存在快照，会导致删除失败", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		@Parameter(required = false, description = "删除虚拟机所有快照，否则如果虚拟机还存在快照，会导致删除失败", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean delete_snapshots;
 
-		@Parameter(required = false, description = "是否删除虚拟机所有快照对应的磁盘存储", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		@Parameter(required = false, description = "是否删除虚拟机所有快照对应的磁盘存储", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean remove_all_storage;
 
 
@@ -1876,16 +1876,16 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class PlugNIC {
 
-		@Parameter(required = false, description = "对当前虚拟机生效", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		@Parameter(required = false, description = "对当前虚拟机生效", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean current;
 
-		@Parameter(required = false, description = "对配置进行持久化", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		@Parameter(required = false, description = "对配置进行持久化", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean persistent;
 
-		@Parameter(required = false, description = "如果不设置，当前配置下次不会生效", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		@Parameter(required = false, description = "如果不设置，当前配置下次不会生效", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean config;
 
-		@Parameter(required = false, description = "立即生效，对于开机虚拟机", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		@Parameter(required = false, description = "立即生效，对于开机虚拟机", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean live;
 		
 		@Parameter(required = false, description = "网络输入带宽QoS限制，单位为KiB，示例参考https://libvirt.org/formatnetwork.html#elementQoS", constraint = "0~10240000", example = "1000MiB: 1024000")
@@ -2025,31 +2025,31 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class ManageISO {
 
-		@Parameter(required = false, description = "对当前虚拟机生效", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		@Parameter(required = false, description = "对当前虚拟机生效", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean current;
 
-		@Parameter(required = false, description = "如果不设置，当前配置下次不会生效", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		@Parameter(required = false, description = "如果不设置，当前配置下次不会生效", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean config;
 
-		@Parameter(required = false, description = "立即生效，对于开机虚拟机", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		@Parameter(required = false, description = "立即生效，对于开机虚拟机", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean live;
 		
 		@Parameter(required = true, description = "模板虚拟机的路径", constraint= "文件路径", example = "/var/lib/libvirt/target.iso")
 		protected String path;
 		
-		@Parameter(required = true, description = "弹出光驱，与--insert不可同时设置为true", constraint= ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		@Parameter(required = true, description = "弹出光驱，与--insert不可同时设置为true", constraint= AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean eject;
 		
-		@Parameter(required = true, description = "插入光驱", constraint= ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		@Parameter(required = true, description = "插入光驱", constraint= AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean insert;
 		
-		@Parameter(required = true, description = "更新操作", constraint= ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		@Parameter(required = true, description = "更新操作", constraint= AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean update;
 		
-		@Parameter(required = true, description = "强制执行", constraint= ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		@Parameter(required = true, description = "强制执行", constraint= AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean force;
 		
-		@Parameter(required = true, description = "如果适用物理机光驱，应该设置为true", constraint= ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		@Parameter(required = true, description = "如果适用物理机光驱，应该设置为true", constraint= AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean block;
 		
 		public ManageISO() {

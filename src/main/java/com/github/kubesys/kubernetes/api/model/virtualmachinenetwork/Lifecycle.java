@@ -5,10 +5,10 @@ package com.github.kubesys.kubernetes.api.model.virtualmachinenetwork;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.github.kubesys.kubernetes.ExtendedKubernetesConstants;
 import com.github.kubesys.kubernetes.annotations.Function;
 import com.github.kubesys.kubernetes.annotations.Parameter;
 import com.github.kubesys.kubernetes.annotations.Parent;
+import com.github.kubesys.kubernetes.utils.AnnotationUtils;
 
 /**
  * @author  wuheng@otcaix.iscas.ac.cn
@@ -23,15 +23,15 @@ import com.github.kubesys.kubernetes.annotations.Parent;
 public class Lifecycle {
 
 	@Function(shortName = "创建网络交换机", description = "创建网络交换机，" 
-			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = "", 
-		exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected CreateSwitch createSwitch;
 	
 	@Function(shortName = "删除网络交换机", description = "删除网络交换机，" 
-			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
-		prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VMN, 
-		exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+		prerequisite = AnnotationUtils.DESC_FUNCTION_VMN, 
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected DeleteSwitch deleteSwitch;
 	
 	public CreateSwitch getCreateSwitch() {

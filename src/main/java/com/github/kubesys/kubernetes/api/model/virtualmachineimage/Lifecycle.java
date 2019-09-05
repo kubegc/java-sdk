@@ -5,10 +5,10 @@ package com.github.kubesys.kubernetes.api.model.virtualmachineimage;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.github.kubesys.kubernetes.ExtendedKubernetesConstants;
 import com.github.kubesys.kubernetes.annotations.Function;
 import com.github.kubesys.kubernetes.annotations.Parameter;
 import com.github.kubesys.kubernetes.annotations.Parent;
+import com.github.kubesys.kubernetes.utils.AnnotationUtils;
 
 /**
  * @author  wuheng@otcaix.iscas.ac.cn
@@ -23,21 +23,21 @@ import com.github.kubesys.kubernetes.annotations.Parent;
 public class Lifecycle {
 
 	@Function(shortName = "创建虚拟机镜像", description = "创建虚拟机镜像，" 
-			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = "", 
-		exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected CreateImage createImage;
 	
 	@Function(shortName = "删除虚拟机镜像", description = "删除虚拟机镜像，" 
-			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
-		prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VMI, 
-		exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+		prerequisite = AnnotationUtils.DESC_FUNCTION_VMI, 
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected DeleteImage deleteImage;
 	
 	@Function(shortName = "将虚拟机镜像转化为虚拟机", description = "将虚拟机镜像转化为虚拟机，" 
-			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
-		prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VMI, 
-		exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+		prerequisite = AnnotationUtils.DESC_FUNCTION_VMI, 
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected ConvertImageToVM convertImageToVM;
 
 	public Lifecycle() {

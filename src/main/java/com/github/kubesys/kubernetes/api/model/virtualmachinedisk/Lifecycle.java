@@ -5,10 +5,10 @@ package com.github.kubesys.kubernetes.api.model.virtualmachinedisk;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.github.kubesys.kubernetes.ExtendedKubernetesConstants;
 import com.github.kubesys.kubernetes.annotations.Function;
 import com.github.kubesys.kubernetes.annotations.Parameter;
 import com.github.kubesys.kubernetes.annotations.Parent;
+import com.github.kubesys.kubernetes.utils.AnnotationUtils;
 
 /**
  * @author  wuheng@otcaix.iscas.ac.cn
@@ -23,39 +23,39 @@ import com.github.kubesys.kubernetes.annotations.Parent;
 public class Lifecycle {
 
 	@Function(shortName = "删除云盘", description = "删除云盘，" 
-			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
-		prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VMD, 
-		exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+		prerequisite = AnnotationUtils.DESC_FUNCTION_VMD, 
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected DeleteDisk deleteDisk;
 
 	@Function(shortName = "调整云盘大小", description = "调整云盘大小，" 
-			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
-		prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VMD, 
-		exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+		prerequisite = AnnotationUtils.DESC_FUNCTION_VMD, 
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected ResizeDisk resizeDisk;
 
 	@Function(shortName = "创建云盘", description = "创建云盘，" 
-			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = "", 
-		exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected CreateDisk createDisk;
 	
 	@Function(shortName = "从镜像创建云盘", description = "从镜像创建云盘，" 
-			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = "", 
-		exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected CreateDiskFromDiskImage createDiskFromDiskImage;
 	
 	@Function(shortName = "转化为云盘镜像", description = "转化为云盘镜像，" 
-			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
-		prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VMD, 
-		exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+		prerequisite = AnnotationUtils.DESC_FUNCTION_VMD, 
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected ConvertDiskToDiskImage convertDiskToDiskImage;
 
 	@Function(shortName = "克隆云盘", description = "克隆云盘，" 
-			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
-		prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VMD, 
-		exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+		prerequisite = AnnotationUtils.DESC_FUNCTION_VMD, 
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected CloneDisk cloneDisk;
 	
 	public ConvertDiskToDiskImage getConvertDiskToDiskImage() {

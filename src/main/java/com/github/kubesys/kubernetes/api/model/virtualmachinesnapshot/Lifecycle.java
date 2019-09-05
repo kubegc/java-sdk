@@ -5,10 +5,10 @@ package com.github.kubesys.kubernetes.api.model.virtualmachinesnapshot;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.github.kubesys.kubernetes.ExtendedKubernetesConstants;
 import com.github.kubesys.kubernetes.annotations.Function;
 import com.github.kubesys.kubernetes.annotations.Parameter;
 import com.github.kubesys.kubernetes.annotations.Parent;
+import com.github.kubesys.kubernetes.utils.AnnotationUtils;
 
 /**
  * @author  wuheng@otcaix.iscas.ac.cn
@@ -23,21 +23,21 @@ import com.github.kubesys.kubernetes.annotations.Parent;
 public class Lifecycle {
 
 	@Function(shortName = "删除虚拟机/云盘快照", description = "删除虚拟机/云盘快照，" 
-			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
-		prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VMSN, 
-		exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+		prerequisite = AnnotationUtils.DESC_FUNCTION_VMSN, 
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected DeleteSnapshot deleteSnapshot;
 
 	@Function(shortName = "创建虚拟机/云盘快照", description = "创建虚拟机/云盘快照，" 
-			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = "", 
-		exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected CreateSnapshot createSnapshot;
 	
 	@Function(shortName = "恢复成虚拟机/云盘", description = "恢复成虚拟机/云盘，" 
-			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
-		prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VMSN, 
-		exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+		prerequisite = AnnotationUtils.DESC_FUNCTION_VMSN, 
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected RevertVirtualMachine revertVirtualMachine;
 
 	public Lifecycle() {
@@ -247,7 +247,7 @@ public class Lifecycle {
 		@Parameter(required = true, description = "要恢复到快照状态的虚拟机name", constraint = "由8-32位的数字和小写字母组成，已存在的虚拟机名", example = "vm1")
 		protected String domain;
 
-		@Parameter(required = false, description = "恢复到快照的状态后，是否将虚拟机转换到开机状态", constraint=ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
+		@Parameter(required = false, description = "恢复到快照的状态后，是否将虚拟机转换到开机状态", constraint=AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean running;
 		
 		protected Boolean paused;
