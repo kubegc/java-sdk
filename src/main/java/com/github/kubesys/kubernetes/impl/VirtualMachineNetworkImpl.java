@@ -62,7 +62,7 @@ public class VirtualMachineNetworkImpl extends AbstractImpl<VirtualMachineNetwor
 	public boolean createSwitch(String name, String nodeName,CreateSwitch createSwitch, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
-			throw new IllegalArgumentException("the length must be between 8 and 43, and it can only includes a-z, 0-9 and -.");
+			throw new IllegalArgumentException("the length must be between 8 and 32, and it can only includes a-z, 0-9 and -.");
 		}
 		return create(getModel(), createMetadata(name, nodeName, eventId), 
 				createSpec(nodeName, createLifecycle(createSwitch)));
@@ -75,7 +75,7 @@ public class VirtualMachineNetworkImpl extends AbstractImpl<VirtualMachineNetwor
 	public boolean deleteSwitch(String name,DeleteSwitch deleteSwitch, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
-			throw new IllegalArgumentException("the length must be between 8 and 43, and it can only includes a-z, 0-9 and -.");
+			throw new IllegalArgumentException("the length must be between 8 and 32, and it can only includes a-z, 0-9 and -.");
 		}
 		return delete(name, updateMetadata(name, eventId), deleteSwitch);
 	}
