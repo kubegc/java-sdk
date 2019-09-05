@@ -6,6 +6,7 @@ package com.github.kubesys.kubernetes.api.model.virtualmachinedisk;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.github.kubesys.interior.annotations.Function;
+import com.github.kubesys.interior.annotations.Parameter;
 import com.github.kubesys.interior.annotations.Parent;
 import com.github.kubesys.kubernetes.ExtendedKubernetesConstants;
 
@@ -115,12 +116,15 @@ public class Lifecycle {
 
 		protected Boolean prealloc_metadata;
 
+		@Parameter(required = true, description = "磁盘文件的类型", constraint = "raw,bochs,qcow,qcow2,qed,vmdk", example = "qcow2")
 		protected String format;
 
+		@Parameter(required = true, description = "创建磁盘使用的存储池名", constraint = "已创建出的存储池", example = "pool2")
 		protected String pool;
 
 		protected String backing_vol;
 
+		@Parameter(required = true, description = "磁盘空间大小", constraint = "1048576-104857600（单位：KiB）", example = "10485760")
 		protected String capacity;
 
 		public CreateDisk() {
@@ -190,6 +194,7 @@ public class Lifecycle {
 
 		protected Boolean delete_snapshots;
 
+		@Parameter(required = true, description = "磁盘所在的存储池名", constraint = "已创建出的存储池", example = "pool2")
 		protected String pool;
 
 		public void setDelete_snapshots(Boolean delete_snapshots) {
@@ -219,8 +224,10 @@ public class Lifecycle {
 
 		protected Boolean delta;
 
+		@Parameter(required = true, description = "磁盘所在的存储池名", constraint = "已创建出的存储池", example = "pool2")
 		protected String pool;
 
+		@Parameter(required = true, description = "扩容后的磁盘空间大小", constraint = "1048576-104857600（单位：KiB），需要比以前的磁盘空间大", example = "10485760")
 		protected String capacity;
 
 		public ResizeDisk() {
@@ -271,9 +278,11 @@ public class Lifecycle {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class CreateDiskFromDiskImage {
-		
+
+		@Parameter(required = true, description = "创建磁盘所在的存储池名", constraint = "已创建出的存储池", example = "pool2")
 		protected String pool;
-		
+
+		@Parameter(required = true, description = "磁盘镜像名", constraint = "已存在的磁盘镜像名", example = "pool2")
 		protected String image;
 
 		public String getImage() {
@@ -301,8 +310,10 @@ public class Lifecycle {
 
 		protected Boolean prealloc_metadata;
 
+		@Parameter(required = true, description = "磁盘所在的存储池名", constraint = "已创建出的存储池", example = "pool2")
 		protected String pool;
 
+		@Parameter(required = true, description = "新磁盘的name", constraint = "数字和字母组合", example = "newdisk")
 		protected String newname;
 
 		public CloneDisk() {
@@ -346,7 +357,8 @@ public class Lifecycle {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class ConvertDiskToDiskImage {
-		
+
+		@Parameter(required = true, description = "磁盘所在的存储池名", constraint = "已创建出的存储池", example = "pool2")
 		protected String pool;
 
 		public String getPool() {

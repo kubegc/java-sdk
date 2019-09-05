@@ -6,6 +6,7 @@ package com.github.kubesys.kubernetes.api.model.virtualmachinesnapshot;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.github.kubesys.interior.annotations.Function;
+import com.github.kubesys.interior.annotations.Parameter;
 import com.github.kubesys.interior.annotations.Parent;
 import com.github.kubesys.kubernetes.ExtendedKubernetesConstants;
 
@@ -89,6 +90,7 @@ public class Lifecycle {
 
 		protected Boolean atomic;
 
+		@Parameter(required = true, description = "要恢复到快照状态的虚拟机name", constraint = "已存在的虚拟机名", example = "vm1")
 		protected String domain;
 
 		protected Boolean live;
@@ -196,6 +198,7 @@ public class Lifecycle {
 
 		protected Boolean children_only;
 
+		@Parameter(required = true, description = "要删除快照的虚拟机name", constraint = "已存在的虚拟机名", example = "vm1")
 		protected String domain;
 
 		public DeleteSnapshot() {
@@ -240,9 +243,11 @@ public class Lifecycle {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class RevertVirtualMachine {
-		
+
+		@Parameter(required = true, description = "要恢复到快照状态的虚拟机name", constraint = "已存在的虚拟机名", example = "vm1")
 		protected String domain;
 
+		@Parameter(required = false, description = "恢复到快照的状态后，是否将虚拟机转换到开机状态", constraint=ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected Boolean running;
 		
 		protected Boolean paused;

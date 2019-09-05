@@ -6,6 +6,7 @@ package com.github.kubesys.kubernetes.api.model.virtualmachinepool;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.github.kubesys.interior.annotations.Function;
+import com.github.kubesys.interior.annotations.Parameter;
 import com.github.kubesys.interior.annotations.Parent;
 import com.github.kubesys.kubernetes.ExtendedKubernetesConstants;
 
@@ -125,6 +126,7 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class AutoStart {
 
+		@Parameter(required = true, description = "修改存储池autostart状态", constraint = ExtendedKubernetesConstants.DESC_BOOLEAN, example = "true")
 		protected Boolean disable;
 
 		public Boolean getDisable() {
@@ -141,6 +143,7 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class CreatePool {
 
+		@Parameter(required = true, description = "存储池的类型", constraint = "dir", example = "dir")
 		protected String type;
 		
 		protected String source_host;
@@ -150,7 +153,8 @@ public class Lifecycle {
 		protected String source_dev;
 		
 		protected String source_name;
-		
+
+		@Parameter(required = true, description = "创建存储池使用的存储路径", constraint = "完整有效的存储路径", example = "/var/lib/libvirt/poolg")
 		protected String target;
 		
 		protected String source_format;

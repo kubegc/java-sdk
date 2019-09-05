@@ -6,6 +6,7 @@ package com.github.kubesys.kubernetes.api.model.virtualmachineimage;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.github.kubesys.interior.annotations.Function;
+import com.github.kubesys.interior.annotations.Parameter;
 import com.github.kubesys.interior.annotations.Parent;
 import com.github.kubesys.kubernetes.ExtendedKubernetesConstants;
 
@@ -70,7 +71,8 @@ public class Lifecycle {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class CreateImage {
-		
+
+		@Parameter(required = true, description = "存储镜像的磁盘", constraint = "有效完整的磁盘路径", example = "/var/lib/aaa.qcow2")
 		protected String disk;
 
 		public CreateImage() {
