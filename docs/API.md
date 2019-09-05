@@ -84,7 +84,7 @@
 | createAndStartVMFromImage | CreateAndStartVMFromImage | true | 通过镜像安装虚拟机 | 详细见下 |
 | eventId | String | fasle | 事件ID | createAndStartVMFromImage.event.001 |
 
-对象createAndStartVMFromImage参数说明:
+对象createAndStartVMFromImage参数说明(见CreateAndStartVMFromISO):
 
 ## 1.3 ResizeRAM(虚拟机内存扩容)
 
