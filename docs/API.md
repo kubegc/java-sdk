@@ -44,7 +44,7 @@
 | vcpus|String|true|虚拟机CPU个数，及其物理CPU绑定关系|2,cpuset=1-4|
 | cdrom|String|false|虚拟机挂载的光驱，重启失效|/var/lib/libvirt/ISO/CentOS-7-x86_64-Minimal-1511.iso|
 | noautoconsole|Boolean|true|不自动连接到虚拟机终端，必须设置成true|true|
-
+|  |  |  |  |  |
 **接口异常:**
 
 (1)在调用本方法抛出;
@@ -84,7 +84,29 @@
 | createAndStartVMFromImage | CreateAndStartVMFromImage | true | 通过镜像安装虚拟机 | 详细见下 |
 | eventId | String | fasle | 事件ID | createAndStartVMFromImage.event.001 |
 
-对象createAndStartVMFromImage参数说明(见CreateAndStartVMFromISO):
+对象createAndStartVMFromImage参数说明:
+
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+|  |  |  |  |  |
+**接口异常:**
+
+(1)在调用本方法抛出;
+
+| name  | description | 
+| ----- | ----- | 
+| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
+| IllegalFormatException | 传递的参数不符合约束条件    |
+| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
+
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看CreateAndStartVMFromImagespec下的status域，从message中获取详细异常信息
+
+| name  | description | 
+| ----- | ----- | 
+| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
+| VirtctlError | Libvirt不支持的生命周期    |
+| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
+| Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
 ## 1.3 ResizeRAM(虚拟机内存扩容)
 
@@ -113,7 +135,7 @@
 | size|String|true|内存大小，单位为KiB|1GiB: 1048576|
 | config|Boolean|false|如果不设置，当前配置下次不会生效|true|
 | live|Boolean|false|本次生效，如果虚拟机开机状态使用|true|
-
+|  |  |  |  |  |
 **接口异常:**
 
 (1)在调用本方法抛出;
@@ -154,6 +176,28 @@
 
 对象suspendVM参数说明:
 
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+|  |  |  |  |  |
+**接口异常:**
+
+(1)在调用本方法抛出;
+
+| name  | description | 
+| ----- | ----- | 
+| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
+| IllegalFormatException | 传递的参数不符合约束条件    |
+| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
+
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看SuspendVMspec下的status域，从message中获取详细异常信息
+
+| name  | description | 
+| ----- | ----- | 
+| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
+| VirtctlError | Libvirt不支持的生命周期    |
+| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
+| Exception    | 后台代码异常退出,比如主机的hostname变化    |
+
 ## 1.5 StopVMForce(强制关闭虚拟机)
 
 **接口功能:**
@@ -174,6 +218,28 @@
 | eventId | String | fasle | 事件ID | stopVMForce.event.001 |
 
 对象stopVMForce参数说明:
+
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+|  |  |  |  |  |
+**接口异常:**
+
+(1)在调用本方法抛出;
+
+| name  | description | 
+| ----- | ----- | 
+| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
+| IllegalFormatException | 传递的参数不符合约束条件    |
+| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
+
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看StopVMForcespec下的status域，从message中获取详细异常信息
+
+| name  | description | 
+| ----- | ----- | 
+| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
+| VirtctlError | Libvirt不支持的生命周期    |
+| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
+| Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
 ## 1.6 UnplugDevice(虚拟机卸载设备)
 
@@ -203,7 +269,7 @@
 | config|Boolean|false|如果不设置，当前配置下次不会生效|true|
 | live|Boolean|false|立即生效，对于开机虚拟机|true|
 | file|String|true|设备xml文件，可以是GPU、硬盘、网卡、光驱等|/var/lib/libvirt/unplug.xml|
-
+|  |  |  |  |  |
 **接口异常:**
 
 (1)在调用本方法抛出;
@@ -252,7 +318,7 @@
 | live|Boolean|false|立即生效，对于开机虚拟机|true|
 | type|String|true|虚拟机网络类型|true|
 | mac|String|true|mac地址|7e:0c:b0:ef:6a:04|
-
+|  |  |  |  |  |
 **接口异常:**
 
 (1)在调用本方法抛出;
@@ -295,7 +361,7 @@
 
 | name | type | required | description | exampe |
 | ----- | ------ | ------ | ------ | ------ |
-
+|  |  |  |  |  |
 **接口异常:**
 
 (1)在调用本方法抛出;
@@ -344,7 +410,7 @@
 | hotpluggable|Boolean|false|对于开机虚拟机进行运行时插拔，与--live等价|true|
 | count|Integer|true|vcpu数量|16|
 | guest|Boolean|false|修改虚拟机CPU状态|true|
-
+|  |  |  |  |  |
 **接口异常:**
 
 (1)在调用本方法抛出;
@@ -385,6 +451,28 @@
 
 对象resumeVM参数说明:
 
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+|  |  |  |  |  |
+**接口异常:**
+
+(1)在调用本方法抛出;
+
+| name  | description | 
+| ----- | ----- | 
+| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
+| IllegalFormatException | 传递的参数不符合约束条件    |
+| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
+
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看ResumeVMspec下的status域，从message中获取详细异常信息
+
+| name  | description | 
+| ----- | ----- | 
+| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
+| VirtctlError | Libvirt不支持的生命周期    |
+| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
+| Exception    | 后台代码异常退出,比如主机的hostname变化    |
+
 ## 1.11 PlugDisk(虚拟机添加云盘)
 
 **接口功能:**
@@ -422,7 +510,7 @@
 | write_bytes_sec|String|false|云盘写bps的QoS设置，单位为bytes|1GiB: 1073741824|
 | read_iops_sec|String|false|云盘读iops的QoS设置|40000|
 | write_iops_sec|String|false|云盘写iops的QoS设置|40000|
-
+|  |  |  |  |  |
 **接口异常:**
 
 (1)在调用本方法抛出;
@@ -470,7 +558,7 @@
 | config|Boolean|false|如果不设置，当前配置下次不会生效|true|
 | live|Boolean|false|立即生效，对于开机虚拟机|true|
 | file|String|true|设备xml文件，可以是GPU、硬盘、网卡、光驱等|/var/lib/libvirt/unplug.xml|
-
+|  |  |  |  |  |
 **接口异常:**
 
 (1)在调用本方法抛出;
@@ -511,6 +599,28 @@
 
 对象resetVM参数说明:
 
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+|  |  |  |  |  |
+**接口异常:**
+
+(1)在调用本方法抛出;
+
+| name  | description | 
+| ----- | ----- | 
+| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
+| IllegalFormatException | 传递的参数不符合约束条件    |
+| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
+
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看ResetVMspec下的status域，从message中获取详细异常信息
+
+| name  | description | 
+| ----- | ----- | 
+| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
+| VirtctlError | Libvirt不支持的生命周期    |
+| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
+| Exception    | 后台代码异常退出,比如主机的hostname变化    |
+
 ## 1.14 UnplugDisk(虚拟机卸载云盘)
 
 **接口功能:**
@@ -539,7 +649,7 @@
 | config|Boolean|false|如果不设置，当前配置下次不会生效|true|
 | live|Boolean|false|立即生效，对于开机虚拟机|true|
 | target|String|true|设备的目标，即在虚拟机中fdisk -l看到的硬盘标记|windows: hdb, Linux: vdb|
-
+|  |  |  |  |  |
 **接口异常:**
 
 (1)在调用本方法抛出;
@@ -580,6 +690,28 @@
 
 对象stopVM参数说明:
 
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+|  |  |  |  |  |
+**接口异常:**
+
+(1)在调用本方法抛出;
+
+| name  | description | 
+| ----- | ----- | 
+| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
+| IllegalFormatException | 传递的参数不符合约束条件    |
+| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
+
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看StopVMspec下的status域，从message中获取详细异常信息
+
+| name  | description | 
+| ----- | ----- | 
+| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
+| VirtctlError | Libvirt不支持的生命周期    |
+| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
+| Exception    | 后台代码异常退出,比如主机的hostname变化    |
+
 ## 1.16 StartVM(启动虚拟机)
 
 **接口功能:**
@@ -600,6 +732,28 @@
 | eventId | String | fasle | 事件ID | startVM.event.001 |
 
 对象startVM参数说明:
+
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+|  |  |  |  |  |
+**接口异常:**
+
+(1)在调用本方法抛出;
+
+| name  | description | 
+| ----- | ----- | 
+| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
+| IllegalFormatException | 传递的参数不符合约束条件    |
+| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
+
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看StartVMspec下的status域，从message中获取详细异常信息
+
+| name  | description | 
+| ----- | ----- | 
+| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
+| VirtctlError | Libvirt不支持的生命周期    |
+| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
+| Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
 ## 1.17 DeleteVM(删除虚拟机)
 
@@ -626,7 +780,7 @@
 | ----- | ------ | ------ | ------ | ------ |
 | delete_snapshots|Boolean|false|删除虚拟机所有快照，否则如果虚拟机还存在快照，会导致删除失败|true|
 | remove_all_storage|Boolean|false|是否删除虚拟机所有快照对应的磁盘存储|true|
-
+|  |  |  |  |  |
 **接口异常:**
 
 (1)在调用本方法抛出;
@@ -667,6 +821,28 @@
 
 对象rebootVM参数说明:
 
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+|  |  |  |  |  |
+**接口异常:**
+
+(1)在调用本方法抛出;
+
+| name  | description | 
+| ----- | ----- | 
+| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
+| IllegalFormatException | 传递的参数不符合约束条件    |
+| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
+
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看RebootVMspec下的status域，从message中获取详细异常信息
+
+| name  | description | 
+| ----- | ----- | 
+| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
+| VirtctlError | Libvirt不支持的生命周期    |
+| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
+| Exception    | 后台代码异常退出,比如主机的hostname变化    |
+
 ## 1.19 PlugNIC(虚拟机添加网卡)
 
 **接口功能:**
@@ -699,7 +875,7 @@
 | type|String|true|网络源类型设置|bridge|
 | mac|String|true|mac地址|7e:0c:b0:ef:6a:04|
 | outbound|String|false|网络输出带宽QoS限制，单位为KiB，示例参考https://libvirt.org/formatnetwork.html#elementQoS|1000MiB: 1024000|
-
+|  |  |  |  |  |
 **接口异常:**
 
 (1)在调用本方法抛出;
@@ -751,7 +927,7 @@
 | update|Boolean|true|更新操作|true|
 | force|Boolean|true|强制执行|true|
 | block|Boolean|true|如果适用物理机光驱，应该设置为true|true|
-
+|  |  |  |  |  |
 **接口异常:**
 
 (1)在调用本方法抛出;
@@ -796,7 +972,7 @@
 | ----- | ------ | ------ | ------ | ------ |
 | source|String|true|需要被替换的虚拟机路径|/var/lib/libvirt/source.xml|
 | target|String|true|模板虚拟机的路径|/var/lib/libvirt/target.xml|
-
+|  |  |  |  |  |
 **接口异常:**
 
 (1)在调用本方法抛出;
@@ -836,6 +1012,28 @@
 | eventId | String | fasle | 事件ID | convertVMToImage.event.001 |
 
 对象convertVMToImage参数说明:
+
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+|  |  |  |  |  |
+**接口异常:**
+
+(1)在调用本方法抛出;
+
+| name  | description | 
+| ----- | ----- | 
+| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
+| IllegalFormatException | 传递的参数不符合约束条件    |
+| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
+
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看ConvertVMToImagespec下的status域，从message中获取详细异常信息
+
+| name  | description | 
+| ----- | ----- | 
+| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
+| VirtctlError | Libvirt不支持的生命周期    |
+| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
+| Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
 ## **返回值:**
 
@@ -1882,19 +2080,13 @@
 				"graphics":[
 					{
 						"autoport":"String",
-						"listen":{
-							"address":"String",
-							"type":"String"
-						},
+						"listen":"String",
 						"port":"String",
 						"type":"String"
 					},
 					{
 						"autoport":"String",
-						"listen":{
-							"address":"String",
-							"type":"String"
-						},
+						"listen":"String",
 						"port":"String",
 						"type":"String"
 					}
@@ -3807,8 +3999,8 @@
 
 | name | type | required | description | exampe |
 | ----- | ------ | ------ | ------ | ------ |
-| domain|String|true|要删除快照的虚拟机名字|vm1|
-
+| domain|String|true|要删除快照的虚拟机name|vm1|
+|  |  |  |  |  |
 **接口异常:**
 
 (1)在调用本方法抛出;
@@ -3853,7 +4045,7 @@
 | name | type | required | description | exampe |
 | ----- | ------ | ------ | ------ | ------ |
 | domain|String|true|要恢复到快照状态的虚拟机name|vm1|
-
+|  |  |  |  |  |
 **接口异常:**
 
 (1)在调用本方法抛出;
@@ -3898,7 +4090,7 @@
 | ----- | ------ | ------ | ------ | ------ |
 | domain|String|true|要恢复到快照状态的虚拟机name|vm1|
 | running|Boolean|false|恢复到快照的状态后，是否将虚拟机转换到开机状态|true|
-
+|  |  |  |  |  |
 **接口异常:**
 
 (1)在调用本方法抛出;
@@ -5056,19 +5248,13 @@
 					"graphics":[
 						{
 							"autoport":"String",
-							"listen":{
-								"address":"String",
-								"type":"String"
-							},
+							"listen":"String",
 							"port":"String",
 							"type":"String"
 						},
 						{
 							"autoport":"String",
-							"listen":{
-								"address":"String",
-								"type":"String"
-							},
+							"listen":"String",
 							"port":"String",
 							"type":"String"
 						}
@@ -6829,7 +7015,7 @@
 | name | type | required | description | exampe |
 | ----- | ------ | ------ | ------ | ------ |
 | disable|Boolean|true|修改存储池autostart状态|true|
-
+|  |  |  |  |  |
 **接口异常:**
 
 (1)在调用本方法抛出;
@@ -6875,7 +7061,7 @@
 | ----- | ------ | ------ | ------ | ------ |
 | type|String|true|存储池的类型|dir|
 | target|String|true|创建存储池使用的存储路径|/var/lib/libvirt/poolg|
-
+|  |  |  |  |  |
 **接口异常:**
 
 (1)在调用本方法抛出;
@@ -6918,7 +7104,7 @@
 
 | name | type | required | description | exampe |
 | ----- | ------ | ------ | ------ | ------ |
-
+|  |  |  |  |  |
 **接口异常:**
 
 (1)在调用本方法抛出;
@@ -6961,7 +7147,7 @@
 
 | name | type | required | description | exampe |
 | ----- | ------ | ------ | ------ | ------ |
-
+|  |  |  |  |  |
 **接口异常:**
 
 (1)在调用本方法抛出;
@@ -7002,6 +7188,28 @@
 
 对象stopPool参数说明:
 
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+|  |  |  |  |  |
+**接口异常:**
+
+(1)在调用本方法抛出;
+
+| name  | description | 
+| ----- | ----- | 
+| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
+| IllegalFormatException | 传递的参数不符合约束条件    |
+| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
+
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看StopPoolspec下的status域，从message中获取详细异常信息
+
+| name  | description | 
+| ----- | ----- | 
+| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
+| VirtctlError | Libvirt不支持的生命周期    |
+| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
+| Exception    | 后台代码异常退出,比如主机的hostname变化    |
+
 ## 3.6 DeletePool(删除存储池)
 
 **接口功能:**
@@ -7023,6 +7231,28 @@
 
 对象deletePool参数说明:
 
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+|  |  |  |  |  |
+**接口异常:**
+
+(1)在调用本方法抛出;
+
+| name  | description | 
+| ----- | ----- | 
+| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
+| IllegalFormatException | 传递的参数不符合约束条件    |
+| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
+
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看DeletePoolspec下的status域，从message中获取详细异常信息
+
+| name  | description | 
+| ----- | ----- | 
+| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
+| VirtctlError | Libvirt不支持的生命周期    |
+| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
+| Exception    | 后台代码异常退出,比如主机的hostname变化    |
+
 ## 3.7 UnregisterPool(反注册存储池)
 
 **接口功能:**
@@ -7043,6 +7273,28 @@
 | eventId | String | fasle | 事件ID | unregisterPool.event.001 |
 
 对象unregisterPool参数说明:
+
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+|  |  |  |  |  |
+**接口异常:**
+
+(1)在调用本方法抛出;
+
+| name  | description | 
+| ----- | ----- | 
+| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
+| IllegalFormatException | 传递的参数不符合约束条件    |
+| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
+
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看UnregisterPoolspec下的status域，从message中获取详细异常信息
+
+| name  | description | 
+| ----- | ----- | 
+| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
+| VirtctlError | Libvirt不支持的生命周期    |
+| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
+| Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
 ## **返回值:**
 
@@ -7156,7 +7408,7 @@
 | name | type | required | description | exampe |
 | ----- | ------ | ------ | ------ | ------ |
 | subnet|String|true|网段，这里后台只会做形式，不会做逻辑判断，只要符合xx.xx.xx.xx/x形式即可，请确保传入正确的数值|192.168.5.1/24|
-
+|  |  |  |  |  |
 **接口异常:**
 
 (1)在调用本方法抛出;
@@ -7196,6 +7448,28 @@
 | eventId | String | fasle | 事件ID | deleteSwitch.event.001 |
 
 对象deleteSwitch参数说明:
+
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+|  |  |  |  |  |
+**接口异常:**
+
+(1)在调用本方法抛出;
+
+| name  | description | 
+| ----- | ----- | 
+| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
+| IllegalFormatException | 传递的参数不符合约束条件    |
+| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
+
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看DeleteSwitchspec下的status域，从message中获取详细异常信息
+
+| name  | description | 
+| ----- | ----- | 
+| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
+| VirtctlError | Libvirt不支持的生命周期    |
+| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
+| Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
 ## **返回值:**
 
@@ -7310,8 +7584,8 @@
 
 | name | type | required | description | exampe |
 | ----- | ------ | ------ | ------ | ------ |
-| disk|String|true|用于创建虚拟机镜像的源文件|/var/lib/aaa.qcow2|
-
+| disk|String|true|存储镜像的磁盘|/var/lib/aaa.qcow2|
+|  |  |  |  |  |
 **接口异常:**
 
 (1)在调用本方法抛出;
@@ -7352,6 +7626,28 @@
 
 对象deleteImage参数说明:
 
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+|  |  |  |  |  |
+**接口异常:**
+
+(1)在调用本方法抛出;
+
+| name  | description | 
+| ----- | ----- | 
+| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
+| IllegalFormatException | 传递的参数不符合约束条件    |
+| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
+
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看DeleteImagespec下的status域，从message中获取详细异常信息
+
+| name  | description | 
+| ----- | ----- | 
+| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
+| VirtctlError | Libvirt不支持的生命周期    |
+| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
+| Exception    | 后台代码异常退出,比如主机的hostname变化    |
+
 ## 5.3 ConvertImageToVM(将虚拟机镜像转化为虚拟机)
 
 **接口功能:**
@@ -7372,6 +7668,28 @@
 | eventId | String | fasle | 事件ID | convertImageToVM.event.001 |
 
 对象convertImageToVM参数说明:
+
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+|  |  |  |  |  |
+**接口异常:**
+
+(1)在调用本方法抛出;
+
+| name  | description | 
+| ----- | ----- | 
+| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
+| IllegalFormatException | 传递的参数不符合约束条件    |
+| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
+
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看ConvertImageToVMspec下的status域，从message中获取详细异常信息
+
+| name  | description | 
+| ----- | ----- | 
+| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
+| VirtctlError | Libvirt不支持的生命周期    |
+| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
+| Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
 ## **返回值:**
 
@@ -8418,19 +8736,13 @@
 				"graphics":[
 					{
 						"autoport":"String",
-						"listen":{
-							"address":"String",
-							"type":"String"
-						},
+						"listen":"String",
 						"port":"String",
 						"type":"String"
 					},
 					{
 						"autoport":"String",
-						"listen":{
-							"address":"String",
-							"type":"String"
-						},
+						"listen":"String",
 						"port":"String",
 						"type":"String"
 					}
@@ -10129,7 +10441,7 @@
 ```
 # 6 VirtualMachineDisk
 
-云盘是指未格式化的云盘.VirtualMachineDisk所有操作的返回值一样，见**[返回值]**
+云盘是指未格式化的磁盘.VirtualMachineDisk所有操作的返回值一样，见**[返回值]**
 
 ## 6.1 DeleteDisk(删除云盘)
 
@@ -10154,8 +10466,8 @@
 
 | name | type | required | description | exampe |
 | ----- | ------ | ------ | ------ | ------ |
-| pool|String|true|云盘所在的存储池名|pool2|
-
+| pool|String|true|磁盘所在的存储池名|pool2|
+|  |  |  |  |  |
 **接口异常:**
 
 (1)在调用本方法抛出;
@@ -10198,9 +10510,9 @@
 
 | name | type | required | description | exampe |
 | ----- | ------ | ------ | ------ | ------ |
-| pool|String|true|云盘所在的存储池名|pool2|
-| capacity|String|true|扩容后的云盘空间大小|10485760|
-
+| pool|String|true|磁盘所在的存储池名|pool2|
+| capacity|String|true|扩容后的磁盘空间大小|10485760|
+|  |  |  |  |  |
 **接口异常:**
 
 (1)在调用本方法抛出;
@@ -10244,10 +10556,10 @@
 
 | name | type | required | description | exampe |
 | ----- | ------ | ------ | ------ | ------ |
-| format|String|true|云盘文件的类型|qcow2|
-| pool|String|true|创建云盘使用的存储池名|pool2|
-| capacity|String|true|云盘空间大小|10485760|
-
+| format|String|true|磁盘文件的类型|qcow2|
+| pool|String|true|创建磁盘使用的存储池名|pool2|
+| capacity|String|true|磁盘空间大小|10485760|
+|  |  |  |  |  |
 **接口异常:**
 
 (1)在调用本方法抛出;
@@ -10291,9 +10603,9 @@
 
 | name | type | required | description | exampe |
 | ----- | ------ | ------ | ------ | ------ |
-| pool|String|true|创建云盘所在的存储池名|pool2|
-| image|String|true|云盘镜像名|pool2|
-
+| pool|String|true|创建磁盘所在的存储池名|pool2|
+| image|String|true|磁盘镜像名|pool2|
+|  |  |  |  |  |
 **接口异常:**
 
 (1)在调用本方法抛出;
@@ -10313,10 +10625,10 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 6.5 ConvertDiskToDiskImage(转化为云盘镜像)
+## 6.5 ConvertDiskToDiskImage(保存为云盘镜像)
 
 **接口功能:**
-	转化为云盘镜像，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
+	保存为云盘镜像，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
 
 **接口依赖:**
 	云盘存在，即已调用过CreateDisk/CreateDiskFromDiskImage
@@ -10329,15 +10641,15 @@
 | name | type | required | description | exampe |
 | ----- | ------ | ------ | ------ | ------ |
 | name | String | true | 资源名称 | convertDiskToDiskImage.name.001|
-| convertDiskToDiskImage | ConvertDiskToDiskImage | true | 转化为云盘镜像 | 详细见下 |
+| convertDiskToDiskImage | ConvertDiskToDiskImage | true | 保存为云盘镜像 | 详细见下 |
 | eventId | String | fasle | 事件ID | convertDiskToDiskImage.event.001 |
 
 对象convertDiskToDiskImage参数说明:
 
 | name | type | required | description | exampe |
 | ----- | ------ | ------ | ------ | ------ |
-| pool|String|true|云盘所在的存储池名|pool2|
-
+| pool|String|true|磁盘所在的存储池名|pool2|
+|  |  |  |  |  |
 **接口异常:**
 
 (1)在调用本方法抛出;
@@ -10357,10 +10669,10 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 6.6 CloneDisk(克隆云盘)
+## 6.6 CloneDisk(克隆云盘镜像)
 
 **接口功能:**
-	克隆云盘，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
+	克隆云盘镜像，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
 
 **接口依赖:**
 	云盘存在，即已调用过CreateDisk/CreateDiskFromDiskImage
@@ -10373,16 +10685,16 @@
 | name | type | required | description | exampe |
 | ----- | ------ | ------ | ------ | ------ |
 | name | String | true | 资源名称 | cloneDisk.name.001|
-| cloneDisk | CloneDisk | true | 克隆云盘 | 详细见下 |
+| cloneDisk | CloneDisk | true | 克隆云盘镜像 | 详细见下 |
 | eventId | String | fasle | 事件ID | cloneDisk.event.001 |
 
 对象cloneDisk参数说明:
 
 | name | type | required | description | exampe |
 | ----- | ------ | ------ | ------ | ------ |
-| pool|String|true|云盘所在的存储池名|pool2|
-| newname|String|true|新云盘的名字|newdisk|
-
+| pool|String|true|磁盘所在的存储池名|pool2|
+| newname|String|true|新磁盘的name|newdisk|
+|  |  |  |  |  |
 **接口异常:**
 
 (1)在调用本方法抛出;
@@ -10553,8 +10865,8 @@
 
 | name | type | required | description | exampe |
 | ----- | ------ | ------ | ------ | ------ |
-| pool|String|true|转化的云盘所属的存储池名|pool2|
-
+| pool|String|true|创建出的磁盘所使用的存储池名|pool2|
+|  |  |  |  |  |
 **接口异常:**
 
 (1)在调用本方法抛出;
@@ -10595,6 +10907,28 @@
 
 对象deleteDiskImage参数说明:
 
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+|  |  |  |  |  |
+**接口异常:**
+
+(1)在调用本方法抛出;
+
+| name  | description | 
+| ----- | ----- | 
+| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
+| IllegalFormatException | 传递的参数不符合约束条件    |
+| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
+
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看DeleteDiskImagespec下的status域，从message中获取详细异常信息
+
+| name  | description | 
+| ----- | ----- | 
+| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
+| VirtctlError | Libvirt不支持的生命周期    |
+| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
+| Exception    | 后台代码异常退出,比如主机的hostname变化    |
+
 ## 7.3 CreateDiskImage(创建云盘镜像)
 
 **接口功能:**
@@ -10619,8 +10953,8 @@
 
 | name | type | required | description | exampe |
 | ----- | ------ | ------ | ------ | ------ |
-| source|String|true|要转化为云盘镜像的云盘所在的路径|/var/lib/libvirt/test.qcow2|
-
+| source|String|true|要转化为磁盘镜像的磁盘所在的路径|/var/lib/libvirt/test.qcow2|
+|  |  |  |  |  |
 **接口异常:**
 
 (1)在调用本方法抛出;
