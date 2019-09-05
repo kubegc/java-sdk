@@ -12,6 +12,7 @@ import java.util.Map;
 
 import com.alibaba.fastjson.JSON;
 import com.github.kubesys.interior.annotations.Function;
+import com.github.kubesys.interior.annotations.Parameter;
 import com.github.kubesys.interior.annotations.Parent;
 
 /**
@@ -150,6 +151,13 @@ public class APIDocGenerator {
 	public static void main(String[] args) throws Exception {
 		StringBuffer sb = new StringBuffer();
 		
+		sb.append("# 文档简介").append("\n\n")
+			.append("\t本文档用于说明基于Kubernetes的虚拟机生命周期如何管理, 项目地址：https://github.com/kubesys/kubeext-jdk.\n");
+		
+		sb.append("\t").append("本文有两种通用的约束:\n");
+		sb.append("\t\t -").append("名称：只允许小写字母和数字组合，8-32位\n");
+		sb.append("\t\t -").append("路径：必须是/xx/xx形式，且在/var/lib/libvirt目录下，xx允许小写字母、数字、中划线、下划线和点，8-32位\n\n\n");
+		
 		int i = 1; 
 		for (String classname : JSONGenerator.list) {
 			
@@ -186,11 +194,35 @@ public class APIDocGenerator {
 					sb.append("\t").append(classname).append(".").append(field.getType().getSimpleName()).append("\n\n");
 					
 					sb.append("**参数描述:**").append("\n\n");
+					sb.append("| name | type | required | description | exampe |").append("\n");
+					sb.append("| ----- | ------ | ------ | ------ | ------ |").append("\n");
+					
+					for(Field ff : field.getType().getDeclaredFields()) {
+						Parameter ffp = ff.getAnnotation(Parameter.class);
+						if (ffp == null) {
+							continue;
+						}
+						
+						sb.append("| ").append(ff.getName()).append("|")
+							.append(ff.getType().getSimpleName()).append("|")
+							.append(ffp.required()).append("|")
+							.append(ffp.description()).append("|")
+							.append(ffp.example()).append("|\n\n");
+					}
+					
 					
 					sb.append("**接口异常:**").append("\n\n");
-					sb.append("异常分为两类:(1)在调用本方法时因资源重名或不存在，或上一次操作未处理完导致;"
-							+ "(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况"
+					sb.append("(1)在调用本方法抛出;").append("\n\n");
+					
+					sb.append("| name  | description | ").append("\n");
+					sb.append("| ----- | ----- | ").append("\n");
+					sb.append("| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |").append("\n");
+					sb.append("| IllegalFormatException | 传递的参数不符合约束条件    |").append("\n");
+					sb.append("| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |").append("\n\n");
+					
+					sb.append("(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况"
 							+ "请查看" + field.getType().getSimpleName() + "spec下的status域，从message中获取详细异常信息").append("\n\n");
+					
 					sb.append("| name  | description | ").append("\n");
 					sb.append("| ----- | ----- | ").append("\n");
 					sb.append("| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |").append("\n");
