@@ -3,12 +3,7 @@
  */
 package com.github.kubesys.interior.generators;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.Map;
 
 import com.alibaba.fastjson.JSON;
 import com.github.kubesys.kubernetes.annotations.Function;
@@ -17,135 +12,12 @@ import com.github.kubesys.kubernetes.annotations.Parent;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
- * @since 2019/7/20
+ * 
+ * @version 1.2.0
+ * @since   2019/9/3
  *
  */
 public class APIDocGenerator {
-	
-//	protected final StringBuffer sb = new StringBuffer();
-//	
-//	protected final Map<String, String> cmds = new HashMap<String, String>();
-//
-//	protected final Map<String, String> ignores = new HashMap<String, String>();
-//	
-//	protected final Map<String, Map<String, String>> params = new HashMap<String, Map<String, String>>();
-//	
-//	protected final String CMD_CFG = "cmd/alias.cfg";
-//	
-//	protected final String PARAM_CFG = "cmd/paramResults";
-//	
-//	public APIDocGenerator() throws Exception {
-//		super();
-//		BufferedReader br = new BufferedReader(
-//				new FileReader(new File(CMD_CFG)));
-//		String line = null;
-//		String ignore = "";
-//		while ((line = br.readLine()) != null) {
-//			if (line.trim().length() == 0) {
-//				continue;
-//			}
-//			
-//			if (line.startsWith("[")) {
-//				ignore = line.substring(1, line.length() - 1);
-//				continue;
-//			}
-//			String[] values = line.split("=");
-//			cmds.put(values[1].trim(), values[0].trim());
-//			ignores.put(values[1].trim(), ignore);
-//		}
-//		br.close();
-//	}
-//
-//	public void genDoc() throws Exception {
-//		for (String cmd : cmds.keySet()) {
-//			sb.append("## **").append(cmds.get(cmd)).append("**\n\n");
-//			
-//			sb.append("参数:").append("\n\n");
-//			sb.append("| name | type | required | description | ").append("\n");
-//			sb.append("| ----- | ------ | ------ | ------ |").append("\n");
-//			Map<String, String> cmdParams = new HashMap<String, String>();
-//			genParams("[" + cmd + "]", cmdParams);
-//			params.put(cmds.get(cmd), cmdParams);
-//			
-//			sb.append("\n\nJava代码:").append("\n\n");
-//			
-//			sb.append("```").append("\n");
-//			sb.append("ExtendedKubernetesClient client = AbstractTest.getClient();").append("\n");
-//			sb.append(className(cmds.get(cmd)) + " cmd = new " + className(cmds.get(cmd)) + "();").append("\n");
-//			sb.append("{").append("\n");
-//			for(String name : params.get(cmds.get(cmd)).keySet()) {
-//				String type = params.get(cmds.get(cmd)).get(name).equals("String") ? "\"string\"" : "true";
-//				sb.append("\tcmd." + setMethod(name) + "(" + type + ");").append("\n");
-//			}
-//			sb.append("}").append("\n");
-//			sb.append("```").append("\n\n");
-//		}
-//	}
-//	
-//	protected void genParams(String key, Map<String,String> cmdParams) throws Exception {
-//		BufferedReader br = new BufferedReader(
-//				new FileReader(new File(PARAM_CFG)));
-//		String line = null;
-//		boolean ignore = true;
-//		while ((line = br.readLine()) != null) {
-//			if (line.trim().length() == 0) {
-//				continue;
-//			}
-//			
-//			if (line.startsWith("[vir")) {
-//				if (line.equals(key)) {
-//					ignore = false;
-//				} else {
-//					ignore = true;
-//				}
-//			} else {
-//				if (ignore) {
-//					continue;
-//				}
-//				
-//				sb.append("| ");
-//				
-//				String pname = line.split("\\s+")[0];
-//				String name = (pname.startsWith("[")) ?
-//						pname.substring(3, pname.length() - 1) :
-//							pname.substring(2, pname.length());
-//				
-//				sb.append(name).append(" | ");
-//				
-//				String type = (line.contains("<")) ? "String" : "Boolean";
-//				sb.append(type).append(" | ");
-//				
-//				cmdParams.put(name, type);
-//				
-//				String required = (line.startsWith("[")) ? "True" : "False";
-//				sb.append(required).append(" | ");
-//				
-//				int idx = line.indexOf(">");
-//				String desc = (idx == -1) ? 
-//						line.substring(name.length() + 3).trim() :
-//							line.substring(idx + 1).trim();
-//						
-//				sb.append(desc).append(" |").append("\n");
-//			}
-//			
-//		}
-//		br.close();
-//	}
-//	
-//	
-//	public StringBuffer getDoc() {
-//		return sb;
-//	}
-//
-//	protected static String setMethod(String name) {
-//		return "set" + name.substring(0, 1).toUpperCase()
-//							+ name.substring(1);
-//	}
-//	
-//	protected static String className(String name) {
-//		return name.substring(0, 1).toUpperCase()
-//							+ name.substring(1);
-//	}
 	
 	public static void main(String[] args) throws Exception {
 		
@@ -206,10 +78,6 @@ public class APIDocGenerator {
 					
 					sb.append("对象" + field.getName() + "参数说明:\n\n");
 					
-					if (field.getType().getDeclaredFields().length == 0) {
-						continue;
-					}
-					
 					sb.append("| name | type | required | description | exampe |").append("\n");
 					sb.append("| ----- | ------ | ------ | ------ | ------ |").append("\n");
 					
@@ -225,8 +93,7 @@ public class APIDocGenerator {
 							.append(ffp.description()).append("|")
 							.append(ffp.example()).append("|\n");
 					}
-					sb.append("\n");
-					
+					sb.append("|  |  |  |  |  |").append("\n\n");
 					
 					sb.append("**接口异常:**").append("\n\n");
 					sb.append("(1)在调用本方法抛出;").append("\n\n");

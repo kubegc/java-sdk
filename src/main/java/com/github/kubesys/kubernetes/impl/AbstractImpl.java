@@ -427,6 +427,4 @@ public abstract class AbstractImpl<R, S, T> {
 		return om;
 	}
 	
-
-	
 }
