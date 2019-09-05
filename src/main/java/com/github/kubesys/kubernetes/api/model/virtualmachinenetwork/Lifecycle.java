@@ -5,6 +5,9 @@ package com.github.kubesys.kubernetes.api.model.virtualmachinenetwork;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.github.kubesys.interior.annotations.Function;
+import com.github.kubesys.interior.annotations.Parent;
+import com.github.kubesys.kubernetes.ExtendedKubernetesConstants;
 
 /**
  * @author  wuheng@otcaix.iscas.ac.cn
@@ -15,10 +18,19 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
  **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+@Parent(value = "VirtualMachineNetwork", desc = "扩展支持OVN插件")
 public class Lifecycle {
 
+	@Function(shortName = "创建网络交换机", description = "创建网络交换机，" 
+			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
+		prerequisite = "", 
+		exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
 	protected CreateSwitch createSwitch;
 	
+	@Function(shortName = "删除网络交换机", description = "删除网络交换机，" 
+			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
+		prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VMN, 
+		exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
 	protected DeleteSwitch deleteSwitch;
 	
 	public CreateSwitch getCreateSwitch() {

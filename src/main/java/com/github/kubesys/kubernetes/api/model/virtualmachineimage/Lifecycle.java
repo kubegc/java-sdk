@@ -18,7 +18,7 @@ import com.github.kubesys.kubernetes.ExtendedKubernetesConstants;
  **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-@Parent(value = "VirtualMachineImage")
+@Parent(value = "VirtualMachineImage", desc = "虚拟机模板，包括CPU、内存、OS等信息")
 public class Lifecycle {
 
 	@Function(shortName = "创建虚拟机镜像", description = "创建虚拟机镜像，" 

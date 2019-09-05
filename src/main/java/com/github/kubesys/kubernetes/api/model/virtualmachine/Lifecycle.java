@@ -19,7 +19,7 @@ import com.github.kubesys.kubernetes.ExtendedKubernetesConstants;
  **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-@Parent(value = "VirtualMachine")
+@Parent(value = "VirtualMachine", desc = "虚拟机是指安装了OS的磁盘")
 public class Lifecycle {
 
 	@Function(shortName = "虚拟机内存扩容", description = "对虚拟机内存扩容，" 

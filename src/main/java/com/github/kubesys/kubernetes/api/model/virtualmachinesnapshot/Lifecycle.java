@@ -5,6 +5,9 @@ package com.github.kubesys.kubernetes.api.model.virtualmachinesnapshot;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.github.kubesys.interior.annotations.Function;
+import com.github.kubesys.interior.annotations.Parent;
+import com.github.kubesys.kubernetes.ExtendedKubernetesConstants;
 
 /**
  * @author  wuheng@otcaix.iscas.ac.cn
@@ -15,12 +18,25 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
  **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+@Parent(value = "VirtualMachineSnapshot", desc = "虚拟机/云盘快照")
 public class Lifecycle {
 
+	@Function(shortName = "删除虚拟机/云盘快照", description = "删除虚拟机/云盘快照，" 
+			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
+		prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VMSN, 
+		exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
 	protected DeleteSnapshot deleteSnapshot;
 
+	@Function(shortName = "创建虚拟机/云盘快照", description = "创建虚拟机/云盘快照，" 
+			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
+		prerequisite = "", 
+		exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
 	protected CreateSnapshot createSnapshot;
 	
+	@Function(shortName = "恢复成虚拟机/云盘", description = "恢复成虚拟机/云盘，" 
+			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
+		prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VMSN, 
+		exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
 	protected RevertVirtualMachine revertVirtualMachine;
 
 	public Lifecycle() {

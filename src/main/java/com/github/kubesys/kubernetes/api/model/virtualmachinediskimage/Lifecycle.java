@@ -18,7 +18,7 @@ import com.github.kubesys.kubernetes.ExtendedKubernetesConstants;
  **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-@Parent(value = "VirtualMachineDiskImage")
+@Parent(value = "VirtualMachineDiskImage", desc = "云盘模板，主要是指大小和文件格式等")
 public class Lifecycle {
 
 	@Function(shortName = "将云盘镜像转化为云盘", description = "将云盘镜像转化为云盘，" 

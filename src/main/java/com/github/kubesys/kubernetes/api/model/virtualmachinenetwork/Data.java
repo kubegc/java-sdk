@@ -180,6 +180,14 @@ public class Data {
 		public void setPort(List<Port> port) {
 			this.port = port;
 		}
+		
+		public List<Nat> getNat() {
+			return nat;
+		}
+
+		public void setNat(List<Nat> nat) {
+			this.nat = nat;
+		}
 
 		@JsonInclude(JsonInclude.Include.NON_NULL)
 		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
@@ -247,6 +255,46 @@ public class Data {
 
 			public Nat() {
 				super();
+			}
+
+			public String getName() {
+				return name;
+			}
+
+			public void setName(String name) {
+				this.name = name;
+			}
+
+			public String getExternalIP() {
+				return externalIP;
+			}
+
+			public void setExternalIP(String externalIP) {
+				this.externalIP = externalIP;
+			}
+
+			public String getLogicalIP() {
+				return logicalIP;
+			}
+
+			public void setLogicalIP(String logicalIP) {
+				this.logicalIP = logicalIP;
+			}
+
+			public String getType() {
+				return type;
+			}
+
+			public void setType(String type) {
+				this.type = type;
+			}
+
+			public String getGateway() {
+				return gateway;
+			}
+
+			public void setGateway(String gateway) {
+				this.gateway = gateway;
 			}
 
 		}

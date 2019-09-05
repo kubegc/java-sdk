@@ -34,6 +34,9 @@ public class JSONGenerator {
 	protected static void instance(Object obj) throws Exception {
 		Class<? extends Object> clazz = obj.getClass();
 		for (Field field : clazz.getDeclaredFields()) {
+			if (field.getModifiers() == 26) {
+				continue;
+			}
 			String typename = field.getType().getName();
 			Method m = clazz.getMethod(
 					setMethod(field.getName()), 

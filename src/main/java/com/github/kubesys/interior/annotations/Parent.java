@@ -27,4 +27,6 @@ import java.lang.annotation.Target;
 public @interface Parent {
 	
 	String value();
+	
+	String desc();
 }

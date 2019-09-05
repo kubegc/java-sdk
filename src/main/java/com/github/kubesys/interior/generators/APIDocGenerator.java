@@ -10,6 +10,7 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.alibaba.fastjson.JSON;
 import com.github.kubesys.interior.annotations.Function;
 import com.github.kubesys.interior.annotations.Parent;
 
@@ -161,14 +162,19 @@ public class APIDocGenerator {
 			sb.append("# ").append(i).append(" ")
 				.append(parent.value()).append("\n\n");
 			
+			sb.append(parent.desc() + "." + parent.value() + "所有操作的返回值一样，见[返回值]\n\n");
+			
 			int j = 1;
 			for (Field field : forName.getDeclaredFields()) {
 				Function function = field.getAnnotation(Function.class);
 				
-				sb.append("## ").append(i).append(".").append(j++).append(" ")
+				try {
+					sb.append("## ").append(i).append(".").append(j++).append(" ")
 						.append(field.getType().getSimpleName())
 						.append("(").append(function.shortName()).append(")").append("\n\n");
-				
+				} catch (Exception ex) {
+					System.out.println(ex);
+				}
 				if (function != null) {
 					sb.append("**接口功能:**").append("\n");
 					sb.append("\t").append(function.description()).append("\n\n");
@@ -193,6 +199,12 @@ public class APIDocGenerator {
 					sb.append("| Exception    | 后台代码异常退出    |").append("\n\n");
 				}
 			}
+			sb.append("## **返回值:**").append("\n\n");
+			sb.append("```").append("\n");
+			Object obj = Class.forName("com.github.kubesys.kubernetes.api.model." + parent.value()).newInstance();
+			JSONGenerator.instance(obj);
+			sb.append(JSON.toJSONString(obj, true)).append("\n");
+			sb.append("```").append("\n");
 			i++;
 		}
 		

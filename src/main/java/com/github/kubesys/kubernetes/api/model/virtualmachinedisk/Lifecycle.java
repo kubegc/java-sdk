@@ -18,7 +18,7 @@ import com.github.kubesys.kubernetes.ExtendedKubernetesConstants;
  **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-@Parent(value = "VirtualMachineDisk")
+@Parent(value = "VirtualMachineDisk", desc = "云盘是指未格式化的磁盘")
 public class Lifecycle {
 
 	@Function(shortName = "删除云盘", description = "删除云盘，" 
@@ -51,6 +51,10 @@ public class Lifecycle {
 		exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
 	protected ConvertDiskToDiskImage convertDiskToDiskImage;
 
+	@Function(shortName = "克隆云盘镜像", description = "克隆云盘镜像，" 
+			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
+		prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VMD, 
+		exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
 	protected CloneDisk cloneDisk;
 	
 	public ConvertDiskToDiskImage getConvertDiskToDiskImage() {
