@@ -3,17 +3,20 @@
  */
 package com.github.kubesys.kubernetes.api.model.virtualmachine;
 
+import javax.validation.constraints.Pattern;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.github.kubesys.kubernetes.annotations.Function;
 import com.github.kubesys.kubernetes.annotations.Parameter;
 import com.github.kubesys.kubernetes.annotations.Parent;
 import com.github.kubesys.kubernetes.utils.AnnotationUtils;
+import com.github.kubesys.kubernetes.utils.RegExpUtils;
 
 /**
  * @author  wuheng@otcaix.iscas.ac.cn
  * 
- * @version 1.0.0
+ * @version 1.2.0
  * @since   2019/9/4
  * 
  **/
@@ -416,6 +419,7 @@ public class Lifecycle {
 		protected Boolean live;
 		
 		@Parameter(required = true, description = "设备xml文件，可以是GPU、硬盘、网卡、光驱等", constraint= "文件路径", example = "/var/lib/libvirt/unplug.xml")
+		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
 		protected String file;
 
 		public UnplugDevice() {
@@ -481,9 +485,11 @@ public class Lifecycle {
 		protected Boolean live;
 
 		@Parameter(required = true, description = "虚拟机网络类型", constraint = AnnotationUtils.DESC_BRIDGE_DESC, example = "true")
+		@Pattern(regexp = RegExpUtils.SWITCH_TYPE_PATTERN)
 		protected String type;
 
 		@Parameter(required = true, description = "mac地址", constraint = "mac地址不能以fe开头", example = "7e:0c:b0:ef:6a:04")
+		@Pattern(regexp = RegExpUtils.MAC_PATTERN)
 		protected String mac;
 		
 		public void setCurrent(Boolean current) {
@@ -752,6 +758,7 @@ public class Lifecycle {
 		protected Boolean hotpluggable;
 
 		@Parameter(required = true, description = "vcpu数量", constraint = "1-99个", example = "16")
+		@Pattern(regexp = RegExpUtils.VCPU_PATTERN)
 		protected Integer count;
 
 		@Parameter(required = false, description = "修改虚拟机CPU状态", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
@@ -831,7 +838,6 @@ public class Lifecycle {
 		@Parameter(required = false, description = "立即生效，对于开机虚拟机", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean live;
 		
-		@Parameter(required = false, description = "立即生效，对于开机虚拟机", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected String iothread;
 
 		protected String cache;
@@ -841,6 +847,7 @@ public class Lifecycle {
 		protected String io;
 
 		@Parameter(required = true, description = "云盘源路径", constraint = "文件路径", example = "/var/lib/libvirt/images/test1.qcow2")
+		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
 		protected String source;
 
 		@Parameter(required = false, description = "虚拟的云盘总线类型，如果不填将根据target的取值自动匹配，例如vdX匹配为virtio类型的总线、sdX匹配为scsi类型的总线", constraint = "取值范围：ide, scsi, virtio, xen, usb, sata, sd", example = "virtio")
@@ -849,19 +856,23 @@ public class Lifecycle {
 		protected String type;
 
 		@Parameter(required = false, description = "云盘子驱动类型", constraint = "取值范围：qcow2, raw", example = "qcow2")
+		@Pattern(regexp = RegExpUtils.DISK_TYPE_PATTERN)
 		protected String subdriver;
 
 		protected Boolean multifunction;
 
 		@Parameter(required = true, description = "目标盘符，对应虚拟机内看到的盘符号", constraint = "取值范围：vdX, hdX, sdX", example = "vdc")
+		@Pattern(regexp = RegExpUtils.FDISK_TYPE_PATTERN)
 		protected String target;
 
 		protected String wwn;
 
 		@Parameter(required = false, description = "读写类型", constraint = "取值范围：readonly, shareable", example = "shareable")
+		@Pattern(regexp = RegExpUtils.DISK_MODE_PATTERN)
 		protected String mode;
 
 		@Parameter(required = false, description = "云盘驱动类型", constraint = "取值范围：qemu", example = "qemu")
+		@Pattern(regexp = RegExpUtils.DISK_DRIVER_PATTERN)
 		protected String driver;
 
 		protected String serial;
@@ -870,16 +881,20 @@ public class Lifecycle {
 
 		protected String sourcetype;
 		
-		@Parameter(required = false, description = "云盘读bps的QoS设置，单位为bytes", constraint = "0~1073741824", example = "1GiB: 1073741824")
+		@Parameter(required = false, description = "云盘读bps的QoS设置，单位为bytes", constraint = "0~9999999999", example = "1GiB: 1073741824")
+		@Pattern(regexp = RegExpUtils.DISK_QoS_PATTERN)
 		protected String read_bytes_sec;
 		
-		@Parameter(required = false, description = "云盘写bps的QoS设置，单位为bytes", constraint = "0~1073741824", example = "1GiB: 1073741824")
+		@Pattern(regexp = RegExpUtils.DISK_QoS_PATTERN)
+		@Parameter(required = false, description = "云盘写bps的QoS设置，单位为bytes", constraint = "0~9999999999", example = "1GiB: 1073741824")
 		protected String write_bytes_sec;
 		
-		@Parameter(required = false, description = "云盘读iops的QoS设置", constraint = "0~40000", example = "40000")
+		@Pattern(regexp = RegExpUtils.DISK_IOPS_PATTERN)
+		@Parameter(required = false, description = "云盘读iops的QoS设置", constraint = "0~99999", example = "40000")
 		protected String read_iops_sec;
 		
-		@Parameter(required = false, description = "云盘写iops的QoS设置", constraint = "0~40000", example = "40000")
+		@Pattern(regexp = RegExpUtils.DISK_IOPS_PATTERN)
+		@Parameter(required = false, description = "云盘写iops的QoS设置", constraint = "0~99999", example = "40000")
 		protected String write_iops_sec;
 
 		public PlugDisk() {
@@ -1088,6 +1103,7 @@ public class Lifecycle {
 		protected Boolean live;
 		
 		@Parameter(required = true, description = "设备xml文件，可以是GPU、硬盘、网卡、光驱等", constraint= "文件路径", example = "/var/lib/libvirt/unplug.xml")
+		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
 		protected String file;
 
 		public PlugDevice() {
@@ -1158,6 +1174,7 @@ public class Lifecycle {
 		protected Boolean live;
 
 		@Parameter(required = true, description = "设备的目标，即在虚拟机中fdisk -l看到的硬盘标记", constraint = AnnotationUtils.DESC_TARGET_DESC, example = "windows: hdb, Linux: vdb")
+		@Pattern(regexp = RegExpUtils.FDISK_TYPE_PATTERN)
 		protected String target;
 
 		public UnplugDisk() {
@@ -1255,7 +1272,8 @@ public class Lifecycle {
 
 		protected String container;
 
-		@Parameter(required = false, description = "用户生成虚拟机的元数据", constraint = "uuid=<UUID>", example = "uuid=950646e8-c17a-49d0-b83c-1c797811e001")
+		@Parameter(required = false, description = "用户生成虚拟机的元数据", constraint = "uuid=<UUID>，UUID是字符串类型，长度是12到36位，只允许数字、小写字母、中划线、以及圆点", example = "uuid=950646e8-c17a-49d0-b83c-1c797811e001")
+		@Pattern(regexp = RegExpUtils.UUID_PATTERN)
 		protected String metadata;
 
 		protected String livecd;
@@ -1264,7 +1282,8 @@ public class Lifecycle {
 
 		protected String channel;
 
-		@Parameter(required = true, description = "虚拟机VNC/SPICE及其密码", constraint = "取值范围：<vnc/spice,listen=0.0.0.0>,password=xxx（<必填>，选填）", example = "vnc,listen=0.0.0.0,password=abcdefg")
+		@Parameter(required = true, description = "虚拟机VNC/SPICE及其密码", constraint = "取值范围：<vnc/spice,listen=0.0.0.0>,password=xxx（<必填>，选填），密码为4-16位，是小写字母、数字和中划线组合", example = "vnc,listen=0.0.0.0,password=abcdefg")
+		@Pattern(regexp = RegExpUtils.GRAPHICS_PATTERN)
 		protected String graphics;
 
 		protected String autostart;
@@ -1307,13 +1326,15 @@ public class Lifecycle {
 				constraint = "硬盘的约束：/var/lib/libvirt/images/test3.qcow2,read_bytes_sec=1024000000,write_bytes_sec=1024000000，"
 						+ "光驱的约束：/opt/ISO/CentOS-7-x86_64-Minimal-1511.iso,device=cdrom,perms=ro，支持多个硬盘，第一个硬盘无需添加--disk，后续的需要", 
 						example = "/var/lib/libvirt/images/test3.qcow2,read_bytes_sec=1024000000,write_bytes_sec=1024000000 --disk /opt/ISO/CentOS-7-x86_64-Minimal-1511.iso,device=cdrom,perms=ro")
+		@Pattern(regexp = RegExpUtils.MUTI_DISKS_PATTERN)
 		protected String disk;
 
 		protected String memorybacking;
 
 		protected String dry_run;
 
-		@Parameter(required = true, description = "虚拟机内存大小，单位为MiB", constraint = "取值范围：100~10000", example = "2048")
+		@Parameter(required = true, description = "虚拟机内存大小，单位为MiB", constraint = "取值范围：100~99999", example = "2048")
+		@Pattern(regexp = RegExpUtils.RAM_PATTERN)
 		protected String memory;
 
 		protected String paravirt;
@@ -1325,6 +1346,7 @@ public class Lifecycle {
 				+ "source=源网桥（必填），inbound=网络输入带宽QoS限制，单位为KiB，outbound=网络输出带宽QoS限制，单位为KiB，"
 				+ "ip=IP地址（选填，只有type=l3bridge类型支持该参数），"
 				+ "switch=ovn交换机名称（选填，只有type=l3bridge类型支持该参数）", example = "type=l3bridge,source=br-int,inbound=102400,outbound=102400,ip=192.168.5.9,switch=switch")
+		@Pattern(regexp = RegExpUtils.NETWORK_TYPE_PATTERN)
 		protected String network;
 
 		protected String security;
@@ -1332,12 +1354,15 @@ public class Lifecycle {
 		protected String blkiotune;
 
 		@Parameter(required = false, description = "虚拟化类型", constraint = "取值范围：kvm, xen", example = "kvm")
+		@Pattern(regexp = RegExpUtils.VIRT_TYPE_PATTERN)
 		protected String virt_type;
 
 		protected String parallel;
 
 		protected String memtune;
 
+		@Parameter(required = false, description = "设置启动顺序", constraint = "hd|cdrom，分别表示硬盘和光驱启动", example = "hd")
+		@Pattern(regexp = RegExpUtils.BOOT_PATTERN)
 		protected String boot;
 
 		protected String initrd_inject;
@@ -1353,12 +1378,15 @@ public class Lifecycle {
 		protected String redirdev;
 
 		@Parameter(required = true, description = "操作系统类型，如果不设置可能发生鼠标偏移等问题", constraint = "参考https://tower.im/teams/616100/repository_documents/3550/", example = "centos7.0")
+		@Pattern(regexp = RegExpUtils.OS_PATTERN)
 		protected String os_variant;
 
 		@Parameter(required = true, description = "虚拟机CPU个数，及其物理CPU绑定关系", constraint = "0~99", example = "2,cpuset=1-4")
+		@Pattern(regexp = RegExpUtils.VCPUSET_PATTERN)
 		protected String vcpus;
 
 		@Parameter(required = false, description = "虚拟机挂载的光驱，重启失效", constraint = "文件路径", example = "/var/lib/libvirt/ISO/CentOS-7-x86_64-Minimal-1511.iso")
+		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
 		protected String cdrom;
 
 		protected String cputune;
@@ -1888,16 +1916,20 @@ public class Lifecycle {
 		@Parameter(required = false, description = "立即生效，对于开机虚拟机", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean live;
 		
-		@Parameter(required = false, description = "网络输入带宽QoS限制，单位为KiB，示例参考https://libvirt.org/formatnetwork.html#elementQoS", constraint = "0~10240000", example = "1000MiB: 1024000")
+		@Parameter(required = false, description = "网络输入带宽QoS限制，单位为KiB，示例参考https://libvirt.org/formatnetwork.html#elementQoS", constraint = "0~99999999", example = "1000MiB: 1024000")
+		@Pattern(regexp = RegExpUtils.NET_QoS_PATTERN)
 		protected String inbound;
 
 		@Parameter(required = true, description = "网络源设置", constraint = "source=源网桥（必填），ip=IP地址（选填，只有type=l3bridge类型支持该参数），switch=ovn交换机名称（选填，只有type=l3bridge类型支持该参数）", example = "source=br-int,ip=192.168.5.2,switch=switch")
+		@Pattern(regexp = RegExpUtils.IP_SWITCH_PATTERN)
 		protected String source;
 
 		@Parameter(required = true, description = "网络源类型设置", constraint = "取值范围：bridge（libvirt默认网桥virbr0）, l2bridge（ovs网桥）, l3bridge（支持ovn的ovs网桥）", example = "bridge")
+		@Pattern(regexp = RegExpUtils.SWITCH_TYPE_PATTERN)
 		protected String type;
 
 		@Parameter(required = true, description = "mac地址", constraint = "mac地址不能以fe开头", example = "7e:0c:b0:ef:6a:04")
+		@Pattern(regexp = RegExpUtils.MAC_PATTERN)
 		protected String mac;
 
 		protected String script;
@@ -1906,7 +1938,8 @@ public class Lifecycle {
 
 		protected Boolean managed;
 
-		@Parameter(required = false, description = "网络输出带宽QoS限制，单位为KiB，示例参考https://libvirt.org/formatnetwork.html#elementQoS", constraint = "0~10240000", example = "1000MiB: 1024000")
+		@Parameter(required = false, description = "网络输出带宽QoS限制，单位为KiB，示例参考https://libvirt.org/formatnetwork.html#elementQoS", constraint = "0~99999999", example = "1000MiB: 1024000")
+		@Pattern(regexp = RegExpUtils.NET_QoS_PATTERN)
 		protected String outbound;
 
 		protected String model;
@@ -2035,6 +2068,7 @@ public class Lifecycle {
 		protected Boolean live;
 		
 		@Parameter(required = true, description = "模板虚拟机的路径", constraint= "文件路径", example = "/var/lib/libvirt/target.iso")
+		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
 		protected String path;
 		
 		@Parameter(required = true, description = "弹出光驱，与--insert不可同时设置为true", constraint= AnnotationUtils.DESC_BOOLEAN, example = "true")
@@ -2135,9 +2169,11 @@ public class Lifecycle {
 	public static class UpdateOS {
 		
 		@Parameter(required = true, description = "需要被替换的虚拟机路径", constraint= "文件路径", example = "/var/lib/libvirt/source.xml")
+		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
 		protected String source;
 		
 		@Parameter(required = true, description = "模板虚拟机的路径", constraint= "文件路径", example = "/var/lib/libvirt/target.xml")
+		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
 		protected String target;
 
 		public UpdateOS() {

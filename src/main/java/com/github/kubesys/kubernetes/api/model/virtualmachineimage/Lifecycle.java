@@ -3,12 +3,15 @@
  */
 package com.github.kubesys.kubernetes.api.model.virtualmachineimage;
 
+import javax.validation.constraints.Pattern;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.github.kubesys.kubernetes.annotations.Function;
 import com.github.kubesys.kubernetes.annotations.Parameter;
 import com.github.kubesys.kubernetes.annotations.Parent;
 import com.github.kubesys.kubernetes.utils.AnnotationUtils;
+import com.github.kubesys.kubernetes.utils.RegExpUtils;
 
 /**
  * @author  wuheng@otcaix.iscas.ac.cn
@@ -73,6 +76,7 @@ public class Lifecycle {
 	public static class CreateImage {
 
 		@Parameter(required = true, description = "用于创建虚拟机镜像的源文件", constraint = "文件路径", example = "/var/lib/aaa.qcow2")
+		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
 		protected String disk;
 
 		public CreateImage() {

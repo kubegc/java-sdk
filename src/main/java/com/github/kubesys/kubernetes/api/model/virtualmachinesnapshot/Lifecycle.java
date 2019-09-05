@@ -3,12 +3,15 @@
  */
 package com.github.kubesys.kubernetes.api.model.virtualmachinesnapshot;
 
+import javax.validation.constraints.Pattern;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.github.kubesys.kubernetes.annotations.Function;
 import com.github.kubesys.kubernetes.annotations.Parameter;
 import com.github.kubesys.kubernetes.annotations.Parent;
 import com.github.kubesys.kubernetes.utils.AnnotationUtils;
+import com.github.kubesys.kubernetes.utils.RegExpUtils;
 
 /**
  * @author  wuheng@otcaix.iscas.ac.cn
@@ -91,6 +94,7 @@ public class Lifecycle {
 		protected Boolean atomic;
 
 		@Parameter(required = true, description = "要恢复到快照状态的虚拟机name", constraint = "已存在的虚拟机名", example = "vm1")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String domain;
 
 		protected Boolean live;
@@ -199,6 +203,7 @@ public class Lifecycle {
 		protected Boolean children_only;
 
 		@Parameter(required = true, description = "要删除快照的虚拟机名字", constraint = "由8-32位的数字和小写字母组成，已存在的虚拟机名", example = "vm1")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String domain;
 
 		public DeleteSnapshot() {
@@ -245,6 +250,7 @@ public class Lifecycle {
 	public static class RevertVirtualMachine {
 
 		@Parameter(required = true, description = "要恢复到快照状态的虚拟机name", constraint = "由8-32位的数字和小写字母组成，已存在的虚拟机名", example = "vm1")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String domain;
 
 		@Parameter(required = false, description = "恢复到快照的状态后，是否将虚拟机转换到开机状态", constraint=AnnotationUtils.DESC_BOOLEAN, example = "true")

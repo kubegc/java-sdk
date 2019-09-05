@@ -3,12 +3,15 @@
  */
 package com.github.kubesys.kubernetes.api.model.virtualmachinenetwork;
 
+import javax.validation.constraints.Pattern;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.github.kubesys.kubernetes.annotations.Function;
 import com.github.kubesys.kubernetes.annotations.Parameter;
 import com.github.kubesys.kubernetes.annotations.Parent;
 import com.github.kubesys.kubernetes.utils.AnnotationUtils;
+import com.github.kubesys.kubernetes.utils.RegExpUtils;
 
 /**
  * @author  wuheng@otcaix.iscas.ac.cn
@@ -54,7 +57,8 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class CreateSwitch {
 
-		@Parameter(required = true, description = "网段，这里后台只会做形式，不会做逻辑判断，只要符合xx.xx.xx.xx/x形式即可，请确保传入正确的数值", constraint = "网段和掩码", example = "192.168.5.1/24")
+		@Parameter(required = true, description = "网段，这里后台只会做形式，不会做逻辑判断，只要符合xx.xx.xx.xx/y形式即可，请确保传入正确的数值, y的取值必须是8,16,24之一", constraint = "网段和掩码", example = "192.168.5.1/24")
+		@Pattern(regexp = RegExpUtils.SUBNET_PATTERN)
 		protected String subnet;
 
 		public String getSubnet() {

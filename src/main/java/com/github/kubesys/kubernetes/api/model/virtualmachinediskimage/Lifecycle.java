@@ -3,12 +3,15 @@
  */
 package com.github.kubesys.kubernetes.api.model.virtualmachinediskimage;
 
+import javax.validation.constraints.Pattern;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.github.kubesys.kubernetes.annotations.Function;
 import com.github.kubesys.kubernetes.annotations.Parameter;
 import com.github.kubesys.kubernetes.annotations.Parent;
 import com.github.kubesys.kubernetes.utils.AnnotationUtils;
+import com.github.kubesys.kubernetes.utils.RegExpUtils;
 
 /**
  * @author  wuheng@otcaix.iscas.ac.cn
@@ -69,6 +72,7 @@ public class Lifecycle {
 	public static class ConvertDiskImageToDisk {
 
 		@Parameter(required = true, description = "转化的云盘所属的存储池名", constraint = "由8-32位的数字和小写字母组成，已创建出的存储池", example = "pool2")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String pool;
 
 		public String getPool() {
@@ -91,6 +95,7 @@ public class Lifecycle {
 	public static class CreateDiskImage {
 
 		@Parameter(required = true, description = "要转化为云盘镜像的云盘所在的路径", constraint = "文件路径", example = "/var/lib/libvirt/test.qcow2")
+		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
 		protected String source;
 
 		public String getSource() {

@@ -3,12 +3,15 @@
  */
 package com.github.kubesys.kubernetes.api.model.virtualmachinedisk;
 
+import javax.validation.constraints.Pattern;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.github.kubesys.kubernetes.annotations.Function;
 import com.github.kubesys.kubernetes.annotations.Parameter;
 import com.github.kubesys.kubernetes.annotations.Parent;
 import com.github.kubesys.kubernetes.utils.AnnotationUtils;
+import com.github.kubesys.kubernetes.utils.RegExpUtils;
 
 /**
  * @author  wuheng@otcaix.iscas.ac.cn
@@ -159,14 +162,17 @@ public class Lifecycle {
 		protected Boolean prealloc_metadata;
 
 		@Parameter(required = true, description = "云盘文件的类型", constraint = "raw,bochs,qcow,qcow2,qed,vmdk", example = "qcow2")
+		@Pattern(regexp = RegExpUtils.DISK_TYPE_PATTERN)
 		protected String format;
 
 		@Parameter(required = true, description = "创建云盘使用的存储池名", constraint = "已创建出的存储池", example = "pool2")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String pool;
 
 		protected String backing_vol;
 
-		@Parameter(required = true, description = "云盘空间大小", constraint = "1048576-104857600（单位：KiB）", example = "10485760")
+		@Parameter(required = true, description = "云盘空间大小", constraint = "10000000-999999999（单位：KiB）", example = "10485760")
+		@Pattern(regexp = RegExpUtils.DISK_SIZE_PATTERN)
 		protected String capacity;
 
 		public CreateDisk() {
@@ -267,14 +273,12 @@ public class Lifecycle {
 		protected Boolean delta;
 
 		@Parameter(required = true, description = "云盘所在的存储池名", constraint = "已创建出的存储池", example = "pool2")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String pool;
 
-		@Parameter(required = true, description = "扩容后的云盘空间大小", constraint = "1048576-104857600（单位：KiB），需要比以前的云盘空间大", example = "10485760")
+		@Parameter(required = true, description = "扩容后的云盘空间大小", constraint = "10000000-999999999（单位：KiB），需要比以前的云盘空间大", example = "10485760")
+		@Pattern(regexp = RegExpUtils.DISK_SIZE_PATTERN)
 		protected String capacity;
-
-		public ResizeDisk() {
-
-		}
 
 		public void setAllocate(Boolean allocate) {
 			this.allocate = allocate;
@@ -322,9 +326,11 @@ public class Lifecycle {
 	public static class CreateDiskFromDiskImage {
 
 		@Parameter(required = true, description = "创建云盘所在的存储池名", constraint = "由8-32位的数字和小写字母组成，已创建出的存储池", example = "pool2")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String pool;
 
-		@Parameter(required = true, description = "云盘镜像名", constraint = "由8-32位的数字和小写字母组成，已存在的云盘镜像名", example = "pool2")
+		@Parameter(required = true, description = "云盘镜像名", constraint = "由8-32位的数字和小写字母组成，已存在的云盘镜像名", example = "image2")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String image;
 
 		public String getImage() {
@@ -353,9 +359,11 @@ public class Lifecycle {
 		protected Boolean prealloc_metadata;
 
 		@Parameter(required = true, description = "云盘所在的存储池名", constraint = "由8-32位的数字和小写字母组成，已创建出的存储池", example = "pool2")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String pool;
 
 		@Parameter(required = true, description = "新云盘的名字", constraint = "由8-32位的数字和小写字母组成", example = "newdisk")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String newname;
 
 		public CloneDisk() {
@@ -401,6 +409,7 @@ public class Lifecycle {
 	public static class ConvertDiskToDiskImage {
 
 		@Parameter(required = true, description = "云盘所在的存储池名", constraint = "由8-32位的数字和小写字母组成，已创建出的存储池", example = "pool2")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String pool;
 
 		public String getPool() {
@@ -424,9 +433,11 @@ public class Lifecycle {
 	public static class CreateDiskSnapshot {
 		
 		@Parameter(required = true, description = "云盘所在的存储池名", constraint = "由8-32位的数字和小写字母组成，已创建出的存储池", example = "pool2")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String pool;
 		
 		@Parameter(required = true, description = "快照的名字", constraint = "由8-32位的数字和小写字母组成", example = "snap1")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String snapshotname;
 
 		public String getPool() {
@@ -452,9 +463,11 @@ public class Lifecycle {
 	public static class RevertDiskSnapshot {
 		
 		@Parameter(required = true, description = "云盘所在的存储池名", constraint = "由8-32位的数字和小写字母组成，已创建出的存储池", example = "pool2")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String pool;
 		
 		@Parameter(required = true, description = "快照的名字", constraint = "由8-32位的数字和小写字母组成", example = "snap1")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String snapshotname;
 
 		public String getPool() {
@@ -480,9 +493,11 @@ public class Lifecycle {
 	public static class DeleteDiskSnapshot {
 		
 		@Parameter(required = true, description = "云盘所在的存储池名", constraint = "由8-32位的数字和小写字母组成，已创建出的存储池", example = "pool2")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String pool;
 		
 		@Parameter(required = true, description = "快照的名字", constraint = "由8-32位的数字和小写字母组成", example = "snap1")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String snapshotname;
 
 		public String getPool() {

@@ -3,12 +3,15 @@
  */
 package com.github.kubesys.kubernetes.api.model.virtualmachinepool;
 
+import javax.validation.constraints.Pattern;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.github.kubesys.kubernetes.annotations.Function;
 import com.github.kubesys.kubernetes.annotations.Parameter;
 import com.github.kubesys.kubernetes.annotations.Parent;
 import com.github.kubesys.kubernetes.utils.AnnotationUtils;
+import com.github.kubesys.kubernetes.utils.RegExpUtils;
 
 /**
  * @author  wuheng@otcaix.iscas.ac.cn
@@ -143,7 +146,8 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class CreatePool {
 
-		@Parameter(required = true, description = "存储池的类型", constraint = "dir", example = "dir")
+		@Parameter(required = true, description = "存储池的类型", constraint = "只能是dir, fs, netfs, disk, iscsi, logical, scsi, mpath, rbd, sheepdog, gluster, zfs, vstorage, iscsi-direct之一", example = "dir")
+		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
 		protected String type;
 		
 		protected String source_host;
@@ -155,6 +159,7 @@ public class Lifecycle {
 		protected String source_name;
 
 		@Parameter(required = true, description = "创建存储池使用的存储路径", constraint = "完整有效的存储路径", example = "/var/lib/libvirt/poolg")
+		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
 		protected String target;
 		
 		protected String source_format;
