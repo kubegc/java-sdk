@@ -22,6 +22,18 @@ import com.github.kubesys.kubernetes.annotations.Parent;
 @Parent(value = "VirtualMachine", desc = "虚拟机是指安装了OS的磁盘")
 public class Lifecycle {
 
+	@Function(shortName = "通过ISO安装虚拟机", description = "通过光驱安装云OS，光驱必须存在" 
+			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
+	  prerequisite = "", 
+	  exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
+	protected CreateAndStartVMFromISO createAndStartVMFromISO;
+	
+	@Function(shortName = "通过镜像安装虚拟机", description = "通过虚拟机镜像VirtualMachineImage创建云OS" 
+			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
+	  prerequisite = "", 
+	  exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
+	protected CreateAndStartVMFromImage createAndStartVMFromImage;
+	
 	@Function(shortName = "虚拟机内存扩容", description = "对虚拟机内存扩容，" 
 					+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
 	  prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VM, 
@@ -111,18 +123,6 @@ public class Lifecycle {
 	  prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VM + "或StopVM，或StopVMForce", 
 	  exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
 	protected DeleteVM deleteVM;
-
-	@Function(shortName = "通过ISO安装虚拟机", description = "通过光驱安装云OS，光驱必须存在" 
-			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
-	  prerequisite = "", 
-	  exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
-	protected CreateAndStartVMFromISO createAndStartVMFromISO;
-	
-	@Function(shortName = "通过镜像安装虚拟机", description = "通过虚拟机镜像VirtualMachineImage创建云OS" 
-			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
-	  prerequisite = "", 
-	  exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
-	protected CreateAndStartVMFromImage createAndStartVMFromImage;
 
 	@Function(shortName = "虚拟机重启", description = "重启虚拟机，能否正常重新启动取决于虚拟机OS是否受损" 
 			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
@@ -840,23 +840,28 @@ public class Lifecycle {
 
 		protected String io;
 
-		@Parameter(required = false, description = "云盘源路径", constraint = "文件路径", example = "true")
+		@Parameter(required = true, description = "云盘源路径", constraint = "文件路径", example = "/var/lib/libvirt/images/test1.qcow2")
 		protected String source;
 
+		@Parameter(required = false, description = "虚拟的云盘总线类型，如果不填将根据target的取值自动匹配，例如vdX匹配为virtio类型的总线、sdX匹配为scsi类型的总线", constraint = "取值范围：ide, scsi, virtio, xen, usb, sata, sd", example = "virtio")
 		protected String targetbus;
 
 		protected String type;
 
+		@Parameter(required = false, description = "云盘子驱动类型", constraint = "取值范围：qcow2, raw", example = "qcow2")
 		protected String subdriver;
 
 		protected Boolean multifunction;
 
+		@Parameter(required = true, description = "目标盘符，对应虚拟机内看到的盘符号", constraint = "取值范围：vdX, hdX, sdX", example = "vdc")
 		protected String target;
 
 		protected String wwn;
 
+		@Parameter(required = false, description = "读写类型", constraint = "取值范围：readonly, shareable", example = "shareable")
 		protected String mode;
 
+		@Parameter(required = false, description = "云盘驱动类型", constraint = "取值范围：qemu", example = "qemu")
 		protected String driver;
 
 		protected String serial;
@@ -865,12 +870,16 @@ public class Lifecycle {
 
 		protected String sourcetype;
 		
+		@Parameter(required = false, description = "云盘读bps的QoS设置，单位为bytes", constraint = "0~1073741824", example = "1GiB: 1073741824")
 		protected String read_bytes_sec;
 		
+		@Parameter(required = false, description = "云盘写bps的QoS设置，单位为bytes", constraint = "0~1073741824", example = "1GiB: 1073741824")
 		protected String write_bytes_sec;
 		
+		@Parameter(required = false, description = "云盘读iops的QoS设置", constraint = "0~40000", example = "40000")
 		protected String read_iops_sec;
 		
+		@Parameter(required = false, description = "云盘写iops的QoS设置", constraint = "0~40000", example = "40000")
 		protected String write_iops_sec;
 
 		public PlugDisk() {
@@ -1246,6 +1255,7 @@ public class Lifecycle {
 
 		protected String container;
 
+		@Parameter(required = false, description = "用户生成虚拟机的元数据", constraint = "uuid=<UUID>", example = "uuid=950646e8-c17a-49d0-b83c-1c797811e001")
 		protected String metadata;
 
 		protected String livecd;
@@ -1254,6 +1264,7 @@ public class Lifecycle {
 
 		protected String channel;
 
+		@Parameter(required = true, description = "虚拟机VNC/SPICE及其密码", constraint = "取值范围：<vnc/spice,listen=0.0.0.0>,password=xxx（<必填>，选填）", example = "vnc,listen=0.0.0.0,password=abcdefg")
 		protected String graphics;
 
 		protected String autostart;
@@ -1292,24 +1303,35 @@ public class Lifecycle {
 
 		protected String input;
 
+		@Parameter(required = true, description = "虚拟机磁盘，包括硬盘和光驱", 
+				constraint = "硬盘的约束：/var/lib/libvirt/images/test3.qcow2,read_bytes_sec=1024000000,write_bytes_sec=1024000000，"
+						+ "光驱的约束：/opt/ISO/CentOS-7-x86_64-Minimal-1511.iso,device=cdrom,perms=ro，支持多个硬盘，第一个硬盘无需添加--disk，后续的需要", 
+						example = "/var/lib/libvirt/images/test3.qcow2,read_bytes_sec=1024000000,write_bytes_sec=1024000000 --disk /opt/ISO/CentOS-7-x86_64-Minimal-1511.iso,device=cdrom,perms=ro")
 		protected String disk;
 
 		protected String memorybacking;
 
 		protected String dry_run;
 
+		@Parameter(required = true, description = "虚拟机内存大小，单位为MiB", constraint = "取值范围：100~10000", example = "2048")
 		protected String memory;
 
 		protected String paravirt;
 
 		protected String memballoon;
 
+		@Parameter(required = true, description = "虚拟机网络", constraint = 
+				"type=bridge（libvirt默认网桥virbr0）/ l2bridge（ovs网桥）/ l3bridge（支持ovn的ovs网桥），"
+				+ "source=源网桥（必填），inbound=网络输入带宽QoS限制，单位为KiB，outbound=网络输出带宽QoS限制，单位为KiB，"
+				+ "ip=IP地址（选填，只有type=l3bridge类型支持该参数），"
+				+ "switch=ovn交换机名称（选填，只有type=l3bridge类型支持该参数）", example = "type=l3bridge,source=br-int,inbound=102400,outbound=102400,ip=192.168.5.9,switch=switch")
 		protected String network;
 
 		protected String security;
 
 		protected String blkiotune;
 
+		@Parameter(required = false, description = "虚拟化类型", constraint = "取值范围：kvm, xen", example = "kvm")
 		protected String virt_type;
 
 		protected String parallel;
@@ -1330,10 +1352,13 @@ public class Lifecycle {
 
 		protected String redirdev;
 
+		@Parameter(required = true, description = "操作系统类型，如果不设置可能发生鼠标偏移等问题", constraint = "参考https://tower.im/teams/616100/repository_documents/3550/", example = "centos7.0")
 		protected String os_variant;
 
+		@Parameter(required = true, description = "虚拟机CPU个数，及其物理CPU绑定关系", constraint = "0~99", example = "2,cpuset=1-4")
 		protected String vcpus;
 
+		@Parameter(required = false, description = "虚拟机挂载的光驱，重启失效", constraint = "文件路径", example = "/var/lib/libvirt/ISO/CentOS-7-x86_64-Minimal-1511.iso")
 		protected String cdrom;
 
 		protected String cputune;
@@ -1356,6 +1381,7 @@ public class Lifecycle {
 
 		protected String pm;
 		
+		@Parameter(required = true, description = "不自动连接到虚拟机终端，必须设置成true", constraint = "true", example = "true")
 		protected Boolean noautoconsole;
 		
 		protected Boolean _import;
@@ -1865,10 +1891,10 @@ public class Lifecycle {
 		@Parameter(required = false, description = "网络输入带宽QoS限制，单位为KiB，示例参考https://libvirt.org/formatnetwork.html#elementQoS", constraint = "0~10240000", example = "1000MiB: 1024000")
 		protected String inbound;
 
-		@Parameter(required = false, description = "网络源设置", constraint = "source=源网桥（必填），ip=IP地址（选填，只有type=l3bridge类型支持该参数），switch=ovn交换机名称（选填，只有type=l3bridge类型支持该参数）", example = "source=br-int,ip=192.168.5.2,switch=switch")
+		@Parameter(required = true, description = "网络源设置", constraint = "source=源网桥（必填），ip=IP地址（选填，只有type=l3bridge类型支持该参数），switch=ovn交换机名称（选填，只有type=l3bridge类型支持该参数）", example = "source=br-int,ip=192.168.5.2,switch=switch")
 		protected String source;
 
-		@Parameter(required = false, description = "网络源类型设置", constraint = "支持的类型：bridge（libvirt默认网桥virbr0）, l2bridge（ovs网桥）, l3bridge（支持ovn的ovs网桥）", example = "bridge")
+		@Parameter(required = true, description = "网络源类型设置", constraint = "取值范围：bridge（libvirt默认网桥virbr0）, l2bridge（ovs网桥）, l3bridge（支持ovn的ovs网桥）", example = "bridge")
 		protected String type;
 
 		@Parameter(required = true, description = "mac地址", constraint = "mac地址不能以fe开头", example = "7e:0c:b0:ef:6a:04")

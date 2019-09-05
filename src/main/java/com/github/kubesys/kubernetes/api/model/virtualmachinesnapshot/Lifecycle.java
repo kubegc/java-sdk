@@ -198,7 +198,7 @@ public class Lifecycle {
 
 		protected Boolean children_only;
 
-		@Parameter(required = true, description = "要删除快照的虚拟机name", constraint = "由8-32位的数字和小写字母组成，已存在的虚拟机名", example = "vm1")
+		@Parameter(required = true, description = "要删除快照的虚拟机名字", constraint = "由8-32位的数字和小写字母组成，已存在的虚拟机名", example = "vm1")
 		protected String domain;
 
 		public DeleteSnapshot() {

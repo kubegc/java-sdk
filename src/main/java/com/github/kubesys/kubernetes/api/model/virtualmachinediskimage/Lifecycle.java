@@ -68,7 +68,7 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class ConvertDiskImageToDisk {
 
-		@Parameter(required = true, description = "创建出的磁盘所使用的存储池名", constraint = "由8-32位的数字和小写字母组成，已创建出的存储池", example = "pool2")
+		@Parameter(required = true, description = "转化的云盘所属的存储池名", constraint = "由8-32位的数字和小写字母组成，已创建出的存储池", example = "pool2")
 		protected String pool;
 
 		public String getPool() {
@@ -90,7 +90,7 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class CreateDiskImage {
 
-		@Parameter(required = true, description = "要转化为磁盘镜像的磁盘所在的路径", constraint = "完整有效的路径", example = "/var/lib/libvirt/test.qcow2")
+		@Parameter(required = true, description = "要转化为云盘镜像的云盘所在的路径", constraint = "文件路径", example = "/var/lib/libvirt/test.qcow2")
 		protected String source;
 
 		public String getSource() {

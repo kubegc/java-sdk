@@ -19,7 +19,7 @@ import com.github.kubesys.kubernetes.annotations.Parent;
  **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-@Parent(value = "VirtualMachineDisk", desc = "云盘是指未格式化的磁盘")
+@Parent(value = "VirtualMachineDisk", desc = "云盘是指未格式化的云盘")
 public class Lifecycle {
 
 	@Function(shortName = "删除云盘", description = "删除云盘，" 
@@ -46,13 +46,13 @@ public class Lifecycle {
 		exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
 	protected CreateDiskFromDiskImage createDiskFromDiskImage;
 	
-	@Function(shortName = "保存为云盘镜像", description = "保存为云盘镜像，" 
+	@Function(shortName = "转化为云盘镜像", description = "转化为云盘镜像，" 
 			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
 		prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VMD, 
 		exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
 	protected ConvertDiskToDiskImage convertDiskToDiskImage;
 
-	@Function(shortName = "克隆云盘镜像", description = "克隆云盘镜像，" 
+	@Function(shortName = "克隆云盘", description = "克隆云盘，" 
 			+ ExtendedKubernetesConstants.DESC_FUNCTION_DESC, 
 		prerequisite = ExtendedKubernetesConstants.DESC_FUNCTION_VMD, 
 		exception = ExtendedKubernetesConstants.DESC_FUNCTION_EXEC)
@@ -116,15 +116,15 @@ public class Lifecycle {
 
 		protected Boolean prealloc_metadata;
 
-		@Parameter(required = true, description = "磁盘文件的类型", constraint = "raw,bochs,qcow,qcow2,qed,vmdk", example = "qcow2")
+		@Parameter(required = true, description = "云盘文件的类型", constraint = "raw,bochs,qcow,qcow2,qed,vmdk", example = "qcow2")
 		protected String format;
 
-		@Parameter(required = true, description = "创建磁盘使用的存储池名", constraint = "已创建出的存储池", example = "pool2")
+		@Parameter(required = true, description = "创建云盘使用的存储池名", constraint = "已创建出的存储池", example = "pool2")
 		protected String pool;
 
 		protected String backing_vol;
 
-		@Parameter(required = true, description = "磁盘空间大小", constraint = "1048576-104857600（单位：KiB）", example = "10485760")
+		@Parameter(required = true, description = "云盘空间大小", constraint = "1048576-104857600（单位：KiB）", example = "10485760")
 		protected String capacity;
 
 		public CreateDisk() {
@@ -194,7 +194,7 @@ public class Lifecycle {
 
 		protected Boolean delete_snapshots;
 
-		@Parameter(required = true, description = "磁盘所在的存储池名", constraint = "已创建出的存储池", example = "pool2")
+		@Parameter(required = true, description = "云盘所在的存储池名", constraint = "已创建出的存储池", example = "pool2")
 		protected String pool;
 
 		public void setDelete_snapshots(Boolean delete_snapshots) {
@@ -224,10 +224,10 @@ public class Lifecycle {
 
 		protected Boolean delta;
 
-		@Parameter(required = true, description = "磁盘所在的存储池名", constraint = "已创建出的存储池", example = "pool2")
+		@Parameter(required = true, description = "云盘所在的存储池名", constraint = "已创建出的存储池", example = "pool2")
 		protected String pool;
 
-		@Parameter(required = true, description = "扩容后的磁盘空间大小", constraint = "1048576-104857600（单位：KiB），需要比以前的磁盘空间大", example = "10485760")
+		@Parameter(required = true, description = "扩容后的云盘空间大小", constraint = "1048576-104857600（单位：KiB），需要比以前的云盘空间大", example = "10485760")
 		protected String capacity;
 
 		public ResizeDisk() {
@@ -279,10 +279,10 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class CreateDiskFromDiskImage {
 
-		@Parameter(required = true, description = "创建磁盘所在的存储池名", constraint = "由8-32位的数字和小写字母组成，已创建出的存储池", example = "pool2")
+		@Parameter(required = true, description = "创建云盘所在的存储池名", constraint = "由8-32位的数字和小写字母组成，已创建出的存储池", example = "pool2")
 		protected String pool;
 
-		@Parameter(required = true, description = "磁盘镜像名", constraint = "由8-32位的数字和小写字母组成，已存在的磁盘镜像名", example = "pool2")
+		@Parameter(required = true, description = "云盘镜像名", constraint = "由8-32位的数字和小写字母组成，已存在的云盘镜像名", example = "pool2")
 		protected String image;
 
 		public String getImage() {
@@ -310,10 +310,10 @@ public class Lifecycle {
 
 		protected Boolean prealloc_metadata;
 
-		@Parameter(required = true, description = "磁盘所在的存储池名", constraint = "由8-32位的数字和小写字母组成，已创建出的存储池", example = "pool2")
+		@Parameter(required = true, description = "云盘所在的存储池名", constraint = "由8-32位的数字和小写字母组成，已创建出的存储池", example = "pool2")
 		protected String pool;
 
-		@Parameter(required = true, description = "新磁盘的name", constraint = "由8-32位的数字和小写字母组成", example = "newdisk")
+		@Parameter(required = true, description = "新云盘的名字", constraint = "由8-32位的数字和小写字母组成", example = "newdisk")
 		protected String newname;
 
 		public CloneDisk() {
@@ -358,7 +358,7 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class ConvertDiskToDiskImage {
 
-		@Parameter(required = true, description = "磁盘所在的存储池名", constraint = "由8-32位的数字和小写字母组成，已创建出的存储池", example = "pool2")
+		@Parameter(required = true, description = "云盘所在的存储池名", constraint = "由8-32位的数字和小写字母组成，已创建出的存储池", example = "pool2")
 		protected String pool;
 
 		public String getPool() {

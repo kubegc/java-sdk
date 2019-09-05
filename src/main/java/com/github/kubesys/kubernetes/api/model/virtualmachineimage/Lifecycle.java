@@ -72,7 +72,7 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class CreateImage {
 
-		@Parameter(required = true, description = "存储镜像的磁盘", constraint = "有效完整的磁盘路径", example = "/var/lib/aaa.qcow2")
+		@Parameter(required = true, description = "用于创建虚拟机镜像的源文件", constraint = "文件路径", example = "/var/lib/aaa.qcow2")
 		protected String disk;
 
 		public CreateImage() {
