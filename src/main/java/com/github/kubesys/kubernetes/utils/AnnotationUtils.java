@@ -6,7 +6,7 @@ package com.github.kubesys.kubernetes.utils;
 /**
  * @author wuheng@otcaix.iscas.ac.cn
  * 
- * @version 1.0.0
+ * @version 1.2.0
  * @since   2019/9/3
  *
  */

@@ -4,7 +4,7 @@
 package com.github.kubesys.interior.generators;
 
 import com.github.kubesys.kubernetes.impl.AbstractImpl;
-import com.github.kubesys.kubernetes.impl.VirtualMachineDiskImageImpl;
+import com.github.kubesys.kubernetes.impl.VirtualMachineDiskImpl;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -39,6 +39,10 @@ public class ImplMethodGenerator {
 				
 				sb.append("\tpublic boolean " + cmd +"(String name, String nodeName," 
 						+ getClassName(cmd) + " " + cmd + ", String eventId) throws Exception {\n");
+				sb.append("\t\tPattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);\n");
+				sb.append("\t\tif (!pattern.matcher(name).matches()) {\n");
+				sb.append("\t\t\tthrow new IllegalArgumentException(\"the length must be between 8 and 43, and it can only includes a-z, 0-9 and -.\");\n");
+				sb.append("\t\t}\n");
 				sb.append("\t\treturn create(getModel(), createMetadata(name, nodeName, eventId), \r\n" + 
 						"				createSpec(nodeName, createLifecycle(" + cmd + ")));\n");
 				sb.append("\t}\n\n");
@@ -51,6 +55,10 @@ public class ImplMethodGenerator {
 	
 				sb.append("\tpublic boolean " + cmd +"(String name," 
 						+ getClassName(cmd) + " " + cmd + ", String eventId) throws Exception {\n");
+				sb.append("\t\tPattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);\n");
+				sb.append("\t\tif (!pattern.matcher(name).matches()) {\n");
+				sb.append("\t\t\tthrow new IllegalArgumentException(\"the length must be between 8 and 43, and it can only includes a-z, 0-9 and -.\");\n");
+				sb.append("\t\t}\n");
 				sb.append("\t\treturn delete(name, updateMetadata(name, eventId), " + cmd + ");\n");
 				sb.append("\t}\n\n");
 			} else {
@@ -61,6 +69,10 @@ public class ImplMethodGenerator {
 	
 				sb.append("\tpublic boolean " + cmd +"(String name," 
 						+ getClassName(cmd) + " " + cmd + ", String eventId) throws Exception {\n");
+				sb.append("\t\tPattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);\n");
+				sb.append("\t\tif (!pattern.matcher(name).matches()) {\n");
+				sb.append("\t\t\tthrow new IllegalArgumentException(\"the length must be between 8 and 43, and it can only includes a-z, 0-9 and -.\");\n");
+				sb.append("\t\t}\n");
 				sb.append("\t\treturn update(name, updateMetadata(name, eventId), " + cmd + ");\n");
 				sb.append("\t}\n\n");
 			}
@@ -69,13 +81,13 @@ public class ImplMethodGenerator {
 	}
 	
 	public static void main(String[] args) throws Exception {
-//		System.out.println(generate(new VirtualMachineDiskImpl()));
+		System.out.println(generate(new VirtualMachineDiskImpl()));
 //		System.out.println(generate(new VirtualMachineImpl()));
 //		System.out.println(generate(new VirtualMachinePoolImpl()));
 //		System.out.println(generate(new VirtualMachineImageImpl()));
 //		System.out.println(generate(new VirtualMachineSnapshotImpl()));
 //		System.out.println(generate(new VirtualMachineNetworkImpl()));
-		System.out.println(generate(new VirtualMachineDiskImageImpl()));
+//		System.out.println(generate(new VirtualMachineDiskImageImpl()));
 	}
 	
 	public static String getClassName(String name) {
