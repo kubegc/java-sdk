@@ -16,11 +16,11 @@ import com.github.kubesys.kubernetes.annotations.Variable;
  */
 public class RegExpUtils {
 
-	@Variable("名称是字符串类型，长度是8到32位，只允许数字、小写字母，以及中划线")
-	public static String NAME_PATTERN = "[a-z0-9-]{8, 32}";
+	@Variable("名称是字符串类型，长度是8到32位，只允许数字、小写字母、中划线、以及圆点")
+	public static String NAME_PATTERN = "[a-z0-9-/.]{8,32}";
 
 	public static void main(String[] args) {
-		String name = "";
+		String name = "abcdef.d";
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("");
