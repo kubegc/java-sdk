@@ -21,7 +21,7 @@ public class CreateAndStartFromISOTest {
 		CreateAndStartVMFromISO createAndStartVMFromISO = get();
 		// name
 		boolean successful = client.virtualMachines()
-				.createAndStartVMFromISO("950646e8c17a49d0b83c1c797811e045", "node30", createAndStartVMFromISO, "123");
+				.createAndStartVMFromISO("150646e8c17a49d0b83c1c797811e045", "vm.node30", createAndStartVMFromISO, "123");
 		System.out.println(successful);
 	}
 	
@@ -30,7 +30,7 @@ public class CreateAndStartFromISOTest {
 		
 		CreateAndStartVMFromISO createAndStartVMFromISO = new CreateAndStartVMFromISO();
 		// default value
-		createAndStartVMFromISO.setMetadata("uuid=950646e8-c17a-49d0-b83c-1c797811e045");
+		createAndStartVMFromISO.setMetadata("uuid=150646e8-c17a-49d0-b83c-1c797811e045");
 		createAndStartVMFromISO.setVirt_type("kvm"); 
 		// @see https://github.com/uit-plus/api/blob/master/src/main/java/com/github/uitplus/utils/OSDistroUtils.java
 		createAndStartVMFromISO.setOs_variant("centos7.0");
@@ -40,9 +40,9 @@ public class CreateAndStartFromISOTest {
 		calculationSpecification(createAndStartVMFromISO);  
 		
 		// cdrom
-		createAndStartVMFromISO.setCdrom("/opt/ISO/CentOS-7-x86_64-Minimal-1511.iso"); 
+		createAndStartVMFromISO.setCdrom("/var/lib/libvirt/iso/centos7-minimal-1511.iso"); 
 		// Disk and QoS for 1 disk and many disks
-		createAndStartVMFromISO.setDisk("size=10,read_bytes_sec=1024000000,write_bytes_sec=1024000000 --disk size=20,read_bytes_sec=1024000000,write_bytes_sec=1024000000 " + getOtherCDROMs());
+		createAndStartVMFromISO.setDisk("/var/lib/libvirt/images/abcdefgh,read_bytes_sec=1024000000,write_bytes_sec=1024000000 --disk /var/lib/libvirt/images/disk4abcdefgh,read_bytes_sec=1024000000,write_bytes_sec=1024000000 " + getOtherCDROMs());
 		
 		/*
 		 * libivrt default bridge
@@ -98,7 +98,10 @@ public class CreateAndStartFromISOTest {
 		 * 		switch name
 		 */
 		
-		createAndStartVMFromISO.setNetwork("type=l3bridge,source=br-int,inbound=102400,outbound=102400,ip=192.168.4.8,switch=ls1");  
+//		createAndStartVMFromISO.setNetwork("type=bridge,source=virbr0,inbound=102400,outbound=102400");
+//		createAndStartVMFromISO.setNetwork("type=l2bridge,source=br-native,inbound=102400,outbound=102400");
+//      if you want to use l3bridge, please first execute the command on your master node, 'kubeovn-adm create-switch --name switch8888 --subnet 192.168.5.0/24' 		
+		createAndStartVMFromISO.setNetwork("type=l3bridge,source=br-int,ip=192.168.5.8,switch=switch8888,inbound=102400,outbound=102400");  
 		
 		// consoleMode amd passowrd
 		createAndStartVMFromISO.setGraphics("vnc,listen=0.0.0.0" + getconsolePassword("123456"));
@@ -123,7 +126,7 @@ public class CreateAndStartFromISOTest {
 	}
 	
 	protected static String getOtherCDROMs() {
-		return "--disk /opt/ISO/CentOS-7-x86_64-Minimal-1511.iso,device=cdrom,perms=ro";
+		return "--disk /var/lib/libvirt/iso/centos7-minimal-1511.iso,device=cdrom,perms=ro";
 	}
 	
 	protected static String nameToUUID(String name) {

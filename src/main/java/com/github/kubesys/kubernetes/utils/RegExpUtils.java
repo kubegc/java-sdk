@@ -104,8 +104,8 @@ public class RegExpUtils {
 	public final static String BOOT_PATTERN = "hd|cdrom";
 	
 	public static void main(String[] args) {
-		String name = "4,cpuset=1-4,2,6";
-		Pattern pattern = Pattern.compile(RegExpUtils.VCPUSET_PATTERN);
+		String name = "type=l3bridge,source=l3bridge,ip=192.168.4.8,switch=switch8888,inbound=102400,outbound=102400";
+		Pattern pattern = Pattern.compile(RegExpUtils.NETWORK_TYPE_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("");
 		}
