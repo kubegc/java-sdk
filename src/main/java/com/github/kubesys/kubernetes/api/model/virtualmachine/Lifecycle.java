@@ -418,7 +418,7 @@ public class Lifecycle {
 		@Parameter(required = false, description = "立即生效，对于开机虚拟机", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean live;
 		
-		@Parameter(required = true, description = "设备xml文件，可以是GPU、硬盘、网卡、光驱等", constraint= "the length must be between 8 and 32, and it can only includes a-z, 0-9 and -.", example = "/var/lib/libvirt/unplug.xml")
+		@Parameter(required = true, description = "设备xml文件，可以是GPU、硬盘、网卡、光驱等", constraint= "路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点", example = "/var/lib/libvirt/unplug.xml")
 		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
 		protected String file;
 
@@ -846,7 +846,7 @@ public class Lifecycle {
 
 		protected String io;
 
-		@Parameter(required = true, description = "云盘源路径", constraint = "the length must be between 8 and 32, and it can only includes a-z, 0-9 and -.", example = "/var/lib/libvirt/images/test1.qcow2")
+		@Parameter(required = true, description = "云盘源路径", constraint = "路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点", example = "/var/lib/libvirt/images/test1.qcow2")
 		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
 		protected String source;
 
@@ -1102,7 +1102,7 @@ public class Lifecycle {
 		@Parameter(required = false, description = "立即生效，对于开机虚拟机", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean live;
 		
-		@Parameter(required = true, description = "设备xml文件，可以是GPU、硬盘、网卡、光驱等", constraint= "the length must be between 8 and 32, and it can only includes a-z, 0-9 and -.", example = "/var/lib/libvirt/unplug.xml")
+		@Parameter(required = true, description = "设备xml文件，可以是GPU、硬盘、网卡、光驱等", constraint= "路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点", example = "/var/lib/libvirt/unplug.xml")
 		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
 		protected String file;
 
@@ -1385,7 +1385,7 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.VCPUSET_PATTERN)
 		protected String vcpus;
 
-		@Parameter(required = false, description = "虚拟机挂载的光驱，重启失效", constraint = "the length must be between 8 and 32, and it can only includes a-z, 0-9 and -.", example = "/var/lib/libvirt/ISO/CentOS-7-x86_64-Minimal-1511.iso")
+		@Parameter(required = false, description = "虚拟机挂载的光驱，重启失效", constraint = "路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点", example = "/var/lib/libvirt/ISO/CentOS-7-x86_64-Minimal-1511.iso")
 		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
 		protected String cdrom;
 
@@ -2067,7 +2067,7 @@ public class Lifecycle {
 		@Parameter(required = false, description = "立即生效，对于开机虚拟机", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean live;
 		
-		@Parameter(required = true, description = "模板虚拟机的路径", constraint= "the length must be between 8 and 32, and it can only includes a-z, 0-9 and -.", example = "/var/lib/libvirt/target.iso")
+		@Parameter(required = true, description = "模板虚拟机的路径", constraint= "路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点", example = "/var/lib/libvirt/target.iso")
 		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
 		protected String path;
 		
@@ -2168,7 +2168,7 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class UpdateOS {
 		
-		@Parameter(required = true, description = "需要被替换的虚拟机路径", constraint= "the length must be between 8 and 32, and it can only includes a-z, 0-9 and -.", example = "/var/lib/libvirt/source.xml")
+		@Parameter(required = true, description = "需要被替换的虚拟机路径", constraint= "路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点", example = "/var/lib/libvirt/source.xml")
 		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
 		protected String source;
 		

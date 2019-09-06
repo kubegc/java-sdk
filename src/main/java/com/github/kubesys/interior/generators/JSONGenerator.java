@@ -21,13 +21,13 @@ public class JSONGenerator {
 	public final static List<String> list = new ArrayList<String>();
 	
 	static {
-//		list.add("com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle");
-//		list.add("com.github.kubesys.kubernetes.api.model.virtualmachinesnapshot.Lifecycle");
-//		list.add("com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle");
+		list.add("com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle");
+		list.add("com.github.kubesys.kubernetes.api.model.virtualmachineimage.Lifecycle");
+		list.add("com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle");
+		list.add("com.github.kubesys.kubernetes.api.model.virtualmachinediskimage.Lifecycle");
+		list.add("com.github.kubesys.kubernetes.api.model.virtualmachinesnapshot.Lifecycle");
+		list.add("com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle");
 		list.add("com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle");
-//		list.add("com.github.kubesys.kubernetes.api.model.virtualmachineimage.Lifecycle");
-//		list.add("com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle");
-//		list.add("com.github.kubesys.kubernetes.api.model.virtualmachinediskimage.Lifecycle");
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })

@@ -94,7 +94,7 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class CreateDiskImage {
 
-		@Parameter(required = true, description = "要转化为云盘镜像的云盘所在的路径", constraint = "the length must be between 8 and 32, and it can only includes a-z, 0-9 and -.", example = "/var/lib/libvirt/test.qcow2")
+		@Parameter(required = true, description = "要转化为云盘镜像的云盘所在的路径", constraint = "路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点", example = "/var/lib/libvirt/test.qcow2")
 		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
 		protected String source;
 

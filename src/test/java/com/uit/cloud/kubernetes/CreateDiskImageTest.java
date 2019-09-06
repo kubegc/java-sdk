@@ -20,7 +20,7 @@ public class CreateDiskImageTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineDiskImages()
-				.createDiskImage("t5", "vm.node30", get(), "abc");
+				.createDiskImage("tttttttt5", "vm.node30", get(), "abc");
 		System.out.println(successful);
 	}
 
