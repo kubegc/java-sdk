@@ -43,7 +43,7 @@ public class CreateAndStartSingleDiskWindowsFromISOTest {
 		// path /var/lib/libvirt/images/test11 can be get by CreateDiskTest
 		// windos use target=hda as boot disk.
 		createAndStartVMFromISO.setDisk("/var/lib/libvirt/templates/win7,target=hda,read_bytes_sec=1024000000,write_bytes_sec=1024000000");
-		createAndStartVMFromISO.setCdrom("/opt/ISO/cn_windows_7_ultimate_with_sp1_x64_dvd_u_677408.iso");
+		createAndStartVMFromISO.setCdrom("/var/lib/libvirt/iso/cn_windows_7_ultimate_with_sp1_x64_dvd_u_677408.iso");
 
 		/*
 		 * libivrt default bridge
@@ -99,7 +99,7 @@ public class CreateAndStartSingleDiskWindowsFromISOTest {
 		 * 		switch name
 		 */
 		
-		createAndStartVMFromISO.setNetwork("type=l3bridge,source=br-int,model=e1000,inbound=102400,outbound=102400,ip=192.168.5.9,switch=switch");  
+		createAndStartVMFromISO.setNetwork("type=l3bridge,source=br-int,ip=192.168.5.9,switch=switch,inbound=102400,outbound=102400,model=e1000");  
 		
 		// consoleMode amd passowrd
 		createAndStartVMFromISO.setGraphics("vnc,listen=0.0.0.0" + getconsolePassword("123456"));
@@ -121,10 +121,6 @@ public class CreateAndStartSingleDiskWindowsFromISOTest {
 	
 	protected static String getconsolePassword(String pwd) {
 		return (pwd == null || pwd.length() == 0) ? "" : ",password=abcdefg";
-	}
-	
-	protected static String getOtherCDROMs() {
-		return "--disk /opt/ISO/CentOS-7-x86_64-Minimal-1511.iso,device=cdrom,perms=ro";
 	}
 	
 	protected static String nameToUUID(String name) {

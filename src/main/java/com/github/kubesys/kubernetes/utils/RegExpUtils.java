@@ -98,13 +98,13 @@ public class RegExpUtils {
 	
 	//type=l3bridge,source=br-int,inbound=102400,outbound=102400,ip=192.168.5.9,switch=switch,mac
 	@Variable("高级网络设置，type, source和switch是必选项")
-	public final static String NETWORK_TYPE_PATTERN = "type=("+ SWITCH_TYPE_PATTERN +")," + IP_SWITCH_PATTERN + "(,inbound=" + NET_QoS_PATTERN +")?" + "(,outbound=" + NET_QoS_PATTERN +")?" + "(,mac=" + MAC_PATTERN +")?";
+	public final static String NETWORK_TYPE_PATTERN = "type=("+ SWITCH_TYPE_PATTERN +")," + IP_SWITCH_PATTERN + "(,inbound=" + NET_QoS_PATTERN +")?" + "(,outbound=" + NET_QoS_PATTERN +")?" + "(,model=e1000)?"+ "(,mac=" + MAC_PATTERN +")?";
 	
 	@Variable("设置虚拟机启动顺序，hd表示硬盘，cdrom表示光驱")
 	public final static String BOOT_PATTERN = "hd|cdrom";
 	
 	public static void main(String[] args) {
-		String name = "type=l3bridge,source=l3bridge,ip=192.168.4.8,switch=switch8888,inbound=102400,outbound=102400";
+		String name = "type=l3bridge,source=br-int,ip=192.168.4.8,switch=switch8888,inbound=102400,outbound=102400,mode=e1000";
 		Pattern pattern = Pattern.compile(RegExpUtils.NETWORK_TYPE_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("");

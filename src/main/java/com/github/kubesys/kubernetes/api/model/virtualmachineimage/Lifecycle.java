@@ -76,7 +76,7 @@ public class Lifecycle {
 	public static class CreateImage {
 
 		@Parameter(required = true, description = "用于创建虚拟机镜像的源文件", constraint = "路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点", example = "/var/lib/aaa.qcow2")
-		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
+		@Pattern(regexp = "("+RegExpUtils.PATH_PATTERN+")|("+RegExpUtils.SINGLE_CD_PATTERN + ")")
 		protected String disk;
 
 		public CreateImage() {
