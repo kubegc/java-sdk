@@ -25,7 +25,7 @@ import com.github.kubesys.kubernetes.utils.RegExpUtils;
 @Parent(value = "VirtualMachine", desc = "虚拟机是指安装了OS的磁盘")
 public class Lifecycle {
 
-	@Function(shortName = "通过ISO安装虚拟机", description = "通过光驱安装云OS，光驱必须存在" 
+	@Function(shortName = "通过ISO装虚拟机", description = "通过光驱安装云OS，光驱必须存在" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 	  prerequisite = "", 
 	  exception = AnnotationUtils.DESC_FUNCTION_EXEC)
