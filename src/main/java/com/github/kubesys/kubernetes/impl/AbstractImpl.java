@@ -399,10 +399,14 @@ public abstract class AbstractImpl<R, S, T> {
 			String fieldName = field.getName();
 			String method = "get" + fieldName.substring(0, 1)
 						.toUpperCase() + fieldName.substring(1);
-			String value = (String) operator.getClass()
+			Object value = operator.getClass()
 					.getMethod(method).invoke(operator);
 			
 			if (param.required() == false && value == null) {
+				continue;
+			}
+			
+			if (!(value instanceof String)) {
 				continue;
 			}
 			
@@ -415,7 +419,7 @@ public abstract class AbstractImpl<R, S, T> {
 			String regexp = pattern.regexp();
 			
 			java.util.regex.Pattern checker = java.util.regex.Pattern.compile(regexp);
-			if (!checker.matcher(value).matches()) {
+			if (!checker.matcher((String)value).matches()) {
 				throw new IllegalArgumentException(param.constraint());
 			}
 		}

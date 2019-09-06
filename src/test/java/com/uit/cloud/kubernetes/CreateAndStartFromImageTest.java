@@ -44,7 +44,7 @@ public class CreateAndStartFromImageTest {
 		// cdrom
 		createAndStartVMFromImage.setCdrom("/var/lib/libvirt/templates/centos7.qcow2");
 		// Disk and QoS for 1 disk and many disks
-		createAndStartVMFromImage.setDisk("ROOTDISK,read_bytes_sec=1024000000,write_bytes_sec=1024000000 --disk size=10,read_bytes_sec=1024000000,write_bytes_sec=1024000000");
+		createAndStartVMFromImage.setDisk("ROOTDISK=/var/lib/libvirt/images/650646e8,read_bytes_sec=1024000000,write_bytes_sec=1024000000 --disk size=10,read_bytes_sec=1024000000,write_bytes_sec=1024000000");
 		
 		/*
 		 * libivrt default bridge

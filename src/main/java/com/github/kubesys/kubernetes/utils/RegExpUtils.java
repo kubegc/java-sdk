@@ -16,8 +16,8 @@ import com.github.kubesys.kubernetes.annotations.Variable;
  */
 public class RegExpUtils {
 
-	@Variable("名称是字符串类型，长度是8到32位，只允许数字、小写字母、中划线、以及圆点")
-	public final static String NAME_PATTERN = "[a-z0-9-.]{8,32}";
+	@Variable("名称是字符串类型，长度是6到32位，只允许数字、小写字母、中划线、以及圆点")
+	public final static String NAME_PATTERN = "[a-z0-9-.]{6,32}";
 	
 	@Variable("UUID是字符串类型，长度是12到36位，只允许数字、小写字母、中划线、以及圆点")
 	public final static String UUID_PATTERN = "uuid=[a-z0-9-.]{12,36}";
@@ -59,8 +59,8 @@ public class RegExpUtils {
 	@Variable("磁盘IOPS，取值范围0-9999")
 	public final static String DISK_IOPS_PATTERN = "\\d{1,5}";
 	
-	@Variable("磁盘大小，单位是KiB，取值范围10000000-999999999")
-	public final static String DISK_SIZE_PATTERN = "\\d{8,10}";
+	@Variable("磁盘大小，单位是Bytes，取值范围10000000000-999999999999")
+	public final static String DISK_SIZE_PATTERN = "\\d{11,13}";
 	
 	@Variable("虚拟化类型，取值为kvm, xen之一")
 	public final static String VIRT_TYPE_PATTERN = "kvm|xen";
