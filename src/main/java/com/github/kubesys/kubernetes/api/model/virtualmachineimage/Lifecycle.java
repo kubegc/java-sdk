@@ -75,7 +75,7 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class CreateImage {
 
-		@Parameter(required = true, description = "用于创建虚拟机镜像的源文件", constraint = "文件路径", example = "/var/lib/aaa.qcow2")
+		@Parameter(required = true, description = "用于创建虚拟机镜像的源文件", constraint = "the length must be between 8 and 32, and it can only includes a-z, 0-9 and -.", example = "/var/lib/aaa.qcow2")
 		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
 		protected String disk;
 

@@ -37,6 +37,19 @@ public class Lifecycle {
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected DeleteSwitch deleteSwitch;
 	
+	
+	@Function(shortName = "绑定外网IP", description = "适用于虚拟IP和浮动IP场景，" 
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+		prerequisite = AnnotationUtils.DESC_FUNCTION_VMN, 
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected BindFip bindFip;
+	
+	@Function(shortName = "解绑定外网IP", description = "适用于虚拟IP和浮动IP场景，" 
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+		prerequisite = AnnotationUtils.DESC_FUNCTION_VMN, 
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected UnbindFip unbindFip;
+	
 	public CreateSwitch getCreateSwitch() {
 		return createSwitch;
 	}
@@ -51,6 +64,22 @@ public class Lifecycle {
 
 	public void setDeleteSwitch(DeleteSwitch deleteSwitch) {
 		this.deleteSwitch = deleteSwitch;
+	}
+
+	public BindFip getBindFip() {
+		return bindFip;
+	}
+
+	public void setBindFip(BindFip bindFip) {
+		this.bindFip = bindFip;
+	}
+
+	public UnbindFip getUnbindFip() {
+		return unbindFip;
+	}
+
+	public void setUnbindFip(UnbindFip unbindFip) {
+		this.unbindFip = unbindFip;
 	}
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
@@ -75,6 +104,54 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class DeleteSwitch {
 
+	}
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class BindFip {
+
+		@Parameter(required = true, description = "虚拟机mac地址", constraint = "mac地址不能以fe开头", example = "7e:0c:b0:ef:6a:04")
+		@Pattern(regexp = RegExpUtils.MAC_PATTERN)
+		protected String vmmac;
+		
+		@Parameter(required = true, description = "外网IP", constraint = "x.x.x.x,x取值范围0到255", example = "192.168.5.2")
+		@Pattern(regexp = RegExpUtils.IP_PATTERN)
+		protected String fip;
+
+		public String getVmmac() {
+			return vmmac;
+		}
+
+		public void setVmmac(String vmmac) {
+			this.vmmac = vmmac;
+		}
+
+		public String getFip() {
+			return fip;
+		}
+
+		public void setFip(String fip) {
+			this.fip = fip;
+		}
+		
+	}
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class UnbindFip {
+
+		@Parameter(required = true, description = "虚拟机mac地址", constraint = "mac地址不能以fe开头", example = "7e:0c:b0:ef:6a:04")
+		@Pattern(regexp = RegExpUtils.MAC_PATTERN)
+		protected String vmmac;
+
+		public String getVmmac() {
+			return vmmac;
+		}
+
+		public void setVmmac(String vmmac) {
+			this.vmmac = vmmac;
+		}
+		
 	}
 	
 }

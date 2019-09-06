@@ -9,8 +9,10 @@ import com.github.kubesys.kubernetes.api.model.VirtualMachineNetwork;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineNetworkList;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineNetworkSpec;
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle;
+import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.BindFip;
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.CreateSwitch;
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.DeleteSwitch;
+import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.UnbindFip;
 import com.github.kubesys.kubernetes.utils.RegExpUtils;
 
 /**
@@ -78,6 +80,30 @@ public class VirtualMachineNetworkImpl extends AbstractImpl<VirtualMachineNetwor
 			throw new IllegalArgumentException("the length must be between 8 and 32, and it can only includes a-z, 0-9 and -.");
 		}
 		return delete(name, updateMetadata(name, eventId), deleteSwitch);
+	}
+
+	public boolean bindFip(String name, BindFip bindFip) throws Exception {
+		return bindFip(name, bindFip, null);
+	}
+
+	public boolean bindFip(String name,BindFip bindFip, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 8 and 32, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), bindFip);
+	}
+
+	public boolean unbindFip(String name, UnbindFip unbindFip) throws Exception {
+		return unbindFip(name, unbindFip, null);
+	}
+
+	public boolean unbindFip(String name,UnbindFip unbindFip, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 8 and 32, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), unbindFip);
 	}
 
 }
