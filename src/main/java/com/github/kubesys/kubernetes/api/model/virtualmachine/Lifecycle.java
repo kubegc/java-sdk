@@ -1851,7 +1851,7 @@ public class Lifecycle {
 		public String getVcpus() {
 			return this.vcpus;
 		}
-
+		
 		public void setCdrom(String cdrom) {
 			this.cdrom = cdrom;
 		}

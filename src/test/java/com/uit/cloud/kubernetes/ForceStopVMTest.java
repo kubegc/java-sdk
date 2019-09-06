@@ -8,10 +8,12 @@ import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StopVMFo
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
- * @since  2019/7/15
+ * @author wuyuewen@otcaix.iscas.ac.cn
+ * @author liuhe@otcaix.iscas.ac.cn
+ * 
+ * @version 1.3.0
+ * @since   2019/9/3
  *
- * This code is used to manage CustomResource's lifecycle,
- * such as VirtualMachine
  */
 public class ForceStopVMTest {
 	
@@ -20,7 +22,7 @@ public class ForceStopVMTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.stopVMForce("150646e8c17a49d0b83c1c797811e045", new StopVMForce());
+				.stopVMForce("350646e8c17a49d0b83c1c797811e084", new StopVMForce());
 		System.out.println(successful);
 	}
 	

@@ -8,10 +8,12 @@ import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.Dele
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
- * @since  2019/7/18
+ * @author wuyuewen@otcaix.iscas.ac.cn
+ * @author liuhe@otcaix.iscas.ac.cn
+ * 
+ * @version 1.3.0
+ * @since   2019/9/3
  *
- * This code is used to manage CustomResource's lifecycle,
- * such as VirtualMachine
  */
 public class DeleteDiskSnapshotTest {
 	
@@ -20,14 +22,14 @@ public class DeleteDiskSnapshotTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineDisks()
-				.deleteDiskSnapshot("test1.qcow2", get(), "abc");
+				.deleteDiskSnapshot("disk4abcdefgh", get(), "abc");
 		System.out.println(successful);
 	}
 
 	protected static DeleteDiskSnapshot get() {
 		DeleteDiskSnapshot deleteDiskSnapshot = new DeleteDiskSnapshot();
 		deleteDiskSnapshot.setPool("default");
-		deleteDiskSnapshot.setSnapshotname("snap6");
+		deleteDiskSnapshot.setSnapshotname("snapshot1");
 		return deleteDiskSnapshot;
 	}
 }

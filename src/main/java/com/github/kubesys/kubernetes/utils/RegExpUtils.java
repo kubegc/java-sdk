@@ -89,12 +89,15 @@ public class RegExpUtils {
 	@Variable("单一磁盘，read_bytes_sec和write_bytes_sec是可选项")
 	public final static String SINGLE_DISK_PATTERN  = PATH_PATTERN + "(,target=hda)?" + "(,read_bytes_sec=" + DISK_QoS_PATTERN + ")?" + "(,write_bytes_sec=" + DISK_QoS_PATTERN + ")?";
 	
+	@Variable("单一模板文件，read_bytes_sec和write_bytes_sec是可选项")
+	public final static String SINGLE_IMAGE_PATTERN  = "ROOTDISK" + "(=" + PATH_PATTERN + ")?" + "(,target=hda)?" + "(,read_bytes_sec=" + DISK_QoS_PATTERN + ")?" + "(,write_bytes_sec=" + DISK_QoS_PATTERN + ")?";
+	
 	@Variable("单一光驱，必须设置成可读")
 	public final static String SINGLE_CD_PATTERN  = PATH_PATTERN + ",device=cdrom,perms=ro";
 	
 	///var/lib/libvirt/images/test3.qcow2,read_bytes_sec=1024000000,write_bytes_sec=1024000000 --disk /opt/ISO/CentOS-7-x86_64-Minimal-1511.iso,device=cdrom,perms=ro
 	@Variable("多个磁盘，必须以--disk进行连接")
-	public final static String MUTI_DISKS_PATTERN   = SINGLE_DISK_PATTERN + "( --disk (" + SINGLE_DISK_PATTERN +"|" + SINGLE_CD_PATTERN + "))*";
+	public final static String MUTI_DISKS_PATTERN   = SINGLE_DISK_PATTERN + "( --disk (" + SINGLE_DISK_PATTERN +"|" + SINGLE_CD_PATTERN + "|" + SINGLE_IMAGE_PATTERN + "))*";
 	
 	//type=l3bridge,source=br-int,inbound=102400,outbound=102400,ip=192.168.5.9,switch=switch,mac
 	@Variable("高级网络设置，type, source和switch是必选项")

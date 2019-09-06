@@ -4,15 +4,16 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
-import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CreateDisk;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CreateDiskSnapshot;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
- * @since  2019/7/18
+ * @author wuyuewen@otcaix.iscas.ac.cn
+ * @author liuhe@otcaix.iscas.ac.cn
+ * 
+ * @version 1.3.0
+ * @since   2019/9/3
  *
- * This code is used to manage CustomResource's lifecycle,
- * such as VirtualMachine
  */
 public class CreateDiskSnapshotTest {
 	
@@ -21,14 +22,14 @@ public class CreateDiskSnapshotTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineDisks()
-				.createDiskSnapshot("test1.qcow2", get(), "abc");
+				.createDiskSnapshot("disk4abcdefgh", get(), "abc");
 		System.out.println(successful);
 	}
 
 	protected static CreateDiskSnapshot get() {
 		CreateDiskSnapshot createDiskSnapshot = new CreateDiskSnapshot();
 		createDiskSnapshot.setPool("default");
-		createDiskSnapshot.setSnapshotname("snap6");
+		createDiskSnapshot.setSnapshotname("snapshot1");
 		return createDiskSnapshot;
 	}
 }

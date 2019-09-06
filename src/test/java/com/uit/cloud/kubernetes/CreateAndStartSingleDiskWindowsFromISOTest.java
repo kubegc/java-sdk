@@ -23,7 +23,7 @@ public class CreateAndStartSingleDiskWindowsFromISOTest {
 		CreateAndStartVMFromISO createAndStartVMFromISO = get();
 		// name
 		boolean successful = client.virtualMachines()
-				.createAndStartVMFromISO("250646e8c17a49d0b83c1c797811e001", "vm.node30", createAndStartVMFromISO, "123");
+				.createAndStartVMFromISO("250646e8c17a49d0b83c1c797811e002", "vm.node30", createAndStartVMFromISO, "123");
 		System.out.println(successful);
 	}
 	
@@ -32,7 +32,7 @@ public class CreateAndStartSingleDiskWindowsFromISOTest {
 		
 		CreateAndStartVMFromISO createAndStartVMFromISO = new CreateAndStartVMFromISO();
 		// default value
-		createAndStartVMFromISO.setMetadata("uuid=250646e8-c17a-49d0-b83c-1c797811e001");
+		createAndStartVMFromISO.setMetadata("uuid=250646e8-c17a-49d0-b83c-1c797811e002");
 		createAndStartVMFromISO.setVirt_type("kvm"); 
 		// @see https://github.com/uit-plus/api/blob/master/src/main/java/com/github/uitplus/utils/OSDistroUtils.java
 		createAndStartVMFromISO.setOs_variant("win7");
