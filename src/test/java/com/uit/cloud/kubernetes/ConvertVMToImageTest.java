@@ -20,7 +20,7 @@ public class ConvertVMToImageTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.convertVMToImage("950646e8c17a49d0b83c1c797811e002", new ConvertVMToImage(), "123");
+				.convertVMToImage("350646e8c17a49d0b83c1c797811e084", new ConvertVMToImage(), "123");
 		System.out.println(successful);
 	}
 }

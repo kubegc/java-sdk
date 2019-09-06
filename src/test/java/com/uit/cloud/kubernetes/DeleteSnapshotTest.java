@@ -20,14 +20,14 @@ public class DeleteSnapshotTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineSnapshots()
-				.deleteSnapshot("hello13", getDeleteSnapshot());
+				.deleteSnapshot("hello131212", getDeleteSnapshot());
 		System.out.println(successful);
 	}
 
 	protected static DeleteSnapshot getDeleteSnapshot() {
 		DeleteSnapshot deleteSnapshot = new DeleteSnapshot();
 		// domain name
-		deleteSnapshot.setDomain("950646e8c17a49d0b83c1c797811e001");
+		deleteSnapshot.setDomain("350646e8c17a49d0b83c1c797811e084");
 		return deleteSnapshot;
 	}
 	

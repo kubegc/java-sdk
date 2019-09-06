@@ -20,13 +20,13 @@ public class DeleteVMPoolTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachinePools()
-				.deletePool("poolf", getPool());
+				.deletePool("poolabcd", getPool());
 		System.out.println(successful);
 	}
 
 	protected static Lifecycle.DeletePool getPool() {
-		Lifecycle.DeletePool createPool = new Lifecycle.DeletePool();
-		return createPool;
+		Lifecycle.DeletePool deletePool = new Lifecycle.DeletePool();
+		return deletePool;
 	}
 	
 }

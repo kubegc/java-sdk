@@ -20,14 +20,14 @@ public class CreateSnapshotTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineSnapshots()
-				.createSnapshot("hello13", "vm.node30", getCreateSnapshot());
+				.createSnapshot("hello131212", "vm.node30", getCreateSnapshot());
 		System.out.println(successful);
 	}
 
 	protected static CreateSnapshot getCreateSnapshot() {
 		CreateSnapshot createSnapshot = new CreateSnapshot();
 		// domain name
-		createSnapshot.setDomain("950646e8c17a49d0b83c1c797811e001");
+		createSnapshot.setDomain("350646e8c17a49d0b83c1c797811e084");
 		return createSnapshot;
 	}
 	
