@@ -12,8 +12,11 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.validation.constraints.Pattern;
+
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
 import com.github.kubesys.kubernetes.ExtendedKubernetesConstants;
+import com.github.kubesys.kubernetes.annotations.Parameter;
 import com.github.kubesys.kubernetes.api.model.ExtendedCustomResourceDefinitionSpec;
 
 import io.fabric8.kubernetes.api.model.HasMetadata;
@@ -369,8 +372,9 @@ public abstract class AbstractImpl<R, S, T> {
 			Method setNode = t.getClass().getMethod("setNodeName", String.class);
 			setNode.invoke(t, nodeName);
 		}
-		
+
 		// t.setLifecycle(lifecycle)
+		
 		Method setLifecycle = t.getClass().getMethod("setLifecycle", lifecycle.getClass());
 		setLifecycle.invoke(t, lifecycle);
 		
@@ -383,6 +387,39 @@ public abstract class AbstractImpl<R, S, T> {
 	 * @throws Exception             exception
 	 */
 	public Object createLifecycle(Object operator) throws Exception {
+		
+		// JSR 303
+		for (Field field : operator.getClass().getDeclaredFields()) {
+			Parameter param = field.getAnnotation(Parameter.class);
+			if (param == null) {
+				continue;
+			}
+			
+			
+			String fieldName = field.getName();
+			String method = "get" + fieldName.substring(0, 1)
+						.toUpperCase() + fieldName.substring(1);
+			String value = (String) operator.getClass()
+					.getMethod(method).invoke(operator);
+			
+			if (param.required() == false && value == null) {
+				continue;
+			}
+			
+			Pattern pattern = field.getAnnotation(Pattern.class);
+			
+			if (pattern == null || pattern.regexp() == null) {
+				continue;
+			}
+			
+			String regexp = pattern.regexp();
+			
+			java.util.regex.Pattern checker = java.util.regex.Pattern.compile(regexp);
+			if (!checker.matcher(value).matches()) {
+				throw new IllegalArgumentException(param.constraint());
+			}
+		}
+		
 		Object lifecycle = getLifecycle();
 		String name = "set" + operator.getClass().getSimpleName();
 		Method setOperator = lifecycle.getClass().getMethod(name, operator.getClass());

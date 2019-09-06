@@ -22,7 +22,6 @@ import io.fabric8.kubernetes.api.model.KubernetesResource;
  * VirtualMachineImage, VirtualMachineSnapshot, VirtualMachineNetwork
  * 
  */
-@SuppressWarnings("rawtypes")
 @JsonDeserialize(using = JsonDeserializer.None.class)
 public class VirtualMachineSpec extends ExtendedCustomResourceDefinitionSpec implements KubernetesResource {
 
