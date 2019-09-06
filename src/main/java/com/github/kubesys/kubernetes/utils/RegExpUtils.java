@@ -87,14 +87,14 @@ public class RegExpUtils {
 	public final static String GRAPHICS_PATTERN     = "(vnc|spice),listen=0.0.0.0(,password=([a-z0-9-.]{4,16}))?";
 	
 	@Variable("单一磁盘，read_bytes_sec和write_bytes_sec是可选项")
-	public final static String SINGLE_DISK_PATTERN  = PATH_PATTERN + "(,read_bytes_sec= " + DISK_QoS_PATTERN + ")?" + "(,write_bytes_sec= " + DISK_QoS_PATTERN + ")?";
+	public final static String SINGLE_DISK_PATTERN  = PATH_PATTERN + "(,read_bytes_sec=" + DISK_QoS_PATTERN + ")?" + "(,write_bytes_sec=" + DISK_QoS_PATTERN + ")?";
 	
 	@Variable("单一光驱，必须设置成可读")
 	public final static String SINGLE_CD_PATTERN  = PATH_PATTERN + ",device=cdrom,perms=ro";
 	
-	//var/lib/libvirt/images/test3.qcow2,read_bytes_sec=1024000000,write_bytes_sec=1024000000 --disk /opt/ISO/CentOS-7-x86_64-Minimal-1511.iso,device=cdrom,perms=ro
+	///var/lib/libvirt/images/test3.qcow2,read_bytes_sec=1024000000,write_bytes_sec=1024000000 --disk /opt/ISO/CentOS-7-x86_64-Minimal-1511.iso,device=cdrom,perms=ro
 	@Variable("多个磁盘，必须以--disk进行连接")
-	public final static String MUTI_DISKS_PATTERN   = SINGLE_DISK_PATTERN + "( --disk (" + SINGLE_DISK_PATTERN +"| " + SINGLE_CD_PATTERN + "))*";
+	public final static String MUTI_DISKS_PATTERN   = SINGLE_DISK_PATTERN + "( --disk (" + SINGLE_DISK_PATTERN +"|" + SINGLE_CD_PATTERN + "))*";
 	
 	//type=l3bridge,source=br-int,inbound=102400,outbound=102400,ip=192.168.5.9,switch=switch,mac
 	@Variable("高级网络设置，type, source和switch是必选项")
@@ -104,8 +104,8 @@ public class RegExpUtils {
 	public final static String BOOT_PATTERN = "hd|cdrom";
 	
 	public static void main(String[] args) {
-		String name = "/var/lib/libvir/a";
-		Pattern pattern = Pattern.compile(RegExpUtils.PATH_PATTERN);
+		String name = "/var/lib/libvirt/images/test3.qcow2,read_bytes_sec=1024000000,write_bytes_sec=1024000000 --disk /var/lib/libvirt/iso/centos-7-x86-64-minimal-1511.iso,device=cdrom,perms=ro";
+		Pattern pattern = Pattern.compile(RegExpUtils.MUTI_DISKS_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("");
 		}
