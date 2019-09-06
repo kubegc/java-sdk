@@ -425,7 +425,7 @@ public abstract class AbstractImpl<R, S, T> {
 			
 			java.util.regex.Pattern checker = java.util.regex.Pattern.compile(regexp);
 			if (!checker.matcher((String)value).matches()) {
-				throw new IllegalArgumentException(param.constraint());
+				throw new IllegalArgumentException(param.constraint() + ", constraint is: " + regexp);
 			}
 		}
 		

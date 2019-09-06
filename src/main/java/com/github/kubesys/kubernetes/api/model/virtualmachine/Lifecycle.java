@@ -374,7 +374,21 @@ public class Lifecycle {
 		this.ejectISO = ejectISO;
 	}
 
+	public ResizeVM getResizeVM() {
+		return resizeVM;
+	}
 
+	public void setResizeVM(ResizeVM resizeVM) {
+		this.resizeVM = resizeVM;
+	}
+
+	public CloneVM getCloneVM() {
+		return cloneVM;
+	}
+
+	public void setCloneVM(CloneVM cloneVM) {
+		this.cloneVM = cloneVM;
+	}
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)

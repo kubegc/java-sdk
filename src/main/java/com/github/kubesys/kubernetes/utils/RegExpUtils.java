@@ -32,7 +32,7 @@ public class RegExpUtils {
 	public final static String MAC_PATTERN  = "[a-eg-z0-9][a-z0-9]|f[a-df-z0-9](:[a-z0-9]{2}){5}";
 	
 	@Variable("vcpu个数，1到99之间")
-	public final static String VCPU_PATTERN = "[1-9]\\d{1}";
+	public final static String VCPU_PATTERN = "\\d{1,2}";
 	
 	@Variable("ram容量，单位MiB，100到99999之间")
 	public final static String RAM_PATTERN = "\\d{3,5}";
@@ -104,8 +104,8 @@ public class RegExpUtils {
 	public final static String BOOT_PATTERN = "hd|cdrom";
 	
 	public static void main(String[] args) {
-		String name = "/var/lib/libvirt/images/test3.qcow2,read_bytes_sec=1024000000,write_bytes_sec=1024000000 --disk /var/lib/libvirt/iso/centos-7-x86-64-minimal-1511.iso,device=cdrom,perms=ro";
-		Pattern pattern = Pattern.compile(RegExpUtils.MUTI_DISKS_PATTERN);
+		String name = "4,cpuset=1-4,2,6";
+		Pattern pattern = Pattern.compile(RegExpUtils.VCPUSET_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("");
 		}
