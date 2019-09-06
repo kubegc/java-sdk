@@ -21,7 +21,7 @@ public class CreateAndStartSingleDiskFromISOTest {
 		CreateAndStartVMFromISO createAndStartVMFromISO = get();
 		// name
 		boolean successful = client.virtualMachines()
-				.createAndStartVMFromISO("950646e8c17a49d0b83c1c797811e001", "vm.node30", createAndStartVMFromISO, "123");
+				.createAndStartVMFromISO("950646e8c17a49d0b83c1c797811e001", "vm.node30", createAndStartVMFromISO, "01");
 		System.out.println(successful);
 	}
 	
@@ -41,7 +41,7 @@ public class CreateAndStartSingleDiskFromISOTest {
 		
 		// Disk and QoS for 1 disk and many disks
 		// path /var/lib/libvirt/images/test11 can be get by CreateDiskTest
-		createAndStartVMFromISO.setDisk("/var/lib/libvirt/images/test3.qcow2,read_bytes_sec=1024000000,write_bytes_sec=1024000000");
+		createAndStartVMFromISO.setDisk("/var/lib/libvirt/images/950646e8c17a49d0b83c1c797811e001,read_bytes_sec=1024000000,write_bytes_sec=1024000000");
 		createAndStartVMFromISO.setCdrom("/opt/ISO/CentOS-7-x86_64-Minimal-1511.iso");
 
 		/*
@@ -59,7 +59,7 @@ public class CreateAndStartSingleDiskFromISOTest {
 		 * 		if no mac, create a random mac
 		 * 		Note! Mac address is unique and does not support a value that start with "fe:" (e.g. fe:54:00:05:37:b3)
 		 */
-//		createAndStartVMFromISO.setNetwork("type=bridge,source=virbr0,inbound=102400,outbound=102400");
+		createAndStartVMFromISO.setNetwork("type=bridge,source=virbr0,inbound=102400,outbound=102400");
 		
 		/*
 		 * l2 network example
@@ -98,7 +98,7 @@ public class CreateAndStartSingleDiskFromISOTest {
 		 * 		switch name
 		 */
 		
-		createAndStartVMFromISO.setNetwork("type=l3bridge,source=br-int,inbound=102400,outbound=102400,ip=192.168.5.9,switch=switch");  
+//		createAndStartVMFromISO.setNetwork("type=l3bridge,source=br-int,inbound=102400,outbound=102400,ip=192.168.5.9,switch=switch");  
 		
 		// consoleMode amd passowrd
 		createAndStartVMFromISO.setGraphics("vnc,listen=0.0.0.0" + getconsolePassword("123456"));
