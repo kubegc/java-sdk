@@ -4,7 +4,7 @@
 package com.github.kubesys.interior.generators;
 
 import com.github.kubesys.kubernetes.impl.AbstractImpl;
-import com.github.kubesys.kubernetes.impl.VirtualMachineNetworkImpl;
+import com.github.kubesys.kubernetes.impl.VirtualMachineImpl;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -82,11 +82,11 @@ public class ImplMethodGenerator {
 	
 	public static void main(String[] args) throws Exception {
 //		System.out.println(generate(new VirtualMachineDiskImpl()));
-//		System.out.println(generate(new VirtualMachineImpl()));
+		System.out.println(generate(new VirtualMachineImpl()));
 //		System.out.println(generate(new VirtualMachinePoolImpl()));
 //		System.out.println(generate(new VirtualMachineImageImpl()));
 //		System.out.println(generate(new VirtualMachineSnapshotImpl()));
-		System.out.println(generate(new VirtualMachineNetworkImpl()));
+//		System.out.println(generate(new VirtualMachineNetworkImpl()));
 //		System.out.println(generate(new VirtualMachineDiskImageImpl()));
 	}
 	

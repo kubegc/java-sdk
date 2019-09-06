@@ -18,6 +18,8 @@ import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
 import com.github.kubesys.kubernetes.ExtendedKubernetesConstants;
 import com.github.kubesys.kubernetes.annotations.Parameter;
 import com.github.kubesys.kubernetes.api.model.ExtendedCustomResourceDefinitionSpec;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ResetVM;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StopVMForce;
 
 import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.api.model.ObjectMeta;
@@ -305,10 +307,13 @@ public abstract class AbstractImpl<R, S, T> {
 		}
 		
 		T t = getSpec(r);
-		Method glf = t.getClass().getMethod("getLifecycle");
-		Object gva = glf.invoke(t);
-		if (gva != null) {
-			throw new RuntimeException(type + " " + name + " is now under processing");
+		if (!operator.getClass().getSimpleName().equals(StopVMForce.class.getSimpleName())
+				&& !operator.getClass().getSimpleName().equals(ResetVM.class.getSimpleName())) {
+			Method glf = t.getClass().getMethod("getLifecycle");
+			Object gva = glf.invoke(t);
+			if (gva != null) {
+				throw new RuntimeException(type + " " + name + " is now under processing");
+			}
 		}
 		
 		Object lifecycle = createLifecycle(operator);

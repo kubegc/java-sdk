@@ -157,10 +157,30 @@ public class Lifecycle {
 	  exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected ConvertVMToImage convertVMToImage;
 	
-	public Lifecycle() {
-
-	}
-
+	@Function(shortName = "插入光驱", description = "插入" 
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+	  prerequisite = AnnotationUtils.DESC_FUNCTION_VM + "或plugDevice", 
+	  exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected InsertISO insertISO;
+	
+	@Function(shortName = "拔出光驱", description = "拔出光驱" 
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+	  prerequisite = AnnotationUtils.DESC_FUNCTION_VM + "或plugDevice", 
+	  exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected EjectISO ejectISO;
+	
+	@Function(shortName = "调整虚拟机大小", description = "调整虚拟机大小，" 
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+		prerequisite = AnnotationUtils.DESC_FUNCTION_VMD, 
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected ResizeVM resizeVM;
+	
+	@Function(shortName = "克隆虚拟机", description = "克隆虚拟机，" 
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+		prerequisite = AnnotationUtils.DESC_FUNCTION_VMD, 
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected CloneVM cloneVM;
+	
 	public ManageISO getManageISO() {
 		return manageISO;
 	}
@@ -336,6 +356,25 @@ public class Lifecycle {
 	public void setConvertVMToImage(ConvertVMToImage convertVMToImage) {
 		this.convertVMToImage = convertVMToImage;
 	}
+
+	
+	public InsertISO getInsertISO() {
+		return insertISO;
+	}
+
+	public void setInsertISO(InsertISO insertISO) {
+		this.insertISO = insertISO;
+	}
+
+	public EjectISO getEjectISO() {
+		return ejectISO;
+	}
+
+	public void setEjectISO(EjectISO ejectISO) {
+		this.ejectISO = ejectISO;
+	}
+
+
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
@@ -2166,6 +2205,175 @@ public class Lifecycle {
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class InsertISO {
+
+		@Parameter(required = false, description = "对当前虚拟机生效", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
+		protected Boolean current;
+
+		@Parameter(required = false, description = "如果不设置，当前配置下次不会生效", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
+		protected Boolean config;
+
+		@Parameter(required = false, description = "立即生效，对于开机虚拟机", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
+		protected Boolean live;
+		
+		@Parameter(required = true, description = "模板虚拟机的路径", constraint= "路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点", example = "/var/lib/libvirt/target.iso")
+		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
+		protected String path;
+		
+		@Parameter(required = true, description = "插入光驱", constraint= AnnotationUtils.DESC_BOOLEAN, example = "true")
+		protected Boolean insert;
+		
+		@Parameter(required = true, description = "强制执行", constraint= AnnotationUtils.DESC_BOOLEAN, example = "true")
+		protected Boolean force;
+		
+		@Parameter(required = true, description = "如果适用物理机光驱，应该设置为true", constraint= AnnotationUtils.DESC_BOOLEAN, example = "true")
+		protected Boolean block;
+		
+
+		public String getPath() {
+			return path;
+		}
+
+		public void setPath(String path) {
+			this.path = path;
+		}
+
+		public Boolean getInsert() {
+			return insert;
+		}
+
+		public void setInsert(Boolean insert) {
+			this.insert = insert;
+		}
+
+		public Boolean getCurrent() {
+			return current;
+		}
+
+		public void setCurrent(Boolean current) {
+			this.current = current;
+		}
+
+		public Boolean getLive() {
+			return live;
+		}
+
+		public void setLive(Boolean live) {
+			this.live = live;
+		}
+
+		public Boolean getConfig() {
+			return config;
+		}
+
+		public void setConfig(Boolean config) {
+			this.config = config;
+		}
+
+		public Boolean getForce() {
+			return force;
+		}
+
+		public void setForce(Boolean force) {
+			this.force = force;
+		}
+
+		public Boolean getBlock() {
+			return block;
+		}
+
+		public void setBlock(Boolean block) {
+			this.block = block;
+		}
+
+	}
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class EjectISO {
+
+		@Parameter(required = false, description = "对当前虚拟机生效", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
+		protected Boolean current;
+
+		@Parameter(required = false, description = "如果不设置，当前配置下次不会生效", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
+		protected Boolean config;
+
+		@Parameter(required = false, description = "立即生效，对于开机虚拟机", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
+		protected Boolean live;
+		
+		@Parameter(required = true, description = "模板虚拟机的路径", constraint= "路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点", example = "/var/lib/libvirt/target.iso")
+		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
+		protected String path;
+		
+		@Parameter(required = true, description = "弹出光驱，与--insert不可同时设置为true", constraint= AnnotationUtils.DESC_BOOLEAN, example = "true")
+		protected Boolean eject;
+		
+		@Parameter(required = true, description = "强制执行", constraint= AnnotationUtils.DESC_BOOLEAN, example = "true")
+		protected Boolean force;
+		
+		@Parameter(required = true, description = "如果适用物理机光驱，应该设置为true", constraint= AnnotationUtils.DESC_BOOLEAN, example = "true")
+		protected Boolean block;
+		
+		public String getPath() {
+			return path;
+		}
+
+		public void setPath(String path) {
+			this.path = path;
+		}
+
+		public Boolean getEject() {
+			return eject;
+		}
+
+		public void setEject(Boolean eject) {
+			this.eject = eject;
+		}
+
+		public Boolean getCurrent() {
+			return current;
+		}
+
+		public void setCurrent(Boolean current) {
+			this.current = current;
+		}
+
+		public Boolean getLive() {
+			return live;
+		}
+
+		public void setLive(Boolean live) {
+			this.live = live;
+		}
+
+		public Boolean getConfig() {
+			return config;
+		}
+
+		public void setConfig(Boolean config) {
+			this.config = config;
+		}
+
+		public Boolean getForce() {
+			return force;
+		}
+
+		public void setForce(Boolean force) {
+			this.force = force;
+		}
+
+		public Boolean getBlock() {
+			return block;
+		}
+
+		public void setBlock(Boolean block) {
+			this.block = block;
+		}
+
+	}
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class UpdateOS {
 		
 		@Parameter(required = true, description = "需要被替换的虚拟机路径", constraint= "路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点", example = "/var/lib/libvirt/source.xml")
@@ -2204,5 +2412,52 @@ public class Lifecycle {
 		
 	}
 	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class ResizeVM {
+		
+		@Parameter(required = true, description = "虚拟机路径", constraint = "路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点", example = "/var/lib/libvirt/images/test1.qcow2")
+		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
+		protected String path;
+		
+		@Parameter(required = true, description = "虚拟机大小", constraint = "10000000000-999999999999（单位：Byte）", example = "10485760")
+		@Pattern(regexp = RegExpUtils.DISK_SIZE_PATTERN)
+		protected String size;
+
+		public String getPath() {
+			return path;
+		}
+
+		public void setPath(String path) {
+			this.path = path;
+		}
+
+		public String getSize() {
+			return size;
+		}
+
+		public void setSize(String size) {
+			this.size = size;
+		}
+		
+	}
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class CloneVM {
+		
+		@Parameter(required = true, description = "克隆虚拟机", constraint = "克隆虚拟机所有磁盘，新虚拟机名长度是6到32位", example = "newdisk")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String name;
+		
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+		
+	}
 	
 }

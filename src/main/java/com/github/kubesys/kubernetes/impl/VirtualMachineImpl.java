@@ -12,10 +12,13 @@ import com.github.kubesys.kubernetes.api.model.VirtualMachineList;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineSpec;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ChangeNumberOfCPU;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CloneVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ConvertVMToImage;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CreateAndStartVMFromISO;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CreateAndStartVMFromImage;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.DeleteVM;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.EjectISO;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.InsertISO;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ManageISO;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.MigrateVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.PlugDevice;
@@ -24,6 +27,7 @@ import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.PlugNIC;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.RebootVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ResetVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ResizeRAM;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ResizeVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ResumeVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StartVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StopVM;
@@ -368,4 +372,53 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 		}
 		return update(name, updateMetadata(name, eventId), convertVMToImage);
 	}
+
+	public boolean insertISO(String name, InsertISO insertISO) throws Exception {
+		return insertISO(name, insertISO, null);
+	}
+
+	public boolean insertISO(String name,InsertISO insertISO, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 8 and 32, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), insertISO);
+	}
+
+	public boolean ejectISO(String name, EjectISO ejectISO) throws Exception {
+		return ejectISO(name, ejectISO, null);
+	}
+
+	public boolean ejectISO(String name,EjectISO ejectISO, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 8 and 32, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), ejectISO);
+	}
+
+	public boolean resizeVM(String name, ResizeVM resizeVM) throws Exception {
+		return resizeVM(name, resizeVM, null);
+	}
+
+	public boolean resizeVM(String name,ResizeVM resizeVM, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 8 and 32, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), resizeVM);
+	}
+
+	public boolean cloneVM(String name, CloneVM cloneVM) throws Exception {
+		return cloneVM(name, cloneVM, null);
+	}
+
+	public boolean cloneVM(String name,CloneVM cloneVM, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 8 and 32, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), cloneVM);
+	}
+
 }
