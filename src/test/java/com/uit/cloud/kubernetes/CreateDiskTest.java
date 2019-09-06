@@ -8,10 +8,12 @@ import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.Crea
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
- * @since  2019/7/18
+ * @author wuyuewen@otcaix.iscas.ac.cn
+ * @author liuhe@otcaix.iscas.ac.cn
+ * 
+ * @version 1.3.0
+ * @since   2019/9/3
  *
- * This code is used to manage CustomResource's lifecycle,
- * such as VirtualMachine
  */
 public class CreateDiskTest {
 	
@@ -20,7 +22,7 @@ public class CreateDiskTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineDisks()
-				.createDisk("disk4abcdefgh", "vm.node30", get(), "abc");
+				.createDisk("win4abcdefgh", "vm.node30", get(), "abc");
 		System.out.println(successful);
 	}
 

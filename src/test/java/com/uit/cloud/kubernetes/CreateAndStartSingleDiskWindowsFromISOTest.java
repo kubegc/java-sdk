@@ -8,10 +8,12 @@ import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CreateAn
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
- * @since  2019/7/15
+ * @author wuyuewen@otcaix.iscas.ac.cn
+ * @author liuhe@otcaix.iscas.ac.cn
+ * 
+ * @version 1.3.0
+ * @since   2019/9/3
  *
- * This code is used to manage CustomResource's lifecycle,
- * such as VirtualMachine
  */
 public class CreateAndStartSingleDiskWindowsFromISOTest {
 	
@@ -21,7 +23,7 @@ public class CreateAndStartSingleDiskWindowsFromISOTest {
 		CreateAndStartVMFromISO createAndStartVMFromISO = get();
 		// name
 		boolean successful = client.virtualMachines()
-				.createAndStartVMFromISO("950646e8c17a49d0b83c1c797811e001", "vm.node30", createAndStartVMFromISO, "123");
+				.createAndStartVMFromISO("250646e8c17a49d0b83c1c797811e001", "vm.node30", createAndStartVMFromISO, "123");
 		System.out.println(successful);
 	}
 	
@@ -30,7 +32,7 @@ public class CreateAndStartSingleDiskWindowsFromISOTest {
 		
 		CreateAndStartVMFromISO createAndStartVMFromISO = new CreateAndStartVMFromISO();
 		// default value
-		createAndStartVMFromISO.setMetadata("uuid=950646e8-c17a-49d0-b83c-1c797811e001");
+		createAndStartVMFromISO.setMetadata("uuid=250646e8-c17a-49d0-b83c-1c797811e001");
 		createAndStartVMFromISO.setVirt_type("kvm"); 
 		// @see https://github.com/uit-plus/api/blob/master/src/main/java/com/github/uitplus/utils/OSDistroUtils.java
 		createAndStartVMFromISO.setOs_variant("win7");
@@ -42,8 +44,8 @@ public class CreateAndStartSingleDiskWindowsFromISOTest {
 		// Disk and QoS for 1 disk and many disks
 		// path /var/lib/libvirt/images/test11 can be get by CreateDiskTest
 		// windos use target=hda as boot disk.
-		createAndStartVMFromISO.setDisk("/var/lib/libvirt/templates/win7,target=hda,read_bytes_sec=1024000000,write_bytes_sec=1024000000");
-		createAndStartVMFromISO.setCdrom("/var/lib/libvirt/iso/cn_windows_7_ultimate_with_sp1_x64_dvd_u_677408.iso");
+		createAndStartVMFromISO.setDisk("/var/lib/libvirt/images/win4abcdefgh,target=hda,read_bytes_sec=1024000000,write_bytes_sec=1024000000");
+		createAndStartVMFromISO.setCdrom("/var/lib/libvirt/iso/windows7.iso");
 
 		/*
 		 * libivrt default bridge
@@ -99,7 +101,10 @@ public class CreateAndStartSingleDiskWindowsFromISOTest {
 		 * 		switch name
 		 */
 		
-		createAndStartVMFromISO.setNetwork("type=l3bridge,source=br-int,ip=192.168.5.9,switch=switch,inbound=102400,outbound=102400,model=e1000");  
+//		createAndStartVMFromISO.setNetwork("type=bridge,source=virbr0,inbound=102400,outbound=102400");
+//		createAndStartVMFromISO.setNetwork("type=l2bridge,source=br-native,inbound=102400,outbound=102400");
+//      if you want to use l3bridge, please first execute the command on your master node, 'kubeovn-adm create-switch --name switch8888 --subnet 192.168.5.0/24'
+		createAndStartVMFromISO.setNetwork("type=l3bridge,source=br-int,ip=192.168.5.10,switch=switch8888,inbound=102400,outbound=102400,model=e1000");  
 		
 		// consoleMode amd passowrd
 		createAndStartVMFromISO.setGraphics("vnc,listen=0.0.0.0" + getconsolePassword("123456"));

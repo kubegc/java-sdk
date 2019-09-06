@@ -87,7 +87,7 @@ public class RegExpUtils {
 	public final static String GRAPHICS_PATTERN     = "(vnc|spice),listen=0.0.0.0(,password=([a-z0-9-.]{4,16}))?";
 	
 	@Variable("单一磁盘，read_bytes_sec和write_bytes_sec是可选项")
-	public final static String SINGLE_DISK_PATTERN  = PATH_PATTERN + "(,read_bytes_sec=" + DISK_QoS_PATTERN + ")?" + "(,write_bytes_sec=" + DISK_QoS_PATTERN + ")?";
+	public final static String SINGLE_DISK_PATTERN  = PATH_PATTERN + "(,target=hda)?" + "(,read_bytes_sec=" + DISK_QoS_PATTERN + ")?" + "(,write_bytes_sec=" + DISK_QoS_PATTERN + ")?";
 	
 	@Variable("单一光驱，必须设置成可读")
 	public final static String SINGLE_CD_PATTERN  = PATH_PATTERN + ",device=cdrom,perms=ro";
@@ -104,7 +104,7 @@ public class RegExpUtils {
 	public final static String BOOT_PATTERN = "hd|cdrom";
 	
 	public static void main(String[] args) {
-		String name = "type=l3bridge,source=br-int,ip=192.168.4.8,switch=switch8888,inbound=102400,outbound=102400,mode=e1000";
+		String name = "type=l3bridge,source=br-int,ip=192.168.4.8,switch=switch8888,inbound=102400,outbound=102400,model=e1000";
 		Pattern pattern = Pattern.compile(RegExpUtils.NETWORK_TYPE_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("");

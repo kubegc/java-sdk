@@ -14,7 +14,11 @@ import io.fabric8.kubernetes.client.ConfigBuilder;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
- * @since  2019/7/15
+ * @author wuyuewen@otcaix.iscas.ac.cn
+ * @author liuhe@otcaix.iscas.ac.cn
+ * 
+ * @version 1.3.0
+ * @since   2019/9/3
  *
  */
 public class AbstractTest {
