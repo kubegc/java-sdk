@@ -33,6 +33,7 @@ import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.Dele
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.ResizeDisk;
 import com.github.kubesys.kubernetes.api.model.virtualmachinesnapshot.Lifecycle.CreateSnapshot;
 import com.github.kubesys.kubernetes.api.model.virtualmachinesnapshot.Lifecycle.DeleteSnapshot;
+import com.uit.cloud.kubernetes.AbstractTest;
 
 /**
  * @author  wuheng@otcaix.iscas.ac.cn
@@ -340,11 +341,19 @@ public class JUintFlowStep3Test {
 	protected ExtendedKubernetesClient client;
 	
 	public JUintFlowStep3Test() throws Exception {
-//		this.client = AbstractTest.getClient();
+		this.client = AbstractTest.getClient();
 	}
 
 	
-	public void start() {
+	public void startTesting() {
+		int total   = 0;
+		int sucess  = 0;
+		int failure = 0;
+		for(List<String> round : testRounds) {
+			for (String step : round) {
+				
+			}
+		}
 	}
 	
 	public static void main(String[] args) throws Exception {
