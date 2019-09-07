@@ -188,7 +188,7 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 	 * @return                     CRDClient
 	 * @throws Exception           if the customResource is not found.
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({ "rawtypes"})
 	protected MixedOperation getCrdClient(String kind, CustomResourceDefinition crd) throws Exception {
 		return (MixedOperation) customResources(crd,
 				Class.forName(ROOT_PKG + SUB_PKG + kind).asSubclass(CustomResource.class), 

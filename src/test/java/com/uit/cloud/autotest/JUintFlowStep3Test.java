@@ -4,12 +4,17 @@
 package com.uit.cloud.autotest;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.constraints.Pattern;
+
+import com.alibaba.fastjson.JSON;
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
+import com.github.kubesys.kubernetes.annotations.Parameter;
 import com.github.kubesys.kubernetes.api.model.VirtualMachine;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineDisk;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineSnapshot;
@@ -33,6 +38,7 @@ import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.Dele
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.ResizeDisk;
 import com.github.kubesys.kubernetes.api.model.virtualmachinesnapshot.Lifecycle.CreateSnapshot;
 import com.github.kubesys.kubernetes.api.model.virtualmachinesnapshot.Lifecycle.DeleteSnapshot;
+import com.github.kubesys.kubernetes.utils.RegExpUtils;
 import com.uit.cloud.kubernetes.AbstractTest;
 
 /**
@@ -43,6 +49,11 @@ import com.uit.cloud.kubernetes.AbstractTest;
  * 
  **/
 public class JUintFlowStep3Test {
+	
+	
+	public final static JUintFlowStep3Test jfs3 = new JUintFlowStep3Test();
+	
+	public final static RegExpUtils reu = new RegExpUtils();
 	
 	/**********************************************************************
 	 * 
@@ -61,6 +72,9 @@ public class JUintFlowStep3Test {
 	
 	// CreateVMDisk
 	public final static String ROOTDISK = "/var/lib/libvirt/images/rootdisk";
+	
+	// NodeName
+	public final static String NODENAME = "vm.node30";
 	
 	
 	/**********************************************************************
@@ -207,20 +221,6 @@ public class JUintFlowStep3Test {
 	
 	public final static String IMAGE_Disk_WrongValue         = ROOTDISK.toUpperCase();
 	
-	/**********************************************************************
-	 * 
-	 *                    Default Test value
-	 * 
-	 **********************************************************************/
-	public final static String VM_POSTFIX                    = ".vm";
-	
-	public final static String VMI_POSTFIX                   = ".vmi";
-	
-	public final static String VMD_POSTFIX                   = ".vmd";
-	
-	public final static String VMDI_POSTFIX                  = ".vmdi";
-	
-	public final static String VMSN_POSTFIX                  = ".vmsn";
 
 	/**********************************************************************
 	 * 
@@ -228,9 +228,11 @@ public class JUintFlowStep3Test {
 	 * 
 	 **********************************************************************/
 	
-	public final static List<Map<String, String>> paramValues = new ArrayList<Map<String, String>>();
+	public final static List<Map<String, Map<String,String>>> paramValues = new ArrayList<Map<String, Map<String, String>>>();
 	
 	public final static List<List<String>> testRounds = new ArrayList<List<String>>();
+	
+	public final static Map<String, String> pregexpMap = new HashMap<String, String>();
 	
 	
 	/**********************************************************************
@@ -303,34 +305,68 @@ public class JUintFlowStep3Test {
 	}
 	
 	
-	protected static void initParamValues(JUintFlowStep3Test jfs3) throws IllegalAccessException {
-		Map<String, String> map1 = new HashMap<String, String>();
-		Map<String, String> map2 = new HashMap<String, String>();
-		Map<String, String> map3 = new HashMap<String, String>();
+	protected static void initParamValues() throws IllegalAccessException {
+		Map<String, Map<String, String>> map1 = new HashMap<String, Map<String, String>>();
+		Map<String, Map<String, String>> map2 = new HashMap<String, Map<String, String>>();
+		Map<String, Map<String, String>> map3 = new HashMap<String, Map<String, String>>();
+		
 		for (Field f: JUintFlowStep3Test.class.getDeclaredFields()) {
 			String name  = f.getName();
 			Object value = f.get(jfs3);
-			if (!(value instanceof String) || 
-					name.endsWith("POSTFIX")) {
-				continue;
+			if ((value instanceof String && name.indexOf("_") != -1)) {
+				int pos = name.lastIndexOf("_");
+				String key = name.substring(0, pos);
+
+				if (name.endsWith("CorrectValue1")) {
+					Map<String, String> v1 = map1.get(key);
+					v1 = (v1 == null) ? new HashMap<String, String>() : v1;
+					v1.put(name, (String) value);
+					map1.put(key, v1);
+				} else if (name.endsWith("CorrectValue2")) {
+					Map<String, String> v2 = map1.get(key);
+					v2 = (v2 == null) ? new HashMap<String, String>() : v2;
+					v2.put(name, (String) value);
+					map2.put(key, v2);
+				} else if (name.endsWith("CorrectValue3")) {
+					Map<String, String> v3 = map1.get(key);
+					v3 = (v3 == null) ? new HashMap<String, String>() : v3;
+					v3.put(name, (String) value);
+					map3.put(key, v3);
+				} else {
+					Map<String, String> v1 = map1.get(key);
+					v1 = (v1 == null) ? new HashMap<String, String>() : v1;
+					v1.put(name, (String) value);
+					map1.put(key, v1);
+					
+					Map<String, String> v2 = map1.get(key);
+					v2 = (v2 == null) ? new HashMap<String, String>() : v2;
+					v2.put(name, (String) value);
+					map2.put(key, v2);
+					
+					Map<String, String> v3 = map1.get(key);
+					v3 = (v3 == null) ? new HashMap<String, String>() : v3;
+					v3.put(name, (String) value);
+					map3.put(key, v3);
+				}
 			}
 			
-			if (name.endsWith("CorrectValue1")) {
-				map1.put(name, (String) value);
-			} else if (name.endsWith("CorrectValue2")) {
-				map2.put(name, (String) value);
-			} else if (name.endsWith("CorrectValue3")) {
-				map3.put(name, (String) value);
-			} else {
-				map1.put(name, (String) value);
-				map2.put(name, (String) value);
-				map3.put(name, (String) value);
 			}
-		}
-		
 		paramValues.add(map1);
 		paramValues.add(map2);
 		paramValues.add(map3);
+			
+		System.out.println(paramValues);
+			
+	}
+	
+	protected static void initRegExpMap() throws IllegalAccessException {
+		
+		for (Field field : reu.getClass().getDeclaredFields()) {
+			if (field.getName().endsWith("PATTERN")) {
+				pregexpMap.put((String)field.get(reu), field.getName());
+			}
+		}
+		
 	}
 	
 	/**********************************************************************
@@ -340,27 +376,83 @@ public class JUintFlowStep3Test {
 	 **********************************************************************/
 	protected ExtendedKubernetesClient client;
 	
-	public JUintFlowStep3Test() throws Exception {
-		this.client = AbstractTest.getClient();
+	public JUintFlowStep3Test() {
+		try {
+			this.client = AbstractTest.getClient();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	
-	public void startTesting() {
+	public void startTesting() throws Exception {
 		int total   = 0;
 		int sucess  = 0;
 		int failure = 0;
-		for(List<String> round : testRounds) {
-			for (String step : round) {
-				
+		
+		for (Map<String, Map<String, String>> params: paramValues) {
+			
+			for(List<String> round : testRounds) {
+				for (String step : round) {
+					String[] values = step.split("=");
+					{
+						Class<?> clazz = Class.forName(values[1]);
+						Object object  = clazz.newInstance();
+						
+						for (Field field : clazz.getDeclaredFields()) {
+							Parameter param = field.getAnnotation(Parameter.class);
+							if (param == null) {
+								continue;
+							}
+							
+							String methodName = "set" + field.getName().substring(0, 1).toUpperCase()
+														+ field.getName().substring(1);
+							Method methidRef  = clazz.getDeclaredMethod(methodName, field.getType());
+							
+							if (field.getType().getName().equals(Boolean.class.getName())) {
+								if (field.getName().equals("live") || field.getName().equals("config")) {
+									methidRef.invoke(object, true);
+								}
+								continue;
+							} else if(!field.getType().getName().equals(String.class.getName())) {
+								continue;
+							}
+							
+							Pattern pattern = field.getAnnotation(Pattern.class);
+							String regexp = pattern.regexp();
+							Map<String, String> valueList = params.get(regexp);
+							System.out.println("\t" + valueList);
+							
+							
+						}
+						System.out.println(JSON.toJSONString(object, true));
+					}
+					
+					
+					
+					{
+						String category = values[0].substring(0, 1).toLowerCase() + values[0].substring(1) + "s";
+						int pos = values[1].lastIndexOf("$");
+						String lastname = values[1].substring(pos + 1);
+						String methodName = lastname.substring(0, 1).toLowerCase() + lastname.substring(1);
+						
+						Method method = client.getClass().getMethod(category);
+						Object object = method.invoke(client);
+					}
+				}
 			}
+			
+			
+			
 		}
+		
 	}
 	
 	public static void main(String[] args) throws Exception {
 		JUintFlowStep3Test jfs3 = new JUintFlowStep3Test();
-		initParamValues(jfs3);
-		System.out.println(paramValues.get(0).size());
-		System.out.println(testRounds.get(0).size());
+		initParamValues();
+		initRegExpMap();
+		jfs3.startTesting();
 	}
 
 

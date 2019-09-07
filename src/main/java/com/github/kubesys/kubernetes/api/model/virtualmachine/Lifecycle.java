@@ -398,6 +398,7 @@ public class Lifecycle {
 		protected Boolean current;
 
 		@Parameter(required = true,  description = "内存大小，单位为KiB", constraint = "100MiB到100GiB", example = "1GiB: 1048576")
+		@Pattern(regexp = RegExpUtils.RAM_PATTERN)
 		protected String size;
 
 		@Parameter(required = false, description = "如果不设置，当前配置下次不会生效", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
@@ -903,7 +904,7 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
 		protected String source;
 
-		@Parameter(required = false, description = "虚拟的云盘总线类型，如果不填将根据target的取值自动匹配，例如vdX匹配为virtio类型的总线、sdX匹配为scsi类型的总线", constraint = "取值范围：ide, scsi, virtio, xen, usb, sata, sd", example = "virtio")
+//		@Parameter(required = false, description = "虚拟的云盘总线类型，如果不填将根据target的取值自动匹配，例如vdX匹配为virtio类型的总线、sdX匹配为scsi类型的总线", constraint = "取值范围：ide, scsi, virtio, xen, usb, sata, sd", example = "virtio")
 		protected String targetbus;
 
 		protected String type;

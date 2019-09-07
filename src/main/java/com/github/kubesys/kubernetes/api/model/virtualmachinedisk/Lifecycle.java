@@ -243,6 +243,7 @@ public class Lifecycle {
 		protected Boolean delete_snapshots;
 
 		@Parameter(required = true, description = "云盘所在的存储池名", constraint = "已创建出的存储池", example = "pool2")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String pool;
 
 		public void setDelete_snapshots(Boolean delete_snapshots) {
