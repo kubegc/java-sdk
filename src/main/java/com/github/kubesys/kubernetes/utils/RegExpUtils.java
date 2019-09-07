@@ -32,7 +32,7 @@ public class RegExpUtils {
 	public final static String MAC_PATTERN  = "(([a-eg-z0-9][a-z0-9])|(f[a-df-z0-9]))(:[a-z0-9]{2}){5}";
 	
 	@Variable("vcpu个数，1到99之间")
-	public final static String VCPU_PATTERN = "\\d{1,2}";
+	public final static String VCPU_PATTERN = "[1-9]\\d{1}";
 	
 	@Variable("ram容量，单位MiB，100到99999之间")
 	public final static String RAM_PATTERN = "\\d{3,5}";
@@ -107,8 +107,8 @@ public class RegExpUtils {
 	public final static String BOOT_PATTERN = "hd|cdrom";
 	
 	public static void main(String[] args) {
-		String name = "52:54:00:4d:40:c2";
-		Pattern pattern = Pattern.compile(RegExpUtils.MAC_PATTERN);
+		String name = "99,cpuset=1-1000";
+		Pattern pattern = Pattern.compile(RegExpUtils.VCPUSET_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("");
 		}

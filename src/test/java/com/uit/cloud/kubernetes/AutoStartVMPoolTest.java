@@ -8,10 +8,12 @@ import com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
- * @since  2019/7/18
+ * @author wuyuewen@otcaix.iscas.ac.cn
+ * @author liuhe@otcaix.iscas.ac.cn
+ * 
+ * @version 1.3.0
+ * @since   2019/9/3
  *
- * This code is used to manage CustomResource's lifecycle,
- * such as VirtualMachine
  */
 public class AutoStartVMPoolTest {
 	
