@@ -12,7 +12,6 @@ import java.util.Map;
 
 import javax.validation.constraints.Pattern;
 
-import com.alibaba.fastjson.JSON;
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
 import com.github.kubesys.kubernetes.annotations.Parameter;
 import com.github.kubesys.kubernetes.api.model.VirtualMachine;
@@ -315,7 +314,7 @@ public class JUintFlowStep3Test {
 			Object value = f.get(jfs3);
 			if ((value instanceof String && name.indexOf("_") != -1)) {
 				int pos = name.lastIndexOf("_");
-				String key = name.substring(0, pos);
+				String key = name.substring(0, pos) + "_PATTERN";
 
 				if (name.endsWith("CorrectValue1")) {
 					Map<String, String> v1 = map1.get(key);
@@ -354,8 +353,6 @@ public class JUintFlowStep3Test {
 		paramValues.add(map1);
 		paramValues.add(map2);
 		paramValues.add(map3);
-			
-		System.out.println(paramValues);
 			
 	}
 	
@@ -397,7 +394,10 @@ public class JUintFlowStep3Test {
 					String[] values = step.split("=");
 					{
 						Class<?> clazz = Class.forName(values[1]);
-						Object object  = clazz.newInstance();
+						
+						Map<String, Map<String, String>> allParams = new HashMap<String, Map<String, String>>();
+						
+						
 						
 						for (Field field : clazz.getDeclaredFields()) {
 							Parameter param = field.getAnnotation(Parameter.class);
@@ -406,26 +406,44 @@ public class JUintFlowStep3Test {
 							}
 							
 							String methodName = "set" + field.getName().substring(0, 1).toUpperCase()
-														+ field.getName().substring(1);
-							Method methidRef  = clazz.getDeclaredMethod(methodName, field.getType());
+										+ field.getName().substring(1);
 							
 							if (field.getType().getName().equals(Boolean.class.getName())) {
 								if (field.getName().equals("live") || field.getName().equals("config")) {
-									methidRef.invoke(object, true);
+									allParams.put(methodName, null);
 								}
 								continue;
-							} else if(!field.getType().getName().equals(String.class.getName())) {
+							} 
+							
+							if(!field.getType().getName().equals(String.class.getName())) {
 								continue;
 							}
 							
 							Pattern pattern = field.getAnnotation(Pattern.class);
 							String regexp = pattern.regexp();
-							Map<String, String> valueList = params.get(regexp);
-							System.out.println("\t" + valueList);
+							Map<String, String> valueList = params.get(pregexpMap.get(regexp));
 							
+							if (methodName.equals(CreateAndStartVMFromISO.class.getName())) {
+								if (field.getName().equals("cdrom")) {
+									allParams.put(methodName, params.get("ISO_Cdrom_PATTERN"));
+								} else if (field.getName().equals("disk")) {
+									allParams.put(methodName, params.get("ISO_Disk_PATTERN"));
+								}
+							} else if (methodName.equals(CreateAndStartVMFromImage.class.getName())) {
+								if (field.getName().equals("cdrom")) {
+									allParams.put(methodName, params.get("IMAGE_Cdrom_PATTERN"));
+								} else if (field.getName().equals("disk")) {
+									allParams.put(methodName, params.get("IMAGE_Disk_PATTERN"));
+								}
+							} else {
+								allParams.put(methodName, valueList);
+							}
 							
 						}
-						System.out.println(JSON.toJSONString(object, true));
+						
+						for (String key : allParams.keySet()) {
+							
+						}
 					}
 					
 					

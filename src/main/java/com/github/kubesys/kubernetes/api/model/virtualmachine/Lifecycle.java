@@ -813,7 +813,7 @@ public class Lifecycle {
 
 		@Parameter(required = true, description = "vcpu数量", constraint = "1-99个", example = "16")
 		@Pattern(regexp = RegExpUtils.VCPU_PATTERN)
-		protected Integer count;
+		protected String count;
 
 		@Parameter(required = false, description = "修改虚拟机CPU状态", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean guest;
@@ -839,12 +839,12 @@ public class Lifecycle {
 			return this.hotpluggable;
 		}
 
-		public void setCount(Integer count) {
-			this.count = count;
+		public String getCount() {
+			return count;
 		}
 
-		public Integer getCount() {
-			return this.count;
+		public void setCount(String count) {
+			this.count = count;
 		}
 
 		public void setGuest(Boolean guest) {
