@@ -22,7 +22,7 @@ public class PlugDiskTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.plugDisk("350646e8c17a49d0b83c1c797811e084", getPlugDisk());
+				.plugDisk("150646e8c17a49d0b83c1c797811e045", getPlugDisk());
 		System.out.println(successful);
 	}
 	

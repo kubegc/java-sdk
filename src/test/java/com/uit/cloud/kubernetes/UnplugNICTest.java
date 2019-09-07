@@ -22,7 +22,7 @@ public class UnplugNICTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.unplugNIC("350646e8c17a49d0b83c1c797811e084", get());
+				.unplugNIC("150646e8c17a49d0b83c1c797811e045", get());
 		System.out.println(successful);
 	}
 	
@@ -34,8 +34,8 @@ public class UnplugNICTest {
 //		unplugNIC.setType("l2bridge");
 		// Ovs layer3 bridge
 //		unplugNIC.setType("l3bridge");
-		unplugNIC.setMac("52:54:00:4d:40:c2");
-		unplugNIC.setLive(true);
+		unplugNIC.setMac("52:54:00:53:a1:51");
+//		unplugNIC.setLive(true);
 		unplugNIC.setConfig(true);
 		return unplugNIC;
 	}
