@@ -24,13 +24,8 @@ import java.lang.annotation.Target;
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface Parameter {
+public @interface FieldDescriber {
 
-	boolean required();
+	String value();
 	
-	String description();
-	
-	String constraint();
-	
-	String example();
 }

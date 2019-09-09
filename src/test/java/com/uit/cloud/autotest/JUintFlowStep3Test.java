@@ -16,7 +16,7 @@ import javax.validation.constraints.Pattern;
 
 import com.alibaba.fastjson.JSON;
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
-import com.github.kubesys.kubernetes.annotations.Parameter;
+import com.github.kubesys.kubernetes.annotations.ParameterDescriber;
 import com.github.kubesys.kubernetes.api.model.VirtualMachine;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineDisk;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineSnapshot;
@@ -563,7 +563,7 @@ public class JUintFlowStep3Test {
 			boolean isTrue = true;
 			// JSR 303
 			for (Field field : obj.getClass().getDeclaredFields()) {
-				Parameter param = field.getAnnotation(Parameter.class);
+				ParameterDescriber param = field.getAnnotation(ParameterDescriber.class);
 				if (param == null) {
 					continue;
 				}
@@ -664,7 +664,7 @@ public class JUintFlowStep3Test {
 		Map<String, Map<String, String>> allParams = new HashMap<String, Map<String, String>>();
 		
 		for (Field field : clazz.getDeclaredFields()) {
-			Parameter param = field.getAnnotation(Parameter.class);
+			ParameterDescriber param = field.getAnnotation(ParameterDescriber.class);
 			if (param == null) {
 				continue;
 			}

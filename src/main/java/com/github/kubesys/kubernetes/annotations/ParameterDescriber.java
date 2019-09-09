@@ -21,12 +21,16 @@ import java.lang.annotation.Target;
  * VirtualMachineImage, VirtualMachineSnapshot, VirtualMachineNetwork
  * 
  */
-@Target({ElementType.TYPE})
+@Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface Parent {
+public @interface ParameterDescriber {
+
+	boolean required();
 	
-	String value();
+	String description();
 	
-	String desc();
+	String constraint();
+	
+	String example();
 }

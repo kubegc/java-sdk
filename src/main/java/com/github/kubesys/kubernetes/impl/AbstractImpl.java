@@ -16,7 +16,7 @@ import javax.validation.constraints.Pattern;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
 import com.github.kubesys.kubernetes.ExtendedKubernetesConstants;
-import com.github.kubesys.kubernetes.annotations.Parameter;
+import com.github.kubesys.kubernetes.annotations.ParameterDescriber;
 import com.github.kubesys.kubernetes.api.model.ExtendedCustomResourceDefinitionSpec;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ResetVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StopVMForce;
@@ -395,7 +395,7 @@ public abstract class AbstractImpl<R, S, T> {
 		
 		// JSR 303
 		for (Field field : operator.getClass().getDeclaredFields()) {
-			Parameter param = field.getAnnotation(Parameter.class);
+			ParameterDescriber param = field.getAnnotation(ParameterDescriber.class);
 			if (param == null) {
 				continue;
 			}

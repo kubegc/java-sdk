@@ -7,9 +7,9 @@ import javax.validation.constraints.Pattern;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.github.kubesys.kubernetes.annotations.Function;
-import com.github.kubesys.kubernetes.annotations.Parameter;
-import com.github.kubesys.kubernetes.annotations.Parent;
+import com.github.kubesys.kubernetes.annotations.FunctionDescriber;
+import com.github.kubesys.kubernetes.annotations.ParameterDescriber;
+import com.github.kubesys.kubernetes.annotations.ClassDescriber;
 import com.github.kubesys.kubernetes.utils.AnnotationUtils;
 import com.github.kubesys.kubernetes.utils.RegExpUtils;
 
@@ -22,22 +22,22 @@ import com.github.kubesys.kubernetes.utils.RegExpUtils;
  **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-@Parent(value = "VirtualMachineSnapshot", desc = "虚拟机/云盘快照")
+@ClassDescriber(value = "VirtualMachineSnapshot", desc = "虚拟机/云盘快照")
 public class Lifecycle {
 
-	@Function(shortName = "删除虚拟机/云盘快照", description = "删除虚拟机/云盘快照，" 
+	@FunctionDescriber(shortName = "删除虚拟机/云盘快照", description = "删除虚拟机/云盘快照，" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = AnnotationUtils.DESC_FUNCTION_VMSN, 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected DeleteSnapshot deleteSnapshot;
 
-	@Function(shortName = "创建虚拟机/云盘快照", description = "创建虚拟机/云盘快照，" 
+	@FunctionDescriber(shortName = "创建虚拟机/云盘快照", description = "创建虚拟机/云盘快照，" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = "", 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected CreateSnapshot createSnapshot;
 	
-	@Function(shortName = "恢复成虚拟机/云盘", description = "恢复成虚拟机/云盘，" 
+	@FunctionDescriber(shortName = "恢复成虚拟机/云盘", description = "恢复成虚拟机/云盘，" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = AnnotationUtils.DESC_FUNCTION_VMSN, 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
@@ -93,7 +93,7 @@ public class Lifecycle {
 
 		protected Boolean atomic;
 
-		@Parameter(required = true, description = "要恢复到快照状态的虚拟机name", constraint = "已存在的虚拟机名，由6-32位的数字和小写字母组成", example = "vm1")
+		@ParameterDescriber(required = true, description = "要恢复到快照状态的虚拟机name", constraint = "已存在的虚拟机名，由6-32位的数字和小写字母组成", example = "vm1")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String domain;
 
@@ -202,7 +202,7 @@ public class Lifecycle {
 
 		protected Boolean children_only;
 
-		@Parameter(required = true, description = "要删除快照的虚拟机名字", constraint = "由6-32位的数字和小写字母组成，已存在的虚拟机名", example = "vm1")
+		@ParameterDescriber(required = true, description = "要删除快照的虚拟机名字", constraint = "由6-32位的数字和小写字母组成，已存在的虚拟机名", example = "vm1")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String domain;
 
@@ -249,11 +249,11 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class RevertVirtualMachine {
 
-		@Parameter(required = true, description = "要恢复到快照状态的虚拟机name", constraint = "由6-32位的数字和小写字母组成，已存在的虚拟机名", example = "vm1")
+		@ParameterDescriber(required = true, description = "要恢复到快照状态的虚拟机name", constraint = "由6-32位的数字和小写字母组成，已存在的虚拟机名", example = "vm1")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String domain;
 
-		@Parameter(required = false, description = "恢复到快照的状态后，是否将虚拟机转换到开机状态", constraint=AnnotationUtils.DESC_BOOLEAN, example = "true")
+		@ParameterDescriber(required = false, description = "恢复到快照的状态后，是否将虚拟机转换到开机状态", constraint=AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean running;
 		
 		protected Boolean paused;

@@ -7,9 +7,9 @@ import javax.validation.constraints.Pattern;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.github.kubesys.kubernetes.annotations.Function;
-import com.github.kubesys.kubernetes.annotations.Parameter;
-import com.github.kubesys.kubernetes.annotations.Parent;
+import com.github.kubesys.kubernetes.annotations.FunctionDescriber;
+import com.github.kubesys.kubernetes.annotations.ParameterDescriber;
+import com.github.kubesys.kubernetes.annotations.ClassDescriber;
 import com.github.kubesys.kubernetes.utils.AnnotationUtils;
 import com.github.kubesys.kubernetes.utils.RegExpUtils;
 
@@ -22,58 +22,58 @@ import com.github.kubesys.kubernetes.utils.RegExpUtils;
  **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-@Parent(value = "VirtualMachineDisk", desc = "云盘是指未格式化的云盘")
+@ClassDescriber(value = "VirtualMachineDisk", desc = "云盘是指未格式化的云盘")
 public class Lifecycle {
 
-	@Function(shortName = "删除云盘", description = "删除云盘，" 
+	@FunctionDescriber(shortName = "删除云盘", description = "删除云盘，" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = AnnotationUtils.DESC_FUNCTION_VMD, 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected DeleteDisk deleteDisk;
 
-	@Function(shortName = "调整云盘大小", description = "调整云盘大小，" 
+	@FunctionDescriber(shortName = "调整云盘大小", description = "调整云盘大小，" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = AnnotationUtils.DESC_FUNCTION_VMD, 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected ResizeDisk resizeDisk;
 
-	@Function(shortName = "创建云盘", description = "创建云盘，" 
+	@FunctionDescriber(shortName = "创建云盘", description = "创建云盘，" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = "", 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected CreateDisk createDisk;
 	
-	@Function(shortName = "从镜像创建云盘", description = "从镜像创建云盘，" 
+	@FunctionDescriber(shortName = "从镜像创建云盘", description = "从镜像创建云盘，" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = "", 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected CreateDiskFromDiskImage createDiskFromDiskImage;
 	
-	@Function(shortName = "转化为云盘镜像", description = "转化为云盘镜像，" 
+	@FunctionDescriber(shortName = "转化为云盘镜像", description = "转化为云盘镜像，" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = AnnotationUtils.DESC_FUNCTION_VMD, 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected ConvertDiskToDiskImage convertDiskToDiskImage;
 
-	@Function(shortName = "克隆云盘", description = "克隆云盘，" 
+	@FunctionDescriber(shortName = "克隆云盘", description = "克隆云盘，" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = AnnotationUtils.DESC_FUNCTION_VMD, 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected CloneDisk cloneDisk;
 	
-	@Function(shortName = "创建云盘快照", description = "创建云盘快照，" 
+	@FunctionDescriber(shortName = "创建云盘快照", description = "创建云盘快照，" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = AnnotationUtils.DESC_FUNCTION_VMD, 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected CreateDiskSnapshot createDiskSnapshot;
 	
-	@Function(shortName = "从云盘快照恢复", description = "从云盘快照恢复，" 
+	@FunctionDescriber(shortName = "从云盘快照恢复", description = "从云盘快照恢复，" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = AnnotationUtils.DESC_FUNCTION_VMD, 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected RevertDiskSnapshot revertDiskSnapshot;
 	
-	@Function(shortName = "删除云盘快照", description = "删除云盘快照，" 
+	@FunctionDescriber(shortName = "删除云盘快照", description = "删除云盘快照，" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = AnnotationUtils.DESC_FUNCTION_VMD, 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
@@ -161,17 +161,17 @@ public class Lifecycle {
 
 		protected Boolean prealloc_metadata;
 
-		@Parameter(required = true, description = "云盘文件的类型", constraint = "raw,bochs,qcow,qcow2,qed,vmdk", example = "qcow2")
+		@ParameterDescriber(required = true, description = "云盘文件的类型", constraint = "raw,bochs,qcow,qcow2,qed,vmdk", example = "qcow2")
 		@Pattern(regexp = RegExpUtils.DISK_TYPE_PATTERN)
 		protected String format;
 
-		@Parameter(required = true, description = "创建云盘使用的存储池名", constraint = "已创建出的存储池", example = "pool2")
+		@ParameterDescriber(required = true, description = "创建云盘使用的存储池名", constraint = "已创建出的存储池", example = "pool2")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String pool;
 
 		protected String backing_vol;
 
-		@Parameter(required = true, description = "云盘空间大小,10G到1T", constraint = "10000000000-999999999999（单位：Byte）", example = "‭10,737,418,240‬")
+		@ParameterDescriber(required = true, description = "云盘空间大小,10G到1T", constraint = "10000000000-999999999999（单位：Byte）", example = "‭10,737,418,240‬")
 		@Pattern(regexp = RegExpUtils.DISK_SIZE_PATTERN)
 		protected String capacity;
 
@@ -242,7 +242,7 @@ public class Lifecycle {
 
 		protected Boolean delete_snapshots;
 
-		@Parameter(required = true, description = "云盘所在的存储池名", constraint = "已创建出的存储池", example = "pool2")
+		@ParameterDescriber(required = true, description = "云盘所在的存储池名", constraint = "已创建出的存储池", example = "pool2")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String pool;
 
@@ -273,11 +273,11 @@ public class Lifecycle {
 
 		protected Boolean delta;
 
-		@Parameter(required = true, description = "云盘所在的存储池名", constraint = "已创建出的存储池", example = "pool2")
+		@ParameterDescriber(required = true, description = "云盘所在的存储池名", constraint = "已创建出的存储池", example = "pool2")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String pool;
 
-		@Parameter(required = true, description = "扩容后的云盘空间大小, 10G到1T", constraint = "10000000000-999999999999（单位：Byte），需要比以前的云盘空间大", example = "‭10,737,418,240‬")
+		@ParameterDescriber(required = true, description = "扩容后的云盘空间大小, 10G到1T", constraint = "10000000000-999999999999（单位：Byte），需要比以前的云盘空间大", example = "‭10,737,418,240‬")
 		@Pattern(regexp = RegExpUtils.DISK_SIZE_PATTERN)
 		protected String capacity;
 
@@ -326,11 +326,11 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class CreateDiskFromDiskImage {
 
-		@Parameter(required = true, description = "创建云盘所在的存储池名", constraint = "由6-32位的数字和小写字母组成，已创建出的存储池", example = "pool2")
+		@ParameterDescriber(required = true, description = "创建云盘所在的存储池名", constraint = "由6-32位的数字和小写字母组成，已创建出的存储池", example = "pool2")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String pool;
 
-		@Parameter(required = true, description = "云盘镜像名", constraint = "由6-32位的数字和小写字母组成，已存在的云盘镜像名", example = "image2")
+		@ParameterDescriber(required = true, description = "云盘镜像名", constraint = "由6-32位的数字和小写字母组成，已存在的云盘镜像名", example = "image2")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String image;
 
@@ -359,11 +359,11 @@ public class Lifecycle {
 
 		protected Boolean prealloc_metadata;
 
-		@Parameter(required = true, description = "云盘所在的存储池名", constraint = "由6-32位的数字和小写字母组成，已创建出的存储池", example = "pool2")
+		@ParameterDescriber(required = true, description = "云盘所在的存储池名", constraint = "由6-32位的数字和小写字母组成，已创建出的存储池", example = "pool2")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String pool;
 
-		@Parameter(required = true, description = "新云盘的名字", constraint = "由6-32位的数字和小写字母组成", example = "newdisk")
+		@ParameterDescriber(required = true, description = "新云盘的名字", constraint = "由6-32位的数字和小写字母组成", example = "newdisk")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String newname;
 
@@ -409,7 +409,7 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class ConvertDiskToDiskImage {
 
-		@Parameter(required = true, description = "云盘所在的存储池名", constraint = "由6-32位的数字和小写字母组成，已创建出的存储池", example = "pool2")
+		@ParameterDescriber(required = true, description = "云盘所在的存储池名", constraint = "由6-32位的数字和小写字母组成，已创建出的存储池", example = "pool2")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String pool;
 
@@ -433,11 +433,11 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class CreateDiskSnapshot {
 		
-		@Parameter(required = true, description = "云盘所在的存储池名", constraint = "由6-32位的数字和小写字母组成，已创建出的存储池", example = "pool2")
+		@ParameterDescriber(required = true, description = "云盘所在的存储池名", constraint = "由6-32位的数字和小写字母组成，已创建出的存储池", example = "pool2")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String pool;
 		
-		@Parameter(required = true, description = "快照的名字", constraint = "由6-32位的数字和小写字母组成", example = "snap1")
+		@ParameterDescriber(required = true, description = "快照的名字", constraint = "由6-32位的数字和小写字母组成", example = "snap1")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String snapshotname;
 
@@ -463,11 +463,11 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class RevertDiskSnapshot {
 		
-		@Parameter(required = true, description = "云盘所在的存储池名", constraint = "由6-32位的数字和小写字母组成，已创建出的存储池", example = "pool2")
+		@ParameterDescriber(required = true, description = "云盘所在的存储池名", constraint = "由6-32位的数字和小写字母组成，已创建出的存储池", example = "pool2")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String pool;
 		
-		@Parameter(required = true, description = "快照的名字", constraint = "由6-32位的数字和小写字母组成", example = "snap1")
+		@ParameterDescriber(required = true, description = "快照的名字", constraint = "由6-32位的数字和小写字母组成", example = "snap1")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String snapshotname;
 
@@ -493,11 +493,11 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class DeleteDiskSnapshot {
 		
-		@Parameter(required = true, description = "云盘所在的存储池名", constraint = "由6-32位的数字和小写字母组成，已创建出的存储池", example = "pool2")
+		@ParameterDescriber(required = true, description = "云盘所在的存储池名", constraint = "由6-32位的数字和小写字母组成，已创建出的存储池", example = "pool2")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String pool;
 		
-		@Parameter(required = true, description = "快照的名字", constraint = "由6-32位的数字和小写字母组成", example = "snap1")
+		@ParameterDescriber(required = true, description = "快照的名字", constraint = "由6-32位的数字和小写字母组成", example = "snap1")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String snapshotname;
 

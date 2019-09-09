@@ -7,9 +7,9 @@ import javax.validation.constraints.Pattern;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.github.kubesys.kubernetes.annotations.Function;
-import com.github.kubesys.kubernetes.annotations.Parameter;
-import com.github.kubesys.kubernetes.annotations.Parent;
+import com.github.kubesys.kubernetes.annotations.FunctionDescriber;
+import com.github.kubesys.kubernetes.annotations.ParameterDescriber;
+import com.github.kubesys.kubernetes.annotations.ClassDescriber;
 import com.github.kubesys.kubernetes.utils.AnnotationUtils;
 import com.github.kubesys.kubernetes.utils.RegExpUtils;
 
@@ -22,22 +22,22 @@ import com.github.kubesys.kubernetes.utils.RegExpUtils;
  **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-@Parent(value = "VirtualMachineImage", desc = "虚拟机模板，包括CPU、内存、OS等信息")
+@ClassDescriber(value = "VirtualMachineImage", desc = "虚拟机模板，包括CPU、内存、OS等信息")
 public class Lifecycle {
 
-	@Function(shortName = "创建虚拟机镜像", description = "创建虚拟机镜像，" 
+	@FunctionDescriber(shortName = "创建虚拟机镜像", description = "创建虚拟机镜像，" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = "", 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected CreateImage createImage;
 	
-	@Function(shortName = "删除虚拟机镜像", description = "删除虚拟机镜像，" 
+	@FunctionDescriber(shortName = "删除虚拟机镜像", description = "删除虚拟机镜像，" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = AnnotationUtils.DESC_FUNCTION_VMI, 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected DeleteImage deleteImage;
 	
-	@Function(shortName = "将虚拟机镜像转化为虚拟机", description = "将虚拟机镜像转化为虚拟机，" 
+	@FunctionDescriber(shortName = "将虚拟机镜像转化为虚拟机", description = "将虚拟机镜像转化为虚拟机，" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = AnnotationUtils.DESC_FUNCTION_VMI, 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
@@ -75,7 +75,7 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class CreateImage {
 
-		@Parameter(required = true, description = "用于创建虚拟机镜像的源文件", constraint = "路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点", example = "/var/lib/aaa.qcow2")
+		@ParameterDescriber(required = true, description = "用于创建虚拟机镜像的源文件", constraint = "路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点", example = "/var/lib/aaa.qcow2")
 		@Pattern(regexp = "("+RegExpUtils.PATH_PATTERN+")|("+RegExpUtils.SINGLE_CD_PATTERN + ")")
 		protected String disk;
 

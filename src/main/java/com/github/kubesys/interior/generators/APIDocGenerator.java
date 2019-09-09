@@ -6,9 +6,9 @@ package com.github.kubesys.interior.generators;
 import java.lang.reflect.Field;
 
 import com.alibaba.fastjson.JSON;
-import com.github.kubesys.kubernetes.annotations.Function;
-import com.github.kubesys.kubernetes.annotations.Parameter;
-import com.github.kubesys.kubernetes.annotations.Parent;
+import com.github.kubesys.kubernetes.annotations.FunctionDescriber;
+import com.github.kubesys.kubernetes.annotations.ParameterDescriber;
+import com.github.kubesys.kubernetes.annotations.ClassDescriber;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -34,7 +34,7 @@ public class APIDocGenerator {
 		for (String classname : JSONGenerator.list) {
 			
 			Class<?> forName = Class.forName(classname);
-			Parent parent = forName.getAnnotation(Parent.class);
+			ClassDescriber parent = forName.getAnnotation(ClassDescriber.class);
 			if (parent == null) {
 				continue;
 			}
@@ -46,7 +46,7 @@ public class APIDocGenerator {
 			
 			int j = 1;
 			for (Field field : forName.getDeclaredFields()) {
-				Function function = field.getAnnotation(Function.class);
+				FunctionDescriber function = field.getAnnotation(FunctionDescriber.class);
 				
 				try {
 					sb.append("## ").append(i).append(".").append(j++).append(" ")
@@ -82,7 +82,7 @@ public class APIDocGenerator {
 					sb.append("| ----- | ------ | ------ | ------ | ------ |").append("\n");
 					
 					for(Field ff : field.getType().getDeclaredFields()) {
-						Parameter ffp = ff.getAnnotation(Parameter.class);
+						ParameterDescriber ffp = ff.getAnnotation(ParameterDescriber.class);
 						if (ffp == null) {
 							continue;
 						}

@@ -7,9 +7,9 @@ import javax.validation.constraints.Pattern;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.github.kubesys.kubernetes.annotations.Function;
-import com.github.kubesys.kubernetes.annotations.Parameter;
-import com.github.kubesys.kubernetes.annotations.Parent;
+import com.github.kubesys.kubernetes.annotations.FunctionDescriber;
+import com.github.kubesys.kubernetes.annotations.ParameterDescriber;
+import com.github.kubesys.kubernetes.annotations.ClassDescriber;
 import com.github.kubesys.kubernetes.utils.AnnotationUtils;
 import com.github.kubesys.kubernetes.utils.RegExpUtils;
 
@@ -22,46 +22,46 @@ import com.github.kubesys.kubernetes.utils.RegExpUtils;
  **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-@Parent(value = "VirtualMachinePool", desc = "扩展支持各种存储后端")
+@ClassDescriber(value = "VirtualMachinePool", desc = "扩展支持各种存储后端")
 public class Lifecycle {
 	
-	@Function(shortName = "开机启动存储池", description = "开机启动存储池，否则开机该存储池会连接不上，导致不可用。适用libvirt指令创建存储池情况。" 
+	@FunctionDescriber(shortName = "开机启动存储池", description = "开机启动存储池，否则开机该存储池会连接不上，导致不可用。适用libvirt指令创建存储池情况。" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = AnnotationUtils.DESC_FUNCTION_VMP, 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected AutoStart autoStart;
 	
-	@Function(shortName = "创建存储池", description = "创建存储池，适用libvirt指令创建存储池情况。" 
+	@FunctionDescriber(shortName = "创建存储池", description = "创建存储池，适用libvirt指令创建存储池情况。" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = "", 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected CreatePool createPool;
 	
-	@Function(shortName = "启动存储池", description = "启动存储池，如果存储池处于Inactive状态，可以启动。适用libvirt指令创建存储池情况。" 
+	@FunctionDescriber(shortName = "启动存储池", description = "启动存储池，如果存储池处于Inactive状态，可以启动。适用libvirt指令创建存储池情况。" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = AnnotationUtils.DESC_FUNCTION_VMP, 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected StartPool startPool;
 	
-	@Function(shortName = "注册存储池", description = "注册存储池，将挂载的存储信息注册到Libvirt中，适用与采用外部存储池情况，与CreatePool等价" 
+	@FunctionDescriber(shortName = "注册存储池", description = "注册存储池，将挂载的存储信息注册到Libvirt中，适用与采用外部存储池情况，与CreatePool等价" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = AnnotationUtils.DESC_FUNCTION_VMP, 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected RegisterPool registerPool;
 	
-	@Function(shortName = "停止存储池", description = "停止存储池，将存储池状态设置为Inactive，适用libvirt指令创建存储池情况。" 
+	@FunctionDescriber(shortName = "停止存储池", description = "停止存储池，将存储池状态设置为Inactive，适用libvirt指令创建存储池情况。" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = AnnotationUtils.DESC_FUNCTION_VMP, 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected StopPool stopPool;
 	
-	@Function(shortName = "删除存储池", description = "删除存储池，适用libvirt指令创建存储池情况。" 
+	@FunctionDescriber(shortName = "删除存储池", description = "删除存储池，适用libvirt指令创建存储池情况。" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = AnnotationUtils.DESC_FUNCTION_VMP, 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected DeletePool deletePool;
 	
-	@Function(shortName = "反注册存储池", description = "反注册存储池，将存储池信息从libvirt里面注销" 
+	@FunctionDescriber(shortName = "反注册存储池", description = "反注册存储池，将存储池信息从libvirt里面注销" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = AnnotationUtils.DESC_FUNCTION_VMP, 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
@@ -129,7 +129,7 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class AutoStart {
 
-		@Parameter(required = true, description = "修改存储池autostart状态", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
+		@ParameterDescriber(required = true, description = "修改存储池autostart状态", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean disable;
 
 		public Boolean getDisable() {
@@ -146,7 +146,7 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class CreatePool {
 
-		@Parameter(required = true, description = "存储池的类型", constraint = "只能是dir, fs, netfs, disk, iscsi, logical, scsi, mpath, rbd, sheepdog, gluster, zfs, vstorage, iscsi-direct之一", example = "dir")
+		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir, fs, netfs, disk, iscsi, logical, scsi, mpath, rbd, sheepdog, gluster, zfs, vstorage, iscsi-direct之一", example = "dir")
 		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
 		protected String type;
 		
@@ -158,7 +158,7 @@ public class Lifecycle {
 		
 		protected String source_name;
 
-		@Parameter(required = true, description = "创建存储池使用的存储路径", constraint = "完整有效的存储路径", example = "/var/lib/libvirt/poolg")
+		@ParameterDescriber(required = true, description = "创建存储池使用的存储路径", constraint = "完整有效的存储路径", example = "/var/lib/libvirt/poolg")
 		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
 		protected String target;
 		
