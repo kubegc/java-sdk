@@ -4,6 +4,7 @@
 package com.uit.cloud.autotest;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,6 +13,7 @@ import java.util.Map;
 
 import javax.validation.constraints.Pattern;
 
+import com.alibaba.fastjson.JSON;
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
 import com.github.kubesys.kubernetes.annotations.Parameter;
 import com.github.kubesys.kubernetes.api.model.VirtualMachine;
@@ -74,6 +76,14 @@ public class JUintFlowStep3Test {
 	
 	// NodeName
 	public final static String NODENAME = "vm.node30";
+	
+	public static int total   = 0;
+	
+	public static int sucess  = 0;
+	
+	public static int failure = 0;
+	
+	public static int testId = 0;
 	
 	
 	/**********************************************************************
@@ -383,88 +393,231 @@ public class JUintFlowStep3Test {
 
 	
 	public void startTesting() throws Exception {
-		int total   = 0;
-		int sucess  = 0;
-		int failure = 0;
 		
 		for (Map<String, Map<String, String>> params: paramValues) {
 			
 			for(List<String> round : testRounds) {
 				for (String step : round) {
+					Map<Object, Boolean> testcases = new HashMap<Object, Boolean>();
 					String[] values = step.split("=");
+					// 
 					{
 						Class<?> clazz = Class.forName(values[1]);
+						// all parameters
+						Map<String, Map<String, String>> allParams = generateAllParameters(params, clazz);
 						
-						Map<String, Map<String, String>> allParams = new HashMap<String, Map<String, String>>();
+						// all objects
+						List<Object> objList = generateAllObjects(clazz, allParams);
 						
-						
-						
-						for (Field field : clazz.getDeclaredFields()) {
-							Parameter param = field.getAnnotation(Parameter.class);
-							if (param == null) {
-								continue;
-							}
-							
-							String methodName = "set" + field.getName().substring(0, 1).toUpperCase()
-										+ field.getName().substring(1);
-							
-							if (field.getType().getName().equals(Boolean.class.getName())) {
-								if (field.getName().equals("live") || field.getName().equals("config")) {
-									allParams.put(methodName, null);
-								}
-								continue;
-							} 
-							
-							if(!field.getType().getName().equals(String.class.getName())) {
-								continue;
-							}
-							
-							Pattern pattern = field.getAnnotation(Pattern.class);
-							String regexp = pattern.regexp();
-							Map<String, String> valueList = params.get(pregexpMap.get(regexp));
-							
-							if (methodName.equals(CreateAndStartVMFromISO.class.getName())) {
-								if (field.getName().equals("cdrom")) {
-									allParams.put(methodName, params.get("ISO_Cdrom_PATTERN"));
-								} else if (field.getName().equals("disk")) {
-									allParams.put(methodName, params.get("ISO_Disk_PATTERN"));
-								}
-							} else if (methodName.equals(CreateAndStartVMFromImage.class.getName())) {
-								if (field.getName().equals("cdrom")) {
-									allParams.put(methodName, params.get("IMAGE_Cdrom_PATTERN"));
-								} else if (field.getName().equals("disk")) {
-									allParams.put(methodName, params.get("IMAGE_Disk_PATTERN"));
-								}
-							} else {
-								allParams.put(methodName, valueList);
-							}
-							
-						}
-						
-						for (String key : allParams.keySet()) {
-							
-						}
+						// expected results
+						expectedResults(testcases, objList);
 					}
 					
-					
-					
 					{
-						String category = values[0].substring(0, 1).toLowerCase() + values[0].substring(1) + "s";
-						int pos = values[1].lastIndexOf("$");
-						String lastname = values[1].substring(pos + 1);
-						String methodName = lastname.substring(0, 1).toLowerCase() + lastname.substring(1);
-						
-						Method method = client.getClass().getMethod(category);
-						Object object = method.invoke(client);
+						startTesting(testcases, values);
 					}
 				}
 			}
-			
-			
+		}
+	}
+
+	protected void startTesting(Map<Object, Boolean> testcases, String[] values)
+			throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+		String category = values[0].substring(0, 1).toLowerCase() + values[0].substring(1) + "s";
+		int pos = values[1].lastIndexOf("$");
+		String lastname = values[1].substring(pos + 1);
+		String methodName = lastname.substring(0, 1).toLowerCase() + lastname.substring(1);
+		
+		for (Object param : testcases.keySet()) {
+			if (testcases.get(param) == false) {
+				Method method = client.getClass().getMethod(category);
+				Object object = method.invoke(client);
+				
+				System.out.println("## Test"+ testId++ + ", " + param.getClass().getSimpleName() + "(Invalid parameters):\n\n ```\n" + JSON.toJSONString(param, true) + "\n```\n\n");
+				
+				if (methodName.startsWith("create") && !methodName.equals("createDiskSnapshot")) {
+					Method ref = object.getClass().getDeclaredMethod(methodName, String.class, String.class, param.getClass());
+					try {
+						ref.invoke(object, category + "." + NAME_CorrectValue, NODENAME, param);
+						System.out.println("Failure.\n\n");
+						failure++;
+					} catch (Exception ex) {
+						System.out.println("Sucess.\n\n");
+						sucess++;
+					}
+					total++;
+				} else {
+					Method ref = object.getClass().getDeclaredMethod(methodName, String.class, param.getClass());
+					try {
+						ref.invoke(object, category + "." + NAME_CorrectValue, param);
+						System.out.println("Failure.\n\n");
+						failure++;
+					} catch (Exception ex) {
+						System.out.println("Sucess.\n\n");
+						sucess++;
+					}
+					total++;
+				}
+			}
 			
 		}
-		
 	}
+
+	protected void expectedResults(Map<Object, Boolean> testcases, List<Object> objList)
+			throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+		for (Object obj : objList) {
+			
+			boolean isTrue = true;
+			// JSR 303
+			for (Field field : obj.getClass().getDeclaredFields()) {
+				Parameter param = field.getAnnotation(Parameter.class);
+				if (param == null) {
+					continue;
+				}
+				
+				
+				String fieldName = field.getName();
+				String method = "get" + fieldName.substring(0, 1)
+							.toUpperCase() + fieldName.substring(1);
+				Object value = obj.getClass()
+						.getMethod(method).invoke(obj);
+				
+				if (param.required() == false && value == null) {
+					continue;
+				}
+				
+				if (!(value instanceof String)) {
+					continue;
+				}
+				
+				Pattern pattern = field.getAnnotation(Pattern.class);
+				
+				if (pattern == null || pattern.regexp() == null) {
+					continue;
+				}
+				
+				String regexp = pattern.regexp();
+				
+				java.util.regex.Pattern checker = java.util.regex.Pattern.compile(regexp);
+				if (!checker.matcher((String)value).matches()) {
+					isTrue = false;
+					break;
+				}
+			}
+			
+			testcases.put(obj, isTrue);
+		}
+	}
+
+	protected List<Object> generateAllObjects(Class<?> clazz, Map<String, Map<String, String>> allParams)
+			throws InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+		// total Instances
+		int totalIns = 1;
+		
+		for (String key : allParams.keySet()) {
+			if (allParams == null || allParams.get(key) == null) {
+				continue;
+			}
+			totalIns = totalIns * allParams.get(key).size();
+		}
+		
+		List<Object> objList = new ArrayList<Object>();
+		
+		for (int ii = 0; ii < totalIns; ii++) {
+			objList.add(clazz.newInstance());
+		}
+		
+		// setvalues
+		
+		for (String name : allParams.keySet()) {
+			if (name.equals("setLive") || name.equals("setConfig")) {
+				Method methodRef = clazz.getDeclaredMethod(name, Boolean.class);
+				for (Object obj : objList) {
+					methodRef.invoke(obj, true);
+				}
+			} else {
+				try {
+					Method methodRef = clazz.getDeclaredMethod(name, String.class);
+					List<Object> objValues = new ArrayList<Object>();
+					objValues.addAll(allParams.get(name).values());
+					for (int mm = 0; mm < objList.size(); mm++) {
+						methodRef.invoke(objList.get(mm), objValues.get(mm / (objList.size()/objValues.size())));
+					}
+				} catch (Exception ex) {
+					// ignore here
+//					System.err.println(clazz + ":" + name);
+				}
+			}
+		}
+		return objList;
+	}
+			
+			
+
+	protected Map<String, Map<String, String>> generateAllParameters(Map<String, Map<String, String>> params, Class<?> clazz) {
+		
+		Map<String, Map<String, String>> allParams = new HashMap<String, Map<String, String>>();
+		
+		for (Field field : clazz.getDeclaredFields()) {
+			Parameter param = field.getAnnotation(Parameter.class);
+			if (param == null) {
+				continue;
+			}
+			
+			String methodName = "set" + field.getName().substring(0, 1).toUpperCase()
+						+ field.getName().substring(1);
+			
+			if (field.getType().getName().equals(Boolean.class.getName())) {
+				if (field.getName().equals("live") || field.getName().equals("config")) {
+					allParams.put(methodName, null);
+				}
+				continue;
+			} 
+			
+			if(!field.getType().getName().equals(String.class.getName())) {
+				continue;
+			}
+			
+			Pattern pattern = field.getAnnotation(Pattern.class);
+			String regexp = pattern.regexp();
+			Map<String, String> valueList = params.get(pregexpMap.get(regexp));
+			
+			if (clazz.getName().equals(CreateAndStartVMFromISO.class.getName())) {
+				if (field.getName().equals("cdrom")) {
+					Map<String, String> mv = new HashMap<String, String>();
+					mv.put("ISO_Cdrom_CorrectValue", ISO_Cdrom_CorrectValue);
+					mv.put("ISO_Cdrom_WrongValue", ISO_Cdrom_WrongValue);
+					allParams.put(methodName, mv);
+				} else if (field.getName().equals("disk")) {
+					Map<String, String> mv = new HashMap<String, String>();
+					mv.put("ISO_Disk_CorrectValue", ISO_Disk_CorrectValue);
+					mv.put("ISO_Disk_WrongValue", ISO_Disk_WrongValue);
+					allParams.put(methodName, mv);
+				} else {
+					allParams.put(methodName, valueList);
+				}
+			} else if (clazz.getName().equals(CreateAndStartVMFromImage.class.getName())) {
+				if (field.getName().equals("cdrom")) {
+					Map<String, String> mv = new HashMap<String, String>();
+					mv.put("IMAGE_Cdrom_CorrectValue", IMAGE_Cdrom_CorrectValue);
+					mv.put("IMAGE_Cdrom_WrongValue", IMAGE_Cdrom_WrongValue);
+					allParams.put(methodName, mv);
+				} else if (field.getName().equals("disk")) {
+					Map<String, String> mv = new HashMap<String, String>();
+					mv.put("IMAGE_Disk_CorrectValue", IMAGE_Disk_CorrectValue);
+					mv.put("IMAGE_Disk_WrongValue", IMAGE_Disk_WrongValue);
+					allParams.put(methodName, mv);
+				} else {
+					allParams.put(methodName, valueList);
+				}
+			} else {
+				allParams.put(methodName, valueList);
+			}
+			
+		}
+		return allParams;
+	}
+			
 	
 	public static void main(String[] args) throws Exception {
 		JUintFlowStep3Test jfs3 = new JUintFlowStep3Test();
@@ -472,7 +625,5 @@ public class JUintFlowStep3Test {
 		initRegExpMap();
 		jfs3.startTesting();
 	}
-
-
 	
 }
