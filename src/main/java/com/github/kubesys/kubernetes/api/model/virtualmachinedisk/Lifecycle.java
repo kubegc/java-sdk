@@ -171,7 +171,7 @@ public class Lifecycle {
 
 		protected String backing_vol;
 
-		@Parameter(required = true, description = "云盘空间大小", constraint = "10000000000-999999999999（单位：Byte）", example = "10485760")
+		@Parameter(required = true, description = "云盘空间大小", constraint = "10000000000-999999999999（单位：Byte）", example = "‭10,737,418,240‬")
 		@Pattern(regexp = RegExpUtils.DISK_SIZE_PATTERN)
 		protected String capacity;
 
@@ -277,7 +277,7 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String pool;
 
-		@Parameter(required = true, description = "扩容后的云盘空间大小", constraint = "10000000000-999999999999（单位：Byte），需要比以前的云盘空间大", example = "10485760")
+		@Parameter(required = true, description = "扩容后的云盘空间大小", constraint = "10000000000-999999999999（单位：Byte），需要比以前的云盘空间大", example = "‭10,737,418,240‬")
 		@Pattern(regexp = RegExpUtils.DISK_SIZE_PATTERN)
 		protected String capacity;
 
