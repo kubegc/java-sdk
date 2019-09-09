@@ -8,6 +8,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -41,6 +42,8 @@ import com.github.kubesys.kubernetes.api.model.virtualmachinesnapshot.Lifecycle.
 import com.github.kubesys.kubernetes.api.model.virtualmachinesnapshot.Lifecycle.DeleteSnapshot;
 import com.github.kubesys.kubernetes.utils.RegExpUtils;
 import com.uit.cloud.kubernetes.AbstractTest;
+
+import io.fabric8.kubernetes.api.model.Status;
 
 /**
  * @author  wuheng@otcaix.iscas.ac.cn
@@ -186,7 +189,7 @@ public class JUintFlowStep3Test {
 	
 	public final static String IP_WrongFormat2               = "192.168.5.12.1";
 	
-	public final static String VCPUSET_CorrectValue          = "192.168.5.12,cpuset=1";
+	public final static String VCPUSET_CorrectValue          = "1,cpuset=1";
 	
 	public final static String VCPUSET_WrongValue            = "192.168.5.12,cpuset=1000";
 	
@@ -398,7 +401,7 @@ public class JUintFlowStep3Test {
 			
 			for(List<String> round : testRounds) {
 				for (String step : round) {
-					Map<Object, Boolean> testcases = new HashMap<Object, Boolean>();
+					Map<Object, Boolean> testcases = new LinkedHashMap<Object, Boolean>();
 					String[] values = step.split("=");
 					// 
 					{
@@ -414,7 +417,7 @@ public class JUintFlowStep3Test {
 					}
 					
 					{
-						startTesting(testcases, values);
+//						startTesting(testcases, values);
 					}
 				}
 			}
@@ -429,37 +432,91 @@ public class JUintFlowStep3Test {
 		String methodName = lastname.substring(0, 1).toLowerCase() + lastname.substring(1);
 		
 		for (Object param : testcases.keySet()) {
+			Method method = client.getClass().getMethod(category);
+			Object object = method.invoke(client);
+			
 			if (testcases.get(param) == false) {
-				Method method = client.getClass().getMethod(category);
-				Object object = method.invoke(client);
-				
-				System.out.println("## Test"+ testId++ + ", " + param.getClass().getSimpleName() + "(Invalid parameters):\n\n ```\n" + JSON.toJSONString(param, true) + "\n```\n\n");
+//				System.out.println("## Test"+ testId++ + ", " + param.getClass().getSimpleName() + "(Invalid parameters):\n\n ```\n" + JSON.toJSONString(param, true) + "\n```\n\n");
+//				
+//				if (methodName.startsWith("create") && !methodName.equals("createDiskSnapshot")) {
+//					Method ref = object.getClass().getDeclaredMethod(methodName, String.class, String.class, param.getClass());
+//					try {
+//						ref.invoke(object, category + "." + NAME_CorrectValue, NODENAME, param);
+//						System.out.println("Failure.\n\n");
+//						failure++;
+//					} catch (Exception ex) {
+//						System.out.println("Sucess.\n\n");
+//						sucess++;
+//					}
+//					total++;
+//				} else {
+//					Method ref = object.getClass().getDeclaredMethod(methodName, String.class, param.getClass());
+//					try {
+//						ref.invoke(object, category + "." + NAME_CorrectValue, param);
+//						System.out.println("Failure.\n\n");
+//						failure++;
+//					} catch (Exception ex) {
+//						System.out.println("Sucess.\n\n");
+//						sucess++;
+//					}
+//					total++;
+//				}
+				continue;
+			} else {
+				System.out.println("## Test"+ testId++ + ", " + param.getClass().getSimpleName() + "(Valid parameters):\n\n ```\n" + JSON.toJSONString(param, true) + "\n```\n\n");
 				
 				if (methodName.startsWith("create") && !methodName.equals("createDiskSnapshot")) {
 					Method ref = object.getClass().getDeclaredMethod(methodName, String.class, String.class, param.getClass());
 					try {
 						ref.invoke(object, category + "." + NAME_CorrectValue, NODENAME, param);
+						check(category, object);
+					} catch (Exception ex) {
 						System.out.println("Failure.\n\n");
 						failure++;
-					} catch (Exception ex) {
-						System.out.println("Sucess.\n\n");
-						sucess++;
 					}
 					total++;
 				} else {
 					Method ref = object.getClass().getDeclaredMethod(methodName, String.class, param.getClass());
 					try {
 						ref.invoke(object, category + "." + NAME_CorrectValue, param);
+						check(category, object);
+					} catch (Exception ex) {
 						System.out.println("Failure.\n\n");
 						failure++;
-					} catch (Exception ex) {
-						System.out.println("Sucess.\n\n");
-						sucess++;
 					}
 					total++;
 				}
 			}
 			
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	protected void check(String category, Object object) throws Exception {
+		Method get = object.getClass().getDeclaredMethod("get", String.class);
+		Status status = (Status) get.invoke(object, category + "." + NAME_CorrectValue);
+		
+		int oo = 0;
+		while (oo < 10) {
+			if (status != null) {
+				Map<String, Object> statusProps = status.getAdditionalProperties();	
+				Map<String, Object> statusCond = (Map<String, Object>) (statusProps.get("conditions"));
+				Map<String, Object> statusStat = (Map<String, Object>) (statusCond.get("state"));
+				Map<String, Object> statusWait = (Map<String, Object>) (statusStat.get("waiting"));
+				if (statusWait.get("reason").equals("Exception")
+						|| statusWait.get("reason").equals("VirtctlError")
+						|| statusWait.get("reason").equals("LibvirtError")
+						|| statusWait.get("reason").equals("VirtctlError")) {
+					System.out.println("Failure.\n\n");
+					failure++;
+				} else {
+					System.out.println("Sucess.\n\n");
+					sucess++;
+				}
+			}
+			Thread.sleep(3000);
+			get = object.getClass().getDeclaredMethod("get", String.class);
+			status = (Status) get.invoke(object, category + "." + NAME_CorrectValue);
 		}
 	}
 
@@ -505,6 +562,11 @@ public class JUintFlowStep3Test {
 				}
 			}
 			
+			System.out.println("========================");
+			System.out.println(obj.getClass().getName());
+			System.out.println(JSON.toJSONString(obj, true));
+			System.out.println(isTrue);
+			System.out.println("========================");
 			testcases.put(obj, isTrue);
 		}
 	}
@@ -529,6 +591,7 @@ public class JUintFlowStep3Test {
 		
 		// setvalues
 		
+		int rrr = 1;
 		for (String name : allParams.keySet()) {
 			if (name.equals("setLive") || name.equals("setConfig")) {
 				Method methodRef = clazz.getDeclaredMethod(name, Boolean.class);
@@ -539,15 +602,21 @@ public class JUintFlowStep3Test {
 				try {
 					Method methodRef = clazz.getDeclaredMethod(name, String.class);
 					List<Object> objValues = new ArrayList<Object>();
-					objValues.addAll(allParams.get(name).values());
+					
+					for (int ppp = 1; ppp < rrr; ppp++) {
+						objValues.addAll(allParams.get(name).values());
+					}
+					
 					for (int mm = 0; mm < objList.size(); mm++) {
-						methodRef.invoke(objList.get(mm), objValues.get(mm / (objList.size()/objValues.size())));
+						Object methodValue = objValues.get(mm/objValues.size());
+						methodRef.invoke(objList.get(mm), methodValue);
 					}
 				} catch (Exception ex) {
 					// ignore here
 //					System.err.println(clazz + ":" + name);
 				}
 			}
+			rrr *= allParams.get(name).values().size();
 		}
 		return objList;
 	}
