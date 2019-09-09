@@ -469,7 +469,7 @@ public class JUintFlowStep3Test {
 					Method ref = object.getClass().getDeclaredMethod(methodName, String.class, String.class, param.getClass());
 					try {
 						ref.invoke(object, category + "." + NAME_CorrectValue, NODENAME, param);
-						check(category, object);
+						check(category, object, false);
 					} catch (Exception ex) {
 						System.out.println("Failure.\n\n");
 						failure++;
@@ -479,7 +479,33 @@ public class JUintFlowStep3Test {
 					Method ref = object.getClass().getDeclaredMethod(methodName, String.class, param.getClass());
 					try {
 						ref.invoke(object, category + "." + NAME_CorrectValue, param);
-						check(category, object);
+						check(category, object, false);
+					} catch (Exception ex) {
+						System.out.println("Failure.\n\n");
+						failure++;
+					}
+					total++;
+				}
+				
+				
+				
+				System.out.println("## Test"+ testId++ + ", " + param.getClass().getSimpleName() + "(Duplicated parameters):\n\n ```\n" + JSON.toJSONString(param, true) + "\n```\n\n");
+				
+				if (methodName.startsWith("create") && !methodName.equals("createDiskSnapshot")) {
+					Method ref = object.getClass().getDeclaredMethod(methodName, String.class, String.class, param.getClass());
+					try {
+						ref.invoke(object, category + "." + NAME_CorrectValue, NODENAME, param);
+						check(category, object, true);
+					} catch (Exception ex) {
+						System.out.println("Failure.\n\n");
+						failure++;
+					}
+					total++;
+				} else {
+					Method ref = object.getClass().getDeclaredMethod(methodName, String.class, param.getClass());
+					try {
+						ref.invoke(object, category + "." + NAME_CorrectValue, param);
+						check(category, object, true);
 					} catch (Exception ex) {
 						System.out.println("Failure.\n\n");
 						failure++;
@@ -492,7 +518,7 @@ public class JUintFlowStep3Test {
 	}
 
 	@SuppressWarnings("unchecked")
-	protected void check(String category, Object object) throws Exception {
+	protected void check(String category, Object object, boolean isExecption) throws Exception {
 		Method get = object.getClass().getDeclaredMethod("get", String.class);
 		Status status = (Status) get.invoke(object, category + "." + NAME_CorrectValue);
 		
@@ -507,11 +533,21 @@ public class JUintFlowStep3Test {
 						|| statusWait.get("reason").equals("VirtctlError")
 						|| statusWait.get("reason").equals("LibvirtError")
 						|| statusWait.get("reason").equals("VirtctlError")) {
-					System.out.println("Failure.\n\n");
-					failure++;
+					if (!isExecption) {
+						System.out.println("Failure.\n\n");
+						failure++;
+					} else {
+						System.out.println("Sucess.\n\n");
+						sucess++;
+					}
 				} else {
-					System.out.println("Sucess.\n\n");
-					sucess++;
+					if (!isExecption) {
+						System.out.println("Sucess.\n\n");
+						sucess++;
+					} else {
+						System.out.println("Failure.\n\n");
+						failure++;
+					}
 				}
 			}
 			Thread.sleep(3000);
