@@ -2,7 +2,7 @@
 
 	本文档用于说明基于Kubernetes的虚拟机生命周期如何管理, 项目地址：https://github.com/kubesys/kubeext-jdk.
 	本文有两种通用的约束:
-		(1)名称：只允许小写字母和、数字、中划线和圆点组合，8-32位
+		(1)名称：只允许小写字母和、数字、中划线和圆点组合，6-32位
 		(2)路径：必须是/xx/xx形式，且在/var/lib/libvirt目录下，xx允许小写字母、数字、中划线和点，18-1024位
 
 
@@ -10,7 +10,7 @@
 
 虚拟机是指安装了OS的磁盘.VirtualMachine所有操作的返回值一样，见**[返回值]**
 
-## 1.1 CreateAndStartVMFromISO(通过ISO安装虚拟机)
+## 1.1 CreateAndStartVMFromISO(通过ISO装虚拟机)
 
 **接口功能:**
 	通过光驱安装云OS，光驱必须存在只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
@@ -27,7 +27,7 @@
 | ----- | ------ | ------ | ------ | ------ |
 | name | String | true | 资源名称 | createAndStartVMFromISO.name.001|
 | nodeName | String | false | 选择部署的物理机，可以通过kubernetes.nodes().list进行查询 | node22 |
-| createAndStartVMFromISO | CreateAndStartVMFromISO | true | 通过ISO安装虚拟机 | 详细见下 |
+| createAndStartVMFromISO | CreateAndStartVMFromISO | true | 通过ISO装虚拟机 | 详细见下 |
 | eventId | String | fasle | 事件ID | createAndStartVMFromISO.event.001 |
 
 对象createAndStartVMFromISO参数说明:
@@ -38,7 +38,7 @@
 | graphics|String|true|虚拟机VNC/SPICE及其密码|vnc,listen=0.0.0.0,password=abcdefg|
 | disk|String|true|虚拟机磁盘，包括硬盘和光驱|/var/lib/libvirt/images/test3.qcow2,read_bytes_sec=1024000000,write_bytes_sec=1024000000 --disk /opt/ISO/CentOS-7-x86_64-Minimal-1511.iso,device=cdrom,perms=ro|
 | memory|String|true|虚拟机内存大小，单位为MiB|2048|
-| network|String|true|虚拟机网络|type=l3bridge,source=br-int,inbound=102400,outbound=102400,ip=192.168.5.9,switch=switch|
+| network|String|true|虚拟机网络|type=l3bridge,source=br-int,ip=192.168.5.9,switch=switch8888,inbound=102400,outbound=102400|
 | virt_type|String|false|虚拟化类型|kvm|
 | boot|String|false|设置启动顺序|hd|
 | os_variant|String|true|操作系统类型，如果不设置可能发生鼠标偏移等问题|centos7.0|
@@ -417,7 +417,7 @@
 | config|Boolean|false|如果不设置，当前配置下次不会生效|true|
 | live|Boolean|false|立即生效，对于开机虚拟机|true|
 | hotpluggable|Boolean|false|对于开机虚拟机进行运行时插拔，与--live等价|true|
-| count|Integer|true|vcpu数量|16|
+| count|String|true|vcpu数量|16|
 | guest|Boolean|false|修改虚拟机CPU状态|true|
 |  |  |  |  |  |
 
@@ -511,7 +511,6 @@
 | config|Boolean|false|如果不设置，当前配置下次不会生效|true|
 | live|Boolean|false|立即生效，对于开机虚拟机|true|
 | source|String|true|云盘源路径|/var/lib/libvirt/images/test1.qcow2|
-| targetbus|String|false|虚拟的云盘总线类型，如果不填将根据target的取值自动匹配，例如vdX匹配为virtio类型的总线、sdX匹配为scsi类型的总线|virtio|
 | subdriver|String|false|云盘子驱动类型|qcow2|
 | target|String|true|目标盘符，对应虚拟机内看到的盘符号|vdc|
 | mode|String|false|读写类型|shareable|
@@ -1049,6 +1048,199 @@
 | Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
 
 (2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看ConvertVMToImagespec下的status域，从message中获取详细异常信息
+
+| name  | description | 
+| ----- | ----- | 
+| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
+| VirtctlError | Libvirt不支持的生命周期    |
+| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
+| Exception    | 后台代码异常退出,比如主机的hostname变化    |
+
+## 1.23 InsertISO(插入光驱)
+
+**接口功能:**
+	插入只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
+
+**接口依赖:**
+	虚拟机存在，即已调用过CreatePool, CreateSwitch, CreateDisk/CreateDiskImage, CreateAndStartVMFromISO/CreateAndStartVMFromImage或plugDevice
+
+**接口所属:**
+	com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.InsertISO
+
+**参数描述:**
+
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+| name | String | true | 资源名称 | insertISO.name.001|
+| insertISO | InsertISO | true | 插入光驱 | 详细见下 |
+| eventId | String | fasle | 事件ID | insertISO.event.001 |
+
+对象insertISO参数说明:
+
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+| current|Boolean|false|对当前虚拟机生效|true|
+| config|Boolean|false|如果不设置，当前配置下次不会生效|true|
+| live|Boolean|false|立即生效，对于开机虚拟机|true|
+| path|String|true|模板虚拟机的路径|/var/lib/libvirt/target.iso|
+| insert|Boolean|true|插入光驱|true|
+| force|Boolean|true|强制执行|true|
+| block|Boolean|true|如果适用物理机光驱，应该设置为true|true|
+|  |  |  |  |  |
+
+**接口异常:**
+
+(1)在调用本方法抛出;
+
+| name  | description | 
+| ----- | ----- | 
+| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
+| IllegalFormatException | 传递的参数不符合约束条件    |
+| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
+
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看InsertISOspec下的status域，从message中获取详细异常信息
+
+| name  | description | 
+| ----- | ----- | 
+| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
+| VirtctlError | Libvirt不支持的生命周期    |
+| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
+| Exception    | 后台代码异常退出,比如主机的hostname变化    |
+
+## 1.24 EjectISO(拔出光驱)
+
+**接口功能:**
+	拔出光驱只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
+
+**接口依赖:**
+	虚拟机存在，即已调用过CreatePool, CreateSwitch, CreateDisk/CreateDiskImage, CreateAndStartVMFromISO/CreateAndStartVMFromImage或plugDevice
+
+**接口所属:**
+	com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.EjectISO
+
+**参数描述:**
+
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+| name | String | true | 资源名称 | ejectISO.name.001|
+| ejectISO | EjectISO | true | 拔出光驱 | 详细见下 |
+| eventId | String | fasle | 事件ID | ejectISO.event.001 |
+
+对象ejectISO参数说明:
+
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+| current|Boolean|false|对当前虚拟机生效|true|
+| config|Boolean|false|如果不设置，当前配置下次不会生效|true|
+| live|Boolean|false|立即生效，对于开机虚拟机|true|
+| path|String|true|模板虚拟机的路径|/var/lib/libvirt/target.iso|
+| eject|Boolean|true|弹出光驱，与--insert不可同时设置为true|true|
+| force|Boolean|true|强制执行|true|
+| block|Boolean|true|如果适用物理机光驱，应该设置为true|true|
+|  |  |  |  |  |
+
+**接口异常:**
+
+(1)在调用本方法抛出;
+
+| name  | description | 
+| ----- | ----- | 
+| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
+| IllegalFormatException | 传递的参数不符合约束条件    |
+| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
+
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看EjectISOspec下的status域，从message中获取详细异常信息
+
+| name  | description | 
+| ----- | ----- | 
+| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
+| VirtctlError | Libvirt不支持的生命周期    |
+| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
+| Exception    | 后台代码异常退出,比如主机的hostname变化    |
+
+## 1.25 ResizeVM(调整虚拟机大小)
+
+**接口功能:**
+	调整虚拟机大小，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
+
+**接口依赖:**
+	云盘存在，即已调用过CreateDisk/CreateDiskFromDiskImage
+
+**接口所属:**
+	com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ResizeVM
+
+**参数描述:**
+
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+| name | String | true | 资源名称 | resizeVM.name.001|
+| resizeVM | ResizeVM | true | 调整虚拟机大小 | 详细见下 |
+| eventId | String | fasle | 事件ID | resizeVM.event.001 |
+
+对象resizeVM参数说明:
+
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+| path|String|true|虚拟机路径|/var/lib/libvirt/images/test1.qcow2|
+| size|String|true|虚拟机大小, 10G到1T|‭10,737,418,240‬|
+|  |  |  |  |  |
+
+**接口异常:**
+
+(1)在调用本方法抛出;
+
+| name  | description | 
+| ----- | ----- | 
+| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
+| IllegalFormatException | 传递的参数不符合约束条件    |
+| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
+
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看ResizeVMspec下的status域，从message中获取详细异常信息
+
+| name  | description | 
+| ----- | ----- | 
+| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
+| VirtctlError | Libvirt不支持的生命周期    |
+| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
+| Exception    | 后台代码异常退出,比如主机的hostname变化    |
+
+## 1.26 CloneVM(克隆虚拟机)
+
+**接口功能:**
+	克隆虚拟机，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
+
+**接口依赖:**
+	云盘存在，即已调用过CreateDisk/CreateDiskFromDiskImage
+
+**接口所属:**
+	com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CloneVM
+
+**参数描述:**
+
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+| name | String | true | 资源名称 | cloneVM.name.001|
+| cloneVM | CloneVM | true | 克隆虚拟机 | 详细见下 |
+| eventId | String | fasle | 事件ID | cloneVM.event.001 |
+
+对象cloneVM参数说明:
+
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+| name|String|true|克隆虚拟机|newdisk|
+|  |  |  |  |  |
+
+**接口异常:**
+
+(1)在调用本方法抛出;
+
+| name  | description | 
+| ----- | ----- | 
+| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
+| IllegalFormatException | 传递的参数不符合约束条件    |
+| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
+
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看CloneVMspec下的status域，从message中获取详细异常信息
 
 | name  | description | 
 | ----- | ----- | 
@@ -2102,19 +2294,13 @@
 				"graphics":[
 					{
 						"autoport":"String",
-						"listen":{
-							"address":"String",
-							"type":"String"
-						},
+						"listen":"String",
 						"port":"String",
 						"type":"String"
 					},
 					{
 						"autoport":"String",
-						"listen":{
-							"address":"String",
-							"type":"String"
-						},
+						"listen":"String",
 						"port":"String",
 						"type":"String"
 					}
@@ -3803,11 +3989,14 @@
 		"lifecycle":{
 			"changeNumberOfCPU":{
 				"config":true,
-				"count":1,
+				"count":"String",
 				"current":true,
 				"guest":true,
 				"hotpluggable":true,
 				"live":true
+			},
+			"cloneVM":{
+				"name":"String"
 			},
 			"convertVMToImage":{},
 			"createAndStartVMFromISO":{
@@ -3876,6 +4065,24 @@
 			"deleteVM":{
 				"delete_snapshots":true,
 				"remove_all_storage":true
+			},
+			"ejectISO":{
+				"block":true,
+				"config":true,
+				"current":true,
+				"eject":true,
+				"force":true,
+				"live":true,
+				"path":"String"
+			},
+			"insertISO":{
+				"block":true,
+				"config":true,
+				"current":true,
+				"force":true,
+				"insert":true,
+				"live":true,
+				"path":"String"
 			},
 			"manageISO":{
 				"block":true,
@@ -3962,6 +4169,10 @@
 				"config":true,
 				"current":true,
 				"live":true,
+				"size":"String"
+			},
+			"resizeVM":{
+				"path":"String",
 				"size":"String"
 			},
 			"resumeVM":{},
@@ -5183,19 +5394,13 @@
 				"graphics":[
 					{
 						"autoport":"String",
-						"listen":{
-							"address":"String",
-							"type":"String"
-						},
+						"listen":"String",
 						"port":"String",
 						"type":"String"
 					},
 					{
 						"autoport":"String",
-						"listen":{
-							"address":"String",
-							"type":"String"
-						},
+						"listen":"String",
 						"port":"String",
 						"type":"String"
 					}
@@ -6965,7 +7170,7 @@
 | name | type | required | description | exampe |
 | ----- | ------ | ------ | ------ | ------ |
 | pool|String|true|云盘所在的存储池名|pool2|
-| capacity|String|true|扩容后的云盘空间大小|10485760|
+| capacity|String|true|扩容后的云盘空间大小, 10G到1T|‭10,737,418,240‬|
 |  |  |  |  |  |
 
 **接口异常:**
@@ -7013,7 +7218,7 @@
 | ----- | ------ | ------ | ------ | ------ |
 | format|String|true|云盘文件的类型|qcow2|
 | pool|String|true|创建云盘使用的存储池名|pool2|
-| capacity|String|true|云盘空间大小|10485760|
+| capacity|String|true|云盘空间大小,10G到1T|‭10,737,418,240‬|
 |  |  |  |  |  |
 
 **接口异常:**
@@ -8907,19 +9112,13 @@
 					"graphics":[
 						{
 							"autoport":"String",
-							"listen":{
-								"address":"String",
-								"type":"String"
-							},
+							"listen":"String",
 							"port":"String",
 							"type":"String"
 						},
 						{
 							"autoport":"String",
-							"listen":{
-								"address":"String",
-								"type":"String"
-							},
+							"listen":"String",
 							"port":"String",
 							"type":"String"
 						}
