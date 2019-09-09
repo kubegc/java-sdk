@@ -44,6 +44,9 @@ import io.fabric8.kubernetes.internal.KubernetesDeserializer;
  * @version 1.0.0
  * @since   2019/9/3
  *
+ * @version 1.2.0
+ * @update  2019/9/9
+ * 
  * <p>
  * <code>ExtendedKubernetesClient<code> extends <code>DefaultKubernetesClient<code>
  * to provide the lifecycle of VirtualMachine, VirtualMachinePool, VirtualMachineDisk,
@@ -53,7 +56,7 @@ import io.fabric8.kubernetes.internal.KubernetesDeserializer;
 public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 
 	/**
-	 * logger
+	 * m_logger
 	 */
 	public final static Logger m_logger = Logger.getLogger(ExtendedKubernetesClient.class.getName());
 
@@ -77,16 +80,6 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 	 * all configurations
 	 */
 	public final static List<String> configs = new ArrayList<String>();
-	
-	static {
-		configs.add("/VirtualMachine.conf");
-		configs.add("/VirtualMachineImage.conf");
-		configs.add("/VirtualMachineDisk.conf");
-		configs.add("/VirtualMachineSnapshot.conf");
-		configs.add("/VirtualMachineNetwork.conf");
-		configs.add("/VirtualMachinePool.conf");
-		configs.add("/VirtualMachineDiskImage.conf");
-	}
 	
 	/**
 	 * @param config     the configuration contains token, 
@@ -188,7 +181,7 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 	 * @return                     CRDClient
 	 * @throws Exception           if the customResource is not found.
 	 */
-	@SuppressWarnings({ "rawtypes"})
+	@SuppressWarnings({ "rawtypes", "unchecked"})
 	protected MixedOperation getCrdClient(String kind, CustomResourceDefinition crd) throws Exception {
 		return (MixedOperation) customResources(crd,
 				Class.forName(ROOT_PKG + SUB_PKG + kind).asSubclass(CustomResource.class), 
@@ -197,6 +190,7 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 					.inNamespace("default");
 	}
 
+	
 	/***************************************************************
 	 * 
 	 *                         Utils
@@ -208,65 +202,44 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 	 * 
 	 ****************************************************************/
 	
+	static {
+		configs.add("/VirtualMachine.conf");
+		configs.add("/VirtualMachineImage.conf");
+		configs.add("/VirtualMachineDisk.conf");
+		configs.add("/VirtualMachineSnapshot.conf");
+		configs.add("/VirtualMachineNetwork.conf");
+		configs.add("/VirtualMachinePool.conf");
+		configs.add("/VirtualMachineDiskImage.conf");
+	}
+	
+	
+	
+	
 	/**
-	 * @return        VirtualMachine 
+	 * @return        VirtualMachines
 	 */
 	public VirtualMachineImpl virtualMachines() {
 		return new VirtualMachineImpl();
 	}
 	
 	/**
-	 * @return        VirtualMachineImage
-	 */
-	public VirtualMachineImageImpl virtualMachineImages() {
-		return new VirtualMachineImageImpl();
-	}
-	
-	/**
-	 * @return        VirtualMachineDisk
-	 */
-	public VirtualMachineDiskImpl virtualMachineDisks() {
-		return new VirtualMachineDiskImpl();
-	}
-	
-	/**
-	 * @return        VirtualMachinePool
-	 */
-	public VirtualMachinePoolImpl virtualMachinePools() {
-		return new VirtualMachinePoolImpl();
-	}
-	
-	/**
-	 * @return        VirtualMachinePool
-	 */
-	public VirtualMachineNetworkImpl virtualMachineNetworks() {
-		return new VirtualMachineNetworkImpl();
-	}
-	
-	/**
-	 * @return        VirtualMachinePool
-	 */
-	public VirtualMachineDiskImageImpl virtualMachineDiskImages() {
-		return new VirtualMachineDiskImageImpl();
-	}
-	
-	/**
-	 * @return        VirtualMachineSnapshot
-	 */
-	public VirtualMachineSnapshotImpl virtualMachineSnapshots() {
-		return new VirtualMachineSnapshotImpl();
-	}
-	
-	/**
-	 * @return        VirtualMachine 
+	 * @return        VirtualMachines 
 	 */
 	@SuppressWarnings("unchecked")
 	public void watchVirtualMachines(Watcher<VirtualMachine> watcher) {
 		crdClients.get(VirtualMachine.class.getSimpleName()).watch(watcher);
 	}
 	
+	
+	
+	
+	
+	
+	
+	
+	
 	/**
-	 * @return        VirtualMachineImage
+	 * @return        VirtualMachineImages
 	 */
 	@SuppressWarnings("unchecked")
 	public void watchVirtualMachineImages(Watcher<VirtualMachineImage> watcher) {
@@ -274,44 +247,152 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 	}
 	
 	/**
-	 * @return        VirtualMachineDisk
+	 * @return        VirtualMachineImages
+	 */
+	public VirtualMachineImageImpl virtualMachineImages() {
+		return new VirtualMachineImageImpl();
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/**
+	 * @return        VirtualMachineDisks
+	 */
+	public VirtualMachineDiskImpl virtualMachineDisks() {
+		return new VirtualMachineDiskImpl();
+	}
+	
+	/**
+	 * @return        VirtualMachineDisks
 	 */
 	@SuppressWarnings("unchecked")
 	public void watchVirtualMachineDisks(Watcher<VirtualMachineDisk> watcher) {
 		crdClients.get(VirtualMachineDisk.class.getSimpleName()).watch(watcher);
 	}
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/**
-	 * @return        VirtualMachineSnapshot
+	 * @return        VirtualMachinePools
 	 */
-	@SuppressWarnings("unchecked")
-	public void watchVirtualMachineSnapshots(Watcher<VirtualMachineSnapshot> watcher) {
-		crdClients.get(VirtualMachineSnapshot.class.getSimpleName()).watch(watcher);
+	public VirtualMachinePoolImpl virtualMachinePools() {
+		return new VirtualMachinePoolImpl();
 	}
 	
 	/**
-	 * @return        VirtualMachineSnapshot
+	 * @return        VirtualMachinePools
 	 */
 	@SuppressWarnings("unchecked")
 	public void watchVirtualMachinePools(Watcher<VirtualMachinePool> watcher) {
 		crdClients.get(VirtualMachinePool.class.getSimpleName()).watch(watcher);
 	}
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/**
-	 * @return        VirtualMachineSnapshot
+	 * @return        VirtualMachineNetworks
+	 */
+	public VirtualMachineNetworkImpl virtualMachineNetworks() {
+		return new VirtualMachineNetworkImpl();
+	}
+	
+	/**
+	 * @return        VirtualMachineNetworks
 	 */
 	@SuppressWarnings("unchecked")
 	public void watchVirtualMachineNetworks(Watcher<VirtualMachineNetwork> watcher) {
 		crdClients.get(VirtualMachineNetwork.class.getSimpleName()).watch(watcher);
 	}
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/**
-	 * @return        VirtualMachineSnapshot
+	 * @return        VirtualMachineSnapshots
+	 */
+	public VirtualMachineSnapshotImpl virtualMachineSnapshots() {
+		return new VirtualMachineSnapshotImpl();
+	}
+	
+	/**
+	 * @return        VirtualMachineSnapshots
+	 */
+	@SuppressWarnings("unchecked")
+	public void watchVirtualMachineSnapshots(Watcher<VirtualMachineSnapshot> watcher) {
+		crdClients.get(VirtualMachineSnapshot.class.getSimpleName()).watch(watcher);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/**
+	 * @return        VirtualMachineDiskImages
+	 */
+	public VirtualMachineDiskImageImpl virtualMachineDiskImages() {
+		return new VirtualMachineDiskImageImpl();
+	}
+	
+	/**
+	 * @return        VirtualMachineDiskImages
 	 */
 	@SuppressWarnings("unchecked")
 	public void watchVirtualMachineDiskImages(Watcher<VirtualMachineDiskImage> watcher) {
 		crdClients.get(VirtualMachineDiskImage.class.getSimpleName()).watch(watcher);
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	/**
 	 * @return NodeSelector
