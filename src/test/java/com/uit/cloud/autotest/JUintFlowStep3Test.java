@@ -533,7 +533,7 @@ public class JUintFlowStep3Test {
 		Status status = (Status) getStatus.invoke(spec); 
 		
 		int oo = 0;
-		while (oo < 10) {
+		while (oo++ < 10) {
 			if (status != null) {
 				Map<String, Object> statusProps = status.getAdditionalProperties();	
 				Map<String, Object> statusCond = (Map<String, Object>) (statusProps.get("conditions"));
@@ -559,10 +559,19 @@ public class JUintFlowStep3Test {
 						failure++;
 					}
 				}
+				break;
+			} else {
+				Thread.sleep(3000);
+				getObj = object.getClass().getMethod("get", String.class);
+				obj = getObj.invoke(object, category.toLowerCase() + "." + NAME_CorrectValue);
+				
+				getSpec = obj.getClass().getMethod("getSpec");
+				
+				spec = getSpec.invoke(obj);
+				
+				getStatus = spec.getClass().getMethod("getStatus");
+				status = (Status) getStatus.invoke(spec); 
 			}
-			Thread.sleep(3000);
-			getObj = object.getClass().getDeclaredMethod("get", String.class);
-			status = (Status) getObj.invoke(object, category.toLowerCase() + "." + NAME_CorrectValue);
 		}
 	}
 
