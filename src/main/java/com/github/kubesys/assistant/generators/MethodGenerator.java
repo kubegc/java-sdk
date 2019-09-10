@@ -1,7 +1,7 @@
 /*
  * Copyright (2019, ) Institute of Software, Chinese Academy of Sciences
  */
-package com.github.kubesys.interior.generators;
+package com.github.kubesys.assistant.generators;
 
 import com.github.kubesys.kubernetes.impl.AbstractImpl;
 import com.github.kubesys.kubernetes.impl.VirtualMachineImpl;
@@ -12,10 +12,10 @@ import com.github.kubesys.kubernetes.impl.VirtualMachineImpl;
  * @version 1.0.0
  * @since   2019/9/3
  *
- * generate methods in Impl, such as <code>VirtualMachineImpl<code>,
+ * generating methods for the subclass of <code>AbstractImpl<code>, such as <code>VirtualMachineImpl<code>,
  * <code>VirtualMachinePoolImpl<code>, and so one 
  */
-public class ImplMethodGenerator {
+public class MethodGenerator {
 
 	public static String generate(Object obj) throws Exception {
 		StringBuffer sb = new StringBuffer();

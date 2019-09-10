@@ -1,7 +1,7 @@
 /*
  * Copyright (2019, ) Institute of Software, Chinese Academy of Sciences
  */
-package com.github.kubesys.interior.generators.classgen;
+package com.github.kubesys.assistant.generators.deprecated;
 
 import java.util.ArrayList;
 import java.util.Date;

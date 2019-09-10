@@ -1,7 +1,7 @@
 /*
  * Copyright (2019, ) Institute of Software, Chinese Academy of Sciences
  */
-package com.github.kubesys.interior.generators;
+package com.github.kubesys.assistant.analyzers;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ import com.github.kubesys.kubernetes.api.model.virtualmachinesnapshot.Domainsnap
  * Libvirt use the xml style, some attributes should 
  * convert from String to ArrayList
  */
-public class LibvirtSpecialFieldGenerator {
+public class LibvirtSpecialFieldAnalyzer {
 
 	public static Set<String>  primitives = new HashSet<String>();
 	

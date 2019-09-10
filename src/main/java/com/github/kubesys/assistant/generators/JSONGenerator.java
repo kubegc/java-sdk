@@ -1,7 +1,7 @@
 /*
  * Copyright (2019, ) Institute of Software, Chinese Academy of Sciences
  */
-package com.github.kubesys.interior.generators;
+package com.github.kubesys.assistant.generators;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -16,6 +16,7 @@ import com.alibaba.fastjson.JSON;
  * @since   2019/9/3
  *
  */
+@Deprecated
 public class JSONGenerator {
 	
 	public final static List<String> list = new ArrayList<String>();

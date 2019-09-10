@@ -1,7 +1,7 @@
 /*
  * Copyright (2019, ) Institute of Software, Chinese Academy of Sciences
  */
-package com.github.kubesys.interior.generators;
+package com.github.kubesys.assistant.generators;
 
 import java.lang.reflect.Field;
 
@@ -17,7 +17,7 @@ import com.github.kubesys.kubernetes.annotations.ClassDescriber;
  * @since   2019/9/3
  *
  */
-public class APIDocGenerator {
+public class APIGenerator {
 	
 	public static void main(String[] args) throws Exception {
 		
