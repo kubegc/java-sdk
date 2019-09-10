@@ -16,7 +16,7 @@ public class GetVirtualMachineDiskImageTest {
 	
 	public static void main(String[] args) throws Exception {
 		System.out.println(AbstractTest
-				.getVMDiskImageByName("t5"));
+				.getVMDiskImageByName("tttttttt6"));
 	}
 	
 }

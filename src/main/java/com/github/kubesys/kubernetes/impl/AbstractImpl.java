@@ -20,6 +20,7 @@ import com.github.kubesys.kubernetes.annotations.ParameterDescriber;
 import com.github.kubesys.kubernetes.api.model.ExtendedCustomResourceDefinitionSpec;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ResetVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StopVMForce;
+import com.github.kubesys.kubernetes.utils.RegExpUtils;
 
 import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.api.model.ObjectMeta;
@@ -126,6 +127,10 @@ public abstract class AbstractImpl<R, S, T> {
 	 */
 	@SuppressWarnings("unchecked")
 	public R get(String name)  {
+		java.util.regex.Pattern pattern = java.util.regex.Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 8 and 32, and it can only includes a-z, 0-9 and -.");
+		}
 		return ((Gettable<R>) client.withName(name)).get();
 	}
 	
@@ -271,7 +276,7 @@ public abstract class AbstractImpl<R, S, T> {
 	 * @return                   true, or an exception
 	 * @throws Exception         exception  
 	 */
-	public boolean create(R r, ObjectMeta om, T spec) throws Exception {
+	protected boolean create(R r, ObjectMeta om, T spec) throws Exception {
 		
 		// r.setApiVersion(apiversion)
 		Method setVersion = r.getClass().getMethod("setApiVersion", String.class);
