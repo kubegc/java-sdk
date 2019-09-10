@@ -256,8 +256,6 @@ public class JUintFlowStep3Test {
 	static {
 		{
 			List<String> testRound1 = new ArrayList<String>();
-			testRound1.add(VirtualMachine.class.getSimpleName() + "=" + UpdateOS.class.getName());
-			
 			testRound1.add(VirtualMachine.class.getSimpleName() + "=" + CreateAndStartVMFromISO.class.getName());
 			testRound1.add(VirtualMachine.class.getSimpleName() + "=" + StopVMForce.class.getName());
 			testRound1.add(VirtualMachine.class.getSimpleName() + "=" + UpdateOS.class.getName());
@@ -337,12 +335,12 @@ public class JUintFlowStep3Test {
 					v1.put(name, (String) value);
 					map1.put(key, v1);
 				} else if (name.endsWith("CorrectValue2")) {
-					Map<String, String> v2 = map1.get(key);
+					Map<String, String> v2 = map2.get(key);
 					v2 = (v2 == null) ? new HashMap<String, String>() : v2;
 					v2.put(name, (String) value);
 					map2.put(key, v2);
 				} else if (name.endsWith("CorrectValue3")) {
-					Map<String, String> v3 = map1.get(key);
+					Map<String, String> v3 = map3.get(key);
 					v3 = (v3 == null) ? new HashMap<String, String>() : v3;
 					v3.put(name, (String) value);
 					map3.put(key, v3);
@@ -352,12 +350,12 @@ public class JUintFlowStep3Test {
 					v1.put(name, (String) value);
 					map1.put(key, v1);
 					
-					Map<String, String> v2 = map1.get(key);
+					Map<String, String> v2 = map2.get(key);
 					v2 = (v2 == null) ? new HashMap<String, String>() : v2;
 					v2.put(name, (String) value);
 					map2.put(key, v2);
 					
-					Map<String, String> v3 = map1.get(key);
+					Map<String, String> v3 = map3.get(key);
 					v3 = (v3 == null) ? new HashMap<String, String>() : v3;
 					v3.put(name, (String) value);
 					map3.put(key, v3);
@@ -401,6 +399,8 @@ public class JUintFlowStep3Test {
 		
 		for (Map<String, Map<String, String>> params: paramValues) {
 			
+			System.out.println(params);
+			
 			for(List<String> round : testRounds) {
 				for (String step : round) {
 					Map<Object, Boolean> testcases = new LinkedHashMap<Object, Boolean>();
@@ -419,7 +419,7 @@ public class JUintFlowStep3Test {
 					}
 					
 					{
-//						startTesting(testcases, values);
+						startTesting(testcases, values);
 					}
 				}
 			}
@@ -438,31 +438,31 @@ public class JUintFlowStep3Test {
 			Object object = method.invoke(client);
 			
 			if (testcases.get(param) == false) {
-//				System.out.println("## Test"+ testId++ + ", " + param.getClass().getSimpleName() + "(Invalid parameters):\n\n ```\n" + JSON.toJSONString(param, true) + "\n```\n\n");
-//				
-//				if (methodName.startsWith("create") && !methodName.equals("createDiskSnapshot")) {
-//					Method ref = object.getClass().getDeclaredMethod(methodName, String.class, String.class, param.getClass());
-//					try {
-//						ref.invoke(object, category + "." + NAME_CorrectValue, NODENAME, param);
-//						System.out.println("Failure.\n\n");
-//						failure++;
-//					} catch (Exception ex) {
-//						System.out.println("Sucess.\n\n");
-//						sucess++;
-//					}
-//					total++;
-//				} else {
-//					Method ref = object.getClass().getDeclaredMethod(methodName, String.class, param.getClass());
-//					try {
-//						ref.invoke(object, category + "." + NAME_CorrectValue, param);
-//						System.out.println("Failure.\n\n");
-//						failure++;
-//					} catch (Exception ex) {
-//						System.out.println("Sucess.\n\n");
-//						sucess++;
-//					}
-//					total++;
-//				}
+				System.out.println("## Test"+ testId++ + ", " + param.getClass().getSimpleName() + "(Invalid parameters):\n\n ```\n" + JSON.toJSONString(param, true) + "\n```\n\n");
+				
+				if (methodName.startsWith("create") && !methodName.equals("createDiskSnapshot")) {
+					Method ref = object.getClass().getDeclaredMethod(methodName, String.class, String.class, param.getClass());
+					try {
+						ref.invoke(object, category + "." + NAME_CorrectValue, NODENAME, param);
+						System.out.println("Failure.\n\n");
+						failure++;
+					} catch (Exception ex) {
+						System.out.println("Sucess.\n\n");
+						sucess++;
+					}
+					total++;
+				} else {
+					Method ref = object.getClass().getDeclaredMethod(methodName, String.class, param.getClass());
+					try {
+						ref.invoke(object, category + "." + NAME_CorrectValue, param);
+						System.out.println("Failure.\n\n");
+						failure++;
+					} catch (Exception ex) {
+						System.out.println("Sucess.\n\n");
+						sucess++;
+					}
+					total++;
+				}
 				continue;
 			} else {
 				System.out.println("## Test"+ testId++ + ", " + param.getClass().getSimpleName() + "(Valid parameters):\n\n ```\n" + JSON.toJSONString(param, true) + "\n```\n\n");
@@ -600,11 +600,6 @@ public class JUintFlowStep3Test {
 				}
 			}
 			
-			System.out.println("========================");
-			System.out.println(obj.getClass().getName());
-			System.out.println(JSON.toJSONString(obj, true));
-			System.out.println(isTrue);
-			System.out.println("========================");
 			testcases.put(obj, isTrue);
 		}
 	}
@@ -640,16 +635,14 @@ public class JUintFlowStep3Test {
 				try {
 					Method methodRef = clazz.getDeclaredMethod(name, String.class);
 					List<Object> objValues = new ArrayList<Object>();
-					
-					objValues.addAll(allParams.get(name).values());
+				
+					for (int ppp = 0; ppp < rrr; ppp++) {
+						objValues.addAll(allParams.get(name).values());
+					}
 					
 					for (int mm = 0; mm < objList.size(); mm++) {
 						
-						int idx = mm*rrr/objValues.size();
-						
-						if (idx >= objValues.size()) {
-							idx = idx%rrr;
-						}
+						int idx = mm/(objList.size()/objValues.size());
 						
 						Object methodValue = objValues.get(idx);
 						methodRef.invoke(objList.get(mm), methodValue);
@@ -738,6 +731,9 @@ public class JUintFlowStep3Test {
 		initParamValues();
 		initRegExpMap();
 		jfs3.startTesting();
+		System.out.println("Total: " + total);
+		System.out.println("Sucess:"  + sucess);
+		System.out.println("Fail:"  + failure);
 	}
 	
 }
