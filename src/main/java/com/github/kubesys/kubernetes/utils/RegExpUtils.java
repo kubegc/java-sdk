@@ -107,8 +107,8 @@ public class RegExpUtils {
 	public final static String BOOT_PATTERN = "hd|cdrom";
 	
 	public static void main(String[] args) {
-		String name = "1,cpuset=1-4,6,8";
-		Pattern pattern = Pattern.compile(RegExpUtils.VCPUSET_PATTERN);
+		String name = "/var/lib/libvirt/images/rootdisk";
+		Pattern pattern = Pattern.compile(RegExpUtils.PATH_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("");
 		}

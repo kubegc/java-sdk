@@ -113,7 +113,7 @@ public class JUintFlowStep3Test {
 	
 	public final static String UUID_TooLong                  = "uuid=auto.test-auto.test-auto.test-";
 	
-	public final static String PATH_CorrectValue             = "/var/lib/libvirt/";
+	public final static String PATH_CorrectValue             = "/var/lib/libvirt/images/rootdisk";
 	
 	public final static String PATH_WrongFormat              = "/var/lib/libvirt2/";
 	
@@ -256,6 +256,8 @@ public class JUintFlowStep3Test {
 	static {
 		{
 			List<String> testRound1 = new ArrayList<String>();
+			testRound1.add(VirtualMachine.class.getSimpleName() + "=" + UpdateOS.class.getName());
+			
 			testRound1.add(VirtualMachine.class.getSimpleName() + "=" + CreateAndStartVMFromISO.class.getName());
 			testRound1.add(VirtualMachine.class.getSimpleName() + "=" + StopVMForce.class.getName());
 			testRound1.add(VirtualMachine.class.getSimpleName() + "=" + UpdateOS.class.getName());
@@ -616,7 +618,7 @@ public class JUintFlowStep3Test {
 			if (allParams == null || allParams.get(key) == null) {
 				continue;
 			}
-			totalIns = totalIns * allParams.get(key).size();
+			totalIns *= allParams.get(key).size();
 		}
 		
 		List<Object> objList = new ArrayList<Object>();
@@ -639,12 +641,17 @@ public class JUintFlowStep3Test {
 					Method methodRef = clazz.getDeclaredMethod(name, String.class);
 					List<Object> objValues = new ArrayList<Object>();
 					
-					for (int ppp = 1; ppp < rrr; ppp++) {
-						objValues.addAll(allParams.get(name).values());
-					}
+					objValues.addAll(allParams.get(name).values());
 					
 					for (int mm = 0; mm < objList.size(); mm++) {
-						Object methodValue = objValues.get(mm/objValues.size());
+						
+						int idx = mm*rrr/objValues.size();
+						
+						if (idx >= objValues.size()) {
+							idx = idx%rrr;
+						}
+						
+						Object methodValue = objValues.get(idx);
 						methodRef.invoke(objList.get(mm), methodValue);
 					}
 				} catch (Exception ex) {
@@ -652,7 +659,9 @@ public class JUintFlowStep3Test {
 //					System.err.println(clazz + ":" + name);
 				}
 			}
-			rrr *= allParams.get(name).values().size();
+			if (allParams.get(name) != null) {
+				rrr *= allParams.get(name).size();
+			}
 		}
 		return objList;
 	}
