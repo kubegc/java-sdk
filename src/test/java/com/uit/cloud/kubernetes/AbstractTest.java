@@ -6,6 +6,7 @@ package com.uit.cloud.kubernetes;
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
 import com.github.kubesys.kubernetes.api.model.VirtualMachine;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineDisk;
+import com.github.kubesys.kubernetes.api.model.VirtualMachineDiskImage;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineImage;
 import com.github.kubesys.kubernetes.api.model.VirtualMachinePool;
 
@@ -49,6 +50,10 @@ public class AbstractTest {
 	
 	public static VirtualMachinePool getVMPoolByName(String name) throws Exception {
 		return getClient().virtualMachinePools().get(name);
+	}
+	
+	public static VirtualMachineDiskImage getVMDiskImageByName(String name) throws Exception {
+		return getClient().virtualMachineDiskImages().get(name);
 	}
 
 }
