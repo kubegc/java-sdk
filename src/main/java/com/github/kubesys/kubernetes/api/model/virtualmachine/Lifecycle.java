@@ -1464,7 +1464,7 @@ public class Lifecycle {
 		protected String pm;
 		
 		@ParameterDescriber(required = true, description = "不自动连接到虚拟机终端，必须设置成true", constraint = "true", example = "true")
-		protected Boolean noautoconsole;
+		protected Boolean noautoconsole = true;
 		
 		protected Boolean _import;
 

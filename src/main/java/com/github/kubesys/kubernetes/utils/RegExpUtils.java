@@ -107,8 +107,8 @@ public class RegExpUtils {
 	public final static String BOOT_PATTERN = "hd|cdrom";
 	
 	public static void main(String[] args) {
-		String name = "/var/lib/libvirt/images/rootdisk";
-		Pattern pattern = Pattern.compile(RegExpUtils.PATH_PATTERN);
+		String name = "auto.test";
+		Pattern pattern = Pattern.compile(RegExpUtils.UUID_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("");
 		}

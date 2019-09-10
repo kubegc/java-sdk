@@ -8,7 +8,6 @@ import java.lang.reflect.Method;
 import com.alibaba.fastjson.JSON;
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CreateAndStartVMFromISO;
-import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.CreateSwitch;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -42,6 +41,7 @@ public class ReflectTest {
 //		System.out.println(successful);
 		Method tm = client.getClass().getMethod("virtualMachines");
 		Object obj = tm.invoke(client);
+		System.out.println(CreateAndStartVMFromISO.class);
 		Method cw = obj.getClass().getMethod("createAndStartVMFromISO", String.class, String.class, CreateAndStartVMFromISO.class);
 		cw.invoke(obj, "switch1234", "vm.node30", get());
 	}

@@ -15,6 +15,7 @@ import java.util.Map;
 import javax.validation.constraints.Pattern;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
 import com.github.kubesys.kubernetes.annotations.ParameterDescriber;
 import com.github.kubesys.kubernetes.api.model.VirtualMachine;
@@ -103,7 +104,7 @@ public class JUintFlowStep3Test {
 	
 	public final static String NAME_TooLong                  = "auto.test-auto.test-auto.test-";
 
-	public final static String UUID_CorrectValue             = "uuid=auto.test";
+	public final static String UUID_CorrectValue             = "uuid=150646e8-c17a-49d0-b83c-1c797811e545";
 	
 	public final static String UUID_WrongFormat              = "auto.test";
 	
@@ -111,7 +112,7 @@ public class JUintFlowStep3Test {
 	
 	public final static String UUID_TooShort                 = "uuid=";
 	
-	public final static String UUID_TooLong                  = "uuid=auto.test-auto.test-auto.test-";
+	public final static String UUID_TooLong                  = "uuid=auto.test-auto.test-auto.test-asddddddddddddddddd";
 	
 	public final static String PATH_CorrectValue             = "/var/lib/libvirt/images/rootdisk";
 	
@@ -443,7 +444,7 @@ public class JUintFlowStep3Test {
 				if (methodName.startsWith("create") && !methodName.equals("createDiskSnapshot")) {
 					Method ref = object.getClass().getDeclaredMethod(methodName, String.class, String.class, param.getClass());
 					try {
-						ref.invoke(object, category + "." + NAME_CorrectValue, NODENAME, param);
+						ref.invoke(object, category.toLowerCase() + "." + NAME_CorrectValue, NODENAME, param);
 						System.out.println("Failure.\n\n");
 						failure++;
 					} catch (Exception ex) {
@@ -454,7 +455,7 @@ public class JUintFlowStep3Test {
 				} else {
 					Method ref = object.getClass().getDeclaredMethod(methodName, String.class, param.getClass());
 					try {
-						ref.invoke(object, category + "." + NAME_CorrectValue, param);
+						ref.invoke(object, category.toLowerCase() + "." + NAME_CorrectValue, param);
 						System.out.println("Failure.\n\n");
 						failure++;
 					} catch (Exception ex) {
@@ -470,7 +471,7 @@ public class JUintFlowStep3Test {
 				if (methodName.startsWith("create") && !methodName.equals("createDiskSnapshot")) {
 					Method ref = object.getClass().getDeclaredMethod(methodName, String.class, String.class, param.getClass());
 					try {
-						ref.invoke(object, category + "." + NAME_CorrectValue, NODENAME, param);
+						ref.invoke(object, category.toLowerCase() + "." + NAME_CorrectValue, NODENAME, param);
 						check(category, object, false);
 					} catch (Exception ex) {
 						System.out.println("Failure.\n\n");
@@ -480,7 +481,7 @@ public class JUintFlowStep3Test {
 				} else {
 					Method ref = object.getClass().getDeclaredMethod(methodName, String.class, param.getClass());
 					try {
-						ref.invoke(object, category + "." + NAME_CorrectValue, param);
+						ref.invoke(object, category.toLowerCase() + "." + NAME_CorrectValue, param);
 						check(category, object, false);
 					} catch (Exception ex) {
 						System.out.println("Failure.\n\n");
@@ -496,7 +497,7 @@ public class JUintFlowStep3Test {
 				if (methodName.startsWith("create") && !methodName.equals("createDiskSnapshot")) {
 					Method ref = object.getClass().getDeclaredMethod(methodName, String.class, String.class, param.getClass());
 					try {
-						ref.invoke(object, category + "." + NAME_CorrectValue, NODENAME, param);
+						ref.invoke(object, category.toLowerCase() + "." + NAME_CorrectValue, NODENAME, param);
 						check(category, object, true);
 					} catch (Exception ex) {
 						System.out.println("Failure.\n\n");
@@ -506,7 +507,7 @@ public class JUintFlowStep3Test {
 				} else {
 					Method ref = object.getClass().getDeclaredMethod(methodName, String.class, param.getClass());
 					try {
-						ref.invoke(object, category + "." + NAME_CorrectValue, param);
+						ref.invoke(object, category.toLowerCase() + "." + NAME_CorrectValue, param);
 						check(category, object, true);
 					} catch (Exception ex) {
 						System.out.println("Failure.\n\n");
@@ -521,8 +522,15 @@ public class JUintFlowStep3Test {
 
 	@SuppressWarnings("unchecked")
 	protected void check(String category, Object object, boolean isExecption) throws Exception {
-		Method get = object.getClass().getMethod("get", String.class);
-		Status status = (Status) get.invoke(object, category + "." + NAME_CorrectValue);
+		Method getObj = object.getClass().getMethod("get", String.class);
+		Object obj = getObj.invoke(object, category.toLowerCase() + "." + NAME_CorrectValue);
+		
+		Method getSpec = obj.getClass().getMethod("getSpec");
+		
+		Object spec = getSpec.invoke(obj);
+		
+		Method getStatus = spec.getClass().getMethod("getStatus");
+		Status status = (Status) getStatus.invoke(spec); 
 		
 		int oo = 0;
 		while (oo < 10) {
@@ -534,7 +542,7 @@ public class JUintFlowStep3Test {
 				if (statusWait.get("reason").equals("Exception")
 						|| statusWait.get("reason").equals("VirtctlError")
 						|| statusWait.get("reason").equals("LibvirtError")
-						|| statusWait.get("reason").equals("VirtctlError")) {
+						|| statusWait.get("reason").equals("VirtletError")) {
 					if (!isExecption) {
 						System.out.println("Failure.\n\n");
 						failure++;
@@ -553,8 +561,8 @@ public class JUintFlowStep3Test {
 				}
 			}
 			Thread.sleep(3000);
-			get = object.getClass().getDeclaredMethod("get", String.class);
-			status = (Status) get.invoke(object, category + "." + NAME_CorrectValue);
+			getObj = object.getClass().getDeclaredMethod("get", String.class);
+			status = (Status) getObj.invoke(object, category.toLowerCase() + "." + NAME_CorrectValue);
 		}
 	}
 
