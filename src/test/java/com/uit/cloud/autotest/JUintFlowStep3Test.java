@@ -521,7 +521,7 @@ public class JUintFlowStep3Test {
 
 	@SuppressWarnings("unchecked")
 	protected void check(String category, Object object, boolean isExecption) throws Exception {
-		Method get = object.getClass().getDeclaredMethod("get", String.class);
+		Method get = object.getClass().getMethod("get", String.class);
 		Status status = (Status) get.invoke(object, category + "." + NAME_CorrectValue);
 		
 		int oo = 0;
