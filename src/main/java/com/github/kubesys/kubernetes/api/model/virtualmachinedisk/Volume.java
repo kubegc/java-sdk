@@ -36,6 +36,8 @@ public class Volume {
 	protected Target target;
 	
 	protected List<Snapshot> snapshot;
+	
+	protected BackingStroe backingStore;
 
 	public List<Snapshot> getSnapshot() {
 		return snapshot;
@@ -142,6 +144,260 @@ public class Volume {
 
 	public Target getTarget() {
 		return this.target;
+	}
+
+	public BackingStroe getBackingStore() {
+		return backingStore;
+	}
+
+	public void setBackingStore(BackingStroe backingStore) {
+		this.backingStore = backingStore;
+	}
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class BackingStroe {
+		
+		protected Format format;
+		
+		public BackingStroe() {
+			super();
+		}
+		
+		protected Path path;
+		
+		protected Permissions permissions;
+		
+		protected Timestamps timestamps;
+
+		public Format getFormat() {
+			return format;
+		}
+
+		public void setFormat(Format format) {
+			this.format = format;
+		}
+
+		public Path getPath() {
+			return path;
+		}
+
+		public void setPath(Path path) {
+			this.path = path;
+		}
+
+		public Permissions getPermissions() {
+			return permissions;
+		}
+
+		public void setPermissions(Permissions permissions) {
+			this.permissions = permissions;
+		}
+
+		public Timestamps getTimestamps() {
+			return timestamps;
+		}
+
+		public void setTimestamps(Timestamps timestamps) {
+			this.timestamps = timestamps;
+		}
+		
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+		public static class Format {
+			
+			protected String _type;
+
+			public String get_type() {
+				return _type;
+			}
+
+			public void set_type(String _type) {
+				this._type = _type;
+			}
+			
+		}
+		
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+		public static class Path {
+			
+			protected String text;
+
+			public String getText() {
+				return text;
+			}
+
+			public void setText(String text) {
+				this.text = text;
+			}
+			
+		}
+		
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+		public static class Permissions {
+			
+			protected Group group;
+			
+			protected Mode mode;
+			
+			protected Owner owner;
+			
+			public Group getGroup() {
+				return group;
+			}
+
+			public void setGroup(Group group) {
+				this.group = group;
+			}
+
+			public Mode getMode() {
+				return mode;
+			}
+
+			public void setMode(Mode mode) {
+				this.mode = mode;
+			}
+
+			public Owner getOwner() {
+				return owner;
+			}
+
+			public void setOwner(Owner owner) {
+				this.owner = owner;
+			}
+
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+			public static class Group {
+				
+				protected String text;
+
+				public String getText() {
+					return text;
+				}
+
+				public void setText(String text) {
+					this.text = text;
+				}
+				
+			}
+			
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+			public static class Mode {
+				
+				protected String text;
+
+				public String getText() {
+					return text;
+				}
+
+				public void setText(String text) {
+					this.text = text;
+				}
+				
+			}
+			
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+			public static class Owner {
+				
+				protected String text;
+
+				public String getText() {
+					return text;
+				}
+
+				public void setText(String text) {
+					this.text = text;
+				}
+				
+			}
+		}
+		
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+		public static class Timestamps {
+			
+			protected Atime atime;
+			
+			protected Ctime ctime;
+			
+			protected Mtime mtime;
+			
+			public Atime getAtime() {
+				return atime;
+			}
+
+			public void setAtime(Atime atime) {
+				this.atime = atime;
+			}
+
+			public Ctime getCtime() {
+				return ctime;
+			}
+
+			public void setCtime(Ctime ctime) {
+				this.ctime = ctime;
+			}
+
+			public Mtime getMtime() {
+				return mtime;
+			}
+
+			public void setMtime(Mtime mtime) {
+				this.mtime = mtime;
+			}
+
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+			public static class Atime {
+				
+				protected String text;
+
+				public String getText() {
+					return text;
+				}
+
+				public void setText(String text) {
+					this.text = text;
+				}
+			}
+			
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+			public static class Ctime {
+			
+				protected String text;
+
+				public String getText() {
+					return text;
+				}
+
+				public void setText(String text) {
+					this.text = text;
+				}
+			}
+			
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+			public static class Mtime {
+				
+				protected String text;
+
+				public String getText() {
+					return text;
+				}
+
+				public void setText(String text) {
+					this.text = text;
+				}
+			}
+			
+		}
+		
 	}
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)

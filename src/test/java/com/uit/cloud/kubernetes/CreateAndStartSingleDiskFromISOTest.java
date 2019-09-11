@@ -23,7 +23,7 @@ public class CreateAndStartSingleDiskFromISOTest {
 		CreateAndStartVMFromISO createAndStartVMFromISO = get();
 		// name
 		boolean successful = client.virtualMachines()
-				.createAndStartVMFromISO("950646e8c17a49d0b83c1c797811e001", "vm.node30", createAndStartVMFromISO, "01");
+				.createAndStartVMFromISO("950646e8c17a49d0b83c1c797811e002", "vm.node30", createAndStartVMFromISO, "01");
 		System.out.println(successful);
 	}
 	
@@ -32,7 +32,7 @@ public class CreateAndStartSingleDiskFromISOTest {
 		
 		CreateAndStartVMFromISO createAndStartVMFromISO = new CreateAndStartVMFromISO();
 		// default value
-		createAndStartVMFromISO.setMetadata("uuid=950646e8-c17a-49d0-b83c-1c797811e001");
+		createAndStartVMFromISO.setMetadata("uuid=950646e8-c17a-49d0-b83c-1c797811e002");
 		createAndStartVMFromISO.setVirt_type("kvm"); 
 		// @see https://github.com/uit-plus/api/blob/master/src/main/java/com/github/uitplus/utils/OSDistroUtils.java
 		createAndStartVMFromISO.setOs_variant("centos7.0");
@@ -46,7 +46,7 @@ public class CreateAndStartSingleDiskFromISOTest {
 		// cdrom
 		createAndStartVMFromISO.setCdrom("/var/lib/libvirt/iso/centos7-minimal-1511.iso"); 
 		// Disk and QoS for 1 disk and many disks
-		createAndStartVMFromISO.setDisk("/var/lib/libvirt/images/root4abcdeef,read_bytes_sec=1024000000,write_bytes_sec=1024000000");
+		createAndStartVMFromISO.setDisk("/var/lib/libvirt/images/t1.qcow2,read_bytes_sec=1024000000,write_bytes_sec=1024000000");
 				
 
 		/*
@@ -67,7 +67,7 @@ public class CreateAndStartSingleDiskFromISOTest {
 //		createAndStartVMFromISO.setNetwork("type=bridge,source=virbr0,inbound=102400,outbound=102400");
 //		createAndStartVMFromISO.setNetwork("type=l2bridge,source=br-native,inbound=102400,outbound=102400");
 //      if you want to use l3bridge, please first execute the command on your master node, 'kubeovn-adm create-switch --name switch8888 --subnet 192.168.5.0/24' 		
-		createAndStartVMFromISO.setNetwork("type=l3bridge,source=br-int,ip=192.168.5.8,switch=switch8888,inbound=102400,outbound=102400");  
+		createAndStartVMFromISO.setNetwork("type=l3bridge,source=br-int,ip=192.168.5.11,switch=switch8888,inbound=102400,outbound=102400");  
 		
 		/*
 		 * l2 network example

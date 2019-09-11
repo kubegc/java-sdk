@@ -15,7 +15,7 @@ import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.Crea
  * @since   2019/9/3
  *
  */
-public class CreateDiskSnapshotTest {
+public class CreateDiskInternalSnapshotTest {
 	
 	
 	public static void main(String[] args) throws Exception {
@@ -29,7 +29,7 @@ public class CreateDiskSnapshotTest {
 	protected static CreateDiskSnapshot get() {
 		CreateDiskSnapshot createDiskSnapshot = new CreateDiskSnapshot();
 		createDiskSnapshot.setPool("default");
-		createDiskSnapshot.setSnapshotname("vm.auto.test-003");
+		createDiskSnapshot.setSnapshotname("snapshot2");
 		return createDiskSnapshot;
 	}
 }
