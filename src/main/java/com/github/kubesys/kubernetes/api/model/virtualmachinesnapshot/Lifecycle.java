@@ -93,7 +93,7 @@ public class Lifecycle {
 
 		protected Boolean atomic;
 
-		@ParameterDescriber(required = true, description = "要恢复到快照状态的虚拟机name", constraint = "已存在的虚拟机名，由6-32位的数字和小写字母组成", example = "vm1")
+		@ParameterDescriber(required = true, description = "要恢复到快照状态的虚拟机name", constraint = "已存在的虚拟机名，由6-128位的数字和小写字母组成", example = "vm1")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String domain;
 
@@ -202,7 +202,7 @@ public class Lifecycle {
 
 		protected Boolean children_only;
 
-		@ParameterDescriber(required = true, description = "要删除快照的虚拟机名字", constraint = "由6-32位的数字和小写字母组成，已存在的虚拟机名", example = "vm1")
+		@ParameterDescriber(required = true, description = "要删除快照的虚拟机名字", constraint = "由6-128位的数字和小写字母组成，已存在的虚拟机名", example = "vm1")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String domain;
 
@@ -249,7 +249,7 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class RevertVirtualMachine {
 
-		@ParameterDescriber(required = true, description = "要恢复到快照状态的虚拟机name", constraint = "由6-32位的数字和小写字母组成，已存在的虚拟机名", example = "vm1")
+		@ParameterDescriber(required = true, description = "要恢复到快照状态的虚拟机name", constraint = "由6-128位的数字和小写字母组成，已存在的虚拟机名", example = "vm1")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String domain;
 

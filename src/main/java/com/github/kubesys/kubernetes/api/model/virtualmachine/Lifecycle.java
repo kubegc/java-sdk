@@ -2461,7 +2461,7 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class CloneVM {
 		
-		@ParameterDescriber(required = true, description = "克隆虚拟机", constraint = "克隆虚拟机所有磁盘，新虚拟机名长度是6到32位", example = "newdisk")
+		@ParameterDescriber(required = true, description = "克隆虚拟机", constraint = "克隆虚拟机所有磁盘，新虚拟机名长度是6到128位", example = "newdisk")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String name;
 		

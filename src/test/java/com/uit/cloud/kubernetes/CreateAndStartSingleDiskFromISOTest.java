@@ -46,7 +46,7 @@ public class CreateAndStartSingleDiskFromISOTest {
 		// cdrom
 		createAndStartVMFromISO.setCdrom("/var/lib/libvirt/iso/centos7-minimal-1511.iso"); 
 		// Disk and QoS for 1 disk and many disks
-		createAndStartVMFromISO.setDisk("/var/lib/libvirt/images/abcdefgh,read_bytes_sec=1024000000,write_bytes_sec=1024000000");
+		createAndStartVMFromISO.setDisk("/var/lib/libvirt/images/root4abcdeef,read_bytes_sec=1024000000,write_bytes_sec=1024000000");
 				
 
 		/*

@@ -129,7 +129,7 @@ public abstract class AbstractImpl<R, S, T> {
 	public R get(String name)  {
 		java.util.regex.Pattern pattern = java.util.regex.Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
-			throw new IllegalArgumentException("the length must be between 8 and 32, and it can only includes a-z, 0-9 and -.");
+			throw new IllegalArgumentException("the length must be between 8 and 128, and it can only includes a-z, 0-9 and -.");
 		}
 		return ((Gettable<R>) client.withName(name)).get();
 	}
