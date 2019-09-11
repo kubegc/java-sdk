@@ -4,7 +4,7 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
-import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.RevertDiskSnapshot;
+import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.DeleteDisk;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -15,21 +15,20 @@ import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.Reve
  * @since   2019/9/3
  *
  */
-public class RevertDiskSnapshotTest {
+public class DeleteDiskExternalSnapshotTest {
 	
 	
 	public static void main(String[] args) throws Exception {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineDisks()
-				.revertDiskSnapshot("test1.qcow2", get(), "abc");
+				.deleteDisk("t3", getDeleteDisk());
 		System.out.println(successful);
 	}
-
-	protected static RevertDiskSnapshot get() {
-		RevertDiskSnapshot revertDiskSnapshot = new RevertDiskSnapshot();
-		revertDiskSnapshot.setPool("default");
-		revertDiskSnapshot.setSnapshotname("snap6");
-		return revertDiskSnapshot;
+	
+	public static DeleteDisk getDeleteDisk() {
+		DeleteDisk dleteDisk = new DeleteDisk();
+		dleteDisk.setPool("default");
+		return dleteDisk;
 	}
 }

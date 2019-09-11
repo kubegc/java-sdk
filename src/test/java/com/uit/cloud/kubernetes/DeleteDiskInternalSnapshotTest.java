@@ -15,7 +15,7 @@ import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.Dele
  * @since   2019/9/3
  *
  */
-public class DeleteDiskSnapshotTest {
+public class DeleteDiskInternalSnapshotTest {
 	
 	
 	public static void main(String[] args) throws Exception {
