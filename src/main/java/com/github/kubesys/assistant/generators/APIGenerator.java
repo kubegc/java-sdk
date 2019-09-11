@@ -27,7 +27,7 @@ public class APIGenerator {
 			.append("\t本文档用于说明基于Kubernetes的虚拟机生命周期如何管理, 项目地址：https://github.com/kubesys/kubeext-jdk.\n");
 		
 		sb.append("\t").append("本文有两种通用的约束:\n");
-		sb.append("\t\t").append("(1)名称：只允许小写字母和、数字、中划线和圆点组合，6-32位\n");
+		sb.append("\t\t").append("(1)名称：只允许小写字母和、数字、中划线和圆点组合，6-128位\n");
 		sb.append("\t\t").append("(2)路径：必须是/xx/xx形式，且在/var/lib/libvirt目录下，xx允许小写字母、数字、中划线和点，18-1024位\n\n\n");
 		
 		int i = 1; 

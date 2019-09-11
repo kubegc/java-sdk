@@ -16,7 +16,6 @@ import com.alibaba.fastjson.JSON;
  * @since   2019/9/3
  *
  */
-@Deprecated
 public class JSONGenerator {
 	
 	public final static List<String> list = new ArrayList<String>();
