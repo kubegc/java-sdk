@@ -8,14 +8,15 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.validation.constraints.Pattern;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
 import com.github.kubesys.kubernetes.annotations.ParameterDescriber;
 import com.github.kubesys.kubernetes.api.model.VirtualMachine;
@@ -32,7 +33,6 @@ import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StartVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StopVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StopVMForce;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UnplugDisk;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UpdateOS;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CloneDisk;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CreateDisk;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CreateDiskSnapshot;
@@ -81,6 +81,12 @@ public class JUintFlowStep3Test {
 	// NodeName
 	public final static String NODENAME = "vm.node30";
 	
+	/**********************************************************************
+	 * 
+	 *                    Global variables
+	 * 
+	 **********************************************************************/
+	
 	public static int total   = 0;
 	
 	public static int sucess  = 0;
@@ -96,7 +102,7 @@ public class JUintFlowStep3Test {
 	 * 
 	 **********************************************************************/
 	
-	public final static String NAME_CorrectValue             = "vm.auto.test-003";
+	public final static String NAME_CorrectValue             = "vm.auto.test-004";
 	
 	public final static String NAME_UnsupportSymbol          = "auto_test";
 	
@@ -434,6 +440,8 @@ public class JUintFlowStep3Test {
 		String lastname = values[1].substring(pos + 1);
 		String methodName = lastname.substring(0, 1).toLowerCase() + lastname.substring(1);
 		
+		Set<String> whitelist = new HashSet<String>();
+		
 		for (Object param : testcases.keySet()) {
 			Method method = client.getClass().getMethod(category);
 			Object object = method.invoke(client);
@@ -466,6 +474,13 @@ public class JUintFlowStep3Test {
 				}
 				continue;
 			} else {
+				
+				if (whitelist.contains(param.getClass().getSimpleName() + "(Valid parameters)")) {
+					continue;
+				} else {
+					whitelist.add(param.getClass().getSimpleName() + "(Valid parameters)");
+				}
+				
 				System.out.println("## Test"+ testId++ + ", " + param.getClass().getSimpleName() + "(Valid parameters):\n\n ```\n" + JSON.toJSONString(param, true) + "\n```\n\n");
 				
 				if (methodName.startsWith("create") && !methodName.equals("createDiskSnapshot")) {
