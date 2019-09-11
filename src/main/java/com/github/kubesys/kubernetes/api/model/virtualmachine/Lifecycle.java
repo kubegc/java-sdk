@@ -1846,7 +1846,7 @@ public class Lifecycle {
 		}
 
 		public void setVcpus(String vcpus) {
-			this.vcpus = vcpus;
+			this.vcpus = vcpus + ",maxvcpus=100";
 		}
 
 		public String getVcpus() {

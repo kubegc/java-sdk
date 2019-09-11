@@ -96,7 +96,7 @@ public class JUintFlowStep3Test {
 	 * 
 	 **********************************************************************/
 	
-	public final static String NAME_CorrectValue             = "auto.test";
+	public final static String NAME_CorrectValue             = "vm.auto.test-001";
 	
 	public final static String NAME_UnsupportSymbol          = "auto_test";
 	
@@ -140,7 +140,7 @@ public class JUintFlowStep3Test {
 	
 	public final static String VCPU_TooLarger                = "100";
 	
-	public final static String RAM_CorrectValue              = "100";
+	public final static String RAM_CorrectValue              = "4096";
 	
 	public final static String RAM_TooSmall                  = "99";
 	
@@ -259,7 +259,7 @@ public class JUintFlowStep3Test {
 			List<String> testRound1 = new ArrayList<String>();
 			testRound1.add(VirtualMachine.class.getSimpleName() + "=" + CreateAndStartVMFromISO.class.getName());
 			testRound1.add(VirtualMachine.class.getSimpleName() + "=" + StopVMForce.class.getName());
-			testRound1.add(VirtualMachine.class.getSimpleName() + "=" + UpdateOS.class.getName());
+//			testRound1.add(VirtualMachine.class.getSimpleName() + "=" + UpdateOS.class.getName());
 			testRound1.add(VirtualMachine.class.getSimpleName() + "=" + StartVM.class.getName());
 			testRound1.add(VirtualMachine.class.getSimpleName() + "=" + ChangeNumberOfCPU.class.getName());
 			testRound1.add(VirtualMachine.class.getSimpleName() + "=" + ResizeRAM.class.getName());
@@ -313,7 +313,7 @@ public class JUintFlowStep3Test {
 			testRound2.add(VirtualMachine.class.getSimpleName() + "=" + StopVM.class.getName());
 			testRound2.add(VirtualMachine.class.getSimpleName() + "=" + CloneVM.class.getName());
 			testRound2.add(VirtualMachine.class.getSimpleName() + "=" + DeleteVM.class.getName());
-			testRounds.add(testRound2);
+//			testRounds.add(testRound2);
 		}
 	}
 	
@@ -444,7 +444,7 @@ public class JUintFlowStep3Test {
 				if (methodName.startsWith("create") && !methodName.equals("createDiskSnapshot")) {
 					Method ref = object.getClass().getDeclaredMethod(methodName, String.class, String.class, param.getClass());
 					try {
-						ref.invoke(object, category.toLowerCase() + "." + NAME_CorrectValue, NODENAME, param);
+						ref.invoke(object, NAME_CorrectValue, NODENAME, param);
 						System.out.println("Failure.\n\n");
 						failure++;
 					} catch (Exception ex) {
@@ -455,7 +455,7 @@ public class JUintFlowStep3Test {
 				} else {
 					Method ref = object.getClass().getDeclaredMethod(methodName, String.class, param.getClass());
 					try {
-						ref.invoke(object, category.toLowerCase() + "." + NAME_CorrectValue, param);
+						ref.invoke(object, NAME_CorrectValue, param);
 						System.out.println("Failure.\n\n");
 						failure++;
 					} catch (Exception ex) {
@@ -471,8 +471,8 @@ public class JUintFlowStep3Test {
 				if (methodName.startsWith("create") && !methodName.equals("createDiskSnapshot")) {
 					Method ref = object.getClass().getDeclaredMethod(methodName, String.class, String.class, param.getClass());
 					try {
-						ref.invoke(object, category.toLowerCase() + "." + NAME_CorrectValue, NODENAME, param);
-						check(category, object, false);
+						ref.invoke(object, NAME_CorrectValue, NODENAME, param);
+						check(object, false);
 					} catch (Exception ex) {
 						System.out.println("Failure.\n\n");
 						failure++;
@@ -481,8 +481,8 @@ public class JUintFlowStep3Test {
 				} else {
 					Method ref = object.getClass().getDeclaredMethod(methodName, String.class, param.getClass());
 					try {
-						ref.invoke(object, category.toLowerCase() + "." + NAME_CorrectValue, param);
-						check(category, object, false);
+						ref.invoke(object, NAME_CorrectValue, param);
+						check(object, false);
 					} catch (Exception ex) {
 						System.out.println("Failure.\n\n");
 						failure++;
@@ -491,24 +491,27 @@ public class JUintFlowStep3Test {
 				}
 				
 				
+				if (methodName.equals("changeNumberOfCPU") || methodName.equals("resizeRAM")) {
+					continue;
+				}
 				
 				System.out.println("## Test"+ testId++ + ", " + param.getClass().getSimpleName() + "(Duplicated parameters):\n\n ```\n" + JSON.toJSONString(param, true) + "\n```\n\n");
 				
 				if (methodName.startsWith("create") && !methodName.equals("createDiskSnapshot")) {
 					Method ref = object.getClass().getDeclaredMethod(methodName, String.class, String.class, param.getClass());
 					try {
-						ref.invoke(object, category.toLowerCase() + "." + NAME_CorrectValue, NODENAME, param);
-						check(category, object, true);
+						ref.invoke(object, NAME_CorrectValue, NODENAME, param);
+						check(object, true);
 					} catch (Exception ex) {
-						System.out.println("Failure.\n\n");
-						failure++;
+						System.out.println("Sucess.\n\n");
+						sucess++;
 					}
 					total++;
 				} else {
 					Method ref = object.getClass().getDeclaredMethod(methodName, String.class, param.getClass());
 					try {
-						ref.invoke(object, category.toLowerCase() + "." + NAME_CorrectValue, param);
-						check(category, object, true);
+						ref.invoke(object, NAME_CorrectValue, param);
+						check(object, true);
 					} catch (Exception ex) {
 						System.out.println("Failure.\n\n");
 						failure++;
@@ -521,9 +524,10 @@ public class JUintFlowStep3Test {
 	}
 
 	@SuppressWarnings("unchecked")
-	protected void check(String category, Object object, boolean isExecption) throws Exception {
+	protected void check(Object object, boolean isExecption) throws Exception {
+		Thread.sleep(5000);
 		Method getObj = object.getClass().getMethod("get", String.class);
-		Object obj = getObj.invoke(object, category.toLowerCase() + "." + NAME_CorrectValue);
+		Object obj = getObj.invoke(object, NAME_CorrectValue);
 		
 		Method getSpec = obj.getClass().getMethod("getSpec");
 		
@@ -563,7 +567,7 @@ public class JUintFlowStep3Test {
 			} else {
 				Thread.sleep(3000);
 				getObj = object.getClass().getMethod("get", String.class);
-				obj = getObj.invoke(object, category.toLowerCase() + "." + NAME_CorrectValue);
+				obj = getObj.invoke(object, NAME_CorrectValue);
 				
 				getSpec = obj.getClass().getMethod("getSpec");
 				
