@@ -22,14 +22,14 @@ public class CreateDiskSnapshotTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineDisks()
-				.createDiskSnapshot("disk4abcdefgh", get(), "abc");
+				.createDiskSnapshot("vm.auto.test-003", get(), "abc");
 		System.out.println(successful);
 	}
 
 	protected static CreateDiskSnapshot get() {
 		CreateDiskSnapshot createDiskSnapshot = new CreateDiskSnapshot();
 		createDiskSnapshot.setPool("default");
-		createDiskSnapshot.setSnapshotname("snapshot1");
+		createDiskSnapshot.setSnapshotname("vm.auto.test-003");
 		return createDiskSnapshot;
 	}
 }

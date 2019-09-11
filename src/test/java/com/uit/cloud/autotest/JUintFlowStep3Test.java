@@ -96,7 +96,7 @@ public class JUintFlowStep3Test {
 	 * 
 	 **********************************************************************/
 	
-	public final static String NAME_CorrectValue             = "vm.auto.test-001";
+	public final static String NAME_CorrectValue             = "vm.auto.test-003";
 	
 	public final static String NAME_UnsupportSymbol          = "auto_test";
 	
@@ -150,7 +150,7 @@ public class JUintFlowStep3Test {
 	
 	public final static String DISK_TYPE_WrongFormat         = "abc2";
 	
-	public final static String FDISK_TYPE_CorrectValue       = "vdb";
+	public final static String FDISK_TYPE_CorrectValue       = "vdc";
 	
 	public final static String FDISK_TYPE_WrongValue         =  "abd2";
 	
@@ -478,6 +478,20 @@ public class JUintFlowStep3Test {
 						failure++;
 					}
 					total++;
+				} else if (methodName.startsWith("delete") || methodName.startsWith("remove")) {
+					Method ref = object.getClass().getDeclaredMethod(methodName, String.class, param.getClass());
+					try {
+						ref.invoke(object, NAME_CorrectValue, param);
+						Thread.sleep(5000);
+						Method get = object.getClass().getMethod("get");
+						get.invoke(NAME_CorrectValue);
+						failure++;
+						
+					} catch (Exception ex) {
+						System.out.println("Sucess.\n\n");
+						sucess++;
+					}
+					total++;
 				} else {
 					Method ref = object.getClass().getDeclaredMethod(methodName, String.class, param.getClass());
 					try {
@@ -504,6 +518,20 @@ public class JUintFlowStep3Test {
 					try {
 						ref.invoke(object, NAME_CorrectValue, NODENAME, param);
 						check(object, true);
+					} catch (Exception ex) {
+						System.out.println("Sucess.\n\n");
+						sucess++;
+					}
+					total++;
+				} else if (methodName.startsWith("delete") || methodName.startsWith("remove")) {
+					Method ref = object.getClass().getDeclaredMethod(methodName, String.class, param.getClass());
+					try {
+						ref.invoke(object, NAME_CorrectValue, param);
+						Thread.sleep(5000);
+						Method get = object.getClass().getMethod("get");
+						get.invoke(NAME_CorrectValue);
+						failure++;
+						
 					} catch (Exception ex) {
 						System.out.println("Sucess.\n\n");
 						sucess++;
