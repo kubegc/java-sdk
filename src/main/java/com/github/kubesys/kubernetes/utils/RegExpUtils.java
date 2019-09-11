@@ -107,8 +107,8 @@ public class RegExpUtils {
 	public final static String BOOT_PATTERN = "hd|cdrom";
 	
 	public static void main(String[] args) {
-		String name = "auto.test";
-		Pattern pattern = Pattern.compile(RegExpUtils.UUID_PATTERN);
+		String name = "19999999999999";
+		Pattern pattern = Pattern.compile(RegExpUtils.DISK_SIZE_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("");
 		}

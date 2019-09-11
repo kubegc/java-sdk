@@ -102,7 +102,7 @@ public class JUintFlowStep3Test {
 	
 	public final static String NAME_TooShort                 = "";
 	
-	public final static String NAME_TooLong                  = "auto.test-auto.test-auto.test-";
+	public final static String NAME_TooLong                  = "auto.test-auto.test-auto.test-ahahhaa";
 
 	public final static String UUID_CorrectValue             = "uuid=150646e8-c17a-49d0-b83c-1c797811e545";
 	
@@ -178,7 +178,7 @@ public class JUintFlowStep3Test {
 	
 	public final static String DISK_SIZE_TooSmall            = "1000000000";
 	
-	public final static String DISK_SIZE_TooLarger           = "1999999999999";
+	public final static String DISK_SIZE_TooLarger           = "19999999999999";
 	
 	public final static String IP_CorrectValue               = "192.168.5.12";
 	
@@ -491,7 +491,9 @@ public class JUintFlowStep3Test {
 				}
 				
 				
-				if (methodName.equals("changeNumberOfCPU") || methodName.equals("resizeRAM")) {
+				if (methodName.equals("changeNumberOfCPU") 
+						|| methodName.equals("resizeRAM")
+						|| methodName.equals("resizeDisk")) {
 					continue;
 				}
 				
@@ -652,7 +654,12 @@ public class JUintFlowStep3Test {
 				for (Object obj : objList) {
 					methodRef.invoke(obj, true);
 				}
-			} else {
+			} else if (name.equals("setPool")) {
+				Method methodRef = clazz.getDeclaredMethod(name, String.class);
+				for (Object obj : objList) {
+					methodRef.invoke(obj, "default");
+				}
+			}else {
 				try {
 					Method methodRef = clazz.getDeclaredMethod(name, String.class);
 					List<Object> objValues = new ArrayList<Object>();
