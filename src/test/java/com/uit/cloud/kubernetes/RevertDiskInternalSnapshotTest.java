@@ -22,7 +22,7 @@ public class RevertDiskInternalSnapshotTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineDisks()
-				.revertDiskSnapshot("test1.qcow2", get(), "abc");
+				.revertDiskInternalSnapshot("test1.qcow2", get(), "abc");
 		System.out.println(successful);
 	}
 

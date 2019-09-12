@@ -22,7 +22,7 @@ public class DeleteDiskInternalSnapshotTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineDisks()
-				.deleteDiskSnapshot("disk4abcdefgh", get(), "abc");
+				.deleteDiskInternalSnapshot("disk4abcdefgh", get(), "abc");
 		System.out.println(successful);
 	}
 
