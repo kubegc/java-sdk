@@ -4,7 +4,7 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
-import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.RevertDiskSnapshot;
+import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.RevertDiskInternalSnapshot;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -26,8 +26,8 @@ public class RevertDiskInternalSnapshotTest {
 		System.out.println(successful);
 	}
 
-	protected static RevertDiskSnapshot get() {
-		RevertDiskSnapshot revertDiskSnapshot = new RevertDiskSnapshot();
+	protected static RevertDiskInternalSnapshot get() {
+		RevertDiskInternalSnapshot revertDiskSnapshot = new RevertDiskInternalSnapshot();
 		revertDiskSnapshot.setPool("default");
 		revertDiskSnapshot.setSnapshotname("snap6");
 		return revertDiskSnapshot;

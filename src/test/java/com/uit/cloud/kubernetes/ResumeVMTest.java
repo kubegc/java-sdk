@@ -22,7 +22,7 @@ public class ResumeVMTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.resumeVM("skywind5", new ResumeVM());
+				.resumeVM("950646e8c17a49d0b83c1c797811e001", new ResumeVM());
 		System.out.println(successful);
 	}
 	

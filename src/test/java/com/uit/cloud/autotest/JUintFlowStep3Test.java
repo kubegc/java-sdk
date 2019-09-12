@@ -35,9 +35,9 @@ import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StopVMFo
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UnplugDisk;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CloneDisk;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CreateDisk;
-import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CreateDiskSnapshot;
+import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CreateDiskInternalSnapshot;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.DeleteDisk;
-import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.DeleteDiskSnapshot;
+import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.DeleteDiskInternalSnapshot;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.ResizeDisk;
 import com.github.kubesys.kubernetes.api.model.virtualmachinesnapshot.Lifecycle.CreateSnapshot;
 import com.github.kubesys.kubernetes.api.model.virtualmachinesnapshot.Lifecycle.DeleteSnapshot;
@@ -278,8 +278,8 @@ public class JUintFlowStep3Test {
 			
 			testRound1.add(VirtualMachine.class.getSimpleName() + "=" + PlugDisk.class.getName());
 			
-			testRound1.add(VirtualMachineDisk.class.getSimpleName() + "=" + CreateDiskSnapshot.class.getName());
-			testRound1.add(VirtualMachineDisk.class.getSimpleName() + "=" + DeleteDiskSnapshot.class.getName());
+			testRound1.add(VirtualMachineDisk.class.getSimpleName() + "=" + CreateDiskInternalSnapshot.class.getName());
+			testRound1.add(VirtualMachineDisk.class.getSimpleName() + "=" + DeleteDiskInternalSnapshot.class.getName());
 			
 			testRound1.add(VirtualMachine.class.getSimpleName() + "=" + UnplugDisk.class.getName());
 			
@@ -308,8 +308,8 @@ public class JUintFlowStep3Test {
 			
 			testRound2.add(VirtualMachine.class.getSimpleName() + "=" + PlugDisk.class.getName());
 			
-			testRound2.add(VirtualMachineDisk.class.getSimpleName() + "=" + CreateDiskSnapshot.class.getName());
-			testRound2.add(VirtualMachineDisk.class.getSimpleName() + "=" + DeleteDiskSnapshot.class.getName());
+			testRound2.add(VirtualMachineDisk.class.getSimpleName() + "=" + CreateDiskInternalSnapshot.class.getName());
+			testRound2.add(VirtualMachineDisk.class.getSimpleName() + "=" + DeleteDiskInternalSnapshot.class.getName());
 			
 			testRound2.add(VirtualMachine.class.getSimpleName() + "=" + UnplugDisk.class.getName());
 			

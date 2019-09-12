@@ -4,7 +4,7 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
-import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.DeleteDiskSnapshot;
+import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.DeleteDiskInternalSnapshot;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -26,8 +26,8 @@ public class DeleteDiskInternalSnapshotTest {
 		System.out.println(successful);
 	}
 
-	protected static DeleteDiskSnapshot get() {
-		DeleteDiskSnapshot deleteDiskSnapshot = new DeleteDiskSnapshot();
+	protected static DeleteDiskInternalSnapshot get() {
+		DeleteDiskInternalSnapshot deleteDiskSnapshot = new DeleteDiskInternalSnapshot();
 		deleteDiskSnapshot.setPool("default");
 		deleteDiskSnapshot.setSnapshotname("snapshot1");
 		return deleteDiskSnapshot;

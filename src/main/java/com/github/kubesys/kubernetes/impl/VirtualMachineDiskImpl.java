@@ -12,12 +12,15 @@ import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CloneDisk;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.ConvertDiskToDiskImage;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CreateDisk;
+import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CreateDiskExternalSnapshot;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CreateDiskFromDiskImage;
-import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CreateDiskSnapshot;
+import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CreateDiskInternalSnapshot;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.DeleteDisk;
-import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.DeleteDiskSnapshot;
+import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.DeleteDiskExternalSnapshot;
+import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.DeleteDiskInternalSnapshot;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.ResizeDisk;
-import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.RevertDiskSnapshot;
+import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.RevertDiskExternalSnapshot;
+import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.RevertDiskInternalSnapshot;
 import com.github.kubesys.kubernetes.utils.RegExpUtils;
 
 /**
@@ -95,7 +98,7 @@ public class VirtualMachineDiskImpl extends AbstractImpl<VirtualMachineDisk, Vir
 	public boolean createDisk(String name, String nodeName,CreateDisk createDisk, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
-			throw new IllegalArgumentException("the length must be between 6 and 128, and it can only includes a-z, 0-9 and -.");
+			throw new IllegalArgumentException("the length must be between 6 and 32, and it can only includes a-z, 0-9 and -.");
 		}
 		return create(getModel(), createMetadata(name, nodeName, eventId), 
 				createSpec(nodeName, createLifecycle(createDisk)));
@@ -116,7 +119,7 @@ public class VirtualMachineDiskImpl extends AbstractImpl<VirtualMachineDisk, Vir
 	public boolean createDiskFromDiskImage(String name, String nodeName,CreateDiskFromDiskImage createDiskFromDiskImage, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
-			throw new IllegalArgumentException("the length must be between 6 and 128, and it can only includes a-z, 0-9 and -.");
+			throw new IllegalArgumentException("the length must be between 6 and 32, and it can only includes a-z, 0-9 and -.");
 		}
 		return create(getModel(), createMetadata(name, nodeName, eventId), 
 				createSpec(nodeName, createLifecycle(createDiskFromDiskImage)));
@@ -146,40 +149,94 @@ public class VirtualMachineDiskImpl extends AbstractImpl<VirtualMachineDisk, Vir
 		return update(name, updateMetadata(name, eventId), cloneDisk);
 	}
 
-	public boolean createDiskSnapshot(String name, CreateDiskSnapshot createDiskSnapshot) throws Exception {
-		return createDiskSnapshot(name, createDiskSnapshot, null);
+	public boolean createDiskInternalSnapshot(String name, CreateDiskInternalSnapshot createDiskInternalSnapshot) throws Exception {
+		return createDiskInternalSnapshot(name, null, createDiskInternalSnapshot, null);
 	}
 
-	public boolean createDiskSnapshot(String name,CreateDiskSnapshot createDiskSnapshot, String eventId) throws Exception {
+	public boolean createDiskInternalSnapshot(String name, String nodeName, CreateDiskInternalSnapshot createDiskInternalSnapshot) throws Exception {
+		return createDiskInternalSnapshot(name, nodeName, createDiskInternalSnapshot, null);
+	}
+
+	public boolean createDiskInternalSnapshot(String name, CreateDiskInternalSnapshot createDiskInternalSnapshot, String eventId) throws Exception {
+		return createDiskInternalSnapshot(name, null, createDiskInternalSnapshot, eventId);
+	}
+
+	public boolean createDiskInternalSnapshot(String name, String nodeName,CreateDiskInternalSnapshot createDiskInternalSnapshot, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 6 and 32, and it can only includes a-z, 0-9 and -.");
+		}
+		return create(getModel(), createMetadata(name, nodeName, eventId), 
+				createSpec(nodeName, createLifecycle(createDiskInternalSnapshot)));
+	}
+
+	public boolean revertDiskInternalSnapshot(String name, RevertDiskInternalSnapshot revertDiskInternalSnapshot) throws Exception {
+		return revertDiskInternalSnapshot(name, revertDiskInternalSnapshot, null);
+	}
+
+	public boolean revertDiskInternalSnapshot(String name,RevertDiskInternalSnapshot revertDiskInternalSnapshot, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 6 and 128, and it can only includes a-z, 0-9 and -.");
 		}
-		return update(name, updateMetadata(name, eventId), createDiskSnapshot);
+		return update(name, updateMetadata(name, eventId), revertDiskInternalSnapshot);
 	}
 
-	public boolean revertDiskSnapshot(String name, RevertDiskSnapshot revertDiskSnapshot) throws Exception {
-		return revertDiskSnapshot(name, revertDiskSnapshot, null);
+	public boolean deleteDiskInternalSnapshot(String name, DeleteDiskInternalSnapshot deleteDiskInternalSnapshot) throws Exception {
+		return deleteDiskInternalSnapshot(name, deleteDiskInternalSnapshot, null);
 	}
 
-	public boolean revertDiskSnapshot(String name,RevertDiskSnapshot revertDiskSnapshot, String eventId) throws Exception {
+	public boolean deleteDiskInternalSnapshot(String name,DeleteDiskInternalSnapshot deleteDiskInternalSnapshot, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 6 and 128, and it can only includes a-z, 0-9 and -.");
 		}
-		return update(name, updateMetadata(name, eventId), revertDiskSnapshot);
+		return delete(name, updateMetadata(name, eventId), deleteDiskInternalSnapshot);
 	}
 
-	public boolean deleteDiskSnapshot(String name, DeleteDiskSnapshot deleteDiskSnapshot) throws Exception {
-		return deleteDiskSnapshot(name, deleteDiskSnapshot, null);
+	public boolean createDiskExternalSnapshot(String name, CreateDiskExternalSnapshot createDiskExternalSnapshot) throws Exception {
+		return createDiskExternalSnapshot(name, null, createDiskExternalSnapshot, null);
 	}
 
-	public boolean deleteDiskSnapshot(String name,DeleteDiskSnapshot deleteDiskSnapshot, String eventId) throws Exception {
+	public boolean createDiskExternalSnapshot(String name, String nodeName, CreateDiskExternalSnapshot createDiskExternalSnapshot) throws Exception {
+		return createDiskExternalSnapshot(name, nodeName, createDiskExternalSnapshot, null);
+	}
+
+	public boolean createDiskExternalSnapshot(String name, CreateDiskExternalSnapshot createDiskExternalSnapshot, String eventId) throws Exception {
+		return createDiskExternalSnapshot(name, null, createDiskExternalSnapshot, eventId);
+	}
+
+	public boolean createDiskExternalSnapshot(String name, String nodeName,CreateDiskExternalSnapshot createDiskExternalSnapshot, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 6 and 32, and it can only includes a-z, 0-9 and -.");
+		}
+		return create(getModel(), createMetadata(name, nodeName, eventId), 
+				createSpec(nodeName, createLifecycle(createDiskExternalSnapshot)));
+	}
+
+	public boolean revertDiskExternalSnapshot(String name, RevertDiskExternalSnapshot revertDiskExternalSnapshot) throws Exception {
+		return revertDiskExternalSnapshot(name, revertDiskExternalSnapshot, null);
+	}
+
+	public boolean revertDiskExternalSnapshot(String name,RevertDiskExternalSnapshot revertDiskExternalSnapshot, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 6 and 128, and it can only includes a-z, 0-9 and -.");
 		}
-		return delete(name, updateMetadata(name, eventId), deleteDiskSnapshot);
+		return update(name, updateMetadata(name, eventId), revertDiskExternalSnapshot);
+	}
+
+	public boolean deleteDiskExternalSnapshot(String name, DeleteDiskExternalSnapshot deleteDiskExternalSnapshot) throws Exception {
+		return deleteDiskExternalSnapshot(name, deleteDiskExternalSnapshot, null);
+	}
+
+	public boolean deleteDiskExternalSnapshot(String name,DeleteDiskExternalSnapshot deleteDiskExternalSnapshot, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 6 and 128, and it can only includes a-z, 0-9 and -.");
+		}
+		return delete(name, updateMetadata(name, eventId), deleteDiskExternalSnapshot);
 	}
 
 }
