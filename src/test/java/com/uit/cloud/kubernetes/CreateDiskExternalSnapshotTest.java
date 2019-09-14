@@ -4,7 +4,7 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
-import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CreateDisk;
+import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CreateDiskExternalSnapshot;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -22,19 +22,19 @@ public class CreateDiskExternalSnapshotTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineDisks()
-				.createDisk("snapshot1", "vm.node30", get(), "abc");
+				.createDiskExternalSnapshot("snapshot1", "vm.node30", get(), "abc");
 		System.out.println(successful);
 	}
 
-	protected static CreateDisk get() {
-		CreateDisk createDisk = new CreateDisk();
-		createDisk.setPool("default");
+	protected static CreateDiskExternalSnapshot get() {
+		CreateDiskExternalSnapshot createDiskExternalSnapshot = new CreateDiskExternalSnapshot();
+		createDiskExternalSnapshot.setPool("default");
 		// bytes 10G
 		Long size = 10L*1024*1024*1024;
-		createDisk.setCapacity(String.valueOf(size));
-		createDisk.setBacking_vol("root4abcdeef");
-		createDisk.setBacking_vol_format("qcow2");
-		createDisk.setFormat("qcow2");
-		return createDisk;
+		createDiskExternalSnapshot.setCapacity(String.valueOf(size));
+		createDiskExternalSnapshot.setBacking_vol("root4abcdeef");
+		createDiskExternalSnapshot.setBacking_vol_format("qcow2");
+		createDiskExternalSnapshot.setFormat("qcow2");
+		return createDiskExternalSnapshot;
 	}
 }

@@ -61,46 +61,64 @@ public class Lifecycle {
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected CloneDisk cloneDisk;
 	
-	@FunctionDescriber(shortName = "创建云盘快照", description = "创建云盘快照，" 
+	@FunctionDescriber(shortName = "创建云盘内部快照", description = "创建云盘内部快照，" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = AnnotationUtils.DESC_FUNCTION_VMD, 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
-	protected CreateDiskSnapshot createDiskSnapshot;
+	protected CreateDiskInternalSnapshot createDiskInternalSnapshot;
 	
-	@FunctionDescriber(shortName = "从云盘快照恢复", description = "从云盘快照恢复，" 
+	@FunctionDescriber(shortName = "从云盘内部快照恢复", description = "从云盘内部快照恢复，" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = AnnotationUtils.DESC_FUNCTION_VMD, 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
-	protected RevertDiskSnapshot revertDiskSnapshot;
+	protected RevertDiskInternalSnapshot revertDiskInternalSnapshot;
 	
-	@FunctionDescriber(shortName = "删除云盘快照", description = "删除云盘快照，" 
+	@FunctionDescriber(shortName = "删除云盘内部快照", description = "删除云盘内部快照，" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = AnnotationUtils.DESC_FUNCTION_VMD, 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
-	protected DeleteDiskSnapshot deleteDiskSnapshot;
+	protected DeleteDiskInternalSnapshot deleteDiskInternalSnapshot;
 	
-	public CreateDiskSnapshot getCreateDiskSnapshot() {
-		return createDiskSnapshot;
+	@FunctionDescriber(shortName = "创建云盘内部快照", description = "创建云盘内部快照，" 
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+		prerequisite = AnnotationUtils.DESC_FUNCTION_VMD, 
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected CreateDiskExternalSnapshot createDiskExternalSnapshot;
+	
+	@FunctionDescriber(shortName = "从云盘内部快照恢复", description = "从云盘内部快照恢复，" 
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+		prerequisite = AnnotationUtils.DESC_FUNCTION_VMD, 
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected RevertDiskExternalSnapshot revertDiskExternalSnapshot;
+	
+	@FunctionDescriber(shortName = "删除云盘内部快照", description = "删除云盘内部快照，" 
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+		prerequisite = AnnotationUtils.DESC_FUNCTION_VMD, 
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected DeleteDiskExternalSnapshot deleteDiskExternalSnapshot;
+	
+	public CreateDiskInternalSnapshot getCreateDiskSnapshot() {
+		return createDiskInternalSnapshot;
 	}
 
-	public void setCreateDiskSnapshot(CreateDiskSnapshot createDiskSnapshot) {
-		this.createDiskSnapshot = createDiskSnapshot;
+	public void setCreateDiskSnapshot(CreateDiskInternalSnapshot createDiskSnapshot) {
+		this.createDiskInternalSnapshot = createDiskSnapshot;
 	}
 
-	public RevertDiskSnapshot getRevertDiskSnapshot() {
-		return revertDiskSnapshot;
+	public RevertDiskInternalSnapshot getRevertDiskSnapshot() {
+		return revertDiskInternalSnapshot;
 	}
 
-	public void setRevertDiskSnapshot(RevertDiskSnapshot revertDiskSnapshot) {
-		this.revertDiskSnapshot = revertDiskSnapshot;
+	public void setRevertDiskSnapshot(RevertDiskInternalSnapshot revertDiskSnapshot) {
+		this.revertDiskInternalSnapshot = revertDiskSnapshot;
 	}
 
-	public DeleteDiskSnapshot getDeleteDiskSnapshot() {
-		return deleteDiskSnapshot;
+	public DeleteDiskInternalSnapshot getDeleteDiskSnapshot() {
+		return deleteDiskInternalSnapshot;
 	}
 
-	public void setDeleteDiskSnapshot(DeleteDiskSnapshot deleteDiskSnapshot) {
-		this.deleteDiskSnapshot = deleteDiskSnapshot;
+	public void setDeleteDiskSnapshot(DeleteDiskInternalSnapshot deleteDiskSnapshot) {
+		this.deleteDiskInternalSnapshot = deleteDiskSnapshot;
 	}
 	
 	public ConvertDiskToDiskImage getConvertDiskToDiskImage() {
@@ -149,6 +167,54 @@ public class Lifecycle {
 
 	public void setCloneDisk(CloneDisk cloneDisk) {
 		this.cloneDisk = cloneDisk;
+	}
+
+	public CreateDiskInternalSnapshot getCreateDiskInternalSnapshot() {
+		return createDiskInternalSnapshot;
+	}
+
+	public void setCreateDiskInternalSnapshot(CreateDiskInternalSnapshot createDiskInternalSnapshot) {
+		this.createDiskInternalSnapshot = createDiskInternalSnapshot;
+	}
+
+	public RevertDiskInternalSnapshot getRevertDiskInternalSnapshot() {
+		return revertDiskInternalSnapshot;
+	}
+
+	public void setRevertDiskInternalSnapshot(RevertDiskInternalSnapshot revertDiskInternalSnapshot) {
+		this.revertDiskInternalSnapshot = revertDiskInternalSnapshot;
+	}
+
+	public DeleteDiskInternalSnapshot getDeleteDiskInternalSnapshot() {
+		return deleteDiskInternalSnapshot;
+	}
+
+	public void setDeleteDiskInternalSnapshot(DeleteDiskInternalSnapshot deleteDiskInternalSnapshot) {
+		this.deleteDiskInternalSnapshot = deleteDiskInternalSnapshot;
+	}
+
+	public CreateDiskExternalSnapshot getCreateDiskExternalSnapshot() {
+		return createDiskExternalSnapshot;
+	}
+
+	public void setCreateDiskExternalSnapshot(CreateDiskExternalSnapshot createDiskExternalSnapshot) {
+		this.createDiskExternalSnapshot = createDiskExternalSnapshot;
+	}
+
+	public RevertDiskExternalSnapshot getRevertDiskExternalSnapshot() {
+		return revertDiskExternalSnapshot;
+	}
+
+	public void setRevertDiskExternalSnapshot(RevertDiskExternalSnapshot revertDiskExternalSnapshot) {
+		this.revertDiskExternalSnapshot = revertDiskExternalSnapshot;
+	}
+
+	public DeleteDiskExternalSnapshot getDeleteDiskExternalSnapshot() {
+		return deleteDiskExternalSnapshot;
+	}
+
+	public void setDeleteDiskExternalSnapshot(DeleteDiskExternalSnapshot deleteDiskExternalSnapshot) {
+		this.deleteDiskExternalSnapshot = deleteDiskExternalSnapshot;
 	}
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
@@ -431,7 +497,7 @@ public class Lifecycle {
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class CreateDiskSnapshot {
+	public static class CreateDiskInternalSnapshot {
 		
 		@ParameterDescriber(required = true, description = "云盘所在的存储池名", constraint = "由6-128位的数字和小写字母组成，已创建出的存储池", example = "pool2")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
@@ -461,7 +527,7 @@ public class Lifecycle {
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class RevertDiskSnapshot {
+	public static class RevertDiskInternalSnapshot {
 		
 		@ParameterDescriber(required = true, description = "云盘所在的存储池名", constraint = "由6-128位的数字和小写字母组成，已创建出的存储池", example = "pool2")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
@@ -491,7 +557,157 @@ public class Lifecycle {
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class DeleteDiskSnapshot {
+	public static class DeleteDiskInternalSnapshot {
+		
+		@ParameterDescriber(required = true, description = "云盘所在的存储池名", constraint = "由6-128位的数字和小写字母组成，已创建出的存储池", example = "pool2")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String pool;
+		
+		@ParameterDescriber(required = true, description = "快照的名字", constraint = "由6-128位的数字和小写字母组成", example = "snap1")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String snapshotname;
+
+		public String getPool() {
+			return pool;
+		}
+
+		public void setPool(String pool) {
+			this.pool = pool;
+		}
+
+		public String getSnapshotname() {
+			return snapshotname;
+		}
+
+		public void setSnapshotname(String snapshotname) {
+			this.snapshotname = snapshotname;
+		}
+		
+	}
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class CreateDiskExternalSnapshot {
+
+		protected String allocation;
+
+		@ParameterDescriber(required = true, description = "根云盘文件的类型", constraint = "qcow2", example = "qcow2")
+		@Pattern(regexp = RegExpUtils.DISK_TYPE_PATTERN)
+		protected String backing_vol_format;
+
+		protected Boolean prealloc_metadata;
+
+		@ParameterDescriber(required = true, description = "云盘文件的类型", constraint = "qcow2", example = "qcow2")
+		@Pattern(regexp = RegExpUtils.DISK_TYPE_PATTERN)
+		protected String format;
+
+		@ParameterDescriber(required = true, description = "创建云盘使用的存储池名", constraint = "已创建出的存储池", example = "pool2")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String pool;
+
+		@ParameterDescriber(required = true, description = "根云盘的名字", constraint = "已创建出的云盘", example = "volume1")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String backing_vol;
+
+		@ParameterDescriber(required = true, description = "云盘空间大小,10G到1T", constraint = "10000000000-999999999999（单位：Byte）", example = "‭10,737,418,240‬")
+		@Pattern(regexp = RegExpUtils.DISK_SIZE_PATTERN)
+		protected String capacity;
+
+		public CreateDiskExternalSnapshot() {
+
+		}
+
+		public void setAllocation(String allocation) {
+			this.allocation = allocation;
+		}
+
+		public String getAllocation() {
+			return this.allocation;
+		}
+
+		public void setBacking_vol_format(String backing_vol_format) {
+			this.backing_vol_format = backing_vol_format;
+		}
+
+		public String getBacking_vol_format() {
+			return this.backing_vol_format;
+		}
+
+		public void setPrealloc_metadata(Boolean prealloc_metadata) {
+			this.prealloc_metadata = prealloc_metadata;
+		}
+
+		public Boolean getPrealloc_metadata() {
+			return this.prealloc_metadata;
+		}
+
+		public void setFormat(String format) {
+			this.format = format;
+		}
+
+		public String getFormat() {
+			return this.format;
+		}
+
+		public void setPool(String pool) {
+			this.pool = pool;
+		}
+
+		public String getPool() {
+			return this.pool;
+		}
+
+		public void setBacking_vol(String backing_vol) {
+			this.backing_vol = backing_vol;
+		}
+
+		public String getBacking_vol() {
+			return this.backing_vol;
+		}
+
+		public void setCapacity(String capacity) {
+			this.capacity = capacity;
+		}
+
+		public String getCapacity() {
+			return this.capacity;
+		}
+		
+	}
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class RevertDiskExternalSnapshot {
+		
+		@ParameterDescriber(required = true, description = "云盘所在的存储池名", constraint = "由6-128位的数字和小写字母组成，已创建出的存储池", example = "pool2")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String pool;
+		
+		@ParameterDescriber(required = true, description = "快照的名字", constraint = "由6-128位的数字和小写字母组成", example = "snap1")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String snapshotname;
+
+		public String getPool() {
+			return pool;
+		}
+
+		public void setPool(String pool) {
+			this.pool = pool;
+		}
+
+		public String getSnapshotname() {
+			return snapshotname;
+		}
+
+		public void setSnapshotname(String snapshotname) {
+			this.snapshotname = snapshotname;
+		}
+		
+	}
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class DeleteDiskExternalSnapshot {
 		
 		@ParameterDescriber(required = true, description = "云盘所在的存储池名", constraint = "由6-128位的数字和小写字母组成，已创建出的存储池", example = "pool2")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)

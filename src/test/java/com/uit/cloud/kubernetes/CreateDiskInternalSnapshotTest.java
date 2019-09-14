@@ -4,7 +4,7 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
-import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CreateDiskSnapshot;
+import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CreateDiskInternalSnapshot;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -22,14 +22,14 @@ public class CreateDiskInternalSnapshotTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineDisks()
-				.createDiskSnapshot("vm.auto.test-003", get(), "abc");
+				.createDiskInternalSnapshot("vm.auto.test-003", get(), "abc");
 		System.out.println(successful);
 	}
 
-	protected static CreateDiskSnapshot get() {
-		CreateDiskSnapshot createDiskSnapshot = new CreateDiskSnapshot();
-		createDiskSnapshot.setPool("default");
-		createDiskSnapshot.setSnapshotname("snapshot2");
-		return createDiskSnapshot;
+	protected static CreateDiskInternalSnapshot get() {
+		CreateDiskInternalSnapshot createDiskInternalSnapshot = new CreateDiskInternalSnapshot();
+		createDiskInternalSnapshot.setPool("default");
+		createDiskInternalSnapshot.setSnapshotname("snapshot2");
+		return createDiskInternalSnapshot;
 	}
 }
