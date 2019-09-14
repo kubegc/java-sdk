@@ -22,7 +22,7 @@ public class DeleteVMTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.deleteVM("vm.auto.test-004", new DeleteVM(), "1123");
+				.deleteVM("450646e8c17a49d0b83c1c797811e045", new DeleteVM(), "1123");
 		System.out.println(successful);
 	}
 	

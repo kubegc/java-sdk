@@ -400,5 +400,71 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 	public NodeSelectorImpl getNodeSelector() {
 		return new NodeSelectorImpl(this);
 	}
+	
+	
+	
+	
+	/**
+	 * the same as  'virtualMachines'
+	 * 
+	 * @return                    virtualMachines
+	 */
+	public VirtualMachineImpl getVirtualMachineImpl() {
+		return virtualMachines();
+	}
+	
+	/**
+	 * the same as  'virtualMachineDisks'
+	 * 
+	 * @return                    virtualMachineDisks
+	 */
+	public VirtualMachineDiskImpl getVirtualMachineDiskImpl() {
+		return virtualMachineDisks();
+	}
+	
+	/**
+	 * the same as  'virtualMachineImages'
+	 * 
+	 * @return                    virtualMachineImages
+	 */
+	public VirtualMachineImageImpl getVirtualMachineImageImpl() {
+		return virtualMachineImages();
+	}
+	
+	/**
+	 * the same as  'virtualMachineSnapshots'
+	 * 
+	 * @return                    virtualMachineSnapshots
+	 */
+	public VirtualMachineSnapshotImpl getVirtualMachineSnapshotImpl() {
+		return virtualMachineSnapshots();
+	}
+	
+	/**
+	 * the same as  'virtualMachinePools'
+	 * 
+	 * @return                    virtualMachinePools
+	 */
+	public VirtualMachinePoolImpl getVirtualMachinePoolImpl() {
+		return virtualMachinePools();
+	}
+	
+	/**
+	 * the same as  'virtualMachineDiskImages'
+	 * 
+	 * @return                    virtualMachineDiskImages
+	 */
+	public VirtualMachineDiskImageImpl getVirtualMachineDiskImageImpl() {
+		return virtualMachineDiskImages();
+	}
+	
+	/**
+	 * the same as  'virtualMachineNetworks'
+	 * 
+	 * @return                    virtualMachineNetworks
+	 */
+	public VirtualMachineNetworkImpl getVirtualMachineNetworkImpl() {
+		return virtualMachineNetworks();
+	}
 
 }
