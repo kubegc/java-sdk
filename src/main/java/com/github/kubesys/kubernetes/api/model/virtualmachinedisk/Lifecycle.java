@@ -221,6 +221,10 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class CreateDisk {
 
+		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，uus，nfs，glusterfs之一", example = "dir")
+		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
+		protected String type = "dir";
+
 		protected String allocation;
 
 		protected String backing_vol_format;
@@ -300,11 +304,24 @@ public class Lifecycle {
 		public String getCapacity() {
 			return this.capacity;
 		}
+
+
+		public String getType() {
+			return type;
+		}
+
+		public void setType(String type) {
+			this.type = type;
+		}
 	}
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class DeleteDisk {
+
+		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，uus，nfs，glusterfs之一", example = "dir")
+		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
+		protected String type = "dir";
 
 		protected Boolean delete_snapshots;
 
@@ -327,11 +344,23 @@ public class Lifecycle {
 		public String getPool() {
 			return this.pool;
 		}
+
+		public String getType() {
+			return type;
+		}
+
+		public void setType(String type) {
+			this.type = type;
+		}
 	}
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class ResizeDisk {
+
+		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，uus，nfs，glusterfs之一", example = "dir")
+		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
+		protected String type = "dir";
 
 		protected Boolean allocate;
 
@@ -386,6 +415,14 @@ public class Lifecycle {
 		public String getCapacity() {
 			return this.capacity;
 		}
+
+		public String getType() {
+			return type;
+		}
+
+		public void setType(String type) {
+			this.type = type;
+		}
 	}
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
@@ -420,6 +457,10 @@ public class Lifecycle {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class CloneDisk {
+
+		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，uus，nfs，glusterfs之一", example = "dir")
+		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
+		protected String type = "dir";
 
 		protected Boolean reflink;
 
@@ -467,6 +508,14 @@ public class Lifecycle {
 
 		public String getNewname() {
 			return this.newname;
+		}
+
+		public String getType() {
+			return type;
+		}
+
+		public void setType(String type) {
+			this.type = type;
 		}
 	}
 
