@@ -181,12 +181,23 @@ public class Lifecycle {
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected CloneVM cloneVM;
 	
-	
+	@FunctionDescriber(shortName = "全拷贝快照到文件", description = "全拷贝快照到文件，" 
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+		prerequisite = AnnotationUtils.DESC_FUNCTION_VMD, 
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected CopySnapshot copySnapshot;
 	
-	protected CommitSnapshot commitSnapshot;
+	@FunctionDescriber(shortName = "合并快照到根节点", description = "合并快照到根节点，" 
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+		prerequisite = AnnotationUtils.DESC_FUNCTION_VMD, 
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected MergeSnapshotToBase mergeSnapshotToBase;
 	
-	protected PullSnapshot pullSnapshot;
+	@FunctionDescriber(shortName = "合并快照到叶子节点", description = "合并快照到叶子节点，" 
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+		prerequisite = AnnotationUtils.DESC_FUNCTION_VMD, 
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected MergeSnapshotToTop mergeSnapshotToTop;
 	
 	public ManageISO getManageISO() {
 		return manageISO;
@@ -2485,16 +2496,21 @@ public class Lifecycle {
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class PullSnapshot {
+	public static class MergeSnapshotToTop {
 		
+		@ParameterDescriber(required = true, description = "快照文件的路径", constraint= "路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点", example = "/var/lib/libvirt/snapshots/snapshot1")
+		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
 		protected String path;
 		
 		protected String bandwidth;
 		
+		@ParameterDescriber(required = true, description = "从该快照进行数据合并，合并到叶子节点，假设当前快照链为base->snapshot1->snapshot2->top，则base=snapshot1的结果为把snapshot2和top的数据合并到snapshot1，快照链变为base->snapshot1", constraint= "快照名长度是6到128位", example = "snapshot1")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String base;
 		
 		protected String timeout;
 		
+		@ParameterDescriber(required = false, description = "等待任务完成", constraint= "取值范围：true/false", example = "true")
 		protected Boolean wait;
 		
 		protected Boolean verbose;
@@ -2580,14 +2596,17 @@ public class Lifecycle {
 	}
 	
 	
-	public static class CommitSnapshot extends PullSnapshot {
+	public static class MergeSnapshotToBase extends MergeSnapshotToTop {
 		
+		@ParameterDescriber(required = true, description = "合并数据到该快照，假设当前快照链为base->snapshot1->snapshot2->top，则base=snapshot1,top=snapshot2的结果为把snapshot2的数据合并到snapshot1，快照链变为base->snapshot1->top", constraint= "快照名长度是6到128位", example = "snapshot1")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String top;
 		
 		protected Boolean shallow;
 		
 		protected Boolean active;
 		
+		@ParameterDescriber(required = true, description = "删除已合并的快照", constraint= "取值范围：true/false", example = "true")
 		protected Boolean delete;
 		
 		protected Boolean pivot;
@@ -2644,7 +2663,7 @@ public class Lifecycle {
 		
 	}
 	
-	public static class CopySnapshot extends PullSnapshot {
+	public static class CopySnapshot extends MergeSnapshotToTop {
 		
 		protected String dest;
 		
