@@ -78,8 +78,8 @@ public class APIGenerator {
 					
 					sb.append("对象" + field.getName() + "参数说明:\n\n");
 					
-					sb.append("| name | type | required | description | exampe |").append("\n");
-					sb.append("| ----- | ------ | ------ | ------ | ------ |").append("\n");
+					sb.append("| name | type | required | description | constraint | example |").append("\n");
+					sb.append("| ----- | ------ | ------ | ------ | ------ | ------ |").append("\n");
 					
 					for(Field ff : field.getType().getDeclaredFields()) {
 						ParameterDescriber ffp = ff.getAnnotation(ParameterDescriber.class);
@@ -91,6 +91,7 @@ public class APIGenerator {
 							.append(ff.getType().getSimpleName()).append("|")
 							.append(ffp.required()).append("|")
 							.append(ffp.description()).append("|")
+							.append(ffp.constraint()).append("|")
 							.append(ffp.example()).append("|\n");
 					}
 					sb.append("|  |  |  |  |  |").append("\n\n");

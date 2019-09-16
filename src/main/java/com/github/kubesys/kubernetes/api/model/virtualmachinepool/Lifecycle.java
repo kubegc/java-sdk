@@ -154,10 +154,10 @@ public class Lifecycle {
 		
 		protected String source_path;
 
-		@ParameterDescriber(required = true, description = "云存储池的url", constraint = "建立云存储池时通过cstor-cli pool-list查询出的云存储池路径", example = "uus-iscsi-independent://admin:admin@192.168.3.10:7000/p1/4/2/0/32/0/3")
+		@ParameterDescriber(required = false, description = "云存储池的url", constraint = "建立云存储池时通过cstor-cli pool-list查询出的云存储池路径", example = "uus-iscsi-independent://admin:admin@192.168.3.10:7000/p1/4/2/0/32/0/3")
 		protected String url;
 
-		@ParameterDescriber(required = true, description = "nfs挂载参数", constraint = "当type为nfs类型时，nfs的挂载参数", example = "nolock")
+		@ParameterDescriber(required = false, description = "nfs挂载参数", constraint = "当type为nfs类型时，nfs的挂载参数", example = "nolock")
 		protected String opt;
 
 		protected String source_dev;
@@ -616,7 +616,7 @@ public class Lifecycle {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class DeletePool {
-		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，uus，nfs，glusterfs之一", example = "dir")
+		@ParameterDescriber(required = false, description = "存储池的类型", constraint = "只能是dir，uus，nfs，glusterfs之一", example = "dir")
 		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
 		protected String type = "dir";
 
