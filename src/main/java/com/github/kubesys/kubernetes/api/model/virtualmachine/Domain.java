@@ -15909,9 +15909,15 @@ public class Domain {
 					protected Reservations reservations;
 
 					protected String _startupPolicy;
+					
+					protected String _file;
 
-					public Source() {
+					public String get_file() {
+						return _file;
+					}
 
+					public void set_file(String _file) {
+						this._file = _file;
 					}
 
 					/**
