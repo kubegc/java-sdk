@@ -15808,10 +15808,12 @@ public class Domain {
 
 				protected Source source;
 
-				public BackingStore() {
-
-				}
-
+				protected String _type;
+				
+				protected String _file;
+				
+				protected BackingStore backingStore;
+				
 				/**
 				 * Ignore the user setting, use 'lifecycle' to update VM's info
 				 *
@@ -15836,6 +15838,15 @@ public class Domain {
 					return this.format;
 				}
 
+				
+				public String get_file() {
+					return _file;
+				}
+
+				public void set_file(String _file) {
+					this._file = _file;
+				}
+
 				/**
 				 * Ignore the user setting, use 'lifecycle' to update VM's info
 				 *
@@ -15846,6 +15857,22 @@ public class Domain {
 
 				public Source getSource() {
 					return this.source;
+				}
+
+				public String get_type() {
+					return _type;
+				}
+
+				public void set_type(String _type) {
+					this._type = _type;
+				}
+				
+				public BackingStore getBackingStore() {
+					return backingStore;
+				}
+
+				public void setBackingStore(BackingStore backingStore) {
+					this.backingStore = backingStore;
 				}
 
 				@JsonInclude(JsonInclude.Include.NON_NULL)
