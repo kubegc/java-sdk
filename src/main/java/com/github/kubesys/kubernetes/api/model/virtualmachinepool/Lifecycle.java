@@ -146,9 +146,9 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class CreatePool {
 
-		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir, fs, netfs, disk, iscsi, logical, scsi, mpath, rbd, sheepdog, gluster, zfs, vstorage, iscsi-direct之一", example = "dir")
+		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，uus，nfs，glusterfs之一", example = "dir")
 		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
-		protected String type;
+		protected String type = "dir";
 		
 		protected String source_host;
 		
@@ -616,7 +616,9 @@ public class Lifecycle {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class DeletePool {
-		protected String type;
+		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，uus，nfs，glusterfs之一", example = "dir")
+		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
+		protected String type = "dir";
 
 		public String getType() {
 			return type;

@@ -68,8 +68,8 @@ public class RegExpUtils {
 	@FieldDescriber("虚拟交换机类型只能是bridge，或l2bridge，或l3bridge")
 	public final static String SWITCH_TYPE_PATTERN = "bridge|l2bridge|l3bridge";
 	
-	@FieldDescriber("存储池类型，只能是dir, fs, netfs, disk, iscsi, logical, scsi, mpath, rbd, sheepdog, gluster, zfs, vstorage, iscsi-direct之一")
-	public final static String POOL_TYPE_PATTERN = "dir|fs|netfs|disk|iscsi|logical|scsi|mpath|rbd|sheepdog|gluster|zfs|vstorage|iscsi-direct"; 
+	@FieldDescriber("存储池类型，只能是dir,uus,nfs,glusterfs之一")
+	public final static String POOL_TYPE_PATTERN = "dir|uus|nfs|glusterfs";
 	
 	@FieldDescriber("IP范围，如192.168.1.0")
 	public final static String IP_PATTERN  = "((25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)\\.){3}(25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)";
