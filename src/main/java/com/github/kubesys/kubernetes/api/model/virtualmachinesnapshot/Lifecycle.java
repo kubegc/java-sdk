@@ -75,6 +75,9 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class CreateSnapshot {
 
+		@ParameterDescriber(required = true, description = "虚拟机快照的设置", 
+				constraint = "vda(对哪个磁盘做快照，多个请参考示例),snapshot=external/internal(快照类型，支持external：外部和internal:内部),file=/var/lib/libvirt/snapshots/snapshot1(快照文件的存放路径),drvier=qcow2（只支持qcow2）", 
+				example = "vda,snapshot=external,file=/var/lib/libvirt/snapshots/snapshot1,drvier=qcow2 --diskspec vdb,snapshot=external,file=/var/lib/libvirt/snapshots/snapshot2,drvier=qcow2")
 		protected String diskspec;
 
 		protected Boolean no_metadata;
@@ -93,7 +96,7 @@ public class Lifecycle {
 
 		protected Boolean atomic;
 
-		@ParameterDescriber(required = true, description = "要恢复到快照状态的虚拟机name", constraint = "已存在的虚拟机名，由6-128位的数字和小写字母组成", example = "vm1")
+		@ParameterDescriber(required = true, description = "与快照关联的虚拟机名字", constraint = "已存在的虚拟机名，由6-128位的数字和小写字母组成", example = "950646e8c17a49d0b83c1c797811e001")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String domain;
 
