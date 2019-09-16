@@ -153,7 +153,13 @@ public class Lifecycle {
 		protected String source_host;
 		
 		protected String source_path;
-		
+
+		@ParameterDescriber(required = true, description = "云存储池的url", constraint = "建立云存储池时通过cstor-cli pool-list查询出的云存储池路径", example = "uus-iscsi-independent://admin:admin@192.168.3.10:7000/p1/4/2/0/32/0/3")
+		protected String url;
+
+		@ParameterDescriber(required = true, description = "nfs挂载参数", constraint = "当type为nfs类型时，nfs的挂载参数", example = "nolock")
+		protected String opt;
+
 		protected String source_dev;
 		
 		protected String source_name;
@@ -358,6 +364,22 @@ public class Lifecycle {
 
 		public void setOverwrite(Boolean overwrite) {
 			this.overwrite = overwrite;
+		}
+
+		public String getUrl() {
+			return url;
+		}
+
+		public void setUrl(String url) {
+			this.url = url;
+		}
+
+		public String getOpt() {
+			return opt;
+		}
+
+		public void setOpt(String opt) {
+			this.opt = opt;
 		}
 		
 	}
@@ -594,7 +616,15 @@ public class Lifecycle {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class DeletePool {
-		
+		protected String type;
+
+		public String getType() {
+			return type;
+		}
+
+		public void setType(String type) {
+			this.type = type;
+		}
 	}
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
