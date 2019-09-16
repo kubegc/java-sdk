@@ -181,6 +181,13 @@ public class Lifecycle {
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected CloneVM cloneVM;
 	
+	
+	protected CopySnapshot copySnapshot;
+	
+	protected CommitSnapshot commitSnapshot;
+	
+	protected PullSnapshot pullSnapshot;
+	
 	public ManageISO getManageISO() {
 		return manageISO;
 	}
@@ -2475,4 +2482,259 @@ public class Lifecycle {
 		
 	}
 	
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class PullSnapshot {
+		
+		protected String path;
+		
+		protected String bandwidth;
+		
+		protected String base;
+		
+		protected String timeout;
+		
+		protected Boolean wait;
+		
+		protected Boolean verbose;
+		
+		protected Boolean async;
+		
+		protected Boolean keep_relative;
+		
+		protected Boolean bytes;
+
+		public String getPath() {
+			return path;
+		}
+
+		public void setPath(String path) {
+			this.path = path;
+		}
+
+		public String getBandwidth() {
+			return bandwidth;
+		}
+
+		public void setBandwidth(String bandwidth) {
+			this.bandwidth = bandwidth;
+		}
+
+		public String getBase() {
+			return base;
+		}
+
+		public void setBase(String base) {
+			this.base = base;
+		}
+
+		public String getTimeout() {
+			return timeout;
+		}
+
+		public void setTimeout(String timeout) {
+			this.timeout = timeout;
+		}
+
+		public Boolean getWait() {
+			return wait;
+		}
+
+		public void setWait(Boolean wait) {
+			this.wait = wait;
+		}
+
+		public Boolean getVerbose() {
+			return verbose;
+		}
+
+		public void setVerbose(Boolean verbose) {
+			this.verbose = verbose;
+		}
+
+		public Boolean getAsync() {
+			return async;
+		}
+
+		public void setAsync(Boolean async) {
+			this.async = async;
+		}
+
+		public Boolean getKeep_relative() {
+			return keep_relative;
+		}
+
+		public void setKeep_relative(Boolean keep_relative) {
+			this.keep_relative = keep_relative;
+		}
+
+		public Boolean getBytes() {
+			return bytes;
+		}
+
+		public void setBytes(Boolean bytes) {
+			this.bytes = bytes;
+		}
+		
+	}
+	
+	
+	public static class CommitSnapshot extends PullSnapshot {
+		
+		protected String top;
+		
+		protected Boolean shallow;
+		
+		protected Boolean active;
+		
+		protected Boolean delete;
+		
+		protected Boolean pivot;
+		
+		protected Boolean keep_overlay;
+
+		public String getTop() {
+			return top;
+		}
+
+		public void setTop(String top) {
+			this.top = top;
+		}
+
+		public Boolean getShallow() {
+			return shallow;
+		}
+
+		public void setShallow(Boolean shallow) {
+			this.shallow = shallow;
+		}
+
+		public Boolean getActive() {
+			return active;
+		}
+
+		public void setActive(Boolean active) {
+			this.active = active;
+		}
+
+		public Boolean getDelete() {
+			return delete;
+		}
+
+		public void setDelete(Boolean delete) {
+			this.delete = delete;
+		}
+
+		public Boolean getPivot() {
+			return pivot;
+		}
+
+		public void setPivot(Boolean pivot) {
+			this.pivot = pivot;
+		}
+
+		public Boolean getKeep_overlay() {
+			return keep_overlay;
+		}
+
+		public void setKeep_overlay(Boolean keep_overlay) {
+			this.keep_overlay = keep_overlay;
+		}
+		
+	}
+	
+	public static class CopySnapshot extends PullSnapshot {
+		
+		protected String dest;
+		
+		protected String granularity;
+		
+		protected String buf_size;
+		
+		protected Boolean shallow;
+		
+		protected Boolean reuse_external;
+		
+		protected Boolean blockdev;
+		
+		protected Boolean pivot;
+		
+		protected Boolean finish;
+		
+		protected Boolean transient_job;
+
+		public String getDest() {
+			return dest;
+		}
+
+		public void setDest(String dest) {
+			this.dest = dest;
+		}
+
+		public String getGranularity() {
+			return granularity;
+		}
+
+		public void setGranularity(String granularity) {
+			this.granularity = granularity;
+		}
+
+		public String getBuf_size() {
+			return buf_size;
+		}
+
+		public void setBuf_size(String buf_size) {
+			this.buf_size = buf_size;
+		}
+
+		public Boolean getShallow() {
+			return shallow;
+		}
+
+		public void setShallow(Boolean shallow) {
+			this.shallow = shallow;
+		}
+
+		public Boolean getReuse_external() {
+			return reuse_external;
+		}
+
+		public void setReuse_external(Boolean reuse_external) {
+			this.reuse_external = reuse_external;
+		}
+
+		public Boolean getBlockdev() {
+			return blockdev;
+		}
+
+		public void setBlockdev(Boolean blockdev) {
+			this.blockdev = blockdev;
+		}
+
+		public Boolean getPivot() {
+			return pivot;
+		}
+
+		public void setPivot(Boolean pivot) {
+			this.pivot = pivot;
+		}
+
+		public Boolean getFinish() {
+			return finish;
+		}
+
+		public void setFinish(Boolean finish) {
+			this.finish = finish;
+		}
+
+		public Boolean getTransient_job() {
+			return transient_job;
+		}
+
+		public void setTransient_job(Boolean transient_job) {
+			this.transient_job = transient_job;
+		}
+		
+	}
 }
