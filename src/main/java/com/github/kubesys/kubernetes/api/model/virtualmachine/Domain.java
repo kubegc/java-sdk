@@ -15812,7 +15812,7 @@ public class Domain {
 				
 				protected String _file;
 				
-//				protected BackingStore backingStore;
+				protected BackingStore backingStore;
 				
 				/**
 				 * Ignore the user setting, use 'lifecycle' to update VM's info
@@ -15867,13 +15867,13 @@ public class Domain {
 					this._type = _type;
 				}
 				
-//				public BackingStore getBackingStore() {
-//					return backingStore;
-//				}
+				public BackingStore getBackingStore() {
+					return backingStore;
+				}
 
-//				public void setBackingStore(BackingStore backingStore) {
-//					this.backingStore = backingStore;
-//				}
+				public void setBackingStore(BackingStore backingStore) {
+					this.backingStore = backingStore;
+				}
 
 				@JsonInclude(JsonInclude.Include.NON_NULL)
 				@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
