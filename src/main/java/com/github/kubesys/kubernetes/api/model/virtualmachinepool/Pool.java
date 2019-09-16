@@ -17,6 +17,8 @@ public class Pool {
 
 	protected String _type;
 	
+	protected String pooltype;
+	
 	protected String name;
 	
 	protected String uuid;
@@ -65,6 +67,14 @@ public class Pool {
 
 	public void setState(String state) {
 		this.state = state;
+	}
+
+	public String getPooltype() {
+		return pooltype;
+	}
+
+	public void setPooltype(String pooltype) {
+		this.pooltype = pooltype;
 	}
 
 	public String getPersistent() {

@@ -18,7 +18,7 @@ public class GetVMPoolTest {
 	
 	public static void main(String[] args) throws Exception {
 		System.out.println(JSON.toJSONString(AbstractTest
-				.getVMPoolByName("pool2")));
+				.getVMPoolByName("pooldir")));
 	}
 	
 }
