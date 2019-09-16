@@ -199,6 +199,30 @@ public class Lifecycle {
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected MergeSnapshotToTop mergeSnapshotToTop;
 	
+	public CopySnapshot getCopySnapshot() {
+		return copySnapshot;
+	}
+
+	public void setCopySnapshot(CopySnapshot copySnapshot) {
+		this.copySnapshot = copySnapshot;
+	}
+
+	public MergeSnapshotToBase getMergeSnapshotToBase() {
+		return mergeSnapshotToBase;
+	}
+
+	public void setMergeSnapshotToBase(MergeSnapshotToBase mergeSnapshotToBase) {
+		this.mergeSnapshotToBase = mergeSnapshotToBase;
+	}
+
+	public MergeSnapshotToTop getMergeSnapshotToTop() {
+		return mergeSnapshotToTop;
+	}
+
+	public void setMergeSnapshotToTop(MergeSnapshotToTop mergeSnapshotToTop) {
+		this.mergeSnapshotToTop = mergeSnapshotToTop;
+	}
+
 	public ManageISO getManageISO() {
 		return manageISO;
 	}
@@ -2504,8 +2528,8 @@ public class Lifecycle {
 		
 		protected String bandwidth;
 		
-		@ParameterDescriber(required = true, description = "从该快照进行数据合并，合并到叶子节点，假设当前快照链为base->snapshot1->snapshot2->top，则base=snapshot1的结果为把snapshot2和top的数据合并到snapshot1，快照链变为base->snapshot1", constraint= "快照名长度是6到128位", example = "snapshot1")
-		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		@ParameterDescriber(required = true, description = "从该快照进行数据合并，合并到叶子节点，假设当前快照链为base->snapshot1->snapshot2->top，则base=snapshot1的结果为把snapshot2和top的数据合并到snapshot1，快照链变为base->snapshot1", constraint= "路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点", example = "snapshot1")
+		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
 		protected String base;
 		
 		protected String timeout;
@@ -2598,8 +2622,8 @@ public class Lifecycle {
 	
 	public static class MergeSnapshotToBase extends MergeSnapshotToTop {
 		
-		@ParameterDescriber(required = true, description = "合并数据到该快照，假设当前快照链为base->snapshot1->snapshot2->top，则base=snapshot1,top=snapshot2的结果为把snapshot2的数据合并到snapshot1，快照链变为base->snapshot1->top", constraint= "快照名长度是6到128位", example = "snapshot1")
-		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		@ParameterDescriber(required = true, description = "合并数据到该快照，假设当前快照链为base->snapshot1->snapshot2->top，则base=snapshot1,top=snapshot2的结果为把snapshot2的数据合并到snapshot1，快照链变为base->snapshot1->top", constraint= "路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点", example = "snapshot1")
+		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
 		protected String top;
 		
 		protected Boolean shallow;
