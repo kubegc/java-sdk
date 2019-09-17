@@ -22,14 +22,32 @@ public class CreateVMPoolTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachinePools()
-				.createPool("poolabcd", "vm.node30", getPool());
+				.createPool("pooluus", "vm.node83", getPool());
 		System.out.println(successful);
 	}
 
 	protected static Lifecycle.CreatePool getPool() {
 		Lifecycle.CreatePool createPool = new Lifecycle.CreatePool();
-		createPool.setType("dir");
-		createPool.setTarget("/var/lib/libvirt/poolabcd");
+		
+		//dir
+//		createPool.setType("dir");
+//		createPool.setTarget("/var/lib/libvirt/pooldir");
+		
+		// uus
+		createPool.setType("uus");
+		createPool.setUrl("uus-iscsi-independent://admin:admin@192.168.3.10:7000/p1/4/2/0/32/0/3");
+		
+		// nfs
+//		createPool.setType("nfs");
+//		createPool.setTarget("poolnfs");
+//		createPool.setUrl("nfs://192.168.3.99:/nfs/nfs");
+//		createPool.setOpt("nolock");
+		
+		// glusterfs
+//		createPool.setType("glusterfs");
+//		createPool.setTarget("poolglusterfs");
+//		createPool.setUrl("glusterfs://192.168.3.93:nfsvol");
+		
 		return createPool;
 	}
 	

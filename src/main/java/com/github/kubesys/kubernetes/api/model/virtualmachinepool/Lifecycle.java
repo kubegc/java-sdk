@@ -165,7 +165,7 @@ public class Lifecycle {
 		protected String source_name;
 
 		@ParameterDescriber(required = true, description = "创建存储池使用的存储路径", constraint = "完整有效的存储路径", example = "/var/lib/libvirt/poolg")
-		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
+		@Pattern(regexp = RegExpUtils.TARGET_PATTERN)
 		protected String target;
 		
 		protected String source_format;
