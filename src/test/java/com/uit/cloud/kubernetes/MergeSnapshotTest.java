@@ -15,7 +15,7 @@ import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.MergeSna
  * @since   2019/9/3
  *
  */
-public class MergeSnapshotToTopTest {
+public class MergeSnapshotTest {
 	
 	
 	public static void main(String[] args) throws Exception {
@@ -28,7 +28,7 @@ public class MergeSnapshotToTopTest {
 	
 	public static MergeSnapshot get() {
 		MergeSnapshot mergeSnapshotToTop = new MergeSnapshot();
-//		mergeSnapshotToTop.setBase("snapshot1");
+		mergeSnapshotToTop.setBase("snapshot1");
 		return mergeSnapshotToTop;
 	}
 }
