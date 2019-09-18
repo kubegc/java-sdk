@@ -4,7 +4,7 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.MergeSnapshotToTop;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.MergeSnapshot;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -22,14 +22,13 @@ public class MergeSnapshotToTopTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.mergeSnapshotToTop("950646e8c17a49d0b83c1c797811e001", get());
+				.mergeSnapshot("950646e8c17a49d0b83c1c797811e001", get());
 		System.out.println(successful);
 	}
 	
-	public static MergeSnapshotToTop get() {
-		MergeSnapshotToTop mergeSnapshotToTop = new MergeSnapshotToTop();
-		mergeSnapshotToTop.setPath("/var/lib/libvirt/images/snapshot6");
-		mergeSnapshotToTop.setBase("/var/lib/libvirt/images/snapshot5");
+	public static MergeSnapshot get() {
+		MergeSnapshot mergeSnapshotToTop = new MergeSnapshot();
+//		mergeSnapshotToTop.setBase("snapshot1");
 		return mergeSnapshotToTop;
 	}
 }

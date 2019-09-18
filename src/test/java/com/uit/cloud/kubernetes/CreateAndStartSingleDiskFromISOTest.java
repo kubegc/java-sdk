@@ -64,10 +64,10 @@ public class CreateAndStartSingleDiskFromISOTest {
 		 * 		if no mac, create a random mac
 		 * 		Note! Mac address is unique and does not support a value that start with "fe:" (e.g. fe:54:00:05:37:b3)
 		 */
-		createAndStartVMFromISO.setNetwork("type=bridge,source=virbr0,inbound=102400,outbound=102400");
+//		createAndStartVMFromISO.setNetwork("type=bridge,source=virbr0,inbound=102400,outbound=102400");
 //		createAndStartVMFromISO.setNetwork("type=l2bridge,source=br-native,inbound=102400,outbound=102400");
 //      if you want to use l3bridge, please first execute the command on your master node, 'kubeovn-adm create-switch --name switch8888 --subnet 192.168.5.0/24' 		
-//		createAndStartVMFromISO.setNetwork("type=l3bridge,source=br-int,ip=192.168.5.11,switch=switch8888,inbound=102400,outbound=102400");  
+		createAndStartVMFromISO.setNetwork("type=l3bridge,source=br-int,ip=192.168.5.10,switch=switch8888,inbound=102400,outbound=102400");  
 		
 		/*
 		 * l2 network example

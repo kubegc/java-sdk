@@ -187,40 +187,26 @@ public class Lifecycle {
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected CopySnapshot copySnapshot;
 	
-	@FunctionDescriber(shortName = "合并快照到根节点", description = "合并快照到根节点，" 
-			+ AnnotationUtils.DESC_FUNCTION_DESC, 
-		prerequisite = AnnotationUtils.DESC_FUNCTION_VMD, 
-		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
-	protected MergeSnapshotToBase mergeSnapshotToBase;
-	
 	@FunctionDescriber(shortName = "合并快照到叶子节点", description = "合并快照到叶子节点，" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = AnnotationUtils.DESC_FUNCTION_VMD, 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
-	protected MergeSnapshotToTop mergeSnapshotToTop;
+	protected MergeSnapshot mergeSnapshot;
 	
+	public MergeSnapshot getMergeSnapshot() {
+		return mergeSnapshot;
+	}
+
+	public void setMergeSnapshot(MergeSnapshot mergeSnapshot) {
+		this.mergeSnapshot = mergeSnapshot;
+	}
+
 	public CopySnapshot getCopySnapshot() {
 		return copySnapshot;
 	}
 
 	public void setCopySnapshot(CopySnapshot copySnapshot) {
 		this.copySnapshot = copySnapshot;
-	}
-
-	public MergeSnapshotToBase getMergeSnapshotToBase() {
-		return mergeSnapshotToBase;
-	}
-
-	public void setMergeSnapshotToBase(MergeSnapshotToBase mergeSnapshotToBase) {
-		this.mergeSnapshotToBase = mergeSnapshotToBase;
-	}
-
-	public MergeSnapshotToTop getMergeSnapshotToTop() {
-		return mergeSnapshotToTop;
-	}
-
-	public void setMergeSnapshotToTop(MergeSnapshotToTop mergeSnapshotToTop) {
-		this.mergeSnapshotToTop = mergeSnapshotToTop;
 	}
 
 	public ManageISO getManageISO() {
@@ -2520,39 +2506,14 @@ public class Lifecycle {
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class MergeSnapshotToTop {
-		
-		@ParameterDescriber(required = true, description = "快照文件的路径", constraint= "路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点", example = "/var/lib/libvirt/snapshots/snapshot1")
-		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
-		protected String path;
+	public static class MergeSnapshot {
 		
 		protected String bandwidth;
 		
-		@ParameterDescriber(required = true, description = "从该快照进行数据合并，合并到叶子节点，假设当前快照链为base->snapshot1->snapshot2->top，则base=snapshot1的结果为把snapshot2和top的数据合并到snapshot1，快照链变为base->snapshot1", constraint= "路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点", example = "snapshot1")
-		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
+		@ParameterDescriber(required = false, description = "从该快照进行数据合并，合并到叶子节点，不传则从root节点开始合并。假设当前快照链为root->snapshot1->snapshot2->current，则base=snapshot1的结果为把snapshot2合并到current，快照链变为root->snapshot1->top", constraint= "名称长度是6到128位", example = "snapshot1")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String base;
 		
-		protected String timeout;
-		
-		@ParameterDescriber(required = false, description = "等待任务完成", constraint= "取值范围：true/false", example = "true")
-		protected Boolean wait;
-		
-		protected Boolean verbose;
-		
-		protected Boolean async;
-		
-		protected Boolean keep_relative;
-		
-		protected Boolean bytes;
-
-		public String getPath() {
-			return path;
-		}
-
-		public void setPath(String path) {
-			this.path = path;
-		}
-
 		public String getBandwidth() {
 			return bandwidth;
 		}
@@ -2568,126 +2529,10 @@ public class Lifecycle {
 		public void setBase(String base) {
 			this.base = base;
 		}
-
-		public String getTimeout() {
-			return timeout;
-		}
-
-		public void setTimeout(String timeout) {
-			this.timeout = timeout;
-		}
-
-		public Boolean getWait() {
-			return wait;
-		}
-
-		public void setWait(Boolean wait) {
-			this.wait = wait;
-		}
-
-		public Boolean getVerbose() {
-			return verbose;
-		}
-
-		public void setVerbose(Boolean verbose) {
-			this.verbose = verbose;
-		}
-
-		public Boolean getAsync() {
-			return async;
-		}
-
-		public void setAsync(Boolean async) {
-			this.async = async;
-		}
-
-		public Boolean getKeep_relative() {
-			return keep_relative;
-		}
-
-		public void setKeep_relative(Boolean keep_relative) {
-			this.keep_relative = keep_relative;
-		}
-
-		public Boolean getBytes() {
-			return bytes;
-		}
-
-		public void setBytes(Boolean bytes) {
-			this.bytes = bytes;
-		}
 		
 	}
 	
-	
-	public static class MergeSnapshotToBase extends MergeSnapshotToTop {
-		
-		@ParameterDescriber(required = true, description = "合并数据到该快照，假设当前快照链为base->snapshot1->snapshot2->top，则base=snapshot1,top=snapshot2的结果为把snapshot2的数据合并到snapshot1，快照链变为base->snapshot1->top", constraint= "路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点", example = "snapshot1")
-		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
-		protected String top;
-		
-		protected Boolean shallow;
-		
-		protected Boolean active;
-		
-		@ParameterDescriber(required = true, description = "删除已合并的快照", constraint= "取值范围：true/false", example = "true")
-		protected Boolean delete;
-		
-		protected Boolean pivot;
-		
-		protected Boolean keep_overlay;
-
-		public String getTop() {
-			return top;
-		}
-
-		public void setTop(String top) {
-			this.top = top;
-		}
-
-		public Boolean getShallow() {
-			return shallow;
-		}
-
-		public void setShallow(Boolean shallow) {
-			this.shallow = shallow;
-		}
-
-		public Boolean getActive() {
-			return active;
-		}
-
-		public void setActive(Boolean active) {
-			this.active = active;
-		}
-
-		public Boolean getDelete() {
-			return delete;
-		}
-
-		public void setDelete(Boolean delete) {
-			this.delete = delete;
-		}
-
-		public Boolean getPivot() {
-			return pivot;
-		}
-
-		public void setPivot(Boolean pivot) {
-			this.pivot = pivot;
-		}
-
-		public Boolean getKeep_overlay() {
-			return keep_overlay;
-		}
-
-		public void setKeep_overlay(Boolean keep_overlay) {
-			this.keep_overlay = keep_overlay;
-		}
-		
-	}
-	
-	public static class CopySnapshot extends MergeSnapshotToTop {
+	public static class CopySnapshot extends MergeSnapshot {
 		
 		protected String dest;
 		
