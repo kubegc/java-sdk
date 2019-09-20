@@ -22,14 +22,14 @@ public class RevertSnapshotTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineSnapshots()
-				.revertVirtualMachine("hello131212", get(), "123456");
+				.revertVirtualMachine("snapshot1", get(), "123456");
 		System.out.println(successful);
 	}
 
 	protected static RevertVirtualMachine get() {
 		RevertVirtualMachine revertVM = new RevertVirtualMachine();
 		// domain name
-		revertVM.setDomain("350646e8c17a49d0b83c1c797811e084");
+		revertVM.setDomain("950646e8c17a49d0b83c1c797811e001");
 		// after reverting, change state to running
 		revertVM.setRunning(true);
 		return revertVM;

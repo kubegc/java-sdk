@@ -28,8 +28,8 @@ public class PlugDiskTest {
 	
 	public static PlugDisk getPlugDisk() {
 		PlugDisk plugDisk = new PlugDisk();
-		plugDisk.setSource("/var/lib/libvirt/images/taa.qcow2");
-		plugDisk.setTarget("vdd");
+		plugDisk.setSource("/var/lib/libvirt/images/snapshot1");
+		plugDisk.setTarget("vda");
 		plugDisk.setLive(true);
 		plugDisk.setConfig(true);
 		plugDisk.setSubdriver("qcow2");

@@ -39,6 +39,9 @@ public class RegExpUtils {
 	@FieldDescriber("vcpu个数，1到99之间")
 	public final static String VCPU_PATTERN = "[1-9](\\d{1})?";
 	
+	@FieldDescriber("vlan ID号，1到99之间")
+	public final static String VLAN_PATTERN = "[1-9](\\d{1})?";
+	
 	@FieldDescriber("ram容量，单位MiB，100到99999之间")
 	public final static String RAM_PATTERN = "\\d{3,5}";
 	

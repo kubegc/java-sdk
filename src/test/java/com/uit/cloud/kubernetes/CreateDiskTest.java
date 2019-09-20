@@ -33,6 +33,7 @@ public class CreateDiskTest {
 		Long size = 10L*1024*1024*1024;
 		createDisk.setCapacity(String.valueOf(size));
 		createDisk.setFormat("qcow2");
+		createDisk.setType("dir");
 		return createDisk;
 	}
 }
