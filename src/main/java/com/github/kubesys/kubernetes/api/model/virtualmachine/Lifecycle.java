@@ -2395,7 +2395,7 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
 		protected String source;
 		
-		@ParameterDescriber(required = true, description = "模板虚拟机的路径", constraint= "路径是字符串类型，长度是18到1024位，只允许数字、小写字母、中划线、以及圆点", example = "/var/lib/libvirt/target.xml")
+		@ParameterDescriber(required = true, description = "模板虚拟机的路径", constraint= "路径是字符串类型，长度是2到64位，只允许数字、小写字母、中划线、以及圆点", example = "/var/lib/libvirt/target.xml")
 		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
 		protected String target;
 
