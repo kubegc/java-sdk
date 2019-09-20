@@ -2435,7 +2435,7 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
 		protected String path;
 		
-		@ParameterDescriber(required = true, description = "虚拟机大小, 10G到1T", constraint = "10000000000-999999999999（单位：Byte）", example = "‭10,737,418,240‬")
+		@ParameterDescriber(required = true, description = "虚拟机大小, 1G到1T", constraint = "1000000000-999999999999（单位：Byte）", example = "‭10,737,418,240‬")
 		@Pattern(regexp = RegExpUtils.DISK_SIZE_PATTERN)
 		protected String size;
 

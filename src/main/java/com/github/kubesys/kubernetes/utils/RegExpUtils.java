@@ -67,8 +67,8 @@ public class RegExpUtils {
 	@FieldDescriber("磁盘IOPS，取值范围0-9999")
 	public final static String DISK_IOPS_PATTERN = "\\d{1,5}";
 	
-	@FieldDescriber("磁盘大小，单位是Bytes，取值范围10000000000-999999999999")
-	public final static String DISK_SIZE_PATTERN = "\\d{11,13}";
+	@FieldDescriber("磁盘大小，单位是Bytes，取值范围1000000000-999999999999")
+	public final static String DISK_SIZE_PATTERN = "\\d{10,13}";
 	
 	@FieldDescriber("虚拟化类型，取值为kvm, xen之一")
 	public final static String VIRT_TYPE_PATTERN = "kvm|xen";

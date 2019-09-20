@@ -241,7 +241,7 @@ public class Lifecycle {
 
 		protected String backing_vol;
 
-		@ParameterDescriber(required = true, description = "云盘空间大小,10G到1T", constraint = "10000000000-999999999999（单位：Byte）", example = "‭10,737,418,240‬")
+		@ParameterDescriber(required = true, description = "云盘空间大小,1G到1T", constraint = "1000000000-999999999999（单位：Byte）", example = "‭10,737,418,240‬")
 		@Pattern(regexp = RegExpUtils.DISK_SIZE_PATTERN)
 		protected String capacity;
 
@@ -372,7 +372,7 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String pool;
 
-		@ParameterDescriber(required = true, description = "扩容后的云盘空间大小, 10G到1T", constraint = "10000000000-999999999999（单位：Byte），需要比以前的云盘空间大", example = "‭10,737,418,240‬")
+		@ParameterDescriber(required = true, description = "扩容后的云盘空间大小, 1G到1T", constraint = "1000000000-999999999999（单位：Byte），需要比以前的云盘空间大", example = "‭10,737,418,240‬")
 		@Pattern(regexp = RegExpUtils.DISK_SIZE_PATTERN)
 		protected String capacity;
 
@@ -662,7 +662,7 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String backing_vol;
 
-		@ParameterDescriber(required = true, description = "云盘空间大小,10G到1T", constraint = "10000000000-999999999999（单位：Byte）", example = "‭10,737,418,240‬")
+		@ParameterDescriber(required = true, description = "云盘空间大小,1G到1T", constraint = "1000000000-999999999999（单位：Byte）", example = "‭10,737,418,240‬")
 		@Pattern(regexp = RegExpUtils.DISK_SIZE_PATTERN)
 		protected String capacity;
 
