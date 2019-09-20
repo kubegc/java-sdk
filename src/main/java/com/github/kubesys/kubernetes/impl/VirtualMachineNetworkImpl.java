@@ -11,7 +11,9 @@ import com.github.kubesys.kubernetes.api.model.VirtualMachineNetworkSpec;
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle;
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.BindFip;
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.CreateSwitch;
+import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.DelPortVlan;
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.DeleteSwitch;
+import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.SetPortVlan;
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.UnbindFip;
 import com.github.kubesys.kubernetes.utils.RegExpUtils;
 
@@ -64,7 +66,7 @@ public class VirtualMachineNetworkImpl extends AbstractImpl<VirtualMachineNetwor
 	public boolean createSwitch(String name, String nodeName,CreateSwitch createSwitch, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
-			throw new IllegalArgumentException("the length must be between 6 and 128, and it can only includes a-z, 0-9 and -.");
+			throw new IllegalArgumentException("the length must be between 6 and 32, and it can only includes a-z, 0-9 and -.");
 		}
 		return create(getModel(), createMetadata(name, nodeName, eventId), 
 				createSpec(nodeName, createLifecycle(createSwitch)));
@@ -104,6 +106,30 @@ public class VirtualMachineNetworkImpl extends AbstractImpl<VirtualMachineNetwor
 			throw new IllegalArgumentException("the length must be between 6 and 128, and it can only includes a-z, 0-9 and -.");
 		}
 		return update(name, updateMetadata(name, eventId), unbindFip);
+	}
+
+	public boolean setPortVlan(String name, SetPortVlan setPortVlan) throws Exception {
+		return setPortVlan(name, setPortVlan, null);
+	}
+
+	public boolean setPortVlan(String name,SetPortVlan setPortVlan, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 6 and 128, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), setPortVlan);
+	}
+
+	public boolean delPortVlan(String name, DelPortVlan delPortVlan) throws Exception {
+		return delPortVlan(name, delPortVlan, null);
+	}
+
+	public boolean delPortVlan(String name,DelPortVlan delPortVlan, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 6 and 128, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), delPortVlan);
 	}
 
 }
