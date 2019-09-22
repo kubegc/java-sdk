@@ -27,8 +27,8 @@ public class DeleteDiskTest {
 	}
 	
 	public static DeleteDisk getDeleteDisk() {
-		DeleteDisk dleteDisk = new DeleteDisk();
-		dleteDisk.setPool("default");
-		return dleteDisk;
+		DeleteDisk deleteDisk = new DeleteDisk();
+		deleteDisk.setPool("default");
+		return deleteDisk;
 	}
 }
