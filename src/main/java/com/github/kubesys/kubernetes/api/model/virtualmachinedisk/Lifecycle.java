@@ -327,7 +327,7 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
 		protected String type = "dir";
 
-		@ParameterDescriber(required = false, description = "删除所有快照", constraint = "取值范围：true/false", example = "true")
+		@ParameterDescriber(required = false, description = "删除所有快照", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean delete_snapshots;
 
 		@ParameterDescriber(required = true, description = "云盘所在的存储池名", constraint = "已创建出的存储池", example = "pool2")

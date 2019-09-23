@@ -22,7 +22,7 @@ public class RevertSnapshotTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineSnapshots()
-				.revertVirtualMachine("snapshot1", get(), "123456");
+				.revertVirtualMachine("snapshot3", get(), "123456");
 		System.out.println(successful);
 	}
 
@@ -32,6 +32,8 @@ public class RevertSnapshotTest {
 		revertVM.setDomain("950646e8c17a49d0b83c1c797811e001");
 		// after reverting, change state to running
 		revertVM.setRunning(true);
+		// external snapshot should add this parameter
+		revertVM.setIsExternal(true);
 		return revertVM;
 	}
 	

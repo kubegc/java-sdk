@@ -28,7 +28,7 @@ public class UnplugDiskTest {
 	
 	public static UnplugDisk getUnplugDisk() {
 		UnplugDisk unplugDisk = new UnplugDisk();
-		unplugDisk.setTarget("vda");
+		unplugDisk.setTarget("vdc");
 //		unplugDisk.setLive(true);
 		unplugDisk.setConfig(true);
 		return unplugDisk;
