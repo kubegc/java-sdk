@@ -23,6 +23,8 @@ public class Volume {
 
 	protected String _type;
 
+	protected String disktype;
+
 	protected Name name;
 
 	protected Source source;
@@ -132,6 +134,14 @@ public class Volume {
 
 	public Capacity getCapacity() {
 		return this.capacity;
+	}
+
+	public String getDisktype() {
+		return disktype;
+	}
+
+	public void setDisktype(String disktype) {
+		this.disktype = disktype;
 	}
 
 	/**
