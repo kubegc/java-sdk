@@ -24,8 +24,8 @@ public class RegExpUtils {
 	@FieldDescriber("UUID是字符串类型，长度是12到36位，只允许数字、小写字母、中划线、以及圆点")
 	public final static String UUID_PATTERN = "uuid=[a-z0-9-.]{12,36}";
 	
-	@FieldDescriber("路径是字符串类型，长度是18到1024位，只允许数字、小写字母、中划线、以及圆点")
-	public final static String PATH_PATTERN = "/var/lib/libvirt(/[a-z0-9-.]{2,32})*";
+	@FieldDescriber("路径是字符串类型，长度是2到64位，只允许数字、小写字母、中划线、以及圆点")
+	public final static String PATH_PATTERN = "/var/lib/libvirt(/[a-z0-9-.]{2,64})*";
 	
 	@FieldDescriber("名称是字符串类型，长度是6到128位，只允许数字、小写字母、中划线、以及圆点")
 	public final static String TARGET_PATTERN = "(" + NAME_PATTERN + ")|(" + PATH_PATTERN + ")";
@@ -38,6 +38,9 @@ public class RegExpUtils {
 	
 	@FieldDescriber("vcpu个数，1到99之间")
 	public final static String VCPU_PATTERN = "[1-9](\\d{1})?";
+	
+	@FieldDescriber("vlan ID号，1到99之间")
+	public final static String VLAN_PATTERN = "[1-9](\\d{1})?";
 	
 	@FieldDescriber("ram容量，单位MiB，100到99999之间")
 	public final static String RAM_PATTERN = "\\d{3,5}";
@@ -64,8 +67,8 @@ public class RegExpUtils {
 	@FieldDescriber("磁盘IOPS，取值范围0-9999")
 	public final static String DISK_IOPS_PATTERN = "\\d{1,5}";
 	
-	@FieldDescriber("磁盘大小，单位是Bytes，取值范围10000000000-999999999999")
-	public final static String DISK_SIZE_PATTERN = "\\d{11,13}";
+	@FieldDescriber("磁盘大小，单位是Bytes，取值范围1000000000-999999999999")
+	public final static String DISK_SIZE_PATTERN = "\\d{10,13}";
 	
 	@FieldDescriber("虚拟化类型，取值为kvm, xen之一")
 	public final static String VIRT_TYPE_PATTERN = "kvm|xen";

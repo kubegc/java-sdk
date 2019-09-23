@@ -227,11 +227,13 @@ public class Lifecycle {
 
 		protected String allocation;
 
+		@ParameterDescriber(required = true, description = "根云盘文件的类型", constraint = "qcow2", example = "qcow2")
+		@Pattern(regexp = RegExpUtils.DISK_TYPE_PATTERN)
 		protected String backing_vol_format;
 
 		protected Boolean prealloc_metadata;
 
-		@ParameterDescriber(required = true, description = "云盘文件的类型", constraint = "raw,bochs,qcow,qcow2,qed,vmdk", example = "qcow2")
+		@ParameterDescriber(required = true, description = "云盘文件的类型", constraint = "qcow2", example = "qcow2")
 		@Pattern(regexp = RegExpUtils.DISK_TYPE_PATTERN)
 		protected String format;
 
@@ -239,9 +241,11 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String pool;
 
+		@ParameterDescriber(required = true, description = "根云盘的名字", constraint = "已创建出的云盘", example = "volume1")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String backing_vol;
 
-		@ParameterDescriber(required = true, description = "云盘空间大小,10G到1T", constraint = "10000000000-999999999999（单位：Byte）", example = "‭10,737,418,240‬")
+		@ParameterDescriber(required = true, description = "云盘空间大小,1G到1T", constraint = "1000000000-999999999999（单位：Byte）", example = "‭10,737,418,240‬")
 		@Pattern(regexp = RegExpUtils.DISK_SIZE_PATTERN)
 		protected String capacity;
 
@@ -323,6 +327,7 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
 		protected String type = "dir";
 
+		@ParameterDescriber(required = false, description = "删除所有快照", constraint = "取值范围：true/false", example = "true")
 		protected Boolean delete_snapshots;
 
 		@ParameterDescriber(required = true, description = "云盘所在的存储池名", constraint = "已创建出的存储池", example = "pool2")
@@ -372,7 +377,7 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String pool;
 
-		@ParameterDescriber(required = true, description = "扩容后的云盘空间大小, 10G到1T", constraint = "10000000000-999999999999（单位：Byte），需要比以前的云盘空间大", example = "‭10,737,418,240‬")
+		@ParameterDescriber(required = true, description = "扩容后的云盘空间大小, 1G到1T", constraint = "1000000000-999999999999（单位：Byte），需要比以前的云盘空间大", example = "‭10,737,418,240‬")
 		@Pattern(regexp = RegExpUtils.DISK_SIZE_PATTERN)
 		protected String capacity;
 
@@ -636,103 +641,8 @@ public class Lifecycle {
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class CreateDiskExternalSnapshot {
+	public static class CreateDiskExternalSnapshot extends CreateDisk{
 
-		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，uus，nfs，glusterfs之一", example = "dir")
-		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
-		protected String type = "dir";
-
-		protected String allocation;
-
-		@ParameterDescriber(required = true, description = "根云盘文件的类型", constraint = "qcow2", example = "qcow2")
-		@Pattern(regexp = RegExpUtils.DISK_TYPE_PATTERN)
-		protected String backing_vol_format;
-
-		protected Boolean prealloc_metadata;
-
-		@ParameterDescriber(required = true, description = "云盘文件的类型", constraint = "qcow2", example = "qcow2")
-		@Pattern(regexp = RegExpUtils.DISK_TYPE_PATTERN)
-		protected String format;
-
-		@ParameterDescriber(required = true, description = "创建云盘使用的存储池名", constraint = "已创建出的存储池", example = "pool2")
-		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
-		protected String pool;
-
-		@ParameterDescriber(required = true, description = "根云盘的名字", constraint = "已创建出的云盘", example = "volume1")
-		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
-		protected String backing_vol;
-
-		@ParameterDescriber(required = true, description = "云盘空间大小,10G到1T", constraint = "10000000000-999999999999（单位：Byte）", example = "‭10,737,418,240‬")
-		@Pattern(regexp = RegExpUtils.DISK_SIZE_PATTERN)
-		protected String capacity;
-
-		public CreateDiskExternalSnapshot() {
-
-		}
-
-		public void setAllocation(String allocation) {
-			this.allocation = allocation;
-		}
-
-		public String getAllocation() {
-			return this.allocation;
-		}
-
-		public void setBacking_vol_format(String backing_vol_format) {
-			this.backing_vol_format = backing_vol_format;
-		}
-
-		public String getBacking_vol_format() {
-			return this.backing_vol_format;
-		}
-
-		public void setPrealloc_metadata(Boolean prealloc_metadata) {
-			this.prealloc_metadata = prealloc_metadata;
-		}
-
-		public Boolean getPrealloc_metadata() {
-			return this.prealloc_metadata;
-		}
-
-		public void setFormat(String format) {
-			this.format = format;
-		}
-
-		public String getFormat() {
-			return this.format;
-		}
-
-		public void setPool(String pool) {
-			this.pool = pool;
-		}
-
-		public String getPool() {
-			return this.pool;
-		}
-
-		public void setBacking_vol(String backing_vol) {
-			this.backing_vol = backing_vol;
-		}
-
-		public String getBacking_vol() {
-			return this.backing_vol;
-		}
-
-		public void setCapacity(String capacity) {
-			this.capacity = capacity;
-		}
-
-		public String getCapacity() {
-			return this.capacity;
-		}
-
-		public String getType() {
-			return type;
-		}
-
-		public void setType(String type) {
-			this.type = type;
-		}
 	}
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
@@ -778,43 +688,8 @@ public class Lifecycle {
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class DeleteDiskExternalSnapshot {
+	public static class DeleteDiskExternalSnapshot extends DeleteDisk{
 
-		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，uus，nfs，glusterfs之一", example = "dir")
-		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
-		protected String type = "dir";
-		
-		@ParameterDescriber(required = true, description = "云盘所在的存储池名", constraint = "由6-128位的数字和小写字母组成，已创建出的存储池", example = "pool2")
-		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
-		protected String pool;
-		
-		@ParameterDescriber(required = true, description = "快照的名字", constraint = "由6-128位的数字和小写字母组成", example = "snap1")
-		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
-		protected String snapshotname;
-
-		public String getPool() {
-			return pool;
-		}
-
-		public void setPool(String pool) {
-			this.pool = pool;
-		}
-
-		public String getSnapshotname() {
-			return snapshotname;
-		}
-
-		public void setSnapshotname(String snapshotname) {
-			this.snapshotname = snapshotname;
-		}
-
-		public String getType() {
-			return type;
-		}
-
-		public void setType(String type) {
-			this.type = type;
-		}
 	}
 	
 }

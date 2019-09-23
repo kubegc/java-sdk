@@ -22,7 +22,7 @@ public class CreateDiskTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineDisks()
-				.createDisk("20190912root", "vm.node30", get(), "abc");
+				.createDisk("20190919root1", "vm.node30", get(), "abc");
 		System.out.println(successful);
 	}
 
@@ -33,6 +33,7 @@ public class CreateDiskTest {
 		Long size = 10L*1024*1024*1024;
 		createDisk.setCapacity(String.valueOf(size));
 		createDisk.setFormat("qcow2");
+		createDisk.setType("dir");
 		return createDisk;
 	}
 }

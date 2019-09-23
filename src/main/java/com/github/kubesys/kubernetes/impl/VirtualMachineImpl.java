@@ -14,15 +14,12 @@ import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ChangeNumberOfCPU;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CloneVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ConvertVMToImage;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CopySnapshot;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CreateAndStartVMFromISO;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CreateAndStartVMFromImage;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.DeleteVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.EjectISO;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.InsertISO;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ManageISO;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.MergeSnapshotToBase;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.MergeSnapshotToTop;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.MigrateVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.PlugDevice;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.PlugDisk;
@@ -423,41 +420,4 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 		}
 		return update(name, updateMetadata(name, eventId), cloneVM);
 	}
-
-	public boolean copySnapshot(String name, CopySnapshot copySnapshot) throws Exception {
-		return copySnapshot(name, copySnapshot, null);
-	}
-
-	public boolean copySnapshot(String name,CopySnapshot copySnapshot, String eventId) throws Exception {
-		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
-		if (!pattern.matcher(name).matches()) {
-			throw new IllegalArgumentException("the length must be between 6 and 128, and it can only includes a-z, 0-9 and -.");
-		}
-		return update(name, updateMetadata(name, eventId), copySnapshot);
-	}
-
-	public boolean mergeSnapshotToBase(String name, MergeSnapshotToBase mergeSnapshotToBase) throws Exception {
-		return mergeSnapshotToBase(name, mergeSnapshotToBase, null);
-	}
-
-	public boolean mergeSnapshotToBase(String name,MergeSnapshotToBase mergeSnapshotToBase, String eventId) throws Exception {
-		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
-		if (!pattern.matcher(name).matches()) {
-			throw new IllegalArgumentException("the length must be between 6 and 128, and it can only includes a-z, 0-9 and -.");
-		}
-		return update(name, updateMetadata(name, eventId), mergeSnapshotToBase);
-	}
-
-	public boolean mergeSnapshotToTop(String name, MergeSnapshotToTop mergeSnapshotToTop) throws Exception {
-		return mergeSnapshotToTop(name, mergeSnapshotToTop, null);
-	}
-
-	public boolean mergeSnapshotToTop(String name,MergeSnapshotToTop mergeSnapshotToTop, String eventId) throws Exception {
-		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
-		if (!pattern.matcher(name).matches()) {
-			throw new IllegalArgumentException("the length must be between 6 and 128, and it can only includes a-z, 0-9 and -.");
-		}
-		return update(name, updateMetadata(name, eventId), mergeSnapshotToTop);
-	}
-
 }

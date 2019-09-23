@@ -42,6 +42,34 @@ public class Lifecycle {
 		prerequisite = AnnotationUtils.DESC_FUNCTION_VMSN, 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected RevertVirtualMachine revertVirtualMachine;
+	
+	@FunctionDescriber(shortName = "全拷贝快照到文件", description = "全拷贝快照到文件，" 
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+		prerequisite = AnnotationUtils.DESC_FUNCTION_VMD, 
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected CopySnapshot copySnapshot;
+	
+	@FunctionDescriber(shortName = "合并快照到叶子节点", description = "合并快照到叶子节点，" 
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+		prerequisite = AnnotationUtils.DESC_FUNCTION_VMD, 
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected MergeSnapshot mergeSnapshot;
+	
+	public MergeSnapshot getMergeSnapshot() {
+		return mergeSnapshot;
+	}
+
+	public void setMergeSnapshot(MergeSnapshot mergeSnapshot) {
+		this.mergeSnapshot = mergeSnapshot;
+	}
+
+	public CopySnapshot getCopySnapshot() {
+		return copySnapshot;
+	}
+
+	public void setCopySnapshot(CopySnapshot copySnapshot) {
+		this.copySnapshot = copySnapshot;
+	}
 
 	public Lifecycle() {
 
@@ -205,7 +233,7 @@ public class Lifecycle {
 
 		protected Boolean children_only;
 
-		@ParameterDescriber(required = true, description = "要删除快照的虚拟机名字", constraint = "由6-128位的数字和小写字母组成，已存在的虚拟机名", example = "vm1")
+		@ParameterDescriber(required = true, description = "要删除快照的虚拟机名字", constraint = "由6-128位的数字和小写字母组成，已存在的虚拟机名", example = "centos1")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String domain;
 
@@ -252,7 +280,7 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class RevertVirtualMachine {
 
-		@ParameterDescriber(required = true, description = "要恢复到快照状态的虚拟机name", constraint = "由6-128位的数字和小写字母组成，已存在的虚拟机名", example = "vm1")
+		@ParameterDescriber(required = true, description = "要恢复到快照状态的虚拟机name", constraint = "由6-128位的数字和小写字母组成，已存在的虚拟机名", example = "centos1")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String domain;
 
@@ -293,6 +321,128 @@ public class Lifecycle {
 
 		public void setForce(Boolean force) {
 			this.force = force;
+		}
+		
+	}
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class MergeSnapshot {
+		
+		protected String bandwidth;
+		
+		@ParameterDescriber(required = true, description = "对该虚拟机进行快照合并，合并到叶子节点。假设当前快照链为root->snapshot1->snapshot2->current，则mergeSnapshot(snapshot1)的结果为把snapshot1,snapshot2合并到current，快照链变为root->top", constraint= "由6-128位的数字和小写字母组成，已存在的虚拟机名", example = "centos1")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String domain;
+		
+		public String getBandwidth() {
+			return bandwidth;
+		}
+
+		public void setBandwidth(String bandwidth) {
+			this.bandwidth = bandwidth;
+		}
+
+		public String getDomain() {
+			return domain;
+		}
+
+		public void setDomain(String domain) {
+			this.domain = domain;
+		}
+		
+	}
+	
+	public static class CopySnapshot extends MergeSnapshot {
+		
+		protected String dest;
+		
+		protected String granularity;
+		
+		protected String buf_size;
+		
+		protected Boolean shallow;
+		
+		protected Boolean reuse_external;
+		
+		protected Boolean blockdev;
+		
+		protected Boolean pivot;
+		
+		protected Boolean finish;
+		
+		protected Boolean transient_job;
+
+		public String getDest() {
+			return dest;
+		}
+
+		public void setDest(String dest) {
+			this.dest = dest;
+		}
+
+		public String getGranularity() {
+			return granularity;
+		}
+
+		public void setGranularity(String granularity) {
+			this.granularity = granularity;
+		}
+
+		public String getBuf_size() {
+			return buf_size;
+		}
+
+		public void setBuf_size(String buf_size) {
+			this.buf_size = buf_size;
+		}
+
+		public Boolean getShallow() {
+			return shallow;
+		}
+
+		public void setShallow(Boolean shallow) {
+			this.shallow = shallow;
+		}
+
+		public Boolean getReuse_external() {
+			return reuse_external;
+		}
+
+		public void setReuse_external(Boolean reuse_external) {
+			this.reuse_external = reuse_external;
+		}
+
+		public Boolean getBlockdev() {
+			return blockdev;
+		}
+
+		public void setBlockdev(Boolean blockdev) {
+			this.blockdev = blockdev;
+		}
+
+		public Boolean getPivot() {
+			return pivot;
+		}
+
+		public void setPivot(Boolean pivot) {
+			this.pivot = pivot;
+		}
+
+		public Boolean getFinish() {
+			return finish;
+		}
+
+		public void setFinish(Boolean finish) {
+			this.finish = finish;
+		}
+
+		public Boolean getTransient_job() {
+			return transient_job;
+		}
+
+		public void setTransient_job(Boolean transient_job) {
+			this.transient_job = transient_job;
 		}
 		
 	}

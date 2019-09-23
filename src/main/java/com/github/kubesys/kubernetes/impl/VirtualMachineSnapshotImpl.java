@@ -10,8 +10,10 @@ import com.github.kubesys.kubernetes.api.model.VirtualMachineSnapshot;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineSnapshotList;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineSnapshotSpec;
 import com.github.kubesys.kubernetes.api.model.virtualmachinesnapshot.Lifecycle;
+import com.github.kubesys.kubernetes.api.model.virtualmachinesnapshot.Lifecycle.CopySnapshot;
 import com.github.kubesys.kubernetes.api.model.virtualmachinesnapshot.Lifecycle.CreateSnapshot;
 import com.github.kubesys.kubernetes.api.model.virtualmachinesnapshot.Lifecycle.DeleteSnapshot;
+import com.github.kubesys.kubernetes.api.model.virtualmachinesnapshot.Lifecycle.MergeSnapshot;
 import com.github.kubesys.kubernetes.api.model.virtualmachinesnapshot.Lifecycle.RevertVirtualMachine;
 import com.github.kubesys.kubernetes.utils.RegExpUtils;
 
@@ -77,7 +79,7 @@ public class VirtualMachineSnapshotImpl extends AbstractImpl<VirtualMachineSnaps
 	public boolean createSnapshot(String name, String nodeName,CreateSnapshot createSnapshot, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
-			throw new IllegalArgumentException("the length must be between 6 and 128, and it can only includes a-z, 0-9 and -.");
+			throw new IllegalArgumentException("the length must be between 6 and 32, and it can only includes a-z, 0-9 and -.");
 		}
 		return create(getModel(), createMetadata(name, nodeName, eventId), 
 				createSpec(nodeName, createLifecycle(createSnapshot)));
@@ -93,5 +95,29 @@ public class VirtualMachineSnapshotImpl extends AbstractImpl<VirtualMachineSnaps
 			throw new IllegalArgumentException("the length must be between 6 and 128, and it can only includes a-z, 0-9 and -.");
 		}
 		return update(name, updateMetadata(name, eventId), revertVirtualMachine);
+	}
+
+	public boolean copySnapshot(String name, CopySnapshot copySnapshot) throws Exception {
+		return copySnapshot(name, copySnapshot, null);
+	}
+
+	public boolean copySnapshot(String name,CopySnapshot copySnapshot, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 6 and 128, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), copySnapshot);
+	}
+
+	public boolean mergeSnapshot(String name, MergeSnapshot mergeSnapshot) throws Exception {
+		return mergeSnapshot(name, mergeSnapshot, null);
+	}
+
+	public boolean mergeSnapshot(String name,MergeSnapshot mergeSnapshot, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 6 and 128, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), mergeSnapshot);
 	}
 }

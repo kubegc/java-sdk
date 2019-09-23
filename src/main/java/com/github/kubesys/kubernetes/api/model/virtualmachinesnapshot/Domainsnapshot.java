@@ -420,9 +420,19 @@ public class Domainsnapshot {
 			protected Driver driver;
 
 			protected Source source;
+			
+			protected String _type;
 
 			public Disk() {
 
+			}
+
+			public String get_type() {
+				return _type;
+			}
+
+			public void set_type(String _type) {
+				this._type = _type;
 			}
 
 			/**
@@ -501,6 +511,8 @@ public class Domainsnapshot {
 			public static class Source {
 
 				protected String _index;
+				
+				protected String _file;
 
 				protected Encryption encryption;
 
@@ -510,6 +522,14 @@ public class Domainsnapshot {
 
 				public Source() {
 
+				}
+
+				public String get_file() {
+					return _file;
+				}
+
+				public void set_file(String _file) {
+					this._file = _file;
 				}
 
 				/**
