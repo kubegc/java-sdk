@@ -20,6 +20,9 @@ public class RegExpUtils {
 	@FieldDescriber("名称是字符串类型，长度是6到128位，只允许数字、小写字母、中划线、以及圆点")
 	public final static String NAME_PATTERN = "[a-z0-9-.]{6,128}";
 	
+	@FieldDescriber("名称是字符串类型，长度是3到32位，只允许数字、小写字母、中划线、以及圆点")
+	public final static String NIC_PATTERN = "[a-z0-9-.]{3,32}";
+	
 	
 	@FieldDescriber("UUID是字符串类型，长度是12到36位，只允许数字、小写字母、中划线、以及圆点")
 	public final static String UUID_PATTERN = "uuid=[a-z0-9-.]{12,36}";
