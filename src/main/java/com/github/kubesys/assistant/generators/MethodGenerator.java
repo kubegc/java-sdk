@@ -41,7 +41,7 @@ public class MethodGenerator {
 						+ getClassName(cmd) + " " + cmd + ", String eventId) throws Exception {\n");
 				sb.append("\t\tPattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);\n");
 				sb.append("\t\tif (!pattern.matcher(name).matches()) {\n");
-				sb.append("\t\t\tthrow new IllegalArgumentException(\"the length must be between 6 and 32, and it can only includes a-z, 0-9 and -.\");\n");
+				sb.append("\t\t\tthrow new IllegalArgumentException(\"the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.\");\n");
 				sb.append("\t\t}\n");
 				sb.append("\t\treturn create(getModel(), createMetadata(name, nodeName, eventId), \r\n" + 
 						"				createSpec(nodeName, createLifecycle(" + cmd + ")));\n");
@@ -57,7 +57,7 @@ public class MethodGenerator {
 						+ getClassName(cmd) + " " + cmd + ", String eventId) throws Exception {\n");
 				sb.append("\t\tPattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);\n");
 				sb.append("\t\tif (!pattern.matcher(name).matches()) {\n");
-				sb.append("\t\t\tthrow new IllegalArgumentException(\"the length must be between 6 and 128, and it can only includes a-z, 0-9 and -.\");\n");
+				sb.append("\t\t\tthrow new IllegalArgumentException(\"the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.\");\n");
 				sb.append("\t\t}\n");
 				sb.append("\t\treturn delete(name, updateMetadata(name, eventId), " + cmd + ");\n");
 				sb.append("\t}\n\n");
@@ -71,7 +71,7 @@ public class MethodGenerator {
 						+ getClassName(cmd) + " " + cmd + ", String eventId) throws Exception {\n");
 				sb.append("\t\tPattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);\n");
 				sb.append("\t\tif (!pattern.matcher(name).matches()) {\n");
-				sb.append("\t\t\tthrow new IllegalArgumentException(\"the length must be between 6 and 128, and it can only includes a-z, 0-9 and -.\");\n");
+				sb.append("\t\t\tthrow new IllegalArgumentException(\"the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.\");\n");
 				sb.append("\t\t}\n");
 				sb.append("\t\treturn update(name, updateMetadata(name, eventId), " + cmd + ");\n");
 				sb.append("\t}\n\n");

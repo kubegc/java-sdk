@@ -2002,7 +2002,7 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.NET_QoS_PATTERN)
 		protected String inbound;
 
-		@ParameterDescriber(required = true, description = "网络源设置", constraint = "source=源网桥（必填），ip=IP地址（选填，只有type=l3bridge类型支持该参数），switch=ovn交换机名称（选填，只有type=l3bridge类型支持该参数）,顺序必须是source,ip,switch", example = "source=br-int,ip=192.168.5.2,switch=switch")
+		@ParameterDescriber(required = true, description = "网络源设置", constraint = "source=源网桥（必填，默认为virbr0, br-native, br-int，以及用户自己创建的任何两层bridge名称），ip=IP地址（选填，只有type=l3bridge类型支持该参数），switch=ovn交换机名称（选填，只有type=l3bridge类型支持该参数）,顺序必须是source,ip,switch", example = "source=br-int,ip=192.168.5.2,switch=switch")
 		@Pattern(regexp = RegExpUtils.IP_SWITCH_PATTERN)
 		protected String source;
 
