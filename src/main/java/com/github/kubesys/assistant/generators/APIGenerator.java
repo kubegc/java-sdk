@@ -4,11 +4,14 @@
 package com.github.kubesys.assistant.generators;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import com.alibaba.fastjson.JSON;
+import com.github.kubesys.kubernetes.annotations.ClassDescriber;
 import com.github.kubesys.kubernetes.annotations.FunctionDescriber;
 import com.github.kubesys.kubernetes.annotations.ParameterDescriber;
-import com.github.kubesys.kubernetes.annotations.ClassDescriber;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -44,8 +47,11 @@ public class APIGenerator {
 			
 			sb.append(parent.desc() + "." + parent.value() + "所有操作的返回值一样，见**[返回值]**\n\n");
 			
+
+			
 			int j = 1;
 			for (Field field : forName.getDeclaredFields()) {
+				
 				FunctionDescriber function = field.getAnnotation(FunctionDescriber.class);
 				
 				try {
@@ -81,7 +87,15 @@ public class APIGenerator {
 					sb.append("| name | type | required | description | constraint | example |").append("\n");
 					sb.append("| ----- | ------ | ------ | ------ | ------ | ------ |").append("\n");
 					
-					for(Field ff : field.getType().getDeclaredFields()) {
+					List<Field> fileds = new ArrayList<Field>();
+					
+					Class<?> nameType = field.getType();
+					while (nameType.getName() != Object.class.getName()) {
+						fileds.addAll(Arrays.asList(nameType.getDeclaredFields()));
+						nameType = nameType.getSuperclass();
+					}
+					
+					for(Field ff : fileds) {
 						ParameterDescriber ffp = ff.getAnnotation(ParameterDescriber.class);
 						if (ffp == null) {
 							continue;
