@@ -2511,7 +2511,7 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.MAC_PATTERN)
 		protected String vmmac;
 		
-		@ParameterDescriber(required = true, description = "vlan ID", constraint = "0~99", example = "1")
+		@ParameterDescriber(required = true, description = "vlan ID", constraint = "0~4094", example = "1")
 		@Pattern(regexp = RegExpUtils.VLAN_PATTERN)
 		protected String vlan;
 
