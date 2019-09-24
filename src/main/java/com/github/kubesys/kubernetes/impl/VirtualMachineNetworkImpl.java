@@ -12,10 +12,10 @@ import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle;
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.BindFip;
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.CreateBridge;
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.CreateSwitch;
-import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.DelPortVlan;
+import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.DelBridgeVlan;
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.DeleteBridge;
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.DeleteSwitch;
-import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.SetPortVlan;
+import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.SetBridgeVlan;
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.UnbindFip;
 import com.github.kubesys.kubernetes.utils.RegExpUtils;
 
@@ -143,29 +143,28 @@ public class VirtualMachineNetworkImpl extends AbstractImpl<VirtualMachineNetwor
 		return update(name, updateMetadata(name, eventId), unbindFip);
 	}
 
-	public boolean setPortVlan(String name, SetPortVlan setPortVlan) throws Exception {
-		return setPortVlan(name, setPortVlan, null);
+	public boolean setBridgeVlan(String name, SetBridgeVlan setBridgeVlan) throws Exception {
+		return setBridgeVlan(name, setBridgeVlan, null);
 	}
 
-	public boolean setPortVlan(String name, SetPortVlan setPortVlan, String eventId) throws Exception {
+	public boolean setBridgeVlan(String name, SetBridgeVlan setBridgeVlan, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 6 and 128, and it can only includes a-z, 0-9 and -.");
 		}
-		return update(name, updateMetadata(name, eventId), setPortVlan);
+		return update(name, updateMetadata(name, eventId), setBridgeVlan);
 	}
 
-	public boolean delPortVlan(String name, DelPortVlan delPortVlan) throws Exception {
-		return delPortVlan(name, delPortVlan, null);
+	public boolean delBridgeVlan(String name, DelBridgeVlan delBridgeVlan) throws Exception {
+		return delBridgeVlan(name, delBridgeVlan, null);
 	}
 
-	public boolean delPortVlan(String name, DelPortVlan delPortVlan, String eventId) throws Exception {
+	public boolean delBridgeVlan(String name, DelBridgeVlan delBridgeVlan, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 6 and 128, and it can only includes a-z, 0-9 and -.");
 		}
-		return update(name, updateMetadata(name, eventId), delPortVlan);
+		return update(name, updateMetadata(name, eventId), delBridgeVlan);
 	}
-
 
 }

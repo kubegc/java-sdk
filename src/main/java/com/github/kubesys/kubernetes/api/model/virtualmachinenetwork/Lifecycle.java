@@ -61,17 +61,17 @@ public class Lifecycle {
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected UnbindFip unbindFip;
 	
-	@FunctionDescriber(shortName = "设置端口的vlan ID", description = "适用于OpenvSwitch二层网桥，" 
+	@FunctionDescriber(shortName = "设置二层网桥的vlan ID", description = "适用于OpenvSwitch二层网桥，" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = AnnotationUtils.DESC_FUNCTION_VMN, 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
-	protected SetPortVlan setPortVlan;
+	protected SetBridgeVlan setBridgeVlan;
 	
-	@FunctionDescriber(shortName = "删除端口的vlan ID", description = "适用于OpenvSwitch二层网桥，" 
+	@FunctionDescriber(shortName = "删除二层网桥的vlan ID", description = "适用于OpenvSwitch二层网桥，" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = AnnotationUtils.DESC_FUNCTION_VMN, 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
-	protected DelPortVlan delPortVlan;
+	protected DelBridgeVlan delBridgeVlan;
 	
 	public CreateSwitch getCreateSwitch() {
 		return createSwitch;
@@ -103,22 +103,6 @@ public class Lifecycle {
 
 	public void setUnbindFip(UnbindFip unbindFip) {
 		this.unbindFip = unbindFip;
-	}
-
-	public SetPortVlan getSetPortVlan() {
-		return setPortVlan;
-	}
-
-	public void setSetPortVlan(SetPortVlan setPortVlan) {
-		this.setPortVlan = setPortVlan;
-	}
-
-	public DelPortVlan getDelPortVlan() {
-		return delPortVlan;
-	}
-
-	public void setDelPortVlan(DelPortVlan delPortVlan) {
-		this.delPortVlan = delPortVlan;
 	}
 
 	public CreateBridge getCreateBridge() {
@@ -213,13 +197,9 @@ public class Lifecycle {
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class SetPortVlan {
+	public static class SetBridgeVlan {
 
-		@ParameterDescriber(required = true, description = "虚拟机mac地址", constraint = "mac地址不能以fe开头", example = "7e:0c:b0:ef:6a:04")
-		@Pattern(regexp = RegExpUtils.MAC_PATTERN)
-		protected String vmmac;
-		
-		@ParameterDescriber(required = true, description = "vlan ID", constraint = "1~99", example = "1")
+		@ParameterDescriber(required = true, description = "vlan ID", constraint = "0~99", example = "1")
 		@Pattern(regexp = RegExpUtils.VLAN_PATTERN)
 		protected String vlan;
 
@@ -231,32 +211,12 @@ public class Lifecycle {
 			this.vlan = vlan;
 		}
 
-		public String getVmmac() {
-			return vmmac;
-		}
-
-		public void setVmmac(String vmmac) {
-			this.vmmac = vmmac;
-		}
-		
 	}
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class DelPortVlan {
+	public static class DelBridgeVlan {
 
-		@ParameterDescriber(required = true, description = "虚拟机mac地址", constraint = "mac地址不能以fe开头", example = "7e:0c:b0:ef:6a:04")
-		@Pattern(regexp = RegExpUtils.MAC_PATTERN)
-		protected String vmmac;
-
-		public String getVmmac() {
-			return vmmac;
-		}
-
-		public void setVmmac(String vmmac) {
-			this.vmmac = vmmac;
-		}
-		
 	}
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
@@ -265,26 +225,14 @@ public class Lifecycle {
 		
 		@ParameterDescriber(required = true, description = "被接管的网卡", constraint = "名称是字符串类型，长度是6到128位，只允许数字、小写字母、中划线、以及圆点", example = "l2bridge")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
-		protected String name;
-		
-		@ParameterDescriber(required = false, description = "希望创建的网桥名", constraint = "名称是字符串类型，长度是6到128位，只允许数字、小写字母、中划线、以及圆点。如果不传值，默认是br-native", example = "br-l2bridge")
-		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
-		protected String bridge;
+		protected String nic;
 
-		public String getName() {
-			return name;
+		public String getNic() {
+			return nic;
 		}
 
-		public void setName(String name) {
-			this.name = name;
-		}
-
-		public String getBridge() {
-			return bridge;
-		}
-
-		public void setBridge(String bridge) {
-			this.bridge = bridge;
+		public void setNic(String nic) {
+			this.nic = nic;
 		}
 		
 	}

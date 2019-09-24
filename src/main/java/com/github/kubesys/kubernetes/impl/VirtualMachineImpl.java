@@ -16,6 +16,7 @@ import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CloneVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ConvertVMToImage;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CreateAndStartVMFromISO;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CreateAndStartVMFromImage;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.DelPortVlan;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.DeleteVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.EjectISO;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.InsertISO;
@@ -29,6 +30,7 @@ import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ResetVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ResizeRAM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ResizeVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ResumeVM;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.SetPortVlan;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StartVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StopVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StopVMForce;
@@ -137,7 +139,7 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 		return resizeRAM(name, resizeRAM, null);
 	}
 
-	public boolean resizeRAM(String name,ResizeRAM resizeRAM, String eventId) throws Exception {
+	public boolean resizeRAM(String name, ResizeRAM resizeRAM, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 6 and 128, and it can only includes a-z, 0-9 and -.");
@@ -149,7 +151,7 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 		return suspendVM(name, suspendVM, null);
 	}
 
-	public boolean suspendVM(String name,SuspendVM suspendVM, String eventId) throws Exception {
+	public boolean suspendVM(String name, SuspendVM suspendVM, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 6 and 128, and it can only includes a-z, 0-9 and -.");
@@ -161,7 +163,7 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 		return stopVMForce(name, stopVMForce, null);
 	}
 
-	public boolean stopVMForce(String name,StopVMForce stopVMForce, String eventId) throws Exception {
+	public boolean stopVMForce(String name, StopVMForce stopVMForce, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 6 and 128, and it can only includes a-z, 0-9 and -.");
@@ -173,7 +175,7 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 		return unplugDevice(name, unplugDevice, null);
 	}
 
-	public boolean unplugDevice(String name,UnplugDevice unplugDevice, String eventId) throws Exception {
+	public boolean unplugDevice(String name, UnplugDevice unplugDevice, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 6 and 128, and it can only includes a-z, 0-9 and -.");
@@ -185,7 +187,7 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 		return unplugNIC(name, unplugNIC, null);
 	}
 
-	public boolean unplugNIC(String name,UnplugNIC unplugNIC, String eventId) throws Exception {
+	public boolean unplugNIC(String name, UnplugNIC unplugNIC, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 6 and 128, and it can only includes a-z, 0-9 and -.");
@@ -197,7 +199,7 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 		return migrateVM(name, migrateVM, null);
 	}
 
-	public boolean migrateVM(String name,MigrateVM migrateVM, String eventId) throws Exception {
+	public boolean migrateVM(String name, MigrateVM migrateVM, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 6 and 128, and it can only includes a-z, 0-9 and -.");
@@ -209,7 +211,7 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 		return changeNumberOfCPU(name, changeNumberOfCPU, null);
 	}
 
-	public boolean changeNumberOfCPU(String name,ChangeNumberOfCPU changeNumberOfCPU, String eventId) throws Exception {
+	public boolean changeNumberOfCPU(String name, ChangeNumberOfCPU changeNumberOfCPU, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 6 and 128, and it can only includes a-z, 0-9 and -.");
@@ -221,7 +223,7 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 		return resumeVM(name, resumeVM, null);
 	}
 
-	public boolean resumeVM(String name,ResumeVM resumeVM, String eventId) throws Exception {
+	public boolean resumeVM(String name, ResumeVM resumeVM, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 6 and 128, and it can only includes a-z, 0-9 and -.");
@@ -233,7 +235,7 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 		return plugDisk(name, plugDisk, null);
 	}
 
-	public boolean plugDisk(String name,PlugDisk plugDisk, String eventId) throws Exception {
+	public boolean plugDisk(String name, PlugDisk plugDisk, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 6 and 128, and it can only includes a-z, 0-9 and -.");
@@ -245,7 +247,7 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 		return plugDevice(name, plugDevice, null);
 	}
 
-	public boolean plugDevice(String name,PlugDevice plugDevice, String eventId) throws Exception {
+	public boolean plugDevice(String name, PlugDevice plugDevice, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 6 and 128, and it can only includes a-z, 0-9 and -.");
@@ -257,7 +259,7 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 		return resetVM(name, resetVM, null);
 	}
 
-	public boolean resetVM(String name,ResetVM resetVM, String eventId) throws Exception {
+	public boolean resetVM(String name, ResetVM resetVM, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 6 and 128, and it can only includes a-z, 0-9 and -.");
@@ -269,7 +271,7 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 		return unplugDisk(name, unplugDisk, null);
 	}
 
-	public boolean unplugDisk(String name,UnplugDisk unplugDisk, String eventId) throws Exception {
+	public boolean unplugDisk(String name, UnplugDisk unplugDisk, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 6 and 128, and it can only includes a-z, 0-9 and -.");
@@ -281,7 +283,7 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 		return stopVM(name, stopVM, null);
 	}
 
-	public boolean stopVM(String name,StopVM stopVM, String eventId) throws Exception {
+	public boolean stopVM(String name, StopVM stopVM, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 6 and 128, and it can only includes a-z, 0-9 and -.");
@@ -293,7 +295,7 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 		return startVM(name, startVM, null);
 	}
 
-	public boolean startVM(String name,StartVM startVM, String eventId) throws Exception {
+	public boolean startVM(String name, StartVM startVM, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 6 and 128, and it can only includes a-z, 0-9 and -.");
@@ -305,7 +307,7 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 		return deleteVM(name, deleteVM, null);
 	}
 
-	public boolean deleteVM(String name,DeleteVM deleteVM, String eventId) throws Exception {
+	public boolean deleteVM(String name, DeleteVM deleteVM, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 6 and 128, and it can only includes a-z, 0-9 and -.");
@@ -317,7 +319,7 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 		return rebootVM(name, rebootVM, null);
 	}
 
-	public boolean rebootVM(String name,RebootVM rebootVM, String eventId) throws Exception {
+	public boolean rebootVM(String name, RebootVM rebootVM, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 6 and 128, and it can only includes a-z, 0-9 and -.");
@@ -329,7 +331,7 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 		return plugNIC(name, plugNIC, null);
 	}
 
-	public boolean plugNIC(String name,PlugNIC plugNIC, String eventId) throws Exception {
+	public boolean plugNIC(String name, PlugNIC plugNIC, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 6 and 128, and it can only includes a-z, 0-9 and -.");
@@ -341,7 +343,7 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 		return manageISO(name, manageISO, null);
 	}
 
-	public boolean manageISO(String name,ManageISO manageISO, String eventId) throws Exception {
+	public boolean manageISO(String name, ManageISO manageISO, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 6 and 128, and it can only includes a-z, 0-9 and -.");
@@ -353,7 +355,7 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 		return updateOS(name, updateOS, null);
 	}
 
-	public boolean updateOS(String name,UpdateOS updateOS, String eventId) throws Exception {
+	public boolean updateOS(String name, UpdateOS updateOS, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 6 and 128, and it can only includes a-z, 0-9 and -.");
@@ -365,7 +367,7 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 		return convertVMToImage(name, convertVMToImage, null);
 	}
 
-	public boolean convertVMToImage(String name,ConvertVMToImage convertVMToImage, String eventId) throws Exception {
+	public boolean convertVMToImage(String name, ConvertVMToImage convertVMToImage, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 6 and 128, and it can only includes a-z, 0-9 and -.");
@@ -377,7 +379,7 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 		return insertISO(name, insertISO, null);
 	}
 
-	public boolean insertISO(String name,InsertISO insertISO, String eventId) throws Exception {
+	public boolean insertISO(String name, InsertISO insertISO, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 6 and 128, and it can only includes a-z, 0-9 and -.");
@@ -389,7 +391,7 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 		return ejectISO(name, ejectISO, null);
 	}
 
-	public boolean ejectISO(String name,EjectISO ejectISO, String eventId) throws Exception {
+	public boolean ejectISO(String name, EjectISO ejectISO, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 6 and 128, and it can only includes a-z, 0-9 and -.");
@@ -401,7 +403,7 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 		return resizeVM(name, resizeVM, null);
 	}
 
-	public boolean resizeVM(String name,ResizeVM resizeVM, String eventId) throws Exception {
+	public boolean resizeVM(String name, ResizeVM resizeVM, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 6 and 128, and it can only includes a-z, 0-9 and -.");
@@ -413,11 +415,36 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 		return cloneVM(name, cloneVM, null);
 	}
 
-	public boolean cloneVM(String name,CloneVM cloneVM, String eventId) throws Exception {
+	public boolean cloneVM(String name, CloneVM cloneVM, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 6 and 128, and it can only includes a-z, 0-9 and -.");
 		}
 		return update(name, updateMetadata(name, eventId), cloneVM);
 	}
+
+	public boolean setPortVlan(String name, SetPortVlan setPortVlan) throws Exception {
+		return setPortVlan(name, setPortVlan, null);
+	}
+
+	public boolean setPortVlan(String name, SetPortVlan setPortVlan, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 6 and 128, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), setPortVlan);
+	}
+
+	public boolean delPortVlan(String name, DelPortVlan delPortVlan) throws Exception {
+		return delPortVlan(name, delPortVlan, null);
+	}
+
+	public boolean delPortVlan(String name, DelPortVlan delPortVlan, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 6 and 128, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), delPortVlan);
+	}
+
 }

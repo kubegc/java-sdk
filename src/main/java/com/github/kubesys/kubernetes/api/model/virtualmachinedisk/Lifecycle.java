@@ -433,6 +433,10 @@ public class Lifecycle {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class CreateDiskFromDiskImage {
+		
+		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，uus，nfs，glusterfs之一", example = "dir")
+		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
+		protected String type = "dir";
 
 		@ParameterDescriber(required = true, description = "创建云盘所在的存储池名", constraint = "由6-128位的数字和小写字母组成，已创建出的存储池", example = "pool2")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
@@ -441,6 +445,14 @@ public class Lifecycle {
 		@ParameterDescriber(required = true, description = "云盘镜像名", constraint = "由6-128位的数字和小写字母组成，已存在的云盘镜像名", example = "image2")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String image;
+
+		public String getType() {
+			return type;
+		}
+
+		public void setType(String type) {
+			this.type = type;
+		}
 
 		public String getImage() {
 			return image;
@@ -528,10 +540,22 @@ public class Lifecycle {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class ConvertDiskToDiskImage {
+		
+		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，uus，nfs，glusterfs之一", example = "dir")
+		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
+		protected String type = "dir";
 
 		@ParameterDescriber(required = true, description = "云盘所在的存储池名", constraint = "由6-128位的数字和小写字母组成，已创建出的存储池", example = "pool2")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String pool;
+
+		public String getType() {
+			return type;
+		}
+
+		public void setType(String type) {
+			this.type = type;
+		}
 
 		public String getPool() {
 			return pool;
@@ -553,6 +577,10 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class CreateDiskInternalSnapshot {
 		
+		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，uus，nfs，glusterfs之一", example = "dir")
+		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
+		protected String type = "dir";
+		
 		@ParameterDescriber(required = true, description = "云盘所在的存储池名", constraint = "由6-128位的数字和小写字母组成，已创建出的存储池", example = "pool2")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String pool;
@@ -560,6 +588,14 @@ public class Lifecycle {
 		@ParameterDescriber(required = true, description = "快照的名字", constraint = "由6-128位的数字和小写字母组成", example = "snap1")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String snapshotname;
+
+		public String getType() {
+			return type;
+		}
+
+		public void setType(String type) {
+			this.type = type;
+		}
 
 		public String getPool() {
 			return pool;
@@ -583,6 +619,10 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class RevertDiskInternalSnapshot {
 		
+		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，uus，nfs，glusterfs之一", example = "dir")
+		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
+		protected String type = "dir";
+		
 		@ParameterDescriber(required = true, description = "云盘所在的存储池名", constraint = "由6-128位的数字和小写字母组成，已创建出的存储池", example = "pool2")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String pool;
@@ -590,6 +630,14 @@ public class Lifecycle {
 		@ParameterDescriber(required = true, description = "快照的名字", constraint = "由6-128位的数字和小写字母组成", example = "snap1")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String snapshotname;
+
+		public String getType() {
+			return type;
+		}
+
+		public void setType(String type) {
+			this.type = type;
+		}
 
 		public String getPool() {
 			return pool;
@@ -613,6 +661,10 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class DeleteDiskInternalSnapshot {
 		
+		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，uus，nfs，glusterfs之一", example = "dir")
+		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
+		protected String type = "dir";
+		
 		@ParameterDescriber(required = true, description = "云盘所在的存储池名", constraint = "由6-128位的数字和小写字母组成，已创建出的存储池", example = "pool2")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String pool;
@@ -620,6 +672,14 @@ public class Lifecycle {
 		@ParameterDescriber(required = true, description = "快照的名字", constraint = "由6-128位的数字和小写字母组成", example = "snap1")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String snapshotname;
+
+		public String getType() {
+			return type;
+		}
+
+		public void setType(String type) {
+			this.type = type;
+		}
 
 		public String getPool() {
 			return pool;
