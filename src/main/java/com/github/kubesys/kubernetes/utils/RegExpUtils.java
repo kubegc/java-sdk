@@ -86,7 +86,7 @@ public class RegExpUtils {
 	public final static String SUBNET_PATTERN  = IP_PATTERN + "/(8|16|24)";
 	
 	@FieldDescriber("配置虚拟交换机，source是必填，ip和switch是选填")
-	public final static String IP_SWITCH_PATTERN      = "source=(virbr0|br-native|br-int)(,ip=" + IP_PATTERN + ")?(,switch=([a-z0-9-.]{8,32}))?";
+	public final static String IP_SWITCH_PATTERN      = "source=(virbr0|br-native|br-int|bridge2)(,ip=" + IP_PATTERN + ")?(,switch=([a-z0-9-.]{8,32}))?";
 	
 	@FieldDescriber("VCPU高级配置，允许绑定具体物理CPU，但cpuset是选填的")
 	public final static String VCPUSET_PATTERN      = VCPU_PATTERN + "(,cpuset=\\d{1,3}((,|-)\\d{1,3})*)?" + ",maxvcpus=100";
