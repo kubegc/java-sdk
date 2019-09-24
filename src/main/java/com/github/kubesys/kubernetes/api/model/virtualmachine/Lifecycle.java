@@ -2513,6 +2513,10 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.MAC_PATTERN)
 		protected String mac;
 		
+		@ParameterDescriber(required = true, description = "桥接名臣", constraint = "4-100位，包含小写字母，数字0-9，中划线，以及圆点", example = "br-native")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String bridge;
+		
 		@ParameterDescriber(required = false, description = "vlan ID", constraint = "0~4094", example = "1")
 		@Pattern(regexp = RegExpUtils.VLAN_PATTERN)
 		protected String vlan;
@@ -2531,6 +2535,14 @@ public class Lifecycle {
 
 		public void setVlan(String vlan) {
 			this.vlan = vlan;
+		}
+
+		public String getBridge() {
+			return bridge;
+		}
+
+		public void setBridge(String bridge) {
+			this.bridge = bridge;
 		}
 		
 	}
