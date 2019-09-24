@@ -290,6 +290,17 @@ public class Lifecycle {
 		protected Boolean paused;
 		
 		protected Boolean force;
+		
+		@ParameterDescriber(required = false, description = "是否为外部快照", constraint=AnnotationUtils.DESC_BOOLEAN, example = "true")
+		protected Boolean isExternal;
+
+		public Boolean getIsExternal() {
+			return isExternal;
+		}
+
+		public void setIsExternal(Boolean isExternal) {
+			this.isExternal = isExternal;
+		}
 
 		public Boolean getRunning() {
 			return running;

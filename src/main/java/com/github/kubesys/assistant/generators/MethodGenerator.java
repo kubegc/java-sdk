@@ -4,7 +4,7 @@
 package com.github.kubesys.assistant.generators;
 
 import com.github.kubesys.kubernetes.impl.AbstractImpl;
-import com.github.kubesys.kubernetes.impl.VirtualMachineDiskImpl;
+import com.github.kubesys.kubernetes.impl.VirtualMachineNetworkImpl;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -53,7 +53,7 @@ public class MethodGenerator {
 				sb.append("\t\treturn "+ cmd + "(name, " + cmd + ", null);\n");
 				sb.append("\t}\n\n");
 	
-				sb.append("\tpublic boolean " + cmd +"(String name," 
+				sb.append("\tpublic boolean " + cmd +"(String name, " 
 						+ getClassName(cmd) + " " + cmd + ", String eventId) throws Exception {\n");
 				sb.append("\t\tPattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);\n");
 				sb.append("\t\tif (!pattern.matcher(name).matches()) {\n");
@@ -67,7 +67,7 @@ public class MethodGenerator {
 				sb.append("\t\treturn "+ cmd + "(name, " + cmd + ", null);\n");
 				sb.append("\t}\n\n");
 	
-				sb.append("\tpublic boolean " + cmd +"(String name," 
+				sb.append("\tpublic boolean " + cmd +"(String name, " 
 						+ getClassName(cmd) + " " + cmd + ", String eventId) throws Exception {\n");
 				sb.append("\t\tPattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);\n");
 				sb.append("\t\tif (!pattern.matcher(name).matches()) {\n");
@@ -81,12 +81,12 @@ public class MethodGenerator {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		System.out.println(generate(new VirtualMachineDiskImpl()));
+//		System.out.println(generate(new VirtualMachineDiskImpl()));
 //		System.out.println(generate(new VirtualMachineImpl()));
 //		System.out.println(generate(new VirtualMachinePoolImpl()));
 //		System.out.println(generate(new VirtualMachineImageImpl()));
 //		System.out.println(generate(new VirtualMachineSnapshotImpl()));
-//		System.out.println(generate(new VirtualMachineNetworkImpl()));
+		System.out.println(generate(new VirtualMachineNetworkImpl()));
 //		System.out.println(generate(new VirtualMachineDiskImageImpl()));
 	}
 	

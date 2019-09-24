@@ -4,7 +4,10 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UnplugDisk;
+
+import io.fabric8.kubernetes.api.model.Pod;
+import io.fabric8.kubernetes.client.KubernetesClientException;
+import io.fabric8.kubernetes.client.Watcher;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -15,22 +18,13 @@ import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UnplugDi
  * @since   2019/9/3
  *
  */
-public class UnplugDiskTest {
+public class PodWatcherTest {
 	
 	
 	public static void main(String[] args) throws Exception {
-
 		ExtendedKubernetesClient client = AbstractTest.getClient();
-		boolean successful = client.virtualMachines()
-				.unplugDisk("950646e8c17a49d0b83c1c797811e001", getUnplugDisk());
-		System.out.println(successful);
+		client.pods();
 	}
 	
-	public static UnplugDisk getUnplugDisk() {
-		UnplugDisk unplugDisk = new UnplugDisk();
-		unplugDisk.setTarget("vdc");
-//		unplugDisk.setLive(true);
-		unplugDisk.setConfig(true);
-		return unplugDisk;
-	}
+	
 }

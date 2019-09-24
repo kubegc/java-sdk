@@ -79,19 +79,19 @@ public class Lifecycle {
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected DeleteDiskInternalSnapshot deleteDiskInternalSnapshot;
 	
-	@FunctionDescriber(shortName = "创建云盘内部快照", description = "创建云盘内部快照，" 
+	@FunctionDescriber(shortName = "创建云盘外部快照", description = "创建云盘外部快照，" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = AnnotationUtils.DESC_FUNCTION_VMD, 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected CreateDiskExternalSnapshot createDiskExternalSnapshot;
 	
-	@FunctionDescriber(shortName = "从云盘内部快照恢复", description = "从云盘内部快照恢复，" 
+	@FunctionDescriber(shortName = "从云盘外部快照恢复", description = "从云盘外部快照恢复，" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = AnnotationUtils.DESC_FUNCTION_VMD, 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected RevertDiskExternalSnapshot revertDiskExternalSnapshot;
 	
-	@FunctionDescriber(shortName = "删除云盘内部快照", description = "删除云盘内部快照，" 
+	@FunctionDescriber(shortName = "删除云盘外部快照", description = "删除云盘外部快照，" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = AnnotationUtils.DESC_FUNCTION_VMD, 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
@@ -327,7 +327,7 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
 		protected String type;
 
-		@ParameterDescriber(required = false, description = "删除所有快照", constraint = "取值范围：true/false", example = "true")
+		@ParameterDescriber(required = false, description = "删除所有快照", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean delete_snapshots;
 
 		@ParameterDescriber(required = true, description = "云盘所在的存储池名", constraint = "已创建出的存储池", example = "pool2")

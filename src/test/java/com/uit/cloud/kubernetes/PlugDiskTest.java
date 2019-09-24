@@ -30,7 +30,7 @@ public class PlugDiskTest {
 		PlugDisk plugDisk = new PlugDisk();
 		plugDisk.setSource("/var/lib/libvirt/images/snapshot1");
 		plugDisk.setTarget("vda");
-		plugDisk.setLive(true);
+//		plugDisk.setLive(true);
 		plugDisk.setConfig(true);
 		plugDisk.setSubdriver("qcow2");
 		plugDisk.setRead_bytes_sec("1024000000");
