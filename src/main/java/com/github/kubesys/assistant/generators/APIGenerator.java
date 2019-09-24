@@ -47,8 +47,6 @@ public class APIGenerator {
 			
 			sb.append(parent.desc() + "." + parent.value() + "所有操作的返回值一样，见**[返回值]**\n\n");
 			
-
-			
 			int j = 1;
 			for (Field field : forName.getDeclaredFields()) {
 				
