@@ -7,9 +7,9 @@ import javax.validation.constraints.Pattern;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.github.kubesys.kubernetes.annotations.ClassDescriber;
 import com.github.kubesys.kubernetes.annotations.FunctionDescriber;
 import com.github.kubesys.kubernetes.annotations.ParameterDescriber;
-import com.github.kubesys.kubernetes.annotations.ClassDescriber;
 import com.github.kubesys.kubernetes.utils.AnnotationUtils;
 import com.github.kubesys.kubernetes.utils.RegExpUtils;
 
@@ -25,6 +25,11 @@ import com.github.kubesys.kubernetes.utils.RegExpUtils;
 @ClassDescriber(value = "VirtualMachineNetwork", desc = "扩展支持OVN插件")
 public class Lifecycle {
 
+	/**************************************************************
+	 * 
+	 *      L2 Network
+	 * 
+	 ***************************************************************/
 	@FunctionDescriber(shortName = "创建二层桥接网络，用于vlan场景", description = "创建二层桥接，" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = "", 
@@ -37,6 +42,36 @@ public class Lifecycle {
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected DeleteBridge deleteBridge;
 	
+	@FunctionDescriber(shortName = "设置二层网桥的vlan ID", description = "适用于OpenvSwitch二层网桥，" 
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+		prerequisite = AnnotationUtils.DESC_FUNCTION_VMN, 
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected SetBridgeVlan setBridgeVlan;
+	
+	@FunctionDescriber(shortName = "删除二层网桥的vlan ID", description = "适用于OpenvSwitch二层网桥，" 
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+		prerequisite = AnnotationUtils.DESC_FUNCTION_VMN, 
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected DelBridgeVlan delBridgeVlan;
+	
+	@FunctionDescriber(shortName = "给虚拟机绑定vlan ID", description = "适用于OpenvSwitch二层网桥，更换虚拟机的vlan" 
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+		prerequisite = AnnotationUtils.DESC_FUNCTION_VMN, 
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected BindPortVlan bindPortVlan;
+	
+	@FunctionDescriber(shortName = "解除虚拟机的vlan ID", description = "适用于OpenvSwitch二层网桥，更换虚拟机的vlan" 
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+		prerequisite = AnnotationUtils.DESC_FUNCTION_VMN, 
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected UnbindPortVlan unbindPortVlan;
+	
+	
+	/**************************************************************
+	 * 
+	 *      L3 Network
+	 * 
+	 ***************************************************************/
 	@FunctionDescriber(shortName = "创建三层网络交换机", description = "创建三层网络交换机，" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = "", 
@@ -61,17 +96,6 @@ public class Lifecycle {
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected UnbindFip unbindFip;
 	
-	@FunctionDescriber(shortName = "设置二层网桥的vlan ID", description = "适用于OpenvSwitch二层网桥，" 
-			+ AnnotationUtils.DESC_FUNCTION_DESC, 
-		prerequisite = AnnotationUtils.DESC_FUNCTION_VMN, 
-		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
-	protected SetBridgeVlan setBridgeVlan;
-	
-	@FunctionDescriber(shortName = "删除二层网桥的vlan ID", description = "适用于OpenvSwitch二层网桥，" 
-			+ AnnotationUtils.DESC_FUNCTION_DESC, 
-		prerequisite = AnnotationUtils.DESC_FUNCTION_VMN, 
-		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
-	protected DelBridgeVlan delBridgeVlan;
 	
 	public CreateSwitch getCreateSwitch() {
 		return createSwitch;
@@ -122,6 +146,38 @@ public class Lifecycle {
 	}
 
 
+	public SetBridgeVlan getSetBridgeVlan() {
+		return setBridgeVlan;
+	}
+
+	public void setSetBridgeVlan(SetBridgeVlan setBridgeVlan) {
+		this.setBridgeVlan = setBridgeVlan;
+	}
+
+	public DelBridgeVlan getDelBridgeVlan() {
+		return delBridgeVlan;
+	}
+
+	public void setDelBridgeVlan(DelBridgeVlan delBridgeVlan) {
+		this.delBridgeVlan = delBridgeVlan;
+	}
+
+
+	public BindPortVlan getBindPortVlan() {
+		return bindPortVlan;
+	}
+
+	public void setBindPortVlan(BindPortVlan bindPortVlan) {
+		this.bindPortVlan = bindPortVlan;
+	}
+
+	public UnbindPortVlan getUnbindPortVlan() {
+		return unbindPortVlan;
+	}
+
+	public void setUnbindPortVlan(UnbindPortVlan unbindPortVlan) {
+		this.unbindPortVlan = unbindPortVlan;
+	}
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
@@ -215,6 +271,14 @@ public class Lifecycle {
 			this.vlan = vlan;
 		}
 
+		public String getVmmac() {
+			return vmmac;
+		}
+
+		public void setVmmac(String vmmac) {
+			this.vmmac = vmmac;
+		}
+
 	}
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
@@ -256,6 +320,18 @@ public class Lifecycle {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class DeleteBridge extends CreateBridge {
+		
+	}
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class BindPortVlan extends CreateBridge {
+		
+	}
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class UnbindPortVlan extends CreateBridge {
 		
 	}
 	

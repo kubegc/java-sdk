@@ -57,7 +57,7 @@ public class VirtualMachineDiskImageImpl extends AbstractImpl<VirtualMachineDisk
 	public boolean convertDiskImageToDisk(String name,ConvertDiskImageToDisk convertDiskImageToDisk, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
-			throw new IllegalArgumentException("名称是字符串类型，长度是6到128位，只允许数字、小写字母、中划线、以及圆点");
+			throw new IllegalArgumentException("名称是字符串类型，长度是4到100位，只允许数字、小写字母、中划线、以及圆点");
 		}
 		return update(name, updateMetadata(name, eventId), convertDiskImageToDisk);
 	}
@@ -69,7 +69,7 @@ public class VirtualMachineDiskImageImpl extends AbstractImpl<VirtualMachineDisk
 	public boolean deleteDiskImage(String name,DeleteDiskImage deleteDiskImage, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
-			throw new IllegalArgumentException("名称是字符串类型，长度是6到128位，只允许数字、小写字母、中划线、以及圆点");
+			throw new IllegalArgumentException("名称是字符串类型，长度是4到100位，只允许数字、小写字母、中划线、以及圆点");
 		}
 		return delete(name, updateMetadata(name, eventId), deleteDiskImage);
 	}
@@ -89,7 +89,7 @@ public class VirtualMachineDiskImageImpl extends AbstractImpl<VirtualMachineDisk
 	public boolean createDiskImage(String name, String nodeName,CreateDiskImage createDiskImage, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
-			throw new IllegalArgumentException("名称是字符串类型，长度是6到128位，只允许数字、小写字母、中划线、以及圆点");
+			throw new IllegalArgumentException("名称是字符串类型，长度是4到100位，只允许数字、小写字母、中划线、以及圆点");
 		}
 		return create(getModel(), createMetadata(name, nodeName, eventId), 
 				createSpec(nodeName, createLifecycle(createDiskImage)));

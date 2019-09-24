@@ -438,11 +438,11 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
 		protected String type = "dir";
 
-		@ParameterDescriber(required = true, description = "创建云盘所在的存储池名", constraint = "由6-128位的数字和小写字母组成，已创建出的存储池", example = "pool2")
+		@ParameterDescriber(required = true, description = "创建云盘所在的存储池名", constraint = "由4-100位的数字和小写字母组成，已创建出的存储池", example = "pool2")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String pool;
 
-		@ParameterDescriber(required = true, description = "云盘镜像名", constraint = "由6-128位的数字和小写字母组成，已存在的云盘镜像名", example = "image2")
+		@ParameterDescriber(required = true, description = "云盘镜像名", constraint = "由4-100位的数字和小写字母组成，已存在的云盘镜像名", example = "image2")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String image;
 
@@ -483,11 +483,11 @@ public class Lifecycle {
 
 		protected Boolean prealloc_metadata;
 
-		@ParameterDescriber(required = true, description = "云盘所在的存储池名", constraint = "由6-128位的数字和小写字母组成，已创建出的存储池", example = "pool2")
+		@ParameterDescriber(required = true, description = "云盘所在的存储池名", constraint = "由4-100位的数字和小写字母组成，已创建出的存储池", example = "pool2")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String pool;
 
-		@ParameterDescriber(required = true, description = "新云盘的名字", constraint = "由6-128位的数字和小写字母组成", example = "newdisk")
+		@ParameterDescriber(required = true, description = "新云盘的名字", constraint = "由4-100位的数字和小写字母组成", example = "newdisk")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String newname;
 
@@ -545,7 +545,7 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
 		protected String type = "dir";
 
-		@ParameterDescriber(required = true, description = "云盘所在的存储池名", constraint = "由6-128位的数字和小写字母组成，已创建出的存储池", example = "pool2")
+		@ParameterDescriber(required = true, description = "云盘所在的存储池名", constraint = "由4-100位的数字和小写字母组成，已创建出的存储池", example = "pool2")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String pool;
 
@@ -581,11 +581,11 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
 		protected String type = "dir";
 		
-		@ParameterDescriber(required = true, description = "云盘所在的存储池名", constraint = "由6-128位的数字和小写字母组成，已创建出的存储池", example = "pool2")
+		@ParameterDescriber(required = true, description = "云盘所在的存储池名", constraint = "由4-100位的数字和小写字母组成，已创建出的存储池", example = "pool2")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String pool;
 		
-		@ParameterDescriber(required = true, description = "快照的名字", constraint = "由6-128位的数字和小写字母组成", example = "snap1")
+		@ParameterDescriber(required = true, description = "快照的名字", constraint = "由4-100位的数字和小写字母组成", example = "snap1")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String snapshotname;
 
@@ -623,11 +623,11 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
 		protected String type = "dir";
 		
-		@ParameterDescriber(required = true, description = "云盘所在的存储池名", constraint = "由6-128位的数字和小写字母组成，已创建出的存储池", example = "pool2")
+		@ParameterDescriber(required = true, description = "云盘所在的存储池名", constraint = "由4-100位的数字和小写字母组成，已创建出的存储池", example = "pool2")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String pool;
 		
-		@ParameterDescriber(required = true, description = "快照的名字", constraint = "由6-128位的数字和小写字母组成", example = "snap1")
+		@ParameterDescriber(required = true, description = "快照的名字", constraint = "由4-100位的数字和小写字母组成", example = "snap1")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String snapshotname;
 
@@ -665,11 +665,11 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
 		protected String type = "dir";
 		
-		@ParameterDescriber(required = true, description = "云盘所在的存储池名", constraint = "由6-128位的数字和小写字母组成，已创建出的存储池", example = "pool2")
+		@ParameterDescriber(required = true, description = "云盘所在的存储池名", constraint = "由4-100位的数字和小写字母组成，已创建出的存储池", example = "pool2")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String pool;
 		
-		@ParameterDescriber(required = true, description = "快照的名字", constraint = "由6-128位的数字和小写字母组成", example = "snap1")
+		@ParameterDescriber(required = true, description = "快照的名字", constraint = "由4-100位的数字和小写字母组成", example = "snap1")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String snapshotname;
 
@@ -713,11 +713,11 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
 		protected String type;
 		
-		@ParameterDescriber(required = true, description = "云盘所在的存储池名", constraint = "由6-128位的数字和小写字母组成，已创建出的存储池", example = "pool2")
+		@ParameterDescriber(required = true, description = "云盘所在的存储池名", constraint = "由4-100位的数字和小写字母组成，已创建出的存储池", example = "pool2")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String pool;
 		
-		@ParameterDescriber(required = true, description = "快照的名字", constraint = "由6-128位的数字和小写字母组成", example = "snap1")
+		@ParameterDescriber(required = true, description = "快照的名字", constraint = "由4-100位的数字和小写字母组成", example = "snap1")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String snapshotname;
 

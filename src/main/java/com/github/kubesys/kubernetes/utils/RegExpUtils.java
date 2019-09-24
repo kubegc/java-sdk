@@ -17,8 +17,8 @@ import com.github.kubesys.kubernetes.annotations.FieldDescriber;
  */
 public class RegExpUtils {
 
-	@FieldDescriber("名称是字符串类型，长度是6到128位，只允许数字、小写字母、中划线、以及圆点")
-	public final static String NAME_PATTERN = "[a-z0-9-.]{6,128}";
+	@FieldDescriber("名称是字符串类型，长度是4到100位，只允许数字、小写字母、中划线、以及圆点")
+	public final static String NAME_PATTERN = "[a-z0-9-.]{4,100}";
 	
 	@FieldDescriber("名称是字符串类型，长度是3到32位，只允许数字、小写字母、中划线、以及圆点")
 	public final static String NIC_PATTERN = "[a-z0-9-.]{3,32}";
