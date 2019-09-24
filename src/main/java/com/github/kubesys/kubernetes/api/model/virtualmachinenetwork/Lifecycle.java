@@ -25,6 +25,18 @@ import com.github.kubesys.kubernetes.utils.RegExpUtils;
 @ClassDescriber(value = "VirtualMachineNetwork", desc = "扩展支持OVN插件")
 public class Lifecycle {
 
+	@FunctionDescriber(shortName = "创建二层桥接网络，用于vlan场景", description = "创建二层桥接，" 
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+		prerequisite = "", 
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected CreateBridge createBridge;
+	
+	@FunctionDescriber(shortName = "删除二层桥接网络", description = "删除二层桥接," 
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+		prerequisite = AnnotationUtils.DESC_FUNCTION_VMN, 
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected DeleteBridge deleteBridge;
+	
 	@FunctionDescriber(shortName = "创建网络交换机", description = "创建网络交换机，" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = "", 
@@ -108,6 +120,24 @@ public class Lifecycle {
 	public void setDelPortVlan(DelPortVlan delPortVlan) {
 		this.delPortVlan = delPortVlan;
 	}
+
+	public CreateBridge getCreateBridge() {
+		return createBridge;
+	}
+
+	public void setCreateBridge(CreateBridge createBridge) {
+		this.createBridge = createBridge;
+	}
+
+	public DeleteBridge getDeleteBridge() {
+		return deleteBridge;
+	}
+
+	public void setDeleteBridge(DeleteBridge deleteBridge) {
+		this.deleteBridge = deleteBridge;
+	}
+
+
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
@@ -226,6 +256,42 @@ public class Lifecycle {
 		public void setVmmac(String vmmac) {
 			this.vmmac = vmmac;
 		}
+		
+	}
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class CreateBridge {
+		
+		@ParameterDescriber(required = true, description = "被接管的网卡", constraint = "名称是字符串类型，长度是6到128位，只允许数字、小写字母、中划线、以及圆点", example = "l2bridge")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String name;
+		
+		@ParameterDescriber(required = false, description = "希望创建的网桥名", constraint = "名称是字符串类型，长度是6到128位，只允许数字、小写字母、中划线、以及圆点。如果不传值，默认是br-native", example = "br-l2bridge")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String bridge;
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+
+		public String getBridge() {
+			return bridge;
+		}
+
+		public void setBridge(String bridge) {
+			this.bridge = bridge;
+		}
+		
+	}
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class DeleteBridge extends CreateBridge {
 		
 	}
 	
