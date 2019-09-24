@@ -227,9 +227,13 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class CreateBridge {
 		
-		@ParameterDescriber(required = true, description = "被接管的网卡", constraint = "名称是字符串类型，长度是6到128位，只允许数字、小写字母、中划线、以及圆点", example = "l2bridge")
-		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		@ParameterDescriber(required = true, description = "被接管的网卡", constraint = "名称是字符串类型，长度是3到32位，只允许数字、小写字母、中划线、以及圆点", example = "l2bridge")
+		@Pattern(regexp = RegExpUtils.NIC_PATTERN)
 		protected String nic;
+		
+		@ParameterDescriber(required = true, description = "vlan ID", constraint = "0~4094", example = "1")
+		@Pattern(regexp = RegExpUtils.VLAN_PATTERN)
+		protected String vlan;
 
 		public String getNic() {
 			return nic;
@@ -238,7 +242,15 @@ public class Lifecycle {
 		public void setNic(String nic) {
 			this.nic = nic;
 		}
-		
+
+		public String getVlan() {
+			return vlan;
+		}
+
+		public void setVlan(String vlan) {
+			this.vlan = vlan;
+		}
+
 	}
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
