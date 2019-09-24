@@ -11,12 +11,12 @@ import com.github.kubesys.kubernetes.api.model.VirtualMachine;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineList;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineSpec;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.BindPortVlan;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ChangeNumberOfCPU;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CloneVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ConvertVMToImage;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CreateAndStartVMFromISO;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CreateAndStartVMFromImage;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.DelPortVlan;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.DeleteVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.EjectISO;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.InsertISO;
@@ -30,11 +30,11 @@ import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ResetVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ResizeRAM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ResizeVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ResumeVM;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.SetPortVlan;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StartVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StopVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StopVMForce;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.SuspendVM;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UnbindPortVlan;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UnplugDevice;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UnplugDisk;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UnplugNIC;
@@ -108,7 +108,7 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 	public boolean createAndStartVMFromISO(String name, String nodeName,CreateAndStartVMFromISO createAndStartVMFromISO, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
-			throw new IllegalArgumentException("the length must be between 6 and 32, and it can only includes a-z, 0-9 and -.");
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
 		return create(getModel(), createMetadata(name, nodeName, eventId), 
 				createSpec(nodeName, createLifecycle(createAndStartVMFromISO)));
@@ -129,7 +129,7 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 	public boolean createAndStartVMFromImage(String name, String nodeName,CreateAndStartVMFromImage createAndStartVMFromImage, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
-			throw new IllegalArgumentException("the length must be between 6 and 32, and it can only includes a-z, 0-9 and -.");
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
 		return create(getModel(), createMetadata(name, nodeName, eventId), 
 				createSpec(nodeName, createLifecycle(createAndStartVMFromImage)));
@@ -423,28 +423,27 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 		return update(name, updateMetadata(name, eventId), cloneVM);
 	}
 
-	public boolean setPortVlan(String name, SetPortVlan setPortVlan) throws Exception {
-		return setPortVlan(name, setPortVlan, null);
+	public boolean bindPortVlan(String name, BindPortVlan bindPortVlan) throws Exception {
+		return bindPortVlan(name, bindPortVlan, null);
 	}
 
-	public boolean setPortVlan(String name, SetPortVlan setPortVlan, String eventId) throws Exception {
+	public boolean bindPortVlan(String name, BindPortVlan bindPortVlan, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
-		return update(name, updateMetadata(name, eventId), setPortVlan);
+		return update(name, updateMetadata(name, eventId), bindPortVlan);
 	}
 
-	public boolean delPortVlan(String name, DelPortVlan delPortVlan) throws Exception {
-		return delPortVlan(name, delPortVlan, null);
+	public boolean unbindPortVlan(String name, UnbindPortVlan unbindPortVlan) throws Exception {
+		return unbindPortVlan(name, unbindPortVlan, null);
 	}
 
-	public boolean delPortVlan(String name, DelPortVlan delPortVlan, String eventId) throws Exception {
+	public boolean unbindPortVlan(String name, UnbindPortVlan unbindPortVlan, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
-		return update(name, updateMetadata(name, eventId), delPortVlan);
+		return update(name, updateMetadata(name, eventId), unbindPortVlan);
 	}
-
 }

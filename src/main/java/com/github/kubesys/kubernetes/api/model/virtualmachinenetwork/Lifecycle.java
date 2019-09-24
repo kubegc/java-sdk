@@ -54,18 +54,6 @@ public class Lifecycle {
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected DelBridgeVlan delBridgeVlan;
 	
-	@FunctionDescriber(shortName = "给虚拟机绑定vlan ID", description = "适用于OpenvSwitch二层网桥，更换虚拟机的vlan" 
-			+ AnnotationUtils.DESC_FUNCTION_DESC, 
-		prerequisite = AnnotationUtils.DESC_FUNCTION_VMN, 
-		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
-	protected BindPortVlan bindPortVlan;
-	
-	@FunctionDescriber(shortName = "解除虚拟机的vlan ID", description = "适用于OpenvSwitch二层网桥，更换虚拟机的vlan" 
-			+ AnnotationUtils.DESC_FUNCTION_DESC, 
-		prerequisite = AnnotationUtils.DESC_FUNCTION_VMN, 
-		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
-	protected UnbindPortVlan unbindPortVlan;
-	
 	
 	/**************************************************************
 	 * 
@@ -162,22 +150,6 @@ public class Lifecycle {
 		this.delBridgeVlan = delBridgeVlan;
 	}
 
-
-	public BindPortVlan getBindPortVlan() {
-		return bindPortVlan;
-	}
-
-	public void setBindPortVlan(BindPortVlan bindPortVlan) {
-		this.bindPortVlan = bindPortVlan;
-	}
-
-	public UnbindPortVlan getUnbindPortVlan() {
-		return unbindPortVlan;
-	}
-
-	public void setUnbindPortVlan(UnbindPortVlan unbindPortVlan) {
-		this.unbindPortVlan = unbindPortVlan;
-	}
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
@@ -320,18 +292,6 @@ public class Lifecycle {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class DeleteBridge extends CreateBridge {
-		
-	}
-	
-	@JsonInclude(JsonInclude.Include.NON_NULL)
-	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class BindPortVlan extends CreateBridge {
-		
-	}
-	
-	@JsonInclude(JsonInclude.Include.NON_NULL)
-	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class UnbindPortVlan extends CreateBridge {
 		
 	}
 	

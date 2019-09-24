@@ -7,9 +7,9 @@ import javax.validation.constraints.Pattern;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.github.kubesys.kubernetes.annotations.ClassDescriber;
 import com.github.kubesys.kubernetes.annotations.FunctionDescriber;
 import com.github.kubesys.kubernetes.annotations.ParameterDescriber;
-import com.github.kubesys.kubernetes.annotations.ClassDescriber;
 import com.github.kubesys.kubernetes.utils.AnnotationUtils;
 import com.github.kubesys.kubernetes.utils.RegExpUtils;
 
@@ -181,17 +181,17 @@ public class Lifecycle {
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected CloneVM cloneVM;
 	
-	@FunctionDescriber(shortName = "设置端口的vlan ID", description = "适用于OpenvSwitch二层网桥，" 
+	@FunctionDescriber(shortName = "给虚拟机绑定vlan ID", description = "适用于OpenvSwitch二层网桥，更换虚拟机的vlan" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = AnnotationUtils.DESC_FUNCTION_VMN, 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
-	protected SetPortVlan setPortVlan;
+	protected BindPortVlan bindPortVlan;
 	
-	@FunctionDescriber(shortName = "删除端口的vlan ID", description = "适用于OpenvSwitch二层网桥，" 
+	@FunctionDescriber(shortName = "解除虚拟机的vlan ID", description = "适用于OpenvSwitch二层网桥，更换虚拟机的vlan" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = AnnotationUtils.DESC_FUNCTION_VMN, 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
-	protected DelPortVlan delPortVlan;
+	protected UnbindPortVlan unbindPortVlan;
 	
 	public ManageISO getManageISO() {
 		return manageISO;
@@ -402,21 +402,23 @@ public class Lifecycle {
 		this.cloneVM = cloneVM;
 	}
 
-	public SetPortVlan getSetPortVlan() {
-		return setPortVlan;
+	public BindPortVlan getBindPortVlan() {
+		return bindPortVlan;
 	}
 
-	public void setSetPortVlan(SetPortVlan setPortVlan) {
-		this.setPortVlan = setPortVlan;
+	public void setBindPortVlan(BindPortVlan bindPortVlan) {
+		this.bindPortVlan = bindPortVlan;
 	}
 
-	public DelPortVlan getDelPortVlan() {
-		return delPortVlan;
+	public UnbindPortVlan getUnbindPortVlan() {
+		return unbindPortVlan;
 	}
 
-	public void setDelPortVlan(DelPortVlan delPortVlan) {
-		this.delPortVlan = delPortVlan;
+	public void setUnbindPortVlan(UnbindPortVlan unbindPortVlan) {
+		this.unbindPortVlan = unbindPortVlan;
 	}
+
+
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
@@ -2505,15 +2507,23 @@ public class Lifecycle {
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class SetPortVlan {
-
-		@ParameterDescriber(required = true, description = "虚拟机mac地址", constraint = "mac地址不能以fe开头", example = "7e:0c:b0:ef:6a:04")
-		@Pattern(regexp = RegExpUtils.MAC_PATTERN)
-		protected String vmmac;
+	public static class BindPortVlan {
 		
-		@ParameterDescriber(required = true, description = "vlan ID", constraint = "0~4094", example = "1")
+		@ParameterDescriber(required = true, description = "mac地址", constraint = "mac地址不能以fe开头", example = "7e:0c:b0:ef:6a:04")
+		@Pattern(regexp = RegExpUtils.MAC_PATTERN)
+		protected String mac;
+		
+		@ParameterDescriber(required = false, description = "vlan ID", constraint = "0~4094", example = "1")
 		@Pattern(regexp = RegExpUtils.VLAN_PATTERN)
 		protected String vlan;
+
+		public String getMac() {
+			return mac;
+		}
+
+		public void setMac(String mac) {
+			this.mac = mac;
+		}
 
 		public String getVlan() {
 			return vlan;
@@ -2522,32 +2532,12 @@ public class Lifecycle {
 		public void setVlan(String vlan) {
 			this.vlan = vlan;
 		}
-
-		public String getVmmac() {
-			return vmmac;
-		}
-
-		public void setVmmac(String vmmac) {
-			this.vmmac = vmmac;
-		}
 		
 	}
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class DelPortVlan {
-
-		@ParameterDescriber(required = true, description = "虚拟机mac地址", constraint = "mac地址不能以fe开头", example = "7e:0c:b0:ef:6a:04")
-		@Pattern(regexp = RegExpUtils.MAC_PATTERN)
-		protected String vmmac;
-
-		public String getVmmac() {
-			return vmmac;
-		}
-
-		public void setVmmac(String vmmac) {
-			this.vmmac = vmmac;
-		}
+	public static class UnbindPortVlan extends BindPortVlan {
 		
 	}
 	
