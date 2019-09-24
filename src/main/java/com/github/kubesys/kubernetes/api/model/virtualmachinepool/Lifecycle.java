@@ -148,7 +148,7 @@ public class Lifecycle {
 
 		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，uus，nfs，glusterfs之一", example = "dir")
 		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
-		protected String type = "dir";
+		protected String type;
 		
 		protected String source_host;
 		
@@ -618,7 +618,7 @@ public class Lifecycle {
 	public static class DeletePool {
 		@ParameterDescriber(required = false, description = "存储池的类型", constraint = "只能是dir，uus，nfs，glusterfs之一", example = "dir")
 		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
-		protected String type = "dir";
+		protected String type;
 
 		public String getType() {
 			return type;

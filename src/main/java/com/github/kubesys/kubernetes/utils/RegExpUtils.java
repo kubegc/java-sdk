@@ -39,8 +39,8 @@ public class RegExpUtils {
 	@FieldDescriber("vcpu个数，1到99之间")
 	public final static String VCPU_PATTERN = "[1-9](\\d{1})?";
 	
-	@FieldDescriber("vlan ID号，0到99之间")
-	public final static String VLAN_PATTERN = "[0-9](\\d{1})?";
+	@FieldDescriber("vlan ID号，0到4094之间")
+	public final static String VLAN_PATTERN = "\\d{1,3}|[1-3][0-9][0-9][0-9]|40[0-8][0-9]|409[0-4]";
 	
 	@FieldDescriber("ram容量，单位MiB，100到99999之间")
 	public final static String RAM_PATTERN = "\\d{3,5}";
@@ -115,8 +115,8 @@ public class RegExpUtils {
 	public final static String BOOT_PATTERN = "hd|cdrom";
 	
 	public static void main(String[] args) {
-		String name = "19999999999999";
-		Pattern pattern = Pattern.compile(RegExpUtils.DISK_SIZE_PATTERN);
+		String name = "4000";
+		Pattern pattern = Pattern.compile(RegExpUtils.VLAN_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("");
 		}

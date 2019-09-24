@@ -223,7 +223,7 @@ public class Lifecycle {
 
 		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，uus，nfs，glusterfs之一", example = "dir")
 		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
-		protected String type = "dir";
+		protected String type;
 
 		protected String allocation;
 
@@ -325,7 +325,7 @@ public class Lifecycle {
 
 		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，uus，nfs，glusterfs之一", example = "dir")
 		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
-		protected String type = "dir";
+		protected String type;
 
 		@ParameterDescriber(required = false, description = "删除所有快照", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean delete_snapshots;
@@ -365,7 +365,7 @@ public class Lifecycle {
 
 		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，uus，nfs，glusterfs之一", example = "dir")
 		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
-		protected String type = "dir";
+		protected String type;
 
 		protected Boolean allocate;
 
@@ -477,7 +477,7 @@ public class Lifecycle {
 
 		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，uus，nfs，glusterfs之一", example = "dir")
 		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
-		protected String type = "dir";
+		protected String type;
 
 		protected Boolean reflink;
 
@@ -711,7 +711,7 @@ public class Lifecycle {
 
 		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，uus，nfs，glusterfs之一", example = "dir")
 		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
-		protected String type = "dir";
+		protected String type;
 		
 		@ParameterDescriber(required = true, description = "云盘所在的存储池名", constraint = "由6-128位的数字和小写字母组成，已创建出的存储池", example = "pool2")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)

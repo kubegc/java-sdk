@@ -79,6 +79,12 @@ public class JSONGenerator {
 				}
 				m.invoke(obj, list);
 			} else {
+				
+				if (typename.equals(obj.getClass().getTypeName())) {
+					System.out.println("Warning: infinite loop for" + typename);
+					continue;
+				}
+				
 				Object param = Class.forName(typename).newInstance();
 				m.invoke(obj, param);
 				instance(param);

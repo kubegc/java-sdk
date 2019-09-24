@@ -37,13 +37,13 @@ public class Lifecycle {
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected DeleteBridge deleteBridge;
 	
-	@FunctionDescriber(shortName = "创建网络交换机", description = "创建网络交换机，" 
+	@FunctionDescriber(shortName = "创建三层网络交换机", description = "创建三层网络交换机，" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = "", 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected CreateSwitch createSwitch;
 	
-	@FunctionDescriber(shortName = "删除网络交换机", description = "删除网络交换机，" 
+	@FunctionDescriber(shortName = "删除三层网络交换机", description = "删除三层网络交换机，" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = AnnotationUtils.DESC_FUNCTION_VMN, 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
@@ -199,7 +199,11 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class SetBridgeVlan {
 
-		@ParameterDescriber(required = true, description = "vlan ID", constraint = "0~99", example = "1")
+		@ParameterDescriber(required = true, description = "虚拟机mac地址", constraint = "mac地址不能以fe开头", example = "7e:0c:b0:ef:6a:04")
+		@Pattern(regexp = RegExpUtils.MAC_PATTERN)
+		protected String vmmac;
+		
+		@ParameterDescriber(required = true, description = "vlan ID", constraint = "0~4094", example = "1")
 		@Pattern(regexp = RegExpUtils.VLAN_PATTERN)
 		protected String vlan;
 
