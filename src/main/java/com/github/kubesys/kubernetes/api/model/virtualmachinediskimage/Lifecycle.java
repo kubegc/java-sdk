@@ -75,12 +75,25 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String pool;
 
+		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，uus，nfs，glusterfs之一", example = "dir")
+		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
+		protected String type;
+
 		public String getPool() {
 			return pool;
 		}
 
 		public void setPool(String pool) {
 			this.pool = pool;
+		}
+
+
+		public String getType() {
+			return type;
+		}
+
+		public void setType(String type) {
+			this.type = type;
 		}
 	}
 	
