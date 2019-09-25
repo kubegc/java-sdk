@@ -4,7 +4,7 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UnbindPortVlan;
+import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.DelBridgeVlan;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -15,22 +15,20 @@ import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UnbindPo
  * @since   2019/9/3
  *
  */
-public class DelPortVlanTest {
+public class DelBridgeVlanTest {
 	
 	
 	public static void main(String[] args) throws Exception {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
-		boolean successful = client.virtualMachines()
-				.unbindPortVlan("950646e8c17a49d0b83c1c797811e004", get());
+		boolean successful = client.virtualMachineNetworks()
+				.delBridgeVlan("bridge1", get());
 		System.out.println(successful);
 	}
 
-	protected static UnbindPortVlan get() {
-		UnbindPortVlan unbindPortVlan = new UnbindPortVlan();
-		unbindPortVlan.setVlan("2");
-		unbindPortVlan.setMac("52:54:00:79:c3:47");
-		unbindPortVlan.setBridge("bridge1");
-		return unbindPortVlan;
+	protected static DelBridgeVlan get() {
+		DelBridgeVlan delBridgeVlan = new DelBridgeVlan();
+		delBridgeVlan.setVlan("1");
+		return delBridgeVlan;
 	}
 }

@@ -8,6 +8,7 @@ import com.github.kubesys.kubernetes.api.model.VirtualMachine;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineDisk;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineDiskImage;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineImage;
+import com.github.kubesys.kubernetes.api.model.VirtualMachineNetwork;
 import com.github.kubesys.kubernetes.api.model.VirtualMachinePool;
 
 import io.fabric8.kubernetes.client.Config;
@@ -54,6 +55,10 @@ public class AbstractTest {
 	
 	public static VirtualMachineDiskImage getVMDiskImageByName(String name) throws Exception {
 		return getClient().virtualMachineDiskImages().get(name);
+	}
+	
+	public static VirtualMachineNetwork getVMNetworkByName(String name) throws Exception {
+		return getClient().virtualMachineNetworks().get(name);
 	}
 
 }

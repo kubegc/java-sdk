@@ -23,8 +23,18 @@ public class Data {
 	
 	protected GatewayInfo gatewayInfo;
 	
+	protected BridgeInfo bridgeInfo;
+	
 	public Data() {
 		super();
+	}
+
+	public BridgeInfo getBridgeInfo() {
+		return bridgeInfo;
+	}
+
+	public void setBridgeInfo(BridgeInfo bridgeInfo) {
+		this.bridgeInfo = bridgeInfo;
 	}
 
 	public SwitchInfo getSwitchInfo() {
@@ -355,5 +365,118 @@ public class Data {
 			this.lease_time = lease_time;
 		}
 		
+	}
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class BridgeInfo {
+		protected String name;
+		
+		protected List<Ports> ports;
+		
+		protected String uuid;
+		
+		public List<Ports> getPorts() {
+			return ports;
+		}
+
+		public void setPorts(List<Ports> ports) {
+			this.ports = ports;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+
+		public String getUuid() {
+			return uuid;
+		}
+
+		public void setUuid(String uuid) {
+			this.uuid = uuid;
+		}
+
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+		public static class Ports {
+			protected String name;
+			
+			protected String uuid;
+			
+			protected String vlan;
+			
+			protected List<Interfaces> interfaces;
+			
+			public String getName() {
+				return name;
+			}
+
+			public void setName(String name) {
+				this.name = name;
+			}
+
+			public String getUuid() {
+				return uuid;
+			}
+
+			public void setUuid(String uuid) {
+				this.uuid = uuid;
+			}
+
+			public String getVlan() {
+				return vlan;
+			}
+
+			public void setVlan(String vlan) {
+				this.vlan = vlan;
+			}
+
+			public List<Interfaces> getInterfaces() {
+				return interfaces;
+			}
+
+			public void setInterfaces(List<Interfaces> interfaces) {
+				this.interfaces = interfaces;
+			}
+
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+			public static class Interfaces {
+				
+				protected String name;
+				
+				protected String uuid;
+				
+				protected String mac;
+
+				public String getName() {
+					return name;
+				}
+
+				public void setName(String name) {
+					this.name = name;
+				}
+
+				public String getUuid() {
+					return uuid;
+				}
+
+				public void setUuid(String uuid) {
+					this.uuid = uuid;
+				}
+
+				public String getMac() {
+					return mac;
+				}
+
+				public void setMac(String mac) {
+					this.mac = mac;
+				}
+			}
+		}
 	}
 }
