@@ -181,18 +181,6 @@ public class Lifecycle {
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected CloneVM cloneVM;
 	
-	@FunctionDescriber(shortName = "给虚拟机绑定vlan ID", description = "适用于OpenvSwitch二层网桥，更换虚拟机的vlan" 
-			+ AnnotationUtils.DESC_FUNCTION_DESC, 
-		prerequisite = AnnotationUtils.DESC_FUNCTION_VMN, 
-		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
-	protected BindPortVlan bindPortVlan;
-	
-	@FunctionDescriber(shortName = "解除虚拟机的vlan ID", description = "适用于OpenvSwitch二层网桥，更换虚拟机的vlan" 
-			+ AnnotationUtils.DESC_FUNCTION_DESC, 
-		prerequisite = AnnotationUtils.DESC_FUNCTION_VMN, 
-		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
-	protected UnbindPortVlan unbindPortVlan;
-	
 	public ManageISO getManageISO() {
 		return manageISO;
 	}
@@ -401,24 +389,6 @@ public class Lifecycle {
 	public void setCloneVM(CloneVM cloneVM) {
 		this.cloneVM = cloneVM;
 	}
-
-	public BindPortVlan getBindPortVlan() {
-		return bindPortVlan;
-	}
-
-	public void setBindPortVlan(BindPortVlan bindPortVlan) {
-		this.bindPortVlan = bindPortVlan;
-	}
-
-	public UnbindPortVlan getUnbindPortVlan() {
-		return unbindPortVlan;
-	}
-
-	public void setUnbindPortVlan(UnbindPortVlan unbindPortVlan) {
-		this.unbindPortVlan = unbindPortVlan;
-	}
-
-
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
@@ -2502,54 +2472,6 @@ public class Lifecycle {
 		public void setName(String name) {
 			this.name = name;
 		}
-		
-	}
-	
-	@JsonInclude(JsonInclude.Include.NON_NULL)
-	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class BindPortVlan {
-		
-		@ParameterDescriber(required = true, description = "mac地址", constraint = "mac地址不能以fe开头", example = "7e:0c:b0:ef:6a:04")
-		@Pattern(regexp = RegExpUtils.MAC_PATTERN)
-		protected String mac;
-		
-		@ParameterDescriber(required = true, description = "桥接名臣", constraint = "4-100位，包含小写字母，数字0-9，中划线，以及圆点", example = "br-native")
-		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
-		protected String bridge;
-		
-		@ParameterDescriber(required = false, description = "vlan ID", constraint = "0~4094", example = "1")
-		@Pattern(regexp = RegExpUtils.VLAN_PATTERN)
-		protected String vlan;
-
-		public String getMac() {
-			return mac;
-		}
-
-		public void setMac(String mac) {
-			this.mac = mac;
-		}
-
-		public String getVlan() {
-			return vlan;
-		}
-
-		public void setVlan(String vlan) {
-			this.vlan = vlan;
-		}
-
-		public String getBridge() {
-			return bridge;
-		}
-
-		public void setBridge(String bridge) {
-			this.bridge = bridge;
-		}
-		
-	}
-	
-	@JsonInclude(JsonInclude.Include.NON_NULL)
-	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class UnbindPortVlan extends BindPortVlan {
 		
 	}
 	

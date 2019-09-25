@@ -4,7 +4,7 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UnbindPortVlan;
+import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.BindPortVlan;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -15,22 +15,22 @@ import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UnbindPo
  * @since   2019/9/3
  *
  */
-public class DelPortVlanTest {
+public class BindPortVlanTest {
 	
 	
 	public static void main(String[] args) throws Exception {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
-		boolean successful = client.virtualMachines()
-				.unbindPortVlan("950646e8c17a49d0b83c1c797811e004", get());
+		boolean successful = client.virtualMachineNetworks()
+				.bindPortVlan("bridge1", get());
 		System.out.println(successful);
 	}
 
-	protected static UnbindPortVlan get() {
-		UnbindPortVlan unbindPortVlan = new UnbindPortVlan();
-		unbindPortVlan.setVlan("2");
-		unbindPortVlan.setMac("52:54:00:79:c3:47");
-		unbindPortVlan.setBridge("bridge1");
-		return unbindPortVlan;
+	protected static BindPortVlan get() {
+		BindPortVlan bindPortVlan = new BindPortVlan();
+		bindPortVlan.setVlan("1");
+		bindPortVlan.setMac("52:54:00:03:c8:dc");
+		bindPortVlan.setDomain("950646e8c17a49d0b83c1c797811e004");
+		return bindPortVlan;
 	}
 }

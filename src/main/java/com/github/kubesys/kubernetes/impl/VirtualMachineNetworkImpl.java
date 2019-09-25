@@ -10,6 +10,7 @@ import com.github.kubesys.kubernetes.api.model.VirtualMachineNetworkList;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineNetworkSpec;
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle;
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.BindFip;
+import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.BindPortVlan;
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.CreateBridge;
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.CreateSwitch;
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.DelBridgeVlan;
@@ -17,6 +18,7 @@ import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.D
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.DeleteSwitch;
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.SetBridgeVlan;
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.UnbindFip;
+import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.UnbindPortVlan;
 import com.github.kubesys.kubernetes.utils.RegExpUtils;
 
 /**
@@ -111,6 +113,30 @@ public class VirtualMachineNetworkImpl extends AbstractImpl<VirtualMachineNetwor
 		return update(name, updateMetadata(name, eventId), delBridgeVlan);
 	}
 
+	public boolean bindPortVlan(String name, BindPortVlan bindPortVlan) throws Exception {
+		return bindPortVlan(name, bindPortVlan, null);
+	}
+
+	public boolean bindPortVlan(String name, BindPortVlan bindPortVlan, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), bindPortVlan);
+	}
+
+	public boolean unbindPortVlan(String name, UnbindPortVlan unbindPortVlan) throws Exception {
+		return unbindPortVlan(name, unbindPortVlan, null);
+	}
+
+	public boolean unbindPortVlan(String name, UnbindPortVlan unbindPortVlan, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), unbindPortVlan);
+	}
+
 	public boolean createSwitch(String name, CreateSwitch createSwitch) throws Exception {
 		return createSwitch(name, null, createSwitch, null);
 	}
@@ -167,5 +193,4 @@ public class VirtualMachineNetworkImpl extends AbstractImpl<VirtualMachineNetwor
 		}
 		return update(name, updateMetadata(name, eventId), unbindFip);
 	}
-
 }

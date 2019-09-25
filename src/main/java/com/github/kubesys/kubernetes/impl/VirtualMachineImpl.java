@@ -11,7 +11,6 @@ import com.github.kubesys.kubernetes.api.model.VirtualMachine;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineList;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineSpec;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.BindPortVlan;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ChangeNumberOfCPU;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CloneVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ConvertVMToImage;
@@ -34,7 +33,6 @@ import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StartVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StopVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StopVMForce;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.SuspendVM;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UnbindPortVlan;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UnplugDevice;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UnplugDisk;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UnplugNIC;
@@ -421,29 +419,5 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
 		return update(name, updateMetadata(name, eventId), cloneVM);
-	}
-
-	public boolean bindPortVlan(String name, BindPortVlan bindPortVlan) throws Exception {
-		return bindPortVlan(name, bindPortVlan, null);
-	}
-
-	public boolean bindPortVlan(String name, BindPortVlan bindPortVlan, String eventId) throws Exception {
-		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
-		if (!pattern.matcher(name).matches()) {
-			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
-		}
-		return update(name, updateMetadata(name, eventId), bindPortVlan);
-	}
-
-	public boolean unbindPortVlan(String name, UnbindPortVlan unbindPortVlan) throws Exception {
-		return unbindPortVlan(name, unbindPortVlan, null);
-	}
-
-	public boolean unbindPortVlan(String name, UnbindPortVlan unbindPortVlan, String eventId) throws Exception {
-		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
-		if (!pattern.matcher(name).matches()) {
-			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
-		}
-		return update(name, updateMetadata(name, eventId), unbindPortVlan);
 	}
 }
