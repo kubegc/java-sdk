@@ -22,14 +22,14 @@ public class ConvertDiskImageToDiskTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineDiskImages()
-				.convertDiskImageToDisk("test6.qcow2", get(), "abc");
+				.convertDiskImageToDisk("20190919root13131245", get(), "abc");
 		System.out.println(successful);
 	}
 
 	protected static ConvertDiskImageToDisk get() {
 		ConvertDiskImageToDisk convertDiskImage = new ConvertDiskImageToDisk();
 		// need pool to store disk
-		convertDiskImage.setPool("default");
+		convertDiskImage.setPool("pooldirabc");
 		return convertDiskImage;
 	}
 }

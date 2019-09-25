@@ -436,7 +436,7 @@ public class Lifecycle {
 		
 		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，uus，nfs，glusterfs之一", example = "dir")
 		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
-		protected String type = "dir";
+		protected String type;
 
 		@ParameterDescriber(required = true, description = "创建云盘所在的存储池名", constraint = "由6-128位的数字和小写字母组成，已创建出的存储池", example = "pool2")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
@@ -543,7 +543,7 @@ public class Lifecycle {
 		
 		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，uus，nfs，glusterfs之一", example = "dir")
 		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
-		protected String type = "dir";
+		protected String type;
 
 		@ParameterDescriber(required = true, description = "云盘所在的存储池名", constraint = "由6-128位的数字和小写字母组成，已创建出的存储池", example = "pool2")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
@@ -579,7 +579,7 @@ public class Lifecycle {
 		
 		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，uus，nfs，glusterfs之一", example = "dir")
 		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
-		protected String type = "dir";
+		protected String type;
 		
 		@ParameterDescriber(required = true, description = "云盘所在的存储池名", constraint = "由6-128位的数字和小写字母组成，已创建出的存储池", example = "pool2")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
@@ -621,7 +621,7 @@ public class Lifecycle {
 		
 		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，uus，nfs，glusterfs之一", example = "dir")
 		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
-		protected String type = "dir";
+		protected String type;
 		
 		@ParameterDescriber(required = true, description = "云盘所在的存储池名", constraint = "由6-128位的数字和小写字母组成，已创建出的存储池", example = "pool2")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
@@ -663,7 +663,7 @@ public class Lifecycle {
 		
 		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，uus，nfs，glusterfs之一", example = "dir")
 		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
-		protected String type = "dir";
+		protected String type;
 		
 		@ParameterDescriber(required = true, description = "云盘所在的存储池名", constraint = "由6-128位的数字和小写字母组成，已创建出的存储池", example = "pool2")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
