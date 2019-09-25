@@ -7,9 +7,9 @@ import javax.validation.constraints.Pattern;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.github.kubesys.kubernetes.annotations.ClassDescriber;
 import com.github.kubesys.kubernetes.annotations.FunctionDescriber;
 import com.github.kubesys.kubernetes.annotations.ParameterDescriber;
-import com.github.kubesys.kubernetes.annotations.ClassDescriber;
 import com.github.kubesys.kubernetes.utils.AnnotationUtils;
 import com.github.kubesys.kubernetes.utils.RegExpUtils;
 
@@ -181,17 +181,17 @@ public class Lifecycle {
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected CloneVM cloneVM;
 	
-	@FunctionDescriber(shortName = "设置端口的vlan ID", description = "适用于OpenvSwitch二层网桥，" 
+	@FunctionDescriber(shortName = "给虚拟机绑定vlan ID", description = "适用于OpenvSwitch二层网桥，更换虚拟机的vlan" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = AnnotationUtils.DESC_FUNCTION_VMN, 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
-	protected SetPortVlan setPortVlan;
+	protected BindPortVlan bindPortVlan;
 	
-	@FunctionDescriber(shortName = "删除端口的vlan ID", description = "适用于OpenvSwitch二层网桥，" 
+	@FunctionDescriber(shortName = "解除虚拟机的vlan ID", description = "适用于OpenvSwitch二层网桥，更换虚拟机的vlan" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = AnnotationUtils.DESC_FUNCTION_VMN, 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
-	protected DelPortVlan delPortVlan;
+	protected UnbindPortVlan unbindPortVlan;
 	
 	public ManageISO getManageISO() {
 		return manageISO;
@@ -402,21 +402,23 @@ public class Lifecycle {
 		this.cloneVM = cloneVM;
 	}
 
-	public SetPortVlan getSetPortVlan() {
-		return setPortVlan;
+	public BindPortVlan getBindPortVlan() {
+		return bindPortVlan;
 	}
 
-	public void setSetPortVlan(SetPortVlan setPortVlan) {
-		this.setPortVlan = setPortVlan;
+	public void setBindPortVlan(BindPortVlan bindPortVlan) {
+		this.bindPortVlan = bindPortVlan;
 	}
 
-	public DelPortVlan getDelPortVlan() {
-		return delPortVlan;
+	public UnbindPortVlan getUnbindPortVlan() {
+		return unbindPortVlan;
 	}
 
-	public void setDelPortVlan(DelPortVlan delPortVlan) {
-		this.delPortVlan = delPortVlan;
+	public void setUnbindPortVlan(UnbindPortVlan unbindPortVlan) {
+		this.unbindPortVlan = unbindPortVlan;
 	}
+
+
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
@@ -2002,7 +2004,7 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.NET_QoS_PATTERN)
 		protected String inbound;
 
-		@ParameterDescriber(required = true, description = "网络源设置", constraint = "source=源网桥（必填），ip=IP地址（选填，只有type=l3bridge类型支持该参数），switch=ovn交换机名称（选填，只有type=l3bridge类型支持该参数）,顺序必须是source,ip,switch", example = "source=br-int,ip=192.168.5.2,switch=switch")
+		@ParameterDescriber(required = true, description = "网络源设置", constraint = "source=源网桥（必填，默认为virbr0, br-native, br-int，以及用户自己创建的任何两层bridge名称），ip=IP地址（选填，只有type=l3bridge类型支持该参数），switch=ovn交换机名称（选填，只有type=l3bridge类型支持该参数）,顺序必须是source,ip,switch", example = "source=br-int,ip=192.168.5.2,switch=switch")
 		@Pattern(regexp = RegExpUtils.IP_SWITCH_PATTERN)
 		protected String source;
 
@@ -2489,7 +2491,7 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class CloneVM {
 		
-		@ParameterDescriber(required = true, description = "克隆虚拟机", constraint = "克隆虚拟机所有磁盘，新虚拟机名长度是6到128位", example = "newdisk")
+		@ParameterDescriber(required = true, description = "克隆虚拟机", constraint = "克隆虚拟机所有磁盘，新虚拟机名长度是4到100位", example = "newdisk")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String name;
 		
@@ -2505,15 +2507,27 @@ public class Lifecycle {
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class SetPortVlan {
-
-		@ParameterDescriber(required = true, description = "虚拟机mac地址", constraint = "mac地址不能以fe开头", example = "7e:0c:b0:ef:6a:04")
-		@Pattern(regexp = RegExpUtils.MAC_PATTERN)
-		protected String vmmac;
+	public static class BindPortVlan {
 		
-		@ParameterDescriber(required = true, description = "vlan ID", constraint = "0~4094", example = "1")
+		@ParameterDescriber(required = true, description = "mac地址", constraint = "mac地址不能以fe开头", example = "7e:0c:b0:ef:6a:04")
+		@Pattern(regexp = RegExpUtils.MAC_PATTERN)
+		protected String mac;
+		
+		@ParameterDescriber(required = true, description = "桥接名臣", constraint = "4-100位，包含小写字母，数字0-9，中划线，以及圆点", example = "br-native")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String bridge;
+		
+		@ParameterDescriber(required = false, description = "vlan ID", constraint = "0~4094", example = "1")
 		@Pattern(regexp = RegExpUtils.VLAN_PATTERN)
 		protected String vlan;
+
+		public String getMac() {
+			return mac;
+		}
+
+		public void setMac(String mac) {
+			this.mac = mac;
+		}
 
 		public String getVlan() {
 			return vlan;
@@ -2523,31 +2537,19 @@ public class Lifecycle {
 			this.vlan = vlan;
 		}
 
-		public String getVmmac() {
-			return vmmac;
+		public String getBridge() {
+			return bridge;
 		}
 
-		public void setVmmac(String vmmac) {
-			this.vmmac = vmmac;
+		public void setBridge(String bridge) {
+			this.bridge = bridge;
 		}
 		
 	}
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class DelPortVlan {
-
-		@ParameterDescriber(required = true, description = "虚拟机mac地址", constraint = "mac地址不能以fe开头", example = "7e:0c:b0:ef:6a:04")
-		@Pattern(regexp = RegExpUtils.MAC_PATTERN)
-		protected String vmmac;
-
-		public String getVmmac() {
-			return vmmac;
-		}
-
-		public void setVmmac(String vmmac) {
-			this.vmmac = vmmac;
-		}
+	public static class UnbindPortVlan extends BindPortVlan {
 		
 	}
 	

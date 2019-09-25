@@ -4,7 +4,7 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.DelPortVlan;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.BindPortVlan;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -22,13 +22,14 @@ public class SetPortVlanTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.delPortVlan("950646e8c17a49d0b83c1c797811e004", get());
+				.bindPortVlan("950646e8c17a49d0b83c1c797811e004", get());
 		System.out.println(successful);
 	}
 
-	protected static DelPortVlan get() {
-		DelPortVlan delPortVlan = new DelPortVlan();
-		delPortVlan.setVmmac("52:54:00:03:c8:dc");
-		return delPortVlan;
+	protected static BindPortVlan get() {
+		BindPortVlan bindPortVlan = new BindPortVlan();
+		bindPortVlan.setVlan("1");
+		bindPortVlan.setMac("52:54:00:03:c8:dc");
+		return bindPortVlan;
 	}
 }

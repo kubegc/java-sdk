@@ -7,9 +7,9 @@ import javax.validation.constraints.Pattern;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.github.kubesys.kubernetes.annotations.ClassDescriber;
 import com.github.kubesys.kubernetes.annotations.FunctionDescriber;
 import com.github.kubesys.kubernetes.annotations.ParameterDescriber;
-import com.github.kubesys.kubernetes.annotations.ClassDescriber;
 import com.github.kubesys.kubernetes.utils.AnnotationUtils;
 import com.github.kubesys.kubernetes.utils.RegExpUtils;
 
@@ -25,6 +25,11 @@ import com.github.kubesys.kubernetes.utils.RegExpUtils;
 @ClassDescriber(value = "VirtualMachineNetwork", desc = "扩展支持OVN插件")
 public class Lifecycle {
 
+	/**************************************************************
+	 * 
+	 *      L2 Network
+	 * 
+	 ***************************************************************/
 	@FunctionDescriber(shortName = "创建二层桥接网络，用于vlan场景", description = "创建二层桥接，" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = "", 
@@ -37,6 +42,24 @@ public class Lifecycle {
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected DeleteBridge deleteBridge;
 	
+	@FunctionDescriber(shortName = "设置二层网桥的vlan ID", description = "适用于OpenvSwitch二层网桥，" 
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+		prerequisite = AnnotationUtils.DESC_FUNCTION_VMN, 
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected SetBridgeVlan setBridgeVlan;
+	
+	@FunctionDescriber(shortName = "删除二层网桥的vlan ID", description = "适用于OpenvSwitch二层网桥，" 
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+		prerequisite = AnnotationUtils.DESC_FUNCTION_VMN, 
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected DelBridgeVlan delBridgeVlan;
+	
+	
+	/**************************************************************
+	 * 
+	 *      L3 Network
+	 * 
+	 ***************************************************************/
 	@FunctionDescriber(shortName = "创建三层网络交换机", description = "创建三层网络交换机，" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = "", 
@@ -61,17 +84,6 @@ public class Lifecycle {
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected UnbindFip unbindFip;
 	
-	@FunctionDescriber(shortName = "设置二层网桥的vlan ID", description = "适用于OpenvSwitch二层网桥，" 
-			+ AnnotationUtils.DESC_FUNCTION_DESC, 
-		prerequisite = AnnotationUtils.DESC_FUNCTION_VMN, 
-		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
-	protected SetBridgeVlan setBridgeVlan;
-	
-	@FunctionDescriber(shortName = "删除二层网桥的vlan ID", description = "适用于OpenvSwitch二层网桥，" 
-			+ AnnotationUtils.DESC_FUNCTION_DESC, 
-		prerequisite = AnnotationUtils.DESC_FUNCTION_VMN, 
-		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
-	protected DelBridgeVlan delBridgeVlan;
 	
 	public CreateSwitch getCreateSwitch() {
 		return createSwitch;
@@ -121,6 +133,22 @@ public class Lifecycle {
 		this.deleteBridge = deleteBridge;
 	}
 
+
+	public SetBridgeVlan getSetBridgeVlan() {
+		return setBridgeVlan;
+	}
+
+	public void setSetBridgeVlan(SetBridgeVlan setBridgeVlan) {
+		this.setBridgeVlan = setBridgeVlan;
+	}
+
+	public DelBridgeVlan getDelBridgeVlan() {
+		return delBridgeVlan;
+	}
+
+	public void setDelBridgeVlan(DelBridgeVlan delBridgeVlan) {
+		this.delBridgeVlan = delBridgeVlan;
+	}
 
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
@@ -215,6 +243,14 @@ public class Lifecycle {
 			this.vlan = vlan;
 		}
 
+		public String getVmmac() {
+			return vmmac;
+		}
+
+		public void setVmmac(String vmmac) {
+			this.vmmac = vmmac;
+		}
+
 	}
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
@@ -227,9 +263,13 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class CreateBridge {
 		
-		@ParameterDescriber(required = true, description = "被接管的网卡", constraint = "名称是字符串类型，长度是6到128位，只允许数字、小写字母、中划线、以及圆点", example = "l2bridge")
-		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		@ParameterDescriber(required = true, description = "被接管的网卡", constraint = "名称是字符串类型，长度是3到32位，只允许数字、小写字母、中划线、以及圆点", example = "l2bridge")
+		@Pattern(regexp = RegExpUtils.NIC_PATTERN)
 		protected String nic;
+		
+		@ParameterDescriber(required = true, description = "vlan ID", constraint = "0~4094", example = "1")
+		@Pattern(regexp = RegExpUtils.VLAN_PATTERN)
+		protected String vlan;
 
 		public String getNic() {
 			return nic;
@@ -238,7 +278,15 @@ public class Lifecycle {
 		public void setNic(String nic) {
 			this.nic = nic;
 		}
-		
+
+		public String getVlan() {
+			return vlan;
+		}
+
+		public void setVlan(String vlan) {
+			this.vlan = vlan;
+		}
+
 	}
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)

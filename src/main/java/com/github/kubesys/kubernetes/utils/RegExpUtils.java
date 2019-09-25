@@ -17,8 +17,11 @@ import com.github.kubesys.kubernetes.annotations.FieldDescriber;
  */
 public class RegExpUtils {
 
-	@FieldDescriber("名称是字符串类型，长度是6到128位，只允许数字、小写字母、中划线、以及圆点")
-	public final static String NAME_PATTERN = "[a-z0-9-.]{6,128}";
+	@FieldDescriber("名称是字符串类型，长度是4到100位，只允许数字、小写字母、中划线、以及圆点")
+	public final static String NAME_PATTERN = "[a-z0-9-.]{4,100}";
+	
+	@FieldDescriber("名称是字符串类型，长度是3到32位，只允许数字、小写字母、中划线、以及圆点")
+	public final static String NIC_PATTERN = "[a-z0-9-.]{3,32}";
 	
 	
 	@FieldDescriber("UUID是字符串类型，长度是12到36位，只允许数字、小写字母、中划线、以及圆点")
@@ -86,7 +89,7 @@ public class RegExpUtils {
 	public final static String SUBNET_PATTERN  = IP_PATTERN + "/(8|16|24)";
 	
 	@FieldDescriber("配置虚拟交换机，source是必填，ip和switch是选填")
-	public final static String IP_SWITCH_PATTERN      = "source=(virbr0|br-native|br-int)(,ip=" + IP_PATTERN + ")?(,switch=([a-z0-9-.]{8,32}))?";
+	public final static String IP_SWITCH_PATTERN      = "source=(virbr0|br-native|br-int|" + NAME_PATTERN + ")(,ip=" + IP_PATTERN + ")?(,switch=([a-z0-9-.]{4,32}))?";
 	
 	@FieldDescriber("VCPU高级配置，允许绑定具体物理CPU，但cpuset是选填的")
 	public final static String VCPUSET_PATTERN      = VCPU_PATTERN + "(,cpuset=\\d{1,3}((,|-)\\d{1,3})*)?" + ",maxvcpus=100";
@@ -115,8 +118,8 @@ public class RegExpUtils {
 	public final static String BOOT_PATTERN = "hd|cdrom";
 	
 	public static void main(String[] args) {
-		String name = "4000";
-		Pattern pattern = Pattern.compile(RegExpUtils.VLAN_PATTERN);
+		String name = "type=l3bridge,source=br-int,ip=192.168.10.5,switch=bindip,inbound=102400,outbound=102400";
+		Pattern pattern = Pattern.compile(RegExpUtils.NETWORK_TYPE_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("");
 		}

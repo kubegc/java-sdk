@@ -63,7 +63,7 @@ public class VirtualMachineImageImpl extends AbstractImpl<VirtualMachineImage, V
 	public boolean createImage(String name, String nodeName,CreateImage createImage, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
-			throw new IllegalArgumentException("the length must be between 6 and 128, and it can only includes a-z, 0-9 and -.");
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
 		return create(getModel(), createMetadata(name, nodeName, eventId), 
 				createSpec(nodeName, createLifecycle(createImage)));
@@ -76,7 +76,7 @@ public class VirtualMachineImageImpl extends AbstractImpl<VirtualMachineImage, V
 	public boolean deleteImage(String name,DeleteImage deleteImage, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
-			throw new IllegalArgumentException("the length must be between 6 and 128, and it can only includes a-z, 0-9 and -.");
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
 		return delete(name, updateMetadata(name, eventId), deleteImage);
 	}
@@ -88,7 +88,7 @@ public class VirtualMachineImageImpl extends AbstractImpl<VirtualMachineImage, V
 	public boolean convertImageToVM(String name,ConvertImageToVM convertImageToVM, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
-			throw new IllegalArgumentException("the length must be between 6 and 128, and it can only includes a-z, 0-9 and -.");
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
 		return update(name, updateMetadata(name, eventId), convertImageToVM);
 	}

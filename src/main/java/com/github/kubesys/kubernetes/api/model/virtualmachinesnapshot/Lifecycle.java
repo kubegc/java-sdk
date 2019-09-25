@@ -124,7 +124,7 @@ public class Lifecycle {
 
 		protected Boolean atomic;
 
-		@ParameterDescriber(required = true, description = "与快照关联的虚拟机名字", constraint = "已存在的虚拟机名，由6-128位的数字和小写字母组成", example = "950646e8c17a49d0b83c1c797811e001")
+		@ParameterDescriber(required = true, description = "与快照关联的虚拟机名字", constraint = "已存在的虚拟机名，由4-100位的数字和小写字母组成", example = "950646e8c17a49d0b83c1c797811e001")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String domain;
 
@@ -233,7 +233,7 @@ public class Lifecycle {
 
 		protected Boolean children_only;
 
-		@ParameterDescriber(required = true, description = "要删除快照的虚拟机名字", constraint = "由6-128位的数字和小写字母组成，已存在的虚拟机名", example = "centos1")
+		@ParameterDescriber(required = true, description = "要删除快照的虚拟机名字", constraint = "由4-100位的数字和小写字母组成，已存在的虚拟机名", example = "centos1")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String domain;
 
@@ -280,7 +280,7 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class RevertVirtualMachine {
 
-		@ParameterDescriber(required = true, description = "要恢复到快照状态的虚拟机name", constraint = "由6-128位的数字和小写字母组成，已存在的虚拟机名", example = "centos1")
+		@ParameterDescriber(required = true, description = "要恢复到快照状态的虚拟机name", constraint = "由4-100位的数字和小写字母组成，已存在的虚拟机名", example = "centos1")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String domain;
 
@@ -342,7 +342,7 @@ public class Lifecycle {
 		
 		protected String bandwidth;
 		
-		@ParameterDescriber(required = true, description = "对该虚拟机进行快照合并，合并到叶子节点。假设当前快照链为root->snapshot1->snapshot2->current，则mergeSnapshot(snapshot1)的结果为把snapshot1,snapshot2合并到current，快照链变为root->top", constraint= "由6-128位的数字和小写字母组成，已存在的虚拟机名", example = "centos1")
+		@ParameterDescriber(required = true, description = "对该虚拟机进行快照合并，合并到叶子节点。假设当前快照链为root->snapshot1->snapshot2->current，则mergeSnapshot(snapshot1)的结果为把snapshot1,snapshot2合并到current，快照链变为root->top", constraint= "由4-100位的数字和小写字母组成，已存在的虚拟机名", example = "centos1")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String domain;
 		
