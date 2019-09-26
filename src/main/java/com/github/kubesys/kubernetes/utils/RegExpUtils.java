@@ -23,7 +23,6 @@ public class RegExpUtils {
 	@FieldDescriber("名称是字符串类型，长度是3到32位，只允许数字、小写字母、中划线、以及圆点")
 	public final static String NIC_PATTERN = "[a-z0-9-.]{3,32}";
 	
-	
 	@FieldDescriber("UUID是字符串类型，长度是12到36位，只允许数字、小写字母、中划线、以及圆点")
 	public final static String UUID_PATTERN = "uuid=[a-z0-9-.]{12,36}";
 	
@@ -46,7 +45,10 @@ public class RegExpUtils {
 	public final static String VLAN_PATTERN = "\\d{1,3}|[1-3][0-9][0-9][0-9]|40[0-8][0-9]|409[0-4]";
 	
 	@FieldDescriber("ram容量，单位MiB，100到99999之间")
-	public final static String RAM_PATTERN = "\\d{3,5}";
+	public final static String RAM_MiB_PATTERN = "\\d{3,5}(,maxmemory=\\d{3,5})?";
+	
+	@FieldDescriber("ram容量，单位KiB，100到99999之间")
+	public final static String RAM_KiB_PATTERN = "\\d{6,8}";
 	
 	
 	@FieldDescriber("磁盘类型，只能是raw，bochs，qcow，qcow2，vmdk，qed之一")
@@ -118,8 +120,8 @@ public class RegExpUtils {
 	public final static String BOOT_PATTERN = "hd|cdrom";
 	
 	public static void main(String[] args) {
-		String name = "type=l3bridge,source=br-int,ip=192.168.10.5,switch=bindip,inbound=102400,outbound=102400";
-		Pattern pattern = Pattern.compile(RegExpUtils.NETWORK_TYPE_PATTERN);
+		String name = "1024,maxmemory=99999";
+		Pattern pattern = Pattern.compile(RegExpUtils.RAM_MiB_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("");
 		}

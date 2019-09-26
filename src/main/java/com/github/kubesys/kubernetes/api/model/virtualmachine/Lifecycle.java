@@ -400,7 +400,7 @@ public class Lifecycle {
 		protected Boolean current;
 
 		@ParameterDescriber(required = true,  description = "内存大小，单位为KiB", constraint = "100MiB到100GiB", example = "1GiB: 1048576")
-		@Pattern(regexp = RegExpUtils.RAM_PATTERN)
+		@Pattern(regexp = RegExpUtils.RAM_KiB_PATTERN)
 		protected String size;
 
 		@ParameterDescriber(required = false, description = "如果不设置，当前配置下次不会生效", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
@@ -408,10 +408,6 @@ public class Lifecycle {
 
 		@ParameterDescriber(required = false, description = "本次生效，如果虚拟机开机状态使用", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean live;
-
-		public ResizeRAM() {
-
-		}
 
 		public void setCurrent(Boolean current) {
 			this.current = current;
@@ -1414,7 +1410,7 @@ public class Lifecycle {
 		protected String dry_run;
 
 		@ParameterDescriber(required = true, description = "虚拟机内存大小，单位为MiB", constraint = "取值范围：100~99999", example = "2048")
-		@Pattern(regexp = RegExpUtils.RAM_PATTERN)
+		@Pattern(regexp = RegExpUtils.RAM_MiB_PATTERN)
 		protected String memory;
 
 		protected String paravirt;

@@ -117,7 +117,7 @@ public class CreateAndStartSingleDiskFromISOTest {
 
 
 	protected static void calculationSpecification(CreateAndStartVMFromISO createAndStartVMFromISO) {
-		createAndStartVMFromISO.setMemory("4096");    
+		createAndStartVMFromISO.setMemory("1024,maxmemory=8092");    
 		createAndStartVMFromISO.setVcpus("4" + getCPUSet("1-4,6,8"));
 	}
 	

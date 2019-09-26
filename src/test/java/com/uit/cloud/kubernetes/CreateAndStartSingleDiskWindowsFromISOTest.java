@@ -115,7 +115,7 @@ public class CreateAndStartSingleDiskWindowsFromISOTest {
 
 
 	protected static void calculationSpecification(CreateAndStartVMFromISO createAndStartVMFromISO) {
-		createAndStartVMFromISO.setMemory("4096");    
+		createAndStartVMFromISO.setMemory("1024");    
 		createAndStartVMFromISO.setVcpus("4" + getCPUSet("1-4,6,8"));
 	}
 	
