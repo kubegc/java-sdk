@@ -232,10 +232,21 @@ public class Lifecycle {
 		protected Boolean children;
 
 		protected Boolean children_only;
-
+		
 		@ParameterDescriber(required = true, description = "要删除快照的虚拟机名字", constraint = "由4-100位的数字和小写字母组成，已存在的虚拟机名", example = "centos1")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String domain;
+		
+		@ParameterDescriber(required = false, description = "是否为外部快照", constraint=AnnotationUtils.DESC_BOOLEAN, example = "true")
+		protected Boolean isExternal;
+
+		public Boolean getIsExternal() {
+			return isExternal;
+		}
+
+		public void setIsExternal(Boolean isExternal) {
+			this.isExternal = isExternal;
+		}
 
 		public DeleteSnapshot() {
 
@@ -346,6 +357,17 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String domain;
 		
+		@ParameterDescriber(required = false, description = "是否为外部快照", constraint=AnnotationUtils.DESC_BOOLEAN, example = "true")
+		protected Boolean isExternal;
+		
+		public Boolean getIsExternal() {
+			return isExternal;
+		}
+
+		public void setIsExternal(Boolean isExternal) {
+			this.isExternal = isExternal;
+		}
+
 		public String getBandwidth() {
 			return bandwidth;
 		}
@@ -366,6 +388,9 @@ public class Lifecycle {
 	
 	public static class CopySnapshot extends MergeSnapshot {
 		
+		@ParameterDescriber(required = false, description = "是否为外部快照", constraint=AnnotationUtils.DESC_BOOLEAN, example = "true")
+		protected Boolean isExternal;
+		
 		protected String dest;
 		
 		protected String granularity;
@@ -383,6 +408,14 @@ public class Lifecycle {
 		protected Boolean finish;
 		
 		protected Boolean transient_job;
+
+		public Boolean getIsExternal() {
+			return isExternal;
+		}
+
+		public void setIsExternal(Boolean isExternal) {
+			this.isExternal = isExternal;
+		}
 
 		public String getDest() {
 			return dest;

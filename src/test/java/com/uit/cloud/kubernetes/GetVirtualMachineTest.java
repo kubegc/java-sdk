@@ -21,7 +21,7 @@ public class GetVirtualMachineTest {
 //				.getVMByName("650646e8c17a49d0b83c1c797811e066"));
 		System.out.println(
 				JSON.toJSONString(
-						AbstractTest.getVMByName("950646e8c17a49d0b83c1c797811e001").getSpec().getDomain(), true));
+						AbstractTest.getVMByName("950646e8c17a49d0b83c1c797811e004").getSpec().getDomain(), true));
 	}
 	
 }
