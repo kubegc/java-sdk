@@ -181,6 +181,8 @@ public class Lifecycle {
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected CloneVM cloneVM;
 	
+	protected TuneDiskQoS tuneDiskQoS;
+	
 	public ManageISO getManageISO() {
 		return manageISO;
 	}
@@ -935,6 +937,10 @@ public class Lifecycle {
 
 		protected String sourcetype;
 		
+		@ParameterDescriber(required = false, description = "云盘总bps的QoS设置，单位为bytes", constraint = "0~9999999999", example = "1GiB: 1073741824")
+		@Pattern(regexp = RegExpUtils.DISK_QoS_PATTERN)
+		protected String total_bytes_sec;
+		
 		@ParameterDescriber(required = false, description = "云盘读bps的QoS设置，单位为bytes", constraint = "0~9999999999", example = "1GiB: 1073741824")
 		@Pattern(regexp = RegExpUtils.DISK_QoS_PATTERN)
 		protected String read_bytes_sec;
@@ -943,6 +949,10 @@ public class Lifecycle {
 		@ParameterDescriber(required = false, description = "云盘写bps的QoS设置，单位为bytes", constraint = "0~9999999999", example = "1GiB: 1073741824")
 		protected String write_bytes_sec;
 		
+		@ParameterDescriber(required = false, description = "云盘总iops的QoS设置，单位为bytes", constraint = "0~9999999999", example = "1GiB: 1073741824")
+		@Pattern(regexp = RegExpUtils.DISK_QoS_PATTERN)
+		protected String total_iops_sec;
+		
 		@Pattern(regexp = RegExpUtils.DISK_IOPS_PATTERN)
 		@ParameterDescriber(required = false, description = "云盘读iops的QoS设置", constraint = "0~99999", example = "40000")
 		protected String read_iops_sec;
@@ -950,6 +960,22 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.DISK_IOPS_PATTERN)
 		@ParameterDescriber(required = false, description = "云盘写iops的QoS设置", constraint = "0~99999", example = "40000")
 		protected String write_iops_sec;
+
+		public String getTotal_bytes_sec() {
+			return total_bytes_sec;
+		}
+
+		public void setTotal_bytes_sec(String total_bytes_sec) {
+			this.total_bytes_sec = total_bytes_sec;
+		}
+
+		public String getTotal_iops_sec() {
+			return total_iops_sec;
+		}
+
+		public void setTotal_iops_sec(String total_iops_sec) {
+			this.total_iops_sec = total_iops_sec;
+		}
 
 		public PlugDisk() {
 
@@ -2471,6 +2497,118 @@ public class Lifecycle {
 
 		public void setName(String name) {
 			this.name = name;
+		}
+		
+	}
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class TuneDiskQoS {
+		
+		@ParameterDescriber(required = true, description = "虚拟机磁盘的盘符号，对应虚拟机内看到的盘符号", constraint = "取值范围：vdX, hdX, sdX", example = "vdc")
+		@Pattern(regexp = RegExpUtils.FDISK_TYPE_PATTERN)
+		protected String device;
+		
+		@ParameterDescriber(required = false, description = "云盘总bps的QoS设置，单位为bytes", constraint = "0~9999999999", example = "1GiB: 1073741824")
+		@Pattern(regexp = RegExpUtils.DISK_QoS_PATTERN)
+		protected String total_bytes_sec;
+		
+		@ParameterDescriber(required = false, description = "云盘读bps的QoS设置，单位为bytes", constraint = "0~9999999999", example = "1GiB: 1073741824")
+		@Pattern(regexp = RegExpUtils.DISK_QoS_PATTERN)
+		protected String read_bytes_sec;
+		
+		@Pattern(regexp = RegExpUtils.DISK_QoS_PATTERN)
+		@ParameterDescriber(required = false, description = "云盘写bps的QoS设置，单位为bytes", constraint = "0~9999999999", example = "1GiB: 1073741824")
+		protected String write_bytes_sec;
+		
+		@ParameterDescriber(required = false, description = "云盘总iops的QoS设置，单位为bytes", constraint = "0~9999999999", example = "1GiB: 1073741824")
+		@Pattern(regexp = RegExpUtils.DISK_QoS_PATTERN)
+		protected String total_iops_sec;
+		
+		@Pattern(regexp = RegExpUtils.DISK_IOPS_PATTERN)
+		@ParameterDescriber(required = false, description = "云盘读iops的QoS设置", constraint = "0~99999", example = "40000")
+		protected String read_iops_sec;
+		
+		@Pattern(regexp = RegExpUtils.DISK_IOPS_PATTERN)
+		@ParameterDescriber(required = false, description = "云盘写iops的QoS设置", constraint = "0~99999", example = "40000")
+		protected String write_iops_sec;
+		
+		@ParameterDescriber(required = false, description = "如果不设置，当前配置下次不会生效", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
+		protected Boolean config;
+
+		@ParameterDescriber(required = false, description = "立即生效，对于开机虚拟机", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
+		protected Boolean live;
+
+		public String getDevice() {
+			return device;
+		}
+
+		public void setDevice(String device) {
+			this.device = device;
+		}
+
+		public String getTotal_bytes_sec() {
+			return total_bytes_sec;
+		}
+
+		public void setTotal_bytes_sec(String total_bytes_sec) {
+			this.total_bytes_sec = total_bytes_sec;
+		}
+
+		public String getRead_bytes_sec() {
+			return read_bytes_sec;
+		}
+
+		public void setRead_bytes_sec(String read_bytes_sec) {
+			this.read_bytes_sec = read_bytes_sec;
+		}
+
+		public String getWrite_bytes_sec() {
+			return write_bytes_sec;
+		}
+
+		public void setWrite_bytes_sec(String write_bytes_sec) {
+			this.write_bytes_sec = write_bytes_sec;
+		}
+
+		public String getTotal_iops_sec() {
+			return total_iops_sec;
+		}
+
+		public void setTotal_iops_sec(String total_iops_sec) {
+			this.total_iops_sec = total_iops_sec;
+		}
+
+		public String getRead_iops_sec() {
+			return read_iops_sec;
+		}
+
+		public void setRead_iops_sec(String read_iops_sec) {
+			this.read_iops_sec = read_iops_sec;
+		}
+
+		public String getWrite_iops_sec() {
+			return write_iops_sec;
+		}
+
+		public void setWrite_iops_sec(String write_iops_sec) {
+			this.write_iops_sec = write_iops_sec;
+		}
+
+		public Boolean getConfig() {
+			return config;
+		}
+
+		public void setConfig(Boolean config) {
+			this.config = config;
+		}
+
+		public Boolean getLive() {
+			return live;
+		}
+
+		public void setLive(Boolean live) {
+			this.live = live;
 		}
 		
 	}

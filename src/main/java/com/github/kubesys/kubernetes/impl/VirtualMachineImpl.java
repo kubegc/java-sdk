@@ -33,6 +33,7 @@ import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StartVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StopVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StopVMForce;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.SuspendVM;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.TuneDiskQoS;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UnplugDevice;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UnplugDisk;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UnplugNIC;
@@ -420,4 +421,17 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 		}
 		return update(name, updateMetadata(name, eventId), cloneVM);
 	}
+
+	public boolean tuneDiskQoS(String name, TuneDiskQoS tuneDiskQoS) throws Exception {
+		return tuneDiskQoS(name, tuneDiskQoS, null);
+	}
+
+	public boolean tuneDiskQoS(String name, TuneDiskQoS tuneDiskQoS, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), tuneDiskQoS);
+	}
+
 }

@@ -28,7 +28,7 @@ public class UnbindPortVlanTest {
 
 	protected static UnbindPortVlan get() {
 		UnbindPortVlan unbindPortVlan = new UnbindPortVlan();
-		unbindPortVlan.setVlan("2");
+		unbindPortVlan.setVlan("1");
 		unbindPortVlan.setMac("52:54:00:79:c3:47");
 		unbindPortVlan.setDomain("950646e8c17a49d0b83c1c797811e004");
 		return unbindPortVlan;
