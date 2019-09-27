@@ -26,6 +26,7 @@ import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.PlugDisk
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.PlugNIC;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.RebootVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ResetVM;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ResizeMaxRAM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ResizeRAM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ResizeVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ResumeVM;
@@ -433,5 +434,20 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 		}
 		return update(name, updateMetadata(name, eventId), tuneDiskQoS);
 	}
+
+	public boolean resizeMaxRAM(String name, ResizeMaxRAM resizeMaxRAM) throws Exception {
+		return resizeMaxRAM(name, resizeMaxRAM, null);
+	}
+
+	public boolean resizeMaxRAM(String name, ResizeMaxRAM resizeMaxRAM, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), resizeMaxRAM);
+	}
+
+
+
 
 }

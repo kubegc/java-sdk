@@ -171,22 +171,36 @@ public class Lifecycle {
 	
 	@FunctionDescriber(shortName = "调整虚拟机大小", description = "调整虚拟机大小，" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
-		prerequisite = AnnotationUtils.DESC_FUNCTION_VMD, 
+		prerequisite = AnnotationUtils.DESC_FUNCTION_VM, 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected ResizeVM resizeVM;
 	
 	@FunctionDescriber(shortName = "克隆虚拟机", description = "克隆虚拟机，" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
-		prerequisite = AnnotationUtils.DESC_FUNCTION_VMD, 
+		prerequisite = AnnotationUtils.DESC_FUNCTION_VM, 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected CloneVM cloneVM;
 	
 	@FunctionDescriber(shortName = "设置虚拟机磁盘QoS", description = "设置虚拟机磁盘QoS，" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
-		prerequisite = AnnotationUtils.DESC_FUNCTION_VMD, 
+		prerequisite = AnnotationUtils.DESC_FUNCTION_VM, 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected TuneDiskQoS tuneDiskQoS;
 	
+	@FunctionDescriber(shortName = "设置虚拟机最大内存", description = "设置虚拟机最大内存，" 
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+		prerequisite = AnnotationUtils.DESC_FUNCTION_VM, 
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected ResizeMaxRAM resizeMaxRAM;
+	
+	public ResizeMaxRAM getResizeMaxRAM() {
+		return resizeMaxRAM;
+	}
+
+	public void setResizeMaxRAM(ResizeMaxRAM resizeMaxRAM) {
+		this.resizeMaxRAM = resizeMaxRAM;
+	}
+
 	public TuneDiskQoS getTuneDiskQoS() {
 		return tuneDiskQoS;
 	}
@@ -2618,6 +2632,12 @@ public class Lifecycle {
 		public void setLive(Boolean live) {
 			this.live = live;
 		}
+		
+	}
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class ResizeMaxRAM extends ResizeRAM{
 		
 	}
 	
