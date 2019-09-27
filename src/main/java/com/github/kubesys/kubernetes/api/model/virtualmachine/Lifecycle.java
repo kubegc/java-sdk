@@ -945,28 +945,28 @@ public class Lifecycle {
 
 		protected String sourcetype;
 		
-		@ParameterDescriber(required = false, description = "云盘总bps的QoS设置，单位为bytes", constraint = "0~9999999999", example = "1GiB: 1073741824")
+		@ParameterDescriber(required = false, description = "云盘总bps的QoS设置，单位为bytes，与read,write互斥", constraint = "0~9999999999", example = "1GiB: 1073741824")
 		@Pattern(regexp = RegExpUtils.DISK_QoS_PATTERN)
 		protected String total_bytes_sec;
 		
-		@ParameterDescriber(required = false, description = "云盘读bps的QoS设置，单位为bytes", constraint = "0~9999999999", example = "1GiB: 1073741824")
+		@ParameterDescriber(required = false, description = "云盘读bps的QoS设置，单位为bytes，与total互斥", constraint = "0~9999999999", example = "1GiB: 1073741824")
 		@Pattern(regexp = RegExpUtils.DISK_QoS_PATTERN)
 		protected String read_bytes_sec;
 		
 		@Pattern(regexp = RegExpUtils.DISK_QoS_PATTERN)
-		@ParameterDescriber(required = false, description = "云盘写bps的QoS设置，单位为bytes", constraint = "0~9999999999", example = "1GiB: 1073741824")
+		@ParameterDescriber(required = false, description = "云盘写bps的QoS设置，单位为bytes，与total互斥", constraint = "0~9999999999", example = "1GiB: 1073741824")
 		protected String write_bytes_sec;
 		
-		@ParameterDescriber(required = false, description = "云盘总iops的QoS设置，单位为bytes", constraint = "0~9999999999", example = "1GiB: 1073741824")
+		@ParameterDescriber(required = false, description = "云盘总iops的QoS设置，单位为bytes，与read,write互斥", constraint = "0~9999999999", example = "1GiB: 1073741824")
 		@Pattern(regexp = RegExpUtils.DISK_QoS_PATTERN)
 		protected String total_iops_sec;
 		
 		@Pattern(regexp = RegExpUtils.DISK_IOPS_PATTERN)
-		@ParameterDescriber(required = false, description = "云盘读iops的QoS设置", constraint = "0~99999", example = "40000")
+		@ParameterDescriber(required = false, description = "云盘读iops的QoS设置，与total互斥", constraint = "0~99999", example = "40000")
 		protected String read_iops_sec;
 		
 		@Pattern(regexp = RegExpUtils.DISK_IOPS_PATTERN)
-		@ParameterDescriber(required = false, description = "云盘写iops的QoS设置", constraint = "0~99999", example = "40000")
+		@ParameterDescriber(required = false, description = "云盘写iops的QoS设置，与total互斥", constraint = "0~99999", example = "40000")
 		protected String write_iops_sec;
 
 		public String getTotal_bytes_sec() {
@@ -2517,28 +2517,28 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.FDISK_TYPE_PATTERN)
 		protected String device;
 		
-		@ParameterDescriber(required = false, description = "云盘总bps的QoS设置，单位为bytes", constraint = "0~9999999999", example = "1GiB: 1073741824")
+		@ParameterDescriber(required = false, description = "云盘总bps的QoS设置，单位为bytes，与read,write互斥", constraint = "0~9999999999", example = "1GiB: 1073741824")
 		@Pattern(regexp = RegExpUtils.DISK_QoS_PATTERN)
 		protected String total_bytes_sec;
 		
-		@ParameterDescriber(required = false, description = "云盘读bps的QoS设置，单位为bytes", constraint = "0~9999999999", example = "1GiB: 1073741824")
+		@ParameterDescriber(required = false, description = "云盘读bps的QoS设置，单位为bytes，与total互斥", constraint = "0~9999999999", example = "1GiB: 1073741824")
 		@Pattern(regexp = RegExpUtils.DISK_QoS_PATTERN)
 		protected String read_bytes_sec;
 		
 		@Pattern(regexp = RegExpUtils.DISK_QoS_PATTERN)
-		@ParameterDescriber(required = false, description = "云盘写bps的QoS设置，单位为bytes", constraint = "0~9999999999", example = "1GiB: 1073741824")
+		@ParameterDescriber(required = false, description = "云盘写bps的QoS设置，单位为bytes，与total互斥", constraint = "0~9999999999", example = "1GiB: 1073741824")
 		protected String write_bytes_sec;
 		
-		@ParameterDescriber(required = false, description = "云盘总iops的QoS设置，单位为bytes", constraint = "0~9999999999", example = "1GiB: 1073741824")
+		@ParameterDescriber(required = false, description = "云盘总iops的QoS设置，单位为bytes，与read,write互斥", constraint = "0~9999999999", example = "1GiB: 1073741824")
 		@Pattern(regexp = RegExpUtils.DISK_QoS_PATTERN)
 		protected String total_iops_sec;
 		
 		@Pattern(regexp = RegExpUtils.DISK_IOPS_PATTERN)
-		@ParameterDescriber(required = false, description = "云盘读iops的QoS设置", constraint = "0~99999", example = "40000")
+		@ParameterDescriber(required = false, description = "云盘读iops的QoS设置，与total互斥", constraint = "0~99999", example = "40000")
 		protected String read_iops_sec;
 		
 		@Pattern(regexp = RegExpUtils.DISK_IOPS_PATTERN)
-		@ParameterDescriber(required = false, description = "云盘写iops的QoS设置", constraint = "0~99999", example = "40000")
+		@ParameterDescriber(required = false, description = "云盘写iops的QoS设置，与total互斥", constraint = "0~99999", example = "40000")
 		protected String write_iops_sec;
 		
 		@ParameterDescriber(required = false, description = "如果不设置，当前配置下次不会生效", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
