@@ -28,14 +28,15 @@ public class TuneDiskQoSTest {
 	
 	public static TuneDiskQoS get() {
 		TuneDiskQoS tuneDiskQoS = new TuneDiskQoS();
-		tuneDiskQoS.setLive(true);
+//		tuneDiskQoS.setLive(true);
 		tuneDiskQoS.setConfig(true);
+		tuneDiskQoS.setDevice("vda");
 		tuneDiskQoS.setTotal_bytes_sec("1024000000");
-		tuneDiskQoS.setRead_bytes_sec("1024000000");
-		tuneDiskQoS.setWrite_bytes_sec("1024000000");
+//		tuneDiskQoS.setRead_bytes_sec("1024000000");
+//		tuneDiskQoS.setWrite_bytes_sec("1024000000");
 		tuneDiskQoS.setTotal_iops_sec("40000");
-		tuneDiskQoS.setRead_iops_sec("40000");
-		tuneDiskQoS.setWrite_iops_sec("40000");
+//		tuneDiskQoS.setRead_iops_sec("40000");
+//		tuneDiskQoS.setWrite_iops_sec("40000");
 		return tuneDiskQoS;
 	}
 }

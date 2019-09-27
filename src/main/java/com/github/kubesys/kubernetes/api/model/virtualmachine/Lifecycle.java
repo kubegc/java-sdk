@@ -181,8 +181,20 @@ public class Lifecycle {
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected CloneVM cloneVM;
 	
+	@FunctionDescriber(shortName = "设置虚拟机磁盘QoS", description = "设置虚拟机磁盘QoS，" 
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+		prerequisite = AnnotationUtils.DESC_FUNCTION_VMD, 
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected TuneDiskQoS tuneDiskQoS;
 	
+	public TuneDiskQoS getTuneDiskQoS() {
+		return tuneDiskQoS;
+	}
+
+	public void setTuneDiskQoS(TuneDiskQoS tuneDiskQoS) {
+		this.tuneDiskQoS = tuneDiskQoS;
+	}
+
 	public ManageISO getManageISO() {
 		return manageISO;
 	}
