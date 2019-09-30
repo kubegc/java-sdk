@@ -284,7 +284,7 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.NIC_PATTERN)
 		protected String nic;
 		
-		@ParameterDescriber(required = true, description = "vlan ID", constraint = "0~4094", example = "1")
+		@ParameterDescriber(required = false, description = "vlan ID", constraint = "0~4094", example = "1")
 		@Pattern(regexp = RegExpUtils.VLAN_PATTERN)
 		protected String vlan;
 
