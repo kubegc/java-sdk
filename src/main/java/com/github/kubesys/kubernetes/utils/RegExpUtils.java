@@ -49,7 +49,9 @@ public class RegExpUtils {
 	
 	@FieldDescriber("ram容量，单位KiB，100到99999之间")
 	public final static String RAM_KiB_PATTERN = "\\d{6,8}";
-	
+
+	@FieldDescriber("存储池自动打开的参数，只能是yes和no之一")
+	public final static String AUTOSTART_PATTERN = "yes|no";
 	
 	@FieldDescriber("磁盘类型，只能是raw，bochs，qcow，qcow2，vmdk，qed之一")
 	public final static String DISK_TYPE_PATTERN = "raw|bochs|qcow|qcow2|vmdk|qed";
