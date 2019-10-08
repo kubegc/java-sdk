@@ -4,7 +4,8 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
-import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.CreateBridge;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.SetBootOrder;
+
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -15,21 +16,20 @@ import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.C
  * @since   2019/9/3
  *
  */
-public class CreateBridgeTest {
-	
+public class SetBootOrderTest {
 	
 	public static void main(String[] args) throws Exception {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
-		boolean successful = client.virtualMachineNetworks()
-				.createBridge("br-native", "vm.node30", get());
+		boolean successful = client.virtualMachines()
+				.setBootOrder("vm003", get(), "1123");
 		System.out.println(successful);
 	}
-
-	protected static CreateBridge get() {
-		CreateBridge createBridge = new CreateBridge();
-		createBridge.setNic("enp6s0f1");
-		createBridge.setVlan("10");
-		return createBridge;
+	
+	public static SetBootOrder get() {
+		SetBootOrder setBootOrder = new SetBootOrder();
+		setBootOrder.setOrder("hd");
+		return setBootOrder;
 	}
+	
 }

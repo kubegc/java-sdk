@@ -29,8 +29,8 @@ public class ChangeRAMTest {
 	
 	public static ResizeRAM get() {
 		ResizeRAM ins = new ResizeRAM();
-		ins.setSize("2048000");
-		ins.setLive(true);
+		ins.setSize("1200000");
+//		ins.setLive(true);
 		ins.setConfig(true);
 		return ins;
 	}

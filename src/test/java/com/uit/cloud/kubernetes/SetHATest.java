@@ -20,7 +20,6 @@ public class SetHATest {
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
 				.setHA("test");
-		// unsetHA
 		System.out.println(successful);
 	}
 	

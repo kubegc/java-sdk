@@ -193,6 +193,34 @@ public class Lifecycle {
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected ResizeMaxRAM resizeMaxRAM;
 	
+	@FunctionDescriber(shortName = "设置虚拟机启动顺序", description = "设置虚拟机启动顺序，" 
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+		prerequisite = AnnotationUtils.DESC_FUNCTION_VM, 
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected SetBootOrder setBootOrder;
+	
+	@FunctionDescriber(shortName = "设置虚拟机VNC密码", description = "设置虚拟机VNC密码，" 
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+		prerequisite = AnnotationUtils.DESC_FUNCTION_VM, 
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected SetVncPassword setVncPassword;
+	
+	public SetBootOrder getSetBootOrder() {
+		return setBootOrder;
+	}
+
+	public void setSetBootOrder(SetBootOrder setBootOrder) {
+		this.setBootOrder = setBootOrder;
+	}
+
+	public SetVncPassword getSetVncPassword() {
+		return setVncPassword;
+	}
+
+	public void setSetVncPassword(SetVncPassword setVncPassword) {
+		this.setVncPassword = setVncPassword;
+	}
+
 	public ResizeMaxRAM getResizeMaxRAM() {
 		return resizeMaxRAM;
 	}
@@ -2639,6 +2667,41 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class ResizeMaxRAM extends ResizeRAM{
 		
+	}
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class SetBootOrder {
+		
+		@ParameterDescriber(required = true, description = "虚拟机启动顺序，从光盘或者系统盘启动", constraint = "取值范围：hd/cdrom", example = "cdrom")
+		protected String order;
+
+		public String getOrder() {
+			return order;
+		}
+
+		public void setOrder(String order) {
+			this.order = order;
+		}
+		
+	}
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class SetVncPassword {
+		
+		@ParameterDescriber(required = true, description = "虚拟机VNC/SPICE密码", constraint = "取值范围：密码为4-16位，是小写字母、数字和中划线组合", example = "abcdefg")
+		@Pattern(regexp = RegExpUtils.PASSWORD_PATTERN)
+		protected String password;
+
+		public String getPassword() {
+			return password;
+		}
+
+		public void setPassword(String password) {
+			this.password = password;
+		}
+
 	}
 	
 }

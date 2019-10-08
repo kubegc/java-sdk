@@ -5,6 +5,7 @@ package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.CreateBridge;
+import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.CreateSwitch;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -15,21 +16,20 @@ import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.C
  * @since   2019/9/3
  *
  */
-public class CreateBridgeTest {
+public class CreateSwitchTest {
 	
 	
 	public static void main(String[] args) throws Exception {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineNetworks()
-				.createBridge("br-native", "vm.node30", get());
+				.createSwitch("vxlan", "vm.node30", get());
 		System.out.println(successful);
 	}
 
-	protected static CreateBridge get() {
-		CreateBridge createBridge = new CreateBridge();
-		createBridge.setNic("enp6s0f1");
-		createBridge.setVlan("10");
-		return createBridge;
+	protected static CreateSwitch get() {
+		CreateSwitch vxlan = new CreateSwitch();
+		vxlan.setSubnet("192.168.10.0/24");
+		return vxlan;
 	}
 }

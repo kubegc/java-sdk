@@ -30,6 +30,8 @@ import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ResizeMa
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ResizeRAM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ResizeVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ResumeVM;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.SetBootOrder;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.SetVncPassword;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StartVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StopVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StopVMForce;
@@ -447,7 +449,28 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 		return update(name, updateMetadata(name, eventId), resizeMaxRAM);
 	}
 
+	public boolean setBootOrder(String name, SetBootOrder setBootOrder) throws Exception {
+		return setBootOrder(name, setBootOrder, null);
+	}
 
+	public boolean setBootOrder(String name, SetBootOrder setBootOrder, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), setBootOrder);
+	}
 
+	public boolean setVncPassword(String name, SetVncPassword setVncPassword) throws Exception {
+		return setVncPassword(name, setVncPassword, null);
+	}
+
+	public boolean setVncPassword(String name, SetVncPassword setVncPassword, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), setVncPassword);
+	}
 
 }
