@@ -164,6 +164,10 @@ public class Lifecycle {
 		
 		protected String source_name;
 
+		@ParameterDescriber(required = true, description = "创建存储池后是否设置为自动打开", constraint = "yes或no", example = "yes")
+		@Pattern(regexp = RegExpUtils.AUTOSTART_PATTERN)
+		protected String autostart;
+
 		@ParameterDescriber(required = true, description = "创建存储池使用的存储路径", constraint = "完整有效的存储路径", example = "/var/lib/libvirt/poolg")
 		@Pattern(regexp = RegExpUtils.TARGET_PATTERN)
 		protected String target;
@@ -381,7 +385,14 @@ public class Lifecycle {
 		public void setOpt(String opt) {
 			this.opt = opt;
 		}
-		
+
+		public String getAutostart() {
+			return autostart;
+		}
+
+		public void setAutostart(String autostart) {
+			this.autostart = autostart;
+		}
 	}
 	
 //	@JsonInclude(JsonInclude.Include.NON_NULL)

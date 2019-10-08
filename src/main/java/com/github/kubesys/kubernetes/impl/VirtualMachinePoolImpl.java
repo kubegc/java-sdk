@@ -12,7 +12,7 @@ import com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle;
 import com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle.AutoStart;
 import com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle.CreatePool;
 import com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle.DeletePool;
-import com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle.RegisterPool;
+//import com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle.RegisterPool;
 import com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle.StartPool;
 import com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle.StopPool;
 import com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle.UnregisterPool;
@@ -97,17 +97,17 @@ public class VirtualMachinePoolImpl extends AbstractImpl<VirtualMachinePool, Vir
 		return update(name, updateMetadata(name, eventId), startPool);
 	}
 
-	public boolean registerPool(String name, RegisterPool registerPool) throws Exception {
-		return registerPool(name, registerPool, null);
-	}
-
-	public boolean registerPool(String name,RegisterPool registerPool, String eventId) throws Exception {
-		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
-		if (!pattern.matcher(name).matches()) {
-			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
-		}
-		return update(name, updateMetadata(name, eventId), registerPool);
-	}
+//	public boolean registerPool(String name, RegisterPool registerPool) throws Exception {
+//		return registerPool(name, registerPool, null);
+//	}
+//
+//	public boolean registerPool(String name,RegisterPool registerPool, String eventId) throws Exception {
+//		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+//		if (!pattern.matcher(name).matches()) {
+//			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+//		}
+//		return update(name, updateMetadata(name, eventId), registerPool);
+//	}
 
 	public boolean stopPool(String name, StopPool stopPool) throws Exception {
 		return stopPool(name, stopPool, null);
