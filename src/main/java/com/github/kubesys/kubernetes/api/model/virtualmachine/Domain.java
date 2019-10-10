@@ -5866,9 +5866,25 @@ public class Domain {
 
 			protected String text;
 
-			public Loader() {
-				this.text = "strin readonly='string' secure='string' type='string'>";
+			protected String _type;
 
+			protected String _readonly;
+
+
+			public String get_type() {
+				return _type;
+			}
+
+			public void set_type(String _type) {
+				this._type = _type;
+			}
+
+			public String get_readonly() {
+				return _readonly;
+			}
+
+			public void set_readonly(String _readonly) {
+				this._readonly = _readonly;
 			}
 
 			/**
@@ -11267,10 +11283,29 @@ public class Domain {
 
 			protected String _model;
 
+			protected Model model;
+
+			protected Target target;
+
+			public Target getTarget() {
+				return target;
+			}
+
+			public void setTarget(Target target) {
+				this.target = target;
+			}
+
+			public Model getModel() {
+				return model;
+			}
+
 			public Controller() {
 
 			}
 
+			public void setModel(Model model) {
+				this.model = model;
+			}
 
 			public Master getMaster() {
 				return master;
@@ -11352,6 +11387,56 @@ public class Domain {
 				return this._model;
 			}
 
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+			public static class Target {
+
+				protected String  _chassis;
+
+				protected String _chassisNr;
+
+				protected String _port;
+
+				public String get_chassisNr() {
+					return _chassisNr;
+				}
+
+				public void set_chassisNr(String _chassisNr) {
+					this._chassisNr = _chassisNr;
+				}
+
+				public String get_chassis() {
+					return _chassis;
+				}
+
+				public String get_port() {
+					return _port;
+				}
+
+				public void set_port(String _port) {
+					this._port = _port;
+				}
+
+				public void set_chassis(String _chassis) {
+					this._chassis = _chassis;
+				}
+
+
+			}
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+			public static class Model {
+
+				protected String _name;
+
+				public String get_name() {
+					return _name;
+				}
+
+				public void set_name(String _name) {
+					this._name = _name;
+				}
+			}
 			@JsonInclude(JsonInclude.Include.NON_NULL)
 			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Master {

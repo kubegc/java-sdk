@@ -23,8 +23,8 @@ public class CreateAndStartFromImageTest {
 		CreateAndStartVMFromImage createAndStartVMFromImage = get();
 		// name
 		boolean successful = client.virtualMachines()
-				.createAndStartVMFromImage("350646e8c17a49d0b83c1c797811e084",
-						"vm.node30", createAndStartVMFromImage);
+				.createAndStartVMFromImage("350646e8c17a49d0b83c1c797811a081",
+						"vm.leader", createAndStartVMFromImage);
 		System.out.println(successful);
 	}
 	
@@ -33,7 +33,7 @@ public class CreateAndStartFromImageTest {
 		
 		CreateAndStartVMFromImage createAndStartVMFromImage = new CreateAndStartVMFromImage();
 		// default value
-		createAndStartVMFromImage.setMetadata("uuid=350646e8-c17a-49d0-b83c-1c797811e084");
+		createAndStartVMFromImage.setMetadata("uuid=350646e8-c17a-49d0-b83c-1c797a11e080");
 		createAndStartVMFromImage.setVirt_type("kvm");
 		// @see https://github.com/uit-plus/api/blob/master/src/main/java/com/github/uitplus/utils/OSDistroUtils.java
 		createAndStartVMFromImage.setOs_variant("centos7.0");
@@ -45,9 +45,9 @@ public class CreateAndStartFromImageTest {
 		
 		// image
 		
-		createAndStartVMFromImage.setCdrom("/var/lib/libvirt/templates/950646e8c17a49d0b83c1c797811e002");
+		createAndStartVMFromImage.setCdrom("/root/Kylin-4.0.2-server-sp2-17111109.Z1-marco-316kernel-arm64.qcow2");
 		// Disk and QoS for 1 disk and many disks
-		createAndStartVMFromImage.setDisk("ROOTDISK=/var/lib/libvirt/images/root4abcdefgh,read_bytes_sec=1024000000,write_bytes_sec=1024000000");
+		createAndStartVMFromImage.setDisk("ROOTDISK=/var/lib/libvirt/images/diskroot22,read_bytes_sec=1024000000,write_bytes_sec=1024000000");
 		
 		/*
 		 * libivrt default bridge
@@ -103,10 +103,10 @@ public class CreateAndStartFromImageTest {
 		 * 		switch name
 		 */
 		
-//		createAndStartVMFromISO.setNetwork("type=bridge,source=virbr0,inbound=102400,outbound=102400");
+//		createAndStartVMFromImage.setNetwork("type=l2bridge,source=virbr0,inbound=102400,outbound=102400");
 //		createAndStartVMFromISO.setNetwork("type=l2bridge,source=br-native,inbound=102400,outbound=102400");
 //      if you want to use l3bridge, please first execute the command on your master node, 'kubeovn-adm create-switch --name switch8888 --subnet 192.168.5.0/24' 		
-		createAndStartVMFromImage.setNetwork("type=l3bridge,source=br-int,ip=192.168.5.8,switch=switch8888,inbound=102400,outbound=102400");  
+//		createAndStartVMFromImage.setNetwork("type=l3bridge,source=br-int,ip=192.168.5.8,switch=switch8888,inbound=102400,outbound=102400");
 		
 		
 		// consoleMode amd passowrd

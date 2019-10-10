@@ -17,11 +17,11 @@ import com.alibaba.fastjson.JSON;
 public class GetVirtualMachineTest {
 	
 	public static void main(String[] args) throws Exception {
-//		System.out.println(AbstractTest
-//				.getVMByName("650646e8c17a49d0b83c1c797811e066"));
-		System.out.println(
-				JSON.toJSONString(
-						AbstractTest.getVMByName("950646e8c17a49d0b83c1c797811e004").getSpec().getDomain(), true));
+		System.out.println(AbstractTest
+				.getVMByName("350646e8c17a49d0b83c1c797811a081"));
+//		System.out.println(
+//				JSON.toJSONString(
+//						AbstractTest.getVMByName("350646e8c17a49d0b83c1c797811a084").ge, true));
 	}
 	
 }
