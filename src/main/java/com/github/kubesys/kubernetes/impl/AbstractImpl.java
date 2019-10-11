@@ -107,6 +107,23 @@ public abstract class AbstractImpl<R, S, T> {
 	 * Here, resource can be VirtualMachine, VirtualMachinePool, 
 	 * VirtualMachineDisk, VirtualMachineSnapshot, and so on
 	 *  
+	 * @param object             resource object
+	 * @return                   true or an exception
+	 * @throws Exception         update resource fail
+	 */
+	@SuppressWarnings("unchecked")
+	protected boolean update(HasMetadata object) throws Exception {
+		client.createOrReplace(object);
+		m_logger.log(Level.INFO, type + ": update " 
+					+ object.getMetadata().getName() + " successful.");
+		return true;
+	}
+	
+	/**
+	 * 
+	 * Here, resource can be VirtualMachine, VirtualMachinePool, 
+	 * VirtualMachineDisk, VirtualMachineSnapshot, and so on
+	 *  
 	 * @param operator           lifecyle except for 'Create' and 'Delete'
 	 * @param object             resource object
 	 * @return                   true or an exception
