@@ -22,7 +22,11 @@ public class PlugNICTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
+<<<<<<< HEAD
 				.plugNIC("vm003", get());
+=======
+				.plugNIC("350646e8c17a49d0b83c1c797811a084", get());
+>>>>>>> 2e3c056b0362ad1f2398598d160d3176464c197c
 		System.out.println(successful);
 	}
 	
