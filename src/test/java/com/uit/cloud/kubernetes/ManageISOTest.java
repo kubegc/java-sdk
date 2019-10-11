@@ -22,15 +22,16 @@ public class ManageISOTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.manageISO("t1", getManageISO());
+				.manageISO("vm003", getManageISO());
 		System.out.println(successful);
 	}
 	
 	public static ManageISO getManageISO() {
 		ManageISO iso = new ManageISO();
-		iso.setPath("/opt/ISO/CentOS-7-x86_64-Minimal-1511.iso");
-		iso.setEject(true);
-//		iso.setInsert(true);
+		iso.setSource("/var/lib/libvirt/iso/centos7-minimal-1511.iso");
+		iso.setPath("vdb");
+//		iso.setEject(true);
+		iso.setInsert(true);
 		iso.setForce(true);
 //		iso.setLive(true);
 		iso.setConfig(true);

@@ -63,7 +63,7 @@ public class VirtualMachineDiskImpl extends AbstractImpl<VirtualMachineDisk, Vir
 		return deleteDisk(name, deleteDisk, null);
 	}
 
-	public boolean deleteDisk(String name,DeleteDisk deleteDisk, String eventId) throws Exception {
+	public boolean deleteDisk(String name, DeleteDisk deleteDisk, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
@@ -75,7 +75,7 @@ public class VirtualMachineDiskImpl extends AbstractImpl<VirtualMachineDisk, Vir
 		return resizeDisk(name, resizeDisk, null);
 	}
 
-	public boolean resizeDisk(String name,ResizeDisk resizeDisk, String eventId) throws Exception {
+	public boolean resizeDisk(String name, ResizeDisk resizeDisk, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
@@ -98,7 +98,7 @@ public class VirtualMachineDiskImpl extends AbstractImpl<VirtualMachineDisk, Vir
 	public boolean createDisk(String name, String nodeName,CreateDisk createDisk, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
-			throw new IllegalArgumentException("the length must be between 6 and 32, and it can only includes a-z, 0-9 and -.");
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
 		return create(getModel(), createMetadata(name, nodeName, eventId), 
 				createSpec(nodeName, createLifecycle(createDisk)));
@@ -119,7 +119,7 @@ public class VirtualMachineDiskImpl extends AbstractImpl<VirtualMachineDisk, Vir
 	public boolean createDiskFromDiskImage(String name, String nodeName,CreateDiskFromDiskImage createDiskFromDiskImage, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
-			throw new IllegalArgumentException("the length must be between 6 and 32, and it can only includes a-z, 0-9 and -.");
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
 		return create(getModel(), createMetadata(name, nodeName, eventId), 
 				createSpec(nodeName, createLifecycle(createDiskFromDiskImage)));
@@ -129,7 +129,7 @@ public class VirtualMachineDiskImpl extends AbstractImpl<VirtualMachineDisk, Vir
 		return convertDiskToDiskImage(name, convertDiskToDiskImage, null);
 	}
 
-	public boolean convertDiskToDiskImage(String name,ConvertDiskToDiskImage convertDiskToDiskImage, String eventId) throws Exception {
+	public boolean convertDiskToDiskImage(String name, ConvertDiskToDiskImage convertDiskToDiskImage, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
@@ -141,7 +141,7 @@ public class VirtualMachineDiskImpl extends AbstractImpl<VirtualMachineDisk, Vir
 		return cloneDisk(name, cloneDisk, null);
 	}
 
-	public boolean cloneDisk(String name,CloneDisk cloneDisk, String eventId) throws Exception {
+	public boolean cloneDisk(String name, CloneDisk cloneDisk, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
@@ -164,7 +164,7 @@ public class VirtualMachineDiskImpl extends AbstractImpl<VirtualMachineDisk, Vir
 	public boolean createDiskInternalSnapshot(String name, String nodeName,CreateDiskInternalSnapshot createDiskInternalSnapshot, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
-			throw new IllegalArgumentException("the length must be between 6 and 32, and it can only includes a-z, 0-9 and -.");
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
 		return create(getModel(), createMetadata(name, nodeName, eventId), 
 				createSpec(nodeName, createLifecycle(createDiskInternalSnapshot)));
@@ -174,7 +174,7 @@ public class VirtualMachineDiskImpl extends AbstractImpl<VirtualMachineDisk, Vir
 		return revertDiskInternalSnapshot(name, revertDiskInternalSnapshot, null);
 	}
 
-	public boolean revertDiskInternalSnapshot(String name,RevertDiskInternalSnapshot revertDiskInternalSnapshot, String eventId) throws Exception {
+	public boolean revertDiskInternalSnapshot(String name, RevertDiskInternalSnapshot revertDiskInternalSnapshot, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
@@ -186,7 +186,7 @@ public class VirtualMachineDiskImpl extends AbstractImpl<VirtualMachineDisk, Vir
 		return deleteDiskInternalSnapshot(name, deleteDiskInternalSnapshot, null);
 	}
 
-	public boolean deleteDiskInternalSnapshot(String name,DeleteDiskInternalSnapshot deleteDiskInternalSnapshot, String eventId) throws Exception {
+	public boolean deleteDiskInternalSnapshot(String name, DeleteDiskInternalSnapshot deleteDiskInternalSnapshot, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
@@ -209,7 +209,7 @@ public class VirtualMachineDiskImpl extends AbstractImpl<VirtualMachineDisk, Vir
 	public boolean createDiskExternalSnapshot(String name, String nodeName,CreateDiskExternalSnapshot createDiskExternalSnapshot, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
-			throw new IllegalArgumentException("the length must be between 6 and 32, and it can only includes a-z, 0-9 and -.");
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
 		return create(getModel(), createMetadata(name, nodeName, eventId), 
 				createSpec(nodeName, createLifecycle(createDiskExternalSnapshot)));
@@ -219,7 +219,7 @@ public class VirtualMachineDiskImpl extends AbstractImpl<VirtualMachineDisk, Vir
 		return revertDiskExternalSnapshot(name, revertDiskExternalSnapshot, null);
 	}
 
-	public boolean revertDiskExternalSnapshot(String name,RevertDiskExternalSnapshot revertDiskExternalSnapshot, String eventId) throws Exception {
+	public boolean revertDiskExternalSnapshot(String name, RevertDiskExternalSnapshot revertDiskExternalSnapshot, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
@@ -231,7 +231,7 @@ public class VirtualMachineDiskImpl extends AbstractImpl<VirtualMachineDisk, Vir
 		return deleteDiskExternalSnapshot(name, deleteDiskExternalSnapshot, null);
 	}
 
-	public boolean deleteDiskExternalSnapshot(String name,DeleteDiskExternalSnapshot deleteDiskExternalSnapshot, String eventId) throws Exception {
+	public boolean deleteDiskExternalSnapshot(String name, DeleteDiskExternalSnapshot deleteDiskExternalSnapshot, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");

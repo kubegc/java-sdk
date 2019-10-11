@@ -22,7 +22,7 @@ public class PlugNICTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.plugNIC("vm001", get());
+				.plugNIC("vm003", get());
 		System.out.println(successful);
 	}
 	
@@ -35,8 +35,8 @@ public class PlugNICTest {
 		 * 	source
 		 * 		network source name
 		 */
-//		plugNIC.setType("bridge"); 
-//		plugNIC.setSource("source=virbr0");
+		plugNIC.setType("bridge"); 
+		plugNIC.setSource("source=virbr0");
 		
 		/*
 		 * l2 network example
@@ -44,8 +44,8 @@ public class PlugNICTest {
 		 * 	source
 		 * 		network source name
 		 */
-		plugNIC.setType("l2bridge"); 
-		plugNIC.setSource("source=br-native");
+//		plugNIC.setType("l2bridge"); 
+//		plugNIC.setSource("source=br-native");
 		
 		
 		/*

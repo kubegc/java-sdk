@@ -22,23 +22,36 @@ public class PlugDiskTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.plugDisk("950646e8c17a49d0b83c1c797811e001", getPlugDisk());
+//				.plugDisk("vm003", getPlugDisk());
+				.plugDisk("vm003", getPlugCdrom());
 		System.out.println(successful);
 	}
 	
 	public static PlugDisk getPlugDisk() {
 		PlugDisk plugDisk = new PlugDisk();
 		plugDisk.setSource("/var/lib/libvirt/images/snapshot1");
-		plugDisk.setTarget("vda");
+		plugDisk.setTarget("vdb");
 		plugDisk.setLive(true);
 		plugDisk.setConfig(true);
+//		plugDisk.setType("cdrom");
 		plugDisk.setSubdriver("qcow2");
-		plugDisk.setTotal_bytes_sec("1024000000");
-		plugDisk.setRead_bytes_sec("1024000000");
-		plugDisk.setWrite_bytes_sec("1024000000");
-		plugDisk.setTotal_iops_sec("40000");
-		plugDisk.setRead_iops_sec("40000");
-		plugDisk.setWrite_iops_sec("40000");
+//		plugDisk.setTotal_bytes_sec("1024000000");
+//		plugDisk.setRead_bytes_sec("1024000000");
+//		plugDisk.setWrite_bytes_sec("1024000000");
+//		plugDisk.setTotal_iops_sec("40000");
+//		plugDisk.setRead_iops_sec("40000");
+//		plugDisk.setWrite_iops_sec("40000");
+		return plugDisk;
+	}
+	
+	public static PlugDisk getPlugCdrom() {
+		PlugDisk plugDisk = new PlugDisk();
+		plugDisk.setSource("/var/lib/libvirt/iso/centos7-minimal-1511.iso");
+		// Cdrom only support hdX device
+		plugDisk.setTarget("hdb");
+		// Cdrom/floppy device hotplug isn't supported by Libvirt
+		plugDisk.setConfig(true);
+		plugDisk.setType("cdrom");
 		return plugDisk;
 	}
 }

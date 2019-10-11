@@ -4,7 +4,7 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
-import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CreateDiskInternalSnapshot;
+import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.RevertDiskExternalSnapshot;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -15,21 +15,21 @@ import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.Crea
  * @since   2019/9/3
  *
  */
-public class CreateDiskInternalSnapshotTest {
+public class RevertDiskExternalSnapshotTest {
 	
 	
 	public static void main(String[] args) throws Exception {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineDisks()
-				.createDiskInternalSnapshot("vlanvm3", get(), "abc");
+				.revertDiskExternalSnapshot("test1.qcow2", get(), "abc");
 		System.out.println(successful);
 	}
 
-	protected static CreateDiskInternalSnapshot get() {
-		CreateDiskInternalSnapshot createDiskInternalSnapshot = new CreateDiskInternalSnapshot();
-		createDiskInternalSnapshot.setPool("default");
-		createDiskInternalSnapshot.setSnapshotname("snapshot1");
-		return createDiskInternalSnapshot;
+	protected static RevertDiskExternalSnapshot get() {
+		RevertDiskExternalSnapshot revertDiskExternalSnapshot = new RevertDiskExternalSnapshot();
+		revertDiskExternalSnapshot.setPool("default");
+		revertDiskExternalSnapshot.setSnapshotname("snap6");
+		return revertDiskExternalSnapshot;
 	}
 }

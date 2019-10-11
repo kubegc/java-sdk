@@ -959,6 +959,7 @@ public class Lifecycle {
 //		@Parameter(required = false, description = "虚拟的云盘总线类型，如果不填将根据target的取值自动匹配，例如vdX匹配为virtio类型的总线、sdX匹配为scsi类型的总线", constraint = "取值范围：ide, scsi, virtio, xen, usb, sata, sd", example = "virtio")
 		protected String targetbus;
 
+		@ParameterDescriber(required = false, description = "云盘类型", constraint = "取值范围：lun, cdrom, floppy", example = "cdrom")
 		protected String type;
 
 		@ParameterDescriber(required = false, description = "云盘子驱动类型", constraint = "取值范围：qcow2, raw", example = "qcow2")
@@ -2197,9 +2198,13 @@ public class Lifecycle {
 		@ParameterDescriber(required = false, description = "立即生效，对于开机虚拟机", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean live;
 		
+		@ParameterDescriber(required = true, description = "目标盘符，对应虚拟机内看到的盘符号", constraint = "取值范围：vdX, hdX, sdX", example = "vdc")
+		@Pattern(regexp = RegExpUtils.FDISK_TYPE_PATTERN)
+		protected String path;
+		
 		@ParameterDescriber(required = true, description = "模板虚拟机的路径", constraint= "路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点", example = "/var/lib/libvirt/target.iso")
 		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
-		protected String path;
+		protected String source;
 		
 		@ParameterDescriber(required = true, description = "弹出光驱，与--insert不可同时设置为true", constraint= AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean eject;
@@ -2216,6 +2221,14 @@ public class Lifecycle {
 		@ParameterDescriber(required = true, description = "如果适用物理机光驱，应该设置为true", constraint= AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean block;
 		
+		public String getSource() {
+			return source;
+		}
+
+		public void setSource(String source) {
+			this.source = source;
+		}
+
 		public ManageISO() {
 			super();
 		}

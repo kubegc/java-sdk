@@ -201,20 +201,20 @@ public class Lifecycle {
 		this.createDiskExternalSnapshot = createDiskExternalSnapshot;
 	}
 
-	public RevertDiskExternalSnapshot getRevertDiskExternalSnapshot() {
-		return revertDiskExternalSnapshot;
-	}
-
-	public void setRevertDiskExternalSnapshot(RevertDiskExternalSnapshot revertDiskExternalSnapshot) {
-		this.revertDiskExternalSnapshot = revertDiskExternalSnapshot;
-	}
-
 	public DeleteDiskExternalSnapshot getDeleteDiskExternalSnapshot() {
 		return deleteDiskExternalSnapshot;
 	}
 
 	public void setDeleteDiskExternalSnapshot(DeleteDiskExternalSnapshot deleteDiskExternalSnapshot) {
 		this.deleteDiskExternalSnapshot = deleteDiskExternalSnapshot;
+	}
+
+	public RevertDiskExternalSnapshot getRevertDiskExternalSnapshot() {
+		return revertDiskExternalSnapshot;
+	}
+
+	public void setRevertDiskExternalSnapshot(RevertDiskExternalSnapshot revertDiskExternalSnapshot) {
+		this.revertDiskExternalSnapshot = revertDiskExternalSnapshot;
 	}
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
