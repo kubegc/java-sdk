@@ -20,6 +20,9 @@ public class RegExpUtils {
 	@FieldDescriber("名称是字符串类型，长度是4到100位，只允许数字、小写字母、中划线、以及圆点")
 	public final static String NAME_PATTERN = "[a-z0-9-.]{4,100}";
 	
+	@FieldDescriber("名称是字符串类型，长度是4到100位，只允许数字、小写字母、中划线、以及圆点")
+	public final static String NAME_PATTERN_WITH_COMMA = "[a-z0-9-.,]{4,100}";
+	
 	@FieldDescriber("名称是字符串类型，长度是3到32位，只允许数字、小写字母、中划线、以及圆点")
 	public final static String NIC_PATTERN = "[a-z0-9-.]{3,32}";
 	
@@ -125,8 +128,8 @@ public class RegExpUtils {
 	public final static String BOOT_PATTERN = "hd|cdrom";
 	
 	public static void main(String[] args) {
-		String name = "12aa";
-		Pattern pattern = Pattern.compile(RegExpUtils.PASSWORD_PATTERN);
+		String name = "12aa,123";
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN_WITH_COMMA);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("");
 		}

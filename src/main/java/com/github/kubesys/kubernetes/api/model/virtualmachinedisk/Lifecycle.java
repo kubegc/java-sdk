@@ -717,9 +717,21 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String pool;
 		
-		@ParameterDescriber(required = true, description = "快照的名字", constraint = "由4-100位的数字和小写字母组成", example = "snap1")
+		@ParameterDescriber(required = true, description = "要恢复的快照的名字", constraint = "由4-100位的数字和小写字母组成", example = "snap1")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String snapshotname;
+		
+		@ParameterDescriber(required = true, description = "所有叶子节点的名称，用于遍历整个快照链，多个叶子节点之间用英文逗号分隔", constraint = "由4-100位的数字和小写字母组成", example = "snap4,snap5")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN_WITH_COMMA)
+		protected String leaves;
+
+		public String getLeaves() {
+			return leaves;
+		}
+
+		public void setLeaves(String leaves) {
+			this.leaves = leaves;
+		}
 
 		public String getPool() {
 			return pool;
