@@ -37,9 +37,11 @@ import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StopVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StopVMForce;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.SuspendVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.TuneDiskQoS;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.TuneNICQoS;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UnplugDevice;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UnplugDisk;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UnplugNIC;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UnsetVncPassword;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UpdateOS;
 import com.github.kubesys.kubernetes.utils.RegExpUtils;
 
@@ -437,6 +439,18 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 		return update(name, updateMetadata(name, eventId), tuneDiskQoS);
 	}
 
+	public boolean tuneNICQoS(String name, TuneNICQoS tuneNICQoS) throws Exception {
+		return tuneNICQoS(name, tuneNICQoS, null);
+	}
+
+	public boolean tuneNICQoS(String name, TuneNICQoS tuneNICQoS, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), tuneNICQoS);
+	}
+
 	public boolean resizeMaxRAM(String name, ResizeMaxRAM resizeMaxRAM) throws Exception {
 		return resizeMaxRAM(name, resizeMaxRAM, null);
 	}
@@ -471,6 +485,18 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
 		return update(name, updateMetadata(name, eventId), setVncPassword);
+	}
+
+	public boolean unsetVncPassword(String name, UnsetVncPassword unsetVncPassword) throws Exception {
+		return unsetVncPassword(name, unsetVncPassword, null);
+	}
+
+	public boolean unsetVncPassword(String name, UnsetVncPassword unsetVncPassword, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), unsetVncPassword);
 	}
 
 }

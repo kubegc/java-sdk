@@ -187,6 +187,12 @@ public class Lifecycle {
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected TuneDiskQoS tuneDiskQoS;
 	
+	@FunctionDescriber(shortName = "设置虚拟机网卡QoS", description = "设置虚拟机网卡QoS，" 
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+		prerequisite = AnnotationUtils.DESC_FUNCTION_VM, 
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected TuneNICQoS tuneNICQoS;
+	
 	@FunctionDescriber(shortName = "设置虚拟机最大内存", description = "设置虚拟机最大内存，" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = AnnotationUtils.DESC_FUNCTION_VM, 
@@ -205,6 +211,28 @@ public class Lifecycle {
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected SetVncPassword setVncPassword;
 	
+	@FunctionDescriber(shortName = "取消虚拟机VNC密码", description = "取消虚拟机VNC密码，" 
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+		prerequisite = AnnotationUtils.DESC_FUNCTION_VM, 
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected UnsetVncPassword unsetVncPassword;
+	
+	public UnsetVncPassword getUnsetVncPassword() {
+		return unsetVncPassword;
+	}
+
+	public void setUnsetVncPassword(UnsetVncPassword unsetVncPassword) {
+		this.unsetVncPassword = unsetVncPassword;
+	}
+
+	public TuneNICQoS getTuneNICQoS() {
+		return tuneNICQoS;
+	}
+
+	public void setTuneNICQoS(TuneNICQoS tuneNICQoS) {
+		this.tuneNICQoS = tuneNICQoS;
+	}
+
 	public SetBootOrder getSetBootOrder() {
 		return setBootOrder;
 	}
@@ -2678,6 +2706,80 @@ public class Lifecycle {
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class TuneNICQoS {
+
+		@ParameterDescriber(required = false, description = "对当前虚拟机生效", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
+		protected Boolean current;
+
+		@ParameterDescriber(required = false, description = "如果不设置，当前配置下次不会生效", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
+		protected Boolean config;
+
+		@ParameterDescriber(required = false, description = "立即生效，对于开机虚拟机", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
+		protected Boolean live;
+		
+		@ParameterDescriber(required = false, description = "网络输入带宽QoS限制，单位为KiB，示例参考https://libvirt.org/formatnetwork.html#elementQoS", constraint = "0~99999999", example = "1000MiB: 1024000")
+		@Pattern(regexp = RegExpUtils.NET_QoS_PATTERN)
+		protected String inbound;
+
+		@ParameterDescriber(required = true, description = "网卡的mac地址", constraint = "mac地址不能以fe开头", example = "7e:0c:b0:ef:6a:04")
+		@Pattern(regexp = RegExpUtils.MAC_PATTERN)
+		protected String _interface;
+
+		@ParameterDescriber(required = false, description = "网络输出带宽QoS限制，单位为KiB，示例参考https://libvirt.org/formatnetwork.html#elementQoS", constraint = "0~99999999", example = "1000MiB: 1024000")
+		@Pattern(regexp = RegExpUtils.NET_QoS_PATTERN)
+		protected String outbound;
+
+		public String get_interface() {
+			return _interface;
+		}
+
+		public void set_interface(String _interface) {
+			this._interface = _interface;
+		}
+
+		public Boolean getCurrent() {
+			return current;
+		}
+
+		public void setCurrent(Boolean current) {
+			this.current = current;
+		}
+
+		public Boolean getConfig() {
+			return config;
+		}
+
+		public void setConfig(Boolean config) {
+			this.config = config;
+		}
+
+		public Boolean getLive() {
+			return live;
+		}
+
+		public void setLive(Boolean live) {
+			this.live = live;
+		}
+
+		public String getInbound() {
+			return inbound;
+		}
+
+		public void setInbound(String inbound) {
+			this.inbound = inbound;
+		}
+
+		public String getOutbound() {
+			return outbound;
+		}
+
+		public void setOutbound(String outbound) {
+			this.outbound = outbound;
+		}		
+	}
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class ResizeMaxRAM extends ResizeRAM{
 		
 	}
@@ -2715,6 +2817,12 @@ public class Lifecycle {
 			this.password = password;
 		}
 
+	}
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class UnsetVncPassword {
+		
 	}
 	
 }
