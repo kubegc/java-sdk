@@ -30,10 +30,10 @@ public class ManageISOTest {
 		ManageISO iso = new ManageISO();
 		iso.setSource("/var/lib/libvirt/iso/centos7-minimal-1511.iso");
 		iso.setPath("hdb");
-//		iso.setEject(true);
-		iso.setInsert(true);
-		iso.setForce(true);
-//		iso.setLive(true);
+		iso.setEject(true);
+//		iso.setInsert(true);
+//		iso.setForce(true);
+		iso.setLive(true);
 		iso.setConfig(true);
 		return iso;
 	}

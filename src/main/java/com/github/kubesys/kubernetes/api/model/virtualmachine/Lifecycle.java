@@ -2805,9 +2805,20 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class SetVncPassword {
 		
+		@ParameterDescriber(required = false, description = "如果不设置，当前配置下次不会生效", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
+		protected Boolean config;
+		
 		@ParameterDescriber(required = true, description = "虚拟机VNC/SPICE密码", constraint = "取值范围：密码为4-16位，是小写字母、数字和中划线组合", example = "abcdefg")
 		@Pattern(regexp = RegExpUtils.PASSWORD_PATTERN)
 		protected String password;
+
+		public Boolean getConfig() {
+			return config;
+		}
+
+		public void setConfig(Boolean config) {
+			this.config = config;
+		}
 
 		public String getPassword() {
 			return password;

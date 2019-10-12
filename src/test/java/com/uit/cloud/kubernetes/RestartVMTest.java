@@ -22,7 +22,7 @@ public class RestartVMTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.rebootVM("950646e8c17a49d0b83c1c797811e004", new RebootVM());
+				.rebootVM("vm003", new RebootVM());
 		System.out.println(successful);
 	}
 	

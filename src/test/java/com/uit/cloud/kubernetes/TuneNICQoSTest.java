@@ -28,8 +28,8 @@ public class TuneNICQoSTest {
 	
 	public static TuneNICQoS get() {
 		TuneNICQoS tuneNICQoS = new TuneNICQoS();
-		tuneNICQoS.setInbound("102400");
-		tuneNICQoS.setOutbound("102400");
+		tuneNICQoS.setInbound("0");
+		tuneNICQoS.setOutbound("0");
 		tuneNICQoS.set_interface("52:54:00:51:12:cf");
 		tuneNICQoS.setLive(true);
 		tuneNICQoS.setConfig(true);
