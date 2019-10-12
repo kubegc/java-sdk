@@ -28,6 +28,7 @@ public class UnsetVncPasswordTest {
 
 	protected static UnsetVncPassword get() {
 		UnsetVncPassword unsetVncPassword = new UnsetVncPassword();
+		unsetVncPassword.setConfig(true);
 		return unsetVncPassword;
 	}
 }
