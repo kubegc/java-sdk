@@ -29,6 +29,7 @@ public class SetVncPasswordTest {
 	public static SetVncPassword get() {
 		SetVncPassword setVncPassword = new SetVncPassword();
 		setVncPassword.setPassword("abcdefg");
+		setVncPassword.setConfig(true);
 		return setVncPassword;
 	}
 	
