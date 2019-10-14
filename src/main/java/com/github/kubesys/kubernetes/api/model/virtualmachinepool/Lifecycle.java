@@ -129,6 +129,8 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class AutoStartPool {
 
+		@ParameterDescriber(required = false, description = "存储池的类型", constraint = "只能是dir，nfs，glusterfs之一", example = "dir")
+		@Pattern(regexp = RegExpUtils.POOL_TYPE_NOT_SUPPORT_PATTERN)
 	    protected String type;
 
 		@ParameterDescriber(required = true, description = "修改存储池autostart状态", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
@@ -593,6 +595,8 @@ public class Lifecycle {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class StartPool {
+		@ParameterDescriber(required = false, description = "存储池的类型", constraint = "只能是dir，nfs，glusterfs之一", example = "dir")
+		@Pattern(regexp = RegExpUtils.POOL_TYPE_NOT_SUPPORT_PATTERN)
         protected String type;
 		
 		protected Boolean build;
@@ -637,6 +641,8 @@ public class Lifecycle {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class StopPool {
+		@ParameterDescriber(required = false, description = "存储池的类型", constraint = "只能是dir，nfs，glusterfs之一", example = "dir")
+		@Pattern(regexp = RegExpUtils.POOL_TYPE_NOT_SUPPORT_PATTERN)
         protected String type;
 
         public String getType() {

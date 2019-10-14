@@ -88,6 +88,9 @@ public class RegExpUtils {
 	
 	@FieldDescriber("存储池类型，只能是dir,uus,nfs,glusterfs之一")
 	public final static String POOL_TYPE_PATTERN = "dir|uus|nfs|glusterfs";
+
+	@FieldDescriber("存储池类型，只能是dir,nfs,glusterfs之一")
+	public final static String POOL_TYPE_NOT_SUPPORT_PATTERN = "dir|nfs|glusterfs";
 	
 	@FieldDescriber("IP范围，如192.168.1.0")
 	public final static String IP_PATTERN  = "((25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)\\.){3}(25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)";
