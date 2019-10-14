@@ -104,8 +104,8 @@ public class Lifecycle {
 	public static class CreateSnapshot {
 
 		@ParameterDescriber(required = true, description = "虚拟机快照的设置", 
-				constraint = "vda(对哪个磁盘做快照，多个请参考示例),snapshot=external/internal(快照类型，支持external：外部和internal:内部),file=/var/lib/libvirt/snapshots/snapshot1(快照文件的存放路径),drvier=qcow2（只支持qcow2）", 
-				example = "vda,snapshot=external,file=/var/lib/libvirt/snapshots/snapshot1,drvier=qcow2 --diskspec vdb,snapshot=external,file=/var/lib/libvirt/snapshots/snapshot2,drvier=qcow2")
+				constraint = "vda(对哪个磁盘做快照，多个请参考示例),snapshot=external/internal/no(快照类型，支持external：外部,internal:内部,no:不做快照),file=/var/lib/libvirt/snapshots/snapshot1(快照文件的存放路径),drvier=qcow2（只支持qcow2）", 
+				example = "只对系统盘做快照示例：vda,snapshot=external,file=/var/lib/libvirt/snapshots/snapshot1,drvier=qcow2 --diskspec vdb,snapshot=no")
 		protected String diskspec;
 		
 		protected Boolean no_metadata;
