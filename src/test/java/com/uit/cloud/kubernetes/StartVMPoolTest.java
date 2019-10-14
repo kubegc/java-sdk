@@ -15,21 +15,21 @@ import com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle;
  * @since   2019/9/3
  *
  */
-public class DeleteVMPoolTest {
+public class StartVMPoolTest {
 	
 	
 	public static void main(String[] args) throws Exception {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachinePools()
-				.deletePool("pooltest3", getPool(), "123");
+				.startPool("pooltest2", getPool());
 		System.out.println(successful);
 	}
 
-	protected static Lifecycle.DeletePool getPool() {
-		Lifecycle.DeletePool deletePool = new Lifecycle.DeletePool();
-		deletePool.setType("dir");
-		return deletePool;
+	protected static Lifecycle.StartPool getPool() {
+		Lifecycle.StartPool startPool = new Lifecycle.StartPool();
+        startPool.setType("dir");
+		return startPool;
 	}
 	
 }

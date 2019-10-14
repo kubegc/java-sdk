@@ -22,15 +22,15 @@ public class AutoStartVMPoolTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachinePools()
-				.createPool("hello", "node31", getPool());
+				.autoStart("pooltest2", getPool());
 		System.out.println(successful);
 	}
 
-	protected static Lifecycle.CreatePool getPool() {
-		Lifecycle.CreatePool createPool = new Lifecycle.CreatePool();
-		createPool.setType("dir");
-		createPool.setTarget("/pool");
-		return createPool;
+	protected static Lifecycle.AutoStartPool getPool() {
+		Lifecycle.AutoStartPool autoStartPool = new Lifecycle.AutoStartPool();
+		autoStartPool.setType("dir");
+		autoStartPool.setDisable(false);
+		return autoStartPool;
 	}
 	
 }

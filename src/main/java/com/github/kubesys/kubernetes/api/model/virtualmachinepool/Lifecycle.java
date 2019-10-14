@@ -29,7 +29,7 @@ public class Lifecycle {
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = AnnotationUtils.DESC_FUNCTION_VMP, 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
-	protected AutoStart autoStart;
+	protected AutoStartPool autoStartPool;
 	
 	@FunctionDescriber(shortName = "创建存储池", description = "创建存储池，适用libvirt指令创建存储池情况。" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
@@ -61,19 +61,19 @@ public class Lifecycle {
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected DeletePool deletePool;
 	
-	@FunctionDescriber(shortName = "反注册存储池", description = "反注册存储池，将存储池信息从libvirt里面注销" 
-			+ AnnotationUtils.DESC_FUNCTION_DESC, 
-		prerequisite = AnnotationUtils.DESC_FUNCTION_VMP, 
-		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
-	protected UnregisterPool unregisterPool;
+//	@FunctionDescriber(shortName = "反注册存储池", description = "反注册存储池，将存储池信息从libvirt里面注销"
+//			+ AnnotationUtils.DESC_FUNCTION_DESC,
+//		prerequisite = AnnotationUtils.DESC_FUNCTION_VMP,
+//		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+//	protected UnregisterPool unregisterPool;
 	
 
-	public AutoStart getAutoStart() {
-		return autoStart;
+	public AutoStartPool getAutoStartPool() {
+		return autoStartPool;
 	}
 
-	public void setAutoStart(AutoStart autoStart) {
-		this.autoStart = autoStart;
+	public void setAutoStartPool(AutoStartPool autoStartPool) {
+		this.autoStartPool = autoStartPool;
 	}
 
 	public CreatePool getCreatePool() {
@@ -116,18 +116,22 @@ public class Lifecycle {
 		this.deletePool = deletePool;
 	}
 
-	public UnregisterPool getUnregisterPool() {
-		return unregisterPool;
-	}
-
-	public void setUnregisterPool(UnregisterPool unregisterPool) {
-		this.unregisterPool = unregisterPool;
-	}
+//	public UnregisterPool getUnregisterPool() {
+//		return unregisterPool;
+//	}
+//
+//	public void setUnregisterPool(UnregisterPool unregisterPool) {
+//		this.unregisterPool = unregisterPool;
+//	}
 	
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class AutoStart {
+	public static class AutoStartPool {
+
+		@ParameterDescriber(required = false, description = "存储池的类型", constraint = "只能是dir，nfs，glusterfs之一", example = "dir")
+		@Pattern(regexp = RegExpUtils.POOL_TYPE_NOT_SUPPORT_PATTERN)
+	    protected String type;
 
 		@ParameterDescriber(required = true, description = "修改存储池autostart状态", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean disable;
@@ -139,8 +143,15 @@ public class Lifecycle {
 		public void setDisable(Boolean disable) {
 			this.disable = disable;
 		}
-		
-	}
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
+    }
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
@@ -164,9 +175,8 @@ public class Lifecycle {
 		
 		protected String source_name;
 
-		@ParameterDescriber(required = true, description = "创建存储池后是否设置为自动打开", constraint = "yes或no", example = "yes")
-		@Pattern(regexp = RegExpUtils.AUTOSTART_PATTERN)
-		protected String autostart;
+		@ParameterDescriber(required = false, description = "创建存储池后是否设置为自动打开", constraint = "true或false", example = "true")
+		protected boolean autostart;
 
 		@ParameterDescriber(required = true, description = "创建存储池使用的存储路径", constraint = "完整有效的存储路径", example = "/var/lib/libvirt/poolg")
 		@Pattern(regexp = RegExpUtils.TARGET_PATTERN)
@@ -386,11 +396,11 @@ public class Lifecycle {
 			this.opt = opt;
 		}
 
-		public String getAutostart() {
+		public boolean getAutostart() {
 			return autostart;
 		}
 
-		public void setAutostart(String autostart) {
+		public void setAutostart(boolean autostart) {
 			this.autostart = autostart;
 		}
 	}
@@ -585,6 +595,9 @@ public class Lifecycle {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class StartPool {
+		@ParameterDescriber(required = false, description = "存储池的类型", constraint = "只能是dir，nfs，glusterfs之一", example = "dir")
+		@Pattern(regexp = RegExpUtils.POOL_TYPE_NOT_SUPPORT_PATTERN)
+        protected String type;
 		
 		protected Boolean build;
 		
@@ -615,14 +628,31 @@ public class Lifecycle {
 		public void setOverwrite(Boolean overwrite) {
 			this.overwrite = overwrite;
 		}
-		
-	}
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
+    }
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class StopPool {
-		
-	}
+		@ParameterDescriber(required = false, description = "存储池的类型", constraint = "只能是dir，nfs，glusterfs之一", example = "dir")
+		@Pattern(regexp = RegExpUtils.POOL_TYPE_NOT_SUPPORT_PATTERN)
+        protected String type;
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
+    }
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
@@ -640,10 +670,10 @@ public class Lifecycle {
 		}
 	}
 	
-	@JsonInclude(JsonInclude.Include.NON_NULL)
-	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class UnregisterPool {
-		
-	}
+//	@JsonInclude(JsonInclude.Include.NON_NULL)
+//	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+//	public static class UnregisterPool {
+//
+//	}
 
 }
