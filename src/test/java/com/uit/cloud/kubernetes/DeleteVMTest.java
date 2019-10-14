@@ -21,8 +21,10 @@ public class DeleteVMTest {
 	public static void main(String[] args) throws Exception {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
+		DeleteVM deleteVM = new DeleteVM();
+		deleteVM.setDelete_snapshots(true);
 		boolean successful = client.virtualMachines()
-				.deleteVM("vm003", new DeleteVM(), "1123");
+				.deleteVM("vm003", deleteVM, "1123");
 		System.out.println(successful);
 	}
 	

@@ -10864,15 +10864,15 @@
 	虚拟机存储池存在，即已调用过CreatePool
 
 **接口所属:**
-	com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle.AutoStart
+	com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle.AutoStartPool
 
 **参数描述:**
 
 | name | type | required | description | exampe |
 | ----- | ------ | ------ | ------ | ------ |
-| name | String | true | 资源名称 | autoStart.name.001|
-| autoStart | AutoStart | true | 开机启动存储池 | 详细见下 |
-| eventId | String | fasle | 事件ID | autoStart.event.001 |
+| name | String | true | 资源名称 | autoStartPool.name.001|
+| autoStartPool | AutoStart | true | 开机启动存储池 | 详细见下 |
+| eventId | String | fasle | 事件ID | autoStartPool.event.001 |
 
 对象autoStart参数说明:
 
@@ -11181,7 +11181,7 @@
 		"additionalPrinterColumns":[],
 		"additionalProperties":{},
 		"lifecycle":{
-			"autoStart":{
+			"autoStartPool":{
 				"disable":true
 			},
 			"createPool":{
