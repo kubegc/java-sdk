@@ -29,9 +29,9 @@ public class ManageISOTest {
 	public static ManageISO getManageISO() {
 		ManageISO iso = new ManageISO();
 		iso.setSource("/var/lib/libvirt/iso/centos7-minimal-1511.iso");
-		iso.setPath("hdb");
-		iso.setEject(true);
-//		iso.setInsert(true);
+		iso.setPath("hda");
+//		iso.setEject(true);
+		iso.setInsert(true);
 //		iso.setForce(true);
 		iso.setLive(true);
 		iso.setConfig(true);

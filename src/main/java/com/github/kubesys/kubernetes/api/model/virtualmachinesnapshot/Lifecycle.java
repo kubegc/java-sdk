@@ -107,7 +107,7 @@ public class Lifecycle {
 				constraint = "vda(对哪个磁盘做快照，多个请参考示例),snapshot=external/internal(快照类型，支持external：外部和internal:内部),file=/var/lib/libvirt/snapshots/snapshot1(快照文件的存放路径),drvier=qcow2（只支持qcow2）", 
 				example = "vda,snapshot=external,file=/var/lib/libvirt/snapshots/snapshot1,drvier=qcow2 --diskspec vdb,snapshot=external,file=/var/lib/libvirt/snapshots/snapshot2,drvier=qcow2")
 		protected String diskspec;
-
+		
 		protected Boolean no_metadata;
 
 		protected Boolean disk_only;

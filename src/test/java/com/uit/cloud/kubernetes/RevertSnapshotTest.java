@@ -22,7 +22,7 @@ public class RevertSnapshotTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineSnapshots()
-				.revertVirtualMachine("snapshot3", get(), "123456");
+				.revertVirtualMachine("snapshota", get(), "123456");
 		System.out.println(successful);
 	}
 
