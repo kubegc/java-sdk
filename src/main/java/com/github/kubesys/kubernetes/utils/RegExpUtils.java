@@ -131,8 +131,8 @@ public class RegExpUtils {
 	public final static String BOOT_PATTERN = "hd|cdrom";
 	
 	public static void main(String[] args) {
-		String name = "12aa,123";
-		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN_WITH_COMMA);
+		String name = "hda,hdb";
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("");
 		}
