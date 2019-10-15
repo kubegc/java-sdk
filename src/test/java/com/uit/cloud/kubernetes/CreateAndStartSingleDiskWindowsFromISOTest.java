@@ -23,7 +23,7 @@ public class CreateAndStartSingleDiskWindowsFromISOTest {
 		CreateAndStartVMFromISO createAndStartVMFromISO = get();
 		// name
 		boolean successful = client.virtualMachines()
-				.createAndStartVMFromISO("250646e8c17a49d0b83c1c797811e002", "vm.node30", createAndStartVMFromISO, "123");
+				.createAndStartVMFromISO("qsjwin10", "vm.node22", createAndStartVMFromISO, "123");
 		System.out.println(successful);
 	}
 	
@@ -32,10 +32,10 @@ public class CreateAndStartSingleDiskWindowsFromISOTest {
 		
 		CreateAndStartVMFromISO createAndStartVMFromISO = new CreateAndStartVMFromISO();
 		// default value
-		createAndStartVMFromISO.setMetadata("uuid=250646e8-c17a-49d0-b83c-1c797811e002");
+		createAndStartVMFromISO.setMetadata("uuid=250646e8-c17a-49d0-b83c-1c797811e001");
 		createAndStartVMFromISO.setVirt_type("kvm"); 
 		// @see https://github.com/uit-plus/api/blob/master/src/main/java/com/github/uitplus/utils/OSDistroUtils.java
-		createAndStartVMFromISO.setOs_variant("win7");
+		createAndStartVMFromISO.setOs_variant("win10");
 		createAndStartVMFromISO.setNoautoconsole(true); 
 		
 		// calculationSpecification
@@ -44,8 +44,8 @@ public class CreateAndStartSingleDiskWindowsFromISOTest {
 		// Disk and QoS for 1 disk and many disks
 		// path /var/lib/libvirt/images/test11 can be get by CreateDiskTest
 		// windos use target=hda as boot disk.
-		createAndStartVMFromISO.setDisk("/var/lib/libvirt/images/win4abcdefgh,target=hda,read_bytes_sec=1024000000,write_bytes_sec=1024000000");
-		createAndStartVMFromISO.setCdrom("/var/lib/libvirt/iso/windows7.iso");
+		createAndStartVMFromISO.setDisk("/var/lib/libvirt/images/qsjwin10,target=hda");
+		createAndStartVMFromISO.setCdrom("/var/lib/libvirt/iso/win10.iso");
 
 		/*
 		 * libivrt default bridge
@@ -102,12 +102,12 @@ public class CreateAndStartSingleDiskWindowsFromISOTest {
 		 */
 		
 //		createAndStartVMFromISO.setNetwork("type=bridge,source=virbr0,inbound=102400,outbound=102400");
-//		createAndStartVMFromISO.setNetwork("type=l2bridge,source=br-native,inbound=102400,outbound=102400");
+		createAndStartVMFromISO.setNetwork("type=l2bridge,source=br-native,inbound=102400,outbound=102400");
 //      if you want to use l3bridge, please first execute the command on your master node, 'kubeovn-adm create-switch --name switch8888 --subnet 192.168.5.0/24'
-		createAndStartVMFromISO.setNetwork("type=l3bridge,source=br-int,ip=192.168.5.10,switch=switch8888,inbound=102400,outbound=102400,model=e1000");  
+//		createAndStartVMFromISO.setNetwork("type=l3bridge,source=br-int,ip=192.168.5.10,switch=switch8888,inbound=102400,outbound=102400,model=e1000");  
 		
 		// consoleMode amd passowrd
-		createAndStartVMFromISO.setGraphics("vnc,listen=0.0.0.0" + getconsolePassword("123456"));
+		createAndStartVMFromISO.setGraphics("vnc,listen=0.0.0.0");
 //		createAndStartVMFromISO.setGraphics("spice,listen=0.0.0.0" + getconsolePassword("567890")); 
 		
 		return createAndStartVMFromISO;
@@ -115,7 +115,7 @@ public class CreateAndStartSingleDiskWindowsFromISOTest {
 
 
 	protected static void calculationSpecification(CreateAndStartVMFromISO createAndStartVMFromISO) {
-		createAndStartVMFromISO.setMemory("1024");    
+		createAndStartVMFromISO.setMemory("4096");    
 		createAndStartVMFromISO.setVcpus("4" + getCPUSet("1-4,6,8"));
 	}
 	

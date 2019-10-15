@@ -2788,7 +2788,7 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class SetBootOrder {
 		
-		@ParameterDescriber(required = true, description = "虚拟机启动顺序，从光盘或者系统盘启动", constraint = "取值范围：hd/cdrom", example = "cdrom")
+		@ParameterDescriber(required = true, description = "虚拟机启动顺序，从光盘或者系统盘启动，启动顺序用逗号分隔，对于开机虚拟机重启后生效", constraint = "取值范围：hd/cdrom", example = "cdrom,hd")
 		protected String order;
 
 		public String getOrder() {
