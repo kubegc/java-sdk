@@ -28,7 +28,7 @@ public class SetBootOrderTest {
 	
 	public static SetBootOrder get() {
 		SetBootOrder setBootOrder = new SetBootOrder();
-		setBootOrder.setOrder("hd,cdrom");
+		setBootOrder.setOrder("hda,vdb");
 		return setBootOrder;
 	}
 	
