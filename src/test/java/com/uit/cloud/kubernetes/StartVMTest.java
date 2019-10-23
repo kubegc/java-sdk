@@ -22,7 +22,7 @@ public class StartVMTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.startVM("vm003", new StartVM());
+				.startVM("cloudinit", new StartVM());
 		System.out.println(successful);
 	}
 	

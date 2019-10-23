@@ -22,13 +22,13 @@ public class SetBootOrderTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.setBootOrder("vm003", get(), "1123");
+				.setBootOrder("cloudinit", get(), "1123");
 		System.out.println(successful);
 	}
 	
 	public static SetBootOrder get() {
 		SetBootOrder setBootOrder = new SetBootOrder();
-		setBootOrder.setOrder("hda,vdb");
+		setBootOrder.setOrder("hda,vda");
 		return setBootOrder;
 	}
 	

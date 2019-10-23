@@ -22,18 +22,18 @@ public class ManageISOTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.manageISO("vm003", getManageISO());
+				.manageISO("cloudinit", getManageISO());
 		System.out.println(successful);
 	}
 	
 	public static ManageISO getManageISO() {
 		ManageISO iso = new ManageISO();
-		iso.setSource("/var/lib/libvirt/iso/centos7-minimal-1511.iso");
+		iso.setSource("/var/lib/libvirt/iso/cloud-init.iso");
 		iso.setPath("hda");
 //		iso.setEject(true);
 		iso.setInsert(true);
 //		iso.setForce(true);
-		iso.setLive(true);
+//		iso.setLive(true);
 		iso.setConfig(true);
 		return iso;
 	}
