@@ -22,7 +22,7 @@ public class RevertDiskExternalSnapshotTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineDisks()
-				.revertDiskExternalSnapshot("vmdtest", get(), "abc");
+				.revertDiskExternalSnapshot("ss3", get(), "abc");
 		System.out.println(successful);
 	}
 
@@ -30,8 +30,8 @@ public class RevertDiskExternalSnapshotTest {
 		RevertDiskExternalSnapshot revertDiskExternalSnapshot = new RevertDiskExternalSnapshot();
 		revertDiskExternalSnapshot.setType("dir");
 		revertDiskExternalSnapshot.setPool("default");
-		revertDiskExternalSnapshot.setSnapshotname("vmdtest.1");
-		revertDiskExternalSnapshot.setLeaves("vmdtest.4,vmdtest.3");
+		revertDiskExternalSnapshot.setVol("disktest");
+		revertDiskExternalSnapshot.setFormat("qcow2");
 		return revertDiskExternalSnapshot;
 	}
 }
