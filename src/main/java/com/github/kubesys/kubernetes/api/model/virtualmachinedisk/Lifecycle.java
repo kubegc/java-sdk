@@ -701,8 +701,54 @@ public class Lifecycle {
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class CreateDiskExternalSnapshot extends CreateDisk{
+	public static class CreateDiskExternalSnapshot{
+		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，uus，nfs，glusterfs之一", example = "dir")
+		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
+		protected String type;
 
+		@ParameterDescriber(required = true, description = "云盘所在的存储池名", constraint = "由4-100位的数字和小写字母组成，已创建出的存储池，只支持dir、nfs和glusterfs类型", example = "pool2")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String pool;
+
+		@ParameterDescriber(required = true, description = "云盘文件的类型", constraint = "qcow2", example = "qcow2")
+		@Pattern(regexp = RegExpUtils.DISK_TYPE_PATTERN)
+		protected String format;
+
+		@ParameterDescriber(required = true, description = "云盘名", constraint = "磁盘和快照", example = "disk1")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String vol;
+
+		public String getType() {
+			return type;
+		}
+
+		public void setType(String type) {
+			this.type = type;
+		}
+
+		public String getPool() {
+			return pool;
+		}
+
+		public void setPool(String pool) {
+			this.pool = pool;
+		}
+
+		public String getFormat() {
+			return format;
+		}
+
+		public void setFormat(String format) {
+			this.format = format;
+		}
+
+		public String getVol() {
+			return vol;
+		}
+
+		public void setVol(String vol) {
+			this.vol = vol;
+		}
 	}
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
@@ -716,21 +762,22 @@ public class Lifecycle {
 		@ParameterDescriber(required = true, description = "云盘所在的存储池名", constraint = "由4-100位的数字和小写字母组成，已创建出的存储池", example = "pool2")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String pool;
-		
-		@ParameterDescriber(required = true, description = "要恢复的快照的名字", constraint = "由4-100位的数字和小写字母组成", example = "snap1")
-		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
-		protected String snapshotname;
-		
-		@ParameterDescriber(required = true, description = "所有叶子节点的名称，用于遍历整个快照链，多个叶子节点之间用英文逗号分隔", constraint = "由4-100位的数字和小写字母组成", example = "snap4,snap5")
-		@Pattern(regexp = RegExpUtils.NAME_PATTERN_WITH_COMMA)
-		protected String leaves;
 
-		public String getLeaves() {
-			return leaves;
+		@ParameterDescriber(required = true, description = "云盘名", constraint = "磁盘和快照", example = "disk1")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String vol;
+
+		@ParameterDescriber(required = true, description = "云盘文件的类型", constraint = "qcow2", example = "qcow2")
+		@Pattern(regexp = RegExpUtils.DISK_TYPE_PATTERN)
+		protected String format;
+
+
+		public String getType() {
+			return type;
 		}
 
-		public void setLeaves(String leaves) {
-			this.leaves = leaves;
+		public void setType(String type) {
+			this.type = type;
 		}
 
 		public String getPool() {
@@ -741,27 +788,65 @@ public class Lifecycle {
 			this.pool = pool;
 		}
 
-		public String getSnapshotname() {
-			return snapshotname;
+		public String getVol() {
+			return vol;
 		}
 
-		public void setSnapshotname(String snapshotname) {
-			this.snapshotname = snapshotname;
+		public void setVol(String vol) {
+			this.vol = vol;
 		}
 
-		public String getType() {
-			return type;
+		public String getFormat() {
+			return format;
 		}
 
-		public void setType(String type) {
-			this.type = type;
+		public void setFormat(String format) {
+			this.format = format;
 		}
 	}
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class DeleteDiskExternalSnapshot extends DeleteDisk{
+		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，uus，nfs，glusterfs之一", example = "dir")
+		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
+		protected String type;
 
+		@ParameterDescriber(required = true, description = "云盘所在的存储池名", constraint = "由4-100位的数字和小写字母组成，已创建出的存储池", example = "pool2")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String pool;
+
+		@ParameterDescriber(required = true, description = "云盘名", constraint = "磁盘和快照", example = "disk1")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String vol;
+
+		@Override
+		public String getType() {
+			return type;
+		}
+
+		@Override
+		public void setType(String type) {
+			this.type = type;
+		}
+
+		@Override
+		public String getPool() {
+			return pool;
+		}
+
+		@Override
+		public void setPool(String pool) {
+			this.pool = pool;
+		}
+
+		public String getVol() {
+			return vol;
+		}
+
+		public void setVol(String vol) {
+			this.vol = vol;
+		}
 	}
 	
 }

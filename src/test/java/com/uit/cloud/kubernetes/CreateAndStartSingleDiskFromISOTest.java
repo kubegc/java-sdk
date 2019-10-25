@@ -23,7 +23,7 @@ public class CreateAndStartSingleDiskFromISOTest {
 		CreateAndStartVMFromISO createAndStartVMFromISO = get();
 		// name
 		boolean successful = client.virtualMachines()
-				.createAndStartVMFromISO("vm003", "vm.node22", createAndStartVMFromISO, "01");
+				.createAndStartVMFromISO("vm007", "vm.node22", createAndStartVMFromISO, "01");
 		System.out.println(successful);
 	}
 	
@@ -46,7 +46,7 @@ public class CreateAndStartSingleDiskFromISOTest {
 		// cdrom
 		createAndStartVMFromISO.setCdrom("/var/lib/libvirt/iso/centos7-minimal-1511.iso"); 
 		// Disk and QoS for 1 disk and many disks
-		createAndStartVMFromISO.setDisk("/var/lib/libvirt/images/vlanvm3,read_bytes_sec=1024000000,write_bytes_sec=1024000000");
+		createAndStartVMFromISO.setDisk("/var/lib/libvirt/pooltest/disktest/ss3,read_bytes_sec=1024000000,write_bytes_sec=1024000000");
 				
 
 		/*

@@ -28,7 +28,7 @@ public class CreateDiskTest {
 
 	protected static CreateDisk get() {
 		CreateDisk createDisk = new CreateDisk();
-		createDisk.setPool("node22-test");
+		createDisk.setPool("pooltest2");
 		// bytes 10G
 		Long size = 10L*1024*1024*1024;
 		createDisk.setCapacity(String.valueOf(size));
