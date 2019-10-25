@@ -69,8 +69,18 @@ public class Data {
 		
 		protected String name;
 		
-		protected List<Port> port;
+		protected List<Ports> ports;
 		
+		public List<Ports> getPorts() {
+			return ports;
+		}
+
+
+		public void setPorts(List<Ports> ports) {
+			this.ports = ports;
+		}
+
+
 		public SwitchInfo() {
 			super();
 		}
@@ -91,29 +101,25 @@ public class Data {
 		public void setName(String name) {
 			this.name = name;
 		}
-		
-		public List<Port> getPort() {
-			return port;
-		}
-
-		public void setPort(List<Port> port) {
-			this.port = port;
-		}
 
 		@JsonInclude(JsonInclude.Include.NON_NULL)
 		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-		public static class Port {
+		public static class Ports {
 			
 			protected String name;
 			
 			protected String type;
 			
-			protected String addresses;
+			protected Object addresses;
 			
 			protected String router_port;
 
-			public Port() {
-				super();
+			public Object getAddresses() {
+				return addresses;
+			}
+
+			public void setAddresses(Object addresses) {
+				this.addresses = addresses;
 			}
 
 			public String getName() {
@@ -130,14 +136,6 @@ public class Data {
 
 			public void setType(String type) {
 				this.type = type;
-			}
-
-			public String getAddresses() {
-				return addresses;
-			}
-
-			public void setAddresses(String addresses) {
-				this.addresses = addresses;
 			}
 
 			public String getRouter_port() {
@@ -159,10 +157,18 @@ public class Data {
 		
 		protected String name;
 		
-		protected List<Port> port;
+		protected List<Ports> ports;
 		
 		protected List<Nat> nat;
 		
+		public List<Ports> getPorts() {
+			return ports;
+		}
+
+		public void setPorts(List<Ports> ports) {
+			this.ports = ports;
+		}
+
 		public RouterInfo() {
 			super();
 		}
@@ -183,14 +189,6 @@ public class Data {
 			this.name = name;
 		}
 
-		public List<Port> getPort() {
-			return port;
-		}
-
-		public void setPort(List<Port> port) {
-			this.port = port;
-		}
-		
 		public List<Nat> getNat() {
 			return nat;
 		}
@@ -201,7 +199,7 @@ public class Data {
 
 		@JsonInclude(JsonInclude.Include.NON_NULL)
 		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-		public static class Port {
+		public static class Ports {
 			
 			protected String name;
 			
@@ -210,10 +208,6 @@ public class Data {
 			protected String networks;
 			
 			protected String gateway;
-
-			public Port() {
-				super();
-			}
 
 			public String getName() {
 				return name;

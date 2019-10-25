@@ -15,14 +15,14 @@ import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.D
  * @since   2019/9/3
  *
  */
-public class DeleteVPCTest {
+public class DeleteSwitchTest {
 	
 	
 	public static void main(String[] args) throws Exception {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineNetworks()
-				.deleteSwitch("sw121234", get());
+				.deleteSwitch("vxlan", get());
 		System.out.println(successful);
 	}
 
