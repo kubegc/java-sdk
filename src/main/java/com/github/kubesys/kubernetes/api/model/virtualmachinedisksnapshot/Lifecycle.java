@@ -22,7 +22,7 @@ import com.github.kubesys.kubernetes.utils.RegExpUtils;
  **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-@ClassDescriber(value = "VirtualMachineDisksnapshot", desc = "云盘快照是指云盘的外部快照，目前支持QCOW2格式")
+@ClassDescriber(value = "VirtualMachineDiskSnapshot", desc = "云盘快照是指云盘的外部快照，目前支持QCOW2格式")
 public class Lifecycle {
 
 	@FunctionDescriber(shortName = "创建云盘外部快照", description = "创建云盘外部快照，" 

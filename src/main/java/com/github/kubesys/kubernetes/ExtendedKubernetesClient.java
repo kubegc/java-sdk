@@ -457,7 +457,7 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 	/**
 	 * the same as  'virtualMachineDiskSnapshots'
 	 * 
-	 * @return                    virtualMachineDisks
+	 * @return                    virtualMachineDiskSnapshots
 	 */
 	public VirtualMachineDiskSnapshotImpl getVirtualMachineDiskSnapshotImpl() {
 		return virtualMachineDiskSnapshots();

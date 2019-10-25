@@ -19,11 +19,15 @@ public class Volume {
 
 	protected String actual_size;
 	
+	protected String backing_filename;
+	
 	protected String cluster_size;
 	
 	protected String current;
 	
 	protected String dirty_flag;
+	
+	protected String disk;
 	
 	protected String filename;
 	
@@ -35,6 +39,22 @@ public class Volume {
 	
 	protected String virtual_size;
 	
+	public String getDisk() {
+		return disk;
+	}
+
+	public void setDisk(String disk) {
+		this.disk = disk;
+	}
+
+	public String getBacking_filename() {
+		return backing_filename;
+	}
+
+	public void setBacking_filename(String backing_filename) {
+		this.backing_filename = backing_filename;
+	}
+
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class FormatSpecific {
