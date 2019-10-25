@@ -4,8 +4,7 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
-import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.DeleteDisk;
-import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.DeleteDiskExternalSnapshot;
+import com.github.kubesys.kubernetes.api.model.virtualmachinedisksnapshot.Lifecycle.DeleteDiskExternalSnapshot;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -22,7 +21,7 @@ public class DeleteDiskExternalSnapshotTest {
 	public static void main(String[] args) throws Exception {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
-		boolean successful = client.virtualMachineDisks()
+		boolean successful = client.virtualMachineDiskSnapshots()
 				.deleteDiskExternalSnapshot("root4abcdeef.1", get());
 		System.out.println(successful);
 	}

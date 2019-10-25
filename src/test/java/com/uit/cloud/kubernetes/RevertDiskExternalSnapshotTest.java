@@ -4,7 +4,7 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
-import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.RevertDiskExternalSnapshot;
+import com.github.kubesys.kubernetes.api.model.virtualmachinedisksnapshot.Lifecycle.RevertDiskExternalSnapshot;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -21,7 +21,7 @@ public class RevertDiskExternalSnapshotTest {
 	public static void main(String[] args) throws Exception {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
-		boolean successful = client.virtualMachineDisks()
+		boolean successful = client.virtualMachineDiskSnapshots()
 				.revertDiskExternalSnapshot("ss3", get(), "abc");
 		System.out.println(successful);
 	}

@@ -3,8 +3,6 @@
  */
 package com.github.kubesys.kubernetes.api.model.virtualmachinedisk;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
@@ -19,1125 +17,163 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 @JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 public class Volume {
 
-	protected Allocation allocation;
-
-	protected String _type;
-
-	protected String disktype;
-
-	protected Name name;
-
-	protected Source source;
-
-	protected Physical physical;
-
-	protected Key key;
-
-	protected Capacity capacity;
-
-	protected Target target;
+	protected String actual_size;
 	
-	protected List<Snapshot> snapshot;
+	protected String cluster_size;
 	
-	protected BackingStroe backingStore;
-
-	public List<Snapshot> getSnapshot() {
-		return snapshot;
-	}
-
-	public void setSnapshot(List<Snapshot> snapshot) {
-		this.snapshot = snapshot;
-	}
-
-	/**
-	 * Ignore the user setting, use 'lifecycle' to update VM's info
-	 *
-	 */
-	public void setAllocation(Allocation allocation) {
-		this.allocation = allocation;
-	}
-
-	public Allocation getAllocation() {
-		return this.allocation;
-	}
-
-	/**
-	 * Ignore the user setting, use 'lifecycle' to update VM's info
-	 *
-	 */
-	public void set_type(String _type) {
-		this._type = _type;
-	}
-
-	public String get_type() {
-		return this._type;
-	}
-
-	/**
-	 * Ignore the user setting, use 'lifecycle' to update VM's info
-	 *
-	 */
-
-	public Name getName() {
-		return name;
-	}
-
-	public void setName(Name name) {
-		this.name = name;
-	}
-
-	/**
-	 * Ignore the user setting, use 'lifecycle' to update VM's info
-	 *
-	 */
-	public void setSource(Source source) {
-		this.source = source;
-	}
-
-
-	public Source getSource() {
-		return this.source;
-	}
-
-	/**
-	 * Ignore the user setting, use 'lifecycle' to update VM's info
-	 *
-	 */
-	public void setPhysical(Physical physical) {
-		this.physical = physical;
-	}
-
-	public Physical getPhysical() {
-		return this.physical;
-	}
-
-	/**
-	 * Ignore the user setting, use 'lifecycle' to update VM's info
-	 *
-	 */
+	protected String current;
 	
-	public Key getKey() {
-		return key;
-	}
-
-	public void setKey(Key key) {
-		this.key = key;
-	}
-
-	/**
-	 * Ignore the user setting, use 'lifecycle' to update VM's info
-	 *
-	 */
-	public void setCapacity(Capacity capacity) {
-		this.capacity = capacity;
-	}
-
-	public Capacity getCapacity() {
-		return this.capacity;
-	}
-
-	public String getDisktype() {
-		return disktype;
-	}
-
-	public void setDisktype(String disktype) {
-		this.disktype = disktype;
-	}
-
-	/**
-	 * Ignore the user setting, use 'lifecycle' to update VM's info
-	 *
-	 */
-	public void setTarget(Target target) {
-		this.target = target;
-	}
-
-	public Target getTarget() {
-		return this.target;
-	}
-
-	public BackingStroe getBackingStore() {
-		return backingStore;
-	}
-
-	public void setBackingStore(BackingStroe backingStore) {
-		this.backingStore = backingStore;
-	}
+	protected String dirty_flag;
+	
+	protected String filename;
+	
+	protected String format;
+	
+	protected FormatSpecific format_specific;
+	
+	protected String full_backing_filename;
+	
+	protected String virtual_size;
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class BackingStroe {
+	public static class FormatSpecific {
 		
-		protected Format format;
+		protected Data data;
 		
-		public BackingStroe() {
-			super();
-		}
-		
-		protected Path path;
-		
-		protected Permissions permissions;
-		
-		protected Timestamps timestamps;
-
-		public Format getFormat() {
-			return format;
-		}
-
-		public void setFormat(Format format) {
-			this.format = format;
-		}
-
-		public Path getPath() {
-			return path;
-		}
-
-		public void setPath(Path path) {
-			this.path = path;
-		}
-
-		public Permissions getPermissions() {
-			return permissions;
-		}
-
-		public void setPermissions(Permissions permissions) {
-			this.permissions = permissions;
-		}
-
-		public Timestamps getTimestamps() {
-			return timestamps;
-		}
-
-		public void setTimestamps(Timestamps timestamps) {
-			this.timestamps = timestamps;
-		}
+		protected String type;
 		
 		@JsonInclude(JsonInclude.Include.NON_NULL)
 		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-		public static class Format {
+		public static class Data {
 			
-			protected String _type;
-
-			public String get_type() {
-				return _type;
-			}
-
-			public void set_type(String _type) {
-				this._type = _type;
-			}
+			protected String compat;
 			
-		}
-		
-		@JsonInclude(JsonInclude.Include.NON_NULL)
-		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-		public static class Path {
+			protected Boolean corrupt;
 			
-			protected String text;
-
-			public String getText() {
-				return text;
-			}
-
-			public void setText(String text) {
-				this.text = text;
-			}
+			protected Boolean lazy_refcounts;
 			
-		}
-		
-		@JsonInclude(JsonInclude.Include.NON_NULL)
-		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-		public static class Permissions {
-			
-			protected Group group;
-			
-			protected Mode mode;
-			
-			protected Owner owner;
-			
-			public Group getGroup() {
-				return group;
+			protected String refcount_bits;
+
+			public String getCompat() {
+				return compat;
 			}
 
-			public void setGroup(Group group) {
-				this.group = group;
+			public void setCompat(String compat) {
+				this.compat = compat;
 			}
 
-			public Mode getMode() {
-				return mode;
+			public Boolean getCorrupt() {
+				return corrupt;
 			}
 
-			public void setMode(Mode mode) {
-				this.mode = mode;
+			public void setCorrupt(Boolean corrupt) {
+				this.corrupt = corrupt;
 			}
 
-			public Owner getOwner() {
-				return owner;
-			}
-
-			public void setOwner(Owner owner) {
-				this.owner = owner;
-			}
-
-			@JsonInclude(JsonInclude.Include.NON_NULL)
-			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-			public static class Group {
-				
-				protected String text;
-
-				public String getText() {
-					return text;
-				}
-
-				public void setText(String text) {
-					this.text = text;
-				}
-				
-			}
-			
-			@JsonInclude(JsonInclude.Include.NON_NULL)
-			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-			public static class Mode {
-				
-				protected String text;
-
-				public String getText() {
-					return text;
-				}
-
-				public void setText(String text) {
-					this.text = text;
-				}
-				
-			}
-			
-			@JsonInclude(JsonInclude.Include.NON_NULL)
-			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-			public static class Owner {
-				
-				protected String text;
-
-				public String getText() {
-					return text;
-				}
-
-				public void setText(String text) {
-					this.text = text;
-				}
-				
-			}
-		}
-		
-		@JsonInclude(JsonInclude.Include.NON_NULL)
-		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-		public static class Timestamps {
-			
-			protected Atime atime;
-			
-			protected Ctime ctime;
-			
-			protected Mtime mtime;
-			
-			public Atime getAtime() {
-				return atime;
-			}
-
-			public void setAtime(Atime atime) {
-				this.atime = atime;
-			}
-
-			public Ctime getCtime() {
-				return ctime;
-			}
-
-			public void setCtime(Ctime ctime) {
-				this.ctime = ctime;
-			}
-
-			public Mtime getMtime() {
-				return mtime;
-			}
-
-			public void setMtime(Mtime mtime) {
-				this.mtime = mtime;
-			}
-
-			@JsonInclude(JsonInclude.Include.NON_NULL)
-			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-			public static class Atime {
-				
-				protected String text;
-
-				public String getText() {
-					return text;
-				}
-
-				public void setText(String text) {
-					this.text = text;
-				}
-			}
-			
-			@JsonInclude(JsonInclude.Include.NON_NULL)
-			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-			public static class Ctime {
-			
-				protected String text;
-
-				public String getText() {
-					return text;
-				}
-
-				public void setText(String text) {
-					this.text = text;
-				}
-			}
-			
-			@JsonInclude(JsonInclude.Include.NON_NULL)
-			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-			public static class Mtime {
-				
-				protected String text;
-
-				public String getText() {
-					return text;
-				}
-
-				public void setText(String text) {
-					this.text = text;
-				}
-			}
-			
-		}
-		
-	}
-
-	@JsonInclude(JsonInclude.Include.NON_NULL)
-	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class Name {
-		
-		protected String text;
-
-		public Name() {
-			super();
-		}
-
-		public String getText() {
-			return text;
-		}
-
-		public void setText(String text) {
-			this.text = text;
-		}
-		
-	}
-	
-	@JsonInclude(JsonInclude.Include.NON_NULL)
-	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class Key {
-		
-		protected String text;
-
-		public Key() {
-			super();
-		}
-
-		public String getText() {
-			return text;
-		}
-
-		public void setText(String text) {
-			this.text = text;
-		}
-		
-	}
-	
-	@JsonInclude(JsonInclude.Include.NON_NULL)
-	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class Allocation {
-
-		protected String _unit;
-
-		protected String text;
-
-		public Allocation() {
-
-		}
-
-		/**
-		 * Ignore the user setting, use 'lifecycle' to update VM's info
-		 *
-		 */
-		public void set_unit(String _unit) {
-			this._unit = _unit;
-		}
-
-		public String get_unit() {
-			return this._unit;
-		}
-
-		/**
-		 * Ignore the user setting, use 'lifecycle' to update VM's info
-		 *
-		 */
-		public void setText(String text) {
-			this.text = text;
-		}
-
-		public String getText() {
-			return this.text;
-		}
-	}
-
-	@JsonInclude(JsonInclude.Include.NON_NULL)
-	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class Source {
-
-		protected Auth auth;
-
-		protected Host host;
-
-		protected Device device;
-
-		public Source() {
-
-		}
-
-		/**
-		 * Ignore the user setting, use 'lifecycle' to update VM's info
-		 *
-		 */
-		public void setAuth(Auth auth) {
-			this.auth = auth;
-		}
-
-		public Auth getAuth() {
-			return this.auth;
-		}
-
-		/**
-		 * Ignore the user setting, use 'lifecycle' to update VM's info
-		 *
-		 */
-		public void setHost(Host host) {
-			this.host = host;
-		}
-
-		public Host getHost() {
-			return this.host;
-		}
-
-		/**
-		 * Ignore the user setting, use 'lifecycle' to update VM's info
-		 *
-		 */
-		public void setDevice(Device device) {
-			this.device = device;
-		}
-
-		public Device getDevice() {
-			return this.device;
-		}
-
-		@JsonInclude(JsonInclude.Include.NON_NULL)
-		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-		public static class Auth {
-
-			protected String _type;
-
-			protected String _username;
-
-			protected Secret secret;
-
-			public Auth() {
-
-			}
-
-			/**
-			 * Ignore the user setting, use 'lifecycle' to update VM's info
-			 *
-			 */
-			public void set_type(String _type) {
-				this._type = _type;
-			}
-
-			public String get_type() {
-				return this._type;
-			}
-
-			/**
-			 * Ignore the user setting, use 'lifecycle' to update VM's info
-			 *
-			 */
-			public void set_username(String _username) {
-				this._username = _username;
-			}
-
-			public String get_username() {
-				return this._username;
-			}
-
-			/**
-			 * Ignore the user setting, use 'lifecycle' to update VM's info
-			 *
-			 */
-			public void setSecret(Secret secret) {
-				this.secret = secret;
-			}
-
-			public Secret getSecret() {
-				return this.secret;
-			}
-
-			@JsonInclude(JsonInclude.Include.NON_NULL)
-			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-			public static class Secret {
-
-				protected String _usage;
-
-				public Secret() {
-
-				}
-
-				/**
-				 * Ignore the user setting, use 'lifecycle' to update VM's info
-				 *
-				 */
-				public void set_usage(String _usage) {
-					this._usage = _usage;
-				}
-
-				public String get_usage() {
-					return this._usage;
-				}
-			}
-		}
-
-		@JsonInclude(JsonInclude.Include.NON_NULL)
-		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-		public static class Host {
-
-			protected String _name;
-
-			public Host() {
-			}
-
-			/**
-			 * Ignore the user setting, use 'lifecycle' to update VM's info
-			 *
-			 */
-			public void set_name(String _name) {
-				this._name = _name;
-			}
-
-			public String get_name() {
-				return this._name;
-			}
-		}
-
-		@JsonInclude(JsonInclude.Include.NON_NULL)
-		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-		public static class Device {
-
-			protected String _path;
-
-			public Device() {
-			}
-
-			/**
-			 * Ignore the user setting, use 'lifecycle' to update VM's info
-			 *
-			 */
-			public void set_path(String _path) {
-				this._path = _path;
-			}
-
-			public String get_path() {
-				return this._path;
-			}
-		}
-	}
-
-	@JsonInclude(JsonInclude.Include.NON_NULL)
-	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class Physical {
-
-		protected String _unit;
-
-		protected String text;
-
-		public Physical() {
-		}
-
-		/**
-		 * Ignore the user setting, use 'lifecycle' to update VM's info
-		 *
-		 */
-		public void set_unit(String _unit) {
-			this._unit = _unit;
-		}
-
-		public String get_unit() {
-			return this._unit;
-		}
-
-		/**
-		 * Ignore the user setting, use 'lifecycle' to update VM's info
-		 *
-		 */
-		public void setText(String text) {
-			this.text = text;
-		}
-
-		public String getText() {
-			return this.text;
-		}
-	}
-
-	@JsonInclude(JsonInclude.Include.NON_NULL)
-	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class Capacity {
-
-		protected String _unit;
-
-		protected String text;
-
-		public Capacity() {
-		}
-
-		/**
-		 * Ignore the user setting, use 'lifecycle' to update VM's info
-		 *
-		 */
-		public void set_unit(String _unit) {
-			this._unit = _unit;
-		}
-
-		public String get_unit() {
-			return this._unit;
-		}
-
-		/**
-		 * Ignore the user setting, use 'lifecycle' to update VM's info
-		 *
-		 */
-		public void setText(String text) {
-			this.text = text;
-		}
-
-		public String getText() {
-			return this.text;
-		}
-	}
-
-	@JsonInclude(JsonInclude.Include.NON_NULL)
-	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class Target {
-
-		protected Path path;
-
-		protected Permissions permissions;
-
-		protected Timestamps timestamps;
-
-		protected Format format;
-		
-		protected Compat compat;
-		
-		protected Features features;
-
-		public Target() {
-		}
-
-		public Compat getCompat() {
-			return compat;
-		}
-
-		public void setCompat(Compat compat) {
-			this.compat = compat;
-		}
-
-		
-		public Features getFeatures() {
-			return features;
-		}
-
-		public void setFeatures(Features features) {
-			this.features = features;
-		}
-
-		/**
-		 * Ignore the user setting, use 'lifecycle' to update VM's info
-		 *
-		 */
-		public Path getPath() {
-			return path;
-		}
-
-
-		public void setPath(Path path) {
-			this.path = path;
-		}
-
-		/**
-		 * Ignore the user setting, use 'lifecycle' to update VM's info
-		 *
-		 */
-		public void setPermissions(Permissions permissions) {
-			this.permissions = permissions;
-		}
-
-		public Permissions getPermissions() {
-			return this.permissions;
-		}
-
-		/**
-		 * Ignore the user setting, use 'lifecycle' to update VM's info
-		 *
-		 */
-		public void setTimestamps(Timestamps timestamps) {
-			this.timestamps = timestamps;
-		}
-
-		public Timestamps getTimestamps() {
-			return this.timestamps;
-		}
-
-		/**
-		 * Ignore the user setting, use 'lifecycle' to update VM's info
-		 *
-		 */
-		public void setFormat(Format format) {
-			this.format = format;
-		}
-
-		public Format getFormat() {
-			return this.format;
-		}
-
-		@JsonInclude(JsonInclude.Include.NON_NULL)
-		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-		public static class Features {
-
-			protected Lazy_refcounts lazy_refcounts;
-			
-			public Features() {
-				super();
-			}
-
-			public Lazy_refcounts getLazy_refcounts() {
+			public Boolean getLazy_refcounts() {
 				return lazy_refcounts;
 			}
 
-			public void setLazy_refcounts(Lazy_refcounts lazy_refcounts) {
+			public void setLazy_refcounts(Boolean lazy_refcounts) {
 				this.lazy_refcounts = lazy_refcounts;
 			}
-			
-			
-		}
-		
-		@JsonInclude(JsonInclude.Include.NON_NULL)
-		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-		public static class Lazy_refcounts {
-			
-			public Lazy_refcounts() {
-				super();
+
+			public String getRefcount_bits() {
+				return refcount_bits;
 			}
 
-		}
-		
-		@JsonInclude(JsonInclude.Include.NON_NULL)
-		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-		public static class Compat {
-			
-			protected String text;
-
-			public Compat() {
-				super();
+			public void setRefcount_bits(String refcount_bits) {
+				this.refcount_bits = refcount_bits;
 			}
-
-			public String getText() {
-				return text;
-			}
-
-			public void setText(String text) {
-				this.text = text;
-			}
-			
-		}
-		
-		@JsonInclude(JsonInclude.Include.NON_NULL)
-		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-		public static class Path {
-			
-			protected String text;
-
-			public Path() {
-				super();
-			}
-
-			public String getText() {
-				return text;
-			}
-
-			public void setText(String text) {
-				this.text = text;
-			}
-			
-		}
-		
-		@JsonInclude(JsonInclude.Include.NON_NULL)
-		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-		public static class Permissions {
-
-			protected Mode mode;
-
-			protected Owner owner;
-
-			protected Group group;
-
-			public Permissions() {
-			}
-
-			public Mode getMode() {
-				return mode;
-			}
-
-			public void setMode(Mode mode) {
-				this.mode = mode;
-			}
-
-			public Owner getOwner() {
-				return owner;
-			}
-
-			public void setOwner(Owner owner) {
-				this.owner = owner;
-			}
-
-			public Group getGroup() {
-				return group;
-			}
-
-			public void setGroup(Group group) {
-				this.group = group;
-			}
-
-			
 		}
 
-		@JsonInclude(JsonInclude.Include.NON_NULL)
-		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-		public static class Mode {
-			
-			protected String text;
-
-			public Mode() {
-				super();
-			}
-
-			public String getText() {
-				return text;
-			}
-
-			public void setText(String text) {
-				this.text = text;
-			}
-			
-		}
-		
-		@JsonInclude(JsonInclude.Include.NON_NULL)
-		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-		public static class Owner {
-			
-			protected String text;
-
-			public Owner() {
-				super();
-			}
-
-			public String getText() {
-				return text;
-			}
-
-			public void setText(String text) {
-				this.text = text;
-			}
-			
-		}
-		
-		@JsonInclude(JsonInclude.Include.NON_NULL)
-		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-		public static class Group {
-			
-			protected String text;
-
-			public Group() {
-				super();
-			}
-
-			public String getText() {
-				return text;
-			}
-
-			public void setText(String text) {
-				this.text = text;
-			}
-			
-		}
-		
-		@JsonInclude(JsonInclude.Include.NON_NULL)
-		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-		public static class Timestamps {
-
-			protected Atime atime;
-
-			protected Ctime ctime;
-
-			protected Mtime mtime;
-
-			public Timestamps() {
-			}
-
-			public Atime getAtime() {
-				return atime;
-			}
-
-			public void setAtime(Atime atime) {
-				this.atime = atime;
-			}
-
-			public Ctime getCtime() {
-				return ctime;
-			}
-
-			public void setCtime(Ctime ctime) {
-				this.ctime = ctime;
-			}
-
-			public Mtime getMtime() {
-				return mtime;
-			}
-
-			public void setMtime(Mtime mtime) {
-				this.mtime = mtime;
-			}
-
-		}
-		
-		@JsonInclude(JsonInclude.Include.NON_NULL)
-		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-		public static class Atime {
-			
-			protected String text;
-
-			public Atime() {
-				super();
-			}
-
-			public String getText() {
-				return text;
-			}
-
-			public void setText(String text) {
-				this.text = text;
-			}
-			
-		}
-		
-		@JsonInclude(JsonInclude.Include.NON_NULL)
-		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-		public static class Ctime {
-			
-			protected String text;
-
-			public Ctime() {
-				super();
-			}
-
-			public String getText() {
-				return text;
-			}
-
-			public void setText(String text) {
-				this.text = text;
-			}
-			
-		}
-		
-		@JsonInclude(JsonInclude.Include.NON_NULL)
-		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-		public static class Mtime {
-			
-			protected String text;
-
-			public Mtime() {
-				super();
-			}
-
-			public String getText() {
-				return text;
-			}
-
-			public void setText(String text) {
-				this.text = text;
-			}
-			
+		public Data getData() {
+			return data;
 		}
 
-		@JsonInclude(JsonInclude.Include.NON_NULL)
-		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-		public static class Format {
+		public void setData(Data data) {
+			this.data = data;
+		}
 
-			protected String _type;
+		public String getType() {
+			return type;
+		}
 
-			public Format() {
-			}
-
-			/**
-			 * Ignore the user setting, use 'lifecycle' to update VM's info
-			 *
-			 */
-			public void set_type(String _type) {
-				this._type = _type;
-			}
-
-			public String get_type() {
-				return this._type;
-			}
+		public void setType(String type) {
+			this.type = type;
 		}
 	}
-	
-	@JsonInclude(JsonInclude.Include.NON_NULL)
-	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class Snapshot {
-		
-		protected String date;
 
-		protected String id;
-		
-		protected String name;
-		
-		public String getDate() {
-			return date;
-		}
-		
-		public void setDate(String date) {
-			this.date = date;
-		}
-		
-		public String getId() {
-			return id;
-		}
-		
-		public void setId(String id) {
-			this.id = id;
-		}
-		
-		public String getName() {
-			return name;
-		}
-		
-		public void setName(String name) {
-			this.name = name;
-		}
+	public String getActual_size() {
+		return actual_size;
+	}
+
+	public void setActual_size(String actual_size) {
+		this.actual_size = actual_size;
+	}
+
+	public String getCluster_size() {
+		return cluster_size;
+	}
+
+	public void setCluster_size(String cluster_size) {
+		this.cluster_size = cluster_size;
+	}
+
+	public String getCurrent() {
+		return current;
+	}
+
+	public void setCurrent(String current) {
+		this.current = current;
+	}
+
+	public String getDirty_flag() {
+		return dirty_flag;
+	}
+
+	public void setDirty_flag(String dirty_flag) {
+		this.dirty_flag = dirty_flag;
+	}
+
+	public String getFilename() {
+		return filename;
+	}
+
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}
+
+	public String getFormat() {
+		return format;
+	}
+
+	public void setFormat(String format) {
+		this.format = format;
+	}
+
+	public FormatSpecific getFormat_specific() {
+		return format_specific;
+	}
+
+	public void setFormat_specific(FormatSpecific format_specific) {
+		this.format_specific = format_specific;
+	}
+
+	public String getFull_backing_filename() {
+		return full_backing_filename;
+	}
+
+	public void setFull_backing_filename(String full_backing_filename) {
+		this.full_backing_filename = full_backing_filename;
+	}
+
+	public String getVirtual_size() {
+		return virtual_size;
+	}
+
+	public void setVirtual_size(String virtual_size) {
+		this.virtual_size = virtual_size;
 	}
 }

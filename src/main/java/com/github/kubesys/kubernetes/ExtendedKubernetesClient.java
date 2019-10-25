@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 import com.github.kubesys.kubernetes.api.model.VirtualMachine;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineDisk;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineDiskImage;
+import com.github.kubesys.kubernetes.api.model.VirtualMachineDiskSnapshot;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineImage;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineNetwork;
 import com.github.kubesys.kubernetes.api.model.VirtualMachinePool;
@@ -23,6 +24,7 @@ import com.github.kubesys.kubernetes.impl.JSONImpl;
 import com.github.kubesys.kubernetes.impl.NodeSelectorImpl;
 import com.github.kubesys.kubernetes.impl.VirtualMachineDiskImageImpl;
 import com.github.kubesys.kubernetes.impl.VirtualMachineDiskImpl;
+import com.github.kubesys.kubernetes.impl.VirtualMachineDiskSnapshotImpl;
 import com.github.kubesys.kubernetes.impl.VirtualMachineImageImpl;
 import com.github.kubesys.kubernetes.impl.VirtualMachineImpl;
 import com.github.kubesys.kubernetes.impl.VirtualMachineNetworkImpl;
@@ -219,6 +221,7 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 		configs.add("/VirtualMachine.conf");
 		configs.add("/VirtualMachineImage.conf");
 		configs.add("/VirtualMachineDisk.conf");
+		configs.add("/VirtualMachineDiskSnapshot.conf");
 		configs.add("/VirtualMachineSnapshot.conf");
 		configs.add("/VirtualMachineNetwork.conf");
 		configs.add("/VirtualMachinePool.conf");
@@ -295,6 +298,22 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 	
 	
 	
+	
+	
+	/**
+	 * @return        VirtualMachineDiskSnapshots
+	 */
+	public VirtualMachineDiskSnapshotImpl virtualMachineDiskSnapshots() {
+		return new VirtualMachineDiskSnapshotImpl();
+	}
+	
+	/**
+	 * @return        VirtualMachineDiskSnapshots
+	 */
+	@SuppressWarnings("unchecked")
+	public void watchVirtualMachineDiskSnapshots(Watcher<VirtualMachineDiskSnapshot> watcher) {
+		crdClients.get(VirtualMachineDiskSnapshot.class.getSimpleName()).watch(watcher);
+	}	
 	
 	
 	
@@ -433,6 +452,15 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 	 */
 	public VirtualMachineDiskImpl getVirtualMachineDiskImpl() {
 		return virtualMachineDisks();
+	}
+	
+	/**
+	 * the same as  'virtualMachineDiskSnapshots'
+	 * 
+	 * @return                    virtualMachineDisks
+	 */
+	public VirtualMachineDiskSnapshotImpl getVirtualMachineDiskSnapshotImpl() {
+		return virtualMachineDiskSnapshots();
 	}
 	
 	/**

@@ -12,14 +12,11 @@ import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CloneDisk;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.ConvertDiskToDiskImage;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CreateDisk;
-import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CreateDiskExternalSnapshot;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CreateDiskFromDiskImage;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CreateDiskInternalSnapshot;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.DeleteDisk;
-import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.DeleteDiskExternalSnapshot;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.DeleteDiskInternalSnapshot;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.ResizeDisk;
-import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.RevertDiskExternalSnapshot;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.RevertDiskInternalSnapshot;
 import com.github.kubesys.kubernetes.utils.RegExpUtils;
 
@@ -191,51 +188,6 @@ public class VirtualMachineDiskImpl extends AbstractImpl<VirtualMachineDisk, Vir
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
 		return delete(name, updateMetadata(name, eventId), deleteDiskInternalSnapshot);
-	}
-
-	public boolean createDiskExternalSnapshot(String name, CreateDiskExternalSnapshot createDiskExternalSnapshot) throws Exception {
-		return createDiskExternalSnapshot(name, null, createDiskExternalSnapshot, null);
-	}
-
-	public boolean createDiskExternalSnapshot(String name, String nodeName, CreateDiskExternalSnapshot createDiskExternalSnapshot) throws Exception {
-		return createDiskExternalSnapshot(name, nodeName, createDiskExternalSnapshot, null);
-	}
-
-	public boolean createDiskExternalSnapshot(String name, CreateDiskExternalSnapshot createDiskExternalSnapshot, String eventId) throws Exception {
-		return createDiskExternalSnapshot(name, null, createDiskExternalSnapshot, eventId);
-	}
-
-	public boolean createDiskExternalSnapshot(String name, String nodeName,CreateDiskExternalSnapshot createDiskExternalSnapshot, String eventId) throws Exception {
-		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
-		if (!pattern.matcher(name).matches()) {
-			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
-		}
-		return create(getModel(), createMetadata(name, nodeName, eventId), 
-				createSpec(nodeName, createLifecycle(createDiskExternalSnapshot)));
-	}
-
-	public boolean revertDiskExternalSnapshot(String name, RevertDiskExternalSnapshot revertDiskExternalSnapshot) throws Exception {
-		return revertDiskExternalSnapshot(name, revertDiskExternalSnapshot, null);
-	}
-
-	public boolean revertDiskExternalSnapshot(String name, RevertDiskExternalSnapshot revertDiskExternalSnapshot, String eventId) throws Exception {
-		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
-		if (!pattern.matcher(name).matches()) {
-			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
-		}
-		return update(name, updateMetadata(name, eventId), revertDiskExternalSnapshot);
-	}
-
-	public boolean deleteDiskExternalSnapshot(String name, DeleteDiskExternalSnapshot deleteDiskExternalSnapshot) throws Exception {
-		return deleteDiskExternalSnapshot(name, deleteDiskExternalSnapshot, null);
-	}
-
-	public boolean deleteDiskExternalSnapshot(String name, DeleteDiskExternalSnapshot deleteDiskExternalSnapshot, String eventId) throws Exception {
-		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
-		if (!pattern.matcher(name).matches()) {
-			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
-		}
-		return delete(name, updateMetadata(name, eventId), deleteDiskExternalSnapshot);
 	}
 
 }

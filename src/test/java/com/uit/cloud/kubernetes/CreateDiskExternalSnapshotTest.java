@@ -4,7 +4,7 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
-import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CreateDiskExternalSnapshot;
+import com.github.kubesys.kubernetes.api.model.virtualmachinedisksnapshot.Lifecycle.CreateDiskExternalSnapshot;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -21,7 +21,7 @@ public class CreateDiskExternalSnapshotTest {
 	public static void main(String[] args) throws Exception {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
-		boolean successful = client.virtualMachineDisks()
+		boolean successful = client.virtualMachineDiskSnapshots()
 				.createDiskExternalSnapshot("disktest2ss1", "vm.node22", get(), "abc");
 		System.out.println(successful);
 	}
