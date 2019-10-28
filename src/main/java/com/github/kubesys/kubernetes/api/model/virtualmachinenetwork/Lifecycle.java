@@ -187,6 +187,14 @@ public class Lifecycle {
 		@ParameterDescriber(required = false, description = "网段，这里后台只会做形式，不会做逻辑判断，只要符合xx.xx.xx.xx/y形式即可，请确保传入正确的数值, y的取值必须是8,16,24之一", constraint = "网段和掩码", example = "192.168.5.1/24")
 		@Pattern(regexp = RegExpUtils.SUBNET_PATTERN)
 		protected String subnet;
+		
+		@ParameterDescriber(required = false, description = "网关地址", constraint = "IP", example = "192.168.5.5")
+		@Pattern(regexp = RegExpUtils.IP_PATTERN)
+		protected String gateway;
+		
+		@ParameterDescriber(required = false, description = "mtu", constraint = "10-1000", example = "1500")
+		@Pattern(regexp = RegExpUtils.MTU_PATTERN)
+		protected String mtu;
 
 		public String getSubnet() {
 			return subnet;
@@ -194,6 +202,22 @@ public class Lifecycle {
 
 		public void setSubnet(String subnet) {
 			this.subnet = subnet;
+		}
+
+		public String getGateway() {
+			return gateway;
+		}
+
+		public void setGateway(String gateway) {
+			this.gateway = gateway;
+		}
+
+		public String getMtu() {
+			return mtu;
+		}
+
+		public void setMtu(String mtu) {
+			this.mtu = mtu;
 		}
 		
 	}
