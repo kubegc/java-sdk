@@ -134,6 +134,9 @@ public class RegExpUtils {
 	@FieldDescriber("设置虚拟机启动顺序，hd表示硬盘，cdrom表示光驱")
 	public final static String BOOT_PATTERN = "hd|cdrom";
 	
+	@FieldDescriber("无法获取IP的列表")
+	public final static String EXCLUDEIPS_PATTERN = "(" + IP_PATTERN + "|" + IP_PATTERN + ".." + IP_PATTERN+")+" +  "( " + IP_PATTERN + "| " + IP_PATTERN + ".." + IP_PATTERN+")?";
+	
 	public static void main(String[] args) {
 		String name = "9999";
 		Pattern pattern = Pattern.compile(RegExpUtils.MTU_PATTERN);

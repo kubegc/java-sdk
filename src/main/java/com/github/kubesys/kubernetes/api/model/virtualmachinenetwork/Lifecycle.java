@@ -195,6 +195,18 @@ public class Lifecycle {
 		@ParameterDescriber(required = false, description = "mtu", constraint = "10-1000", example = "1500")
 		@Pattern(regexp = RegExpUtils.MTU_PATTERN)
 		protected String mtu;
+		
+		@ParameterDescriber(required = false, description = "IP列表黑名单", constraint = "单个IP之间通过空格分开，IP范围使用..分开", example = "192.168.5.2 192.168.5.10..192.168.5.100")
+		@Pattern(regexp = RegExpUtils.EXCLUDEIPS_PATTERN)
+		protected String excludeIPs;
+		
+		public String getExcludeIPs() {
+			return excludeIPs;
+		}
+
+		public void setExcludeIPs(String excludeIPs) {
+			this.excludeIPs = excludeIPs;
+		}
 
 		public String getSubnet() {
 			return subnet;
