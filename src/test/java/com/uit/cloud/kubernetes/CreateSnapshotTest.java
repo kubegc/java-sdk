@@ -22,7 +22,7 @@ public class CreateSnapshotTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineSnapshots()
-				.createSnapshot("disktest3.2", "vm.node22", getCreateExternalSnapshot());
+				.createSnapshot("disktest3.3", "vm.node22", getCreateExternalSnapshot());
 		System.out.println(successful);
 	}
 
@@ -41,7 +41,7 @@ public class CreateSnapshotTest {
 		createSnapshot.setAtomic(true);
 		createSnapshot.setDisk_only(true);
 		createSnapshot.setIsExternal(true);
-		createSnapshot.setDiskspec("vda,snapshot=external,file=/var/lib/libvirt/pooltest2/disktest3/disktest3.2,driver=qcow2");
+		createSnapshot.setDiskspec("vda,snapshot=external,file=/var/lib/libvirt/pooltest2/disktest3/disktest3.3,driver=qcow2");
 		return createSnapshot;
 	}
 	

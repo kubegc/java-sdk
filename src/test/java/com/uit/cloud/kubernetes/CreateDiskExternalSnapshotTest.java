@@ -22,7 +22,7 @@ public class CreateDiskExternalSnapshotTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineDiskSnapshots()
-				.createDiskExternalSnapshot("disktest3.1", "vm.node22", get(), "abc");
+				.createDiskExternalSnapshot("disktest3.4", "vm.node22", get(), "abc");
 		System.out.println(successful);
 	}
 
