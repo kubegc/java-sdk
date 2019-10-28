@@ -25,19 +25,19 @@ import com.github.kubesys.kubernetes.utils.RegExpUtils;
 @ClassDescriber(value = "VirtualMachineSnapshot", desc = "虚拟机/云盘快照")
 public class Lifecycle {
 
-	@FunctionDescriber(shortName = "删除虚拟机/云盘快照", description = "删除虚拟机/云盘快照，" 
+	@FunctionDescriber(shortName = "删除虚拟机和挂载到虚拟机的云盘快照", description = "删除虚拟机和挂载到虚拟机的云盘快照，" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = AnnotationUtils.DESC_FUNCTION_VMSN, 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected DeleteSnapshot deleteSnapshot;
 
-	@FunctionDescriber(shortName = "创建虚拟机/云盘快照", description = "创建虚拟机/云盘快照，" 
+	@FunctionDescriber(shortName = "创建虚拟机快照和挂载到虚拟机的云盘快照", description = "创建虚拟机快照和挂载到虚拟机的云盘快照，" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = "", 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected CreateSnapshot createSnapshot;
 	
-	@FunctionDescriber(shortName = "恢复成虚拟机/云盘", description = "恢复成虚拟机/云盘，" 
+	@FunctionDescriber(shortName = "恢复成虚拟机和挂载到虚拟机的云盘快照", description = "恢复成虚拟机和挂载到虚拟机的云盘快照，" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = AnnotationUtils.DESC_FUNCTION_VMSN, 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)

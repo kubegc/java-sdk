@@ -23,7 +23,7 @@ public class CreateAndStartSingleDiskFromISOTest {
 		CreateAndStartVMFromISO createAndStartVMFromISO = get();
 		// name
 		boolean successful = client.virtualMachines()
-				.createAndStartVMFromISO("vm007", "vm.node22", createAndStartVMFromISO, "01");
+				.createAndStartVMFromISO("vm008", "vm.node22", createAndStartVMFromISO, "01");
 		System.out.println(successful);
 	}
 	
@@ -46,7 +46,7 @@ public class CreateAndStartSingleDiskFromISOTest {
 		// cdrom
 		createAndStartVMFromISO.setCdrom("/var/lib/libvirt/iso/centos7-minimal-1511.iso"); 
 		// Disk and QoS for 1 disk and many disks
-		createAndStartVMFromISO.setDisk("/var/lib/libvirt/pooltest/disktest/ss3,read_bytes_sec=1024000000,write_bytes_sec=1024000000");
+		createAndStartVMFromISO.setDisk("/var/lib/libvirt/pooltest2/disktest5/disktest5,read_bytes_sec=1024000000,write_bytes_sec=1024000000");
 				
 
 		/*
@@ -65,9 +65,9 @@ public class CreateAndStartSingleDiskFromISOTest {
 		 * 		Note! Mac address is unique and does not support a value that start with "fe:" (e.g. fe:54:00:05:37:b3)
 		 */
 //		createAndStartVMFromISO.setNetwork("type=l3bridge,source=br-int,ip=192.168.10.14,switch=vxlan");
-		createAndStartVMFromISO.setNetwork("type=l2bridge,source=br-native");
+//		createAndStartVMFromISO.setNetwork("type=l2bridge,source=br-native");
 //      if you want to use l3bridge, please first execute the command on your master node, 'kubeovn-adm create-switch --name switch8888 --subnet 192.168.5.0/24' 		
-//		createAndStartVMFromISO.setNetwork("type=l3bridge,source=br-int,ip=192.168.5.10,switch=switch8888,inbound=102400,outbound=102400");  
+		createAndStartVMFromISO.setNetwork("type=l3bridge,source=br-int,switch=ll3test,inbound=102400,outbound=102400");  
 		
 		/*
 		 * l2 network example
