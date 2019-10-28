@@ -217,6 +217,34 @@ public class Lifecycle {
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected UnsetVncPassword unsetVncPassword;
 	
+	@FunctionDescriber(shortName = "设置Linux虚拟机密码", description = "设置Linux虚拟机密码，" 
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+		prerequisite = AnnotationUtils.DESC_FUNCTION_VM, 
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected SetLinuxGuestPassword setLinuxGuestPassword;
+	
+	@FunctionDescriber(shortName = "设置Windows虚拟机密码", description = "设置Windows虚拟机密码，" 
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+		prerequisite = AnnotationUtils.DESC_FUNCTION_VM, 
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected SetWindowsGuestPassword setWindowsGuestPassword;
+	
+	public SetLinuxGuestPassword getSetLinuxGuestPassword() {
+		return setLinuxGuestPassword;
+	}
+
+	public void setSetLinuxGuestPassword(SetLinuxGuestPassword setLinuxGuestPassword) {
+		this.setLinuxGuestPassword = setLinuxGuestPassword;
+	}
+
+	public SetWindowsGuestPassword getSetWindowsGuestPassword() {
+		return setWindowsGuestPassword;
+	}
+
+	public void setSetWindowsGuestPassword(SetWindowsGuestPassword setWindowsGuestPassword) {
+		this.setWindowsGuestPassword = setWindowsGuestPassword;
+	}
+
 	public UnsetVncPassword getUnsetVncPassword() {
 		return unsetVncPassword;
 	}
@@ -2931,6 +2959,59 @@ public class Lifecycle {
 
 		public void setForce(Boolean force) {
 			this.force = force;
+		}
+		
+	}
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class SetLinuxGuestPassword {
+		
+		protected String user;
+		
+		protected String password;
+
+		public String getUser() {
+			return user;
+		}
+
+		public void setUser(String user) {
+			this.user = user;
+		}
+
+		public String getPassword() {
+			return password;
+		}
+
+		public void setPassword(String password) {
+			this.password = password;
+		}
+		
+		
+	}
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class SetWindowsGuestPassword {
+		
+		protected String user;
+		
+		protected String password;
+
+		public String getUser() {
+			return user;
+		}
+
+		public void setUser(String user) {
+			this.user = user;
+		}
+
+		public String getPassword() {
+			return password;
+		}
+
+		public void setPassword(String password) {
+			this.password = password;
 		}
 		
 	}
