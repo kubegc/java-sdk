@@ -31,6 +31,7 @@ import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ResizeRA
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ResizeVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ResumeVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.SetBootOrder;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.SetGuestPassword;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.SetVncPassword;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StartVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StopVM;
@@ -497,6 +498,18 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
 		return update(name, updateMetadata(name, eventId), unsetVncPassword);
+	}
+
+	public boolean setGuestPassword(String name, SetGuestPassword setGuestPassword) throws Exception {
+		return setGuestPassword(name, setGuestPassword, null);
+	}
+
+	public boolean setGuestPassword(String name, SetGuestPassword setGuestPassword, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), setGuestPassword);
 	}
 
 }

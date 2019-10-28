@@ -23,13 +23,15 @@ public class CreateSwitchTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineNetworks()
-				.createSwitch("vxlan", "vm.node22", get());
+				.createSwitch("wyw1", "vm.node22", get());
 		System.out.println(successful);
 	}
 
 	protected static CreateSwitch get() {
 		CreateSwitch vxlan = new CreateSwitch();
-		vxlan.setSubnet("192.168.10.0/24");
+		vxlan.setSubnet("192.168.1.0/24");
+		vxlan.setMtu("1450");
+		vxlan.setGateway("192.168.1.20");
 		return vxlan;
 	}
 }
