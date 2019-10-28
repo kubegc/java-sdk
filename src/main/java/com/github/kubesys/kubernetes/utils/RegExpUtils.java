@@ -52,6 +52,9 @@ public class RegExpUtils {
 	
 	@FieldDescriber("ram容量，单位KiB，100到99999之间")
 	public final static String RAM_KiB_PATTERN = "\\d{6,8}";
+	
+	@FieldDescriber("MTU，100到10000之间")
+	public final static String MTU_PATTERN = "\\d{2,4}";
 
 	@FieldDescriber("存储池自动打开的参数，只能是yes和no之一")
 	public final static String AUTOSTART_PATTERN = "yes|no";
@@ -79,6 +82,7 @@ public class RegExpUtils {
 	
 	@FieldDescriber("磁盘大小，单位是Bytes，取值范围1000000000-999999999999")
 	public final static String DISK_SIZE_PATTERN = "\\d{10,13}";
+	
 	
 	@FieldDescriber("虚拟化类型，取值为kvm, xen之一")
 	public final static String VIRT_TYPE_PATTERN = "kvm|xen";
@@ -131,8 +135,8 @@ public class RegExpUtils {
 	public final static String BOOT_PATTERN = "hd|cdrom";
 	
 	public static void main(String[] args) {
-		String name = "hda,hdb";
-		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		String name = "9999";
+		Pattern pattern = Pattern.compile(RegExpUtils.MTU_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("");
 		}
