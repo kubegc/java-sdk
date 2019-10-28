@@ -22,14 +22,15 @@ public class CreateL3SwitchTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineNetworks()
-				.createSwitch("l3test", "vm.node22", get());
+				.createSwitch("l2l3", "vm.node22", get());
 		System.out.println(successful);
 	}
 
 	protected static CreateSwitch get() {
 		CreateSwitch vxlan = new CreateSwitch();
-		vxlan.setSubnet("192.168.10.0/24");
-		vxlan.setGateway("192.168.10.10");
+		vxlan.setSubnet("133.133.135.0/24");
+		vxlan.setExcludeIPs("133.133.135.1..133.133.135.200");
+		vxlan.setGateway("133.133.135.40");
 		vxlan.setMtu("1480");
 		return vxlan;
 	}

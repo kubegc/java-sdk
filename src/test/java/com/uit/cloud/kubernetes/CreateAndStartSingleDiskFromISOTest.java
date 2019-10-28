@@ -67,7 +67,7 @@ public class CreateAndStartSingleDiskFromISOTest {
 //		createAndStartVMFromISO.setNetwork("type=l3bridge,source=br-int,ip=192.168.10.14,switch=vxlan");
 //		createAndStartVMFromISO.setNetwork("type=l2bridge,source=br-native");
 //      if you want to use l3bridge, please first execute the command on your master node, 'kubeovn-adm create-switch --name switch8888 --subnet 192.168.5.0/24' 		
-		createAndStartVMFromISO.setNetwork("type=l3bridge,source=br-int,switch=ll3test,inbound=102400,outbound=102400");  
+		createAndStartVMFromISO.setNetwork("type=l3bridge,source=br-int,switch=l2l3,inbound=102400,outbound=102400");  
 		
 		/*
 		 * l2 network example

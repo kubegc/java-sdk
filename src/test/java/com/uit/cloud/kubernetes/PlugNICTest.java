@@ -22,7 +22,7 @@ public class PlugNICTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.plugNIC("vm003", get());
+				.plugNIC("vm007", get());
 		System.out.println(successful);
 	}
 	
@@ -35,8 +35,8 @@ public class PlugNICTest {
 		 * 	source
 		 * 		network source name
 		 */
-		plugNIC.setType("bridge"); 
-		plugNIC.setSource("source=virbr0");
+//		plugNIC.setType("bridge"); 
+//		plugNIC.setSource("source=virbr0");
 		
 		/*
 		 * l2 network example
@@ -58,8 +58,8 @@ public class PlugNICTest {
 		 * 	switch
 		 * 		switch name
 		 */
-//		plugNIC.setType("l3bridge"); 
-//		plugNIC.setSource("source=br-int,ip=192.168.5.2,switch=switch8888");
+		plugNIC.setType("l3bridge"); 
+		plugNIC.setSource("source=br-int,switch=ll3test");
 		
 		/*
 		 * 	mac address

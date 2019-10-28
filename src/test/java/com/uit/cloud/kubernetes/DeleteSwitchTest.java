@@ -22,7 +22,7 @@ public class DeleteSwitchTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineNetworks()
-				.deleteSwitch("vxlan", get());
+				.deleteSwitch("l2l3", get());
 		System.out.println(successful);
 	}
 
