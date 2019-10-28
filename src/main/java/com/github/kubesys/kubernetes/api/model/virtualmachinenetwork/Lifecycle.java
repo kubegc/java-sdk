@@ -84,6 +84,12 @@ public class Lifecycle {
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected DeleteSwitch deleteSwitch;
 	
+	@FunctionDescriber(shortName = "修改三层网络交换机配置", description = "修改三层网络交换机配置，" 
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+		prerequisite = "", 
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected ModifySwitch modifySwitch;
+	
 	@FunctionDescriber(shortName = "绑定外网IP", description = "适用于虚拟IP和浮动IP场景，" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = AnnotationUtils.DESC_FUNCTION_VMN, 
@@ -216,6 +222,36 @@ public class Lifecycle {
 			this.subnet = subnet;
 		}
 
+		public String getGateway() {
+			return gateway;
+		}
+
+		public void setGateway(String gateway) {
+			this.gateway = gateway;
+		}
+
+		public String getMtu() {
+			return mtu;
+		}
+
+		public void setMtu(String mtu) {
+			this.mtu = mtu;
+		}
+		
+	}
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class ModifySwitch {
+
+		@ParameterDescriber(required = false, description = "网关地址", constraint = "IP", example = "192.168.5.5")
+		@Pattern(regexp = RegExpUtils.IP_PATTERN)
+		protected String gateway;
+		
+		@ParameterDescriber(required = false, description = "mtu", constraint = "10-1000", example = "1500")
+		@Pattern(regexp = RegExpUtils.MTU_PATTERN)
+		protected String mtu;
+		
 		public String getGateway() {
 			return gateway;
 		}
