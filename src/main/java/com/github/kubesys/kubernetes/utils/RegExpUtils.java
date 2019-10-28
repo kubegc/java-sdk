@@ -90,6 +90,9 @@ public class RegExpUtils {
 	@FieldDescriber("虚拟交换机类型只能是bridge，或l2bridge，或l3bridge")
 	public final static String SWITCH_TYPE_PATTERN = "bridge|l2bridge|l3bridge";
 	
+	@FieldDescriber("虚拟机agent支持的操作系统类型，只能是linux或windows")
+	public final static String VM_AGENT_OS_TYPE_PATTERN = "linux|windows";
+	
 	@FieldDescriber("存储池类型，只能是dir,uus,nfs,glusterfs之一")
 	public final static String POOL_TYPE_PATTERN = "dir|uus|nfs|glusterfs";
 

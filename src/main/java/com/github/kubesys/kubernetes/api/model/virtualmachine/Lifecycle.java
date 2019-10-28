@@ -2946,10 +2946,15 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class SetGuestPassword {
 		
+		@ParameterDescriber(required = true, description = "虚拟机操作系统类型", constraint = "取值范围：windows/linux", example = "linux")
+		@Pattern(regexp = RegExpUtils.VM_AGENT_OS_TYPE_PATTERN)
 		protected String os_type;
 		
+		@ParameterDescriber(required = true, description = "虚拟机登录用户", constraint = "名称是字符串类型，长度是4到100位，只允许数字、小写字母、中划线、以及圆点", example = "root")
 		protected String user;
 		
+		@ParameterDescriber(required = true, description = "虚拟机密码", constraint = "取值范围：密码为4-16位，是小写字母、数字和中划线组合", example = "abcdefg")
+		@Pattern(regexp = RegExpUtils.PASSWORD_PATTERN)
 		protected String password;
 
 		public String getOs_type() {
