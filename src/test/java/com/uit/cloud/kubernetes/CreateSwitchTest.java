@@ -29,9 +29,9 @@ public class CreateSwitchTest {
 
 	protected static CreateSwitch get() {
 		CreateSwitch vxlan = new CreateSwitch();
-		vxlan.setSubnet("192.168.1.0/24");
-		vxlan.setMtu("1450");
-		vxlan.setGateway("192.168.1.20");
+//		vxlan.setSubnet("192.168.1.0/24");
+//		vxlan.setMtu("1450");
+//		vxlan.setGateway("192.168.1.20");
 		return vxlan;
 	}
 }
