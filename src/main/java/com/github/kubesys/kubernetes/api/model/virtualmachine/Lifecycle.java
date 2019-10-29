@@ -224,6 +224,14 @@ public class Lifecycle {
 	protected SetGuestPassword setGuestPassword;
 	
 
+	public SetGuestPassword getSetGuestPassword() {
+		return setGuestPassword;
+	}
+
+	public void setSetGuestPassword(SetGuestPassword setGuestPassword) {
+		this.setGuestPassword = setGuestPassword;
+	}
+
 	public UnsetVncPassword getUnsetVncPassword() {
 		return unsetVncPassword;
 	}

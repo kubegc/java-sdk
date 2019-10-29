@@ -29,7 +29,7 @@ public class SetGuestPasswordTest {
 	public static SetGuestPassword get() {
 		SetGuestPassword setGuestPassword = new SetGuestPassword();
 		setGuestPassword.setOs_type("linux");
-		setGuestPassword.setPassword("abcdefg");
+		setGuestPassword.setPassword("111111");
 		setGuestPassword.setUser("root");
 		return setGuestPassword;
 	}
