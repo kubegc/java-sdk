@@ -103,6 +103,14 @@ public class Lifecycle {
 	protected UnbindFip unbindFip;
 	
 	
+	public ModifySwitch getModifySwitch() {
+		return modifySwitch;
+	}
+
+	public void setModifySwitch(ModifySwitch modifySwitch) {
+		this.modifySwitch = modifySwitch;
+	}
+
 	public CreateSwitch getCreateSwitch() {
 		return createSwitch;
 	}
