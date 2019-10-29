@@ -22,7 +22,7 @@ public class CreateVMDirPoolTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachinePools()
-				.createPool("node35-pool1", "vm.node35", getPool(), "123");
+				.createPool("pooltest4", "vm.node22", getPool(), "123");
 		System.out.println(successful);
 	}
 
@@ -31,7 +31,8 @@ public class CreateVMDirPoolTest {
 		
 		//dir
 		createPool.setType("dir");
-		createPool.setTarget("/var/lib/libvirt/pool1");
+		createPool.setContent("vmdi");
+		createPool.setTarget("/var/lib/libvirt/pooltest4");
 		createPool.setAutostart(true);
 
 		// uus

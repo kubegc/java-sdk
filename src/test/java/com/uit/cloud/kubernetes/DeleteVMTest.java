@@ -24,7 +24,7 @@ public class DeleteVMTest {
 		DeleteVM deleteVM = new DeleteVM();
 //		deleteVM.setDelete_snapshots(true);
 		boolean successful = client.virtualMachines()
-				.deleteVM("vm009", deleteVM, "1123");
+				.deleteVM("vm010", deleteVM, "1123");
 		System.out.println(successful);
 	}
 	

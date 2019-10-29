@@ -21,6 +21,8 @@ public class Volume {
 	
 	protected String backing_filename;
 	
+	protected String backing_filename_format;
+	
 	protected String cluster_size;
 	
 	protected String current;
@@ -39,6 +41,14 @@ public class Volume {
 	
 	protected String virtual_size;
 	
+	public String getBacking_filename_format() {
+		return backing_filename_format;
+	}
+
+	public void setBacking_filename_format(String backing_filename_format) {
+		this.backing_filename_format = backing_filename_format;
+	}
+
 	public String getDisk() {
 		return disk;
 	}

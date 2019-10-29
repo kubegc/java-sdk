@@ -396,13 +396,17 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
 		protected String type;
 
-		@ParameterDescriber(required = true, description = "创建云盘所在的存储池名", constraint = "由4-100位的数字和小写字母组成，已创建出的存储池", example = "pool2")
+		@ParameterDescriber(required = true, description = "目标存储池名", constraint = "由4-100位的数字和小写字母组成，已创建出的存储池", example = "pool2")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
-		protected String pool;
+		protected String targetPool;
 
-		@ParameterDescriber(required = true, description = "云盘镜像名", constraint = "由4-100位的数字和小写字母组成，已存在的云盘镜像名", example = "image2")
+		@ParameterDescriber(required = true, description = "源云盘镜像名", constraint = "由4-100位的数字和小写字母组成，已存在的云盘镜像名", example = "image2")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
-		protected String image;
+		protected String sourceImage;
+		
+		@ParameterDescriber(required = true, description = "源存储池名", constraint = "由4-100位的数字和小写字母组成，已创建出的存储池", example = "pool1")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String sourcePool;
 
 		public String getType() {
 			return type;
@@ -412,21 +416,30 @@ public class Lifecycle {
 			this.type = type;
 		}
 
-		public String getImage() {
-			return image;
+		public String getTargetPool() {
+			return targetPool;
 		}
 
-		public void setImage(String image) {
-			this.image = image;
+		public void setTargetPool(String targetPool) {
+			this.targetPool = targetPool;
 		}
 
-		public String getPool() {
-			return pool;
+		public String getSourceImage() {
+			return sourceImage;
 		}
 
-		public void setPool(String pool) {
-			this.pool = pool;
+		public void setSourceImage(String sourceImage) {
+			this.sourceImage = sourceImage;
 		}
+
+		public String getSourcePool() {
+			return sourcePool;
+		}
+
+		public void setSourcePool(String sourcePool) {
+			this.sourcePool = sourcePool;
+		}
+		
 	}
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
@@ -503,9 +516,29 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
 		protected String type;
 
-		@ParameterDescriber(required = true, description = "云盘所在的存储池名", constraint = "由4-100位的数字和小写字母组成，已创建出的存储池", example = "pool2")
+		@ParameterDescriber(required = true, description = "源云盘所在的存储池名", constraint = "由4-100位的数字和小写字母组成，已创建出的存储池", example = "pool2")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
-		protected String pool;
+		protected String sourcePool;
+		
+		@ParameterDescriber(required = true, description = "目标存储池名，用于存储转化的云盘镜像", constraint = "由4-100位的数字和小写字母组成，已创建出的存储池", example = "pool2")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String targetPool;
+
+		public String getSourcePool() {
+			return sourcePool;
+		}
+
+		public void setSourcePool(String sourcePool) {
+			this.sourcePool = sourcePool;
+		}
+
+		public String getTargetPool() {
+			return targetPool;
+		}
+
+		public void setTargetPool(String targetPool) {
+			this.targetPool = targetPool;
+		}
 
 		public String getType() {
 			return type;
@@ -515,14 +548,6 @@ public class Lifecycle {
 			this.type = type;
 		}
 
-		public String getPool() {
-			return pool;
-		}
-
-		public void setPool(String pool) {
-			this.pool = pool;
-		}
-		
 	}
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)

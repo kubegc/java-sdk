@@ -22,14 +22,15 @@ public class CreateDiskImageTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineDiskImages()
-				.createDiskImage("tttttttt5", "vm.node30", get(), "abc");
+				.createDiskImage("wyw123", "vm.node22", get(), "abc");
 		System.out.println(successful);
 	}
 
 	protected static CreateDiskImage get() {
 		CreateDiskImage createDiskImage = new CreateDiskImage();
 		// Only support file in "/var/lib/libvirt/" or its sub-dirs
-		createDiskImage.setSource("/var/lib/libvirt/test.qcow2");
+		createDiskImage.setSource("/var/lib/libvirt/pooltest2/disktest2/disktest2ss1");
+		createDiskImage.setTargetPool("pooltest4");
 		return createDiskImage;
 	}
 }

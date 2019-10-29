@@ -95,6 +95,9 @@ public class RegExpUtils {
 	
 	@FieldDescriber("存储池类型，只能是dir,uus,nfs,glusterfs之一")
 	public final static String POOL_TYPE_PATTERN = "dir|uus|nfs|glusterfs";
+	
+	@FieldDescriber("存储池类型，只能是vmd，vmdi，iso之一")
+	public final static String POOL_CONTENT_PATTERN = "vmd|vmdi|iso";
 
 	@FieldDescriber("存储池类型，只能是dir,nfs,glusterfs之一")
 	public final static String POOL_TYPE_NOT_SUPPORT_PATTERN = "dir|nfs|glusterfs";

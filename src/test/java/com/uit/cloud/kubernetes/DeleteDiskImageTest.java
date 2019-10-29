@@ -4,6 +4,7 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
+import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CreateDiskFromDiskImage;
 import com.github.kubesys.kubernetes.api.model.virtualmachinediskimage.Lifecycle.DeleteDiskImage;
 
 
@@ -22,8 +23,14 @@ public class DeleteDiskImageTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineDiskImages()
-				.deleteDiskImage("t6", new DeleteDiskImage());
+				.deleteDiskImage("wyw123", get());
 		System.out.println(successful);
+	}
+
+	protected static DeleteDiskImage get() {
+		DeleteDiskImage createDisk = new DeleteDiskImage();
+		createDisk.setTargetPool("pooltest4");
+		return createDisk;
 	}
 	
 }

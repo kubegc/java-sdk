@@ -161,6 +161,10 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
 		protected String type;
 		
+		@ParameterDescriber(required = true, description = "存储池的内容，用于标识存储池的用途", constraint = "只能是vmd，vmdi，iso之一", example = "vmd")
+		@Pattern(regexp = RegExpUtils.POOL_CONTENT_PATTERN)
+		protected String content;
+		
 		protected String source_host;
 		
 		protected String source_path;
@@ -211,6 +215,14 @@ public class Lifecycle {
 		protected Boolean no_overwrite;
 		
 		protected Boolean overwrite;
+
+		public String getContent() {
+			return content;
+		}
+
+		public void setContent(String content) {
+			this.content = content;
+		}
 
 		public String getType() {
 			return type;

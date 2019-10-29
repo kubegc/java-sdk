@@ -19,6 +19,8 @@ public class Pool {
 	
 	protected String pooltype;
 	
+	protected String content;
+	
 	protected String name;
 	
 	protected String uuid;
@@ -33,6 +35,14 @@ public class Pool {
 	
 	protected String path;
 	
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
 	public Pool() {
 		super();
 	}

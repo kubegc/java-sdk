@@ -29,9 +29,10 @@ public class CreateDiskFromDiskImageTest {
 	protected static CreateDiskFromDiskImage get() {
 		CreateDiskFromDiskImage createDisk = new CreateDiskFromDiskImage();
 		// create a volume in this pool
-		createDisk.setPool("default");
+		createDisk.setTargetPool("default");
 		// vm disk image name
-		createDisk.setImage("t5");
+		createDisk.setSourceImage("t5");
+		createDisk.setSourcePool("pool1");
 		return createDisk;
 	}
 }
