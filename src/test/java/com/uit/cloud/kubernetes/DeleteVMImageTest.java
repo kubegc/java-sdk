@@ -28,7 +28,7 @@ public class DeleteVMImageTest {
 	
 	private static DeleteImage get() {
 		DeleteImage image = new DeleteImage();
-		image.setTarget("/var/lib/libvirt/vmi");
+		image.setTarget("/var/lib/libvirt/vmi1");
 		return image;
 	}
 	
