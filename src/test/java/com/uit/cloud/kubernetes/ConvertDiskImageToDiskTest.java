@@ -29,8 +29,8 @@ public class ConvertDiskImageToDiskTest {
 	protected static ConvertDiskImageToDisk get() {
 		ConvertDiskImageToDisk convertDiskImage = new ConvertDiskImageToDisk();
         convertDiskImage.setType("dir");
-		convertDiskImage.setTargetPool("pooldirabc");
 		convertDiskImage.setSourcePool("pool1");
+		convertDiskImage.setTargetPool("pooldirabc");
 		return convertDiskImage;
 	}
 }
