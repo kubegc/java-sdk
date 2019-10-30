@@ -2577,6 +2577,18 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class ConvertVMToImage {
 		
+		@ParameterDescriber(required = true, description = "虚拟机镜像的存储目录", constraint = "路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点", example = "/var/lib/libvirt/vmi1")
+		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
+		protected String target;
+
+		public String getTarget() {
+			return target;
+		}
+
+		public void setTarget(String target) {
+			this.target = target;
+		}
+		
 	}
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)

@@ -75,9 +75,21 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class CreateImage {
 
-		@ParameterDescriber(required = true, description = "用于创建虚拟机镜像的源文件", constraint = "路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点", example = "/var/lib/aaa.qcow2")
-		@Pattern(regexp = "("+RegExpUtils.PATH_PATTERN+")|("+RegExpUtils.SINGLE_CD_PATTERN + ")")
+		@ParameterDescriber(required = true, description = "用于创建虚拟机镜像的源文件", constraint = "路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点", example = "/var/lib/libvirt/aaa.qcow2")
+		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
 		protected String disk;
+		
+		@ParameterDescriber(required = true, description = "虚拟机镜像的存储目录", constraint = "路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点池", example = "/var/lib/libvirt/vmi1")
+		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
+		protected String target;
+
+		public String getTarget() {
+			return target;
+		}
+
+		public void setTarget(String target) {
+			this.target = target;
+		}
 
 		public CreateImage() {
 			super();
@@ -96,12 +108,36 @@ public class Lifecycle {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class DeleteImage {
+
+		@ParameterDescriber(required = true, description = "虚拟机镜像的存储目录", constraint = "路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点池", example = "/var/lib/libvirt/vmi1")
+		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
+		protected String target;
+
+		public String getTarget() {
+			return target;
+		}
+
+		public void setTarget(String target) {
+			this.target = target;
+		}
 		
 	}
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class ConvertImageToVM {
+		
+		@ParameterDescriber(required = true, description = "虚拟机镜像的存储目录", constraint = "路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点池", example = "/var/lib/libvirt/vmi1")
+		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
+		protected String target;
+
+		public String getTarget() {
+			return target;
+		}
+
+		public void setTarget(String target) {
+			this.target = target;
+		}
 		
 	}
 	

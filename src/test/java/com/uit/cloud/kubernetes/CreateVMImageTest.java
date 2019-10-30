@@ -28,9 +28,10 @@ public class CreateVMImageTest {
 	private static CreateImage get() {
 		CreateImage image = new CreateImage();
 		// template
-		image.setDisk("/var/lib/aaa.qcow2");
+		image.setDisk("/var/lib/libvirt/images/disk1");
 		// or ISO
 //		image.setDisk("/opt/ISO/CentOS-7-x86_64-Minimal-1511.iso,device=cdrom,perms=ro");
+		image.setTarget("/var/lib/libvirt/vmi1");
 		return image;
 	}
 	
