@@ -1415,20 +1415,40 @@ public class Lifecycle {
 	public static class DeleteVM {
 
 		@ParameterDescriber(required = false, description = "删除虚拟机所有快照，否则如果虚拟机还存在快照，会导致删除失败", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
-		protected Boolean delete_snapshots;
+		protected Boolean snapshots_metadata;
 
 		@ParameterDescriber(required = false, description = "是否删除虚拟机所有快照对应的磁盘存储", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean remove_all_storage;
+		
+		@ParameterDescriber(required = false, description = "需要删除的虚拟机磁盘", constraint = "约束：盘符,路径", example = "vda,/var/lib/libvirt/images/disk1")
+		protected String storage;
+		
+		@ParameterDescriber(required = false, description = "ARM架构机器需要添加此参数", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
+		protected Boolean nvram;
 
-
-		public void setDelete_snapshots(Boolean delete_snapshots) {
-			this.delete_snapshots = delete_snapshots;
+		public String getStorage() {
+			return storage;
 		}
 
-		public Boolean getDelete_snapshots() {
-			return this.delete_snapshots;
+		public void setStorage(String storage) {
+			this.storage = storage;
 		}
 
+		public Boolean getNvram() {
+			return nvram;
+		}
+
+		public void setNvram(Boolean nvram) {
+			this.nvram = nvram;
+		}
+
+		public Boolean getSnapshots_metadata() {
+			return snapshots_metadata;
+		}
+
+		public void setSnapshots_metadata(Boolean snapshots_metadata) {
+			this.snapshots_metadata = snapshots_metadata;
+		}
 
 		public void setRemove_all_storage(Boolean remove_all_storage) {
 			this.remove_all_storage = remove_all_storage;
