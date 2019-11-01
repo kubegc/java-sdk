@@ -75,10 +75,6 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String targetPool;
 		
-		@ParameterDescriber(required = true, description = "云盘镜像所在的存储池名", constraint = "由4-100位的数字和小写字母组成，已创建出的存储池", example = "pool2")
-		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
-		protected String sourcePool;
-
 		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，uus，nfs，glusterfs之一", example = "dir")
 		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
 		protected String type;
@@ -90,14 +86,6 @@ public class Lifecycle {
 
 		public void setTargetPool(String targetPool) {
 			this.targetPool = targetPool;
-		}
-
-		public String getSourcePool() {
-			return sourcePool;
-		}
-
-		public void setSourcePool(String sourcePool) {
-			this.sourcePool = sourcePool;
 		}
 
 		public String getType() {
@@ -113,19 +101,6 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class DeleteDiskImage {
 
-		@ParameterDescriber(required = true, description = "目标存储池名", constraint = "由4-100位的数字和小写字母组成，已创建出的存储池", example = "pool2")
-		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
-		protected String targetPool;
-
-		public String getTargetPool() {
-			return targetPool;
-		}
-
-		public void setTargetPool(String targetPool) {
-			this.targetPool = targetPool;
-		}
-		
-		
 	}
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)

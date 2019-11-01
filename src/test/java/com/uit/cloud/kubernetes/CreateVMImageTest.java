@@ -31,7 +31,7 @@ public class CreateVMImageTest {
 		image.setDisk("/var/lib/libvirt/images/disk1");
 		// or ISO
 //		image.setDisk("/opt/ISO/CentOS-7-x86_64-Minimal-1511.iso,device=cdrom,perms=ro");
-		image.setTarget("/var/lib/libvirt/vmi1");
+		image.setTargetPool("pool1");
 		return image;
 	}
 	

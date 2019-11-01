@@ -28,7 +28,7 @@ public class ConvertImageToVMTest {
 	
 	private static ConvertImageToVM get() {
 		ConvertImageToVM image = new ConvertImageToVM();
-		image.setTarget("/var/lib/libvirt/images");
+		image.setTargetPool("pool1");
 		return image;
 	}
 }

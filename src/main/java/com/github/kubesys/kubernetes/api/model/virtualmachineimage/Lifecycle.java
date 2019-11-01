@@ -79,20 +79,20 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
 		protected String disk;
 		
-		@ParameterDescriber(required = true, description = "虚拟机镜像的存储目录", constraint = "路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点池", example = "/var/lib/libvirt/vmi1")
-		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
-		protected String target;
-
-		public String getTarget() {
-			return target;
-		}
-
-		public void setTarget(String target) {
-			this.target = target;
-		}
+		@ParameterDescriber(required = true, description = "目标存储池名", constraint = "由4-100位的数字和小写字母组成，已创建出的存储池", example = "pool2")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String targetPool;
 
 		public CreateImage() {
 			super();
+		}
+
+		public String getTargetPool() {
+			return targetPool;
+		}
+
+		public void setTargetPool(String targetPool) {
+			this.targetPool = targetPool;
 		}
 
 		public String getDisk() {
@@ -108,18 +108,6 @@ public class Lifecycle {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class DeleteImage {
-
-		@ParameterDescriber(required = true, description = "虚拟机镜像的存储目录", constraint = "路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点池", example = "/var/lib/libvirt/vmi1")
-		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
-		protected String target;
-
-		public String getTarget() {
-			return target;
-		}
-
-		public void setTarget(String target) {
-			this.target = target;
-		}
 		
 	}
 	
@@ -127,16 +115,16 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class ConvertImageToVM {
 		
-		@ParameterDescriber(required = true, description = "虚拟机镜像的存储目录", constraint = "路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点池", example = "/var/lib/libvirt/vmi1")
-		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
-		protected String target;
+		@ParameterDescriber(required = true, description = "目标存储池名", constraint = "由4-100位的数字和小写字母组成，已创建出的存储池", example = "pool2")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String targetPool;
 
-		public String getTarget() {
-			return target;
+		public String getTargetPool() {
+			return targetPool;
 		}
 
-		public void setTarget(String target) {
-			this.target = target;
+		public void setTargetPool(String targetPool) {
+			this.targetPool = targetPool;
 		}
 		
 	}

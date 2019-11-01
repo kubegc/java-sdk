@@ -29,7 +29,6 @@ public class DeleteDiskImageTest {
 
 	protected static DeleteDiskImage get() {
 		DeleteDiskImage createDisk = new DeleteDiskImage();
-		createDisk.setTargetPool("pooltest4");
 		return createDisk;
 	}
 	

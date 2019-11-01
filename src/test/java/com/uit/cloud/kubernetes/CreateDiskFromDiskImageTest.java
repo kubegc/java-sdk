@@ -32,7 +32,6 @@ public class CreateDiskFromDiskImageTest {
 		createDisk.setTargetPool("default");
 		// vm disk image name
 		createDisk.setSourceImage("t5");
-		createDisk.setSourcePool("pool1");
 		return createDisk;
 	}
 }
