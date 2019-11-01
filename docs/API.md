@@ -1,9 +1,3 @@
-Warning: infinite loop forcom.github.kubesys.kubernetes.api.model.virtualmachine.Domain$Devices$Disk$BackingStore
-Warning: infinite loop forcom.github.kubesys.kubernetes.api.model.virtualmachine.Domain$Devices$Disk$BackingStore
-Warning: infinite loop forcom.github.kubesys.kubernetes.api.model.virtualmachine.Domain$Devices$Disk$BackingStore
-Warning: infinite loop forcom.github.kubesys.kubernetes.api.model.virtualmachine.Domain$Devices$Disk$BackingStore
-Warning: infinite loop forcom.github.kubesys.kubernetes.api.model.virtualmachine.Domain$Devices$Disk$BackingStore
-Warning: infinite loop forcom.github.kubesys.kubernetes.api.model.virtualmachine.Domain$Devices$Disk$BackingStore
 # 文档简介
 
 	本文档用于说明基于Kubernetes的虚拟机生命周期如何管理, 项目地址：https://github.com/kubesys/kubeext-jdk.
