@@ -41,7 +41,7 @@ public class CreateSnapshotTest {
 		createSnapshot.setAtomic(true);
 		createSnapshot.setDisk_only(true);
 		createSnapshot.setIsExternal(true);
-		createSnapshot.setDiskspec("vda");
+		createSnapshot.setDiskspec("vda,snapshot=external,file=/var/lib/libvirt/pooltest2/disktest3/disktest3.3,driver=qcow2");
 		return createSnapshot;
 	}
 	

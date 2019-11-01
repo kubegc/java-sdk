@@ -22,13 +22,16 @@ public class DeleteDiskExternalSnapshotTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineDiskSnapshots()
-				.deleteDiskExternalSnapshot("root4abcdeef.1", get());
+				.deleteDiskExternalSnapshot("wyw123.5", get());
 		System.out.println(successful);
 	}
 	
 	public static DeleteDiskExternalSnapshot get() {
 		DeleteDiskExternalSnapshot deleteDiskExternalSnapshot = new DeleteDiskExternalSnapshot();
 		deleteDiskExternalSnapshot.setPool("default");
+		deleteDiskExternalSnapshot.setType("dir");
+		deleteDiskExternalSnapshot.setVol("wyw123");
+//		createDiskExternalSnapshot.setDomain("vm010");
 		return deleteDiskExternalSnapshot;
 	}
 }
