@@ -14,10 +14,10 @@ import com.github.kubesys.kubernetes.utils.AnnotationUtils;
 import com.github.kubesys.kubernetes.utils.RegExpUtils;
 
 /**
- * @author  wuheng@otcaix.iscas.ac.cn
+ * @author wuheng@otcaix.iscas.ac.cn
  * 
  * @version 1.2.0
- * @since   2019/9/4
+ * @since 2019/9/4
  * 
  **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -25,204 +25,143 @@ import com.github.kubesys.kubernetes.utils.RegExpUtils;
 @ClassDescriber(value = "VirtualMachine", desc = "虚拟机是指安装了OS的磁盘")
 public class Lifecycle {
 
-	@FunctionDescriber(shortName = "通过ISO装虚拟机", description = "通过光驱安装云OS，光驱必须存在" 
-			+ AnnotationUtils.DESC_FUNCTION_DESC, 
-	  prerequisite = "", 
-	  exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	@FunctionDescriber(shortName = "通过ISO装虚拟机", description = "通过光驱安装云OS，光驱必须存在"
+			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = "", exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected CreateAndStartVMFromISO createAndStartVMFromISO;
-	
-	@FunctionDescriber(shortName = "通过镜像安装虚拟机", description = "通过虚拟机镜像VirtualMachineImage创建云OS" 
-			+ AnnotationUtils.DESC_FUNCTION_DESC, 
-	  prerequisite = "", 
-	  exception = AnnotationUtils.DESC_FUNCTION_EXEC)
-	protected CreateAndStartVMFromImage createAndStartVMFromImage;
-	
-	@FunctionDescriber(shortName = "虚拟机内存扩容", description = "对虚拟机内存扩容，" 
-					+ AnnotationUtils.DESC_FUNCTION_DESC, 
-	  prerequisite = AnnotationUtils.DESC_FUNCTION_VM, 
-	  exception = AnnotationUtils.DESC_FUNCTION_EXEC)
-	protected ResizeRAM resizeRAM;
 
-	@FunctionDescriber(shortName = "虚拟机暂停", description = "对运行的虚拟机进行暂停操作，已经暂停虚拟机执行暂停会报错" 
-			+ AnnotationUtils.DESC_FUNCTION_DESC, 
-	  prerequisite = AnnotationUtils.DESC_FUNCTION_VM, 
-	  exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	@FunctionDescriber(shortName = "通过镜像复制虚拟机", description = "通过虚拟机镜像VirtualMachineImage创建云OS"
+			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = "", exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected CreateAndStartVMFromImage createAndStartVMFromImage;
+
+	@FunctionDescriber(shortName = "暂停虚机", description = "对运行的虚拟机进行暂停操作，已经暂停虚拟机执行暂停会报错"
+			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected SuspendVM suspendVM;
 
-	@FunctionDescriber(shortName = "强制关闭虚拟机", description = "强制关闭虚拟机，虚拟机在某些情况下无法关闭，本质相当于拔掉电源" 
-			+ AnnotationUtils.DESC_FUNCTION_DESC, 
-	  prerequisite = AnnotationUtils.DESC_FUNCTION_VM, 
-	  exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	@FunctionDescriber(shortName = "强制关机", description = "强制关闭虚拟机，虚拟机在某些情况下无法关闭，本质相当于拔掉电源"
+			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected StopVMForce stopVMForce;
 
-	@FunctionDescriber(shortName = "虚拟机卸载设备", description = "卸载GPU、云盘、网卡等资源，" 
-			+ AnnotationUtils.DESC_FUNCTION_DESC, 
-	  prerequisite = AnnotationUtils.DESC_FUNCTION_VM, 
-	  exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	@FunctionDescriber(shortName = "卸载设备", description = "卸载GPU、云盘、网卡等资源，"
+			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected UnplugDevice unplugDevice;
 
-	@FunctionDescriber(shortName = "虚拟机卸载网卡", description = "卸载网卡，" 
-			+ AnnotationUtils.DESC_FUNCTION_DESC, 
-	  prerequisite = AnnotationUtils.DESC_FUNCTION_VM, 
-	  exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	@FunctionDescriber(shortName = "卸载网卡", description = "卸载网卡，"
+			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected UnplugNIC unplugNIC;
 
-	@FunctionDescriber(shortName = "虚拟机迁移", description = "虚拟机迁移，必须依赖共享存储" 
-			+ AnnotationUtils.DESC_FUNCTION_DESC, 
-	  prerequisite = AnnotationUtils.DESC_FUNCTION_VM, 
-	  exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	@FunctionDescriber(shortName = "虚机迁移", description = "虚拟机迁移，必须依赖共享存储"
+			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected MigrateVM migrateVM;
 
-	@FunctionDescriber(shortName = "虚拟机CPU设置", description = "修改虚拟机CPU个数" 
-			+ AnnotationUtils.DESC_FUNCTION_DESC, 
-	  prerequisite = AnnotationUtils.DESC_FUNCTION_VM, 
-	  exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	@FunctionDescriber(shortName = "CPU设置", description = "修改虚拟机CPU个数"
+			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected ChangeNumberOfCPU changeNumberOfCPU;
 
-	@FunctionDescriber(shortName = "恢复虚拟机", description = "恢复暂停的虚拟机，对运行的虚拟机执行恢复会报错" 
-			+ AnnotationUtils.DESC_FUNCTION_DESC, 
-	  prerequisite = AnnotationUtils.DESC_FUNCTION_VM, 
-	  exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	@FunctionDescriber(shortName = "恢复虚机", description = "恢复暂停的虚拟机，对运行的虚拟机执行恢复会报错"
+			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected ResumeVM resumeVM;
 
-	@FunctionDescriber(shortName = "虚拟机添加云盘", description = "添加云盘，云盘必须通过CreateVirtualMachineDisk预先创建好" 
-			+ AnnotationUtils.DESC_FUNCTION_DESC, 
-	  prerequisite = AnnotationUtils.DESC_FUNCTION_VM + ",或CreateVirtualMachineDisk", 
-	  exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	@FunctionDescriber(shortName = "添加云盘", description = "添加云盘，云盘必须通过CreateVirtualMachineDisk预先创建好"
+			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM
+					+ ",或CreateVirtualMachineDisk", exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected PlugDisk plugDisk;
 
-	@FunctionDescriber(shortName = "虚拟机添加设备", description = "添加GPU、云盘、网卡等，这种方法相对于pluginDisk等可设置高级选项，如QoS" 
-			+ AnnotationUtils.DESC_FUNCTION_DESC, 
-	  prerequisite = AnnotationUtils.DESC_FUNCTION_VM, 
-	  exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	@FunctionDescriber(shortName = "添加设备", description = "添加GPU、云盘、网卡等，这种方法相对于pluginDisk等可设置高级选项，如QoS"
+			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected PlugDevice plugDevice;
 
-	@FunctionDescriber(shortName = "强制重启虚拟机", description = "强制重置虚拟机，即强制重启虚拟机" 
-			+ AnnotationUtils.DESC_FUNCTION_DESC, 
-	  prerequisite = AnnotationUtils.DESC_FUNCTION_VM, 
-	  exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	@FunctionDescriber(shortName = "强制重启", description = "强制重置虚拟机，即强制重启虚拟机"
+			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected ResetVM resetVM;
 
-	@FunctionDescriber(shortName = "虚拟机卸载云盘", description = "卸载虚拟机云盘" 
-			+ AnnotationUtils.DESC_FUNCTION_DESC, 
-	  prerequisite = AnnotationUtils.DESC_FUNCTION_VM + ",或CreateVirtualMachineDisk", 
-	  exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	@FunctionDescriber(shortName = "卸载云盘", description = "卸载虚拟机云盘"
+			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM
+					+ ",或CreateVirtualMachineDisk", exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected UnplugDisk unplugDisk;
 
-	@FunctionDescriber(shortName = "虚拟机关机", description = "关闭虚拟机，但不一定能关闭，如虚拟机中OS受损，对关闭虚拟机再执行关闭会报错" 
-			+ AnnotationUtils.DESC_FUNCTION_DESC, 
-	  prerequisite = AnnotationUtils.DESC_FUNCTION_VM, 
-	  exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	@FunctionDescriber(shortName = "虚机关机", description = "关闭虚拟机，但不一定能关闭，如虚拟机中OS受损，对关闭虚拟机再执行关闭会报错"
+			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected StopVM stopVM;
 
-	@FunctionDescriber(shortName = "启动虚拟机", description = "启动虚拟机，能否正常启动取决于虚拟机OS是否受损，对运行虚拟机执行启动会报错" 
-			+ AnnotationUtils.DESC_FUNCTION_DESC, 
-	  prerequisite = AnnotationUtils.DESC_FUNCTION_VM, 
-	  exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	@FunctionDescriber(shortName = "启动虚机", description = "启动虚拟机，能否正常启动取决于虚拟机OS是否受损，对运行虚拟机执行启动会报错"
+			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected StartVM startVM;
 
-	@FunctionDescriber(shortName = "删除虚拟机", description = "删除虚拟机，需要先关闭虚拟机" 
-			+ AnnotationUtils.DESC_FUNCTION_DESC, 
-	  prerequisite = AnnotationUtils.DESC_FUNCTION_VM + "或StopVM，或StopVMForce", 
-	  exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	@FunctionDescriber(shortName = "删除虚机", description = "删除虚拟机，需要先关闭虚拟机"
+			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM
+					+ "或StopVM，或StopVMForce", exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected DeleteVM deleteVM;
 
-	@FunctionDescriber(shortName = "虚拟机重启", description = "重启虚拟机，能否正常重新启动取决于虚拟机OS是否受损" 
-			+ AnnotationUtils.DESC_FUNCTION_DESC, 
-	  prerequisite = AnnotationUtils.DESC_FUNCTION_VM, 
-	  exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	@FunctionDescriber(shortName = "虚机重启", description = "重启虚拟机，能否正常重新启动取决于虚拟机OS是否受损"
+			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected RebootVM rebootVM;
 
-	@FunctionDescriber(shortName = "虚拟机添加网卡", description = "给虚拟机添加网卡" 
-			+ AnnotationUtils.DESC_FUNCTION_DESC, 
-	  prerequisite = AnnotationUtils.DESC_FUNCTION_VM, 
-	  exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	@FunctionDescriber(shortName = "添加网卡", description = "给虚拟机添加网卡"
+			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected PlugNIC plugNIC;
 
-	@FunctionDescriber(shortName = "插入或拔出光驱", description = "插入或者拔出光驱" 
-			+ AnnotationUtils.DESC_FUNCTION_DESC, 
-	  prerequisite = AnnotationUtils.DESC_FUNCTION_VM + "或plugDevice", 
-	  exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	@FunctionDescriber(shortName = "插拔光驱", description = "插入或者拔出光驱"
+			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM
+					+ "或plugDevice", exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected ManageISO manageISO;
-	
-	@FunctionDescriber(shortName = "更换虚拟机OS", description = "更换云主机的OS，云主机必须关机" 
-			+ AnnotationUtils.DESC_FUNCTION_DESC, 
-	  prerequisite = AnnotationUtils.DESC_FUNCTION_VM, 
-	  exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+
+	@FunctionDescriber(shortName = "更换OS", description = "更换云主机的OS，云主机必须关机"
+			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected UpdateOS updateOS;
-	
-	@FunctionDescriber(shortName = "转化为虚拟机模板", description = "转化为虚拟机镜像" 
-			+ AnnotationUtils.DESC_FUNCTION_DESC, 
-	  prerequisite = AnnotationUtils.DESC_FUNCTION_VM, 
-	  exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+
+	@FunctionDescriber(shortName = "转化模板", description = "转化为虚拟机镜像"
+			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected ConvertVMToImage convertVMToImage;
-	
-	@FunctionDescriber(shortName = "插入光驱", description = "插入" 
-			+ AnnotationUtils.DESC_FUNCTION_DESC, 
-	  prerequisite = AnnotationUtils.DESC_FUNCTION_VM + "或plugDevice", 
-	  exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+
+	@FunctionDescriber(shortName = "插入光驱", description = "插入"
+			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM
+					+ "或plugDevice", exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected InsertISO insertISO;
-	
-	@FunctionDescriber(shortName = "拔出光驱", description = "拔出光驱" 
-			+ AnnotationUtils.DESC_FUNCTION_DESC, 
-	  prerequisite = AnnotationUtils.DESC_FUNCTION_VM + "或plugDevice", 
-	  exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+
+	@FunctionDescriber(shortName = "拔出光驱", description = "拔出光驱"
+			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM
+					+ "或plugDevice", exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected EjectISO ejectISO;
-	
-	@FunctionDescriber(shortName = "调整虚拟机大小", description = "调整虚拟机大小，" 
-			+ AnnotationUtils.DESC_FUNCTION_DESC, 
-		prerequisite = AnnotationUtils.DESC_FUNCTION_VM, 
-		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+
+	@FunctionDescriber(shortName = "调整磁盘", description = "调整虚拟机大小，"
+			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected ResizeVM resizeVM;
-	
-	@FunctionDescriber(shortName = "克隆虚拟机", description = "克隆虚拟机，" 
-			+ AnnotationUtils.DESC_FUNCTION_DESC, 
-		prerequisite = AnnotationUtils.DESC_FUNCTION_VM, 
-		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+
+	@FunctionDescriber(shortName = "克隆虚机", description = "克隆虚拟机，"
+			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected CloneVM cloneVM;
-	
-	@FunctionDescriber(shortName = "设置虚拟机磁盘QoS", description = "设置虚拟机磁盘QoS，" 
-			+ AnnotationUtils.DESC_FUNCTION_DESC, 
-		prerequisite = AnnotationUtils.DESC_FUNCTION_VM, 
-		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+
+	@FunctionDescriber(shortName = "磁盘QoS", description = "设置虚拟机磁盘QoS，"
+			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected TuneDiskQoS tuneDiskQoS;
-	
-	@FunctionDescriber(shortName = "设置虚拟机网卡QoS", description = "设置虚拟机网卡QoS，" 
-			+ AnnotationUtils.DESC_FUNCTION_DESC, 
-		prerequisite = AnnotationUtils.DESC_FUNCTION_VM, 
-		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+
+	@FunctionDescriber(shortName = "网卡QoS", description = "设置虚拟机网卡QoS，"
+			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected TuneNICQoS tuneNICQoS;
-	
-	@FunctionDescriber(shortName = "设置虚拟机最大内存", description = "设置虚拟机最大内存，" 
-			+ AnnotationUtils.DESC_FUNCTION_DESC, 
-		prerequisite = AnnotationUtils.DESC_FUNCTION_VM, 
-		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+
+	@FunctionDescriber(shortName = "设置虚拟机最大内存", description = "设置虚拟机最大内存，"
+			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected ResizeMaxRAM resizeMaxRAM;
-	
-	@FunctionDescriber(shortName = "设置虚拟机启动顺序", description = "设置虚拟机启动顺序，" 
-			+ AnnotationUtils.DESC_FUNCTION_DESC, 
-		prerequisite = AnnotationUtils.DESC_FUNCTION_VM, 
-		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+
+	@FunctionDescriber(shortName = "启动顺序", description = "设置虚拟机启动顺序，"
+			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected SetBootOrder setBootOrder;
-	
-	@FunctionDescriber(shortName = "设置虚拟机VNC密码", description = "设置虚拟机VNC密码，" 
-			+ AnnotationUtils.DESC_FUNCTION_DESC, 
-		prerequisite = AnnotationUtils.DESC_FUNCTION_VM, 
-		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+
+	@FunctionDescriber(shortName = "设置VNC密码", description = "设置虚拟机VNC密码，"
+			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected SetVncPassword setVncPassword;
-	
-	@FunctionDescriber(shortName = "取消虚拟机VNC密码", description = "取消虚拟机VNC密码，" 
-			+ AnnotationUtils.DESC_FUNCTION_DESC, 
-		prerequisite = AnnotationUtils.DESC_FUNCTION_VM, 
-		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+
+	@FunctionDescriber(shortName = "取消VNC密码", description = "取消虚拟机VNC密码，"
+			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected UnsetVncPassword unsetVncPassword;
-	
-	@FunctionDescriber(shortName = "设置虚拟机密码", description = "设置虚拟机密码，" 
-			+ AnnotationUtils.DESC_FUNCTION_DESC, 
-		prerequisite = AnnotationUtils.DESC_FUNCTION_VM, 
-		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+
+	@FunctionDescriber(shortName = "虚机密码", description = "设置虚拟机密码，"
+			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected SetGuestPassword setGuestPassword;
-	
+
+	@FunctionDescriber(shortName = "内存扩容", description = "对虚拟机内存扩容，"
+			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected ResizeRAM resizeRAM;
 
 	public SetGuestPassword getSetGuestPassword() {
 		return setGuestPassword;
@@ -456,7 +395,6 @@ public class Lifecycle {
 		this.convertVMToImage = convertVMToImage;
 	}
 
-	
 	public InsertISO getInsertISO() {
 		return insertISO;
 	}
@@ -496,7 +434,7 @@ public class Lifecycle {
 		@ParameterDescriber(required = false, description = "对当前虚拟机生效", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean current;
 
-		@ParameterDescriber(required = true,  description = "内存大小，单位为KiB", constraint = "100MiB到100GiB", example = "1GiB: 1048576")
+		@ParameterDescriber(required = true, description = "内存大小，单位为KiB", constraint = "100MiB到100GiB", example = "1GiB: 1048576")
 		@Pattern(regexp = RegExpUtils.RAM_KiB_PATTERN)
 		protected String size;
 
@@ -566,8 +504,8 @@ public class Lifecycle {
 
 		@ParameterDescriber(required = false, description = "立即生效，对于开机虚拟机", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean live;
-		
-		@ParameterDescriber(required = true, description = "设备xml文件，可以是GPU、硬盘、网卡、光驱等", constraint= "路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点", example = "/var/lib/libvirt/unplug.xml")
+
+		@ParameterDescriber(required = true, description = "设备xml文件，可以是GPU、硬盘、网卡、光驱等", constraint = "路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点", example = "/var/lib/libvirt/unplug.xml")
 		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
 		protected String file;
 
@@ -616,7 +554,6 @@ public class Lifecycle {
 		}
 	}
 
-
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class UnplugNIC {
@@ -640,7 +577,7 @@ public class Lifecycle {
 		@ParameterDescriber(required = true, description = "mac地址", constraint = "mac地址不能以fe开头", example = "7e:0c:b0:ef:6a:04")
 		@Pattern(regexp = RegExpUtils.MAC_PATTERN)
 		protected String mac;
-		
+
 		public void setCurrent(Boolean current) {
 			this.current = current;
 		}
@@ -689,7 +626,6 @@ public class Lifecycle {
 			return this.mac;
 		}
 	}
-
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
@@ -913,7 +849,6 @@ public class Lifecycle {
 		@ParameterDescriber(required = false, description = "修改虚拟机CPU状态", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean guest;
 
-
 		public ChangeNumberOfCPU() {
 
 		}
@@ -973,7 +908,6 @@ public class Lifecycle {
 
 	}
 
-
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class PlugDisk {
@@ -986,7 +920,7 @@ public class Lifecycle {
 
 		@ParameterDescriber(required = false, description = "立即生效，对于开机虚拟机", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean live;
-		
+
 		protected String iothread;
 
 		protected String cache;
@@ -1030,27 +964,27 @@ public class Lifecycle {
 		protected Boolean rawio;
 
 		protected String sourcetype;
-		
+
 		@ParameterDescriber(required = false, description = "云盘总bps的QoS设置，单位为bytes，与read,write互斥", constraint = "0~9999999999", example = "1GiB: 1073741824")
 		@Pattern(regexp = RegExpUtils.DISK_QoS_PATTERN)
 		protected String total_bytes_sec;
-		
+
 		@ParameterDescriber(required = false, description = "云盘读bps的QoS设置，单位为bytes，与total互斥", constraint = "0~9999999999", example = "1GiB: 1073741824")
 		@Pattern(regexp = RegExpUtils.DISK_QoS_PATTERN)
 		protected String read_bytes_sec;
-		
+
 		@Pattern(regexp = RegExpUtils.DISK_QoS_PATTERN)
 		@ParameterDescriber(required = false, description = "云盘写bps的QoS设置，单位为bytes，与total互斥", constraint = "0~9999999999", example = "1GiB: 1073741824")
 		protected String write_bytes_sec;
-		
+
 		@ParameterDescriber(required = false, description = "云盘总iops的QoS设置，单位为bytes，与read,write互斥", constraint = "0~9999999999", example = "1GiB: 1073741824")
 		@Pattern(regexp = RegExpUtils.DISK_QoS_PATTERN)
 		protected String total_iops_sec;
-		
+
 		@Pattern(regexp = RegExpUtils.DISK_IOPS_PATTERN)
 		@ParameterDescriber(required = false, description = "云盘读iops的QoS设置，与total互斥", constraint = "0~99999", example = "40000")
 		protected String read_iops_sec;
-		
+
 		@Pattern(regexp = RegExpUtils.DISK_IOPS_PATTERN)
 		@ParameterDescriber(required = false, description = "云盘写iops的QoS设置，与total互斥", constraint = "0~99999", example = "40000")
 		protected String write_iops_sec;
@@ -1074,7 +1008,7 @@ public class Lifecycle {
 		public PlugDisk() {
 
 		}
-		
+
 		public String getRead_bytes_sec() {
 			return read_bytes_sec;
 		}
@@ -1275,8 +1209,8 @@ public class Lifecycle {
 
 		@ParameterDescriber(required = false, description = "立即生效，对于开机虚拟机", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean live;
-		
-		@ParameterDescriber(required = true, description = "设备xml文件，可以是GPU、硬盘、网卡、光驱等", constraint= "路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点", example = "/var/lib/libvirt/unplug.xml")
+
+		@ParameterDescriber(required = true, description = "设备xml文件，可以是GPU、硬盘、网卡、光驱等", constraint = "路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点", example = "/var/lib/libvirt/unplug.xml")
 		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
 		protected String file;
 
@@ -1396,13 +1330,11 @@ public class Lifecycle {
 		}
 	}
 
-
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class StopVM {
 
 	}
-
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
@@ -1419,10 +1351,10 @@ public class Lifecycle {
 
 		@ParameterDescriber(required = false, description = "是否删除虚拟机所有快照对应的磁盘存储", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean remove_all_storage;
-		
+
 		@ParameterDescriber(required = false, description = "需要删除的虚拟机磁盘", constraint = "约束：盘符,路径", example = "vda,/var/lib/libvirt/images/disk1")
 		protected String storage;
-		
+
 		@ParameterDescriber(required = false, description = "ARM架构机器需要添加此参数", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean nvram;
 
@@ -1516,10 +1448,8 @@ public class Lifecycle {
 
 		protected String input;
 
-		@ParameterDescriber(required = true, description = "虚拟机磁盘，包括硬盘和光驱", 
-				constraint = "硬盘的约束：/var/lib/libvirt/images/test3.qcow2,target=hda,read_bytes_sec=1024000000,write_bytes_sec=1024000000，"
-						+ "光驱的约束：/opt/ISO/CentOS-7-x86_64-Minimal-1511.iso,device=cdrom,perms=ro，支持多个硬盘，第一个硬盘无需添加--disk，后续的需要", 
-						example = "/var/lib/libvirt/images/test3.qcow2,read_bytes_sec=1024000000,write_bytes_sec=1024000000 --disk /opt/ISO/CentOS-7-x86_64-Minimal-1511.iso,device=cdrom,perms=ro")
+		@ParameterDescriber(required = true, description = "虚拟机磁盘，包括硬盘和光驱", constraint = "硬盘的约束：/var/lib/libvirt/images/test3.qcow2,target=hda,read_bytes_sec=1024000000,write_bytes_sec=1024000000，"
+				+ "光驱的约束：/opt/ISO/CentOS-7-x86_64-Minimal-1511.iso,device=cdrom,perms=ro，支持多个硬盘，第一个硬盘无需添加--disk，后续的需要", example = "/var/lib/libvirt/images/test3.qcow2,read_bytes_sec=1024000000,write_bytes_sec=1024000000 --disk /opt/ISO/CentOS-7-x86_64-Minimal-1511.iso,device=cdrom,perms=ro")
 		@Pattern(regexp = RegExpUtils.MUTI_DISKS_PATTERN)
 		protected String disk;
 
@@ -1535,8 +1465,7 @@ public class Lifecycle {
 
 		protected String memballoon;
 
-		@ParameterDescriber(required = true, description = "虚拟机网络", constraint = 
-				"type=bridge（libvirt默认网桥virbr0）/ l2bridge（ovs网桥）/ l3bridge（支持ovn的ovs网桥），"
+		@ParameterDescriber(required = true, description = "虚拟机网络", constraint = "type=bridge（libvirt默认网桥virbr0）/ l2bridge（ovs网桥）/ l3bridge（支持ovn的ovs网桥），"
 				+ "source=源网桥（必填），inbound=网络输入带宽QoS限制，单位为KiB，outbound=网络输出带宽QoS限制，单位为KiB，"
 				+ "ip=IP地址（选填，只有type=l3bridge类型支持该参数），"
 				+ "switch=ovn交换机名称（选填，只有type=l3bridge类型支持该参数）,参数顺序必须是type,source,ip,switch,inbound,outbound,model,mac", example = "type=l3bridge,source=br-int,ip=192.168.5.9,switch=switch8888,inbound=102400,outbound=102400")
@@ -1602,10 +1531,10 @@ public class Lifecycle {
 		protected String noreboot;
 
 		protected String pm;
-		
+
 		@ParameterDescriber(required = true, description = "不自动连接到虚拟机终端，必须设置成true", constraint = "true", example = "true")
 		protected Boolean noautoconsole = true;
-		
+
 		protected Boolean _import;
 
 		public CreateAndStartVMFromISO() {
@@ -1832,7 +1761,6 @@ public class Lifecycle {
 			return this.input;
 		}
 
-
 		public void setMemorybacking(String memorybacking) {
 			this.memorybacking = memorybacking;
 		}
@@ -1992,7 +1920,7 @@ public class Lifecycle {
 		public String getVcpus() {
 			return this.vcpus;
 		}
-		
+
 		public void setCdrom(String cdrom) {
 			this.cdrom = cdrom;
 		}
@@ -2081,7 +2009,7 @@ public class Lifecycle {
 			return this.pm;
 		}
 	}
-	
+
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class CreateAndStartVMFromImage extends CreateAndStartVMFromISO {
@@ -2109,7 +2037,7 @@ public class Lifecycle {
 
 		@ParameterDescriber(required = false, description = "立即生效，对于开机虚拟机", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean live;
-		
+
 		@ParameterDescriber(required = false, description = "网络输入带宽QoS限制，单位为KiB，示例参考https://libvirt.org/formatnetwork.html#elementQoS", constraint = "0~99999999", example = "1000MiB: 1024000")
 		@Pattern(regexp = RegExpUtils.NET_QoS_PATTERN)
 		protected String inbound;
@@ -2247,7 +2175,6 @@ public class Lifecycle {
 		}
 	}
 
-	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class ManageISO {
@@ -2260,30 +2187,30 @@ public class Lifecycle {
 
 		@ParameterDescriber(required = false, description = "立即生效，对于开机虚拟机", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean live;
-		
+
 		@ParameterDescriber(required = true, description = "目标盘符，对应虚拟机内看到的盘符号", constraint = "取值范围：vdX, hdX, sdX", example = "vdc")
 		@Pattern(regexp = RegExpUtils.FDISK_TYPE_PATTERN)
 		protected String path;
-		
-		@ParameterDescriber(required = true, description = "模板虚拟机的路径", constraint= "路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点", example = "/var/lib/libvirt/target.iso")
+
+		@ParameterDescriber(required = true, description = "模板虚拟机的路径", constraint = "路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点", example = "/var/lib/libvirt/target.iso")
 		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
 		protected String source;
-		
-		@ParameterDescriber(required = true, description = "弹出光驱，与--insert不可同时设置为true", constraint= AnnotationUtils.DESC_BOOLEAN, example = "true")
+
+		@ParameterDescriber(required = true, description = "弹出光驱，与--insert不可同时设置为true", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean eject;
-		
-		@ParameterDescriber(required = true, description = "插入光驱", constraint= AnnotationUtils.DESC_BOOLEAN, example = "true")
+
+		@ParameterDescriber(required = true, description = "插入光驱", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean insert;
-		
-		@ParameterDescriber(required = true, description = "更新操作", constraint= AnnotationUtils.DESC_BOOLEAN, example = "true")
+
+		@ParameterDescriber(required = true, description = "更新操作", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean update;
-		
-		@ParameterDescriber(required = true, description = "强制执行", constraint= AnnotationUtils.DESC_BOOLEAN, example = "true")
+
+		@ParameterDescriber(required = true, description = "强制执行", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean force;
-		
-		@ParameterDescriber(required = true, description = "如果适用物理机光驱，应该设置为true", constraint= AnnotationUtils.DESC_BOOLEAN, example = "true")
+
+		@ParameterDescriber(required = true, description = "如果适用物理机光驱，应该设置为true", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean block;
-		
+
 		public String getSource() {
 			return source;
 		}
@@ -2369,7 +2296,7 @@ public class Lifecycle {
 		}
 
 	}
-	
+
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class InsertISO {
@@ -2382,20 +2309,19 @@ public class Lifecycle {
 
 		@ParameterDescriber(required = false, description = "立即生效，对于开机虚拟机", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean live;
-		
-		@ParameterDescriber(required = true, description = "模板虚拟机的路径", constraint= "路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点", example = "/var/lib/libvirt/target.iso")
+
+		@ParameterDescriber(required = true, description = "模板虚拟机的路径", constraint = "路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点", example = "/var/lib/libvirt/target.iso")
 		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
 		protected String path;
-		
-		@ParameterDescriber(required = true, description = "插入光驱", constraint= AnnotationUtils.DESC_BOOLEAN, example = "true")
+
+		@ParameterDescriber(required = true, description = "插入光驱", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean insert;
-		
-		@ParameterDescriber(required = true, description = "强制执行", constraint= AnnotationUtils.DESC_BOOLEAN, example = "true")
+
+		@ParameterDescriber(required = true, description = "强制执行", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean force;
-		
-		@ParameterDescriber(required = true, description = "如果适用物理机光驱，应该设置为true", constraint= AnnotationUtils.DESC_BOOLEAN, example = "true")
+
+		@ParameterDescriber(required = true, description = "如果适用物理机光驱，应该设置为true", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean block;
-		
 
 		public String getPath() {
 			return path;
@@ -2454,7 +2380,7 @@ public class Lifecycle {
 		}
 
 	}
-	
+
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class EjectISO {
@@ -2467,20 +2393,20 @@ public class Lifecycle {
 
 		@ParameterDescriber(required = false, description = "立即生效，对于开机虚拟机", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean live;
-		
-		@ParameterDescriber(required = true, description = "模板虚拟机的路径", constraint= "路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点", example = "/var/lib/libvirt/target.iso")
+
+		@ParameterDescriber(required = true, description = "模板虚拟机的路径", constraint = "路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点", example = "/var/lib/libvirt/target.iso")
 		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
 		protected String path;
-		
-		@ParameterDescriber(required = true, description = "弹出光驱，与--insert不可同时设置为true", constraint= AnnotationUtils.DESC_BOOLEAN, example = "true")
+
+		@ParameterDescriber(required = true, description = "弹出光驱，与--insert不可同时设置为true", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean eject;
-		
-		@ParameterDescriber(required = true, description = "强制执行", constraint= AnnotationUtils.DESC_BOOLEAN, example = "true")
+
+		@ParameterDescriber(required = true, description = "强制执行", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean force;
-		
-		@ParameterDescriber(required = true, description = "如果适用物理机光驱，应该设置为true", constraint= AnnotationUtils.DESC_BOOLEAN, example = "true")
+
+		@ParameterDescriber(required = true, description = "如果适用物理机光驱，应该设置为true", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean block;
-		
+
 		public String getPath() {
 			return path;
 		}
@@ -2538,16 +2464,16 @@ public class Lifecycle {
 		}
 
 	}
-	
+
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class UpdateOS {
-		
-		@ParameterDescriber(required = true, description = "需要被替换的虚拟机路径", constraint= "路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点", example = "/var/lib/libvirt/source.xml")
+
+		@ParameterDescriber(required = true, description = "需要被替换的虚拟机路径", constraint = "路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点", example = "/var/lib/libvirt/source.xml")
 		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
 		protected String source;
-		
-		@ParameterDescriber(required = true, description = "模板虚拟机的路径", constraint= "路径是字符串类型，长度是2到64位，只允许数字、小写字母、中划线、以及圆点", example = "/var/lib/libvirt/target.xml")
+
+		@ParameterDescriber(required = true, description = "模板虚拟机的路径", constraint = "路径是字符串类型，长度是2到64位，只允许数字、小写字母、中划线、以及圆点", example = "/var/lib/libvirt/target.xml")
 		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
 		protected String target;
 
@@ -2572,7 +2498,7 @@ public class Lifecycle {
 		}
 
 	}
-	
+
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class ConvertVMToImage {
@@ -2588,17 +2514,17 @@ public class Lifecycle {
 		public void setTargetPool(String targetPool) {
 			this.targetPool = targetPool;
 		}
-		
+
 	}
-	
+
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class ResizeVM {
-		
+
 		@ParameterDescriber(required = true, description = "虚拟机路径", constraint = "路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点", example = "/var/lib/libvirt/images/test1.qcow2")
 		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
 		protected String path;
-		
+
 		@ParameterDescriber(required = true, description = "虚拟机大小, 1G到1T", constraint = "1000000000-999999999999（单位：Byte）", example = "‭10,737,418,240‬")
 		@Pattern(regexp = RegExpUtils.DISK_SIZE_PATTERN)
 		protected String size;
@@ -2618,17 +2544,17 @@ public class Lifecycle {
 		public void setSize(String size) {
 			this.size = size;
 		}
-		
+
 	}
-	
+
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class CloneVM {
-		
+
 		@ParameterDescriber(required = true, description = "克隆虚拟机", constraint = "克隆虚拟机所有磁盘，新虚拟机名长度是4到100位", example = "newdisk")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String name;
-		
+
 		public String getName() {
 			return name;
 		}
@@ -2636,41 +2562,41 @@ public class Lifecycle {
 		public void setName(String name) {
 			this.name = name;
 		}
-		
+
 	}
-	
+
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class TuneDiskQoS {
-		
+
 		@ParameterDescriber(required = true, description = "虚拟机磁盘的盘符号，对应虚拟机内看到的盘符号", constraint = "取值范围：vdX, hdX, sdX", example = "vdc")
 		@Pattern(regexp = RegExpUtils.FDISK_TYPE_PATTERN)
 		protected String device;
-		
+
 		@ParameterDescriber(required = false, description = "云盘总bps的QoS设置，单位为bytes，与read,write互斥", constraint = "0~9999999999", example = "1GiB: 1073741824")
 		@Pattern(regexp = RegExpUtils.DISK_QoS_PATTERN)
 		protected String total_bytes_sec;
-		
+
 		@ParameterDescriber(required = false, description = "云盘读bps的QoS设置，单位为bytes，与total互斥", constraint = "0~9999999999", example = "1GiB: 1073741824")
 		@Pattern(regexp = RegExpUtils.DISK_QoS_PATTERN)
 		protected String read_bytes_sec;
-		
+
 		@Pattern(regexp = RegExpUtils.DISK_QoS_PATTERN)
 		@ParameterDescriber(required = false, description = "云盘写bps的QoS设置，单位为bytes，与total互斥", constraint = "0~9999999999", example = "1GiB: 1073741824")
 		protected String write_bytes_sec;
-		
+
 		@ParameterDescriber(required = false, description = "云盘总iops的QoS设置，单位为bytes，与read,write互斥", constraint = "0~9999999999", example = "1GiB: 1073741824")
 		@Pattern(regexp = RegExpUtils.DISK_QoS_PATTERN)
 		protected String total_iops_sec;
-		
+
 		@Pattern(regexp = RegExpUtils.DISK_IOPS_PATTERN)
 		@ParameterDescriber(required = false, description = "云盘读iops的QoS设置，与total互斥", constraint = "0~99999", example = "40000")
 		protected String read_iops_sec;
-		
+
 		@Pattern(regexp = RegExpUtils.DISK_IOPS_PATTERN)
 		@ParameterDescriber(required = false, description = "云盘写iops的QoS设置，与total互斥", constraint = "0~99999", example = "40000")
 		protected String write_iops_sec;
-		
+
 		@ParameterDescriber(required = false, description = "如果不设置，当前配置下次不会生效", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean config;
 
@@ -2748,9 +2674,9 @@ public class Lifecycle {
 		public void setLive(Boolean live) {
 			this.live = live;
 		}
-		
+
 	}
-	
+
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class TuneNICQoS {
@@ -2763,7 +2689,7 @@ public class Lifecycle {
 
 		@ParameterDescriber(required = false, description = "立即生效，对于开机虚拟机", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean live;
-		
+
 		@ParameterDescriber(required = false, description = "网络输入带宽QoS限制，单位为KiB，示例参考https://libvirt.org/formatnetwork.html#elementQoS", constraint = "0~99999999", example = "1000MiB: 1024000")
 		@Pattern(regexp = RegExpUtils.NET_QoS_PATTERN)
 		protected String inbound;
@@ -2822,19 +2748,19 @@ public class Lifecycle {
 
 		public void setOutbound(String outbound) {
 			this.outbound = outbound;
-		}		
+		}
 	}
-	
+
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class ResizeMaxRAM extends ResizeRAM{
-		
+	public static class ResizeMaxRAM extends ResizeRAM {
+
 	}
-	
+
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class SetBootOrder {
-		
+
 		@ParameterDescriber(required = true, description = "虚拟机启动顺序，从光盘或者系统盘启动，启动顺序用逗号分隔，对于开机虚拟机重启后生效", constraint = "取值范围：vdX, hdX, sdX", example = "hda,vda")
 		protected String order;
 
@@ -2845,28 +2771,28 @@ public class Lifecycle {
 		public void setOrder(String order) {
 			this.order = order;
 		}
-		
+
 	}
-	
+
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class SetVncPassword {
-		
+
 		@ParameterDescriber(required = false, description = "对当前虚拟机生效", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean current;
 
 		@ParameterDescriber(required = false, description = "对配置进行持久化", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean persistent;
-		
+
 		@ParameterDescriber(required = false, description = "立即生效，对于开机虚拟机", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean live;
-		
+
 		@ParameterDescriber(required = false, description = "如果不设置，当前配置下次不会生效", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean config;
-		
-		@ParameterDescriber(required = true, description = "强制执行", constraint= AnnotationUtils.DESC_BOOLEAN, example = "true")
+
+		@ParameterDescriber(required = true, description = "强制执行", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean force;
-		
+
 		@ParameterDescriber(required = true, description = "虚拟机VNC/SPICE密码", constraint = "取值范围：密码为4-16位，是小写字母、数字和中划线组合", example = "abcdefg")
 		@Pattern(regexp = RegExpUtils.PASSWORD_PATTERN)
 		protected String password;
@@ -2920,24 +2846,24 @@ public class Lifecycle {
 		}
 
 	}
-	
+
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class UnsetVncPassword {
-		
+
 		@ParameterDescriber(required = false, description = "对当前虚拟机生效", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean current;
 
 		@ParameterDescriber(required = false, description = "对配置进行持久化", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean persistent;
-		
+
 		@ParameterDescriber(required = false, description = "立即生效，对于开机虚拟机", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean live;
-		
+
 		@ParameterDescriber(required = false, description = "如果不设置，当前配置下次不会生效", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean config;
-		
-		@ParameterDescriber(required = true, description = "强制执行", constraint= AnnotationUtils.DESC_BOOLEAN, example = "true")
+
+		@ParameterDescriber(required = true, description = "强制执行", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean force;
 
 		public Boolean getCurrent() {
@@ -2979,20 +2905,20 @@ public class Lifecycle {
 		public void setForce(Boolean force) {
 			this.force = force;
 		}
-		
+
 	}
-	
+
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class SetGuestPassword {
-		
+
 		@ParameterDescriber(required = true, description = "虚拟机操作系统类型", constraint = "取值范围：windows/linux", example = "linux")
 		@Pattern(regexp = RegExpUtils.VM_AGENT_OS_TYPE_PATTERN)
 		protected String os_type;
-		
+
 		@ParameterDescriber(required = true, description = "虚拟机登录用户", constraint = "名称是字符串类型，长度是4到100位，只允许数字、小写字母、中划线、以及圆点", example = "root")
 		protected String user;
-		
+
 		@ParameterDescriber(required = true, description = "虚拟机密码", constraint = "取值范围：密码为4-16位，是小写字母、数字和中划线组合", example = "abcdefg")
 		@Pattern(regexp = RegExpUtils.PASSWORD_PATTERN)
 		protected String password;
@@ -3020,7 +2946,7 @@ public class Lifecycle {
 		public void setPassword(String password) {
 			this.password = password;
 		}
-		
+
 	}
-	
+
 }
