@@ -214,6 +214,10 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.EXCLUDEIPS_PATTERN)
 		protected String excludeIPs;
 		
+		@ParameterDescriber(required = false, description = "域名服务器", constraint = "IP地址", example = "192.168.5.5")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String dnsServer;
+		
 		public String getExcludeIPs() {
 			return excludeIPs;
 		}
@@ -245,7 +249,15 @@ public class Lifecycle {
 		public void setMtu(String mtu) {
 			this.mtu = mtu;
 		}
-		
+
+		public String getDnsServer() {
+			return dnsServer;
+		}
+
+		public void setDnsServer(String dnsServer) {
+			this.dnsServer = dnsServer;
+		}
+	
 	}
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
@@ -259,6 +271,10 @@ public class Lifecycle {
 		@ParameterDescriber(required = false, description = "mtu", constraint = "10-1000", example = "1500")
 		@Pattern(regexp = RegExpUtils.MTU_PATTERN)
 		protected String mtu;
+		
+		@ParameterDescriber(required = false, description = "域名服务器", constraint = "IP地址", example = "192.168.5.5")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String dnsServer;
 		
 		public String getGateway() {
 			return gateway;
