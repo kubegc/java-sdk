@@ -41,6 +41,16 @@ public class Volume {
 	
 	protected String virtual_size;
 	
+	protected String pool;
+	
+	public String getPool() {
+		return pool;
+	}
+
+	public void setPool(String pool) {
+		this.pool = pool;
+	}
+
 	public String getBacking_filename_format() {
 		return backing_filename_format;
 	}
