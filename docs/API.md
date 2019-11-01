@@ -1,4 +1,3 @@
-
 # 文档简介
 
 	本文档用于说明基于Kubernetes的虚拟机生命周期如何管理, 项目地址：https://github.com/kubesys/kubeext-jdk.
@@ -67,7 +66,7 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 1.2 CreateAndStartVMFromImage(通过镜像安装虚拟机)
+## 1.2 CreateAndStartVMFromImage(通过镜像复制虚拟机)
 
 **接口功能:**
 	通过虚拟机镜像VirtualMachineImage创建云OS只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
@@ -84,7 +83,7 @@
 | ----- | ------ | ------ | ------ | ------ |
 | name | String | true | 资源名称 | createAndStartVMFromImage.name.001|
 | nodeName | String | false | 选择部署的物理机，可以通过kubernetes.nodes().list进行查询 | node22 |
-| createAndStartVMFromImage | CreateAndStartVMFromImage | true | 通过镜像安装虚拟机 | 详细见下 |
+| createAndStartVMFromImage | CreateAndStartVMFromImage | true | 通过镜像复制虚拟机 | 详细见下 |
 | eventId | String | fasle | 事件ID | createAndStartVMFromImage.event.001 |
 
 对象createAndStartVMFromImage参数说明:
@@ -123,55 +122,7 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 1.3 ResizeRAM(虚拟机内存扩容)
-
-**接口功能:**
-	对虚拟机内存扩容，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
-
-**接口依赖:**
-	虚拟机存在，即已调用过CreatePool, CreateSwitch, CreateDisk/CreateDiskImage, CreateAndStartVMFromISO/CreateAndStartVMFromImage
-
-**接口所属:**
-	com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ResizeRAM
-
-**参数描述:**
-
-| name | type | required | description | exampe |
-| ----- | ------ | ------ | ------ | ------ |
-| name | String | true | 资源名称 | resizeRAM.name.001|
-| resizeRAM | ResizeRAM | true | 虚拟机内存扩容 | 详细见下 |
-| eventId | String | fasle | 事件ID | resizeRAM.event.001 |
-
-对象resizeRAM参数说明:
-
-| name | type | required | description | constraint | example |
-| ----- | ------ | ------ | ------ | ------ | ------ |
-| current|Boolean|false|对当前虚拟机生效|true或者false|true|
-| size|String|true|内存大小，单位为KiB|100MiB到100GiB|1GiB: 1048576|
-| config|Boolean|false|如果不设置，当前配置下次不会生效|true或者false|true|
-| live|Boolean|false|本次生效，如果虚拟机开机状态使用|true或者false|true|
-|  |  |  |  |  |
-
-**接口异常:**
-
-(1)在调用本方法抛出;
-
-| name  | description | 
-| ----- | ----- | 
-| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
-| IllegalFormatException | 传递的参数不符合约束条件    |
-| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
-
-(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看ResizeRAMspec下的status域，从message中获取详细异常信息
-
-| name  | description | 
-| ----- | ----- | 
-| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
-| VirtctlError | Libvirt不支持的生命周期    |
-| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
-| Exception    | 后台代码异常退出,比如主机的hostname变化    |
-
-## 1.4 SuspendVM(虚拟机暂停)
+## 1.3 SuspendVM(暂停虚机)
 
 **接口功能:**
 	对运行的虚拟机进行暂停操作，已经暂停虚拟机执行暂停会报错只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
@@ -187,7 +138,7 @@
 | name | type | required | description | exampe |
 | ----- | ------ | ------ | ------ | ------ |
 | name | String | true | 资源名称 | suspendVM.name.001|
-| suspendVM | SuspendVM | true | 虚拟机暂停 | 详细见下 |
+| suspendVM | SuspendVM | true | 暂停虚机 | 详细见下 |
 | eventId | String | fasle | 事件ID | suspendVM.event.001 |
 
 对象suspendVM参数说明:
@@ -215,7 +166,7 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 1.5 StopVMForce(强制关闭虚拟机)
+## 1.4 StopVMForce(强制关机)
 
 **接口功能:**
 	强制关闭虚拟机，虚拟机在某些情况下无法关闭，本质相当于拔掉电源只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
@@ -231,7 +182,7 @@
 | name | type | required | description | exampe |
 | ----- | ------ | ------ | ------ | ------ |
 | name | String | true | 资源名称 | stopVMForce.name.001|
-| stopVMForce | StopVMForce | true | 强制关闭虚拟机 | 详细见下 |
+| stopVMForce | StopVMForce | true | 强制关机 | 详细见下 |
 | eventId | String | fasle | 事件ID | stopVMForce.event.001 |
 
 对象stopVMForce参数说明:
@@ -259,7 +210,7 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 1.6 UnplugDevice(虚拟机卸载设备)
+## 1.5 UnplugDevice(卸载设备)
 
 **接口功能:**
 	卸载GPU、云盘、网卡等资源，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
@@ -275,7 +226,7 @@
 | name | type | required | description | exampe |
 | ----- | ------ | ------ | ------ | ------ |
 | name | String | true | 资源名称 | unplugDevice.name.001|
-| unplugDevice | UnplugDevice | true | 虚拟机卸载设备 | 详细见下 |
+| unplugDevice | UnplugDevice | true | 卸载设备 | 详细见下 |
 | eventId | String | fasle | 事件ID | unplugDevice.event.001 |
 
 对象unplugDevice参数说明:
@@ -308,7 +259,7 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 1.7 UnplugNIC(虚拟机卸载网卡)
+## 1.6 UnplugNIC(卸载网卡)
 
 **接口功能:**
 	卸载网卡，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
@@ -324,7 +275,7 @@
 | name | type | required | description | exampe |
 | ----- | ------ | ------ | ------ | ------ |
 | name | String | true | 资源名称 | unplugNIC.name.001|
-| unplugNIC | UnplugNIC | true | 虚拟机卸载网卡 | 详细见下 |
+| unplugNIC | UnplugNIC | true | 卸载网卡 | 详细见下 |
 | eventId | String | fasle | 事件ID | unplugNIC.event.001 |
 
 对象unplugNIC参数说明:
@@ -358,7 +309,7 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 1.8 MigrateVM(虚拟机迁移)
+## 1.7 MigrateVM(虚机迁移)
 
 **接口功能:**
 	虚拟机迁移，必须依赖共享存储只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
@@ -374,7 +325,7 @@
 | name | type | required | description | exampe |
 | ----- | ------ | ------ | ------ | ------ |
 | name | String | true | 资源名称 | migrateVM.name.001|
-| migrateVM | MigrateVM | true | 虚拟机迁移 | 详细见下 |
+| migrateVM | MigrateVM | true | 虚机迁移 | 详细见下 |
 | eventId | String | fasle | 事件ID | migrateVM.event.001 |
 
 对象migrateVM参数说明:
@@ -402,7 +353,7 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 1.9 ChangeNumberOfCPU(虚拟机CPU设置)
+## 1.8 ChangeNumberOfCPU(CPU设置)
 
 **接口功能:**
 	修改虚拟机CPU个数只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
@@ -418,7 +369,7 @@
 | name | type | required | description | exampe |
 | ----- | ------ | ------ | ------ | ------ |
 | name | String | true | 资源名称 | changeNumberOfCPU.name.001|
-| changeNumberOfCPU | ChangeNumberOfCPU | true | 虚拟机CPU设置 | 详细见下 |
+| changeNumberOfCPU | ChangeNumberOfCPU | true | CPU设置 | 详细见下 |
 | eventId | String | fasle | 事件ID | changeNumberOfCPU.event.001 |
 
 对象changeNumberOfCPU参数说明:
@@ -452,7 +403,7 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 1.10 ResumeVM(恢复虚拟机)
+## 1.9 ResumeVM(恢复虚机)
 
 **接口功能:**
 	恢复暂停的虚拟机，对运行的虚拟机执行恢复会报错只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
@@ -468,7 +419,7 @@
 | name | type | required | description | exampe |
 | ----- | ------ | ------ | ------ | ------ |
 | name | String | true | 资源名称 | resumeVM.name.001|
-| resumeVM | ResumeVM | true | 恢复虚拟机 | 详细见下 |
+| resumeVM | ResumeVM | true | 恢复虚机 | 详细见下 |
 | eventId | String | fasle | 事件ID | resumeVM.event.001 |
 
 对象resumeVM参数说明:
@@ -496,7 +447,7 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 1.11 PlugDisk(虚拟机添加云盘)
+## 1.10 PlugDisk(添加云盘)
 
 **接口功能:**
 	添加云盘，云盘必须通过CreateVirtualMachineDisk预先创建好只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
@@ -512,7 +463,7 @@
 | name | type | required | description | exampe |
 | ----- | ------ | ------ | ------ | ------ |
 | name | String | true | 资源名称 | plugDisk.name.001|
-| plugDisk | PlugDisk | true | 虚拟机添加云盘 | 详细见下 |
+| plugDisk | PlugDisk | true | 添加云盘 | 详细见下 |
 | eventId | String | fasle | 事件ID | plugDisk.event.001 |
 
 对象plugDisk参数说明:
@@ -555,7 +506,7 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 1.12 PlugDevice(虚拟机添加设备)
+## 1.11 PlugDevice(添加设备)
 
 **接口功能:**
 	添加GPU、云盘、网卡等，这种方法相对于pluginDisk等可设置高级选项，如QoS只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
@@ -571,7 +522,7 @@
 | name | type | required | description | exampe |
 | ----- | ------ | ------ | ------ | ------ |
 | name | String | true | 资源名称 | plugDevice.name.001|
-| plugDevice | PlugDevice | true | 虚拟机添加设备 | 详细见下 |
+| plugDevice | PlugDevice | true | 添加设备 | 详细见下 |
 | eventId | String | fasle | 事件ID | plugDevice.event.001 |
 
 对象plugDevice参数说明:
@@ -604,7 +555,7 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 1.13 ResetVM(强制重启虚拟机)
+## 1.12 ResetVM(强制重启)
 
 **接口功能:**
 	强制重置虚拟机，即强制重启虚拟机只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
@@ -620,7 +571,7 @@
 | name | type | required | description | exampe |
 | ----- | ------ | ------ | ------ | ------ |
 | name | String | true | 资源名称 | resetVM.name.001|
-| resetVM | ResetVM | true | 强制重启虚拟机 | 详细见下 |
+| resetVM | ResetVM | true | 强制重启 | 详细见下 |
 | eventId | String | fasle | 事件ID | resetVM.event.001 |
 
 对象resetVM参数说明:
@@ -648,7 +599,7 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 1.14 UnplugDisk(虚拟机卸载云盘)
+## 1.13 UnplugDisk(卸载云盘)
 
 **接口功能:**
 	卸载虚拟机云盘只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
@@ -664,7 +615,7 @@
 | name | type | required | description | exampe |
 | ----- | ------ | ------ | ------ | ------ |
 | name | String | true | 资源名称 | unplugDisk.name.001|
-| unplugDisk | UnplugDisk | true | 虚拟机卸载云盘 | 详细见下 |
+| unplugDisk | UnplugDisk | true | 卸载云盘 | 详细见下 |
 | eventId | String | fasle | 事件ID | unplugDisk.event.001 |
 
 对象unplugDisk参数说明:
@@ -697,7 +648,7 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 1.15 StopVM(虚拟机关机)
+## 1.14 StopVM(虚机关机)
 
 **接口功能:**
 	关闭虚拟机，但不一定能关闭，如虚拟机中OS受损，对关闭虚拟机再执行关闭会报错只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
@@ -713,7 +664,7 @@
 | name | type | required | description | exampe |
 | ----- | ------ | ------ | ------ | ------ |
 | name | String | true | 资源名称 | stopVM.name.001|
-| stopVM | StopVM | true | 虚拟机关机 | 详细见下 |
+| stopVM | StopVM | true | 虚机关机 | 详细见下 |
 | eventId | String | fasle | 事件ID | stopVM.event.001 |
 
 对象stopVM参数说明:
@@ -741,7 +692,7 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 1.16 StartVM(启动虚拟机)
+## 1.15 StartVM(启动虚机)
 
 **接口功能:**
 	启动虚拟机，能否正常启动取决于虚拟机OS是否受损，对运行虚拟机执行启动会报错只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
@@ -757,7 +708,7 @@
 | name | type | required | description | exampe |
 | ----- | ------ | ------ | ------ | ------ |
 | name | String | true | 资源名称 | startVM.name.001|
-| startVM | StartVM | true | 启动虚拟机 | 详细见下 |
+| startVM | StartVM | true | 启动虚机 | 详细见下 |
 | eventId | String | fasle | 事件ID | startVM.event.001 |
 
 对象startVM参数说明:
@@ -785,7 +736,7 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 1.17 DeleteVM(删除虚拟机)
+## 1.16 DeleteVM(删除虚机)
 
 **接口功能:**
 	删除虚拟机，需要先关闭虚拟机只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
@@ -801,15 +752,17 @@
 | name | type | required | description | exampe |
 | ----- | ------ | ------ | ------ | ------ |
 | name | String | true | 资源名称 | deleteVM.name.001|
-| deleteVM | DeleteVM | true | 删除虚拟机 | 详细见下 |
+| deleteVM | DeleteVM | true | 删除虚机 | 详细见下 |
 | eventId | String | fasle | 事件ID | deleteVM.event.001 |
 
 对象deleteVM参数说明:
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| delete_snapshots|Boolean|false|删除虚拟机所有快照，否则如果虚拟机还存在快照，会导致删除失败|true或者false|true|
+| snapshots_metadata|Boolean|false|删除虚拟机所有快照，否则如果虚拟机还存在快照，会导致删除失败|true或者false|true|
 | remove_all_storage|Boolean|false|是否删除虚拟机所有快照对应的磁盘存储|true或者false|true|
+| storage|String|false|需要删除的虚拟机磁盘|约束：盘符,路径|vda,/var/lib/libvirt/images/disk1|
+| nvram|Boolean|false|ARM架构机器需要添加此参数|true或者false|true|
 |  |  |  |  |  |
 
 **接口异常:**
@@ -831,7 +784,7 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 1.18 RebootVM(虚拟机重启)
+## 1.17 RebootVM(虚机重启)
 
 **接口功能:**
 	重启虚拟机，能否正常重新启动取决于虚拟机OS是否受损只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
@@ -847,7 +800,7 @@
 | name | type | required | description | exampe |
 | ----- | ------ | ------ | ------ | ------ |
 | name | String | true | 资源名称 | rebootVM.name.001|
-| rebootVM | RebootVM | true | 虚拟机重启 | 详细见下 |
+| rebootVM | RebootVM | true | 虚机重启 | 详细见下 |
 | eventId | String | fasle | 事件ID | rebootVM.event.001 |
 
 对象rebootVM参数说明:
@@ -875,7 +828,7 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 1.19 PlugNIC(虚拟机添加网卡)
+## 1.18 PlugNIC(添加网卡)
 
 **接口功能:**
 	给虚拟机添加网卡只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
@@ -891,7 +844,7 @@
 | name | type | required | description | exampe |
 | ----- | ------ | ------ | ------ | ------ |
 | name | String | true | 资源名称 | plugNIC.name.001|
-| plugNIC | PlugNIC | true | 虚拟机添加网卡 | 详细见下 |
+| plugNIC | PlugNIC | true | 添加网卡 | 详细见下 |
 | eventId | String | fasle | 事件ID | plugNIC.event.001 |
 
 对象plugNIC参数说明:
@@ -928,7 +881,7 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 1.20 ManageISO(插入或拔出光驱)
+## 1.19 ManageISO(插拔光驱)
 
 **接口功能:**
 	插入或者拔出光驱只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
@@ -944,7 +897,7 @@
 | name | type | required | description | exampe |
 | ----- | ------ | ------ | ------ | ------ |
 | name | String | true | 资源名称 | manageISO.name.001|
-| manageISO | ManageISO | true | 插入或拔出光驱 | 详细见下 |
+| manageISO | ManageISO | true | 插拔光驱 | 详细见下 |
 | eventId | String | fasle | 事件ID | manageISO.event.001 |
 
 对象manageISO参数说明:
@@ -982,7 +935,7 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 1.21 UpdateOS(更换虚拟机OS)
+## 1.20 UpdateOS(更换OS)
 
 **接口功能:**
 	更换云主机的OS，云主机必须关机只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
@@ -998,7 +951,7 @@
 | name | type | required | description | exampe |
 | ----- | ------ | ------ | ------ | ------ |
 | name | String | true | 资源名称 | updateOS.name.001|
-| updateOS | UpdateOS | true | 更换虚拟机OS | 详细见下 |
+| updateOS | UpdateOS | true | 更换OS | 详细见下 |
 | eventId | String | fasle | 事件ID | updateOS.event.001 |
 
 对象updateOS参数说明:
@@ -1028,7 +981,7 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 1.22 ConvertVMToImage(转化为虚拟机模板)
+## 1.21 ConvertVMToImage(转化模板)
 
 **接口功能:**
 	转化为虚拟机镜像只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
@@ -1044,13 +997,14 @@
 | name | type | required | description | exampe |
 | ----- | ------ | ------ | ------ | ------ |
 | name | String | true | 资源名称 | convertVMToImage.name.001|
-| convertVMToImage | ConvertVMToImage | true | 转化为虚拟机模板 | 详细见下 |
+| convertVMToImage | ConvertVMToImage | true | 转化模板 | 详细见下 |
 | eventId | String | fasle | 事件ID | convertVMToImage.event.001 |
 
 对象convertVMToImage参数说明:
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
+| targetPool|String|true|目标存储池名|由4-100位的数字和小写字母组成，已创建出的存储池|pool2|
 |  |  |  |  |  |
 
 **接口异常:**
@@ -1072,7 +1026,7 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 1.23 InsertISO(插入光驱)
+## 1.22 InsertISO(插入光驱)
 
 **接口功能:**
 	插入只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
@@ -1123,7 +1077,7 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 1.24 EjectISO(拔出光驱)
+## 1.23 EjectISO(拔出光驱)
 
 **接口功能:**
 	拔出光驱只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
@@ -1174,7 +1128,7 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 1.25 ResizeVM(调整虚拟机大小)
+## 1.24 ResizeVM(调整磁盘)
 
 **接口功能:**
 	调整虚拟机大小，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
@@ -1190,7 +1144,7 @@
 | name | type | required | description | exampe |
 | ----- | ------ | ------ | ------ | ------ |
 | name | String | true | 资源名称 | resizeVM.name.001|
-| resizeVM | ResizeVM | true | 调整虚拟机大小 | 详细见下 |
+| resizeVM | ResizeVM | true | 调整磁盘 | 详细见下 |
 | eventId | String | fasle | 事件ID | resizeVM.event.001 |
 
 对象resizeVM参数说明:
@@ -1220,7 +1174,7 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 1.26 CloneVM(克隆虚拟机)
+## 1.25 CloneVM(克隆虚机)
 
 **接口功能:**
 	克隆虚拟机，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
@@ -1236,7 +1190,7 @@
 | name | type | required | description | exampe |
 | ----- | ------ | ------ | ------ | ------ |
 | name | String | true | 资源名称 | cloneVM.name.001|
-| cloneVM | CloneVM | true | 克隆虚拟机 | 详细见下 |
+| cloneVM | CloneVM | true | 克隆虚机 | 详细见下 |
 | eventId | String | fasle | 事件ID | cloneVM.event.001 |
 
 对象cloneVM参数说明:
@@ -1265,7 +1219,7 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 1.27 TuneDiskQoS(设置虚拟机磁盘QoS)
+## 1.26 TuneDiskQoS(磁盘QoS)
 
 **接口功能:**
 	设置虚拟机磁盘QoS，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
@@ -1281,7 +1235,7 @@
 | name | type | required | description | exampe |
 | ----- | ------ | ------ | ------ | ------ |
 | name | String | true | 资源名称 | tuneDiskQoS.name.001|
-| tuneDiskQoS | TuneDiskQoS | true | 设置虚拟机磁盘QoS | 详细见下 |
+| tuneDiskQoS | TuneDiskQoS | true | 磁盘QoS | 详细见下 |
 | eventId | String | fasle | 事件ID | tuneDiskQoS.event.001 |
 
 对象tuneDiskQoS参数说明:
@@ -1318,7 +1272,7 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 1.28 TuneNICQoS(设置虚拟机网卡QoS)
+## 1.27 TuneNICQoS(网卡QoS)
 
 **接口功能:**
 	设置虚拟机网卡QoS，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
@@ -1334,7 +1288,7 @@
 | name | type | required | description | exampe |
 | ----- | ------ | ------ | ------ | ------ |
 | name | String | true | 资源名称 | tuneNICQoS.name.001|
-| tuneNICQoS | TuneNICQoS | true | 设置虚拟机网卡QoS | 详细见下 |
+| tuneNICQoS | TuneNICQoS | true | 网卡QoS | 详细见下 |
 | eventId | String | fasle | 事件ID | tuneNICQoS.event.001 |
 
 对象tuneNICQoS参数说明:
@@ -1368,7 +1322,7 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 1.29 ResizeMaxRAM(设置虚拟机最大内存)
+## 1.28 ResizeMaxRAM(设置虚拟机最大内存)
 
 **接口功能:**
 	设置虚拟机最大内存，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
@@ -1416,7 +1370,7 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 1.30 SetBootOrder(设置虚拟机启动顺序)
+## 1.29 SetBootOrder(启动顺序)
 
 **接口功能:**
 	设置虚拟机启动顺序，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
@@ -1432,14 +1386,14 @@
 | name | type | required | description | exampe |
 | ----- | ------ | ------ | ------ | ------ |
 | name | String | true | 资源名称 | setBootOrder.name.001|
-| setBootOrder | SetBootOrder | true | 设置虚拟机启动顺序 | 详细见下 |
+| setBootOrder | SetBootOrder | true | 启动顺序 | 详细见下 |
 | eventId | String | fasle | 事件ID | setBootOrder.event.001 |
 
 对象setBootOrder参数说明:
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| order|String|true|虚拟机启动顺序，从光盘或者系统盘启动|取值范围：hd/cdrom|cdrom|
+| order|String|true|虚拟机启动顺序，从光盘或者系统盘启动，启动顺序用逗号分隔，对于开机虚拟机重启后生效|取值范围：vdX, hdX, sdX|hda,vda|
 |  |  |  |  |  |
 
 **接口异常:**
@@ -1461,7 +1415,7 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 1.31 SetVncPassword(设置虚拟机VNC密码)
+## 1.30 SetVncPassword(设置VNC密码)
 
 **接口功能:**
 	设置虚拟机VNC密码，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
@@ -1477,13 +1431,18 @@
 | name | type | required | description | exampe |
 | ----- | ------ | ------ | ------ | ------ |
 | name | String | true | 资源名称 | setVncPassword.name.001|
-| setVncPassword | SetVncPassword | true | 设置虚拟机VNC密码 | 详细见下 |
+| setVncPassword | SetVncPassword | true | 设置VNC密码 | 详细见下 |
 | eventId | String | fasle | 事件ID | setVncPassword.event.001 |
 
 对象setVncPassword参数说明:
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
+| current|Boolean|false|对当前虚拟机生效|true或者false|true|
+| persistent|Boolean|false|对配置进行持久化|true或者false|true|
+| live|Boolean|false|立即生效，对于开机虚拟机|true或者false|true|
+| config|Boolean|false|如果不设置，当前配置下次不会生效|true或者false|true|
+| force|Boolean|true|强制执行|true或者false|true|
 | password|String|true|虚拟机VNC/SPICE密码|取值范围：密码为4-16位，是小写字母、数字和中划线组合|abcdefg|
 |  |  |  |  |  |
 
@@ -1506,7 +1465,7 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 1.32 UnsetVncPassword(取消虚拟机VNC密码)
+## 1.31 UnsetVncPassword(取消VNC密码)
 
 **接口功能:**
 	取消虚拟机VNC密码，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
@@ -1522,13 +1481,18 @@
 | name | type | required | description | exampe |
 | ----- | ------ | ------ | ------ | ------ |
 | name | String | true | 资源名称 | unsetVncPassword.name.001|
-| unsetVncPassword | UnsetVncPassword | true | 取消虚拟机VNC密码 | 详细见下 |
+| unsetVncPassword | UnsetVncPassword | true | 取消VNC密码 | 详细见下 |
 | eventId | String | fasle | 事件ID | unsetVncPassword.event.001 |
 
 对象unsetVncPassword参数说明:
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
+| current|Boolean|false|对当前虚拟机生效|true或者false|true|
+| persistent|Boolean|false|对配置进行持久化|true或者false|true|
+| live|Boolean|false|立即生效，对于开机虚拟机|true或者false|true|
+| config|Boolean|false|如果不设置，当前配置下次不会生效|true或者false|true|
+| force|Boolean|true|强制执行|true或者false|true|
 |  |  |  |  |  |
 
 **接口异常:**
@@ -1542,6 +1506,101 @@
 | Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
 
 (2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看UnsetVncPasswordspec下的status域，从message中获取详细异常信息
+
+| name  | description | 
+| ----- | ----- | 
+| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
+| VirtctlError | Libvirt不支持的生命周期    |
+| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
+| Exception    | 后台代码异常退出,比如主机的hostname变化    |
+
+## 1.32 SetGuestPassword(虚机密码)
+
+**接口功能:**
+	设置虚拟机密码，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
+
+**接口依赖:**
+	虚拟机存在，即已调用过CreatePool, CreateSwitch, CreateDisk/CreateDiskImage, CreateAndStartVMFromISO/CreateAndStartVMFromImage
+
+**接口所属:**
+	com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.SetGuestPassword
+
+**参数描述:**
+
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+| name | String | true | 资源名称 | setGuestPassword.name.001|
+| setGuestPassword | SetGuestPassword | true | 虚机密码 | 详细见下 |
+| eventId | String | fasle | 事件ID | setGuestPassword.event.001 |
+
+对象setGuestPassword参数说明:
+
+| name | type | required | description | constraint | example |
+| ----- | ------ | ------ | ------ | ------ | ------ |
+| os_type|String|true|虚拟机操作系统类型|取值范围：windows/linux|linux|
+| user|String|true|虚拟机登录用户|名称是字符串类型，长度是4到100位，只允许数字、小写字母、中划线、以及圆点|root|
+| password|String|true|虚拟机密码|取值范围：密码为4-16位，是小写字母、数字和中划线组合|abcdefg|
+|  |  |  |  |  |
+
+**接口异常:**
+
+(1)在调用本方法抛出;
+
+| name  | description | 
+| ----- | ----- | 
+| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
+| IllegalFormatException | 传递的参数不符合约束条件    |
+| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
+
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看SetGuestPasswordspec下的status域，从message中获取详细异常信息
+
+| name  | description | 
+| ----- | ----- | 
+| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
+| VirtctlError | Libvirt不支持的生命周期    |
+| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
+| Exception    | 后台代码异常退出,比如主机的hostname变化    |
+
+## 1.33 ResizeRAM(内存扩容)
+
+**接口功能:**
+	对虚拟机内存扩容，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
+
+**接口依赖:**
+	虚拟机存在，即已调用过CreatePool, CreateSwitch, CreateDisk/CreateDiskImage, CreateAndStartVMFromISO/CreateAndStartVMFromImage
+
+**接口所属:**
+	com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ResizeRAM
+
+**参数描述:**
+
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+| name | String | true | 资源名称 | resizeRAM.name.001|
+| resizeRAM | ResizeRAM | true | 内存扩容 | 详细见下 |
+| eventId | String | fasle | 事件ID | resizeRAM.event.001 |
+
+对象resizeRAM参数说明:
+
+| name | type | required | description | constraint | example |
+| ----- | ------ | ------ | ------ | ------ | ------ |
+| current|Boolean|false|对当前虚拟机生效|true或者false|true|
+| size|String|true|内存大小，单位为KiB|100MiB到100GiB|1GiB: 1048576|
+| config|Boolean|false|如果不设置，当前配置下次不会生效|true或者false|true|
+| live|Boolean|false|本次生效，如果虚拟机开机状态使用|true或者false|true|
+|  |  |  |  |  |
+
+**接口异常:**
+
+(1)在调用本方法抛出;
+
+| name  | description | 
+| ----- | ----- | 
+| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
+| IllegalFormatException | 传递的参数不符合约束条件    |
+| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
+
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看ResizeRAMspec下的status域，从message中获取详细异常信息
 
 | name  | description | 
 | ----- | ----- | 
@@ -2611,13 +2670,19 @@
 				"graphics":[
 					{
 						"autoport":"String",
-						"listen":"String",
+						"listen":{
+							"address":"String",
+							"type":"String"
+						},
 						"port":"String",
 						"type":"String"
 					},
 					{
 						"autoport":"String",
-						"listen":"String",
+						"listen":{
+							"address":"String",
+							"type":"String"
+						},
 						"port":"String",
 						"type":"String"
 					}
@@ -4317,7 +4382,9 @@
 			"cloneVM":{
 				"name":"String"
 			},
-			"convertVMToImage":{},
+			"convertVMToImage":{
+				"targetPool":"String"
+			},
 			"createAndStartVMFromISO":{
 				"arch":"String",
 				"autostart":"String",
@@ -4382,8 +4449,10 @@
 				"noautoconsole":true
 			},
 			"deleteVM":{
-				"delete_snapshots":true,
-				"remove_all_storage":true
+				"nvram":true,
+				"remove_all_storage":true,
+				"snapshots_metadata":true,
+				"storage":"String"
 			},
 			"ejectISO":{
 				"block":true,
@@ -4504,8 +4573,18 @@
 			"setBootOrder":{
 				"order":"String"
 			},
+			"setGuestPassword":{
+				"os_type":"String",
+				"password":"String",
+				"user":"String"
+			},
 			"setVncPassword":{
-				"password":"String"
+				"config":true,
+				"current":true,
+				"force":true,
+				"live":true,
+				"password":"String",
+				"persistent":true
 			},
 			"startVM":{},
 			"stopVM":{},
@@ -4552,7 +4631,13 @@
 				"persistent":true,
 				"type":"String"
 			},
-			"unsetVncPassword":{},
+			"unsetVncPassword":{
+				"config":true,
+				"current":true,
+				"force":true,
+				"live":true,
+				"persistent":true
+			},
 			"updateOS":{
 				"source":"String",
 				"target":"String"
@@ -4590,7 +4675,8 @@
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| disk|String|true|用于创建虚拟机镜像的源文件|路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点|/var/lib/aaa.qcow2|
+| disk|String|true|用于创建虚拟机镜像的源文件|路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点|/var/lib/libvirt/aaa.qcow2|
+| targetPool|String|true|目标存储池名|由4-100位的数字和小写字母组成，已创建出的存储池|pool2|
 |  |  |  |  |  |
 
 **接口异常:**
@@ -4679,6 +4765,7 @@
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
+| targetPool|String|true|目标存储池名|由4-100位的数字和小写字母组成，已创建出的存储池|pool2|
 |  |  |  |  |  |
 
 **接口异常:**
@@ -5761,13 +5848,19 @@
 				"graphics":[
 					{
 						"autoport":"String",
-						"listen":"String",
+						"listen":{
+							"address":"String",
+							"type":"String"
+						},
 						"port":"String",
 						"type":"String"
 					},
 					{
 						"autoport":"String",
-						"listen":"String",
+						"listen":{
+							"address":"String",
+							"type":"String"
+						},
 						"port":"String",
 						"type":"String"
 					}
@@ -7456,9 +7549,12 @@
 			}
 		},
 		"lifecycle":{
-			"convertImageToVM":{},
+			"convertImageToVM":{
+				"targetPool":"String"
+			},
 			"createImage":{
-				"disk":"String"
+				"disk":"String",
+				"targetPool":"String"
 			},
 			"deleteImage":{}
 		},
@@ -7640,8 +7736,8 @@
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
 | type|String|true|存储池的类型|只能是dir，uus，nfs，glusterfs之一|dir|
-| pool|String|true|创建云盘所在的存储池名|由4-100位的数字和小写字母组成，已创建出的存储池|pool2|
-| image|String|true|云盘镜像名|由4-100位的数字和小写字母组成，已存在的云盘镜像名|image2|
+| targetPool|String|true|目标存储池名|由4-100位的数字和小写字母组成，已创建出的存储池|pool2|
+| sourceImage|String|true|源云盘镜像名|由4-100位的数字和小写字母组成，已存在的云盘镜像名|image2|
 |  |  |  |  |  |
 
 **接口异常:**
@@ -7687,7 +7783,7 @@
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
 | type|String|true|存储池的类型|只能是dir，uus，nfs，glusterfs之一|dir|
-| pool|String|true|云盘所在的存储池名|由4-100位的数字和小写字母组成，已创建出的存储池|pool2|
+| targetPool|String|true|目标存储池名，用于存储转化的云盘镜像|由4-100位的数字和小写字母组成，已创建出的存储池|pool2|
 |  |  |  |  |  |
 
 **接口异常:**
@@ -7898,152 +7994,6 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 3.10 CreateDiskExternalSnapshot(创建云盘外部快照)
-
-**接口功能:**
-	创建云盘外部快照，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
-
-**接口依赖:**
-	云盘存在，即已调用过CreateDisk/CreateDiskFromDiskImage
-
-**接口所属:**
-	com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CreateDiskExternalSnapshot
-
-**参数描述:**
-
-| name | type | required | description | exampe |
-| ----- | ------ | ------ | ------ | ------ |
-| name | String | true | 资源名称 | createDiskExternalSnapshot.name.001|
-| nodeName | String | false | 选择部署的物理机，可以通过kubernetes.nodes().list进行查询 | node22 |
-| createDiskExternalSnapshot | CreateDiskExternalSnapshot | true | 创建云盘外部快照 | 详细见下 |
-| eventId | String | fasle | 事件ID | createDiskExternalSnapshot.event.001 |
-
-对象createDiskExternalSnapshot参数说明:
-
-| name | type | required | description | constraint | example |
-| ----- | ------ | ------ | ------ | ------ | ------ |
-| type|String|true|存储池的类型|只能是dir，uus，nfs，glusterfs之一|dir|
-| backing_vol_format|String|true|根云盘文件的类型|qcow2|qcow2|
-| format|String|true|云盘文件的类型|qcow2|qcow2|
-| pool|String|true|创建云盘使用的存储池名|已创建出的存储池|pool2|
-| backing_vol|String|true|根云盘的名字|已创建出的云盘|volume1|
-| capacity|String|true|云盘空间大小,1G到1T|1000000000-999999999999（单位：Byte）|‭10,737,418,240‬|
-|  |  |  |  |  |
-
-**接口异常:**
-
-(1)在调用本方法抛出;
-
-| name  | description | 
-| ----- | ----- | 
-| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
-| IllegalFormatException | 传递的参数不符合约束条件    |
-| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
-
-(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看CreateDiskExternalSnapshotspec下的status域，从message中获取详细异常信息
-
-| name  | description | 
-| ----- | ----- | 
-| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
-| VirtctlError | Libvirt不支持的生命周期    |
-| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
-| Exception    | 后台代码异常退出,比如主机的hostname变化    |
-
-## 3.11 RevertDiskExternalSnapshot(从云盘外部快照恢复)
-
-**接口功能:**
-	从云盘外部快照恢复，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
-
-**接口依赖:**
-	云盘存在，即已调用过CreateDisk/CreateDiskFromDiskImage
-
-**接口所属:**
-	com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.RevertDiskExternalSnapshot
-
-**参数描述:**
-
-| name | type | required | description | exampe |
-| ----- | ------ | ------ | ------ | ------ |
-| name | String | true | 资源名称 | revertDiskExternalSnapshot.name.001|
-| revertDiskExternalSnapshot | RevertDiskExternalSnapshot | true | 从云盘外部快照恢复 | 详细见下 |
-| eventId | String | fasle | 事件ID | revertDiskExternalSnapshot.event.001 |
-
-对象revertDiskExternalSnapshot参数说明:
-
-| name | type | required | description | constraint | example |
-| ----- | ------ | ------ | ------ | ------ | ------ |
-| type|String|true|存储池的类型|只能是dir，uus，nfs，glusterfs之一|dir|
-| pool|String|true|云盘所在的存储池名|由4-100位的数字和小写字母组成，已创建出的存储池|pool2|
-| snapshotname|String|true|要恢复的快照的名字|由4-100位的数字和小写字母组成|snap1|
-| leaves|String|true|所有叶子节点的名称，用于遍历整个快照链，多个叶子节点之间用英文逗号分隔|由4-100位的数字和小写字母组成|snap4,snap5|
-|  |  |  |  |  |
-
-**接口异常:**
-
-(1)在调用本方法抛出;
-
-| name  | description | 
-| ----- | ----- | 
-| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
-| IllegalFormatException | 传递的参数不符合约束条件    |
-| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
-
-(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看RevertDiskExternalSnapshotspec下的status域，从message中获取详细异常信息
-
-| name  | description | 
-| ----- | ----- | 
-| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
-| VirtctlError | Libvirt不支持的生命周期    |
-| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
-| Exception    | 后台代码异常退出,比如主机的hostname变化    |
-
-## 3.12 DeleteDiskExternalSnapshot(删除云盘外部快照)
-
-**接口功能:**
-	删除云盘外部快照，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
-
-**接口依赖:**
-	云盘存在，即已调用过CreateDisk/CreateDiskFromDiskImage
-
-**接口所属:**
-	com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.DeleteDiskExternalSnapshot
-
-**参数描述:**
-
-| name | type | required | description | exampe |
-| ----- | ------ | ------ | ------ | ------ |
-| name | String | true | 资源名称 | deleteDiskExternalSnapshot.name.001|
-| deleteDiskExternalSnapshot | DeleteDiskExternalSnapshot | true | 删除云盘外部快照 | 详细见下 |
-| eventId | String | fasle | 事件ID | deleteDiskExternalSnapshot.event.001 |
-
-对象deleteDiskExternalSnapshot参数说明:
-
-| name | type | required | description | constraint | example |
-| ----- | ------ | ------ | ------ | ------ | ------ |
-| type|String|true|存储池的类型|只能是dir，uus，nfs，glusterfs之一|dir|
-| delete_snapshots|Boolean|false|删除所有快照|true或者false|true|
-| pool|String|true|云盘所在的存储池名|已创建出的存储池|pool2|
-|  |  |  |  |  |
-
-**接口异常:**
-
-(1)在调用本方法抛出;
-
-| name  | description | 
-| ----- | ----- | 
-| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
-| IllegalFormatException | 传递的参数不符合约束条件    |
-| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
-
-(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看DeleteDiskExternalSnapshotspec下的status域，从message中获取详细异常信息
-
-| name  | description | 
-| ----- | ----- | 
-| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
-| VirtctlError | Libvirt不支持的生命周期    |
-| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
-| Exception    | 后台代码异常退出,比如主机的hostname变化    |
-
 ## **返回值:**
 
 ```
@@ -8066,7 +8016,7 @@
 				"type":"String"
 			},
 			"convertDiskToDiskImage":{
-				"pool":"String",
+				"targetPool":"String",
 				"type":"String"
 			},
 			"createDisk":{
@@ -8079,12 +8029,9 @@
 				"prealloc_metadata":true,
 				"type":"String"
 			},
-			"createDiskExternalSnapshot":{
-				
-			},
 			"createDiskFromDiskImage":{
-				"image":"String",
-				"pool":"String",
+				"sourceImage":"String",
+				"targetPool":"String",
 				"type":"String"
 			},
 			"createDiskInternalSnapshot":{
@@ -8097,9 +8044,6 @@
 				"delete_snapshots":true,
 				"pool":"String",
 				"type":"String"
-			},
-			"deleteDiskExternalSnapshot":{
-				
 			},
 			"deleteDiskInternalSnapshot":{
 				"pool":"String",
@@ -8115,12 +8059,6 @@
 				"shrink":true,
 				"type":"String"
 			},
-			"revertDiskExternalSnapshot":{
-				"leaves":"String",
-				"pool":"String",
-				"snapshotname":"String",
-				"type":"String"
-			},
 			"revertDiskInternalSnapshot":{
 				"pool":"String",
 				"snapshotname":"String",
@@ -8130,119 +8068,26 @@
 		},
 		"versions":[],
 		"volume":{
-			"allocation":{
-				"text":"String",
-				"unit":"String"
+			"actual_size":"String",
+			"backing_filename":"String",
+			"backing_filename_format":"String",
+			"cluster_size":"String",
+			"current":"String",
+			"dirty_flag":"String",
+			"disk":"String",
+			"filename":"String",
+			"format":"String",
+			"format_specific":{
+				"data":{
+					"compat":"String",
+					"corrupt":true,
+					"lazy_refcounts":true,
+					"refcount_bits":"String"
+				},
+				"type":"String"
 			},
-			"backingStore":{
-				"format":{
-					"type":"String"
-				},
-				"path":{
-					"text":"String"
-				},
-				"permissions":{
-					"group":{
-						"text":"String"
-					},
-					"mode":{
-						"text":"String"
-					},
-					"owner":{
-						"text":"String"
-					}
-				},
-				"timestamps":{
-					"atime":{
-						"text":"String"
-					},
-					"ctime":{
-						"text":"String"
-					},
-					"mtime":{
-						"text":"String"
-					}
-				}
-			},
-			"capacity":{
-				"text":"String",
-				"unit":"String"
-			},
-			"disktype":"String",
-			"key":{
-				"text":"String"
-			},
-			"name":{
-				"text":"String"
-			},
-			"physical":{
-				"text":"String",
-				"unit":"String"
-			},
-			"snapshot":[
-				{
-					"date":"String",
-					"id":"String",
-					"name":"String"
-				},
-				{
-					"date":"String",
-					"id":"String",
-					"name":"String"
-				}
-			],
-			"source":{
-				"auth":{
-					"secret":{
-						"usage":"String"
-					},
-					"type":"String",
-					"username":"String"
-				},
-				"device":{
-					"path":"String"
-				},
-				"host":{
-					"name":"String"
-				}
-			},
-			"target":{
-				"compat":{
-					"text":"String"
-				},
-				"features":{
-					"lazy_refcounts":{}
-				},
-				"format":{
-					"type":"String"
-				},
-				"path":{
-					"text":"String"
-				},
-				"permissions":{
-					"group":{
-						"text":"String"
-					},
-					"mode":{
-						"text":"String"
-					},
-					"owner":{
-						"text":"String"
-					}
-				},
-				"timestamps":{
-					"atime":{
-						"text":"String"
-					},
-					"ctime":{
-						"text":"String"
-					},
-					"mtime":{
-						"text":"String"
-					}
-				}
-			},
-			"type":"String"
+			"full_backing_filename":"String",
+			"virtual_size":"String"
 		}
 	}
 }
@@ -8274,7 +8119,7 @@
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| pool|String|true|转化的云盘所属的存储池名|由4-100位的数字和小写字母组成，已创建出的存储池|pool2|
+| targetPool|String|true|目标存储池名，用于存储转化的云盘|由4-100位的数字和小写字母组成，已创建出的存储池|pool2|
 | type|String|true|存储池的类型|只能是dir，uus，nfs，glusterfs之一|dir|
 |  |  |  |  |  |
 
@@ -8365,7 +8210,8 @@
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| source|String|true|要转化为云盘镜像的云盘所在的路径|路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点|/var/lib/libvirt/test.qcow2|
+| source|String|true|要转化为云盘镜像的源文件路径|路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点|/var/lib/libvirt/test.qcow2|
+| targetPool|String|true|目标存储池名|由4-100位的数字和小写字母组成，已创建出的存储池|pool2|
 |  |  |  |  |  |
 
 **接口异常:**
@@ -8402,11 +8248,12 @@
 		"additionalProperties":{},
 		"lifecycle":{
 			"convertDiskImageToDisk":{
-				"pool":"String",
+				"targetPool":"String",
 				"type":"String"
 			},
 			"createDiskImage":{
-				"source":"String"
+				"source":"String",
+				"targetPool":"String"
 			},
 			"deleteDiskImage":{}
 		},
@@ -8417,14 +8264,205 @@
 	}
 }
 ```
-# 5 VirtualMachineSnapshot
+# 5 VirtualMachineDiskSnapshot
+
+云盘快照是指云盘的外部快照，目前支持QCOW2格式.VirtualMachineDiskSnapshot所有操作的返回值一样，见**[返回值]**
+
+## 5.1 CreateDiskExternalSnapshot(创建云盘外部快照)
+
+**接口功能:**
+	创建云盘外部快照，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
+
+**接口依赖:**
+	云盘快照存在，即已调用过CreateDiskExternalSnapshot
+
+**接口所属:**
+	com.github.kubesys.kubernetes.api.model.virtualmachinedisksnapshot.Lifecycle.CreateDiskExternalSnapshot
+
+**参数描述:**
+
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+| name | String | true | 资源名称 | createDiskExternalSnapshot.name.001|
+| nodeName | String | false | 选择部署的物理机，可以通过kubernetes.nodes().list进行查询 | node22 |
+| createDiskExternalSnapshot | CreateDiskExternalSnapshot | true | 创建云盘外部快照 | 详细见下 |
+| eventId | String | fasle | 事件ID | createDiskExternalSnapshot.event.001 |
+
+对象createDiskExternalSnapshot参数说明:
+
+| name | type | required | description | constraint | example |
+| ----- | ------ | ------ | ------ | ------ | ------ |
+| type|String|true|存储池的类型|只能是dir，uus，nfs，glusterfs之一|dir|
+| pool|String|true|云盘所在的存储池名|由4-100位的数字和小写字母组成，已创建出的存储池，只支持dir、nfs和glusterfs类型|pool2|
+| format|String|true|云盘文件的类型|qcow2|qcow2|
+| vol|String|true|云盘名|磁盘和快照|disk1|
+| domain|String|false|若该云盘加载到虚拟机内（包括系统盘、数据盘），并且虚拟机处于开机状态，则需要填写该虚拟机名，否则将报错Write lock|已存在的虚拟机名，由4-100位的数字和小写字母组成|950646e8c17a49d0b83c1c797811e001|
+|  |  |  |  |  |
+
+**接口异常:**
+
+(1)在调用本方法抛出;
+
+| name  | description | 
+| ----- | ----- | 
+| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
+| IllegalFormatException | 传递的参数不符合约束条件    |
+| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
+
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看CreateDiskExternalSnapshotspec下的status域，从message中获取详细异常信息
+
+| name  | description | 
+| ----- | ----- | 
+| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
+| VirtctlError | Libvirt不支持的生命周期    |
+| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
+| Exception    | 后台代码异常退出,比如主机的hostname变化    |
+
+## 5.2 RevertDiskExternalSnapshot(从云盘外部快照恢复)
+
+**接口功能:**
+	从云盘外部快照恢复，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
+
+**接口依赖:**
+	云盘快照存在，即已调用过CreateDiskExternalSnapshot
+
+**接口所属:**
+	com.github.kubesys.kubernetes.api.model.virtualmachinedisksnapshot.Lifecycle.RevertDiskExternalSnapshot
+
+**参数描述:**
+
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+| name | String | true | 资源名称 | revertDiskExternalSnapshot.name.001|
+| revertDiskExternalSnapshot | RevertDiskExternalSnapshot | true | 从云盘外部快照恢复 | 详细见下 |
+| eventId | String | fasle | 事件ID | revertDiskExternalSnapshot.event.001 |
+
+对象revertDiskExternalSnapshot参数说明:
+
+| name | type | required | description | constraint | example |
+| ----- | ------ | ------ | ------ | ------ | ------ |
+| type|String|true|存储池的类型|只能是dir，uus，nfs，glusterfs之一|dir|
+| pool|String|true|云盘所在的存储池名|由4-100位的数字和小写字母组成，已创建出的存储池|pool2|
+| vol|String|true|云盘名|磁盘和快照|disk1|
+| format|String|true|云盘文件的类型|qcow2|qcow2|
+|  |  |  |  |  |
+
+**接口异常:**
+
+(1)在调用本方法抛出;
+
+| name  | description | 
+| ----- | ----- | 
+| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
+| IllegalFormatException | 传递的参数不符合约束条件    |
+| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
+
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看RevertDiskExternalSnapshotspec下的status域，从message中获取详细异常信息
+
+| name  | description | 
+| ----- | ----- | 
+| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
+| VirtctlError | Libvirt不支持的生命周期    |
+| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
+| Exception    | 后台代码异常退出,比如主机的hostname变化    |
+
+## 5.3 DeleteDiskExternalSnapshot(删除云盘外部快照)
+
+**接口功能:**
+	删除云盘外部快照，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
+
+**接口依赖:**
+	云盘快照存在，即已调用过CreateDiskExternalSnapshot
+
+**接口所属:**
+	com.github.kubesys.kubernetes.api.model.virtualmachinedisksnapshot.Lifecycle.DeleteDiskExternalSnapshot
+
+**参数描述:**
+
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+| name | String | true | 资源名称 | deleteDiskExternalSnapshot.name.001|
+| deleteDiskExternalSnapshot | DeleteDiskExternalSnapshot | true | 删除云盘外部快照 | 详细见下 |
+| eventId | String | fasle | 事件ID | deleteDiskExternalSnapshot.event.001 |
+
+对象deleteDiskExternalSnapshot参数说明:
+
+| name | type | required | description | constraint | example |
+| ----- | ------ | ------ | ------ | ------ | ------ |
+| type|String|true|存储池的类型|只能是dir，uus，nfs，glusterfs之一|dir|
+| pool|String|true|云盘所在的存储池名|由4-100位的数字和小写字母组成，已创建出的存储池|pool2|
+| vol|String|true|云盘名|磁盘和快照|disk1|
+| domain|String|false|若该云盘加载到虚拟机内（包括系统盘、数据盘），并且虚拟机处于开机状态，则需要填写该虚拟机名，否则将报错Write lock|已存在的虚拟机名，由4-100位的数字和小写字母组成|950646e8c17a49d0b83c1c797811e001|
+|  |  |  |  |  |
+
+**接口异常:**
+
+(1)在调用本方法抛出;
+
+| name  | description | 
+| ----- | ----- | 
+| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
+| IllegalFormatException | 传递的参数不符合约束条件    |
+| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
+
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看DeleteDiskExternalSnapshotspec下的status域，从message中获取详细异常信息
+
+| name  | description | 
+| ----- | ----- | 
+| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
+| VirtctlError | Libvirt不支持的生命周期    |
+| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
+| Exception    | 后台代码异常退出,比如主机的hostname变化    |
+
+## **返回值:**
+
+```
+{
+	"kind":"VirtualMachineDiskSnapshot",
+	"metadata":{
+		"additionalProperties":{},
+		"finalizers":[],
+		"ownerReferences":[]
+	},
+	"spec":{
+		"additionalPrinterColumns":[],
+		"additionalProperties":{},
+		"lifecycle":{
+			"createDiskExternalSnapshot":{
+				"domain":"String",
+				"format":"String",
+				"pool":"String",
+				"type":"String",
+				"vol":"String"
+			},
+			"deleteDiskExternalSnapshot":{
+				"domain":"String",
+				"pool":"String",
+				"type":"String",
+				"vol":"String"
+			},
+			"revertDiskExternalSnapshot":{
+				"format":"String",
+				"pool":"String",
+				"type":"String",
+				"vol":"String"
+			}
+		},
+		"versions":[],
+		"volume":{
+			
+		}
+	}
+}
+```
+# 6 VirtualMachineSnapshot
 
 虚拟机/云盘快照.VirtualMachineSnapshot所有操作的返回值一样，见**[返回值]**
 
-## 5.1 DeleteSnapshot(删除虚拟机/云盘快照)
+## 6.1 DeleteSnapshot(删除虚拟机和挂载到虚拟机的云盘快照)
 
 **接口功能:**
-	删除虚拟机/云盘快照，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
+	删除虚拟机和挂载到虚拟机的云盘快照，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
 
 **接口依赖:**
 	虚拟机/云盘快照存在，即已调用过CreateSnapshot
@@ -8437,7 +8475,7 @@
 | name | type | required | description | exampe |
 | ----- | ------ | ------ | ------ | ------ |
 | name | String | true | 资源名称 | deleteSnapshot.name.001|
-| deleteSnapshot | DeleteSnapshot | true | 删除虚拟机/云盘快照 | 详细见下 |
+| deleteSnapshot | DeleteSnapshot | true | 删除虚拟机和挂载到虚拟机的云盘快照 | 详细见下 |
 | eventId | String | fasle | 事件ID | deleteSnapshot.event.001 |
 
 对象deleteSnapshot参数说明:
@@ -8467,10 +8505,10 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 5.2 CreateSnapshot(创建虚拟机/云盘快照)
+## 6.2 CreateSnapshot(创建虚拟机快照和挂载到虚拟机的云盘快照)
 
 **接口功能:**
-	创建虚拟机/云盘快照，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
+	创建虚拟机快照和挂载到虚拟机的云盘快照，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
 
 **接口依赖:**
 	
@@ -8484,15 +8522,16 @@
 | ----- | ------ | ------ | ------ | ------ |
 | name | String | true | 资源名称 | createSnapshot.name.001|
 | nodeName | String | false | 选择部署的物理机，可以通过kubernetes.nodes().list进行查询 | node22 |
-| createSnapshot | CreateSnapshot | true | 创建虚拟机/云盘快照 | 详细见下 |
+| createSnapshot | CreateSnapshot | true | 创建虚拟机快照和挂载到虚拟机的云盘快照 | 详细见下 |
 | eventId | String | fasle | 事件ID | createSnapshot.event.001 |
 
 对象createSnapshot参数说明:
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| diskspec|String|true|虚拟机快照的设置|vda(对哪个磁盘做快照，多个请参考示例),snapshot=external/internal(快照类型，支持external：外部和internal:内部),file=/var/lib/libvirt/snapshots/snapshot1(快照文件的存放路径),drvier=qcow2（只支持qcow2）|vda,snapshot=external,file=/var/lib/libvirt/snapshots/snapshot1,drvier=qcow2 --diskspec vdb,snapshot=external,file=/var/lib/libvirt/snapshots/snapshot2,drvier=qcow2|
+| diskspec|String|true|虚拟机快照的设置|vda(对哪个磁盘做快照，多个请参考示例),snapshot=external/internal/no(快照类型，支持external：外部,internal:内部,no:不做快照),file=/var/lib/libvirt/snapshots/snapshot1(快照文件的存放路径),drvier=qcow2（只支持qcow2）|只对系统盘做快照示例：vda,snapshot=external,file=/var/lib/libvirt/snapshots/snapshot1,drvier=qcow2 --diskspec vdb,snapshot=no|
 | domain|String|true|与快照关联的虚拟机名字|已存在的虚拟机名，由4-100位的数字和小写字母组成|950646e8c17a49d0b83c1c797811e001|
+| isExternal|Boolean|false|是否为外部快照|true或者false|true|
 |  |  |  |  |  |
 
 **接口异常:**
@@ -8514,10 +8553,10 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 5.3 RevertVirtualMachine(恢复成虚拟机/云盘)
+## 6.3 RevertVirtualMachine(恢复成虚拟机和挂载到虚拟机的云盘快照)
 
 **接口功能:**
-	恢复成虚拟机/云盘，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
+	恢复成虚拟机和挂载到虚拟机的云盘快照，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
 
 **接口依赖:**
 	虚拟机/云盘快照存在，即已调用过CreateSnapshot
@@ -8530,7 +8569,7 @@
 | name | type | required | description | exampe |
 | ----- | ------ | ------ | ------ | ------ |
 | name | String | true | 资源名称 | revertVirtualMachine.name.001|
-| revertVirtualMachine | RevertVirtualMachine | true | 恢复成虚拟机/云盘 | 详细见下 |
+| revertVirtualMachine | RevertVirtualMachine | true | 恢复成虚拟机和挂载到虚拟机的云盘快照 | 详细见下 |
 | eventId | String | fasle | 事件ID | revertVirtualMachine.event.001 |
 
 对象revertVirtualMachine参数说明:
@@ -8561,7 +8600,7 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 5.4 CopySnapshot(全拷贝快照到文件)
+## 6.4 CopySnapshot(全拷贝快照到文件)
 
 **接口功能:**
 	全拷贝快照到文件，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
@@ -8608,7 +8647,7 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 5.5 MergeSnapshot(合并快照到叶子节点)
+## 6.5 MergeSnapshot(合并快照到叶子节点)
 
 **接口功能:**
 	合并快照到叶子节点，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
@@ -9812,13 +9851,19 @@
 					"graphics":[
 						{
 							"autoport":"String",
-							"listen":"String",
+							"listen":{
+								"address":"String",
+								"type":"String"
+							},
 							"port":"String",
 							"type":"String"
 						},
 						{
 							"autoport":"String",
-							"listen":"String",
+							"listen":{
+								"address":"String",
+								"type":"String"
+							},
 							"port":"String",
 							"type":"String"
 						}
@@ -11542,6 +11587,7 @@
 				"diskspec":"String",
 				"domain":"String",
 				"halt":true,
+				"isExternal":true,
 				"live":true,
 				"memspec":"String",
 				"no_metadata":true,
@@ -11572,11 +11618,11 @@
 	}
 }
 ```
-# 6 VirtualMachinePool
+# 7 VirtualMachinePool
 
 扩展支持各种存储后端.VirtualMachinePool所有操作的返回值一样，见**[返回值]**
 
-## 6.1 AutoStart(开机启动存储池)
+## 7.1 AutoStartPool(开机启动存储池)
 
 **接口功能:**
 	开机启动存储池，否则开机该存储池会连接不上，导致不可用。适用libvirt指令创建存储池情况。只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
@@ -11592,13 +11638,14 @@
 | name | type | required | description | exampe |
 | ----- | ------ | ------ | ------ | ------ |
 | name | String | true | 资源名称 | autoStartPool.name.001|
-| autoStartPool | AutoStart | true | 开机启动存储池 | 详细见下 |
+| autoStartPool | AutoStartPool | true | 开机启动存储池 | 详细见下 |
 | eventId | String | fasle | 事件ID | autoStartPool.event.001 |
 
-对象autoStart参数说明:
+对象autoStartPool参数说明:
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
+| type|String|false|存储池的类型|只能是dir，nfs，glusterfs之一|dir|
 | disable|Boolean|true|修改存储池autostart状态|true或者false|true|
 |  |  |  |  |  |
 
@@ -11612,7 +11659,7 @@
 | IllegalFormatException | 传递的参数不符合约束条件    |
 | Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
 
-(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看AutoStartspec下的status域，从message中获取详细异常信息
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看AutoStartPoolspec下的status域，从message中获取详细异常信息
 
 | name  | description | 
 | ----- | ----- | 
@@ -11621,7 +11668,7 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 6.2 CreatePool(创建存储池)
+## 7.2 CreatePool(创建存储池)
 
 **接口功能:**
 	创建存储池，适用libvirt指令创建存储池情况。只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
@@ -11646,9 +11693,10 @@
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
 | type|String|true|存储池的类型|只能是dir，uus，nfs，glusterfs之一|dir|
+| content|String|true|存储池的内容，用于标识存储池的用途|只能是vmd，vmdi，iso之一|vmd|
 | url|String|false|云存储池的url|建立云存储池时通过cstor-cli pool-list查询出的云存储池路径|uus-iscsi-independent://admin:admin@192.168.3.10:7000/p1/4/2/0/32/0/3|
 | opt|String|false|nfs挂载参数|当type为nfs类型时，nfs的挂载参数|nolock|
-| autostart|String|true|创建存储池后是否设置为自动打开|yes或no|yes|
+| autostart|boolean|false|创建存储池后是否设置为自动打开|true或false|true|
 | target|String|true|创建存储池使用的存储路径|完整有效的存储路径|/var/lib/libvirt/poolg|
 |  |  |  |  |  |
 
@@ -11671,7 +11719,7 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 6.3 StartPool(启动存储池)
+## 7.3 StartPool(启动存储池)
 
 **接口功能:**
 	启动存储池，如果存储池处于Inactive状态，可以启动。适用libvirt指令创建存储池情况。只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
@@ -11694,6 +11742,7 @@
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
+| type|String|false|存储池的类型|只能是dir，nfs，glusterfs之一|dir|
 |  |  |  |  |  |
 
 **接口异常:**
@@ -11715,7 +11764,7 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 6.4 StopPool(停止存储池)
+## 7.4 StopPool(停止存储池)
 
 **接口功能:**
 	停止存储池，将存储池状态设置为Inactive，适用libvirt指令创建存储池情况。只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
@@ -11738,6 +11787,7 @@
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
+| type|String|false|存储池的类型|只能是dir，nfs，glusterfs之一|dir|
 |  |  |  |  |  |
 
 **接口异常:**
@@ -11759,7 +11809,7 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 6.5 DeletePool(删除存储池)
+## 7.5 DeletePool(删除存储池)
 
 **接口功能:**
 	删除存储池，适用libvirt指令创建存储池情况。只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
@@ -11804,50 +11854,6 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 6.6 UnregisterPool(反注册存储池)
-
-**接口功能:**
-	反注册存储池，将存储池信息从libvirt里面注销只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
-
-**接口依赖:**
-	虚拟机存储池存在，即已调用过CreatePool
-
-**接口所属:**
-	com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle.UnregisterPool
-
-**参数描述:**
-
-| name | type | required | description | exampe |
-| ----- | ------ | ------ | ------ | ------ |
-| name | String | true | 资源名称 | unregisterPool.name.001|
-| unregisterPool | UnregisterPool | true | 反注册存储池 | 详细见下 |
-| eventId | String | fasle | 事件ID | unregisterPool.event.001 |
-
-对象unregisterPool参数说明:
-
-| name | type | required | description | constraint | example |
-| ----- | ------ | ------ | ------ | ------ | ------ |
-|  |  |  |  |  |
-
-**接口异常:**
-
-(1)在调用本方法抛出;
-
-| name  | description | 
-| ----- | ----- | 
-| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
-| IllegalFormatException | 传递的参数不符合约束条件    |
-| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
-
-(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看UnregisterPoolspec下的status域，从message中获取详细异常信息
-
-| name  | description | 
-| ----- | ----- | 
-| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
-| VirtctlError | Libvirt不支持的生命周期    |
-| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
-| Exception    | 后台代码异常退出,比如主机的hostname变化    |
-
 ## **返回值:**
 
 ```
@@ -11863,7 +11869,8 @@
 		"additionalProperties":{},
 		"lifecycle":{
 			"autoStartPool":{
-				"disable":true
+				"disable":true,
+				"type":"String"
 			},
 			"createPool":{
 				"adapter_name":"String",
@@ -11875,8 +11882,9 @@
 				"adapter_wwpn":"String",
 				"auth_type":"String",
 				"auth_username":"String",
-				"autostart":"String",
+				"autostart":true,
 				"build":true,
+				"content":"String",
 				"no_overwrite":true,
 				"opt":"String",
 				"overwrite":true,
@@ -11897,14 +11905,17 @@
 			"startPool":{
 				"build":true,
 				"no_overwrite":true,
-				"overwrite":true
+				"overwrite":true,
+				"type":"String"
 			},
-			"stopPool":{},
-			"unregisterPool":{}
+			"stopPool":{
+				"type":"String"
+			}
 		},
 		"pool":{
 			"autostart":"String",
 			"capacity":"String",
+			"content":"String",
 			"name":"String",
 			"path":"String",
 			"persistent":"String",
@@ -11917,11 +11928,11 @@
 	}
 }
 ```
-# 7 VirtualMachineNetwork
+# 8 VirtualMachineNetwork
 
 扩展支持OVN插件.VirtualMachineNetwork所有操作的返回值一样，见**[返回值]**
 
-## 7.1 CreateBridge(创建二层桥接网络，用于vlan场景)
+## 8.1 CreateBridge(创建二层桥接网络，用于vlan场景)
 
 **接口功能:**
 	创建二层桥接，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
@@ -11968,7 +11979,7 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 7.2 DeleteBridge(删除二层桥接网络)
+## 8.2 DeleteBridge(删除二层桥接网络)
 
 **接口功能:**
 	删除二层桥接,只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
@@ -12013,7 +12024,7 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 7.3 SetBridgeVlan(设置二层网桥的vlan ID)
+## 8.3 SetBridgeVlan(设置二层网桥的vlan ID)
 
 **接口功能:**
 	适用于OpenvSwitch二层网桥，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
@@ -12058,7 +12069,7 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 7.4 DelBridgeVlan(删除二层网桥的vlan ID)
+## 8.4 DelBridgeVlan(删除二层网桥的vlan ID)
 
 **接口功能:**
 	适用于OpenvSwitch二层网桥，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
@@ -12103,7 +12114,7 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 7.5 BindPortVlan(给虚拟机绑定vlan ID)
+## 8.5 BindPortVlan(给虚拟机绑定vlan ID)
 
 **接口功能:**
 	适用于OpenvSwitch二层网桥，更换虚拟机的vlan只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
@@ -12150,7 +12161,7 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 7.6 UnbindPortVlan(解除虚拟机的vlan ID)
+## 8.6 UnbindPortVlan(解除虚拟机的vlan ID)
 
 **接口功能:**
 	适用于OpenvSwitch二层网桥，更换虚拟机的vlan只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
@@ -12197,7 +12208,7 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 7.7 CreateSwitch(创建三层网络交换机)
+## 8.7 CreateSwitch(创建三层网络交换机)
 
 **接口功能:**
 	创建三层网络交换机，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
@@ -12221,7 +12232,10 @@
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| subnet|String|true|网段，这里后台只会做形式，不会做逻辑判断，只要符合xx.xx.xx.xx/y形式即可，请确保传入正确的数值, y的取值必须是8,16,24之一|网段和掩码|192.168.5.1/24|
+| subnet|String|false|网段，这里后台只会做形式，不会做逻辑判断，只要符合xx.xx.xx.xx/y形式即可，请确保传入正确的数值, y的取值必须是8,16,24之一|网段和掩码|192.168.5.1/24|
+| gateway|String|false|网关地址|IP|192.168.5.5|
+| mtu|String|false|mtu|10-1000|1500|
+| excludeIPs|String|false|IP列表黑名单|单个IP之间通过空格分开，IP范围使用..分开|192.168.5.2 192.168.5.10..192.168.5.100|
 |  |  |  |  |  |
 
 **接口异常:**
@@ -12243,7 +12257,7 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 7.8 DeleteSwitch(删除三层网络交换机)
+## 8.8 DeleteSwitch(删除三层网络交换机)
 
 **接口功能:**
 	删除三层网络交换机，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
@@ -12287,7 +12301,53 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 7.9 BindFip(绑定外网IP)
+## 8.9 ModifySwitch(修改三层网络交换机配置)
+
+**接口功能:**
+	修改三层网络交换机配置，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
+
+**接口依赖:**
+	
+
+**接口所属:**
+	com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.ModifySwitch
+
+**参数描述:**
+
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+| name | String | true | 资源名称 | modifySwitch.name.001|
+| modifySwitch | ModifySwitch | true | 修改三层网络交换机配置 | 详细见下 |
+| eventId | String | fasle | 事件ID | modifySwitch.event.001 |
+
+对象modifySwitch参数说明:
+
+| name | type | required | description | constraint | example |
+| ----- | ------ | ------ | ------ | ------ | ------ |
+| gateway|String|false|网关地址|IP|192.168.5.5|
+| mtu|String|false|mtu|10-1000|1500|
+|  |  |  |  |  |
+
+**接口异常:**
+
+(1)在调用本方法抛出;
+
+| name  | description | 
+| ----- | ----- | 
+| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
+| IllegalFormatException | 传递的参数不符合约束条件    |
+| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
+
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看ModifySwitchspec下的status域，从message中获取详细异常信息
+
+| name  | description | 
+| ----- | ----- | 
+| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
+| VirtctlError | Libvirt不支持的生命周期    |
+| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
+| Exception    | 后台代码异常退出,比如主机的hostname变化    |
+
+## 8.10 BindFip(绑定外网IP)
 
 **接口功能:**
 	适用于虚拟IP和浮动IP场景，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
@@ -12333,7 +12393,7 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 7.10 UnbindFip(解绑定外网IP)
+## 8.11 UnbindFip(解绑定外网IP)
 
 **接口功能:**
 	适用于虚拟IP和浮动IP场景，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
@@ -12458,7 +12518,7 @@
 						"type":"String"
 					}
 				],
-				"port":[
+				"ports":[
 					{
 						"gateway":"String",
 						"mac":"String",
@@ -12476,15 +12536,15 @@
 			"switchInfo":{
 				"id":"String",
 				"name":"String",
-				"port":[
+				"ports":[
 					{
-						"addresses":"String",
+						"addresses":{},
 						"name":"String",
 						"router_port":"String",
 						"type":"String"
 					},
 					{
-						"addresses":"String",
+						"addresses":{},
 						"name":"String",
 						"router_port":"String",
 						"type":"String"
@@ -12507,6 +12567,9 @@
 				"vlan":"String"
 			},
 			"createSwitch":{
+				"excludeIPs":"String",
+				"gateway":"String",
+				"mtu":"String",
 				"subnet":"String"
 			},
 			"delBridgeVlan":{
@@ -12516,6 +12579,10 @@
 				"nic":"String"
 			},
 			"deleteSwitch":{},
+			"modifySwitch":{
+				"gateway":"String",
+				"mtu":"String"
+			},
 			"setBridgeVlan":{
 				"vlan":"String"
 			},
@@ -12531,4 +12598,3 @@
 	}
 }
 ```
-
