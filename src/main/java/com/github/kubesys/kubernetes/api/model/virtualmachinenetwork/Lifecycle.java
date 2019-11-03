@@ -291,6 +291,15 @@ public class Lifecycle {
 		public void setMtu(String mtu) {
 			this.mtu = mtu;
 		}
+
+		public String getDnsServer() {
+			return dnsServer;
+		}
+
+		public void setDnsServer(String dnsServer) {
+			this.dnsServer = dnsServer;
+		}
+		
 		
 	}
 

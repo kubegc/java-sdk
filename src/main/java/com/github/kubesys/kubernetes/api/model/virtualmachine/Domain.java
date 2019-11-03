@@ -6379,6 +6379,8 @@ public class Domain {
 		
 		protected ArrayList<Lease> lease;
 		
+		protected Listen listen;
+		
 		public Devices() {
 
 		}
@@ -6427,11 +6429,20 @@ public class Domain {
 			return this.sound;
 		}
 
+		
 		/**
 		 * Ignore the user setting, use 'lifecycle' to update VM's info
 		 *
 		 */
 		
+
+		public Listen getListen() {
+			return listen;
+		}
+
+		public void setListen(Listen listen) {
+			this.listen = listen;
+		}
 
 		/**
 		 * Ignore the user setting, use 'lifecycle' to update VM's info
