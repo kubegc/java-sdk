@@ -214,6 +214,10 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.EXCLUDEIPS_PATTERN)
 		protected String excludeIPs;
 		
+		@ParameterDescriber(required = false, description = "域名服务器", constraint = "IP地址，允许多个，以,号分开", example = "192.168.5.5")
+		@Pattern(regexp = RegExpUtils.DNS_PATTERN)
+		protected String dnsServer;
+		
 		public String getExcludeIPs() {
 			return excludeIPs;
 		}
@@ -245,7 +249,15 @@ public class Lifecycle {
 		public void setMtu(String mtu) {
 			this.mtu = mtu;
 		}
-		
+
+		public String getDnsServer() {
+			return dnsServer;
+		}
+
+		public void setDnsServer(String dnsServer) {
+			this.dnsServer = dnsServer;
+		}
+	
 	}
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
@@ -259,6 +271,10 @@ public class Lifecycle {
 		@ParameterDescriber(required = false, description = "mtu", constraint = "10-1000", example = "1500")
 		@Pattern(regexp = RegExpUtils.MTU_PATTERN)
 		protected String mtu;
+		
+		@ParameterDescriber(required = false, description = "域名服务器", constraint = "IP地址", example = "192.168.5.5")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String dnsServer;
 		
 		public String getGateway() {
 			return gateway;
@@ -275,6 +291,15 @@ public class Lifecycle {
 		public void setMtu(String mtu) {
 			this.mtu = mtu;
 		}
+
+		public String getDnsServer() {
+			return dnsServer;
+		}
+
+		public void setDnsServer(String dnsServer) {
+			this.dnsServer = dnsServer;
+		}
+		
 		
 	}
 
@@ -288,6 +313,10 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class BindFip {
 
+		@ParameterDescriber(required = true, description = "交换机名", constraint = "名称是字符串类型，长度是4到100位，只允许数字、小写字母、中划线、以及圆点", example = "switch11")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String swName;
+		
 		@ParameterDescriber(required = true, description = "虚拟机mac地址", constraint = "mac地址不能以fe开头", example = "7e:0c:b0:ef:6a:04")
 		@Pattern(regexp = RegExpUtils.MAC_PATTERN)
 		protected String vmmac;
@@ -295,7 +324,7 @@ public class Lifecycle {
 		@ParameterDescriber(required = true, description = "外网IP", constraint = "x.x.x.x,x取值范围0到255", example = "192.168.5.2")
 		@Pattern(regexp = RegExpUtils.IP_PATTERN)
 		protected String fip;
-
+		
 		public String getVmmac() {
 			return vmmac;
 		}
@@ -311,6 +340,14 @@ public class Lifecycle {
 		public void setFip(String fip) {
 			this.fip = fip;
 		}
+
+		public String getSwName() {
+			return swName;
+		}
+
+		public void setSwName(String swName) {
+			this.swName = swName;
+		}
 		
 	}
 	
@@ -318,9 +355,25 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class UnbindFip {
 
+		@ParameterDescriber(required = true, description = "交换机名", constraint = "名称是字符串类型，长度是4到100位，只允许数字、小写字母、中划线、以及圆点", example = "switch11")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String swName;
+		
 		@ParameterDescriber(required = true, description = "虚拟机mac地址", constraint = "mac地址不能以fe开头", example = "7e:0c:b0:ef:6a:04")
 		@Pattern(regexp = RegExpUtils.MAC_PATTERN)
 		protected String vmmac;
+		
+		@ParameterDescriber(required = true, description = "外网IP", constraint = "x.x.x.x,x取值范围0到255", example = "192.168.5.2")
+		@Pattern(regexp = RegExpUtils.IP_PATTERN)
+		protected String fip;
+
+		public String getSwName() {
+			return swName;
+		}
+
+		public void setSwName(String swName) {
+			this.swName = swName;
+		}
 
 		public String getVmmac() {
 			return vmmac;
@@ -328,6 +381,14 @@ public class Lifecycle {
 
 		public void setVmmac(String vmmac) {
 			this.vmmac = vmmac;
+		}
+
+		public String getFip() {
+			return fip;
+		}
+
+		public void setFip(String fip) {
+			this.fip = fip;
 		}
 		
 	}

@@ -140,12 +140,15 @@ public class RegExpUtils {
 	@FieldDescriber("设置虚拟机启动顺序，hd表示硬盘，cdrom表示光驱")
 	public final static String BOOT_PATTERN = "hd|cdrom";
 	
+	@FieldDescriber("DNS类型，多个IP，以,号分开")
+	public final static String DNS_PATTERN = "(" + IP_PATTERN + ")?(," + IP_PATTERN + ")*";
+	
 	@FieldDescriber("无法获取IP的列表")
 	public final static String EXCLUDEIPS_PATTERN = "(" + IP_PATTERN + "|" + IP_PATTERN + ".." + IP_PATTERN+")+" +  "(," + IP_PATTERN + "|," + IP_PATTERN + ".." + IP_PATTERN+")?";
 	
 	public static void main(String[] args) {
-		String name = "192.178.12.2,192.178.12.2,192.178.1.1..192.179.2.2";
-		Pattern pattern = Pattern.compile(RegExpUtils.EXCLUDEIPS_PATTERN);
+		String name = "192.178.12.2";
+		Pattern pattern = Pattern.compile(RegExpUtils.DNS_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("");
 		}
