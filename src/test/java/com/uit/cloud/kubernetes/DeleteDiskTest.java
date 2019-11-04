@@ -22,13 +22,13 @@ public class DeleteDiskTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineDisks()
-				.deleteDisk("disktest4", getDeleteDisk());
+				.deleteDisk("wyw123.121", getDeleteDisk());
 		System.out.println(successful);
 	}
 	
 	public static DeleteDisk getDeleteDisk() {
 		DeleteDisk deleteDisk = new DeleteDisk();
-		deleteDisk.setPool("default");
+		deleteDisk.setPool("pooltest3");
 		deleteDisk.setType("dir");
 		return deleteDisk;
 	}

@@ -22,16 +22,17 @@ public class CreateDiskFromDiskImageTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineDisks()
-				.createDiskFromDiskImage("VM20190918", "vm.node30", get(), "abc");
+				.createDiskFromDiskImage("wyw123.121", "vm.node22", get(), "abc");
 		System.out.println(successful);
 	}
 
 	protected static CreateDiskFromDiskImage get() {
 		CreateDiskFromDiskImage createDisk = new CreateDiskFromDiskImage();
+		createDisk.setType("dir");
 		// create a volume in this pool
-		createDisk.setTargetPool("default");
+		createDisk.setTargetPool("pooltest3");
 		// vm disk image name
-		createDisk.setSourceImage("t5");
+		createDisk.setSourceImage("wyw123");
 		return createDisk;
 	}
 }
