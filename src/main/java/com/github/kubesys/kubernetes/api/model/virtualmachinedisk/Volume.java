@@ -43,6 +43,16 @@ public class Volume {
 	
 	protected String pool;
 	
+	protected String disktype;
+	
+	public String getDisktype() {
+		return disktype;
+	}
+
+	public void setDisktype(String disktype) {
+		this.disktype = disktype;
+	}
+
 	public String getPool() {
 		return pool;
 	}
