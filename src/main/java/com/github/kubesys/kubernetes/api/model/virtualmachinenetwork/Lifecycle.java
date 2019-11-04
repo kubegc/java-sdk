@@ -214,8 +214,8 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.EXCLUDEIPS_PATTERN)
 		protected String excludeIPs;
 		
-		@ParameterDescriber(required = false, description = "域名服务器", constraint = "IP地址", example = "192.168.5.5")
-		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		@ParameterDescriber(required = false, description = "域名服务器", constraint = "IP地址，允许多个，以,号分开", example = "192.168.5.5")
+		@Pattern(regexp = RegExpUtils.DNS_PATTERN)
 		protected String dnsServer;
 		
 		public String getExcludeIPs() {
