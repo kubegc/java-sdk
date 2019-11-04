@@ -23,13 +23,13 @@ public class DeleteDiskImageTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineDiskImages()
-				.deleteDiskImage("wyw123", get());
+				.deleteDiskImage("wyw1111.temp", get());
 		System.out.println(successful);
 	}
 
 	protected static DeleteDiskImage get() {
-		DeleteDiskImage createDisk = new DeleteDiskImage();
-		return createDisk;
+		DeleteDiskImage delteDiskImage = new DeleteDiskImage();
+		return delteDiskImage;
 	}
 	
 }

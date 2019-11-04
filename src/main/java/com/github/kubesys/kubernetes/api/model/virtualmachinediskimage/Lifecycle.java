@@ -24,12 +24,18 @@ import com.github.kubesys.kubernetes.utils.RegExpUtils;
 @JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 @ClassDescriber(value = "VirtualMachineDiskImage", desc = "云盘模板，主要是指大小和文件格式等")
 public class Lifecycle {
-
-	@FunctionDescriber(shortName = "将云盘镜像转化为云盘", description = "将云盘镜像转化为云盘，" 
+	
+	@FunctionDescriber(shortName = "从云盘创建云盘镜像", description = "从云盘创建云盘镜像，" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
-		prerequisite = AnnotationUtils.DESC_FUNCTION_VMDI, 
-		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
-	protected ConvertDiskImageToDisk convertDiskImageToDisk;
+			prerequisite = AnnotationUtils.DESC_FUNCTION_VMD, 
+			exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected CreateDiskImageFromDisk createDiskImageFromDisk;
+	
+	@FunctionDescriber(shortName = "创建云盘镜像", description = "创建云盘镜像，" 
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+			prerequisite = "", 
+			exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected CreateDiskImage createDiskImage;
 
 	@FunctionDescriber(shortName = "删除云盘镜像", description = "删除云盘镜像，" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
@@ -37,20 +43,14 @@ public class Lifecycle {
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected DeleteDiskImage deleteDiskImage;
 	
-	@FunctionDescriber(shortName = "创建云盘镜像", description = "创建云盘镜像，" 
-			+ AnnotationUtils.DESC_FUNCTION_DESC, 
-		prerequisite = "", 
-		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
-	protected CreateDiskImage createDiskImage;
-	
-	public ConvertDiskImageToDisk getConvertDiskImageToDisk() {
-		return convertDiskImageToDisk;
+	public CreateDiskImageFromDisk getCreateDiskImageFromDisk() {
+		return createDiskImageFromDisk;
 	}
-	
-	public void setConvertDiskImageToDisk(ConvertDiskImageToDisk convertDiskImageToDisk) {
-		this.convertDiskImageToDisk = convertDiskImageToDisk;
+
+	public void setCreateDiskImageFromDisk(CreateDiskImageFromDisk createDiskImageFromDisk) {
+		this.createDiskImageFromDisk = createDiskImageFromDisk;
 	}
-	
+
 	public DeleteDiskImage getDeleteDiskImage() {
 		return deleteDiskImage;
 	}
@@ -69,16 +69,41 @@ public class Lifecycle {
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class ConvertDiskImageToDisk {
+	public static class DeleteDiskImage {
 
-		@ParameterDescriber(required = true, description = "目标存储池名，用于存储转化的云盘", constraint = "由4-100位的数字和小写字母组成，已创建出的存储池", example = "pool2")
+	}
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class CreateDiskImageFromDisk {
+		
+		@ParameterDescriber(required = true, description = "目标存储池名，用于存储创建的云盘镜像", constraint = "由4-100位的数字和小写字母组成，已创建出的存储池", example = "pool2")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String targetPool;
 		
-		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，uus，nfs，glusterfs之一", example = "dir")
-		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
-		protected String type;
+		@ParameterDescriber(required = true, description = "源存储池名，源云盘所在的存储池名", constraint = "由4-100位的数字和小写字母组成，已创建出的存储池", example = "pool1")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String sourcePool;
+		
+		@ParameterDescriber(required = true, description = "源云盘名称，用于创建云盘镜像的云盘名称", constraint = "由4-100位的数字和小写字母组成，已创建出的存储池", example = "volume1")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String sourceVolume;
 
+		public String getSourcePool() {
+			return sourcePool;
+		}
+
+		public void setSourcePool(String sourcePool) {
+			this.sourcePool = sourcePool;
+		}
+
+		public String getSourceVolume() {
+			return sourceVolume;
+		}
+
+		public void setSourceVolume(String sourceVolume) {
+			this.sourceVolume = sourceVolume;
+		}
 
 		public String getTargetPool() {
 			return targetPool;
@@ -87,19 +112,6 @@ public class Lifecycle {
 		public void setTargetPool(String targetPool) {
 			this.targetPool = targetPool;
 		}
-
-		public String getType() {
-			return type;
-		}
-
-		public void setType(String type) {
-			this.type = type;
-		}
-	}
-	
-	@JsonInclude(JsonInclude.Include.NON_NULL)
-	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class DeleteDiskImage {
 
 	}
 	

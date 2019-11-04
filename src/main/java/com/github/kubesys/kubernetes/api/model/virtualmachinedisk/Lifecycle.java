@@ -49,12 +49,6 @@ public class Lifecycle {
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected CreateDiskFromDiskImage createDiskFromDiskImage;
 	
-	@FunctionDescriber(shortName = "转化为云盘镜像", description = "转化为云盘镜像，" 
-			+ AnnotationUtils.DESC_FUNCTION_DESC, 
-		prerequisite = AnnotationUtils.DESC_FUNCTION_VMD, 
-		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
-	protected ConvertDiskToDiskImage convertDiskToDiskImage;
-
 	@FunctionDescriber(shortName = "克隆云盘", description = "克隆云盘，" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = AnnotationUtils.DESC_FUNCTION_VMD, 
@@ -78,7 +72,7 @@ public class Lifecycle {
 		prerequisite = AnnotationUtils.DESC_FUNCTION_VMD, 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected DeleteDiskInternalSnapshot deleteDiskInternalSnapshot;
-	
+
 	public CreateDiskInternalSnapshot getCreateDiskSnapshot() {
 		return createDiskInternalSnapshot;
 	}
@@ -101,14 +95,6 @@ public class Lifecycle {
 
 	public void setDeleteDiskSnapshot(DeleteDiskInternalSnapshot deleteDiskSnapshot) {
 		this.deleteDiskInternalSnapshot = deleteDiskSnapshot;
-	}
-	
-	public ConvertDiskToDiskImage getConvertDiskToDiskImage() {
-		return convertDiskToDiskImage;
-	}
-	
-	public void setConvertDiskToDiskImage(ConvertDiskToDiskImage convertDiskToDiskImage) {
-		this.convertDiskToDiskImage = convertDiskToDiskImage;
 	}
 	
 	public CreateDiskFromDiskImage getCreateDiskFromDiskImage() {
@@ -495,37 +481,6 @@ public class Lifecycle {
 		}
 	}
 
-	
-	@JsonInclude(JsonInclude.Include.NON_NULL)
-	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class ConvertDiskToDiskImage {
-		
-		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，uus，nfs，glusterfs之一", example = "dir")
-		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
-		protected String type;
-
-		@ParameterDescriber(required = true, description = "目标存储池名，用于存储转化的云盘镜像", constraint = "由4-100位的数字和小写字母组成，已创建出的存储池", example = "pool2")
-		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
-		protected String targetPool;
-
-		public String getTargetPool() {
-			return targetPool;
-		}
-
-		public void setTargetPool(String targetPool) {
-			this.targetPool = targetPool;
-		}
-
-		public String getType() {
-			return type;
-		}
-
-		public void setType(String type) {
-			this.type = type;
-		}
-
-	}
-	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class ConvertImageToVM {

@@ -9,8 +9,8 @@ import com.github.kubesys.kubernetes.api.model.VirtualMachineDiskImage;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineDiskImageList;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineDiskImageSpec;
 import com.github.kubesys.kubernetes.api.model.virtualmachinediskimage.Lifecycle;
-import com.github.kubesys.kubernetes.api.model.virtualmachinediskimage.Lifecycle.ConvertDiskImageToDisk;
 import com.github.kubesys.kubernetes.api.model.virtualmachinediskimage.Lifecycle.CreateDiskImage;
+import com.github.kubesys.kubernetes.api.model.virtualmachinediskimage.Lifecycle.CreateDiskImageFromDisk;
 import com.github.kubesys.kubernetes.api.model.virtualmachinediskimage.Lifecycle.DeleteDiskImage;
 import com.github.kubesys.kubernetes.utils.RegExpUtils;
 
@@ -50,28 +50,25 @@ public class VirtualMachineDiskImageImpl extends AbstractImpl<VirtualMachineDisk
 	 * 
 	 **************************************************/
 
-	public boolean convertDiskImageToDisk(String name, ConvertDiskImageToDisk convertDiskImageToDisk) throws Exception {
-		return convertDiskImageToDisk(name, convertDiskImageToDisk, null);
+	public boolean createDiskImageFromDisk(String name, CreateDiskImageFromDisk createDiskImageFromDisk) throws Exception {
+		return createDiskImageFromDisk(name, null, createDiskImageFromDisk, null);
 	}
 
-	public boolean convertDiskImageToDisk(String name,ConvertDiskImageToDisk convertDiskImageToDisk, String eventId) throws Exception {
+	public boolean createDiskImageFromDisk(String name, String nodeName, CreateDiskImageFromDisk createDiskImageFromDisk) throws Exception {
+		return createDiskImageFromDisk(name, nodeName, createDiskImageFromDisk, null);
+	}
+
+	public boolean createDiskImageFromDisk(String name, CreateDiskImageFromDisk createDiskImageFromDisk, String eventId) throws Exception {
+		return createDiskImageFromDisk(name, null, createDiskImageFromDisk, eventId);
+	}
+
+	public boolean createDiskImageFromDisk(String name, String nodeName,CreateDiskImageFromDisk createDiskImageFromDisk, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
-			throw new IllegalArgumentException("名称是字符串类型，长度是4到100位，只允许数字、小写字母、中划线、以及圆点");
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
-		return update(name, updateMetadata(name, eventId), convertDiskImageToDisk);
-	}
-
-	public boolean deleteDiskImage(String name, DeleteDiskImage deleteDiskImage) throws Exception {
-		return deleteDiskImage(name, deleteDiskImage, null);
-	}
-
-	public boolean deleteDiskImage(String name,DeleteDiskImage deleteDiskImage, String eventId) throws Exception {
-		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
-		if (!pattern.matcher(name).matches()) {
-			throw new IllegalArgumentException("名称是字符串类型，长度是4到100位，只允许数字、小写字母、中划线、以及圆点");
-		}
-		return delete(name, updateMetadata(name, eventId), deleteDiskImage);
+		return create(getModel(), createMetadata(name, nodeName, eventId), 
+				createSpec(nodeName, createLifecycle(createDiskImageFromDisk)));
 	}
 
 	public boolean createDiskImage(String name, CreateDiskImage createDiskImage) throws Exception {
@@ -89,10 +86,22 @@ public class VirtualMachineDiskImageImpl extends AbstractImpl<VirtualMachineDisk
 	public boolean createDiskImage(String name, String nodeName,CreateDiskImage createDiskImage, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
-			throw new IllegalArgumentException("名称是字符串类型，长度是4到100位，只允许数字、小写字母、中划线、以及圆点");
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
 		return create(getModel(), createMetadata(name, nodeName, eventId), 
 				createSpec(nodeName, createLifecycle(createDiskImage)));
+	}
+
+	public boolean deleteDiskImage(String name, DeleteDiskImage deleteDiskImage) throws Exception {
+		return deleteDiskImage(name, deleteDiskImage, null);
+	}
+
+	public boolean deleteDiskImage(String name, DeleteDiskImage deleteDiskImage, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return delete(name, updateMetadata(name, eventId), deleteDiskImage);
 	}
 	
 }
