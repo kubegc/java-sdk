@@ -3,7 +3,7 @@
  */
 package com.github.kubesys.kubernetes;
 
-import java.io.InputStream;
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -197,12 +197,13 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 	}
 
 	@SuppressWarnings("unchecked")
-	public ParameterNamespaceListVisitFromServerGetDeleteRecreateWaitApplicable<HasMetadata, Boolean> load(String kind, InputStream is) {
+	public ParameterNamespaceListVisitFromServerGetDeleteRecreateWaitApplicable<HasMetadata, Boolean> load(String kind, String jsonStr) {
 		try {
-			return new JSONImpl(this, kind, is);
+			return new JSONImpl(this, kind, jsonStr);
 		} catch (Exception ex) {
+			ex.printStackTrace();
 			m_logger.log(Level.SEVERE, ex.toString());
-			return load(is);
+			return load(new ByteArrayInputStream(jsonStr.getBytes()));
 		}
 	}
 	

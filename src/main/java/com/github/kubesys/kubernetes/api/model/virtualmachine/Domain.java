@@ -6379,11 +6379,6 @@ public class Domain {
 		
 		protected ArrayList<Lease> lease;
 		
-		protected Listen listen;
-		
-		public Devices() {
-
-		}
 
 		/**
 		 * Ignore the user setting, use 'lifecycle' to update VM's info
@@ -6430,20 +6425,6 @@ public class Domain {
 		}
 
 		
-		/**
-		 * Ignore the user setting, use 'lifecycle' to update VM's info
-		 *
-		 */
-		
-
-		public Listen getListen() {
-			return listen;
-		}
-
-		public void setListen(Listen listen) {
-			this.listen = listen;
-		}
-
 		/**
 		 * Ignore the user setting, use 'lifecycle' to update VM's info
 		 *
@@ -6728,6 +6709,8 @@ public class Domain {
 			return this.lease;
 		}
 
+		
+		
 		@JsonInclude(JsonInclude.Include.NON_NULL)
 		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Memory {
@@ -8058,58 +8041,37 @@ public class Domain {
 			
 			protected Listen listen;
 			
-			public Graphics() {
-
-			}
-
-			
 			public Listen getListen() {
 				return listen;
 			}
-
-
 
 			public void setListen(Listen listen) {
 				this.listen = listen;
 			}
 
-
-
 			public String get_listen() {
 				return _listen;
 			}
-
-
 
 			public void set_listen(String _listen) {
 				this._listen = _listen;
 			}
 
-
-
 			public String get_port() {
 				return _port;
 			}
-
-
 
 			public void set_port(String _port) {
 				this._port = _port;
 			}
 
-
-
 			public String get_type() {
 				return _type;
 			}
 
-
-
 			public void set_type(String _type) {
 				this._type = _type;
 			}
-
-
 
 			public String get_autoport() {
 				return _autoport;
@@ -8119,39 +8081,39 @@ public class Domain {
 				this._autoport = _autoport;
 			}
 			
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+			public static class Listen {
+				
+				protected String _address;
+				
+				protected String _type;
+
+				public Listen() {
+					super();
+					// TODO Auto-generated constructor stub
+				}
+
+				public String get_address() {
+					return _address;
+				}
+
+				public void set_address(String _address) {
+					this._address = _address;
+				}
+
+				public String get_type() {
+					return _type;
+				}
+
+				public void set_type(String _type) {
+					this._type = _type;
+				}
+				
+			}
 			
 		}
 
-		@JsonInclude(JsonInclude.Include.NON_NULL)
-		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-		public static class Listen {
-			
-			protected String _address;
-			
-			protected String _type;
-
-			public Listen() {
-				super();
-				// TODO Auto-generated constructor stub
-			}
-
-			public String get_address() {
-				return _address;
-			}
-
-			public void set_address(String _address) {
-				this._address = _address;
-			}
-
-			public String get_type() {
-				return _type;
-			}
-
-			public void set_type(String _type) {
-				this._type = _type;
-			}
-			
-		}
 		
 		@JsonInclude(JsonInclude.Include.NON_NULL)
 		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
@@ -11294,9 +11256,9 @@ public class Domain {
 
 			protected String _model;
 
-			protected Model model;
-
 			protected Target target;
+			
+			protected Model model;
 
 			public Target getTarget() {
 				return target;
@@ -11308,10 +11270,6 @@ public class Domain {
 
 			public Model getModel() {
 				return model;
-			}
-
-			public Controller() {
-
 			}
 
 			public void setModel(Model model) {
@@ -11400,6 +11358,21 @@ public class Domain {
 
 			@JsonInclude(JsonInclude.Include.NON_NULL)
 			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+			public static class Model {
+
+				protected String _name;
+
+				public String get_name() {
+					return _name;
+				}
+
+				public void set_name(String _name) {
+					this._name = _name;
+				}
+			}
+			
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Target {
 
 				protected String  _chassis;
@@ -11434,20 +11407,7 @@ public class Domain {
 
 
 			}
-			@JsonInclude(JsonInclude.Include.NON_NULL)
-			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-			public static class Model {
-
-				protected String _name;
-
-				public String get_name() {
-					return _name;
-				}
-
-				public void set_name(String _name) {
-					this._name = _name;
-				}
-			}
+			
 			@JsonInclude(JsonInclude.Include.NON_NULL)
 			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Master {

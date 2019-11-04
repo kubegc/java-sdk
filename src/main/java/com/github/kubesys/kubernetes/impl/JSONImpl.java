@@ -32,12 +32,12 @@ public class JSONImpl implements ParameterNamespaceListVisitFromServerGetDeleteR
 	
 	protected final HasMetadata object;
 	
-	public JSONImpl(ExtendedKubernetesClient client, String kind, InputStream is) throws Exception {
+	public JSONImpl(ExtendedKubernetesClient client, String kind, String jsonStr) throws Exception {
 		super();
 		Method method = client.getClass().getMethod(getMethodName(kind));
 		this.impl = (AbstractImpl) method.invoke(client);
 		Type type = Class.forName(API_MODEL_PACKAGE + kind);
-		this.object = (HasMetadata) JSON.parseObject(is, type);
+		this.object = (HasMetadata) JSON.parseObject(jsonStr, type);
 	}
 
 	@Override

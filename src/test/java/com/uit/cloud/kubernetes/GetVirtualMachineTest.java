@@ -18,7 +18,7 @@ public class GetVirtualMachineTest {
 	
 	public static void main(String[] args) throws Exception {
 		System.out.println(AbstractTest
-				.getVMByName("350646e8c17a49d0b83c1c797811a081"));
+				.getVMByName("vm003"));
 //		System.out.println(
 //				JSON.toJSONString(
 //						AbstractTest.getVMByName("350646e8c17a49d0b83c1c797811a084").ge, true));
