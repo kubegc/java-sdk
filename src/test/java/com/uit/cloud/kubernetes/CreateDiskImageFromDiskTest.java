@@ -4,7 +4,7 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
-import com.github.kubesys.kubernetes.api.model.virtualmachinediskimage.Lifecycle.ConvertDiskImageToDisk;
+import com.github.kubesys.kubernetes.api.model.virtualmachinediskimage.Lifecycle.CreateDiskImageFromDisk;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -15,21 +15,22 @@ import com.github.kubesys.kubernetes.api.model.virtualmachinediskimage.Lifecycle
  * @since   2019/9/3
  *
  */
-public class ConvertDiskImageToDiskTest {
+public class CreateDiskImageFromDiskTest {
 	
 	
 	public static void main(String[] args) throws Exception {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineDiskImages()
-				.convertDiskImageToDisk("wyw123", get(), "abc");
+				.createDiskImageFromDisk("wyw1111.temp", "vm.node22", get(), "abcd");
 		System.out.println(successful);
 	}
 
-	protected static ConvertDiskImageToDisk get() {
-		ConvertDiskImageToDisk convertDiskImage = new ConvertDiskImageToDisk();
-        convertDiskImage.setType("dir");
-		convertDiskImage.setTargetPool("pooltest3");
-		return convertDiskImage;
+	protected static CreateDiskImageFromDisk get() {
+		CreateDiskImageFromDisk createDiskImageFromDisk = new CreateDiskImageFromDisk();
+		createDiskImageFromDisk.setTargetPool("pooltest4");
+		createDiskImageFromDisk.setSourcePool("pooltest3");
+		createDiskImageFromDisk.setSourceVolume("wyw1111");
+		return createDiskImageFromDisk;
 	}
 }
