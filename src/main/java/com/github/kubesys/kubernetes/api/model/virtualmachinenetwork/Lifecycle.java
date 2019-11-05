@@ -202,6 +202,10 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.SUBNET_PATTERN)
 		protected String subnet;
 		
+		@ParameterDescriber(required = false, description = "DHCP地址", constraint = "IP", example = "192.168.5.5")
+		@Pattern(regexp = RegExpUtils.IP_PATTERN)
+		protected String dhcp;
+		
 		@ParameterDescriber(required = false, description = "网关地址", constraint = "IP", example = "192.168.5.5")
 		@Pattern(regexp = RegExpUtils.IP_PATTERN)
 		protected String gateway;
@@ -257,7 +261,15 @@ public class Lifecycle {
 		public void setDnsServer(String dnsServer) {
 			this.dnsServer = dnsServer;
 		}
-	
+
+		public String getDhcp() {
+			return dhcp;
+		}
+
+		public void setDhcp(String dhcp) {
+			this.dhcp = dhcp;
+		}
+		
 	}
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
