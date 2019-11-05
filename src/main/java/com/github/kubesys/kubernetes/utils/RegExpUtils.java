@@ -141,13 +141,13 @@ public class RegExpUtils {
 	public final static String BOOT_PATTERN = "hd|cdrom";
 	
 	@FieldDescriber("DNS类型，多个IP，以,号分开，如果多个，外面需要大括号")
-	public final static String DNS_PATTERN = "("+ IP_PATTERN + ")|(\\{" + IP_PATTERN + "," + IP_PATTERN + "(," + IP_PATTERN +")*\\})";
+	public final static String DNS_PATTERN = "("+ IP_PATTERN + ")|(\"\\{" + IP_PATTERN + "," + IP_PATTERN + "(," + IP_PATTERN +")*\\}\")";
 	
 	@FieldDescriber("无法获取IP的列表")
 	public final static String EXCLUDEIPS_PATTERN = "(" + IP_PATTERN + "|" + IP_PATTERN + ".." + IP_PATTERN+")+" +  "(," + IP_PATTERN + "|," + IP_PATTERN + ".." + IP_PATTERN+")?";
 	
 	public static void main(String[] args) {
-		String name = "192.168.1.1";
+		String name = "\"{192.168.1.1,192.168.1.2}\"";
 		Pattern pattern = Pattern.compile(RegExpUtils.DNS_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("");
