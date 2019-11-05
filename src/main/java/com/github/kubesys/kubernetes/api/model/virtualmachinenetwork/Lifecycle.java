@@ -285,8 +285,12 @@ public class Lifecycle {
 		protected String mtu;
 		
 		@ParameterDescriber(required = false, description = "域名服务器", constraint = "IP地址", example = "192.168.5.5")
-		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		@Pattern(regexp = RegExpUtils.DNS_PATTERN)
 		protected String dnsServer;
+		
+		@ParameterDescriber(required = false, description = "DHCP地址", constraint = "IP", example = "192.168.5.5")
+		@Pattern(regexp = RegExpUtils.IP_PATTERN)
+		protected String dhcp;
 		
 		public String getGateway() {
 			return gateway;
@@ -310,6 +314,14 @@ public class Lifecycle {
 
 		public void setDnsServer(String dnsServer) {
 			this.dnsServer = dnsServer;
+		}
+
+		public String getDhcp() {
+			return dhcp;
+		}
+
+		public void setDhcp(String dhcp) {
+			this.dhcp = dhcp;
 		}
 		
 		
