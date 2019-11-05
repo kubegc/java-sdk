@@ -157,7 +157,7 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class CreatePool {
 
-		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，uus，nfs，glusterfs之一", example = "dir")
+		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，uus，nfs，glusterfs, uraid之一", example = "dir")
 		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
 		protected String type;
 		
@@ -182,9 +182,9 @@ public class Lifecycle {
 		@ParameterDescriber(required = false, description = "创建存储池后是否设置为自动打开", constraint = "true或false", example = "true")
 		protected boolean autostart;
 
-		@ParameterDescriber(required = true, description = "创建存储池使用的存储路径", constraint = "完整有效的存储路径", example = "/var/lib/libvirt/poolg")
-		@Pattern(regexp = RegExpUtils.TARGET_PATTERN)
-		protected String target;
+//		@ParameterDescriber(required = true, description = "创建存储池使用的存储路径", constraint = "完整有效的存储路径", example = "/var/lib/libvirt/poolg")
+//		@Pattern(regexp = RegExpUtils.TARGET_PATTERN)
+//		protected String target;
 		
 		protected String source_format;
 		
@@ -264,13 +264,13 @@ public class Lifecycle {
 			this.source_name = source_name;
 		}
 
-		public String getTarget() {
-			return target;
-		}
-
-		public void setTarget(String target) {
-			this.target = target;
-		}
+//		public String getTarget() {
+//			return target;
+//		}
+//
+//		public void setTarget(String target) {
+//			this.target = target;
+//		}
 
 		public String getSource_format() {
 			return source_format;
@@ -669,7 +669,7 @@ public class Lifecycle {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class DeletePool {
-		@ParameterDescriber(required = false, description = "存储池的类型", constraint = "只能是dir，uus，nfs，glusterfs之一", example = "dir")
+		@ParameterDescriber(required = false, description = "存储池的类型", constraint = "只能是dir，uus，nfs，glusterfs, uraid之一", example = "dir")
 		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
 		protected String type;
 

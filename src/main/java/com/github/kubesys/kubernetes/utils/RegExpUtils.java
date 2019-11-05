@@ -94,7 +94,7 @@ public class RegExpUtils {
 	public final static String VM_AGENT_OS_TYPE_PATTERN = "linux|windows";
 	
 	@FieldDescriber("存储池类型，只能是dir,uus,nfs,glusterfs之一")
-	public final static String POOL_TYPE_PATTERN = "dir|uus|nfs|glusterfs";
+	public final static String POOL_TYPE_PATTERN = "dir|uus|nfs|glusterfs|uraid";
 	
 	@FieldDescriber("存储池类型，只能是vmd，vmdi，iso之一")
 	public final static String POOL_CONTENT_PATTERN = "vmd|vmdi|iso";
