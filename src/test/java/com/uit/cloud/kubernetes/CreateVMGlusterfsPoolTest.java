@@ -31,7 +31,6 @@ public class CreateVMGlusterfsPoolTest {
 		
 		// glusterfs
 		createPool.setType("glusterfs");
-		createPool.setTarget("poolglusterfs");
 		createPool.setUrl("glusterfs://192.168.3.93:nfsvol");
 		return createPool;
 	}

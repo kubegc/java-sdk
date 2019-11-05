@@ -32,7 +32,6 @@ public class CreateVMDirPoolTest {
 		//dir
 		createPool.setType("dir");
 		createPool.setContent("vmdi");
-		createPool.setTarget("/var/lib/libvirt/pooltest4");
 		createPool.setAutostart(true);
 
 		// uus
