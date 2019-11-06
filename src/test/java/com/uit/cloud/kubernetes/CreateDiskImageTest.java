@@ -22,7 +22,7 @@ public class CreateDiskImageTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineDiskImages()
-				.createDiskImage("wyw123", "vm.node22", get(), "abc");
+				.createDiskImage("wyw124", "vm.node22", get(), "abc");
 		System.out.println(successful);
 	}
 

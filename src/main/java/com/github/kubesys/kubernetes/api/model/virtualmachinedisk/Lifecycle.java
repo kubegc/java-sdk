@@ -386,10 +386,18 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String targetPool;
 
-		@ParameterDescriber(required = true, description = "源云盘镜像名", constraint = "由4-100位的数字和小写字母组成，已存在的云盘镜像名", example = "image2")
-		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
-		protected String sourceImage;
+		@ParameterDescriber(required = true, description = "云盘镜像的路径", constraint = "路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点", example = "/var/lib/libvirt/test.qcow2")
+		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
+		protected String source;
 		
+		public String getSource() {
+			return source;
+		}
+
+		public void setSource(String source) {
+			this.source = source;
+		}
+
 		public String getType() {
 			return type;
 		}
@@ -404,14 +412,6 @@ public class Lifecycle {
 
 		public void setTargetPool(String targetPool) {
 			this.targetPool = targetPool;
-		}
-
-		public String getSourceImage() {
-			return sourceImage;
-		}
-
-		public void setSourceImage(String sourceImage) {
-			this.sourceImage = sourceImage;
 		}
 
 	}
