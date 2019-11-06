@@ -94,7 +94,7 @@ public class RegExpUtils {
 	public final static String VM_AGENT_OS_TYPE_PATTERN = "linux|windows";
 	
 	@FieldDescriber("存储池类型，只能是dir,uus,nfs,glusterfs之一")
-	public final static String POOL_TYPE_PATTERN = "dir|uus|nfs|glusterfs";
+	public final static String POOL_TYPE_PATTERN = "dir|uus|nfs|glusterfs|uraid";
 	
 	@FieldDescriber("存储池类型，只能是vmd，vmdi，iso之一")
 	public final static String POOL_CONTENT_PATTERN = "vmd|vmdi|iso";
@@ -106,7 +106,7 @@ public class RegExpUtils {
 	public final static String IP_PATTERN  = "((25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)\\.){3}(25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)";
 	
 	@FieldDescriber("子网及其掩码，如192.168.1.0/24，掩码是8,16,24之一")
-	public final static String SUBNET_PATTERN  = IP_PATTERN + "/(8|16|24)";
+	public final static String SUBNET_PATTERN  = IP_PATTERN + "/([1-9]|1\\d|2\\d|30|31])";
 	
 	@FieldDescriber("配置虚拟交换机，source是必填，ip和switch是选填")
 	public final static String IP_SWITCH_PATTERN      = "source=(virbr0|br-native|br-int|" + NAME_PATTERN + ")(,ip=" + IP_PATTERN + ")?(,switch=([a-z0-9-.]{4,32}))?";
@@ -141,14 +141,14 @@ public class RegExpUtils {
 	public final static String BOOT_PATTERN = "hd|cdrom";
 	
 	@FieldDescriber("DNS类型，多个IP，以,号分开，如果多个，外面需要大括号")
-	public final static String DNS_PATTERN = "("+ IP_PATTERN + ")|(\\{" + IP_PATTERN + "," + IP_PATTERN + "(," + IP_PATTERN +")*\\})";
+	public final static String DNS_PATTERN = "("+ IP_PATTERN + ")|(\"\\{" + IP_PATTERN + "," + IP_PATTERN + "(," + IP_PATTERN +")*\\}\")";
 	
 	@FieldDescriber("无法获取IP的列表")
 	public final static String EXCLUDEIPS_PATTERN = "(" + IP_PATTERN + "|" + IP_PATTERN + ".." + IP_PATTERN+")+" +  "(," + IP_PATTERN + "|," + IP_PATTERN + ".." + IP_PATTERN+")?";
 	
 	public static void main(String[] args) {
-		String name = "192.168.1.1";
-		Pattern pattern = Pattern.compile(RegExpUtils.DNS_PATTERN);
+		String name = "192.168.1.1/1";
+		Pattern pattern = Pattern.compile(RegExpUtils.SUBNET_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("");
 		}

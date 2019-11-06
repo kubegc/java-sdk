@@ -16,6 +16,7 @@ import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.C
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.DelBridgeVlan;
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.DeleteBridge;
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.DeleteSwitch;
+import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.ModifySwitch;
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.SetBridgeVlan;
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.UnbindFip;
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.UnbindPortVlan;
@@ -170,6 +171,18 @@ public class VirtualMachineNetworkImpl extends AbstractImpl<VirtualMachineNetwor
 		return delete(name, updateMetadata(name, eventId), deleteSwitch);
 	}
 
+	public boolean modifySwitch(String name, ModifySwitch modifySwitch) throws Exception {
+		return modifySwitch(name, modifySwitch, null);
+	}
+
+	public boolean modifySwitch(String name, ModifySwitch modifySwitch, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), modifySwitch);
+	}
+
 	public boolean bindFip(String name, BindFip bindFip) throws Exception {
 		return bindFip(name, bindFip, null);
 	}
@@ -193,4 +206,5 @@ public class VirtualMachineNetworkImpl extends AbstractImpl<VirtualMachineNetwor
 		}
 		return update(name, updateMetadata(name, eventId), unbindFip);
 	}
+
 }
