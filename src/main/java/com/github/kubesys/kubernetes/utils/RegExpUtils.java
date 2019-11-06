@@ -106,7 +106,7 @@ public class RegExpUtils {
 	public final static String IP_PATTERN  = "((25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)\\.){3}(25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)";
 	
 	@FieldDescriber("子网及其掩码，如192.168.1.0/24，掩码是8,16,24之一")
-	public final static String SUBNET_PATTERN  = IP_PATTERN + "/(8|16|24)";
+	public final static String SUBNET_PATTERN  = IP_PATTERN + "/([1-9]|1\\d|2\\d|30|31])";
 	
 	@FieldDescriber("配置虚拟交换机，source是必填，ip和switch是选填")
 	public final static String IP_SWITCH_PATTERN      = "source=(virbr0|br-native|br-int|" + NAME_PATTERN + ")(,ip=" + IP_PATTERN + ")?(,switch=([a-z0-9-.]{4,32}))?";
@@ -147,8 +147,8 @@ public class RegExpUtils {
 	public final static String EXCLUDEIPS_PATTERN = "(" + IP_PATTERN + "|" + IP_PATTERN + ".." + IP_PATTERN+")+" +  "(," + IP_PATTERN + "|," + IP_PATTERN + ".." + IP_PATTERN+")?";
 	
 	public static void main(String[] args) {
-		String name = "\"{192.168.1.1,192.168.1.2}\"";
-		Pattern pattern = Pattern.compile(RegExpUtils.DNS_PATTERN);
+		String name = "192.168.1.1/1";
+		Pattern pattern = Pattern.compile(RegExpUtils.SUBNET_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("");
 		}
