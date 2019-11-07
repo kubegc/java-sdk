@@ -9,7 +9,6 @@ import com.github.kubesys.kubernetes.api.model.VirtualMachineNetwork;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineNetworkList;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineNetworkSpec;
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle;
-import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.BindFip;
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.BindPortVlan;
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.CreateBridge;
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.CreateSwitch;
@@ -18,7 +17,6 @@ import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.D
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.DeleteSwitch;
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.ModifySwitch;
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.SetBridgeVlan;
-import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.UnbindFip;
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.UnbindPortVlan;
 import com.github.kubesys.kubernetes.utils.RegExpUtils;
 
@@ -28,6 +26,7 @@ import com.github.kubesys.kubernetes.utils.RegExpUtils;
  * @version 1.0.0
  * @since   2019/9/1
  **/
+@SuppressWarnings("deprecation")
 public class VirtualMachineNetworkImpl extends AbstractImpl<VirtualMachineNetwork, VirtualMachineNetworkList, VirtualMachineNetworkSpec> {
 
 	@Override
@@ -183,28 +182,5 @@ public class VirtualMachineNetworkImpl extends AbstractImpl<VirtualMachineNetwor
 		return update(name, updateMetadata(name, eventId), modifySwitch);
 	}
 
-	public boolean bindFip(String name, BindFip bindFip) throws Exception {
-		return bindFip(name, bindFip, null);
-	}
-
-	public boolean bindFip(String name, BindFip bindFip, String eventId) throws Exception {
-		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
-		if (!pattern.matcher(name).matches()) {
-			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
-		}
-		return update(name, updateMetadata(name, eventId), bindFip);
-	}
-
-	public boolean unbindFip(String name, UnbindFip unbindFip) throws Exception {
-		return unbindFip(name, unbindFip, null);
-	}
-
-	public boolean unbindFip(String name, UnbindFip unbindFip, String eventId) throws Exception {
-		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
-		if (!pattern.matcher(name).matches()) {
-			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
-		}
-		return update(name, updateMetadata(name, eventId), unbindFip);
-	}
 
 }

@@ -146,9 +146,24 @@ public class RegExpUtils {
 	@FieldDescriber("无法获取IP的列表")
 	public final static String EXCLUDEIPS_PATTERN = "(" + IP_PATTERN + "|" + IP_PATTERN + ".." + IP_PATTERN+")+" +  "(," + IP_PATTERN + "|," + IP_PATTERN + ".." + IP_PATTERN+")?";
 	
+	@FieldDescriber("网络协议，当前约束为TCP/IP")
+	public final static String PROTOCAL_PATTERN = "(ip|ip4|ip6|tcp)(.(src|dst) == [a-z0-9-.]{1,100})?";
+	
+	@FieldDescriber("ACL规则，&&连接两个规则，注意src和dst后==前后必须有一个空格，ip4.src == $dmz && tcp.dst == 3306")
+	public final static String ACL_RULE_PATTERN = PROTOCAL_PATTERN + "( && " + PROTOCAL_PATTERN + ")*";
+	
+	@FieldDescriber("ACL流向，只能是from或者to")
+	public final static String ACL_TYPE_PATTERN = "from|to";
+	
+	@FieldDescriber("ACL操作，只能是allow或者frop")
+	public final static String ACL_OPERATOR_PATTERN = "allow|drop";
+	
+	@FieldDescriber("ACL优先级，0-999")
+	public final static String ACL_PRIORITY_PATTERN = "\\d{1,3}";
+	
 	public static void main(String[] args) {
-		String name = "192.168.1.1/1";
-		Pattern pattern = Pattern.compile(RegExpUtils.SUBNET_PATTERN);
+		String name = "tcp.dst == 22 && ip";
+		Pattern pattern = Pattern.compile(RegExpUtils.ACL_RULE_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("");
 		}

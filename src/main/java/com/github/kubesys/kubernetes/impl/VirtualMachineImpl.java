@@ -11,16 +11,21 @@ import com.github.kubesys.kubernetes.api.model.VirtualMachine;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineList;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineSpec;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.BindFloatingIP;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ChangeNumberOfCPU;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CloneVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ConvertVMToImage;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CreateACL;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CreateAndStartVMFromISO;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CreateAndStartVMFromImage;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.DeleteACL;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.DeleteVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.EjectISO;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.InsertISO;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ManageISO;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.MigrateVM;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ModifyACL;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ModifyFloatingIP;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.PlugDevice;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.PlugDisk;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.PlugNIC;
@@ -39,6 +44,7 @@ import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StopVMFo
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.SuspendVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.TuneDiskQoS;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.TuneNICQoS;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UnbindFloatingIP;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UnplugDevice;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UnplugDisk;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UnplugNIC;
@@ -138,18 +144,6 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 		}
 		return create(getModel(), createMetadata(name, nodeName, eventId), 
 				createSpec(nodeName, createLifecycle(createAndStartVMFromImage)));
-	}
-
-	public boolean resizeRAM(String name, ResizeRAM resizeRAM) throws Exception {
-		return resizeRAM(name, resizeRAM, null);
-	}
-
-	public boolean resizeRAM(String name, ResizeRAM resizeRAM, String eventId) throws Exception {
-		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
-		if (!pattern.matcher(name).matches()) {
-			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
-		}
-		return update(name, updateMetadata(name, eventId), resizeRAM);
 	}
 
 	public boolean suspendVM(String name, SuspendVM suspendVM) throws Exception {
@@ -510,6 +504,99 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
 		return update(name, updateMetadata(name, eventId), setGuestPassword);
+	}
+
+	public boolean resizeRAM(String name, ResizeRAM resizeRAM) throws Exception {
+		return resizeRAM(name, resizeRAM, null);
+	}
+
+	public boolean resizeRAM(String name, ResizeRAM resizeRAM, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), resizeRAM);
+	}
+
+	public boolean bindFloatingIP(String name, BindFloatingIP bindFloatingIP) throws Exception {
+		return bindFloatingIP(name, bindFloatingIP, null);
+	}
+
+	public boolean bindFloatingIP(String name, BindFloatingIP bindFloatingIP, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), bindFloatingIP);
+	}
+
+	public boolean modifyFloatingIP(String name, ModifyFloatingIP modifyFloatingIP) throws Exception {
+		return modifyFloatingIP(name, modifyFloatingIP, null);
+	}
+
+	public boolean modifyFloatingIP(String name, ModifyFloatingIP modifyFloatingIP, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), modifyFloatingIP);
+	}
+
+	public boolean unbindFloatingIP(String name, UnbindFloatingIP unbindFloatingIP) throws Exception {
+		return unbindFloatingIP(name, unbindFloatingIP, null);
+	}
+
+	public boolean unbindFloatingIP(String name, UnbindFloatingIP unbindFloatingIP, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), unbindFloatingIP);
+	}
+
+	public boolean createACL(String name, CreateACL createACL) throws Exception {
+		return createACL(name, null, createACL, null);
+	}
+
+	public boolean createACL(String name, String nodeName, CreateACL createACL) throws Exception {
+		return createACL(name, nodeName, createACL, null);
+	}
+
+	public boolean createACL(String name, CreateACL createACL, String eventId) throws Exception {
+		return createACL(name, null, createACL, eventId);
+	}
+
+	public boolean createACL(String name, String nodeName,CreateACL createACL, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return create(getModel(), createMetadata(name, nodeName, eventId), 
+				createSpec(nodeName, createLifecycle(createACL)));
+	}
+
+	public boolean modifyACL(String name, ModifyACL modifyACL) throws Exception {
+		return modifyACL(name, modifyACL, null);
+	}
+
+	public boolean modifyACL(String name, ModifyACL modifyACL, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), modifyACL);
+	}
+
+	public boolean deleteACL(String name, DeleteACL deleteACL) throws Exception {
+		return deleteACL(name, deleteACL, null);
+	}
+
+	public boolean deleteACL(String name, DeleteACL deleteACL, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return delete(name, updateMetadata(name, eventId), deleteACL);
 	}
 
 }

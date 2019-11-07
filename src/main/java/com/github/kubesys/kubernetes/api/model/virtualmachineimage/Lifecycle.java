@@ -29,18 +29,21 @@ public class Lifecycle {
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = "", 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	@Deprecated
 	protected CreateImage createImage;
 	
 	@FunctionDescriber(shortName = "删除虚拟机镜像", description = "删除虚拟机镜像，" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = AnnotationUtils.DESC_FUNCTION_VMI, 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	@Deprecated
 	protected DeleteImage deleteImage;
 	
 	@FunctionDescriber(shortName = "将虚拟机镜像转化为虚拟机", description = "将虚拟机镜像转化为虚拟机，" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = AnnotationUtils.DESC_FUNCTION_VMI, 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	@Deprecated
 	protected ConvertImageToVM convertImageToVM;
 
 	public Lifecycle() {
@@ -73,6 +76,7 @@ public class Lifecycle {
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	@Deprecated
 	public static class CreateImage {
 
 		@ParameterDescriber(required = true, description = "用于创建虚拟机镜像的源文件", constraint = "路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点", example = "/var/lib/libvirt/aaa.qcow2")
@@ -107,12 +111,14 @@ public class Lifecycle {
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	@Deprecated
 	public static class DeleteImage {
 		
 	}
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	@Deprecated
 	public static class ConvertImageToVM {
 		
 		@ParameterDescriber(required = true, description = "目标存储池名", constraint = "由4-100位的数字和小写字母组成，已创建出的存储池", example = "pool2")
