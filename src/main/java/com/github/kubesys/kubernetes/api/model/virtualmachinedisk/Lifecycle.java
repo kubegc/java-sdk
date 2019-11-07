@@ -165,7 +165,7 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class CreateDisk {
 
-		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，uus，nfs，glusterfs, uraid之一", example = "dir")
+		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，uraid，uus，nfs，glusterfs之一", example = "dir")
 		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
 		protected String type;
 
@@ -267,7 +267,7 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class DeleteDisk {
 
-		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，uus，nfs，glusterfs, uraid之一", example = "dir")
+		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，uraid，uus，nfs，glusterfs之一", example = "dir")
 		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
 		protected String type;
 
@@ -307,8 +307,8 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class ResizeDisk {
 
-		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，uus，nfs，glusterfs, uraid之一", example = "dir")
-		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
+		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，uraid，nfs，glusterfs之一", example = "dir")
+		@Pattern(regexp = RegExpUtils.POOL_TYPE_NOT_SUPPORT_UUS)
 		protected String type;
 
 		protected Boolean allocate;
@@ -378,8 +378,8 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class CreateDiskFromDiskImage {
 		
-		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，uus，nfs，glusterfs之一", example = "dir")
-		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
+		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，uraid，nfs，glusterfs之一", example = "dir")
+		@Pattern(regexp = RegExpUtils.POOL_TYPE_NOT_SUPPORT_UUS)
 		protected String type;
 
 		@ParameterDescriber(required = true, description = "目标存储池名", constraint = "由4-100位的数字和小写字母组成，已创建出的存储池", example = "pool2")
@@ -420,8 +420,8 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class CloneDisk {
 
-		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，uus，nfs，glusterfs, uraid之一", example = "dir")
-		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
+		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir, uraid，nfs，glusterfs之一", example = "dir")
+		@Pattern(regexp = RegExpUtils.POOL_TYPE_NOT_SUPPORT_UUS)
 		protected String type;
 
 		protected Boolean reflink;
@@ -491,8 +491,8 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class CreateDiskInternalSnapshot {
 		
-		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，uus，nfs，glusterfs, uraid之一", example = "dir")
-		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
+		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，nfs，glusterfs, uraid之一", example = "dir")
+		@Pattern(regexp = RegExpUtils.POOL_TYPE_NOT_SUPPORT_UUS)
 		protected String type;
 		
 		@ParameterDescriber(required = true, description = "云盘所在的存储池名", constraint = "由4-100位的数字和小写字母组成，已创建出的存储池", example = "pool2")
@@ -533,8 +533,8 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class RevertDiskInternalSnapshot {
 		
-		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，uus，nfs，glusterfs之一", example = "dir")
-		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
+		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir, uraid，nfs，glusterfs之一", example = "dir")
+		@Pattern(regexp = RegExpUtils.POOL_TYPE_NOT_SUPPORT_UUS)
 		protected String type;
 		
 		@ParameterDescriber(required = true, description = "云盘所在的存储池名", constraint = "由4-100位的数字和小写字母组成，已创建出的存储池", example = "pool2")
@@ -575,8 +575,8 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class DeleteDiskInternalSnapshot {
 		
-		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，uus，nfs，glusterfs之一", example = "dir")
-		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
+		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir, uraid，nfs，glusterfs之一", example = "dir")
+		@Pattern(regexp = RegExpUtils.POOL_TYPE_NOT_SUPPORT_UUS)
 		protected String type;
 		
 		@ParameterDescriber(required = true, description = "云盘所在的存储池名", constraint = "由4-100位的数字和小写字母组成，已创建出的存储池", example = "pool2")

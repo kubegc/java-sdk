@@ -129,8 +129,8 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class AutoStartPool {
 
-		@ParameterDescriber(required = false, description = "存储池的类型", constraint = "只能是dir，nfs，glusterfs之一", example = "dir")
-		@Pattern(regexp = RegExpUtils.POOL_TYPE_NOT_SUPPORT_PATTERN)
+		@ParameterDescriber(required = false, description = "存储池的类型", constraint = "只能是dir，uraid, nfs，glusterfs之一", example = "dir")
+		@Pattern(regexp = RegExpUtils.POOL_TYPE_NOT_SUPPORT_UUS)
 	    protected String type;
 
 		@ParameterDescriber(required = true, description = "修改存储池autostart状态", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
@@ -169,7 +169,7 @@ public class Lifecycle {
 		
 		protected String source_path;
 
-		@ParameterDescriber(required = false, description = "云存储池的url", constraint = "建立云存储池时通过cstor-cli pool-list查询出的云存储池路径", example = "uus-iscsi-independent://admin:admin@192.168.3.10:7000/p1/4/2/0/32/0/3")
+		@ParameterDescriber(required = true, description = "云存储池的url", constraint = "建立云存储池时通过cstor-cli pool-list查询出的云存储池路径", example = "uus-iscsi-independent://admin:admin@192.168.3.10:7000/p1/4/2/0/32/0/3")
 		protected String url;
 
 		@ParameterDescriber(required = false, description = "nfs挂载参数", constraint = "当type为nfs类型时，nfs的挂载参数", example = "nolock")
@@ -182,9 +182,9 @@ public class Lifecycle {
 		@ParameterDescriber(required = false, description = "创建存储池后是否设置为自动打开", constraint = "true或false", example = "true")
 		protected boolean autostart;
 
-		@ParameterDescriber(required = true, description = "创建存储池使用的存储路径", constraint = "完整有效的存储路径", example = "/var/lib/libvirt/poolg")
-		@Pattern(regexp = RegExpUtils.TARGET_PATTERN)
-		protected String target;
+//		@ParameterDescriber(required = true, description = "创建存储池使用的存储路径", constraint = "完整有效的存储路径", example = "/var/lib/libvirt/poolg")
+//		@Pattern(regexp = RegExpUtils.TARGET_PATTERN)
+//		protected String target;
 		
 		protected String source_format;
 		
@@ -264,13 +264,13 @@ public class Lifecycle {
 			this.source_name = source_name;
 		}
 
-		public String getTarget() {
-			return target;
-		}
-
-		public void setTarget(String target) {
-			this.target = target;
-		}
+//		public String getTarget() {
+//			return target;
+//		}
+//
+//		public void setTarget(String target) {
+//			this.target = target;
+//		}
 
 		public String getSource_format() {
 			return source_format;
@@ -607,8 +607,8 @@ public class Lifecycle {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class StartPool {
-		@ParameterDescriber(required = false, description = "存储池的类型", constraint = "只能是dir，nfs，glusterfs之一", example = "dir")
-		@Pattern(regexp = RegExpUtils.POOL_TYPE_NOT_SUPPORT_PATTERN)
+		@ParameterDescriber(required = false, description = "存储池的类型", constraint = "只能是dir，uraid，nfs，glusterfs之一", example = "dir")
+		@Pattern(regexp = RegExpUtils.POOL_TYPE_NOT_SUPPORT_UUS)
         protected String type;
 		
 		protected Boolean build;
@@ -653,8 +653,8 @@ public class Lifecycle {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class StopPool {
-		@ParameterDescriber(required = false, description = "存储池的类型", constraint = "只能是dir，nfs，glusterfs之一", example = "dir")
-		@Pattern(regexp = RegExpUtils.POOL_TYPE_NOT_SUPPORT_PATTERN)
+		@ParameterDescriber(required = false, description = "存储池的类型", constraint = "只能是dir，uraid，nfs，glusterfs之一", example = "dir")
+		@Pattern(regexp = RegExpUtils.POOL_TYPE_NOT_SUPPORT_UUS)
         protected String type;
 
         public String getType() {
@@ -669,7 +669,7 @@ public class Lifecycle {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class DeletePool {
-		@ParameterDescriber(required = false, description = "存储池的类型", constraint = "只能是dir，uus，nfs，glusterfs, uraid之一", example = "dir")
+		@ParameterDescriber(required = false, description = "存储池的类型", constraint = "只能是dir，uraid，uus，nfs，glusterfs, uraid之一", example = "dir")
 		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
 		protected String type;
 
