@@ -92,19 +92,6 @@ public class Lifecycle {
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected ModifySwitch modifySwitch;
 	
-	@FunctionDescriber(shortName = "绑定外网IP", description = "适用于虚拟IP和浮动IP场景，" 
-			+ AnnotationUtils.DESC_FUNCTION_DESC, 
-		prerequisite = AnnotationUtils.DESC_FUNCTION_VMN, 
-		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
-	protected BindFip bindFip;
-	
-	@FunctionDescriber(shortName = "解绑定外网IP", description = "适用于虚拟IP和浮动IP场景，" 
-			+ AnnotationUtils.DESC_FUNCTION_DESC, 
-		prerequisite = AnnotationUtils.DESC_FUNCTION_VMN, 
-		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
-	protected UnbindFip unbindFip;
-	
-	
 	public ModifySwitch getModifySwitch() {
 		return modifySwitch;
 	}
@@ -127,22 +114,6 @@ public class Lifecycle {
 
 	public void setDeleteSwitch(DeleteSwitch deleteSwitch) {
 		this.deleteSwitch = deleteSwitch;
-	}
-
-	public BindFip getBindFip() {
-		return bindFip;
-	}
-
-	public void setBindFip(BindFip bindFip) {
-		this.bindFip = bindFip;
-	}
-
-	public UnbindFip getUnbindFip() {
-		return unbindFip;
-	}
-
-	public void setUnbindFip(UnbindFip unbindFip) {
-		this.unbindFip = unbindFip;
 	}
 
 	public CreateBridge getCreateBridge() {
@@ -326,7 +297,6 @@ public class Lifecycle {
 			this.dhcp = dhcp;
 		}
 		
-		
 	}
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
@@ -335,92 +305,10 @@ public class Lifecycle {
 
 	}
 	
-	@JsonInclude(JsonInclude.Include.NON_NULL)
-	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class BindFip {
-
-		@ParameterDescriber(required = true, description = "交换机名", constraint = "名称是字符串类型，长度是4到100位，只允许数字、小写字母、中划线、以及圆点", example = "switch11")
-		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
-		protected String swName;
-		
-		@ParameterDescriber(required = true, description = "虚拟机mac地址", constraint = "mac地址不能以fe开头", example = "7e:0c:b0:ef:6a:04")
-		@Pattern(regexp = RegExpUtils.MAC_PATTERN)
-		protected String vmmac;
-		
-		@ParameterDescriber(required = true, description = "外网IP，以及子网掩码", constraint = "x.x.x.x,x取值范围0到255", example = "192.168.5.2/24")
-		@Pattern(regexp = RegExpUtils.SUBNET_PATTERN)
-		protected String fip;
-		
-		public String getVmmac() {
-			return vmmac;
-		}
-
-		public void setVmmac(String vmmac) {
-			this.vmmac = vmmac;
-		}
-
-		public String getFip() {
-			return fip;
-		}
-
-		public void setFip(String fip) {
-			this.fip = fip;
-		}
-
-		public String getSwName() {
-			return swName;
-		}
-
-		public void setSwName(String swName) {
-			this.swName = swName;
-		}
-		
-	}
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class UnbindFip {
-
-		@ParameterDescriber(required = true, description = "交换机名", constraint = "名称是字符串类型，长度是4到100位，只允许数字、小写字母、中划线、以及圆点", example = "switch11")
-		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
-		protected String swName;
-		
-		@ParameterDescriber(required = true, description = "虚拟机mac地址", constraint = "mac地址不能以fe开头", example = "7e:0c:b0:ef:6a:04")
-		@Pattern(regexp = RegExpUtils.MAC_PATTERN)
-		protected String vmmac;
-		
-		@ParameterDescriber(required = true, description = "外网IP", constraint = "x.x.x.x,x取值范围0到255", example = "192.168.5.2")
-		@Pattern(regexp = RegExpUtils.IP_PATTERN)
-		protected String fip;
-
-		public String getSwName() {
-			return swName;
-		}
-
-		public void setSwName(String swName) {
-			this.swName = swName;
-		}
-
-		public String getVmmac() {
-			return vmmac;
-		}
-
-		public void setVmmac(String vmmac) {
-			this.vmmac = vmmac;
-		}
-
-		public String getFip() {
-			return fip;
-		}
-
-		public void setFip(String fip) {
-			this.fip = fip;
-		}
-		
-	}
-	
-	@JsonInclude(JsonInclude.Include.NON_NULL)
-	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	@Deprecated
 	public static class SetBridgeVlan {
 
 		@ParameterDescriber(required = true, description = "vlan ID", constraint = "0~4094", example = "1")
@@ -439,6 +327,7 @@ public class Lifecycle {
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	@Deprecated
 	public static class DelBridgeVlan extends SetBridgeVlan{
 
 	}
@@ -493,6 +382,7 @@ public class Lifecycle {
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	@Deprecated
 	public static class BindPortVlan {
 		
 		@ParameterDescriber(required = true, description = "mac地址", constraint = "mac地址不能以fe开头", example = "7e:0c:b0:ef:6a:04")
@@ -535,6 +425,7 @@ public class Lifecycle {
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	@Deprecated
 	public static class UnbindPortVlan extends BindPortVlan {
 		
 	}
