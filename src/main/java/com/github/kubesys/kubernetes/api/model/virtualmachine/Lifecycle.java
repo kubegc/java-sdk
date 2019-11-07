@@ -111,6 +111,7 @@ public class Lifecycle {
 
 	@FunctionDescriber(shortName = "转化模板", description = "转化为虚拟机镜像"
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	@Deprecated
 	protected ConvertVMToImage convertVMToImage;
 
 	@FunctionDescriber(shortName = "插入光驱", description = "插入"
@@ -2501,6 +2502,7 @@ public class Lifecycle {
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	@Deprecated
 	public static class ConvertVMToImage {
 		
 		@ParameterDescriber(required = true, description = "目标存储池名", constraint = "由4-100位的数字和小写字母组成，已创建出的存储池", example = "pool2")

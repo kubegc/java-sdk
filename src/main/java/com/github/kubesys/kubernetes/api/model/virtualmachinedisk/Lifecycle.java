@@ -59,18 +59,21 @@ public class Lifecycle {
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = AnnotationUtils.DESC_FUNCTION_VMD, 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	@Deprecated
 	protected CreateDiskInternalSnapshot createDiskInternalSnapshot;
 	
 	@FunctionDescriber(shortName = "从云盘内部快照恢复", description = "从云盘内部快照恢复，" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = AnnotationUtils.DESC_FUNCTION_VMD, 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	@Deprecated
 	protected RevertDiskInternalSnapshot revertDiskInternalSnapshot;
 	
 	@FunctionDescriber(shortName = "删除云盘内部快照", description = "删除云盘内部快照，" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = AnnotationUtils.DESC_FUNCTION_VMD, 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	@Deprecated
 	protected DeleteDiskInternalSnapshot deleteDiskInternalSnapshot;
 
 	public CreateDiskInternalSnapshot getCreateDiskSnapshot() {
@@ -489,6 +492,7 @@ public class Lifecycle {
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	@Deprecated
 	public static class CreateDiskInternalSnapshot {
 		
 		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，uus，nfs，glusterfs, uraid之一", example = "dir")
@@ -531,6 +535,7 @@ public class Lifecycle {
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	@Deprecated
 	public static class RevertDiskInternalSnapshot {
 		
 		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，uus，nfs，glusterfs之一", example = "dir")
@@ -573,6 +578,7 @@ public class Lifecycle {
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	@Deprecated
 	public static class DeleteDiskInternalSnapshot {
 		
 		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，uus，nfs，glusterfs之一", example = "dir")

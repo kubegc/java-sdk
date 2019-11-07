@@ -41,18 +41,21 @@ public class Lifecycle {
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = AnnotationUtils.DESC_FUNCTION_VMSN, 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	@Deprecated
 	protected RevertVirtualMachine revertVirtualMachine;
 	
 	@FunctionDescriber(shortName = "全拷贝快照到文件", description = "全拷贝快照到文件，" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = AnnotationUtils.DESC_FUNCTION_VMD, 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	@Deprecated
 	protected CopySnapshot copySnapshot;
 	
 	@FunctionDescriber(shortName = "合并快照到叶子节点", description = "合并快照到叶子节点，" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = AnnotationUtils.DESC_FUNCTION_VMD, 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	@Deprecated
 	protected MergeSnapshot mergeSnapshot;
 	
 	public MergeSnapshot getMergeSnapshot() {
@@ -101,6 +104,7 @@ public class Lifecycle {
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	@Deprecated
 	public static class CreateSnapshot {
 
 		@ParameterDescriber(required = true, description = "虚拟机快照的设置", 
@@ -236,6 +240,7 @@ public class Lifecycle {
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	@Deprecated
 	public static class DeleteSnapshot {
 
 		protected Boolean metadata;
@@ -300,6 +305,7 @@ public class Lifecycle {
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	@Deprecated
 	public static class RevertVirtualMachine {
 
 		@ParameterDescriber(required = true, description = "要恢复到快照状态的虚拟机name", constraint = "由4-100位的数字和小写字母组成，已存在的虚拟机名", example = "centos1")
@@ -360,6 +366,7 @@ public class Lifecycle {
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	@Deprecated
 	public static class MergeSnapshot {
 		
 		protected String bandwidth;
@@ -397,6 +404,9 @@ public class Lifecycle {
 		
 	}
 	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	@Deprecated
 	public static class CopySnapshot extends MergeSnapshot {
 		
 		@ParameterDescriber(required = false, description = "是否为外部快照", constraint=AnnotationUtils.DESC_BOOLEAN, example = "true")
