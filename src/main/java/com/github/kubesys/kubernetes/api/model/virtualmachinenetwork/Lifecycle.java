@@ -58,12 +58,14 @@ public class Lifecycle {
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = AnnotationUtils.DESC_FUNCTION_VMN, 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	@Deprecated
 	protected BindPortVlan bindPortVlan;
 	
 	@FunctionDescriber(shortName = "解除虚拟机的vlan ID", description = "适用于OpenvSwitch二层网桥，更换虚拟机的vlan" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
 		prerequisite = AnnotationUtils.DESC_FUNCTION_VMN, 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	@Deprecated
 	protected UnbindPortVlan unbindPortVlan;
 	
 	
@@ -345,8 +347,8 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.MAC_PATTERN)
 		protected String vmmac;
 		
-		@ParameterDescriber(required = true, description = "外网IP", constraint = "x.x.x.x,x取值范围0到255", example = "192.168.5.2")
-		@Pattern(regexp = RegExpUtils.IP_PATTERN)
+		@ParameterDescriber(required = true, description = "外网IP，以及子网掩码", constraint = "x.x.x.x,x取值范围0到255", example = "192.168.5.2/24")
+		@Pattern(regexp = RegExpUtils.SUBNET_PATTERN)
 		protected String fip;
 		
 		public String getVmmac() {
