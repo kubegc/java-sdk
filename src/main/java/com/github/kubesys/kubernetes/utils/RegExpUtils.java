@@ -161,9 +161,24 @@ public class RegExpUtils {
 	@FieldDescriber("ACL优先级，0-999")
 	public final static String ACL_PRIORITY_PATTERN = "\\d{1,3}";
 	
+	@FieldDescriber("网络限制方向，只能是from或者to")
+	public final static String QOS_TYPE_PATTERN = ACL_TYPE_PATTERN;
+	
+	@FieldDescriber("网络协议，支持主流协议")
+	public final static String QOS_RULE_PATTERN = "ip|ip4|ip6|tcp|icmp";
+	
+	@FieldDescriber("QoS优先级，0-31999")
+	public final static String QOS_PRIORITY_PATTERN = "\\d{1,4}|((1|2)\\d{1,4})|31\\d{1,3}";
+	
+	@FieldDescriber("带宽速度，单位是kbps, 0-1000Mbps")
+	public final static String RATE_PATTERN = "\\d{1,6}";
+	
+	@FieldDescriber("带宽波动，单位是kbps, 0-100Mbps")
+	public final static String BURST_PATTERN = "\\d{1,5}";
+	
 	public static void main(String[] args) {
-		String name = "tcp.dst == 22 && ip";
-		Pattern pattern = Pattern.compile(RegExpUtils.ACL_RULE_PATTERN);
+		String name = "900000";
+		Pattern pattern = Pattern.compile(RegExpUtils.RATE_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("");
 		}

@@ -168,25 +168,98 @@ public class Lifecycle {
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected BindFloatingIP bindFloatingIP;
 	
-	@FunctionDescriber(shortName = "修改浮动IP", description = "主要对QoS进行修改，"
-			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
-	protected ModifyFloatingIP modifyFloatingIP;
-	
 	@FunctionDescriber(shortName = "解绑浮动IP", description = "适用浮动和虚拟IP场景，"
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected UnbindFloatingIP unbindFloatingIP;
 	
-	@FunctionDescriber(shortName = "创建安全规则", description = "创建安全规则，"
+	@FunctionDescriber(shortName = "创建安全组", description = "创建安全规则，"
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected CreateACL createACL;
 	
-	@FunctionDescriber(shortName = "修改安全规则", description = "修改安全规则，"
+	@FunctionDescriber(shortName = "修改安全组", description = "修改安全规则，"
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected ModifyACL modifyACL;
 	
-	@FunctionDescriber(shortName = "删除安全规则", description = "删除安全规则，"
+	@FunctionDescriber(shortName = "删除安全组", description = "删除安全规则，"
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected DeleteACL deleteACL;
+
+	
+	@FunctionDescriber(shortName = "设置QoS", description = "设置QoS，"
+			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected CreateQoS createQoS;
+	
+	@FunctionDescriber(shortName = "修改QoS", description = "修改QoS，"
+			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected ModifyQoS modifyQoS;
+	
+	@FunctionDescriber(shortName = "删除QoS", description = "删除QoS，"
+			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected DeleteQoS deleteQoS;
+	
+	public CreateQoS getCreateQoS() {
+		return createQoS;
+	}
+
+	public void setCreateQoS(CreateQoS createQoS) {
+		this.createQoS = createQoS;
+	}
+
+	public ModifyQoS getModifyQoS() {
+		return modifyQoS;
+	}
+
+	public void setModifyQoS(ModifyQoS modifyQoS) {
+		this.modifyQoS = modifyQoS;
+	}
+
+	public DeleteQoS getDeleteQoS() {
+		return deleteQoS;
+	}
+
+	public void setDeleteQoS(DeleteQoS deleteQoS) {
+		this.deleteQoS = deleteQoS;
+	}
+
+	public BindFloatingIP getBindFloatingIP() {
+		return bindFloatingIP;
+	}
+
+	public void setBindFloatingIP(BindFloatingIP bindFloatingIP) {
+		this.bindFloatingIP = bindFloatingIP;
+	}
+
+	public UnbindFloatingIP getUnbindFloatingIP() {
+		return unbindFloatingIP;
+	}
+
+	public void setUnbindFloatingIP(UnbindFloatingIP unbindFloatingIP) {
+		this.unbindFloatingIP = unbindFloatingIP;
+	}
+
+	public CreateACL getCreateACL() {
+		return createACL;
+	}
+
+	public void setCreateACL(CreateACL createACL) {
+		this.createACL = createACL;
+	}
+
+	public ModifyACL getModifyACL() {
+		return modifyACL;
+	}
+
+	public void setModifyACL(ModifyACL modifyACL) {
+		this.modifyACL = modifyACL;
+	}
+
+	public DeleteACL getDeleteACL() {
+		return deleteACL;
+	}
+
+	public void setDeleteACL(DeleteACL deleteACL) {
+		this.deleteACL = deleteACL;
+	}
 
 	public SetGuestPassword getSetGuestPassword() {
 		return setGuestPassword;
@@ -3019,48 +3092,6 @@ public class Lifecycle {
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class ModifyFloatingIP {
-
-		@ParameterDescriber(required = true, description = "交换机名", constraint = "名称是字符串类型，长度是4到100位，只允许数字、小写字母、中划线、以及圆点", example = "switch11")
-		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
-		protected String swName;
-		
-		@ParameterDescriber(required = true, description = "虚拟机mac地址", constraint = "mac地址不能以fe开头", example = "7e:0c:b0:ef:6a:04")
-		@Pattern(regexp = RegExpUtils.MAC_PATTERN)
-		protected String vmmac;
-		
-		@ParameterDescriber(required = true, description = "外网IP", constraint = "x.x.x.x,x取值范围0到255", example = "192.168.5.2")
-		@Pattern(regexp = RegExpUtils.IP_PATTERN)
-		protected String fip;
-
-		public String getSwName() {
-			return swName;
-		}
-
-		public void setSwName(String swName) {
-			this.swName = swName;
-		}
-
-		public String getVmmac() {
-			return vmmac;
-		}
-
-		public void setVmmac(String vmmac) {
-			this.vmmac = vmmac;
-		}
-
-		public String getFip() {
-			return fip;
-		}
-
-		public void setFip(String fip) {
-			this.fip = fip;
-		}
-		
-	}
-	
-	@JsonInclude(JsonInclude.Include.NON_NULL)
-	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class UnbindFloatingIP {
 
 		@ParameterDescriber(required = true, description = "交换机名", constraint = "名称是字符串类型，长度是4到100位，只允许数字、小写字母、中划线、以及圆点", example = "switch11")
@@ -3125,11 +3156,9 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.ACL_OPERATOR_PATTERN)
 		protected String aclOperator;
 		
-		@ParameterDescriber(required = false, description = "外网IP", constraint = "x.x.x.x,x取值范围0到255", example = "192.168.5.2")
+		@ParameterDescriber(required = false, description = "优先级", constraint = "1-999", example = "1")
 		@Pattern(regexp = RegExpUtils.ACL_PRIORITY_PATTERN)
 		protected String aclPriority;
-		
-		
 
 		public String getSwName() {
 			return swName;
@@ -3147,6 +3176,38 @@ public class Lifecycle {
 			this.vmmac = vmmac;
 		}
 
+		public String getAclType() {
+			return aclType;
+		}
+
+		public void setAclType(String aclType) {
+			this.aclType = aclType;
+		}
+
+		public String getAclRule() {
+			return aclRule;
+		}
+
+		public void setAclRule(String aclRule) {
+			this.aclRule = aclRule;
+		}
+
+		public String getAclOperator() {
+			return aclOperator;
+		}
+
+		public void setAclOperator(String aclOperator) {
+			this.aclOperator = aclOperator;
+		}
+
+		public String getAclPriority() {
+			return aclPriority;
+		}
+
+		public void setAclPriority(String aclPriority) {
+			this.aclPriority = aclPriority;
+		}
+		
 	}
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
@@ -3157,9 +3218,229 @@ public class Lifecycle {
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class DeleteACL extends CreateACL {
+	public static class DeleteACL {
+		
+		@ParameterDescriber(required = true, description = "交换机名", constraint = "名称是字符串类型，长度是4到100位，只允许数字、小写字母、中划线、以及圆点", example = "switch11")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String swName;
+		
+		@ParameterDescriber(required = true, description = "虚拟机mac地址", constraint = "mac地址不能以fe开头", example = "7e:0c:b0:ef:6a:04")
+		@Pattern(regexp = RegExpUtils.MAC_PATTERN)
+		protected String vmmac;
+		
+		@ParameterDescriber(required = false, description = "ACL类型", constraint = "from或者to", example = "from")
+		@Pattern(regexp = RegExpUtils.ACL_TYPE_PATTERN)
+		protected String aclType;
+		
+		@ParameterDescriber(required = false, description = "ACL规则", constraint = "&&连接两个规则，注意src和dst后==前后必须有一个空格", example = "ip4.src == $dmz && tcp.dst == 3306")
+		@Pattern(regexp = RegExpUtils.ACL_RULE_PATTERN)
+		protected String aclRule;
+		
+		@ParameterDescriber(required = false, description = "优先级", constraint = "1-999", example = "1")
+		@Pattern(regexp = RegExpUtils.ACL_PRIORITY_PATTERN)
+		protected String aclPriority;
 
+		public String getSwName() {
+			return swName;
+		}
+
+		public void setSwName(String swName) {
+			this.swName = swName;
+		}
+
+		public String getVmmac() {
+			return vmmac;
+		}
+
+		public void setVmmac(String vmmac) {
+			this.vmmac = vmmac;
+		}
+
+		public String getAclType() {
+			return aclType;
+		}
+
+		public void setAclType(String aclType) {
+			this.aclType = aclType;
+		}
+
+		public String getAclRule() {
+			return aclRule;
+		}
+
+		public void setAclRule(String aclRule) {
+			this.aclRule = aclRule;
+		}
+
+		public String getAclPriority() {
+			return aclPriority;
+		}
+
+		public void setAclPriority(String aclPriority) {
+			this.aclPriority = aclPriority;
+		}
 		
 	}
 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class CreateQoS {
+		
+		@ParameterDescriber(required = true, description = "交换机名", constraint = "名称是字符串类型，长度是4到100位，只允许数字、小写字母、中划线、以及圆点", example = "switch11")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String swName;
+		
+		@ParameterDescriber(required = true, description = "虚拟机mac地址", constraint = "mac地址不能以fe开头", example = "7e:0c:b0:ef:6a:04")
+		@Pattern(regexp = RegExpUtils.MAC_PATTERN)
+		protected String vmmac;
+		
+		@ParameterDescriber(required = true, description = "QoS类型", constraint = "from或者to", example = "from")
+		@Pattern(regexp = RegExpUtils.QOS_TYPE_PATTERN)
+		protected String qosType;
+		
+		@ParameterDescriber(required = true, description = "协议类型", constraint = "只能是ip, ip4, icmp之类", example = "ip")
+		@Pattern(regexp = RegExpUtils.QOS_RULE_PATTERN)
+		protected String qosProtocol;
+
+		@ParameterDescriber(required = true, description = "带宽速度", constraint = "单位是kbps, 0-1000Mbps", example = "10000")
+		@Pattern(regexp = RegExpUtils.RATE_PATTERN)
+		protected String rate;
+		
+		@ParameterDescriber(required = true, description = "带宽波动", constraint = "单位是kbps, 0-100Mbps", example = "100")
+		@Pattern(regexp = RegExpUtils.BURST_PATTERN)
+		protected String burst;
+		
+		@ParameterDescriber(required = false, description = "优先级", constraint = "0-32767", example = "2")
+		@Pattern(regexp = RegExpUtils.QOS_PRIORITY_PATTERN)
+		protected String qosPriority;
+
+		public String getSwName() {
+			return swName;
+		}
+
+		public void setSwName(String swName) {
+			this.swName = swName;
+		}
+
+		public String getVmmac() {
+			return vmmac;
+		}
+
+		public void setVmmac(String vmmac) {
+			this.vmmac = vmmac;
+		}
+
+		public String getQosType() {
+			return qosType;
+		}
+
+		public void setQosType(String qosType) {
+			this.qosType = qosType;
+		}
+
+		public String getQosProtocol() {
+			return qosProtocol;
+		}
+
+		public void setQosProtocol(String qosProtocol) {
+			this.qosProtocol = qosProtocol;
+		}
+
+		public String getRate() {
+			return rate;
+		}
+
+		public void setRate(String rate) {
+			this.rate = rate;
+		}
+
+		public String getBurst() {
+			return burst;
+		}
+
+		public void setBurst(String burst) {
+			this.burst = burst;
+		}
+
+		public String getQosPriority() {
+			return qosPriority;
+		}
+
+		public void setQosPriority(String qosPriority) {
+			this.qosPriority = qosPriority;
+		}
+		
+	}
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class ModifyQoS extends CreateQoS {
+
+	}
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class DeleteQoS {
+		
+		@ParameterDescriber(required = true, description = "交换机名", constraint = "名称是字符串类型，长度是4到100位，只允许数字、小写字母、中划线、以及圆点", example = "switch11")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String swName;
+		
+		@ParameterDescriber(required = true, description = "虚拟机mac地址", constraint = "mac地址不能以fe开头", example = "7e:0c:b0:ef:6a:04")
+		@Pattern(regexp = RegExpUtils.MAC_PATTERN)
+		protected String vmmac;
+		
+		@ParameterDescriber(required = false, description = "QoS类型", constraint = "from或者to", example = "from")
+		@Pattern(regexp = RegExpUtils.QOS_TYPE_PATTERN)
+		protected String qosType;
+		
+		@ParameterDescriber(required = false, description = "协议类型", constraint = "只能是ip, ip4, icmp之类", example = "ip")
+		@Pattern(regexp = RegExpUtils.QOS_RULE_PATTERN)
+		protected String qosProtocol;
+
+		@ParameterDescriber(required = false, description = "优先级", constraint = "0-32767", example = "2")
+		@Pattern(regexp = RegExpUtils.QOS_PRIORITY_PATTERN)
+		protected String qosPriority;
+
+		public String getSwName() {
+			return swName;
+		}
+
+		public void setSwName(String swName) {
+			this.swName = swName;
+		}
+
+		public String getVmmac() {
+			return vmmac;
+		}
+
+		public void setVmmac(String vmmac) {
+			this.vmmac = vmmac;
+		}
+
+		public String getQosType() {
+			return qosType;
+		}
+
+		public void setQosType(String qosType) {
+			this.qosType = qosType;
+		}
+
+		public String getQosProtocol() {
+			return qosProtocol;
+		}
+
+		public void setQosProtocol(String qosProtocol) {
+			this.qosProtocol = qosProtocol;
+		}
+
+		public String getQosPriority() {
+			return qosPriority;
+		}
+
+		public void setQosPriority(String qosPriority) {
+			this.qosPriority = qosPriority;
+		}
+		
+	}
 }

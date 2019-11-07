@@ -18,14 +18,16 @@ import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ConvertV
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CreateACL;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CreateAndStartVMFromISO;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CreateAndStartVMFromImage;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CreateQoS;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.DeleteACL;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.DeleteQoS;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.DeleteVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.EjectISO;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.InsertISO;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ManageISO;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.MigrateVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ModifyACL;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ModifyFloatingIP;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ModifyQoS;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.PlugDevice;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.PlugDisk;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.PlugNIC;
@@ -58,6 +60,7 @@ import com.github.kubesys.kubernetes.utils.RegExpUtils;
  * @version 1.0.0
  * @since   2019/9/1
  **/
+@SuppressWarnings("deprecation")
 public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMachineList, VirtualMachineSpec> {
 
 
@@ -530,18 +533,6 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 		return update(name, updateMetadata(name, eventId), bindFloatingIP);
 	}
 
-	public boolean modifyFloatingIP(String name, ModifyFloatingIP modifyFloatingIP) throws Exception {
-		return modifyFloatingIP(name, modifyFloatingIP, null);
-	}
-
-	public boolean modifyFloatingIP(String name, ModifyFloatingIP modifyFloatingIP, String eventId) throws Exception {
-		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
-		if (!pattern.matcher(name).matches()) {
-			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
-		}
-		return update(name, updateMetadata(name, eventId), modifyFloatingIP);
-	}
-
 	public boolean unbindFloatingIP(String name, UnbindFloatingIP unbindFloatingIP) throws Exception {
 		return unbindFloatingIP(name, unbindFloatingIP, null);
 	}
@@ -597,6 +588,51 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
 		return delete(name, updateMetadata(name, eventId), deleteACL);
+	}
+
+	public boolean createQoS(String name, CreateQoS createQoS) throws Exception {
+		return createQoS(name, null, createQoS, null);
+	}
+
+	public boolean createQoS(String name, String nodeName, CreateQoS createQoS) throws Exception {
+		return createQoS(name, nodeName, createQoS, null);
+	}
+
+	public boolean createQoS(String name, CreateQoS createQoS, String eventId) throws Exception {
+		return createQoS(name, null, createQoS, eventId);
+	}
+
+	public boolean createQoS(String name, String nodeName,CreateQoS createQoS, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return create(getModel(), createMetadata(name, nodeName, eventId), 
+				createSpec(nodeName, createLifecycle(createQoS)));
+	}
+
+	public boolean modifyQoS(String name, ModifyQoS modifyQoS) throws Exception {
+		return modifyQoS(name, modifyQoS, null);
+	}
+
+	public boolean modifyQoS(String name, ModifyQoS modifyQoS, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), modifyQoS);
+	}
+
+	public boolean deleteQoS(String name, DeleteQoS deleteQoS) throws Exception {
+		return deleteQoS(name, deleteQoS, null);
+	}
+
+	public boolean deleteQoS(String name, DeleteQoS deleteQoS, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return delete(name, updateMetadata(name, eventId), deleteQoS);
 	}
 
 }
