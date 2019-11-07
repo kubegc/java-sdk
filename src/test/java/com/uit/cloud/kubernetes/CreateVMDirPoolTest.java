@@ -22,7 +22,7 @@ public class CreateVMDirPoolTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachinePools()
-				.createPool("pooltest4", "vm.node22", getPool(), "123");
+				.createPool("pooluittest", "vm.node22", getPool(), "123");
 		System.out.println(successful);
 	}
 
@@ -33,6 +33,7 @@ public class CreateVMDirPoolTest {
 		createPool.setType("dir");
 		createPool.setContent("vmdi");
 		createPool.setAutostart(true);
+        createPool.setUrl("localfs:///dev/sdb1:/uit");
 
 		// uus
 //		createPool.setType("uus");

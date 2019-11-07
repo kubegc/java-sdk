@@ -22,15 +22,15 @@ public class ResizeDiskTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineDisks()
-				.resizeDisk("disktest", get());
+				.resizeDisk("diskuittest", get());
 		System.out.println(successful);
 	}
 
 	protected static ResizeDisk get() {
 		ResizeDisk resizeDisk = new ResizeDisk();
 		resizeDisk.setType("dir");
-		resizeDisk.setCapacity("10737418240");
-		resizeDisk.setPool("pooltest");
+		resizeDisk.setCapacity("21737418240");
+		resizeDisk.setPool("pooluittest");
 		return resizeDisk;
 	}
 }

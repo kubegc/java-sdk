@@ -436,6 +436,10 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String newname;
 
+		@ParameterDescriber(required = true, description = "云盘文件的类型", constraint = "qcow2", example = "qcow2")
+		@Pattern(regexp = RegExpUtils.DISK_TYPE_PATTERN)
+		protected String format;
+
 		public CloneDisk() {
 
 		}
@@ -478,6 +482,14 @@ public class Lifecycle {
 
 		public void setType(String type) {
 			this.type = type;
+		}
+
+		public String getFormat() {
+			return format;
+		}
+
+		public void setFormat(String format) {
+			this.format = format;
 		}
 	}
 

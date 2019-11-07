@@ -22,7 +22,7 @@ public class DeleteVMPoolTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachinePools()
-				.deletePool("pooltest4", getPool(), "123");
+				.deletePool("pooluittest", getPool(), "123");
 		System.out.println(successful);
 	}
 
