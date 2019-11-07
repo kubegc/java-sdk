@@ -151,6 +151,9 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.DISK_TYPE_PATTERN)
 		protected String format;
 
+		@ParameterDescriber(required = false, description = "若该云盘加载到虚拟机内（包括系统盘、数据盘），并且虚拟机处于开机状态，则需要填写该虚拟机名，否则将报错Write lock", constraint = "已存在的虚拟机名，由4-100位的数字和小写字母组成", example = "950646e8c17a49d0b83c1c797811e001")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String domain;
 
 		public String getType() {
 			return type;
@@ -182,6 +185,14 @@ public class Lifecycle {
 
 		public void setFormat(String format) {
 			this.format = format;
+		}
+
+		public String getDomain() {
+			return domain;
+		}
+
+		public void setDomain(String domain) {
+			this.domain = domain;
 		}
 	}
 	
