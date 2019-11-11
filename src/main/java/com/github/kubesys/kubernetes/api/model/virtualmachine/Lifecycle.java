@@ -3056,6 +3056,10 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String swName;
 		
+		@ParameterDescriber(required = true, description = "二层桥接名", constraint = "名称是字符串类型，长度是4到100位，只允许数字、小写字母、中划线、以及圆点", example = "switch11")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String bridge;
+		
 		@ParameterDescriber(required = true, description = "虚拟机mac地址", constraint = "mac地址不能以fe开头", example = "7e:0c:b0:ef:6a:04")
 		@Pattern(regexp = RegExpUtils.MAC_PATTERN)
 		protected String vmmac;
@@ -3086,6 +3090,14 @@ public class Lifecycle {
 
 		public void setSwName(String swName) {
 			this.swName = swName;
+		}
+
+		public String getBridge() {
+			return bridge;
+		}
+
+		public void setBridge(String bridge) {
+			this.bridge = bridge;
 		}
 		
 	}
