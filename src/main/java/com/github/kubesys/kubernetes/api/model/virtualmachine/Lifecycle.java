@@ -174,7 +174,7 @@ public class Lifecycle {
 	
 	@FunctionDescriber(shortName = "创建安全组", description = "创建安全规则，"
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
-	protected CreateACL createACL;
+	protected AddACL addACL;
 	
 	@FunctionDescriber(shortName = "修改安全组", description = "修改安全规则，"
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
@@ -182,12 +182,12 @@ public class Lifecycle {
 	
 	@FunctionDescriber(shortName = "删除安全组", description = "删除安全规则，"
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
-	protected DeleteACL deleteACL;
+	protected DeprecatedACL deprecatedACL;
 
 	
 	@FunctionDescriber(shortName = "设置QoS", description = "设置QoS，"
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
-	protected CreateQoS createQoS;
+	protected SetQoS setQoS;
 	
 	@FunctionDescriber(shortName = "修改QoS", description = "修改QoS，"
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
@@ -195,14 +195,22 @@ public class Lifecycle {
 	
 	@FunctionDescriber(shortName = "删除QoS", description = "删除QoS，"
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
-	protected DeleteQoS deleteQoS;
-	
-	public CreateQoS getCreateQoS() {
-		return createQoS;
+	protected UnsetQoS unsetQoS;
+
+	public SetQoS getSetQoS() {
+		return setQoS;
 	}
 
-	public void setCreateQoS(CreateQoS createQoS) {
-		this.createQoS = createQoS;
+	public void setSetQoS(SetQoS setQoS) {
+		this.setQoS = setQoS;
+	}
+
+	public UnsetQoS getUnsetQoS() {
+		return unsetQoS;
+	}
+
+	public void setUnsetQoS(UnsetQoS unsetQoS) {
+		this.unsetQoS = unsetQoS;
 	}
 
 	public ModifyQoS getModifyQoS() {
@@ -211,14 +219,6 @@ public class Lifecycle {
 
 	public void setModifyQoS(ModifyQoS modifyQoS) {
 		this.modifyQoS = modifyQoS;
-	}
-
-	public DeleteQoS getDeleteQoS() {
-		return deleteQoS;
-	}
-
-	public void setDeleteQoS(DeleteQoS deleteQoS) {
-		this.deleteQoS = deleteQoS;
 	}
 
 	public BindFloatingIP getBindFloatingIP() {
@@ -237,12 +237,12 @@ public class Lifecycle {
 		this.unbindFloatingIP = unbindFloatingIP;
 	}
 
-	public CreateACL getCreateACL() {
-		return createACL;
+	public AddACL getAddACL() {
+		return addACL;
 	}
 
-	public void setCreateACL(CreateACL createACL) {
-		this.createACL = createACL;
+	public void setAddACL(AddACL addACL) {
+		this.addACL = addACL;
 	}
 
 	public ModifyACL getModifyACL() {
@@ -253,12 +253,12 @@ public class Lifecycle {
 		this.modifyACL = modifyACL;
 	}
 
-	public DeleteACL getDeleteACL() {
-		return deleteACL;
+	public DeprecatedACL getDeprecatedACL() {
+		return deprecatedACL;
 	}
 
-	public void setDeleteACL(DeleteACL deleteACL) {
-		this.deleteACL = deleteACL;
+	public void setDeprecatedACL(DeprecatedACL deprecatedACL) {
+		this.deprecatedACL = deprecatedACL;
 	}
 
 	public SetGuestPassword getSetGuestPassword() {
@@ -3146,7 +3146,7 @@ public class Lifecycle {
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class CreateACL {
+	public static class AddACL {
 
 		@ParameterDescriber(required = true, description = "交换机名", constraint = "名称是字符串类型，长度是4到100位，只允许数字、小写字母、中划线、以及圆点", example = "switch11")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
@@ -3158,19 +3158,19 @@ public class Lifecycle {
 		
 		@ParameterDescriber(required = true, description = "ACL类型", constraint = "from或者to", example = "from")
 		@Pattern(regexp = RegExpUtils.ACL_TYPE_PATTERN)
-		protected String aclType;
+		protected String type;
 		
 		@ParameterDescriber(required = true, description = "ACL规则", constraint = "&&连接两个规则，注意src和dst后==前后必须有一个空格", example = "ip4.src == $dmz && tcp.dst == 3306")
 		@Pattern(regexp = RegExpUtils.ACL_RULE_PATTERN)
-		protected String aclRule;
+		protected String rule;
 		
 		@ParameterDescriber(required = true, description = "ACL操作", constraint = "allow或者drop", example = "allow")
 		@Pattern(regexp = RegExpUtils.ACL_OPERATOR_PATTERN)
-		protected String aclOperator;
+		protected String operator;
 		
 		@ParameterDescriber(required = false, description = "优先级", constraint = "1-999", example = "1")
 		@Pattern(regexp = RegExpUtils.ACL_PRIORITY_PATTERN)
-		protected String aclPriority;
+		protected String priority;
 
 		public String getSwName() {
 			return swName;
@@ -3188,49 +3188,49 @@ public class Lifecycle {
 			this.vmmac = vmmac;
 		}
 
-		public String getAclType() {
-			return aclType;
+		public String getType() {
+			return type;
 		}
 
-		public void setAclType(String aclType) {
-			this.aclType = aclType;
+		public void setType(String type) {
+			this.type = type;
 		}
 
-		public String getAclRule() {
-			return aclRule;
+		public String getRule() {
+			return rule;
 		}
 
-		public void setAclRule(String aclRule) {
-			this.aclRule = aclRule;
+		public void setRule(String rule) {
+			this.rule = rule;
 		}
 
-		public String getAclOperator() {
-			return aclOperator;
+		public String getOperator() {
+			return operator;
 		}
 
-		public void setAclOperator(String aclOperator) {
-			this.aclOperator = aclOperator;
+		public void setOperator(String operator) {
+			this.operator = operator;
 		}
 
-		public String getAclPriority() {
-			return aclPriority;
+		public String getPriority() {
+			return priority;
 		}
 
-		public void setAclPriority(String aclPriority) {
-			this.aclPriority = aclPriority;
+		public void setPriority(String priority) {
+			this.priority = priority;
 		}
-		
-	}
-	
-	@JsonInclude(JsonInclude.Include.NON_NULL)
-	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class ModifyACL extends CreateACL {
 
 	}
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class DeleteACL {
+	public static class ModifyACL extends AddACL {
+
+	}
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class DeprecatedACL {
 		
 		@ParameterDescriber(required = true, description = "交换机名", constraint = "名称是字符串类型，长度是4到100位，只允许数字、小写字母、中划线、以及圆点", example = "switch11")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
@@ -3242,15 +3242,15 @@ public class Lifecycle {
 		
 		@ParameterDescriber(required = false, description = "ACL类型", constraint = "from或者to", example = "from")
 		@Pattern(regexp = RegExpUtils.ACL_TYPE_PATTERN)
-		protected String aclType;
+		protected String type;
 		
 		@ParameterDescriber(required = false, description = "ACL规则", constraint = "&&连接两个规则，注意src和dst后==前后必须有一个空格", example = "ip4.src == $dmz && tcp.dst == 3306")
 		@Pattern(regexp = RegExpUtils.ACL_RULE_PATTERN)
-		protected String aclRule;
+		protected String rule;
 		
 		@ParameterDescriber(required = false, description = "优先级", constraint = "1-999", example = "1")
 		@Pattern(regexp = RegExpUtils.ACL_PRIORITY_PATTERN)
-		protected String aclPriority;
+		protected String priority;
 
 		public String getSwName() {
 			return swName;
@@ -3268,35 +3268,35 @@ public class Lifecycle {
 			this.vmmac = vmmac;
 		}
 
-		public String getAclType() {
-			return aclType;
+		public String getType() {
+			return type;
 		}
 
-		public void setAclType(String aclType) {
-			this.aclType = aclType;
+		public void setType(String type) {
+			this.type = type;
 		}
 
-		public String getAclRule() {
-			return aclRule;
+		public String getRule() {
+			return rule;
 		}
 
-		public void setAclRule(String aclRule) {
-			this.aclRule = aclRule;
+		public void setRule(String rule) {
+			this.rule = rule;
 		}
 
-		public String getAclPriority() {
-			return aclPriority;
+		public String getPriority() {
+			return priority;
 		}
 
-		public void setAclPriority(String aclPriority) {
-			this.aclPriority = aclPriority;
+		public void setPriority(String priority) {
+			this.priority = priority;
 		}
-		
+
 	}
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class CreateQoS {
+	public static class SetQoS {
 		
 		@ParameterDescriber(required = true, description = "交换机名", constraint = "名称是字符串类型，长度是4到100位，只允许数字、小写字母、中划线、以及圆点", example = "switch11")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
@@ -3308,11 +3308,11 @@ public class Lifecycle {
 		
 		@ParameterDescriber(required = true, description = "QoS类型", constraint = "from或者to", example = "from")
 		@Pattern(regexp = RegExpUtils.QOS_TYPE_PATTERN)
-		protected String qosType;
+		protected String type;
 		
 		@ParameterDescriber(required = true, description = "协议类型", constraint = "只能是ip, ip4, icmp之类", example = "ip")
 		@Pattern(regexp = RegExpUtils.QOS_RULE_PATTERN)
-		protected String qosProtocol;
+		protected String protocol;
 
 		@ParameterDescriber(required = true, description = "带宽速度", constraint = "单位是kbps, 0-1000Mbps", example = "10000")
 		@Pattern(regexp = RegExpUtils.RATE_PATTERN)
@@ -3324,7 +3324,7 @@ public class Lifecycle {
 		
 		@ParameterDescriber(required = false, description = "优先级", constraint = "0-32767", example = "2")
 		@Pattern(regexp = RegExpUtils.QOS_PRIORITY_PATTERN)
-		protected String qosPriority;
+		protected String priority;
 
 		public String getSwName() {
 			return swName;
@@ -3342,20 +3342,20 @@ public class Lifecycle {
 			this.vmmac = vmmac;
 		}
 
-		public String getQosType() {
-			return qosType;
+		public String getType() {
+			return type;
 		}
 
-		public void setQosType(String qosType) {
-			this.qosType = qosType;
+		public void setType(String type) {
+			this.type = type;
 		}
 
-		public String getQosProtocol() {
-			return qosProtocol;
+		public String getProtocol() {
+			return protocol;
 		}
 
-		public void setQosProtocol(String qosProtocol) {
-			this.qosProtocol = qosProtocol;
+		public void setProtocol(String protocol) {
+			this.protocol = protocol;
 		}
 
 		public String getRate() {
@@ -3374,25 +3374,25 @@ public class Lifecycle {
 			this.burst = burst;
 		}
 
-		public String getQosPriority() {
-			return qosPriority;
+		public String getPriority() {
+			return priority;
 		}
 
-		public void setQosPriority(String qosPriority) {
-			this.qosPriority = qosPriority;
+		public void setPriority(String priority) {
+			this.priority = priority;
 		}
-		
-	}
-	
-	@JsonInclude(JsonInclude.Include.NON_NULL)
-	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class ModifyQoS extends CreateQoS {
 
 	}
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class DeleteQoS {
+	public static class ModifyQoS extends SetQoS {
+
+	}
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class UnsetQoS {
 		
 		@ParameterDescriber(required = true, description = "交换机名", constraint = "名称是字符串类型，长度是4到100位，只允许数字、小写字母、中划线、以及圆点", example = "switch11")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
@@ -3404,15 +3404,15 @@ public class Lifecycle {
 		
 		@ParameterDescriber(required = false, description = "QoS类型", constraint = "from或者to", example = "from")
 		@Pattern(regexp = RegExpUtils.QOS_TYPE_PATTERN)
-		protected String qosType;
+		protected String type;
 		
 		@ParameterDescriber(required = false, description = "协议类型", constraint = "只能是ip, ip4, icmp之类", example = "ip")
 		@Pattern(regexp = RegExpUtils.QOS_RULE_PATTERN)
-		protected String qosProtocol;
+		protected String protocol;
 
 		@ParameterDescriber(required = false, description = "优先级", constraint = "0-32767", example = "2")
 		@Pattern(regexp = RegExpUtils.QOS_PRIORITY_PATTERN)
-		protected String qosPriority;
+		protected String priority;
 
 		public String getSwName() {
 			return swName;
@@ -3430,29 +3430,29 @@ public class Lifecycle {
 			this.vmmac = vmmac;
 		}
 
-		public String getQosType() {
-			return qosType;
+		public String getType() {
+			return type;
 		}
 
-		public void setQosType(String qosType) {
-			this.qosType = qosType;
+		public void setType(String type) {
+			this.type = type;
 		}
 
-		public String getQosProtocol() {
-			return qosProtocol;
+		public String getProtocol() {
+			return protocol;
 		}
 
-		public void setQosProtocol(String qosProtocol) {
-			this.qosProtocol = qosProtocol;
+		public void setProtocol(String protocol) {
+			this.protocol = protocol;
 		}
 
-		public String getQosPriority() {
-			return qosPriority;
+		public String getPriority() {
+			return priority;
 		}
 
-		public void setQosPriority(String qosPriority) {
-			this.qosPriority = qosPriority;
+		public void setPriority(String priority) {
+			this.priority = priority;
 		}
-		
+
 	}
 }
