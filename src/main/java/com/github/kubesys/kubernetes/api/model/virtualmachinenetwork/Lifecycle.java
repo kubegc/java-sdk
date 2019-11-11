@@ -314,7 +314,19 @@ public class Lifecycle {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class DeleteSwitch {
+		
+		@ParameterDescriber(required = true, description = "网桥名", constraint = "网桥", example = "br-ex")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String bridge;
 
+		public String getBridge() {
+			return bridge;
+		}
+
+		public void setBridge(String bridge) {
+			this.bridge = bridge;
+		}
+		
 	}
 	
 	
