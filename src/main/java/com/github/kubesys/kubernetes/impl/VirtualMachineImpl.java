@@ -11,17 +11,15 @@ import com.github.kubesys.kubernetes.api.model.VirtualMachine;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineList;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineSpec;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.AddACL;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.BindFloatingIP;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ChangeNumberOfCPU;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CloneVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ConvertVMToImage;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CreateACL;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CreateAndStartVMFromISO;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CreateAndStartVMFromImage;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CreateQoS;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.DeleteACL;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.DeleteQoS;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.DeleteVM;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.DeprecatedACL;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.EjectISO;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.InsertISO;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ManageISO;
@@ -39,6 +37,7 @@ import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ResizeVM
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ResumeVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.SetBootOrder;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.SetGuestPassword;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.SetQoS;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.SetVncPassword;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StartVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StopVM;
@@ -50,6 +49,7 @@ import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UnbindFl
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UnplugDevice;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UnplugDisk;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UnplugNIC;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UnsetQoS;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UnsetVncPassword;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UpdateOS;
 import com.github.kubesys.kubernetes.utils.RegExpUtils;
@@ -545,25 +545,16 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 		return update(name, updateMetadata(name, eventId), unbindFloatingIP);
 	}
 
-	public boolean createACL(String name, CreateACL createACL) throws Exception {
-		return createACL(name, null, createACL, null);
+	public boolean addACL(String name, AddACL addACL) throws Exception {
+		return addACL(name, addACL, null);
 	}
 
-	public boolean createACL(String name, String nodeName, CreateACL createACL) throws Exception {
-		return createACL(name, nodeName, createACL, null);
-	}
-
-	public boolean createACL(String name, CreateACL createACL, String eventId) throws Exception {
-		return createACL(name, null, createACL, eventId);
-	}
-
-	public boolean createACL(String name, String nodeName,CreateACL createACL, String eventId) throws Exception {
+	public boolean addACL(String name, AddACL addACL, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
-		return create(getModel(), createMetadata(name, nodeName, eventId), 
-				createSpec(nodeName, createLifecycle(createACL)));
+		return update(name, updateMetadata(name, eventId), addACL);
 	}
 
 	public boolean modifyACL(String name, ModifyACL modifyACL) throws Exception {
@@ -578,37 +569,28 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 		return update(name, updateMetadata(name, eventId), modifyACL);
 	}
 
-	public boolean deleteACL(String name, DeleteACL deleteACL) throws Exception {
-		return deleteACL(name, deleteACL, null);
+	public boolean deprecatedACL(String name, DeprecatedACL deprecatedACL) throws Exception {
+		return deprecatedACL(name, deprecatedACL, null);
 	}
 
-	public boolean deleteACL(String name, DeleteACL deleteACL, String eventId) throws Exception {
+	public boolean deprecatedACL(String name, DeprecatedACL deprecatedACL, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
-		return delete(name, updateMetadata(name, eventId), deleteACL);
+		return update(name, updateMetadata(name, eventId), deprecatedACL);
 	}
 
-	public boolean createQoS(String name, CreateQoS createQoS) throws Exception {
-		return createQoS(name, null, createQoS, null);
+	public boolean setQoS(String name, SetQoS setQoS) throws Exception {
+		return setQoS(name, setQoS, null);
 	}
 
-	public boolean createQoS(String name, String nodeName, CreateQoS createQoS) throws Exception {
-		return createQoS(name, nodeName, createQoS, null);
-	}
-
-	public boolean createQoS(String name, CreateQoS createQoS, String eventId) throws Exception {
-		return createQoS(name, null, createQoS, eventId);
-	}
-
-	public boolean createQoS(String name, String nodeName,CreateQoS createQoS, String eventId) throws Exception {
+	public boolean setQoS(String name, SetQoS setQoS, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
-		return create(getModel(), createMetadata(name, nodeName, eventId), 
-				createSpec(nodeName, createLifecycle(createQoS)));
+		return update(name, updateMetadata(name, eventId), setQoS);
 	}
 
 	public boolean modifyQoS(String name, ModifyQoS modifyQoS) throws Exception {
@@ -623,16 +605,19 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 		return update(name, updateMetadata(name, eventId), modifyQoS);
 	}
 
-	public boolean deleteQoS(String name, DeleteQoS deleteQoS) throws Exception {
-		return deleteQoS(name, deleteQoS, null);
+	public boolean unsetQoS(String name, UnsetQoS unsetQoS) throws Exception {
+		return unsetQoS(name, unsetQoS, null);
 	}
 
-	public boolean deleteQoS(String name, DeleteQoS deleteQoS, String eventId) throws Exception {
+	public boolean unsetQoS(String name, UnsetQoS unsetQoS, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
-		return delete(name, updateMetadata(name, eventId), deleteQoS);
+		return update(name, updateMetadata(name, eventId), unsetQoS);
 	}
+
+
+
 
 }
