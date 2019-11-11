@@ -171,9 +171,13 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class CreateSwitch {
 
-		@ParameterDescriber(required = false, description = "网段，这里后台只会做形式，不会做逻辑判断，只要符合xx.xx.xx.xx/y形式即可，请确保传入正确的数值, y的取值必须是8,16,24之一", constraint = "网段和掩码", example = "192.168.5.1/24")
+		@ParameterDescriber(required = true, description = "网段，这里后台只会做形式，不会做逻辑判断，只要符合xx.xx.xx.xx/y形式即可，请确保传入正确的数值, y的取值必须是8,16,24之一", constraint = "网段和掩码", example = "192.168.5.1/24")
 		@Pattern(regexp = RegExpUtils.SUBNET_PATTERN)
 		protected String subnet;
+
+		@ParameterDescriber(required = true, description = "网桥名", constraint = "网桥", example = "br-ex")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String bridge;
 		
 		@ParameterDescriber(required = false, description = "DHCP地址", constraint = "IP", example = "192.168.5.5")
 		@Pattern(regexp = RegExpUtils.IP_PATTERN)
@@ -195,6 +199,14 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.DNS_PATTERN)
 		protected String dnsServer;
 		
+		public String getBridge() {
+			return bridge;
+		}
+
+		public void setBridge(String bridge) {
+			this.bridge = bridge;
+		}
+
 		public String getExcludeIPs() {
 			return excludeIPs;
 		}
