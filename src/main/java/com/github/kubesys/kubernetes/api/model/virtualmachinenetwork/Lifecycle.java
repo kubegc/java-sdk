@@ -308,7 +308,6 @@ public class Lifecycle {
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	@Deprecated
 	public static class SetBridgeVlan {
 
 		@ParameterDescriber(required = true, description = "vlan ID", constraint = "0~4094", example = "1")
@@ -327,7 +326,6 @@ public class Lifecycle {
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	@Deprecated
 	public static class DelBridgeVlan extends SetBridgeVlan{
 
 	}
