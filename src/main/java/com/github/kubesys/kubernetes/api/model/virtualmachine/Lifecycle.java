@@ -3309,9 +3309,9 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class SetQoS {
 		
-		@ParameterDescriber(required = true, description = "mac地址", constraint = "mac地址", example = "00:00:00:ff:ff:ff")
-		@Pattern(regexp = RegExpUtils.MAC_PATTERN)
-		protected String mac;
+		@ParameterDescriber(required = true, description = "交换机名", constraint = "交换机名", example = "switch1")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String swName;
 		
 		@ParameterDescriber(required = true, description = "QoS类型", constraint = "from或者to", example = "from")
 		@Pattern(regexp = RegExpUtils.QOS_TYPE_PATTERN)
@@ -3333,12 +3333,12 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.QOS_PRIORITY_PATTERN)
 		protected String priority;
 
-		public String getMac() {
-			return mac;
+		public String getSwName() {
+			return swName;
 		}
 
-		public void setMac(String mac) {
-			this.mac = mac;
+		public void setSwName(String swName) {
+			this.swName = swName;
 		}
 
 		public String getType() {
@@ -3393,9 +3393,9 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class UnsetQoS {
 		
-		@ParameterDescriber(required = true, description = "mac地址", constraint = "mac地址", example = "00:00:00:ff:ff:ff")
-		@Pattern(regexp = RegExpUtils.MAC_PATTERN)
-		protected String mac;
+		@ParameterDescriber(required = true, description = "交换机名", constraint = "交换机名", example = "switch1")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String swName;
 		
 		@ParameterDescriber(required = false, description = "QoS类型", constraint = "from或者to", example = "from")
 		@Pattern(regexp = RegExpUtils.QOS_TYPE_PATTERN)
@@ -3409,12 +3409,12 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.QOS_PRIORITY_PATTERN)
 		protected String priority;
 
-		public String getMac() {
-			return mac;
+		public String getSwName() {
+			return swName;
 		}
 
-		public void setMac(String mac) {
-			this.mac = mac;
+		public void setSwName(String swName) {
+			this.swName = swName;
 		}
 
 		public String getType() {
