@@ -3297,13 +3297,9 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class SetQoS {
 		
-		@ParameterDescriber(required = true, description = "交换机名", constraint = "名称是字符串类型，长度是4到100位，只允许数字、小写字母、中划线、以及圆点", example = "switch11")
-		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
-		protected String swName;
-		
-		@ParameterDescriber(required = true, description = "虚拟机mac地址", constraint = "mac地址不能以fe开头", example = "7e:0c:b0:ef:6a:04")
+		@ParameterDescriber(required = true, description = "mac地址", constraint = "mac地址", example = "00:00:00:ff:ff:ff")
 		@Pattern(regexp = RegExpUtils.MAC_PATTERN)
-		protected String vmmac;
+		protected String mac;
 		
 		@ParameterDescriber(required = true, description = "QoS类型", constraint = "from或者to", example = "from")
 		@Pattern(regexp = RegExpUtils.QOS_TYPE_PATTERN)
@@ -3325,20 +3321,12 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.QOS_PRIORITY_PATTERN)
 		protected String priority;
 
-		public String getSwName() {
-			return swName;
+		public String getMac() {
+			return mac;
 		}
 
-		public void setSwName(String swName) {
-			this.swName = swName;
-		}
-
-		public String getVmmac() {
-			return vmmac;
-		}
-
-		public void setVmmac(String vmmac) {
-			this.vmmac = vmmac;
+		public void setMac(String mac) {
+			this.mac = mac;
 		}
 
 		public String getType() {
@@ -3393,13 +3381,9 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class UnsetQoS {
 		
-		@ParameterDescriber(required = true, description = "交换机名", constraint = "名称是字符串类型，长度是4到100位，只允许数字、小写字母、中划线、以及圆点", example = "switch11")
-		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
-		protected String swName;
-		
-		@ParameterDescriber(required = true, description = "虚拟机mac地址", constraint = "mac地址不能以fe开头", example = "7e:0c:b0:ef:6a:04")
+		@ParameterDescriber(required = true, description = "mac地址", constraint = "mac地址", example = "00:00:00:ff:ff:ff")
 		@Pattern(regexp = RegExpUtils.MAC_PATTERN)
-		protected String vmmac;
+		protected String mac;
 		
 		@ParameterDescriber(required = false, description = "QoS类型", constraint = "from或者to", example = "from")
 		@Pattern(regexp = RegExpUtils.QOS_TYPE_PATTERN)
@@ -3413,20 +3397,12 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.QOS_PRIORITY_PATTERN)
 		protected String priority;
 
-		public String getSwName() {
-			return swName;
+		public String getMac() {
+			return mac;
 		}
 
-		public void setSwName(String swName) {
-			this.swName = swName;
-		}
-
-		public String getVmmac() {
-			return vmmac;
-		}
-
-		public void setVmmac(String vmmac) {
-			this.vmmac = vmmac;
+		public void setMac(String mac) {
+			this.mac = mac;
 		}
 
 		public String getType() {
