@@ -22,14 +22,14 @@ public class CreateBridgeTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineNetworks()
-				.createBridge("br-native", "vm.node30", get());
+				.createBridge("br-native", get());
 		System.out.println(successful);
 	}
 
 	protected static CreateBridge get() {
 		CreateBridge createBridge = new CreateBridge();
-		createBridge.setNic("enp6s0f1");
-		createBridge.setVlan("10");
+//		createBridge.setNic("enp6s0f1");
+//		createBridge.setVlan("10");
 		return createBridge;
 	}
 }

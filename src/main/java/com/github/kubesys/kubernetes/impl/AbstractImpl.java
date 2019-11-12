@@ -433,7 +433,7 @@ public abstract class AbstractImpl<R, S, T> {
 				continue;
 			}
 			
-			if (!(value instanceof String)) {
+			if (value != null && !(value instanceof String)) {
 				continue;
 			}
 			
@@ -446,8 +446,8 @@ public abstract class AbstractImpl<R, S, T> {
 			String regexp = pattern.regexp();
 			
 			java.util.regex.Pattern checker = java.util.regex.Pattern.compile(regexp);
-			if (!checker.matcher((String)value).matches()) {
-				throw new IllegalArgumentException(param.constraint() + ", constraint is: " + regexp);
+			if (value == null || !checker.matcher((String)value).matches()) {
+				throw new Exception(fieldName + "是必填项，约束：" + param.constraint() + ", constraint is: " + regexp);
 			}
 		}
 		

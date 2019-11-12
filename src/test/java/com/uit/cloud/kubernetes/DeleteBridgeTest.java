@@ -22,13 +22,13 @@ public class DeleteBridgeTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineNetworks()
-				.deleteBridge("bridge1", get());
+				.deleteBridge("br-native", get());
 		System.out.println(successful);
 	}
 
 	protected static DeleteBridge get() {
 		DeleteBridge deleteBridge = new DeleteBridge();
-		deleteBridge.setNic("enp6s0f1");
+//		deleteBridge.setNic("enp6s0f1");
 		return deleteBridge;
 	}
 }
