@@ -175,21 +175,21 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.SUBNET_PATTERN)
 		protected String subnet;
 
-		@ParameterDescriber(required = true, description = "网桥名", constraint = "网桥", example = "br-ex")
-		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
-		protected String bridge;
-		
-		@ParameterDescriber(required = false, description = "DHCP地址", constraint = "IP", example = "192.168.5.5")
+		@ParameterDescriber(required = true, description = "DHCP地址", constraint = "IP", example = "192.168.5.5")
 		@Pattern(regexp = RegExpUtils.IP_PATTERN)
 		protected String dhcp;
 		
-		@ParameterDescriber(required = false, description = "网关地址", constraint = "IP", example = "192.168.5.5")
+		@ParameterDescriber(required = true, description = "网关地址", constraint = "IP", example = "192.168.5.5")
 		@Pattern(regexp = RegExpUtils.IP_PATTERN)
 		protected String gateway;
 		
 		@ParameterDescriber(required = false, description = "mtu", constraint = "10-1000", example = "1500")
 		@Pattern(regexp = RegExpUtils.MTU_PATTERN)
 		protected String mtu;
+		
+		@ParameterDescriber(required = false, description = "网桥名", constraint = "网桥", example = "br-ex")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String bridge;
 		
 		@ParameterDescriber(required = false, description = "IP列表黑名单", constraint = "单个IP之间通过空格分开，IP范围使用..分开", example = "192.168.5.2 192.168.5.10..192.168.5.100")
 		@Pattern(regexp = RegExpUtils.EXCLUDEIPS_PATTERN)

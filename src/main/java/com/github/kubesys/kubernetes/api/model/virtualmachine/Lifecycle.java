@@ -3116,6 +3116,10 @@ public class Lifecycle {
 		@ParameterDescriber(required = true, description = "外网IP", constraint = "x.x.x.x,x取值范围0到255", example = "192.168.5.2")
 		@Pattern(regexp = RegExpUtils.IP_PATTERN)
 		protected String fip;
+		
+		@ParameterDescriber(required = true, description = "虚拟机IP", constraint = "x.x.x.x,x取值范围0到255", example = "192.168.5.2")
+		@Pattern(regexp = RegExpUtils.IP_PATTERN)
+		protected String vmip;
 
 		public String getSwName() {
 			return swName;
@@ -3139,6 +3143,14 @@ public class Lifecycle {
 
 		public void setFip(String fip) {
 			this.fip = fip;
+		}
+
+		public String getVmip() {
+			return vmip;
+		}
+
+		public void setVmip(String vmip) {
+			this.vmip = vmip;
 		}
 		
 	}
