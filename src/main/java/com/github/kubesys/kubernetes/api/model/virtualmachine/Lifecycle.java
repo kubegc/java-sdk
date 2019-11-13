@@ -3172,7 +3172,7 @@ public class Lifecycle {
 		protected String type;
 		
 		@ParameterDescriber(required = true, description = "ACL规则", constraint = "&&连接两个规则，注意src和dst后==前后必须有一个空格", example = "ip4.src == $dmz && tcp.dst == 3306")
-		@Pattern(regexp = RegExpUtils.ACL_RULE_PATTERN)
+		@Pattern(regexp = RegExpUtils.RULE_PATTERN)
 		protected String rule;
 		
 		@ParameterDescriber(required = true, description = "ACL操作", constraint = "allow或者drop", example = "allow")
@@ -3256,7 +3256,7 @@ public class Lifecycle {
 		protected String type;
 		
 		@ParameterDescriber(required = false, description = "ACL规则", constraint = "&&连接两个规则，注意src和dst后==前后必须有一个空格", example = "ip4.src == $dmz && tcp.dst == 3306")
-		@Pattern(regexp = RegExpUtils.ACL_RULE_PATTERN)
+		@Pattern(regexp = RegExpUtils.RULE_PATTERN)
 		protected String rule;
 		
 		@ParameterDescriber(required = false, description = "优先级", constraint = "1-999", example = "1")
@@ -3318,8 +3318,8 @@ public class Lifecycle {
 		protected String type;
 		
 		@ParameterDescriber(required = true, description = "协议类型", constraint = "只能是ip, ip4, icmp之类", example = "ip")
-		@Pattern(regexp = RegExpUtils.QOS_RULE_PATTERN)
-		protected String protocol;
+		@Pattern(regexp = RegExpUtils.RULE_PATTERN)
+		protected String rule;
 
 		@ParameterDescriber(required = true, description = "带宽速度", constraint = "单位是kbps, 0-1000Mbps", example = "10000")
 		@Pattern(regexp = RegExpUtils.RATE_PATTERN)
@@ -3348,13 +3348,13 @@ public class Lifecycle {
 		public void setType(String type) {
 			this.type = type;
 		}
-
-		public String getProtocol() {
-			return protocol;
+		
+		public String getRule() {
+			return rule;
 		}
 
-		public void setProtocol(String protocol) {
-			this.protocol = protocol;
+		public void setRule(String rule) {
+			this.rule = rule;
 		}
 
 		public String getRate() {
@@ -3402,8 +3402,8 @@ public class Lifecycle {
 		protected String type;
 		
 		@ParameterDescriber(required = false, description = "协议类型", constraint = "只能是ip, ip4, icmp之类", example = "ip")
-		@Pattern(regexp = RegExpUtils.QOS_RULE_PATTERN)
-		protected String protocol;
+		@Pattern(regexp = RegExpUtils.RULE_PATTERN)
+		protected String rule;
 
 		@ParameterDescriber(required = false, description = "优先级", constraint = "0-32767", example = "2")
 		@Pattern(regexp = RegExpUtils.QOS_PRIORITY_PATTERN)
@@ -3425,12 +3425,12 @@ public class Lifecycle {
 			this.type = type;
 		}
 
-		public String getProtocol() {
-			return protocol;
+		public String getRule() {
+			return rule;
 		}
 
-		public void setProtocol(String protocol) {
-			this.protocol = protocol;
+		public void setRule(String rule) {
+			this.rule = rule;
 		}
 
 		public String getPriority() {

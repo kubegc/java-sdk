@@ -83,6 +83,8 @@ public class RegExpUtils {
 	@FieldDescriber("磁盘大小，单位是Bytes，取值范围1000000000-999999999999")
 	public final static String DISK_SIZE_PATTERN = "\\d{10,13}";
 	
+	@FieldDescriber("名称是字符串类型，长度是4到100位，只允许数字、小写字母、中划线、等于、与符号以及圆点")
+	public final static String RULE_PATTERN = "[a-z0-9-.&= ]{2,200}";
 	
 	@FieldDescriber("虚拟化类型，取值为kvm, xen之一")
 	public final static String VIRT_TYPE_PATTERN = "kvm|xen";
@@ -177,8 +179,8 @@ public class RegExpUtils {
 	public final static String BURST_PATTERN = "\\d{1,5}";
 	
 	public static void main(String[] args) {
-		String name = "900000";
-		Pattern pattern = Pattern.compile(RegExpUtils.RATE_PATTERN);
+		String name = "ip.src == a && asd.ed == v";
+		Pattern pattern = Pattern.compile(RegExpUtils.RULE_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("");
 		}
