@@ -25,9 +25,7 @@ public class Data {
 	
 	protected BridgeInfo bridgeInfo;
 	
-	public Data() {
-		super();
-	}
+	protected AddressInfo addressInfo;
 
 	public BridgeInfo getBridgeInfo() {
 		return bridgeInfo;
@@ -59,6 +57,14 @@ public class Data {
 
 	public void setGatewayInfo(GatewayInfo gatewayInfo) {
 		this.gatewayInfo = gatewayInfo;
+	}
+
+	public AddressInfo getAddressInfo() {
+		return addressInfo;
+	}
+
+	public void setAddressInfo(AddressInfo addressInfo) {
+		this.addressInfo = addressInfo;
 	}
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
@@ -472,5 +478,52 @@ public class Data {
 				}
 			}
 		}
+	}
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class AddressInfo {
+		
+		protected String _uuid;
+		
+		protected List<String> addresses;
+		
+		protected String external_ids;
+		
+		protected String name;
+
+		public String get_uuid() {
+			return _uuid;
+		}
+
+		public void set_uuid(String _uuid) {
+			this._uuid = _uuid;
+		}
+
+		public List<String> getAddresses() {
+			return addresses;
+		}
+
+		public void setAddresses(List<String> addresses) {
+			this.addresses = addresses;
+		}
+
+		public String getExternal_ids() {
+			return external_ids;
+		}
+
+		public void setExternal_ids(String external_ids) {
+			this.external_ids = external_ids;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+		
+		
 	}
 }
