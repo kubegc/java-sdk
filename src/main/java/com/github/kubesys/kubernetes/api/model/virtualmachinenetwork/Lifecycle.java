@@ -92,6 +92,24 @@ public class Lifecycle {
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected ModifySwitch modifySwitch;
 	
+	@FunctionDescriber(shortName = "创建地址列表", description = "创建地址列表，" 
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+		prerequisite = "", 
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected CreateAddress createAddress;
+	
+	@FunctionDescriber(shortName = "删除地址列表", description = "删除地址列表，" 
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+		prerequisite = AnnotationUtils.DESC_FUNCTION_VMN, 
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected DeleteAddress deleteAddress;
+	
+	@FunctionDescriber(shortName = "修改地址列表", description = "修改地址列表，" 
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+		prerequisite = "", 
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected ModifyAddress modifyAddress;
+	
 	public ModifySwitch getModifySwitch() {
 		return modifySwitch;
 	}
@@ -149,6 +167,29 @@ public class Lifecycle {
 		this.delBridgeVlan = delBridgeVlan;
 	}
 
+	public CreateAddress getCreateAddress() {
+		return createAddress;
+	}
+
+	public void setCreateAddress(CreateAddress createAddress) {
+		this.createAddress = createAddress;
+	}
+
+	public DeleteAddress getDeleteAddress() {
+		return deleteAddress;
+	}
+
+	public void setDeleteAddress(DeleteAddress deleteAddress) {
+		this.deleteAddress = deleteAddress;
+	}
+
+	public ModifyAddress getModifyAddress() {
+		return modifyAddress;
+	}
+
+	public void setModifyAddress(ModifyAddress modifyAddress) {
+		this.modifyAddress = modifyAddress;
+	}
 
 	public BindPortVlan getBindPortVlan() {
 		return bindPortVlan;
@@ -452,4 +493,33 @@ public class Lifecycle {
 		
 	}
 	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class CreateAddress {
+		
+		@ParameterDescriber(required = true, description = "地址列表", constraint = "IP以,分割", example = "192.168.1.1，192.168.1.2")
+		@Pattern(regexp = RegExpUtils.RULE_PATTERN)
+		protected String address;
+
+		public String getAddress() {
+			return address;
+		}
+
+		public void setAddress(String address) {
+			this.address = address;
+		}
+		
+	}
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class ModifyAddress extends CreateAddress {
+		
+	}
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class DeleteAddress {
+		
+	}
 }

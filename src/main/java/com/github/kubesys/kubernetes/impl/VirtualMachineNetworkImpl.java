@@ -10,11 +10,14 @@ import com.github.kubesys.kubernetes.api.model.VirtualMachineNetworkList;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineNetworkSpec;
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle;
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.BindPortVlan;
+import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.CreateAddress;
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.CreateBridge;
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.CreateSwitch;
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.DelBridgeVlan;
+import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.DeleteAddress;
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.DeleteBridge;
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.DeleteSwitch;
+import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.ModifyAddress;
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.ModifySwitch;
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.SetBridgeVlan;
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.UnbindPortVlan;
@@ -182,5 +185,49 @@ public class VirtualMachineNetworkImpl extends AbstractImpl<VirtualMachineNetwor
 		return update(name, updateMetadata(name, eventId), modifySwitch);
 	}
 
+	public boolean createAddress(String name, CreateAddress createAddress) throws Exception {
+		return createAddress(name, null, createAddress, null);
+	}
+
+	public boolean createAddress(String name, String nodeName, CreateAddress createAddress) throws Exception {
+		return createAddress(name, nodeName, createAddress, null);
+	}
+
+	public boolean createAddress(String name, CreateAddress createAddress, String eventId) throws Exception {
+		return createAddress(name, null, createAddress, eventId);
+	}
+
+	public boolean createAddress(String name, String nodeName,CreateAddress createAddress, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return create(getModel(), createMetadata(name, nodeName, eventId), 
+				createSpec(nodeName, createLifecycle(createAddress)));
+	}
+
+	public boolean deleteAddress(String name, DeleteAddress deleteAddress) throws Exception {
+		return deleteAddress(name, deleteAddress, null);
+	}
+
+	public boolean deleteAddress(String name, DeleteAddress deleteAddress, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return delete(name, updateMetadata(name, eventId), deleteAddress);
+	}
+
+	public boolean modifyAddress(String name, ModifyAddress modifyAddress) throws Exception {
+		return modifyAddress(name, modifyAddress, null);
+	}
+
+	public boolean modifyAddress(String name, ModifyAddress modifyAddress, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), modifyAddress);
+	}
 
 }
