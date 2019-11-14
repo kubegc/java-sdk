@@ -84,7 +84,7 @@ public class RegExpUtils {
 	public final static String DISK_SIZE_PATTERN = "\\d{10,13}";
 	
 	@FieldDescriber("名称是字符串类型，长度是4到100位，只允许数字、小写字母、中划线、等于、与符号以及圆点")
-	public final static String RULE_PATTERN = "[a-z0-9-.&= ]{2,200}";
+	public final static String RULE_PATTERN = "[a-z0-9-.,&= ]{2,200}";
 	
 	@FieldDescriber("虚拟化类型，取值为kvm, xen之一")
 	public final static String VIRT_TYPE_PATTERN = "kvm|xen";

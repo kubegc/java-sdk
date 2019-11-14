@@ -4,7 +4,7 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
-import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.DeleteAddress;
+import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.DeleteSwitch;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -15,19 +15,19 @@ import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.D
  * @since   2019/9/3
  *
  */
-public class DeleteSwitchTest {
+public class DeleteAddressTest {
 	
 	
 	public static void main(String[] args) throws Exception {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineNetworks()
-				.deleteAddress("wyw123", get());
+				.deleteSwitch("l2l3", get());
 		System.out.println(successful);
 	}
 
-	protected static DeleteAddress get() {
-		DeleteAddress deleteSwitch = new DeleteAddress();
+	protected static DeleteSwitch get() {
+		DeleteSwitch deleteSwitch = new DeleteSwitch();
 		return deleteSwitch;
 	}
 }

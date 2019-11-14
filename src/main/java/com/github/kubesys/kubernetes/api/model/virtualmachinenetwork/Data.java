@@ -486,11 +486,19 @@ public class Data {
 		
 		protected String _uuid;
 		
-		protected List<String> addresses;
+		protected String addresses;
 		
 		protected String external_ids;
 		
 		protected String name;
+
+		public String getAddresses() {
+			return addresses;
+		}
+
+		public void setAddresses(String addresses) {
+			this.addresses = addresses;
+		}
 
 		public String get_uuid() {
 			return _uuid;
@@ -498,14 +506,6 @@ public class Data {
 
 		public void set_uuid(String _uuid) {
 			this._uuid = _uuid;
-		}
-
-		public List<String> getAddresses() {
-			return addresses;
-		}
-
-		public void setAddresses(List<String> addresses) {
-			this.addresses = addresses;
 		}
 
 		public String getExternal_ids() {
