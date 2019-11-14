@@ -22,7 +22,7 @@ public class CreateDiskExternalSnapshotTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineDiskSnapshots()
-				.createDiskExternalSnapshot("diskuittest.3", "vm.node22", get(), "abc");
+				.createDiskExternalSnapshot("diskuittest.2", "vm.node22", get(), "abc");
 		System.out.println(successful);
 	}
 
@@ -32,7 +32,7 @@ public class CreateDiskExternalSnapshotTest {
 		createDiskExternalSnapshot.setVol("diskuittest");
 		createDiskExternalSnapshot.setFormat("qcow2");
 		createDiskExternalSnapshot.setType("dir");
-//		createDiskExternalSnapshot.setDomain("vm010");
+		createDiskExternalSnapshot.setDomain("vm010");
 		return createDiskExternalSnapshot;
 	}
 }

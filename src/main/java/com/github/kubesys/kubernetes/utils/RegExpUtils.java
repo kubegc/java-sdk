@@ -106,7 +106,16 @@ public class RegExpUtils {
 	
 	@FieldDescriber("IP范围，如192.168.1.0")
 	public final static String IP_PATTERN  = "((25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)\\.){3}(25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)";
-	
+
+    @FieldDescriber("端口范围，如19999")
+    public final static String PORT_PATTERN  = "([0-9]|[1-9]\\d|[1-9]\\d{2}|[1-9]\\d{3}|[1-5]\\d{4}|6[0-4]\\d{3}|65[0-4]\\d{2}|655[0-2]\\d|6553[0-5])";
+
+    @FieldDescriber("创建存储池的url，如localfs:///dev/sdb1:/mnt/uit")
+    public final static String POOL_URL_PATTERN = "((uraid|localfs)://(\\/(\\w+\\/?)+)*:(\\/(\\w+\\/?)+)$)|" +
+            "(nfs://"+IP_PATTERN+":(\\/(\\w+\\/?)+)$)|" +
+            "(glusterfs://"+IP_PATTERN+":(\\w+)$)|" +
+            "(((uus\\-iscsi)|(uus\\-iscsi\\-independent)|(uus\\-dev)|(uus\\-dev\\-independent))://[a-zA-Z0-9]*:[a-zA-Z0-9]*@"+IP_PATTERN+":"+PORT_PATTERN+"(\\/(\\w+\\/?)+)$)";
+
 	@FieldDescriber("子网及其掩码，如192.168.1.0/24，掩码是8,16,24之一")
 	public final static String SUBNET_PATTERN  = IP_PATTERN + "/([1-9]|1\\d|2\\d|30|31])";
 	
@@ -179,6 +188,7 @@ public class RegExpUtils {
 	public final static String BURST_PATTERN = "\\d{1,5}";
 	
 	public static void main(String[] args) {
+        System.out.println(POOL_URL_PATTERN);
 		String name = "ip.src == a && asd.ed == v";
 		Pattern pattern = Pattern.compile(RegExpUtils.RULE_PATTERN);
 		if (!pattern.matcher(name).matches()) {

@@ -32,6 +32,7 @@ public class RevertDiskExternalSnapshotTest {
 		revertDiskExternalSnapshot.setPool("pooluittest");
 		revertDiskExternalSnapshot.setVol("diskuittest");
 		revertDiskExternalSnapshot.setFormat("qcow2");
+		revertDiskExternalSnapshot.setDomain("vm010");
 		return revertDiskExternalSnapshot;
 	}
 }

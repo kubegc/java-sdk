@@ -169,7 +169,8 @@ public class Lifecycle {
 		
 		protected String source_path;
 
-		@ParameterDescriber(required = true, description = "云存储池的url", constraint = "建立云存储池时通过cstor-cli pool-list查询出的云存储池路径", example = "uus-iscsi-independent://admin:admin@192.168.3.10:7000/p1/4/2/0/32/0/3")
+		@ParameterDescriber(required = true, description = "创建云存储池时的url", constraint = "建立云存储池时通过cstor-cli pool-list查询出的云存储池路径", example = "uus-iscsi-independent://admin:admin@192.168.3.10:7000/p1/4/2/0/32/0/3")
+		@Pattern(regexp = RegExpUtils.POOL_URL_PATTERN)
 		protected String url;
 
 		@ParameterDescriber(required = false, description = "nfs挂载参数", constraint = "当type为nfs类型时，nfs的挂载参数", example = "nolock")
