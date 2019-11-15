@@ -111,7 +111,8 @@ public class RegExpUtils {
     public final static String PORT_PATTERN  = "([0-9]|[1-9]\\d|[1-9]\\d{2}|[1-9]\\d{3}|[1-5]\\d{4}|6[0-4]\\d{3}|65[0-4]\\d{2}|655[0-2]\\d|6553[0-5])";
 
     @FieldDescriber("创建存储池的url，如localfs:///dev/sdb1:/mnt/uit")
-    public final static String POOL_URL_PATTERN = "((uraid|localfs)://(\\/(\\w+\\/?)+)*:(\\/(\\w+\\/?)+)$)|" +
+    public final static String POOL_URL_PATTERN = "(localfs:///dev(\\/(\\w+\\/?)+):/mnt/localfs(\\/(\\w+\\/?)+)$)|" +
+            "(uraid:///dev(\\/(\\w+\\/?)+):/mnt/usb(\\/(\\w+\\/?)+)$)|" +
             "(nfs://"+IP_PATTERN+":(\\/(\\w+\\/?)+)$)|" +
             "(glusterfs://"+IP_PATTERN+":(\\w+)$)|" +
             "(((uus\\-iscsi)|(uus\\-iscsi\\-independent)|(uus\\-dev)|(uus\\-dev\\-independent))://[a-zA-Z0-9]*:[a-zA-Z0-9]*@"+IP_PATTERN+":"+PORT_PATTERN+"(\\/(\\w+\\/?)+)$)";

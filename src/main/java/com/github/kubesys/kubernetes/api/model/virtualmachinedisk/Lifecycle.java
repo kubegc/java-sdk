@@ -174,10 +174,6 @@ public class Lifecycle {
 
 		protected String allocation;
 
-		@ParameterDescriber(required = true, description = "根云盘文件的类型", constraint = "qcow2", example = "qcow2")
-		@Pattern(regexp = RegExpUtils.DISK_TYPE_PATTERN)
-		protected String backing_vol_format;
-
 		protected Boolean prealloc_metadata;
 
 		@ParameterDescriber(required = true, description = "云盘文件的类型", constraint = "qcow2", example = "qcow2")
@@ -188,9 +184,6 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String pool;
 
-		@ParameterDescriber(required = true, description = "根云盘的名字", constraint = "已创建出的云盘", example = "volume1")
-		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
-		protected String backing_vol;
 
 		@ParameterDescriber(required = true, description = "云盘空间大小,1G到1T", constraint = "1000000000-999999999999（单位：Byte）", example = "‭10,737,418,240‬")
 		@Pattern(regexp = RegExpUtils.DISK_SIZE_PATTERN)
@@ -206,14 +199,6 @@ public class Lifecycle {
 
 		public String getAllocation() {
 			return this.allocation;
-		}
-
-		public void setBacking_vol_format(String backing_vol_format) {
-			this.backing_vol_format = backing_vol_format;
-		}
-
-		public String getBacking_vol_format() {
-			return this.backing_vol_format;
 		}
 
 		public void setPrealloc_metadata(Boolean prealloc_metadata) {
@@ -238,14 +223,6 @@ public class Lifecycle {
 
 		public String getPool() {
 			return this.pool;
-		}
-
-		public void setBacking_vol(String backing_vol) {
-			this.backing_vol = backing_vol;
-		}
-
-		public String getBacking_vol() {
-			return this.backing_vol;
 		}
 
 		public void setCapacity(String capacity) {
@@ -274,20 +251,20 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
 		protected String type;
 
-		@ParameterDescriber(required = false, description = "删除所有快照", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
-		protected Boolean delete_snapshots;
+//		@ParameterDescriber(required = false, description = "删除所有快照", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
+//		protected Boolean delete_snapshots;
 
 		@ParameterDescriber(required = true, description = "云盘所在的存储池名", constraint = "已创建出的存储池", example = "pool2")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String pool;
 
-		public void setDelete_snapshots(Boolean delete_snapshots) {
-			this.delete_snapshots = delete_snapshots;
-		}
-
-		public Boolean getDelete_snapshots() {
-			return this.delete_snapshots;
-		}
+//		public void setDelete_snapshots(Boolean delete_snapshots) {
+//			this.delete_snapshots = delete_snapshots;
+//		}
+//
+//		public Boolean getDelete_snapshots() {
+//			return this.delete_snapshots;
+//		}
 
 		public void setPool(String pool) {
 			this.pool = pool;
