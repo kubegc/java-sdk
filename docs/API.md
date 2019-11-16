@@ -1609,6 +1609,398 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
+## 1.34 BindFloatingIP(绑定浮动IP)
+
+**接口功能:**
+	适用浮动和虚拟IP场景，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
+
+**接口依赖:**
+	虚拟机存在，即已调用过CreatePool, CreateSwitch, CreateDisk/CreateDiskImage, CreateAndStartVMFromISO/CreateAndStartVMFromImage
+
+**接口所属:**
+	com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.BindFloatingIP
+
+**参数描述:**
+
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+| name | String | true | 资源名称 | bindFloatingIP.name.001|
+| bindFloatingIP | BindFloatingIP | true | 绑定浮动IP | 详细见下 |
+| eventId | String | fasle | 事件ID | bindFloatingIP.event.001 |
+
+对象bindFloatingIP参数说明:
+
+| name | type | required | description | constraint | example |
+| ----- | ------ | ------ | ------ | ------ | ------ |
+| swName|String|true|交换机名|名称是字符串类型，长度是4到100位，只允许数字、小写字母、中划线、以及圆点|switch11|
+| outSwName|String|true|外部交换机名|名称是字符串类型，长度是4到100位，只允许数字、小写字母、中划线、以及圆点|switch11|
+| fip|String|true|外网IP，以及子网掩码|x.x.x.x,x取值范围0到255|192.168.5.2/24|
+|  |  |  |  |  |
+
+**接口异常:**
+
+(1)在调用本方法抛出;
+
+| name  | description | 
+| ----- | ----- | 
+| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
+| IllegalFormatException | 传递的参数不符合约束条件    |
+| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
+
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看BindFloatingIPspec下的status域，从message中获取详细异常信息
+
+| name  | description | 
+| ----- | ----- | 
+| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
+| VirtctlError | Libvirt不支持的生命周期    |
+| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
+| Exception    | 后台代码异常退出,比如主机的hostname变化    |
+
+## 1.35 UnbindFloatingIP(解绑浮动IP)
+
+**接口功能:**
+	适用浮动和虚拟IP场景，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
+
+**接口依赖:**
+	虚拟机存在，即已调用过CreatePool, CreateSwitch, CreateDisk/CreateDiskImage, CreateAndStartVMFromISO/CreateAndStartVMFromImage
+
+**接口所属:**
+	com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UnbindFloatingIP
+
+**参数描述:**
+
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+| name | String | true | 资源名称 | unbindFloatingIP.name.001|
+| unbindFloatingIP | UnbindFloatingIP | true | 解绑浮动IP | 详细见下 |
+| eventId | String | fasle | 事件ID | unbindFloatingIP.event.001 |
+
+对象unbindFloatingIP参数说明:
+
+| name | type | required | description | constraint | example |
+| ----- | ------ | ------ | ------ | ------ | ------ |
+| swName|String|true|交换机名|名称是字符串类型，长度是4到100位，只允许数字、小写字母、中划线、以及圆点|switch11|
+| vmmac|String|true|虚拟机mac地址|mac地址不能以fe开头|7e:0c:b0:ef:6a:04|
+| fip|String|true|外网IP|x.x.x.x,x取值范围0到255|192.168.5.2|
+| vmip|String|true|虚拟机IP|x.x.x.x,x取值范围0到255|192.168.5.2|
+|  |  |  |  |  |
+
+**接口异常:**
+
+(1)在调用本方法抛出;
+
+| name  | description | 
+| ----- | ----- | 
+| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
+| IllegalFormatException | 传递的参数不符合约束条件    |
+| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
+
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看UnbindFloatingIPspec下的status域，从message中获取详细异常信息
+
+| name  | description | 
+| ----- | ----- | 
+| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
+| VirtctlError | Libvirt不支持的生命周期    |
+| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
+| Exception    | 后台代码异常退出,比如主机的hostname变化    |
+
+## 1.36 AddACL(创建安全组)
+
+**接口功能:**
+	创建安全规则，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
+
+**接口依赖:**
+	虚拟机存在，即已调用过CreatePool, CreateSwitch, CreateDisk/CreateDiskImage, CreateAndStartVMFromISO/CreateAndStartVMFromImage
+
+**接口所属:**
+	com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.AddACL
+
+**参数描述:**
+
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+| name | String | true | 资源名称 | addACL.name.001|
+| addACL | AddACL | true | 创建安全组 | 详细见下 |
+| eventId | String | fasle | 事件ID | addACL.event.001 |
+
+对象addACL参数说明:
+
+| name | type | required | description | constraint | example |
+| ----- | ------ | ------ | ------ | ------ | ------ |
+| swName|String|true|交换机名|名称是字符串类型，长度是4到100位，只允许数字、小写字母、中划线、以及圆点|switch11|
+| vmmac|String|true|虚拟机mac地址|mac地址不能以fe开头|7e:0c:b0:ef:6a:04|
+| type|String|true|ACL类型|from或者to|from|
+| rule|String|true|ACL规则|&&连接两个规则，注意src和dst后==前后必须有一个空格|ip4.src == $dmz && tcp.dst == 3306|
+| operator|String|true|ACL操作|allow或者drop|allow|
+| priority|String|false|优先级|1-999|1|
+|  |  |  |  |  |
+
+**接口异常:**
+
+(1)在调用本方法抛出;
+
+| name  | description | 
+| ----- | ----- | 
+| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
+| IllegalFormatException | 传递的参数不符合约束条件    |
+| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
+
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看AddACLspec下的status域，从message中获取详细异常信息
+
+| name  | description | 
+| ----- | ----- | 
+| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
+| VirtctlError | Libvirt不支持的生命周期    |
+| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
+| Exception    | 后台代码异常退出,比如主机的hostname变化    |
+
+## 1.37 ModifyACL(修改安全组)
+
+**接口功能:**
+	修改安全规则，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
+
+**接口依赖:**
+	虚拟机存在，即已调用过CreatePool, CreateSwitch, CreateDisk/CreateDiskImage, CreateAndStartVMFromISO/CreateAndStartVMFromImage
+
+**接口所属:**
+	com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ModifyACL
+
+**参数描述:**
+
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+| name | String | true | 资源名称 | modifyACL.name.001|
+| modifyACL | ModifyACL | true | 修改安全组 | 详细见下 |
+| eventId | String | fasle | 事件ID | modifyACL.event.001 |
+
+对象modifyACL参数说明:
+
+| name | type | required | description | constraint | example |
+| ----- | ------ | ------ | ------ | ------ | ------ |
+| swName|String|true|交换机名|名称是字符串类型，长度是4到100位，只允许数字、小写字母、中划线、以及圆点|switch11|
+| vmmac|String|true|虚拟机mac地址|mac地址不能以fe开头|7e:0c:b0:ef:6a:04|
+| type|String|true|ACL类型|from或者to|from|
+| rule|String|true|ACL规则|&&连接两个规则，注意src和dst后==前后必须有一个空格|ip4.src == $dmz && tcp.dst == 3306|
+| operator|String|true|ACL操作|allow或者drop|allow|
+| priority|String|false|优先级|1-999|1|
+|  |  |  |  |  |
+
+**接口异常:**
+
+(1)在调用本方法抛出;
+
+| name  | description | 
+| ----- | ----- | 
+| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
+| IllegalFormatException | 传递的参数不符合约束条件    |
+| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
+
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看ModifyACLspec下的status域，从message中获取详细异常信息
+
+| name  | description | 
+| ----- | ----- | 
+| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
+| VirtctlError | Libvirt不支持的生命周期    |
+| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
+| Exception    | 后台代码异常退出,比如主机的hostname变化    |
+
+## 1.38 DeprecatedACL(删除安全组)
+
+**接口功能:**
+	删除安全规则，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
+
+**接口依赖:**
+	虚拟机存在，即已调用过CreatePool, CreateSwitch, CreateDisk/CreateDiskImage, CreateAndStartVMFromISO/CreateAndStartVMFromImage
+
+**接口所属:**
+	com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.DeprecatedACL
+
+**参数描述:**
+
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+| name | String | true | 资源名称 | deprecatedACL.name.001|
+| deprecatedACL | DeprecatedACL | true | 删除安全组 | 详细见下 |
+| eventId | String | fasle | 事件ID | deprecatedACL.event.001 |
+
+对象deprecatedACL参数说明:
+
+| name | type | required | description | constraint | example |
+| ----- | ------ | ------ | ------ | ------ | ------ |
+| swName|String|true|交换机名|名称是字符串类型，长度是4到100位，只允许数字、小写字母、中划线、以及圆点|switch11|
+| vmmac|String|true|虚拟机mac地址|mac地址不能以fe开头|7e:0c:b0:ef:6a:04|
+| type|String|false|ACL类型|from或者to|from|
+| rule|String|false|ACL规则|&&连接两个规则，注意src和dst后==前后必须有一个空格|ip4.src == $dmz && tcp.dst == 3306|
+| priority|String|false|优先级|1-999|1|
+|  |  |  |  |  |
+
+**接口异常:**
+
+(1)在调用本方法抛出;
+
+| name  | description | 
+| ----- | ----- | 
+| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
+| IllegalFormatException | 传递的参数不符合约束条件    |
+| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
+
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看DeprecatedACLspec下的status域，从message中获取详细异常信息
+
+| name  | description | 
+| ----- | ----- | 
+| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
+| VirtctlError | Libvirt不支持的生命周期    |
+| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
+| Exception    | 后台代码异常退出,比如主机的hostname变化    |
+
+## 1.39 SetQoS(设置QoS)
+
+**接口功能:**
+	设置QoS，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
+
+**接口依赖:**
+	虚拟机存在，即已调用过CreatePool, CreateSwitch, CreateDisk/CreateDiskImage, CreateAndStartVMFromISO/CreateAndStartVMFromImage
+
+**接口所属:**
+	com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.SetQoS
+
+**参数描述:**
+
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+| name | String | true | 资源名称 | setQoS.name.001|
+| setQoS | SetQoS | true | 设置QoS | 详细见下 |
+| eventId | String | fasle | 事件ID | setQoS.event.001 |
+
+对象setQoS参数说明:
+
+| name | type | required | description | constraint | example |
+| ----- | ------ | ------ | ------ | ------ | ------ |
+| swName|String|true|交换机名|交换机名|switch1|
+| type|String|true|QoS类型|from或者to|from|
+| rule|String|true|协议类型|只能是ip, ip4, icmp之类|ip|
+| rate|String|true|带宽速度|单位是kbps, 0-1000Mbps|10000|
+| burst|String|true|带宽波动|单位是kbps, 0-100Mbps|100|
+| priority|String|false|优先级|0-32767|2|
+|  |  |  |  |  |
+
+**接口异常:**
+
+(1)在调用本方法抛出;
+
+| name  | description | 
+| ----- | ----- | 
+| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
+| IllegalFormatException | 传递的参数不符合约束条件    |
+| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
+
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看SetQoSspec下的status域，从message中获取详细异常信息
+
+| name  | description | 
+| ----- | ----- | 
+| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
+| VirtctlError | Libvirt不支持的生命周期    |
+| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
+| Exception    | 后台代码异常退出,比如主机的hostname变化    |
+
+## 1.40 ModifyQoS(修改QoS)
+
+**接口功能:**
+	修改QoS，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
+
+**接口依赖:**
+	虚拟机存在，即已调用过CreatePool, CreateSwitch, CreateDisk/CreateDiskImage, CreateAndStartVMFromISO/CreateAndStartVMFromImage
+
+**接口所属:**
+	com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ModifyQoS
+
+**参数描述:**
+
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+| name | String | true | 资源名称 | modifyQoS.name.001|
+| modifyQoS | ModifyQoS | true | 修改QoS | 详细见下 |
+| eventId | String | fasle | 事件ID | modifyQoS.event.001 |
+
+对象modifyQoS参数说明:
+
+| name | type | required | description | constraint | example |
+| ----- | ------ | ------ | ------ | ------ | ------ |
+| swName|String|true|交换机名|交换机名|switch1|
+| type|String|true|QoS类型|from或者to|from|
+| rule|String|true|协议类型|只能是ip, ip4, icmp之类|ip|
+| rate|String|true|带宽速度|单位是kbps, 0-1000Mbps|10000|
+| burst|String|true|带宽波动|单位是kbps, 0-100Mbps|100|
+| priority|String|false|优先级|0-32767|2|
+|  |  |  |  |  |
+
+**接口异常:**
+
+(1)在调用本方法抛出;
+
+| name  | description | 
+| ----- | ----- | 
+| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
+| IllegalFormatException | 传递的参数不符合约束条件    |
+| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
+
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看ModifyQoSspec下的status域，从message中获取详细异常信息
+
+| name  | description | 
+| ----- | ----- | 
+| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
+| VirtctlError | Libvirt不支持的生命周期    |
+| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
+| Exception    | 后台代码异常退出,比如主机的hostname变化    |
+
+## 1.41 UnsetQoS(删除QoS)
+
+**接口功能:**
+	删除QoS，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
+
+**接口依赖:**
+	虚拟机存在，即已调用过CreatePool, CreateSwitch, CreateDisk/CreateDiskImage, CreateAndStartVMFromISO/CreateAndStartVMFromImage
+
+**接口所属:**
+	com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UnsetQoS
+
+**参数描述:**
+
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+| name | String | true | 资源名称 | unsetQoS.name.001|
+| unsetQoS | UnsetQoS | true | 删除QoS | 详细见下 |
+| eventId | String | fasle | 事件ID | unsetQoS.event.001 |
+
+对象unsetQoS参数说明:
+
+| name | type | required | description | constraint | example |
+| ----- | ------ | ------ | ------ | ------ | ------ |
+| swName|String|true|交换机名|交换机名|switch1|
+| type|String|false|QoS类型|from或者to|from|
+| rule|String|false|协议类型|只能是ip, ip4, icmp之类|ip|
+| priority|String|false|优先级|0-32767|2|
+|  |  |  |  |  |
+
+**接口异常:**
+
+(1)在调用本方法抛出;
+
+| name  | description | 
+| ----- | ----- | 
+| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
+| IllegalFormatException | 传递的参数不符合约束条件    |
+| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
+
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看UnsetQoSspec下的status域，从message中获取详细异常信息
+
+| name  | description | 
+| ----- | ----- | 
+| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
+| VirtctlError | Libvirt不支持的生命周期    |
+| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
+| Exception    | 后台代码异常退出,比如主机的hostname变化    |
+
 ## **返回值:**
 
 ```
@@ -1623,6 +2015,8 @@
 		"additionalPrinterColumns":[],
 		"additionalProperties":{},
 		"domain":{
+			"_id":"String",
+			"_type":"String",
 			"blkiotune":{
 				"device":[
 					{
@@ -1677,110 +2071,110 @@
 				"text":"String"
 			},
 			"clock":{
-				"adjustment":"String",
-				"basis":"String",
-				"offset":"String",
+				"_adjustment":"String",
+				"_basis":"String",
+				"_offset":"String",
+				"_timezone":"String",
 				"timer":[
 					{
+						"_frequency":"String",
+						"_mode":"String",
+						"_name":"String",
+						"_present":"String",
+						"_tickpolicy":"String",
+						"_track":"String",
 						"catchup":{
-							"limit":"String",
-							"slew":"String",
-							"threshold":"String"
-						},
-						"frequency":"String",
-						"mode":"String",
-						"name":"String",
-						"present":"String",
-						"tickpolicy":"String",
-						"track":"String"
+							"_limit":"String",
+							"_slew":"String",
+							"_threshold":"String"
+						}
 					},
 					{
+						"_frequency":"String",
+						"_mode":"String",
+						"_name":"String",
+						"_present":"String",
+						"_tickpolicy":"String",
+						"_track":"String",
 						"catchup":{
-							"limit":"String",
-							"slew":"String",
-							"threshold":"String"
-						},
-						"frequency":"String",
-						"mode":"String",
-						"name":"String",
-						"present":"String",
-						"tickpolicy":"String",
-						"track":"String"
+							"_limit":"String",
+							"_slew":"String",
+							"_threshold":"String"
+						}
 					}
-				],
-				"timezone":"String"
+				]
 			},
 			"cpu":{
+				"_check":"String",
+				"_match":"String",
+				"_mode":"String",
 				"cache":{
-					"level":"String",
-					"mode":"String"
+					"_level":"String",
+					"_mode":"String"
 				},
-				"check":"String",
 				"feature":[
 					{
-						"name":"String",
-						"policy":"String"
+						"_name":"String",
+						"_policy":"String"
 					},
 					{
-						"name":"String",
-						"policy":"String"
+						"_name":"String",
+						"_policy":"String"
 					}
 				],
-				"match":"String",
-				"mode":"String",
 				"model":{
-					"fallback":"String",
-					"text":"String",
-					"vendor_id":"String"
+					"_fallback":"String",
+					"_vendor_id":"String",
+					"text":"String"
 				},
 				"numa":{
 					"cell":[
 						{
-							"cpus":"String",
-							"discard":"String",
+							"_cpus":"String",
+							"_discard":"String",
+							"_id":"String",
+							"_memAccess":"String",
+							"_memory":"String",
+							"_unit":"String",
 							"distances":{
 								"sibling":[
 									{
-										"id":"String",
-										"value":"String"
+										"_id":"String",
+										"_value":"String"
 									},
 									{
-										"id":"String",
-										"value":"String"
+										"_id":"String",
+										"_value":"String"
 									}
 								]
-							},
-							"id":"String",
-							"memAccess":"String",
-							"memory":"String",
-							"unit":"String"
+							}
 						},
 						{
-							"cpus":"String",
-							"discard":"String",
+							"_cpus":"String",
+							"_discard":"String",
+							"_id":"String",
+							"_memAccess":"String",
+							"_memory":"String",
+							"_unit":"String",
 							"distances":{
 								"sibling":[
 									{
-										"id":"String",
-										"value":"String"
+										"_id":"String",
+										"_value":"String"
 									},
 									{
-										"id":"String",
-										"value":"String"
+										"_id":"String",
+										"_value":"String"
 									}
 								]
-							},
-							"id":"String",
-							"memAccess":"String",
-							"memory":"String",
-							"unit":"String"
+							}
 						}
 					]
 				},
 				"topology":{
-					"cores":"String",
-					"sockets":"String",
-					"threads":"String"
+					"_cores":"String",
+					"_sockets":"String",
+					"_threads":"String"
 				},
 				"vendor":{
 					"text":"String"
@@ -1789,62 +2183,62 @@
 			"cputune":{
 				"cachetune":[
 					{
+						"_vcpus":"String",
 						"cache":[
 							{
-								"id":"String",
-								"level":"String",
-								"size":"String",
-								"type":"String",
-								"unit":"String"
+								"_id":"String",
+								"_level":"String",
+								"_size":"String",
+								"_type":"String",
+								"_unit":"String"
 							},
 							{
-								"id":"String",
-								"level":"String",
-								"size":"String",
-								"type":"String",
-								"unit":"String"
+								"_id":"String",
+								"_level":"String",
+								"_size":"String",
+								"_type":"String",
+								"_unit":"String"
 							}
 						],
 						"monitor":[
 							{
-								"level":"String",
-								"vcpus":"String"
+								"_level":"String",
+								"_vcpus":"String"
 							},
 							{
-								"level":"String",
-								"vcpus":"String"
+								"_level":"String",
+								"_vcpus":"String"
 							}
-						],
-						"vcpus":"String"
+						]
 					},
 					{
+						"_vcpus":"String",
 						"cache":[
 							{
-								"id":"String",
-								"level":"String",
-								"size":"String",
-								"type":"String",
-								"unit":"String"
+								"_id":"String",
+								"_level":"String",
+								"_size":"String",
+								"_type":"String",
+								"_unit":"String"
 							},
 							{
-								"id":"String",
-								"level":"String",
-								"size":"String",
-								"type":"String",
-								"unit":"String"
+								"_id":"String",
+								"_level":"String",
+								"_size":"String",
+								"_type":"String",
+								"_unit":"String"
 							}
 						],
 						"monitor":[
 							{
-								"level":"String",
-								"vcpus":"String"
+								"_level":"String",
+								"_vcpus":"String"
 							},
 							{
-								"level":"String",
-								"vcpus":"String"
+								"_level":"String",
+								"_vcpus":"String"
 							}
-						],
-						"vcpus":"String"
+						]
 					}
 				],
 				"emulator_period":{
@@ -1854,7 +2248,7 @@
 					"text":"String"
 				},
 				"emulatorpin":{
-					"cpuset":"String"
+					"_cpuset":"String"
 				},
 				"global_period":{
 					"text":"String"
@@ -1870,52 +2264,52 @@
 				},
 				"iothreadpin":[
 					{
-						"cpuset":"String",
-						"iothread":"String"
+						"_cpuset":"String",
+						"_iothread":"String"
 					},
 					{
-						"cpuset":"String",
-						"iothread":"String"
+						"_cpuset":"String",
+						"_iothread":"String"
 					}
 				],
 				"iothreadsched":[
 					{
-						"iothreads":"String",
-						"priority":"String",
-						"scheduler":"String"
+						"_iothreads":"String",
+						"_priority":"String",
+						"_scheduler":"String"
 					},
 					{
-						"iothreads":"String",
-						"priority":"String",
-						"scheduler":"String"
+						"_iothreads":"String",
+						"_priority":"String",
+						"_scheduler":"String"
 					}
 				],
 				"memorytune":[
 					{
+						"_vcpus":"String",
 						"node":[
 							{
-								"bandwidth":"String",
-								"id":"String"
+								"_bandwidth":"String",
+								"_id":"String"
 							},
 							{
-								"bandwidth":"String",
-								"id":"String"
+								"_bandwidth":"String",
+								"_id":"String"
 							}
-						],
-						"vcpus":"String"
+						]
 					},
 					{
+						"_vcpus":"String",
 						"node":[
 							{
-								"bandwidth":"String",
-								"id":"String"
+								"_bandwidth":"String",
+								"_id":"String"
 							},
 							{
-								"bandwidth":"String",
-								"id":"String"
+								"_bandwidth":"String",
+								"_id":"String"
 							}
-						],
-						"vcpus":"String"
+						]
 					}
 				],
 				"period":{
@@ -1929,300 +2323,650 @@
 				},
 				"vcpupin":[
 					{
-						"cpuset":"String",
-						"vcpu":"String"
+						"_cpuset":"String",
+						"_vcpu":"String"
 					},
 					{
-						"cpuset":"String",
-						"vcpu":"String"
+						"_cpuset":"String",
+						"_vcpu":"String"
 					}
 				],
 				"vcpusched":[
 					{
-						"priority":"String",
-						"scheduler":"String",
-						"vcpus":"String"
+						"_priority":"String",
+						"_scheduler":"String",
+						"_vcpus":"String"
 					},
 					{
-						"priority":"String",
-						"scheduler":"String",
-						"vcpus":"String"
+						"_priority":"String",
+						"_scheduler":"String",
+						"_vcpus":"String"
 					}
 				]
 			},
 			"currentMemory":{
-				"text":"String",
-				"unit":"String"
+				"_unit":"String",
+				"text":"String"
 			},
 			"description":{
 				"text":"String"
 			},
 			"devices":{
-				"channel":[
+				"_interface":[
 					{
+						"_managed":"String",
+						"_trustGuestRxFilters":"String",
+						"_type":"String",
 						"address":{
-							"bus":"String",
-							"controller":"String",
-							"port":"String",
-							"type":"String"
+							"_bus":"String",
+							"_domain":"String",
+							"_function":"String",
+							"_slot":"String",
+							"_type":"String"
 						},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
-						"log":{
-							"append":"String",
-							"file":"String"
+						"backend":{
+							"_tap":"String",
+							"_vhost":"String"
 						},
-						"protocol":{
-							"type":"String"
+						"bandwidth":{
+							"inbound":{
+								"_average":"String",
+								"_burst":"String",
+								"_floor":"String",
+								"_peak":"String"
+							},
+							"outbound":{
+								"_average":"String",
+								"_burst":"String",
+								"_floor":"String",
+								"_peak":"String"
+							}
+						},
+						"boot":{
+							"_loadparm":"String",
+							"_order":"String"
+						},
+						"coalesce":{
+							"rx":{
+								"frames":{
+									"_max":"String"
+								}
+							}
+						},
+						"driver":{
+							"_ats":"String",
+							"_event_idx":"String",
+							"_ioeventfd":"String",
+							"_iommu":"String",
+							"_name":"String",
+							"_queues":"String",
+							"_rx_queue_size":"String",
+							"_tx_queue_size":"String",
+							"_txmode":"String",
+							"guest":{
+								"_csum":"String",
+								"_ecn":"String",
+								"_tso4":"String",
+								"_tso6":"String",
+								"_ufo":"String"
+							},
+							"host":{
+								"_csum":"String",
+								"_ecn":"String",
+								"_gso":"String",
+								"_mrg_rxbuf":"String",
+								"_tso4":"String",
+								"_tso6":"String",
+								"_ufo":"String"
+							}
+						},
+						"filterref":{
+							"_filter":"String",
+							"parameter":[
+								{
+									"_name":"String",
+									"_value":"String"
+								},
+								{
+									"_name":"String",
+									"_value":"String"
+								}
+							]
+						},
+						"guest":{
+							"_actual":"String",
+							"_dev":"String"
+						},
+						"ip":[
+							{
+								"_address":"String",
+								"_family":"String",
+								"_peer":"String",
+								"_prefix":"String"
+							},
+							{
+								"_address":"String",
+								"_family":"String",
+								"_peer":"String",
+								"_prefix":"String"
+							}
+						],
+						"link":{
+							"_state":"String"
+						},
+						"mac":{
+							"_address":"String"
+						},
+						"model":{
+							"_type":"String"
+						},
+						"mtu":{
+							"_size":"String"
+						},
+						"rom":{
+							"_bar":"String",
+							"_enabled":"String",
+							"_file":"String"
+						},
+						"route":[
+							{
+								"_address":"String",
+								"_family":"String",
+								"_gateway":"String",
+								"_metric":"String",
+								"_netmask":"String",
+								"_prefix":"String"
+							},
+							{
+								"_address":"String",
+								"_family":"String",
+								"_gateway":"String",
+								"_metric":"String",
+								"_netmask":"String",
+								"_prefix":"String"
+							}
+						],
+						"script":{
+							"_path":"String"
 						},
 						"source":{
-							"mode":"String",
-							"path":"String"
+							"_bridge":"String",
+							"_network":"String"
 						},
 						"target":{
-							"name":"String",
-							"state":"String",
-							"type":"String"
+							"_dev":"String"
 						},
-						"type":"String"
+						"tune":{
+							"sndbuf":{
+								"text":"String"
+							}
+						},
+						"virtualport":{
+							"_type":"String",
+							"parameters":{
+								"__interfaceid":"String"
+							}
+						},
+						"vlan":{
+							"_trunk":"String",
+							"tag":[
+								{
+									"_id":"String",
+									"_nativeMode":"String"
+								},
+								{
+									"_id":"String",
+									"_nativeMode":"String"
+								}
+							]
+						}
 					},
 					{
+						"_managed":"String",
+						"_trustGuestRxFilters":"String",
+						"_type":"String",
 						"address":{
-							"bus":"String",
-							"controller":"String",
-							"port":"String",
-							"type":"String"
+							"_bus":"String",
+							"_domain":"String",
+							"_function":"String",
+							"_slot":"String",
+							"_type":"String"
 						},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
-						"log":{
-							"append":"String",
-							"file":"String"
+						"backend":{
+							"_tap":"String",
+							"_vhost":"String"
 						},
-						"protocol":{
-							"type":"String"
+						"bandwidth":{
+							"inbound":{
+								"_average":"String",
+								"_burst":"String",
+								"_floor":"String",
+								"_peak":"String"
+							},
+							"outbound":{
+								"_average":"String",
+								"_burst":"String",
+								"_floor":"String",
+								"_peak":"String"
+							}
+						},
+						"boot":{
+							"_loadparm":"String",
+							"_order":"String"
+						},
+						"coalesce":{
+							"rx":{
+								"frames":{
+									"_max":"String"
+								}
+							}
+						},
+						"driver":{
+							"_ats":"String",
+							"_event_idx":"String",
+							"_ioeventfd":"String",
+							"_iommu":"String",
+							"_name":"String",
+							"_queues":"String",
+							"_rx_queue_size":"String",
+							"_tx_queue_size":"String",
+							"_txmode":"String",
+							"guest":{
+								"_csum":"String",
+								"_ecn":"String",
+								"_tso4":"String",
+								"_tso6":"String",
+								"_ufo":"String"
+							},
+							"host":{
+								"_csum":"String",
+								"_ecn":"String",
+								"_gso":"String",
+								"_mrg_rxbuf":"String",
+								"_tso4":"String",
+								"_tso6":"String",
+								"_ufo":"String"
+							}
+						},
+						"filterref":{
+							"_filter":"String",
+							"parameter":[
+								{
+									"_name":"String",
+									"_value":"String"
+								},
+								{
+									"_name":"String",
+									"_value":"String"
+								}
+							]
+						},
+						"guest":{
+							"_actual":"String",
+							"_dev":"String"
+						},
+						"ip":[
+							{
+								"_address":"String",
+								"_family":"String",
+								"_peer":"String",
+								"_prefix":"String"
+							},
+							{
+								"_address":"String",
+								"_family":"String",
+								"_peer":"String",
+								"_prefix":"String"
+							}
+						],
+						"link":{
+							"_state":"String"
+						},
+						"mac":{
+							"_address":"String"
+						},
+						"model":{
+							"_type":"String"
+						},
+						"mtu":{
+							"_size":"String"
+						},
+						"rom":{
+							"_bar":"String",
+							"_enabled":"String",
+							"_file":"String"
+						},
+						"route":[
+							{
+								"_address":"String",
+								"_family":"String",
+								"_gateway":"String",
+								"_metric":"String",
+								"_netmask":"String",
+								"_prefix":"String"
+							},
+							{
+								"_address":"String",
+								"_family":"String",
+								"_gateway":"String",
+								"_metric":"String",
+								"_netmask":"String",
+								"_prefix":"String"
+							}
+						],
+						"script":{
+							"_path":"String"
 						},
 						"source":{
-							"mode":"String",
-							"path":"String"
+							"_bridge":"String",
+							"_network":"String"
 						},
 						"target":{
-							"name":"String",
-							"state":"String",
-							"type":"String"
+							"_dev":"String"
 						},
-						"type":"String"
+						"tune":{
+							"sndbuf":{
+								"text":"String"
+							}
+						},
+						"virtualport":{
+							"_type":"String",
+							"parameters":{
+								"__interfaceid":"String"
+							}
+						},
+						"vlan":{
+							"_trunk":"String",
+							"tag":[
+								{
+									"_id":"String",
+									"_nativeMode":"String"
+								},
+								{
+									"_id":"String",
+									"_nativeMode":"String"
+								}
+							]
+						}
+					}
+				],
+				"channel":[
+					{
+						"_type":"String",
+						"address":{
+							"_bus":"String",
+							"_controller":"String",
+							"_port":"String",
+							"_type":"String"
+						},
+						"alias":{
+							"_name":"String"
+						},
+						"log":{
+							"_append":"String",
+							"_file":"String"
+						},
+						"protocol":{
+							"_type":"String"
+						},
+						"source":{
+							"_mode":"String",
+							"_path":"String"
+						},
+						"target":{
+							"_name":"String",
+							"_state":"String",
+							"_type":"String"
+						}
+					},
+					{
+						"_type":"String",
+						"address":{
+							"_bus":"String",
+							"_controller":"String",
+							"_port":"String",
+							"_type":"String"
+						},
+						"alias":{
+							"_name":"String"
+						},
+						"log":{
+							"_append":"String",
+							"_file":"String"
+						},
+						"protocol":{
+							"_type":"String"
+						},
+						"source":{
+							"_mode":"String",
+							"_path":"String"
+						},
+						"target":{
+							"_name":"String",
+							"_state":"String",
+							"_type":"String"
+						}
 					}
 				],
 				"console":[
 					{
+						"_tty":"String",
+						"_type":"String",
 						"address":{},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
 						"log":{
-							"append":"String",
-							"file":"String"
+							"_append":"String",
+							"_file":"String"
 						},
 						"protocol":{
-							"type":"String"
+							"_type":"String"
 						},
 						"source":{
-							"path":"String"
+							"_path":"String"
 						},
 						"target":{
-							"port":"String",
-							"type":"String"
-						},
-						"tty":"String",
-						"type":"String"
+							"_port":"String",
+							"_type":"String"
+						}
 					},
 					{
+						"_tty":"String",
+						"_type":"String",
 						"address":{},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
 						"log":{
-							"append":"String",
-							"file":"String"
+							"_append":"String",
+							"_file":"String"
 						},
 						"protocol":{
-							"type":"String"
+							"_type":"String"
 						},
 						"source":{
-							"path":"String"
+							"_path":"String"
 						},
 						"target":{
-							"port":"String",
-							"type":"String"
-						},
-						"tty":"String",
-						"type":"String"
+							"_port":"String",
+							"_type":"String"
+						}
 					}
 				],
 				"controller":[
 					{
+						"_index":"String",
+						"_type":"String",
 						"address":{
-							"bus":"String",
-							"domain":"String",
-							"function":"String",
-							"multifunction":"String",
-							"slot":"String",
-							"type":"String"
+							"_bus":"String",
+							"_domain":"String",
+							"_function":"String",
+							"_multifunction":"String",
+							"_slot":"String",
+							"_type":"String"
 						},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
 						"driver":{
-							"ats":"String",
-							"cmd_per_lun":"String",
-							"ioeventfd":"String",
-							"iommu":"String",
-							"iothread":"String",
-							"max_sectors":"String",
-							"queues":"String"
+							"_ats":"String",
+							"_cmd_per_lun":"String",
+							"_ioeventfd":"String",
+							"_iommu":"String",
+							"_iothread":"String",
+							"_max_sectors":"String",
+							"_queues":"String"
 						},
-						"index":"String",
 						"master":{
-							"startport":"String"
+							"_startport":"String"
 						},
 						"model":"String",
 						"target":{
-							"chassis":"String",
-							"chassisNr":"String",
-							"port":"String"
-						},
-						"type":"String"
+							"_chassis":"String",
+							"_chassisNr":"String",
+							"_port":"String"
+						}
 					},
 					{
+						"_index":"String",
+						"_type":"String",
 						"address":{
-							"bus":"String",
-							"domain":"String",
-							"function":"String",
-							"multifunction":"String",
-							"slot":"String",
-							"type":"String"
+							"_bus":"String",
+							"_domain":"String",
+							"_function":"String",
+							"_multifunction":"String",
+							"_slot":"String",
+							"_type":"String"
 						},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
 						"driver":{
-							"ats":"String",
-							"cmd_per_lun":"String",
-							"ioeventfd":"String",
-							"iommu":"String",
-							"iothread":"String",
-							"max_sectors":"String",
-							"queues":"String"
+							"_ats":"String",
+							"_cmd_per_lun":"String",
+							"_ioeventfd":"String",
+							"_iommu":"String",
+							"_iothread":"String",
+							"_max_sectors":"String",
+							"_queues":"String"
 						},
-						"index":"String",
 						"master":{
-							"startport":"String"
+							"_startport":"String"
 						},
 						"model":"String",
 						"target":{
-							"chassis":"String",
-							"chassisNr":"String",
-							"port":"String"
-						},
-						"type":"String"
+							"_chassis":"String",
+							"_chassisNr":"String",
+							"_port":"String"
+						}
 					}
 				],
 				"disk":[
 					{
+						"_device":"String",
+						"_model":"String",
+						"_rawio":"String",
+						"_sgio":"String",
+						"_snapshot":"String",
+						"_transient":{},
+						"_type":"String",
 						"address":{
-							"bus":"String",
-							"controller":"String",
-							"domain":"String",
-							"function":"String",
-							"slot":"String",
-							"target":"String",
-							"type":"String",
-							"unit":"String"
+							"_bus":"String",
+							"_controller":"String",
+							"_domain":"String",
+							"_function":"String",
+							"_slot":"String",
+							"_target":"String",
+							"_type":"String",
+							"_unit":"String"
 						},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
 						"auth":{
+							"_username":"String",
 							"secret":{
-								"type":"String",
-								"usage":"String",
-								"uuid":"String"
-							},
-							"username":"String"
+								"_type":"String",
+								"_usage":"String",
+								"_uuid":"String"
+							}
 						},
 						"backingStore":{
-							"file":"String",
+							"_file":"String",
+							"_index":"String",
+							"_type":"String",
 							"format":{
-								"type":"String"
+								"_type":"String"
 							},
-							"index":"String",
 							"source":{
+								"_file":"String",
+								"_index":"String",
+								"_startupPolicy":"String",
 								"encryption":{
-									"format":"String",
+									"_format":"String",
 									"secret":{
-										"type":"String",
-										"usage":"String",
-										"uuid":"String"
+										"_type":"String",
+										"_usage":"String",
+										"_uuid":"String"
 									}
 								},
-								"file":"String",
-								"index":"String",
 								"reservations":{
-									"enabled":"String",
-									"managed":"String",
+									"_enabled":"String",
+									"_managed":"String",
 									"source":{
-										"dev":"String",
-										"mode":"String",
-										"path":"String",
-										"type":"String"
+										"_dev":"String",
+										"_mode":"String",
+										"_path":"String",
+										"_type":"String"
 									}
-								},
-								"startupPolicy":"String"
-							},
-							"type":"String"
+								}
+							}
 						},
 						"blockio":{
-							"logical_block_size":"String",
-							"physical_block_size":"String"
+							"_logical_block_size":"String",
+							"_physical_block_size":"String"
 						},
 						"boot":{
-							"loadparm":"String",
-							"order":"String"
+							"_loadparm":"String",
+							"_order":"String"
 						},
-						"device":"String",
 						"driver":{
-							"ats":"String",
-							"cache":"String",
-							"copy_on_read":"String",
-							"detect_zeroes":"String",
-							"discard":"String",
-							"error_policy":"String",
-							"event_idx":"String",
-							"io":"String",
-							"ioeventfd":"String",
-							"iommu":"String",
-							"iothread":"String",
-							"name":"String",
-							"queues":"String",
-							"rerror_policy":"String",
-							"type":"String"
+							"_ats":"String",
+							"_cache":"String",
+							"_copy_on_read":"String",
+							"_detect_zeroes":"String",
+							"_discard":"String",
+							"_error_policy":"String",
+							"_event_idx":"String",
+							"_io":"String",
+							"_ioeventfd":"String",
+							"_iommu":"String",
+							"_iothread":"String",
+							"_name":"String",
+							"_queues":"String",
+							"_rerror_policy":"String",
+							"_type":"String"
 						},
 						"encryption":{
-							"format":"String",
+							"_format":"String",
 							"secret":{
-								"type":"String",
-								"usage":"String",
-								"uuid":"String"
+								"_type":"String",
+								"_usage":"String",
+								"_uuid":"String"
 							}
 						},
 						"geometry":{
-							"cyls":"String",
-							"heads":"String",
-							"secs":"String",
-							"trans":"String"
+							"_cyls":"String",
+							"_heads":"String",
+							"_secs":"String",
+							"_trans":"String"
 						},
 						"iotune":{
 							"group_name":{
@@ -2287,79 +3031,73 @@
 							}
 						},
 						"mirror":{
+							"_job":"String",
+							"_ready":"String",
 							"format":{
-								"type":"String"
+								"_type":"String"
 							},
-							"job":"String",
-							"ready":"String",
 							"source":{
+								"_index":"String",
+								"_startupPolicy":"String",
 								"encryption":{
-									"format":"String",
+									"_format":"String",
 									"secret":{
-										"type":"String",
-										"usage":"String",
-										"uuid":"String"
+										"_type":"String",
+										"_usage":"String",
+										"_uuid":"String"
 									}
 								},
-								"index":"String",
 								"reservations":{
-									"enabled":"String",
-									"managed":"String",
+									"_enabled":"String",
+									"_managed":"String",
 									"source":{
-										"dev":"String",
-										"mode":"String",
-										"path":"String",
-										"type":"String"
+										"_dev":"String",
+										"_mode":"String",
+										"_path":"String",
+										"_type":"String"
 									}
-								},
-								"startupPolicy":"String"
+								}
 							}
 						},
-						"model":"String",
 						"product":{
 							"text":"String"
 						},
-						"rawio":"String",
 						"readonly":{},
 						"serial":{
-							"text":"String",
-							"type":"String"
+							"_type":"String",
+							"text":"String"
 						},
-						"sgio":"String",
 						"shareable":{},
-						"snapshot":"String",
 						"source":{
-							"controller":"String",
+							"_controller":"String",
+							"_file":"String",
+							"_index":"String",
+							"_startupPolicy":"String",
 							"encryption":{
-								"format":"String",
+								"_format":"String",
 								"secret":{
-									"type":"String",
-									"usage":"String",
-									"uuid":"String"
+									"_type":"String",
+									"_usage":"String",
+									"_uuid":"String"
 								}
 							},
-							"file":"String",
-							"index":"String",
 							"reservations":{
-								"enabled":"String",
-								"managed":"String",
+								"_enabled":"String",
+								"_managed":"String",
 								"source":{
-									"dev":"String",
-									"mode":"String",
-									"path":"String",
-									"type":"String"
+									"_dev":"String",
+									"_mode":"String",
+									"_path":"String",
+									"_type":"String"
 								}
-							},
-							"startupPolicy":"String"
+							}
 						},
 						"target":{
-							"bus":"String",
-							"dev":"String",
-							"removable":"String",
-							"tray":"String"
+							"_bus":"String",
+							"_dev":"String",
+							"_removable":"String",
+							"_tray":"String"
 						},
-						"transient":{},
-						"type":"String",
 						"vendor":{
 							"text":"String"
 						},
@@ -2368,97 +3106,103 @@
 						}
 					},
 					{
+						"_device":"String",
+						"_model":"String",
+						"_rawio":"String",
+						"_sgio":"String",
+						"_snapshot":"String",
+						"_transient":{},
+						"_type":"String",
 						"address":{
-							"bus":"String",
-							"controller":"String",
-							"domain":"String",
-							"function":"String",
-							"slot":"String",
-							"target":"String",
-							"type":"String",
-							"unit":"String"
+							"_bus":"String",
+							"_controller":"String",
+							"_domain":"String",
+							"_function":"String",
+							"_slot":"String",
+							"_target":"String",
+							"_type":"String",
+							"_unit":"String"
 						},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
 						"auth":{
+							"_username":"String",
 							"secret":{
-								"type":"String",
-								"usage":"String",
-								"uuid":"String"
-							},
-							"username":"String"
+								"_type":"String",
+								"_usage":"String",
+								"_uuid":"String"
+							}
 						},
 						"backingStore":{
-							"file":"String",
+							"_file":"String",
+							"_index":"String",
+							"_type":"String",
 							"format":{
-								"type":"String"
+								"_type":"String"
 							},
-							"index":"String",
 							"source":{
+								"_file":"String",
+								"_index":"String",
+								"_startupPolicy":"String",
 								"encryption":{
-									"format":"String",
+									"_format":"String",
 									"secret":{
-										"type":"String",
-										"usage":"String",
-										"uuid":"String"
+										"_type":"String",
+										"_usage":"String",
+										"_uuid":"String"
 									}
 								},
-								"file":"String",
-								"index":"String",
 								"reservations":{
-									"enabled":"String",
-									"managed":"String",
+									"_enabled":"String",
+									"_managed":"String",
 									"source":{
-										"dev":"String",
-										"mode":"String",
-										"path":"String",
-										"type":"String"
+										"_dev":"String",
+										"_mode":"String",
+										"_path":"String",
+										"_type":"String"
 									}
-								},
-								"startupPolicy":"String"
-							},
-							"type":"String"
+								}
+							}
 						},
 						"blockio":{
-							"logical_block_size":"String",
-							"physical_block_size":"String"
+							"_logical_block_size":"String",
+							"_physical_block_size":"String"
 						},
 						"boot":{
-							"loadparm":"String",
-							"order":"String"
+							"_loadparm":"String",
+							"_order":"String"
 						},
-						"device":"String",
 						"driver":{
-							"ats":"String",
-							"cache":"String",
-							"copy_on_read":"String",
-							"detect_zeroes":"String",
-							"discard":"String",
-							"error_policy":"String",
-							"event_idx":"String",
-							"io":"String",
-							"ioeventfd":"String",
-							"iommu":"String",
-							"iothread":"String",
-							"name":"String",
-							"queues":"String",
-							"rerror_policy":"String",
-							"type":"String"
+							"_ats":"String",
+							"_cache":"String",
+							"_copy_on_read":"String",
+							"_detect_zeroes":"String",
+							"_discard":"String",
+							"_error_policy":"String",
+							"_event_idx":"String",
+							"_io":"String",
+							"_ioeventfd":"String",
+							"_iommu":"String",
+							"_iothread":"String",
+							"_name":"String",
+							"_queues":"String",
+							"_rerror_policy":"String",
+							"_type":"String"
 						},
 						"encryption":{
-							"format":"String",
+							"_format":"String",
 							"secret":{
-								"type":"String",
-								"usage":"String",
-								"uuid":"String"
+								"_type":"String",
+								"_usage":"String",
+								"_uuid":"String"
 							}
 						},
 						"geometry":{
-							"cyls":"String",
-							"heads":"String",
-							"secs":"String",
-							"trans":"String"
+							"_cyls":"String",
+							"_heads":"String",
+							"_secs":"String",
+							"_trans":"String"
 						},
 						"iotune":{
 							"group_name":{
@@ -2523,79 +3267,73 @@
 							}
 						},
 						"mirror":{
+							"_job":"String",
+							"_ready":"String",
 							"format":{
-								"type":"String"
+								"_type":"String"
 							},
-							"job":"String",
-							"ready":"String",
 							"source":{
+								"_index":"String",
+								"_startupPolicy":"String",
 								"encryption":{
-									"format":"String",
+									"_format":"String",
 									"secret":{
-										"type":"String",
-										"usage":"String",
-										"uuid":"String"
+										"_type":"String",
+										"_usage":"String",
+										"_uuid":"String"
 									}
 								},
-								"index":"String",
 								"reservations":{
-									"enabled":"String",
-									"managed":"String",
+									"_enabled":"String",
+									"_managed":"String",
 									"source":{
-										"dev":"String",
-										"mode":"String",
-										"path":"String",
-										"type":"String"
+										"_dev":"String",
+										"_mode":"String",
+										"_path":"String",
+										"_type":"String"
 									}
-								},
-								"startupPolicy":"String"
+								}
 							}
 						},
-						"model":"String",
 						"product":{
 							"text":"String"
 						},
-						"rawio":"String",
 						"readonly":{},
 						"serial":{
-							"text":"String",
-							"type":"String"
+							"_type":"String",
+							"text":"String"
 						},
-						"sgio":"String",
 						"shareable":{},
-						"snapshot":"String",
 						"source":{
-							"controller":"String",
+							"_controller":"String",
+							"_file":"String",
+							"_index":"String",
+							"_startupPolicy":"String",
 							"encryption":{
-								"format":"String",
+								"_format":"String",
 								"secret":{
-									"type":"String",
-									"usage":"String",
-									"uuid":"String"
+									"_type":"String",
+									"_usage":"String",
+									"_uuid":"String"
 								}
 							},
-							"file":"String",
-							"index":"String",
 							"reservations":{
-								"enabled":"String",
-								"managed":"String",
+								"_enabled":"String",
+								"_managed":"String",
 								"source":{
-									"dev":"String",
-									"mode":"String",
-									"path":"String",
-									"type":"String"
+									"_dev":"String",
+									"_mode":"String",
+									"_path":"String",
+									"_type":"String"
 								}
-							},
-							"startupPolicy":"String"
+							}
 						},
 						"target":{
-							"bus":"String",
-							"dev":"String",
-							"removable":"String",
-							"tray":"String"
+							"_bus":"String",
+							"_dev":"String",
+							"_removable":"String",
+							"_tray":"String"
 						},
-						"transient":{},
-						"type":"String",
 						"vendor":{
 							"text":"String"
 						},
@@ -2609,528 +3347,184 @@
 				},
 				"filesystem":[
 					{
-						"accessmode":"String",
+						"_accessmode":"String",
+						"_model":"String",
 						"address":{},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
 						"driver":{
-							"ats":"String",
-							"format":"String",
-							"iommu":"String",
-							"name":"String",
-							"type":"String",
-							"wrpolicy":"String"
+							"_ats":"String",
+							"_format":"String",
+							"_iommu":"String",
+							"_name":"String",
+							"_type":"String",
+							"_wrpolicy":"String"
 						},
-						"model":"String",
 						"readonly":{},
 						"source":{},
 						"space_hard_limit":{
-							"text":"String",
-							"unit":"String"
+							"_unit":"String",
+							"text":"String"
 						},
 						"space_soft_limit":{
-							"text":"String",
-							"unit":"String"
+							"_unit":"String",
+							"text":"String"
 						},
 						"target":{
-							"dir":"String"
+							"_dir":"String"
 						}
 					},
 					{
-						"accessmode":"String",
+						"_accessmode":"String",
+						"_model":"String",
 						"address":{},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
 						"driver":{
-							"ats":"String",
-							"format":"String",
-							"iommu":"String",
-							"name":"String",
-							"type":"String",
-							"wrpolicy":"String"
+							"_ats":"String",
+							"_format":"String",
+							"_iommu":"String",
+							"_name":"String",
+							"_type":"String",
+							"_wrpolicy":"String"
 						},
-						"model":"String",
 						"readonly":{},
 						"source":{},
 						"space_hard_limit":{
-							"text":"String",
-							"unit":"String"
+							"_unit":"String",
+							"text":"String"
 						},
 						"space_soft_limit":{
-							"text":"String",
-							"unit":"String"
+							"_unit":"String",
+							"text":"String"
 						},
 						"target":{
-							"dir":"String"
+							"_dir":"String"
 						}
 					}
 				],
 				"graphics":[
 					{
-						"autoport":"String",
+						"_autoport":"String",
+						"_port":"String",
+						"_type":"String",
 						"listen":{
-							"address":"String",
-							"type":"String"
-						},
-						"port":"String",
-						"type":"String"
+							"_address":"String",
+							"_type":"String"
+						}
 					},
 					{
-						"autoport":"String",
+						"_autoport":"String",
+						"_port":"String",
+						"_type":"String",
 						"listen":{
-							"address":"String",
-							"type":"String"
-						},
-						"port":"String",
-						"type":"String"
+							"_address":"String",
+							"_type":"String"
+						}
 					}
 				],
 				"hostdev":[
 					{
+						"_managed":"String",
 						"address":{},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
 						"boot":{
-							"loadparm":"String",
-							"order":"String"
+							"_loadparm":"String",
+							"_order":"String"
 						},
-						"managed":"String",
 						"rom":{
-							"bar":"String",
-							"enabled":"String",
-							"file":"String"
+							"_bar":"String",
+							"_enabled":"String",
+							"_file":"String"
 						}
 					},
 					{
+						"_managed":"String",
 						"address":{},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
 						"boot":{
-							"loadparm":"String",
-							"order":"String"
+							"_loadparm":"String",
+							"_order":"String"
 						},
-						"managed":"String",
 						"rom":{
-							"bar":"String",
-							"enabled":"String",
-							"file":"String"
+							"_bar":"String",
+							"_enabled":"String",
+							"_file":"String"
 						}
 					}
 				],
 				"hub":[
 					{
+						"_type":"String",
 						"address":{},
 						"alias":{
-							"name":"String"
-						},
-						"type":"String"
+							"_name":"String"
+						}
 					},
 					{
+						"_type":"String",
 						"address":{},
 						"alias":{
-							"name":"String"
-						},
-						"type":"String"
+							"_name":"String"
+						}
 					}
 				],
 				"input":[
 					{
+						"_bus":"String",
+						"_model":"String",
+						"_type":"String",
 						"address":{
-							"bus":"String",
-							"port":"String",
-							"type":"String"
+							"_bus":"String",
+							"_port":"String",
+							"_type":"String"
 						},
 						"alias":{
-							"name":"String"
-						},
-						"bus":"String",
-						"driver":{
-							"ats":"String",
-							"iommu":"String"
-						},
-						"model":"String",
-						"source":{
-							"evdev":"String"
-						},
-						"type":"String"
-					},
-					{
-						"address":{
-							"bus":"String",
-							"port":"String",
-							"type":"String"
-						},
-						"alias":{
-							"name":"String"
-						},
-						"bus":"String",
-						"driver":{
-							"ats":"String",
-							"iommu":"String"
-						},
-						"model":"String",
-						"source":{
-							"evdev":"String"
-						},
-						"type":"String"
-					}
-				],
-				"interface":[
-					{
-						"address":{
-							"bus":"String",
-							"domain":"String",
-							"function":"String",
-							"slot":"String",
-							"type":"String"
-						},
-						"alias":{
-							"name":"String"
-						},
-						"backend":{
-							"tap":"String",
-							"vhost":"String"
-						},
-						"bandwidth":{
-							"inbound":{
-								"average":"String",
-								"burst":"String",
-								"floor":"String",
-								"peak":"String"
-							},
-							"outbound":{
-								"average":"String",
-								"burst":"String",
-								"floor":"String",
-								"peak":"String"
-							}
-						},
-						"boot":{
-							"loadparm":"String",
-							"order":"String"
-						},
-						"coalesce":{
-							"rx":{
-								"frames":{
-									"max":"String"
-								}
-							}
+							"_name":"String"
 						},
 						"driver":{
-							"ats":"String",
-							"event_idx":"String",
-							"guest":{
-								"csum":"String",
-								"ecn":"String",
-								"tso4":"String",
-								"tso6":"String",
-								"ufo":"String"
-							},
-							"host":{
-								"csum":"String",
-								"ecn":"String",
-								"gso":"String",
-								"mrg_rxbuf":"String",
-								"tso4":"String",
-								"tso6":"String",
-								"ufo":"String"
-							},
-							"ioeventfd":"String",
-							"iommu":"String",
-							"name":"String",
-							"queues":"String",
-							"rx_queue_size":"String",
-							"tx_queue_size":"String",
-							"txmode":"String"
-						},
-						"filterref":{
-							"filter":"String",
-							"parameter":[
-								{
-									"name":"String",
-									"value":"String"
-								},
-								{
-									"name":"String",
-									"value":"String"
-								}
-							]
-						},
-						"guest":{
-							"actual":"String",
-							"dev":"String"
-						},
-						"ip":[
-							{
-								"address":"String",
-								"family":"String",
-								"peer":"String",
-								"prefix":"String"
-							},
-							{
-								"address":"String",
-								"family":"String",
-								"peer":"String",
-								"prefix":"String"
-							}
-						],
-						"link":{
-							"state":"String"
-						},
-						"mac":{
-							"address":"String"
-						},
-						"managed":"String",
-						"model":{
-							"type":"String"
-						},
-						"mtu":{
-							"size":"String"
-						},
-						"rom":{
-							"bar":"String",
-							"enabled":"String",
-							"file":"String"
-						},
-						"route":[
-							{
-								"address":"String",
-								"family":"String",
-								"gateway":"String",
-								"metric":"String",
-								"netmask":"String",
-								"prefix":"String"
-							},
-							{
-								"address":"String",
-								"family":"String",
-								"gateway":"String",
-								"metric":"String",
-								"netmask":"String",
-								"prefix":"String"
-							}
-						],
-						"script":{
-							"path":"String"
+							"_ats":"String",
+							"_iommu":"String"
 						},
 						"source":{
-							"bridge":"String",
-							"network":"String"
-						},
-						"target":{
-							"dev":"String"
-						},
-						"trustGuestRxFilters":"String",
-						"tune":{
-							"sndbuf":{
-								"text":"String"
-							}
-						},
-						"type":"String",
-						"virtualport":{
-							"parameters":{
-								"_interfaceid":"String"
-							},
-							"type":"String"
-						},
-						"vlan":{
-							"tag":[
-								{
-									"id":"String",
-									"nativeMode":"String"
-								},
-								{
-									"id":"String",
-									"nativeMode":"String"
-								}
-							],
-							"trunk":"String"
+							"_evdev":"String"
 						}
 					},
 					{
+						"_bus":"String",
+						"_model":"String",
+						"_type":"String",
 						"address":{
-							"bus":"String",
-							"domain":"String",
-							"function":"String",
-							"slot":"String",
-							"type":"String"
+							"_bus":"String",
+							"_port":"String",
+							"_type":"String"
 						},
 						"alias":{
-							"name":"String"
-						},
-						"backend":{
-							"tap":"String",
-							"vhost":"String"
-						},
-						"bandwidth":{
-							"inbound":{
-								"average":"String",
-								"burst":"String",
-								"floor":"String",
-								"peak":"String"
-							},
-							"outbound":{
-								"average":"String",
-								"burst":"String",
-								"floor":"String",
-								"peak":"String"
-							}
-						},
-						"boot":{
-							"loadparm":"String",
-							"order":"String"
-						},
-						"coalesce":{
-							"rx":{
-								"frames":{
-									"max":"String"
-								}
-							}
+							"_name":"String"
 						},
 						"driver":{
-							"ats":"String",
-							"event_idx":"String",
-							"guest":{
-								"csum":"String",
-								"ecn":"String",
-								"tso4":"String",
-								"tso6":"String",
-								"ufo":"String"
-							},
-							"host":{
-								"csum":"String",
-								"ecn":"String",
-								"gso":"String",
-								"mrg_rxbuf":"String",
-								"tso4":"String",
-								"tso6":"String",
-								"ufo":"String"
-							},
-							"ioeventfd":"String",
-							"iommu":"String",
-							"name":"String",
-							"queues":"String",
-							"rx_queue_size":"String",
-							"tx_queue_size":"String",
-							"txmode":"String"
-						},
-						"filterref":{
-							"filter":"String",
-							"parameter":[
-								{
-									"name":"String",
-									"value":"String"
-								},
-								{
-									"name":"String",
-									"value":"String"
-								}
-							]
-						},
-						"guest":{
-							"actual":"String",
-							"dev":"String"
-						},
-						"ip":[
-							{
-								"address":"String",
-								"family":"String",
-								"peer":"String",
-								"prefix":"String"
-							},
-							{
-								"address":"String",
-								"family":"String",
-								"peer":"String",
-								"prefix":"String"
-							}
-						],
-						"link":{
-							"state":"String"
-						},
-						"mac":{
-							"address":"String"
-						},
-						"managed":"String",
-						"model":{
-							"type":"String"
-						},
-						"mtu":{
-							"size":"String"
-						},
-						"rom":{
-							"bar":"String",
-							"enabled":"String",
-							"file":"String"
-						},
-						"route":[
-							{
-								"address":"String",
-								"family":"String",
-								"gateway":"String",
-								"metric":"String",
-								"netmask":"String",
-								"prefix":"String"
-							},
-							{
-								"address":"String",
-								"family":"String",
-								"gateway":"String",
-								"metric":"String",
-								"netmask":"String",
-								"prefix":"String"
-							}
-						],
-						"script":{
-							"path":"String"
+							"_ats":"String",
+							"_iommu":"String"
 						},
 						"source":{
-							"bridge":"String",
-							"network":"String"
-						},
-						"target":{
-							"dev":"String"
-						},
-						"trustGuestRxFilters":"String",
-						"tune":{
-							"sndbuf":{
-								"text":"String"
-							}
-						},
-						"type":"String",
-						"virtualport":{
-							"parameters":{
-								"_interfaceid":"String"
-							},
-							"type":"String"
-						},
-						"vlan":{
-							"tag":[
-								{
-									"id":"String",
-									"nativeMode":"String"
-								},
-								{
-									"id":"String",
-									"nativeMode":"String"
-								}
-							],
-							"trunk":"String"
+							"_evdev":"String"
 						}
 					}
 				],
 				"iommu":{
+					"_model":"String",
 					"driver":{
-						"caching_mode":"String",
-						"eim":"String",
-						"intremap":"String",
-						"iotlb":"String"
-					},
-					"model":"String"
+						"_caching_mode":"String",
+						"_eim":"String",
+						"_intremap":"String",
+						"_iotlb":"String"
+					}
 				},
 				"lease":[
 					{
@@ -3141,8 +3535,8 @@
 							"text":"String"
 						},
 						"target":{
-							"offset":"String",
-							"path":"String"
+							"_offset":"String",
+							"_path":"String"
 						}
 					},
 					{
@@ -3153,52 +3547,52 @@
 							"text":"String"
 						},
 						"target":{
-							"offset":"String",
-							"path":"String"
+							"_offset":"String",
+							"_path":"String"
 						}
 					}
 				],
 				"memballoon":{
+					"_autodeflate":"String",
+					"_model":"String",
 					"address":{
-						"bus":"String",
-						"domain":"String",
-						"function":"String",
-						"slot":"String",
-						"type":"String"
+						"_bus":"String",
+						"_domain":"String",
+						"_function":"String",
+						"_slot":"String",
+						"_type":"String"
 					},
 					"alias":{
-						"name":"String"
+						"_name":"String"
 					},
-					"autodeflate":"String",
 					"driver":{
-						"ats":"String",
-						"iommu":"String"
+						"_ats":"String",
+						"_iommu":"String"
 					},
-					"model":"String",
 					"stats":{
-						"period":"String"
+						"_period":"String"
 					}
 				},
 				"memory":[
 					{
-						"access":"String",
+						"_access":"String",
+						"_discard":"String",
+						"_model":"String",
 						"address":{},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
-						"discard":"String",
-						"model":"String",
 						"source":{
 							"alignsize":{
-								"text":"String",
-								"unit":"String"
+								"_unit":"String",
+								"text":"String"
 							},
 							"nodemask":{
 								"text":"String"
 							},
 							"pagesize":{
-								"text":"String",
-								"unit":"String"
+								"_unit":"String",
+								"text":"String"
 							},
 							"path":{
 								"text":"String"
@@ -3208,8 +3602,8 @@
 						"target":{
 							"label":{
 								"size":{
-									"text":"String",
-									"unit":"String"
+									"_unit":"String",
+									"text":"String"
 								}
 							},
 							"node":{
@@ -3217,30 +3611,30 @@
 							},
 							"readonly":{},
 							"size":{
-								"text":"String",
-								"unit":"String"
+								"_unit":"String",
+								"text":"String"
 							}
 						}
 					},
 					{
-						"access":"String",
+						"_access":"String",
+						"_discard":"String",
+						"_model":"String",
 						"address":{},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
-						"discard":"String",
-						"model":"String",
 						"source":{
 							"alignsize":{
-								"text":"String",
-								"unit":"String"
+								"_unit":"String",
+								"text":"String"
 							},
 							"nodemask":{
 								"text":"String"
 							},
 							"pagesize":{
-								"text":"String",
-								"unit":"String"
+								"_unit":"String",
+								"text":"String"
 							},
 							"path":{
 								"text":"String"
@@ -3250,8 +3644,8 @@
 						"target":{
 							"label":{
 								"size":{
-									"text":"String",
-									"unit":"String"
+									"_unit":"String",
+									"text":"String"
 								}
 							},
 							"node":{
@@ -3259,8 +3653,8 @@
 							},
 							"readonly":{},
 							"size":{
-								"text":"String",
-								"unit":"String"
+								"_unit":"String",
+								"text":"String"
 							}
 						}
 					}
@@ -3268,91 +3662,91 @@
 				"nvram":{
 					"address":{},
 					"alias":{
-						"name":"String"
+						"_name":"String"
 					}
 				},
 				"panic":[
 					{
+						"_model":"String",
 						"address":{},
 						"alias":{
-							"name":"String"
-						},
-						"model":"String"
+							"_name":"String"
+						}
 					},
 					{
+						"_model":"String",
 						"address":{},
 						"alias":{
-							"name":"String"
-						},
-						"model":"String"
+							"_name":"String"
+						}
 					}
 				],
 				"parallel":[
 					{
 						"address":{},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
 						"log":{
-							"append":"String",
-							"file":"String"
+							"_append":"String",
+							"_file":"String"
 						},
 						"protocol":{
-							"type":"String"
+							"_type":"String"
 						},
 						"source":{},
 						"target":{
-							"port":"String",
-							"type":"String"
+							"_port":"String",
+							"_type":"String"
 						}
 					},
 					{
 						"address":{},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
 						"log":{
-							"append":"String",
-							"file":"String"
+							"_append":"String",
+							"_file":"String"
 						},
 						"protocol":{
-							"type":"String"
+							"_type":"String"
 						},
 						"source":{},
 						"target":{
-							"port":"String",
-							"type":"String"
+							"_port":"String",
+							"_type":"String"
 						}
 					}
 				],
 				"redirdev":[
 					{
+						"_bus":"String",
 						"address":{},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
 						"boot":{
-							"loadparm":"String",
-							"order":"String"
+							"_loadparm":"String",
+							"_order":"String"
 						},
-						"bus":"String",
 						"protocol":{
-							"type":"String"
+							"_type":"String"
 						},
 						"source":{}
 					},
 					{
+						"_bus":"String",
 						"address":{},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
 						"boot":{
-							"loadparm":"String",
-							"order":"String"
+							"_loadparm":"String",
+							"_order":"String"
 						},
-						"bus":"String",
 						"protocol":{
-							"type":"String"
+							"_type":"String"
 						},
 						"source":{}
 					}
@@ -3361,185 +3755,185 @@
 					{
 						"usbdev":[
 							{
-								"allow":"String",
-								"class":"String",
-								"product":"String",
-								"vendor":"String",
-								"version":"String"
+								"_allow":"String",
+								"_class":"String",
+								"_product":"String",
+								"_vendor":"String",
+								"_version":"String"
 							},
 							{
-								"allow":"String",
-								"class":"String",
-								"product":"String",
-								"vendor":"String",
-								"version":"String"
+								"_allow":"String",
+								"_class":"String",
+								"_product":"String",
+								"_vendor":"String",
+								"_version":"String"
 							}
 						]
 					},
 					{
 						"usbdev":[
 							{
-								"allow":"String",
-								"class":"String",
-								"product":"String",
-								"vendor":"String",
-								"version":"String"
+								"_allow":"String",
+								"_class":"String",
+								"_product":"String",
+								"_vendor":"String",
+								"_version":"String"
 							},
 							{
-								"allow":"String",
-								"class":"String",
-								"product":"String",
-								"vendor":"String",
-								"version":"String"
+								"_allow":"String",
+								"_class":"String",
+								"_product":"String",
+								"_vendor":"String",
+								"_version":"String"
 							}
 						]
 					}
 				],
 				"rng":[
 					{
+						"_model":"String",
 						"address":{
-							"bus":"String",
-							"domain":"String",
-							"function":"String",
-							"slot":"String",
-							"type":"String"
+							"_bus":"String",
+							"_domain":"String",
+							"_function":"String",
+							"_slot":"String",
+							"_type":"String"
 						},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
 						"backend":{
-							"model":"String",
+							"_model":"String",
 							"text":"String"
 						},
 						"driver":{
-							"ats":"String",
-							"iommu":"String"
+							"_ats":"String",
+							"_iommu":"String"
 						},
-						"model":"String",
 						"rate":{
-							"bytes":"String",
-							"period":"String"
+							"_bytes":"String",
+							"_period":"String"
 						}
 					},
 					{
+						"_model":"String",
 						"address":{
-							"bus":"String",
-							"domain":"String",
-							"function":"String",
-							"slot":"String",
-							"type":"String"
+							"_bus":"String",
+							"_domain":"String",
+							"_function":"String",
+							"_slot":"String",
+							"_type":"String"
 						},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
 						"backend":{
-							"model":"String",
+							"_model":"String",
 							"text":"String"
 						},
 						"driver":{
-							"ats":"String",
-							"iommu":"String"
+							"_ats":"String",
+							"_iommu":"String"
 						},
-						"model":"String",
 						"rate":{
-							"bytes":"String",
-							"period":"String"
+							"_bytes":"String",
+							"_period":"String"
 						}
 					}
 				],
 				"serial":[
 					{
+						"_type":"String",
 						"address":{},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
 						"log":{
-							"append":"String",
-							"file":"String"
+							"_append":"String",
+							"_file":"String"
 						},
 						"protocol":{
-							"type":"String"
+							"_type":"String"
 						},
 						"source":{
-							"path":"String"
+							"_path":"String"
 						},
 						"target":{
+							"_port":"String",
+							"_type":"String",
 							"model":{
-								"name":"String"
-							},
-							"port":"String",
-							"type":"String"
-						},
-						"type":"String"
+								"_name":"String"
+							}
+						}
 					},
 					{
+						"_type":"String",
 						"address":{},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
 						"log":{
-							"append":"String",
-							"file":"String"
+							"_append":"String",
+							"_file":"String"
 						},
 						"protocol":{
-							"type":"String"
+							"_type":"String"
 						},
 						"source":{
-							"path":"String"
+							"_path":"String"
 						},
 						"target":{
+							"_port":"String",
+							"_type":"String",
 							"model":{
-								"name":"String"
-							},
-							"port":"String",
-							"type":"String"
-						},
-						"type":"String"
+								"_name":"String"
+							}
+						}
 					}
 				],
 				"shmem":[
 					{
+						"_name":"String",
 						"address":{},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
 						"model":{
-							"type":"String"
+							"_type":"String"
 						},
 						"msi":{
-							"enabled":"String",
-							"ioeventfd":"String",
-							"vectors":"String"
+							"_enabled":"String",
+							"_ioeventfd":"String",
+							"_vectors":"String"
 						},
-						"name":"String",
 						"server":{
-							"path":"String"
+							"_path":"String"
 						},
 						"size":{
-							"text":"String",
-							"unit":"String"
+							"_unit":"String",
+							"text":"String"
 						}
 					},
 					{
+						"_name":"String",
 						"address":{},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
 						"model":{
-							"type":"String"
+							"_type":"String"
 						},
 						"msi":{
-							"enabled":"String",
-							"ioeventfd":"String",
-							"vectors":"String"
+							"_enabled":"String",
+							"_ioeventfd":"String",
+							"_vectors":"String"
 						},
-						"name":"String",
 						"server":{
-							"path":"String"
+							"_path":"String"
 						},
 						"size":{
-							"text":"String",
-							"unit":"String"
+							"_unit":"String",
+							"text":"String"
 						}
 					}
 				],
@@ -3547,7 +3941,7 @@
 					{
 						"address":{},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
 						"certificate":[
 							{
@@ -3561,14 +3955,14 @@
 							"text":"String"
 						},
 						"protocol":{
-							"type":"String"
+							"_type":"String"
 						},
 						"source":{}
 					},
 					{
 						"address":{},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
 						"certificate":[
 							{
@@ -3582,397 +3976,396 @@
 							"text":"String"
 						},
 						"protocol":{
-							"type":"String"
+							"_type":"String"
 						},
 						"source":{}
 					}
 				],
 				"sound":[
 					{
+						"_model":"String",
 						"address":{},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
 						"codec":[
 							{
-								"type":"String"
+								"_type":"String"
 							},
 							{
-								"type":"String"
+								"_type":"String"
 							}
-						],
-						"model":"String"
+						]
 					},
 					{
+						"_model":"String",
 						"address":{},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
 						"codec":[
 							{
-								"type":"String"
+								"_type":"String"
 							},
 							{
-								"type":"String"
+								"_type":"String"
 							}
-						],
-						"model":"String"
+						]
 					}
 				],
 				"tpm":[
 					{
+						"_model":"String",
 						"address":{},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
-						"backend":{},
-						"model":"String"
+						"backend":{}
 					},
 					{
+						"_model":"String",
 						"address":{},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
-						"backend":{},
-						"model":"String"
+						"backend":{}
 					}
 				],
 				"video":[
 					{
 						"address":{
-							"bus":"String",
-							"domain":"String",
-							"function":"String",
-							"slot":"String",
-							"type":"String"
+							"_bus":"String",
+							"_domain":"String",
+							"_function":"String",
+							"_slot":"String",
+							"_type":"String"
 						},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
 						"driver":{
-							"ats":"String",
-							"iommu":"String",
-							"vgaconf":"String"
+							"_ats":"String",
+							"_iommu":"String",
+							"_vgaconf":"String"
 						},
 						"model":{
+							"_heads":"String",
+							"_primary":"String",
+							"_ram":"String",
+							"_type":"String",
+							"_vgamem":"String",
+							"_vram":"String",
+							"_vram64":"String",
 							"acceleration":{
-								"accel2d":"String",
-								"accel3d":"String"
-							},
-							"heads":"String",
-							"primary":"String",
-							"ram":"String",
-							"type":"String",
-							"vgamem":"String",
-							"vram":"String",
-							"vram64":"String"
+								"_accel2d":"String",
+								"_accel3d":"String"
+							}
 						}
 					},
 					{
 						"address":{
-							"bus":"String",
-							"domain":"String",
-							"function":"String",
-							"slot":"String",
-							"type":"String"
+							"_bus":"String",
+							"_domain":"String",
+							"_function":"String",
+							"_slot":"String",
+							"_type":"String"
 						},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
 						"driver":{
-							"ats":"String",
-							"iommu":"String",
-							"vgaconf":"String"
+							"_ats":"String",
+							"_iommu":"String",
+							"_vgaconf":"String"
 						},
 						"model":{
+							"_heads":"String",
+							"_primary":"String",
+							"_ram":"String",
+							"_type":"String",
+							"_vgamem":"String",
+							"_vram":"String",
+							"_vram64":"String",
 							"acceleration":{
-								"accel2d":"String",
-								"accel3d":"String"
-							},
-							"heads":"String",
-							"primary":"String",
-							"ram":"String",
-							"type":"String",
-							"vgamem":"String",
-							"vram":"String",
-							"vram64":"String"
+								"_accel2d":"String",
+								"_accel3d":"String"
+							}
 						}
 					}
 				],
 				"vsock":{
+					"_model":"String",
 					"address":{},
 					"alias":{
-						"name":"String"
+						"_name":"String"
 					},
 					"cid":{
-						"address":"String",
-						"auto":"String"
-					},
-					"model":"String"
+						"_address":"String",
+						"_auto":"String"
+					}
 				},
 				"watchdog":{
-					"action":"String",
+					"_action":"String",
+					"_model":"String",
 					"address":{},
 					"alias":{
-						"name":"String"
-					},
-					"model":"String"
+						"_name":"String"
+					}
 				}
 			},
 			"features":{
 				"acpi":{},
 				"apic":{
-					"eoi":"String"
+					"_eoi":"String"
 				},
 				"capabilities":{
+					"_policy":"String",
 					"audit_control":{
-						"state":"String"
+						"_state":"String"
 					},
 					"audit_write":{
-						"state":"String"
+						"_state":"String"
 					},
 					"block_suspend":{
-						"state":"String"
+						"_state":"String"
 					},
 					"chown":{
-						"state":"String"
+						"_state":"String"
 					},
 					"dac_override":{
-						"state":"String"
+						"_state":"String"
 					},
 					"dac_read_Search":{
-						"state":"String"
+						"_state":"String"
 					},
 					"fowner":{
-						"state":"String"
+						"_state":"String"
 					},
 					"fsetid":{
-						"state":"String"
+						"_state":"String"
 					},
 					"ipc_lock":{
-						"state":"String"
+						"_state":"String"
 					},
 					"ipc_owner":{
-						"state":"String"
+						"_state":"String"
 					},
 					"kill":{
-						"state":"String"
+						"_state":"String"
 					},
 					"lease":{
-						"state":"String"
+						"_state":"String"
 					},
 					"linux_immutable":{
-						"state":"String"
+						"_state":"String"
 					},
 					"mac_admin":{
-						"state":"String"
+						"_state":"String"
 					},
 					"mac_override":{
-						"state":"String"
+						"_state":"String"
 					},
 					"mknod":{
-						"state":"String"
+						"_state":"String"
 					},
 					"net_admin":{
-						"state":"String"
+						"_state":"String"
 					},
 					"net_bind_service":{
-						"state":"String"
+						"_state":"String"
 					},
 					"net_broadcast":{
-						"state":"String"
+						"_state":"String"
 					},
 					"net_raw":{
-						"state":"String"
+						"_state":"String"
 					},
-					"policy":"String",
 					"setfcap":{
-						"state":"String"
+						"_state":"String"
 					},
 					"setgid":{
-						"state":"String"
+						"_state":"String"
 					},
 					"setpcap":{
-						"state":"String"
+						"_state":"String"
 					},
 					"setuid":{
-						"state":"String"
+						"_state":"String"
 					},
 					"sys_admin":{
-						"state":"String"
+						"_state":"String"
 					},
 					"sys_boot":{
-						"state":"String"
+						"_state":"String"
 					},
 					"sys_chroot":{
-						"state":"String"
+						"_state":"String"
 					},
 					"sys_module":{
-						"state":"String"
+						"_state":"String"
 					},
 					"sys_nice":{
-						"state":"String"
+						"_state":"String"
 					},
 					"sys_pacct":{
-						"state":"String"
+						"_state":"String"
 					},
 					"sys_ptrace":{
-						"state":"String"
+						"_state":"String"
 					},
 					"sys_rawio":{
-						"state":"String"
+						"_state":"String"
 					},
 					"sys_resource":{
-						"state":"String"
+						"_state":"String"
 					},
 					"sys_time":{
-						"state":"String"
+						"_state":"String"
 					},
 					"sys_tty_config":{
-						"state":"String"
+						"_state":"String"
 					},
 					"syslog":{
-						"state":"String"
+						"_state":"String"
 					},
 					"wake_alarm":{
-						"state":"String"
+						"_state":"String"
 					}
 				},
 				"gic":{
-					"version":"String"
+					"_version":"String"
 				},
 				"hap":{
-					"state":"String"
+					"_state":"String"
 				},
 				"hpt":{
+					"_resizing":"String",
 					"maxpagesize":{
-						"text":"String",
-						"unit":"String"
-					},
-					"resizing":"String"
+						"_unit":"String",
+						"text":"String"
+					}
 				},
 				"htm":{
-					"state":"String"
+					"_state":"String"
 				},
 				"hyperv":{
 					"evmcs":{
-						"state":"String"
+						"_state":"String"
 					},
 					"frequencies":{
-						"state":"String"
+						"_state":"String"
 					},
 					"ipi":{
-						"state":"String"
+						"_state":"String"
 					},
 					"reenlightenment":{
-						"state":"String"
+						"_state":"String"
 					},
 					"relaxed":{
-						"state":"String"
+						"_state":"String"
 					},
 					"reset":{
-						"state":"String"
+						"_state":"String"
 					},
 					"runtime":{
-						"state":"String"
+						"_state":"String"
 					},
 					"spinlocks":{
-						"retries":"String",
-						"state":"String"
+						"_retries":"String",
+						"_state":"String"
 					},
 					"stimer":{
-						"state":"String"
+						"_state":"String"
 					},
 					"synic":{
-						"state":"String"
+						"_state":"String"
 					},
 					"tlbflush":{
-						"state":"String"
+						"_state":"String"
 					},
 					"vapic":{
-						"state":"String"
+						"_state":"String"
 					},
 					"vendor_id":{
-						"value":"String"
+						"_value":"String"
 					},
 					"vpindex":{
-						"state":"String"
+						"_state":"String"
 					}
 				},
 				"ioapic":{
-					"driver":"String"
+					"_driver":"String"
 				},
 				"kvm":{
 					"hidden":{
-						"state":"String"
+						"_state":"String"
 					}
 				},
 				"msrs":{
-					"unknown":"String"
+					"_unknown":"String"
 				},
 				"nested_hv":{
-					"state":"String"
+					"_state":"String"
 				},
 				"pae":{},
 				"pmu":{
-					"state":"String"
+					"_state":"String"
 				},
 				"privnet":{},
 				"pvspinlock":{
-					"state":"String"
+					"_state":"String"
 				},
 				"smm":{
-					"state":"String",
+					"_state":"String",
 					"tseg":{
-						"text":"String",
-						"unit":"String"
+						"_unit":"String",
+						"text":"String"
 					}
 				},
 				"viridian":{},
 				"vmcoreinfo":{
-					"state":"String"
+					"_state":"String"
 				},
 				"vmport":{
-					"state":"String"
+					"_state":"String"
 				}
 			},
 			"genid":{
 				"text":"String"
 			},
-			"id":"String",
 			"idmap":{
 				"gid":[
 					{
-						"count":"String",
-						"start":"String",
-						"target":"String"
+						"_count":"String",
+						"_start":"String",
+						"_target":"String"
 					},
 					{
-						"count":"String",
-						"start":"String",
-						"target":"String"
+						"_count":"String",
+						"_start":"String",
+						"_target":"String"
 					}
 				],
 				"uid":[
 					{
-						"count":"String",
-						"start":"String",
-						"target":"String"
+						"_count":"String",
+						"_start":"String",
+						"_target":"String"
 					},
 					{
-						"count":"String",
-						"start":"String",
-						"target":"String"
+						"_count":"String",
+						"_start":"String",
+						"_target":"String"
 					}
 				]
 			},
 			"iothreadids":{
 				"iothread":[
 					{
-						"id":"String"
+						"_id":"String"
 					},
 					{
-						"id":"String"
+						"_id":"String"
 					}
 				]
 			},
@@ -3982,70 +4375,70 @@
 			"keywrap":{
 				"cipher":[
 					{
-						"name":"String",
-						"state":"String"
+						"_name":"String",
+						"_state":"String"
 					},
 					{
-						"name":"String",
-						"state":"String"
+						"_name":"String",
+						"_state":"String"
 					}
 				]
 			},
 			"launchSecurity":{},
 			"maxMemory":{
-				"slots":"String",
-				"text":"String",
-				"unit":"String"
+				"_slots":"String",
+				"_unit":"String",
+				"text":"String"
 			},
 			"memory":{
-				"dumpCore":"String",
-				"text":"String",
-				"unit":"String"
+				"_dumpCore":"String",
+				"_unit":"String",
+				"text":"String"
 			},
 			"memoryBacking":{
 				"access":{
-					"mode":"String"
+					"_mode":"String"
 				},
 				"allocation":{
-					"mode":"String"
+					"_mode":"String"
 				},
 				"discard":{},
 				"hugepages":{
 					"page":[
 						{
-							"nodeset":"String",
-							"size":"String",
-							"unit":"String"
+							"_nodeset":"String",
+							"_size":"String",
+							"_unit":"String"
 						},
 						{
-							"nodeset":"String",
-							"size":"String",
-							"unit":"String"
+							"_nodeset":"String",
+							"_size":"String",
+							"_unit":"String"
 						}
 					]
 				},
 				"locked":{},
 				"nosharepages":{},
 				"source":{
-					"type":"String"
+					"_type":"String"
 				}
 			},
 			"memtune":{
 				"hard_limit":{
-					"text":"String",
-					"unit":"String"
+					"_unit":"String",
+					"text":"String"
 				},
 				"min_guarantee":{
-					"text":"String",
-					"unit":"String"
+					"_unit":"String",
+					"text":"String"
 				},
 				"soft_limit":{
-					"text":"String",
-					"unit":"String"
+					"_unit":"String",
+					"text":"String"
 				},
 				"swap_hard_limit":{
-					"text":"String",
-					"unit":"String"
+					"_unit":"String",
+					"text":"String"
 				}
 			},
 			"metadata":{},
@@ -4055,20 +4448,20 @@
 			"numatune":{
 				"memnode":[
 					{
-						"cellid":"String",
-						"mode":"String",
-						"nodeset":"String"
+						"_cellid":"String",
+						"_mode":"String",
+						"_nodeset":"String"
 					},
 					{
-						"cellid":"String",
-						"mode":"String",
-						"nodeset":"String"
+						"_cellid":"String",
+						"_mode":"String",
+						"_nodeset":"String"
 					}
 				],
 				"memory":{
-					"mode":"String",
-					"nodeset":"String",
-					"placement":"String"
+					"_mode":"String",
+					"_nodeset":"String",
+					"_placement":"String"
 				}
 			},
 			"on_crash":{
@@ -4084,30 +4477,30 @@
 				"acpi":{
 					"table":[
 						{
-							"text":"String",
-							"type":"String"
+							"_type":"String",
+							"text":"String"
 						},
 						{
-							"text":"String",
-							"type":"String"
+							"_type":"String",
+							"text":"String"
 						}
 					]
 				},
 				"bios":{
-					"rebootTimeout":"String",
-					"useserial":"String"
+					"_rebootTimeout":"String",
+					"_useserial":"String"
 				},
 				"boot":[
 					{
-						"dev":"String"
+						"_dev":"String"
 					},
 					{
-						"dev":"String"
+						"_dev":"String"
 					}
 				],
 				"bootmenu":{
-					"enable":"String",
-					"timeout":"String"
+					"_enable":"String",
+					"_timeout":"String"
 				},
 				"cmdline":{
 					"text":"String"
@@ -4126,11 +4519,11 @@
 				},
 				"initenv":[
 					{
-						"name":"String",
+						"_name":"String",
 						"text":"String"
 					},
 					{
-						"name":"String",
+						"_name":"String",
 						"text":"String"
 					}
 				],
@@ -4147,40 +4540,40 @@
 					"text":"String"
 				},
 				"loader":{
-					"readonly":"String",
-					"text":"String",
-					"type":"String"
+					"_readonly":"String",
+					"_type":"String",
+					"text":"String"
 				},
 				"nvram":{
 					"text":"String"
 				},
 				"smbios":{
-					"mode":"String"
+					"_mode":"String"
 				},
 				"type":{
-					"arch":"String",
-					"machine":"String",
+					"_arch":"String",
+					"_machine":"String",
 					"text":"String"
 				}
 			},
 			"perf":{
 				"event":[
 					{
-						"enabled":"String",
-						"name":"String"
+						"_enabled":"String",
+						"_name":"String"
 					},
 					{
-						"enabled":"String",
-						"name":"String"
+						"_enabled":"String",
+						"_name":"String"
 					}
 				]
 			},
 			"pm":{
 				"suspend_to_disk":{
-					"enabled":"String"
+					"_enabled":"String"
 				},
 				"suspend_to_mem":{
-					"enabled":"String"
+					"_enabled":"String"
 				}
 			},
 			"resource":{
@@ -4190,6 +4583,9 @@
 			},
 			"seclabel":[
 				{
+					"_model":"String",
+					"_relabel":"String",
+					"_type":"String",
 					"baselabel":{
 						"text":"String"
 					},
@@ -4198,12 +4594,12 @@
 					},
 					"label":{
 						"text":"String"
-					},
-					"model":"String",
-					"relabel":"String",
-					"type":"String"
+					}
 				},
 				{
+					"_model":"String",
+					"_relabel":"String",
+					"_type":"String",
 					"baselabel":{
 						"text":"String"
 					},
@@ -4212,22 +4608,20 @@
 					},
 					"label":{
 						"text":"String"
-					},
-					"model":"String",
-					"relabel":"String",
-					"type":"String"
+					}
 				}
 			],
 			"sysinfo":{
+				"_type":"String",
 				"baseBoard":[
 					{
 						"entry":[
 							{
-								"name":"String",
+								"_name":"String",
 								"text":"String"
 							},
 							{
-								"name":"String",
+								"_name":"String",
 								"text":"String"
 							}
 						]
@@ -4235,11 +4629,11 @@
 					{
 						"entry":[
 							{
-								"name":"String",
+								"_name":"String",
 								"text":"String"
 							},
 							{
-								"name":"String",
+								"_name":"String",
 								"text":"String"
 							}
 						]
@@ -4248,11 +4642,11 @@
 				"bios":{
 					"entry":[
 						{
-							"name":"String",
+							"_name":"String",
 							"text":"String"
 						},
 						{
-							"name":"String",
+							"_name":"String",
 							"text":"String"
 						}
 					]
@@ -4260,11 +4654,11 @@
 				"chassis":{
 					"entry":[
 						{
-							"name":"String",
+							"_name":"String",
 							"text":"String"
 						},
 						{
-							"name":"String",
+							"_name":"String",
 							"text":"String"
 						}
 					]
@@ -4273,11 +4667,11 @@
 					{
 						"entry":[
 							{
-								"name":"String",
+								"_name":"String",
 								"text":"String"
 							},
 							{
-								"name":"String",
+								"_name":"String",
 								"text":"String"
 							}
 						]
@@ -4285,11 +4679,11 @@
 					{
 						"entry":[
 							{
-								"name":"String",
+								"_name":"String",
 								"text":"String"
 							},
 							{
-								"name":"String",
+								"_name":"String",
 								"text":"String"
 							}
 						]
@@ -4304,11 +4698,11 @@
 					{
 						"entry":[
 							{
-								"name":"String",
+								"_name":"String",
 								"text":"String"
 							},
 							{
-								"name":"String",
+								"_name":"String",
 								"text":"String"
 							}
 						]
@@ -4316,11 +4710,11 @@
 					{
 						"entry":[
 							{
-								"name":"String",
+								"_name":"String",
 								"text":"String"
 							},
 							{
-								"name":"String",
+								"_name":"String",
 								"text":"String"
 							}
 						]
@@ -4329,48 +4723,60 @@
 				"system":{
 					"entry":[
 						{
-							"name":"String",
+							"_name":"String",
 							"text":"String"
 						},
 						{
-							"name":"String",
+							"_name":"String",
 							"text":"String"
 						}
 					]
-				},
-				"type":"String"
+				}
 			},
 			"title":{
 				"text":"String"
 			},
-			"type":"String",
 			"uuid":{
 				"text":"String"
 			},
 			"vcpu":{
-				"cpuset":"String",
-				"current":"String",
-				"placement":"String",
+				"_cpuset":"String",
+				"_current":"String",
+				"_placement":"String",
 				"text":"String"
 			},
 			"vcpus":{
 				"vcpu":[
 					{
-						"enabled":"String",
-						"hotpluggable":"String",
-						"id":"String",
-						"order":"String"
+						"_enabled":"String",
+						"_hotpluggable":"String",
+						"_id":"String",
+						"_order":"String"
 					},
 					{
-						"enabled":"String",
-						"hotpluggable":"String",
-						"id":"String",
-						"order":"String"
+						"_enabled":"String",
+						"_hotpluggable":"String",
+						"_id":"String",
+						"_order":"String"
 					}
 				]
 			}
 		},
 		"lifecycle":{
+			"addACL":{
+				"operator":"String",
+				"priority":"String",
+				"rule":"String",
+				"swName":"String",
+				"type":"String",
+				"vmmac":"String"
+			},
+			"bindFloatingIP":{
+				"fip":"String",
+				"outSwName":"String",
+				"swName":"String",
+				"vmmac":"String"
+			},
 			"changeNumberOfCPU":{
 				"config":true,
 				"count":"String",
@@ -4386,6 +4792,7 @@
 				"targetPool":"String"
 			},
 			"createAndStartVMFromISO":{
+				"_import":true,
 				"arch":"String",
 				"autostart":"String",
 				"blkiotune":"String",
@@ -4409,7 +4816,6 @@
 				"hostdev":"String",
 				"hvm":"String",
 				"idmap":"String",
-				"import":true,
 				"initrd_inject":"String",
 				"input":"String",
 				"livecd":"String",
@@ -4453,6 +4859,13 @@
 				"remove_all_storage":true,
 				"snapshots_metadata":true,
 				"storage":"String"
+			},
+			"deprecatedACL":{
+				"priority":"String",
+				"rule":"String",
+				"swName":"String",
+				"type":"String",
+				"vmmac":"String"
 			},
 			"ejectISO":{
 				"block":true,
@@ -4504,6 +4917,12 @@
 				"tunnelled":true,
 				"undefinesource":true,
 				"unsafe":true
+			},
+			"modifyACL":{
+				
+			},
+			"modifyQoS":{
+				
 			},
 			"plugDevice":{
 				"config":true,
@@ -4578,6 +4997,14 @@
 				"password":"String",
 				"user":"String"
 			},
+			"setQoS":{
+				"burst":"String",
+				"priority":"String",
+				"rate":"String",
+				"rule":"String",
+				"swName":"String",
+				"type":"String"
+			},
 			"setVncPassword":{
 				"config":true,
 				"current":true,
@@ -4602,12 +5029,18 @@
 				"write_iops_sec":"String"
 			},
 			"tuneNICQoS":{
+				"_interface":"String",
 				"config":true,
 				"current":true,
 				"inbound":"String",
-				"interface":"String",
 				"live":true,
 				"outbound":"String"
+			},
+			"unbindFloatingIP":{
+				"fip":"String",
+				"swName":"String",
+				"vmip":"String",
+				"vmmac":"String"
 			},
 			"unplugDevice":{
 				"config":true,
@@ -4629,6 +5062,12 @@
 				"live":true,
 				"mac":"String",
 				"persistent":true,
+				"type":"String"
+			},
+			"unsetQoS":{
+				"priority":"String",
+				"rule":"String",
+				"swName":"String",
 				"type":"String"
 			},
 			"unsetVncPassword":{
@@ -4801,6 +5240,8 @@
 		"additionalPrinterColumns":[],
 		"additionalProperties":{},
 		"domain":{
+			"_id":"String",
+			"_type":"String",
 			"blkiotune":{
 				"device":[
 					{
@@ -4855,110 +5296,110 @@
 				"text":"String"
 			},
 			"clock":{
-				"adjustment":"String",
-				"basis":"String",
-				"offset":"String",
+				"_adjustment":"String",
+				"_basis":"String",
+				"_offset":"String",
+				"_timezone":"String",
 				"timer":[
 					{
+						"_frequency":"String",
+						"_mode":"String",
+						"_name":"String",
+						"_present":"String",
+						"_tickpolicy":"String",
+						"_track":"String",
 						"catchup":{
-							"limit":"String",
-							"slew":"String",
-							"threshold":"String"
-						},
-						"frequency":"String",
-						"mode":"String",
-						"name":"String",
-						"present":"String",
-						"tickpolicy":"String",
-						"track":"String"
+							"_limit":"String",
+							"_slew":"String",
+							"_threshold":"String"
+						}
 					},
 					{
+						"_frequency":"String",
+						"_mode":"String",
+						"_name":"String",
+						"_present":"String",
+						"_tickpolicy":"String",
+						"_track":"String",
 						"catchup":{
-							"limit":"String",
-							"slew":"String",
-							"threshold":"String"
-						},
-						"frequency":"String",
-						"mode":"String",
-						"name":"String",
-						"present":"String",
-						"tickpolicy":"String",
-						"track":"String"
+							"_limit":"String",
+							"_slew":"String",
+							"_threshold":"String"
+						}
 					}
-				],
-				"timezone":"String"
+				]
 			},
 			"cpu":{
+				"_check":"String",
+				"_match":"String",
+				"_mode":"String",
 				"cache":{
-					"level":"String",
-					"mode":"String"
+					"_level":"String",
+					"_mode":"String"
 				},
-				"check":"String",
 				"feature":[
 					{
-						"name":"String",
-						"policy":"String"
+						"_name":"String",
+						"_policy":"String"
 					},
 					{
-						"name":"String",
-						"policy":"String"
+						"_name":"String",
+						"_policy":"String"
 					}
 				],
-				"match":"String",
-				"mode":"String",
 				"model":{
-					"fallback":"String",
-					"text":"String",
-					"vendor_id":"String"
+					"_fallback":"String",
+					"_vendor_id":"String",
+					"text":"String"
 				},
 				"numa":{
 					"cell":[
 						{
-							"cpus":"String",
-							"discard":"String",
+							"_cpus":"String",
+							"_discard":"String",
+							"_id":"String",
+							"_memAccess":"String",
+							"_memory":"String",
+							"_unit":"String",
 							"distances":{
 								"sibling":[
 									{
-										"id":"String",
-										"value":"String"
+										"_id":"String",
+										"_value":"String"
 									},
 									{
-										"id":"String",
-										"value":"String"
+										"_id":"String",
+										"_value":"String"
 									}
 								]
-							},
-							"id":"String",
-							"memAccess":"String",
-							"memory":"String",
-							"unit":"String"
+							}
 						},
 						{
-							"cpus":"String",
-							"discard":"String",
+							"_cpus":"String",
+							"_discard":"String",
+							"_id":"String",
+							"_memAccess":"String",
+							"_memory":"String",
+							"_unit":"String",
 							"distances":{
 								"sibling":[
 									{
-										"id":"String",
-										"value":"String"
+										"_id":"String",
+										"_value":"String"
 									},
 									{
-										"id":"String",
-										"value":"String"
+										"_id":"String",
+										"_value":"String"
 									}
 								]
-							},
-							"id":"String",
-							"memAccess":"String",
-							"memory":"String",
-							"unit":"String"
+							}
 						}
 					]
 				},
 				"topology":{
-					"cores":"String",
-					"sockets":"String",
-					"threads":"String"
+					"_cores":"String",
+					"_sockets":"String",
+					"_threads":"String"
 				},
 				"vendor":{
 					"text":"String"
@@ -4967,62 +5408,62 @@
 			"cputune":{
 				"cachetune":[
 					{
+						"_vcpus":"String",
 						"cache":[
 							{
-								"id":"String",
-								"level":"String",
-								"size":"String",
-								"type":"String",
-								"unit":"String"
+								"_id":"String",
+								"_level":"String",
+								"_size":"String",
+								"_type":"String",
+								"_unit":"String"
 							},
 							{
-								"id":"String",
-								"level":"String",
-								"size":"String",
-								"type":"String",
-								"unit":"String"
+								"_id":"String",
+								"_level":"String",
+								"_size":"String",
+								"_type":"String",
+								"_unit":"String"
 							}
 						],
 						"monitor":[
 							{
-								"level":"String",
-								"vcpus":"String"
+								"_level":"String",
+								"_vcpus":"String"
 							},
 							{
-								"level":"String",
-								"vcpus":"String"
+								"_level":"String",
+								"_vcpus":"String"
 							}
-						],
-						"vcpus":"String"
+						]
 					},
 					{
+						"_vcpus":"String",
 						"cache":[
 							{
-								"id":"String",
-								"level":"String",
-								"size":"String",
-								"type":"String",
-								"unit":"String"
+								"_id":"String",
+								"_level":"String",
+								"_size":"String",
+								"_type":"String",
+								"_unit":"String"
 							},
 							{
-								"id":"String",
-								"level":"String",
-								"size":"String",
-								"type":"String",
-								"unit":"String"
+								"_id":"String",
+								"_level":"String",
+								"_size":"String",
+								"_type":"String",
+								"_unit":"String"
 							}
 						],
 						"monitor":[
 							{
-								"level":"String",
-								"vcpus":"String"
+								"_level":"String",
+								"_vcpus":"String"
 							},
 							{
-								"level":"String",
-								"vcpus":"String"
+								"_level":"String",
+								"_vcpus":"String"
 							}
-						],
-						"vcpus":"String"
+						]
 					}
 				],
 				"emulator_period":{
@@ -5032,7 +5473,7 @@
 					"text":"String"
 				},
 				"emulatorpin":{
-					"cpuset":"String"
+					"_cpuset":"String"
 				},
 				"global_period":{
 					"text":"String"
@@ -5048,52 +5489,52 @@
 				},
 				"iothreadpin":[
 					{
-						"cpuset":"String",
-						"iothread":"String"
+						"_cpuset":"String",
+						"_iothread":"String"
 					},
 					{
-						"cpuset":"String",
-						"iothread":"String"
+						"_cpuset":"String",
+						"_iothread":"String"
 					}
 				],
 				"iothreadsched":[
 					{
-						"iothreads":"String",
-						"priority":"String",
-						"scheduler":"String"
+						"_iothreads":"String",
+						"_priority":"String",
+						"_scheduler":"String"
 					},
 					{
-						"iothreads":"String",
-						"priority":"String",
-						"scheduler":"String"
+						"_iothreads":"String",
+						"_priority":"String",
+						"_scheduler":"String"
 					}
 				],
 				"memorytune":[
 					{
+						"_vcpus":"String",
 						"node":[
 							{
-								"bandwidth":"String",
-								"id":"String"
+								"_bandwidth":"String",
+								"_id":"String"
 							},
 							{
-								"bandwidth":"String",
-								"id":"String"
+								"_bandwidth":"String",
+								"_id":"String"
 							}
-						],
-						"vcpus":"String"
+						]
 					},
 					{
+						"_vcpus":"String",
 						"node":[
 							{
-								"bandwidth":"String",
-								"id":"String"
+								"_bandwidth":"String",
+								"_id":"String"
 							},
 							{
-								"bandwidth":"String",
-								"id":"String"
+								"_bandwidth":"String",
+								"_id":"String"
 							}
-						],
-						"vcpus":"String"
+						]
 					}
 				],
 				"period":{
@@ -5107,300 +5548,650 @@
 				},
 				"vcpupin":[
 					{
-						"cpuset":"String",
-						"vcpu":"String"
+						"_cpuset":"String",
+						"_vcpu":"String"
 					},
 					{
-						"cpuset":"String",
-						"vcpu":"String"
+						"_cpuset":"String",
+						"_vcpu":"String"
 					}
 				],
 				"vcpusched":[
 					{
-						"priority":"String",
-						"scheduler":"String",
-						"vcpus":"String"
+						"_priority":"String",
+						"_scheduler":"String",
+						"_vcpus":"String"
 					},
 					{
-						"priority":"String",
-						"scheduler":"String",
-						"vcpus":"String"
+						"_priority":"String",
+						"_scheduler":"String",
+						"_vcpus":"String"
 					}
 				]
 			},
 			"currentMemory":{
-				"text":"String",
-				"unit":"String"
+				"_unit":"String",
+				"text":"String"
 			},
 			"description":{
 				"text":"String"
 			},
 			"devices":{
-				"channel":[
+				"_interface":[
 					{
+						"_managed":"String",
+						"_trustGuestRxFilters":"String",
+						"_type":"String",
 						"address":{
-							"bus":"String",
-							"controller":"String",
-							"port":"String",
-							"type":"String"
+							"_bus":"String",
+							"_domain":"String",
+							"_function":"String",
+							"_slot":"String",
+							"_type":"String"
 						},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
-						"log":{
-							"append":"String",
-							"file":"String"
+						"backend":{
+							"_tap":"String",
+							"_vhost":"String"
 						},
-						"protocol":{
-							"type":"String"
+						"bandwidth":{
+							"inbound":{
+								"_average":"String",
+								"_burst":"String",
+								"_floor":"String",
+								"_peak":"String"
+							},
+							"outbound":{
+								"_average":"String",
+								"_burst":"String",
+								"_floor":"String",
+								"_peak":"String"
+							}
+						},
+						"boot":{
+							"_loadparm":"String",
+							"_order":"String"
+						},
+						"coalesce":{
+							"rx":{
+								"frames":{
+									"_max":"String"
+								}
+							}
+						},
+						"driver":{
+							"_ats":"String",
+							"_event_idx":"String",
+							"_ioeventfd":"String",
+							"_iommu":"String",
+							"_name":"String",
+							"_queues":"String",
+							"_rx_queue_size":"String",
+							"_tx_queue_size":"String",
+							"_txmode":"String",
+							"guest":{
+								"_csum":"String",
+								"_ecn":"String",
+								"_tso4":"String",
+								"_tso6":"String",
+								"_ufo":"String"
+							},
+							"host":{
+								"_csum":"String",
+								"_ecn":"String",
+								"_gso":"String",
+								"_mrg_rxbuf":"String",
+								"_tso4":"String",
+								"_tso6":"String",
+								"_ufo":"String"
+							}
+						},
+						"filterref":{
+							"_filter":"String",
+							"parameter":[
+								{
+									"_name":"String",
+									"_value":"String"
+								},
+								{
+									"_name":"String",
+									"_value":"String"
+								}
+							]
+						},
+						"guest":{
+							"_actual":"String",
+							"_dev":"String"
+						},
+						"ip":[
+							{
+								"_address":"String",
+								"_family":"String",
+								"_peer":"String",
+								"_prefix":"String"
+							},
+							{
+								"_address":"String",
+								"_family":"String",
+								"_peer":"String",
+								"_prefix":"String"
+							}
+						],
+						"link":{
+							"_state":"String"
+						},
+						"mac":{
+							"_address":"String"
+						},
+						"model":{
+							"_type":"String"
+						},
+						"mtu":{
+							"_size":"String"
+						},
+						"rom":{
+							"_bar":"String",
+							"_enabled":"String",
+							"_file":"String"
+						},
+						"route":[
+							{
+								"_address":"String",
+								"_family":"String",
+								"_gateway":"String",
+								"_metric":"String",
+								"_netmask":"String",
+								"_prefix":"String"
+							},
+							{
+								"_address":"String",
+								"_family":"String",
+								"_gateway":"String",
+								"_metric":"String",
+								"_netmask":"String",
+								"_prefix":"String"
+							}
+						],
+						"script":{
+							"_path":"String"
 						},
 						"source":{
-							"mode":"String",
-							"path":"String"
+							"_bridge":"String",
+							"_network":"String"
 						},
 						"target":{
-							"name":"String",
-							"state":"String",
-							"type":"String"
+							"_dev":"String"
 						},
-						"type":"String"
+						"tune":{
+							"sndbuf":{
+								"text":"String"
+							}
+						},
+						"virtualport":{
+							"_type":"String",
+							"parameters":{
+								"__interfaceid":"String"
+							}
+						},
+						"vlan":{
+							"_trunk":"String",
+							"tag":[
+								{
+									"_id":"String",
+									"_nativeMode":"String"
+								},
+								{
+									"_id":"String",
+									"_nativeMode":"String"
+								}
+							]
+						}
 					},
 					{
+						"_managed":"String",
+						"_trustGuestRxFilters":"String",
+						"_type":"String",
 						"address":{
-							"bus":"String",
-							"controller":"String",
-							"port":"String",
-							"type":"String"
+							"_bus":"String",
+							"_domain":"String",
+							"_function":"String",
+							"_slot":"String",
+							"_type":"String"
 						},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
-						"log":{
-							"append":"String",
-							"file":"String"
+						"backend":{
+							"_tap":"String",
+							"_vhost":"String"
 						},
-						"protocol":{
-							"type":"String"
+						"bandwidth":{
+							"inbound":{
+								"_average":"String",
+								"_burst":"String",
+								"_floor":"String",
+								"_peak":"String"
+							},
+							"outbound":{
+								"_average":"String",
+								"_burst":"String",
+								"_floor":"String",
+								"_peak":"String"
+							}
+						},
+						"boot":{
+							"_loadparm":"String",
+							"_order":"String"
+						},
+						"coalesce":{
+							"rx":{
+								"frames":{
+									"_max":"String"
+								}
+							}
+						},
+						"driver":{
+							"_ats":"String",
+							"_event_idx":"String",
+							"_ioeventfd":"String",
+							"_iommu":"String",
+							"_name":"String",
+							"_queues":"String",
+							"_rx_queue_size":"String",
+							"_tx_queue_size":"String",
+							"_txmode":"String",
+							"guest":{
+								"_csum":"String",
+								"_ecn":"String",
+								"_tso4":"String",
+								"_tso6":"String",
+								"_ufo":"String"
+							},
+							"host":{
+								"_csum":"String",
+								"_ecn":"String",
+								"_gso":"String",
+								"_mrg_rxbuf":"String",
+								"_tso4":"String",
+								"_tso6":"String",
+								"_ufo":"String"
+							}
+						},
+						"filterref":{
+							"_filter":"String",
+							"parameter":[
+								{
+									"_name":"String",
+									"_value":"String"
+								},
+								{
+									"_name":"String",
+									"_value":"String"
+								}
+							]
+						},
+						"guest":{
+							"_actual":"String",
+							"_dev":"String"
+						},
+						"ip":[
+							{
+								"_address":"String",
+								"_family":"String",
+								"_peer":"String",
+								"_prefix":"String"
+							},
+							{
+								"_address":"String",
+								"_family":"String",
+								"_peer":"String",
+								"_prefix":"String"
+							}
+						],
+						"link":{
+							"_state":"String"
+						},
+						"mac":{
+							"_address":"String"
+						},
+						"model":{
+							"_type":"String"
+						},
+						"mtu":{
+							"_size":"String"
+						},
+						"rom":{
+							"_bar":"String",
+							"_enabled":"String",
+							"_file":"String"
+						},
+						"route":[
+							{
+								"_address":"String",
+								"_family":"String",
+								"_gateway":"String",
+								"_metric":"String",
+								"_netmask":"String",
+								"_prefix":"String"
+							},
+							{
+								"_address":"String",
+								"_family":"String",
+								"_gateway":"String",
+								"_metric":"String",
+								"_netmask":"String",
+								"_prefix":"String"
+							}
+						],
+						"script":{
+							"_path":"String"
 						},
 						"source":{
-							"mode":"String",
-							"path":"String"
+							"_bridge":"String",
+							"_network":"String"
 						},
 						"target":{
-							"name":"String",
-							"state":"String",
-							"type":"String"
+							"_dev":"String"
 						},
-						"type":"String"
+						"tune":{
+							"sndbuf":{
+								"text":"String"
+							}
+						},
+						"virtualport":{
+							"_type":"String",
+							"parameters":{
+								"__interfaceid":"String"
+							}
+						},
+						"vlan":{
+							"_trunk":"String",
+							"tag":[
+								{
+									"_id":"String",
+									"_nativeMode":"String"
+								},
+								{
+									"_id":"String",
+									"_nativeMode":"String"
+								}
+							]
+						}
+					}
+				],
+				"channel":[
+					{
+						"_type":"String",
+						"address":{
+							"_bus":"String",
+							"_controller":"String",
+							"_port":"String",
+							"_type":"String"
+						},
+						"alias":{
+							"_name":"String"
+						},
+						"log":{
+							"_append":"String",
+							"_file":"String"
+						},
+						"protocol":{
+							"_type":"String"
+						},
+						"source":{
+							"_mode":"String",
+							"_path":"String"
+						},
+						"target":{
+							"_name":"String",
+							"_state":"String",
+							"_type":"String"
+						}
+					},
+					{
+						"_type":"String",
+						"address":{
+							"_bus":"String",
+							"_controller":"String",
+							"_port":"String",
+							"_type":"String"
+						},
+						"alias":{
+							"_name":"String"
+						},
+						"log":{
+							"_append":"String",
+							"_file":"String"
+						},
+						"protocol":{
+							"_type":"String"
+						},
+						"source":{
+							"_mode":"String",
+							"_path":"String"
+						},
+						"target":{
+							"_name":"String",
+							"_state":"String",
+							"_type":"String"
+						}
 					}
 				],
 				"console":[
 					{
+						"_tty":"String",
+						"_type":"String",
 						"address":{},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
 						"log":{
-							"append":"String",
-							"file":"String"
+							"_append":"String",
+							"_file":"String"
 						},
 						"protocol":{
-							"type":"String"
+							"_type":"String"
 						},
 						"source":{
-							"path":"String"
+							"_path":"String"
 						},
 						"target":{
-							"port":"String",
-							"type":"String"
-						},
-						"tty":"String",
-						"type":"String"
+							"_port":"String",
+							"_type":"String"
+						}
 					},
 					{
+						"_tty":"String",
+						"_type":"String",
 						"address":{},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
 						"log":{
-							"append":"String",
-							"file":"String"
+							"_append":"String",
+							"_file":"String"
 						},
 						"protocol":{
-							"type":"String"
+							"_type":"String"
 						},
 						"source":{
-							"path":"String"
+							"_path":"String"
 						},
 						"target":{
-							"port":"String",
-							"type":"String"
-						},
-						"tty":"String",
-						"type":"String"
+							"_port":"String",
+							"_type":"String"
+						}
 					}
 				],
 				"controller":[
 					{
+						"_index":"String",
+						"_type":"String",
 						"address":{
-							"bus":"String",
-							"domain":"String",
-							"function":"String",
-							"multifunction":"String",
-							"slot":"String",
-							"type":"String"
+							"_bus":"String",
+							"_domain":"String",
+							"_function":"String",
+							"_multifunction":"String",
+							"_slot":"String",
+							"_type":"String"
 						},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
 						"driver":{
-							"ats":"String",
-							"cmd_per_lun":"String",
-							"ioeventfd":"String",
-							"iommu":"String",
-							"iothread":"String",
-							"max_sectors":"String",
-							"queues":"String"
+							"_ats":"String",
+							"_cmd_per_lun":"String",
+							"_ioeventfd":"String",
+							"_iommu":"String",
+							"_iothread":"String",
+							"_max_sectors":"String",
+							"_queues":"String"
 						},
-						"index":"String",
 						"master":{
-							"startport":"String"
+							"_startport":"String"
 						},
 						"model":"String",
 						"target":{
-							"chassis":"String",
-							"chassisNr":"String",
-							"port":"String"
-						},
-						"type":"String"
+							"_chassis":"String",
+							"_chassisNr":"String",
+							"_port":"String"
+						}
 					},
 					{
+						"_index":"String",
+						"_type":"String",
 						"address":{
-							"bus":"String",
-							"domain":"String",
-							"function":"String",
-							"multifunction":"String",
-							"slot":"String",
-							"type":"String"
+							"_bus":"String",
+							"_domain":"String",
+							"_function":"String",
+							"_multifunction":"String",
+							"_slot":"String",
+							"_type":"String"
 						},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
 						"driver":{
-							"ats":"String",
-							"cmd_per_lun":"String",
-							"ioeventfd":"String",
-							"iommu":"String",
-							"iothread":"String",
-							"max_sectors":"String",
-							"queues":"String"
+							"_ats":"String",
+							"_cmd_per_lun":"String",
+							"_ioeventfd":"String",
+							"_iommu":"String",
+							"_iothread":"String",
+							"_max_sectors":"String",
+							"_queues":"String"
 						},
-						"index":"String",
 						"master":{
-							"startport":"String"
+							"_startport":"String"
 						},
 						"model":"String",
 						"target":{
-							"chassis":"String",
-							"chassisNr":"String",
-							"port":"String"
-						},
-						"type":"String"
+							"_chassis":"String",
+							"_chassisNr":"String",
+							"_port":"String"
+						}
 					}
 				],
 				"disk":[
 					{
+						"_device":"String",
+						"_model":"String",
+						"_rawio":"String",
+						"_sgio":"String",
+						"_snapshot":"String",
+						"_transient":{},
+						"_type":"String",
 						"address":{
-							"bus":"String",
-							"controller":"String",
-							"domain":"String",
-							"function":"String",
-							"slot":"String",
-							"target":"String",
-							"type":"String",
-							"unit":"String"
+							"_bus":"String",
+							"_controller":"String",
+							"_domain":"String",
+							"_function":"String",
+							"_slot":"String",
+							"_target":"String",
+							"_type":"String",
+							"_unit":"String"
 						},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
 						"auth":{
+							"_username":"String",
 							"secret":{
-								"type":"String",
-								"usage":"String",
-								"uuid":"String"
-							},
-							"username":"String"
+								"_type":"String",
+								"_usage":"String",
+								"_uuid":"String"
+							}
 						},
 						"backingStore":{
-							"file":"String",
+							"_file":"String",
+							"_index":"String",
+							"_type":"String",
 							"format":{
-								"type":"String"
+								"_type":"String"
 							},
-							"index":"String",
 							"source":{
+								"_file":"String",
+								"_index":"String",
+								"_startupPolicy":"String",
 								"encryption":{
-									"format":"String",
+									"_format":"String",
 									"secret":{
-										"type":"String",
-										"usage":"String",
-										"uuid":"String"
+										"_type":"String",
+										"_usage":"String",
+										"_uuid":"String"
 									}
 								},
-								"file":"String",
-								"index":"String",
 								"reservations":{
-									"enabled":"String",
-									"managed":"String",
+									"_enabled":"String",
+									"_managed":"String",
 									"source":{
-										"dev":"String",
-										"mode":"String",
-										"path":"String",
-										"type":"String"
+										"_dev":"String",
+										"_mode":"String",
+										"_path":"String",
+										"_type":"String"
 									}
-								},
-								"startupPolicy":"String"
-							},
-							"type":"String"
+								}
+							}
 						},
 						"blockio":{
-							"logical_block_size":"String",
-							"physical_block_size":"String"
+							"_logical_block_size":"String",
+							"_physical_block_size":"String"
 						},
 						"boot":{
-							"loadparm":"String",
-							"order":"String"
+							"_loadparm":"String",
+							"_order":"String"
 						},
-						"device":"String",
 						"driver":{
-							"ats":"String",
-							"cache":"String",
-							"copy_on_read":"String",
-							"detect_zeroes":"String",
-							"discard":"String",
-							"error_policy":"String",
-							"event_idx":"String",
-							"io":"String",
-							"ioeventfd":"String",
-							"iommu":"String",
-							"iothread":"String",
-							"name":"String",
-							"queues":"String",
-							"rerror_policy":"String",
-							"type":"String"
+							"_ats":"String",
+							"_cache":"String",
+							"_copy_on_read":"String",
+							"_detect_zeroes":"String",
+							"_discard":"String",
+							"_error_policy":"String",
+							"_event_idx":"String",
+							"_io":"String",
+							"_ioeventfd":"String",
+							"_iommu":"String",
+							"_iothread":"String",
+							"_name":"String",
+							"_queues":"String",
+							"_rerror_policy":"String",
+							"_type":"String"
 						},
 						"encryption":{
-							"format":"String",
+							"_format":"String",
 							"secret":{
-								"type":"String",
-								"usage":"String",
-								"uuid":"String"
+								"_type":"String",
+								"_usage":"String",
+								"_uuid":"String"
 							}
 						},
 						"geometry":{
-							"cyls":"String",
-							"heads":"String",
-							"secs":"String",
-							"trans":"String"
+							"_cyls":"String",
+							"_heads":"String",
+							"_secs":"String",
+							"_trans":"String"
 						},
 						"iotune":{
 							"group_name":{
@@ -5465,79 +6256,73 @@
 							}
 						},
 						"mirror":{
+							"_job":"String",
+							"_ready":"String",
 							"format":{
-								"type":"String"
+								"_type":"String"
 							},
-							"job":"String",
-							"ready":"String",
 							"source":{
+								"_index":"String",
+								"_startupPolicy":"String",
 								"encryption":{
-									"format":"String",
+									"_format":"String",
 									"secret":{
-										"type":"String",
-										"usage":"String",
-										"uuid":"String"
+										"_type":"String",
+										"_usage":"String",
+										"_uuid":"String"
 									}
 								},
-								"index":"String",
 								"reservations":{
-									"enabled":"String",
-									"managed":"String",
+									"_enabled":"String",
+									"_managed":"String",
 									"source":{
-										"dev":"String",
-										"mode":"String",
-										"path":"String",
-										"type":"String"
+										"_dev":"String",
+										"_mode":"String",
+										"_path":"String",
+										"_type":"String"
 									}
-								},
-								"startupPolicy":"String"
+								}
 							}
 						},
-						"model":"String",
 						"product":{
 							"text":"String"
 						},
-						"rawio":"String",
 						"readonly":{},
 						"serial":{
-							"text":"String",
-							"type":"String"
+							"_type":"String",
+							"text":"String"
 						},
-						"sgio":"String",
 						"shareable":{},
-						"snapshot":"String",
 						"source":{
-							"controller":"String",
+							"_controller":"String",
+							"_file":"String",
+							"_index":"String",
+							"_startupPolicy":"String",
 							"encryption":{
-								"format":"String",
+								"_format":"String",
 								"secret":{
-									"type":"String",
-									"usage":"String",
-									"uuid":"String"
+									"_type":"String",
+									"_usage":"String",
+									"_uuid":"String"
 								}
 							},
-							"file":"String",
-							"index":"String",
 							"reservations":{
-								"enabled":"String",
-								"managed":"String",
+								"_enabled":"String",
+								"_managed":"String",
 								"source":{
-									"dev":"String",
-									"mode":"String",
-									"path":"String",
-									"type":"String"
+									"_dev":"String",
+									"_mode":"String",
+									"_path":"String",
+									"_type":"String"
 								}
-							},
-							"startupPolicy":"String"
+							}
 						},
 						"target":{
-							"bus":"String",
-							"dev":"String",
-							"removable":"String",
-							"tray":"String"
+							"_bus":"String",
+							"_dev":"String",
+							"_removable":"String",
+							"_tray":"String"
 						},
-						"transient":{},
-						"type":"String",
 						"vendor":{
 							"text":"String"
 						},
@@ -5546,97 +6331,103 @@
 						}
 					},
 					{
+						"_device":"String",
+						"_model":"String",
+						"_rawio":"String",
+						"_sgio":"String",
+						"_snapshot":"String",
+						"_transient":{},
+						"_type":"String",
 						"address":{
-							"bus":"String",
-							"controller":"String",
-							"domain":"String",
-							"function":"String",
-							"slot":"String",
-							"target":"String",
-							"type":"String",
-							"unit":"String"
+							"_bus":"String",
+							"_controller":"String",
+							"_domain":"String",
+							"_function":"String",
+							"_slot":"String",
+							"_target":"String",
+							"_type":"String",
+							"_unit":"String"
 						},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
 						"auth":{
+							"_username":"String",
 							"secret":{
-								"type":"String",
-								"usage":"String",
-								"uuid":"String"
-							},
-							"username":"String"
+								"_type":"String",
+								"_usage":"String",
+								"_uuid":"String"
+							}
 						},
 						"backingStore":{
-							"file":"String",
+							"_file":"String",
+							"_index":"String",
+							"_type":"String",
 							"format":{
-								"type":"String"
+								"_type":"String"
 							},
-							"index":"String",
 							"source":{
+								"_file":"String",
+								"_index":"String",
+								"_startupPolicy":"String",
 								"encryption":{
-									"format":"String",
+									"_format":"String",
 									"secret":{
-										"type":"String",
-										"usage":"String",
-										"uuid":"String"
+										"_type":"String",
+										"_usage":"String",
+										"_uuid":"String"
 									}
 								},
-								"file":"String",
-								"index":"String",
 								"reservations":{
-									"enabled":"String",
-									"managed":"String",
+									"_enabled":"String",
+									"_managed":"String",
 									"source":{
-										"dev":"String",
-										"mode":"String",
-										"path":"String",
-										"type":"String"
+										"_dev":"String",
+										"_mode":"String",
+										"_path":"String",
+										"_type":"String"
 									}
-								},
-								"startupPolicy":"String"
-							},
-							"type":"String"
+								}
+							}
 						},
 						"blockio":{
-							"logical_block_size":"String",
-							"physical_block_size":"String"
+							"_logical_block_size":"String",
+							"_physical_block_size":"String"
 						},
 						"boot":{
-							"loadparm":"String",
-							"order":"String"
+							"_loadparm":"String",
+							"_order":"String"
 						},
-						"device":"String",
 						"driver":{
-							"ats":"String",
-							"cache":"String",
-							"copy_on_read":"String",
-							"detect_zeroes":"String",
-							"discard":"String",
-							"error_policy":"String",
-							"event_idx":"String",
-							"io":"String",
-							"ioeventfd":"String",
-							"iommu":"String",
-							"iothread":"String",
-							"name":"String",
-							"queues":"String",
-							"rerror_policy":"String",
-							"type":"String"
+							"_ats":"String",
+							"_cache":"String",
+							"_copy_on_read":"String",
+							"_detect_zeroes":"String",
+							"_discard":"String",
+							"_error_policy":"String",
+							"_event_idx":"String",
+							"_io":"String",
+							"_ioeventfd":"String",
+							"_iommu":"String",
+							"_iothread":"String",
+							"_name":"String",
+							"_queues":"String",
+							"_rerror_policy":"String",
+							"_type":"String"
 						},
 						"encryption":{
-							"format":"String",
+							"_format":"String",
 							"secret":{
-								"type":"String",
-								"usage":"String",
-								"uuid":"String"
+								"_type":"String",
+								"_usage":"String",
+								"_uuid":"String"
 							}
 						},
 						"geometry":{
-							"cyls":"String",
-							"heads":"String",
-							"secs":"String",
-							"trans":"String"
+							"_cyls":"String",
+							"_heads":"String",
+							"_secs":"String",
+							"_trans":"String"
 						},
 						"iotune":{
 							"group_name":{
@@ -5701,79 +6492,73 @@
 							}
 						},
 						"mirror":{
+							"_job":"String",
+							"_ready":"String",
 							"format":{
-								"type":"String"
+								"_type":"String"
 							},
-							"job":"String",
-							"ready":"String",
 							"source":{
+								"_index":"String",
+								"_startupPolicy":"String",
 								"encryption":{
-									"format":"String",
+									"_format":"String",
 									"secret":{
-										"type":"String",
-										"usage":"String",
-										"uuid":"String"
+										"_type":"String",
+										"_usage":"String",
+										"_uuid":"String"
 									}
 								},
-								"index":"String",
 								"reservations":{
-									"enabled":"String",
-									"managed":"String",
+									"_enabled":"String",
+									"_managed":"String",
 									"source":{
-										"dev":"String",
-										"mode":"String",
-										"path":"String",
-										"type":"String"
+										"_dev":"String",
+										"_mode":"String",
+										"_path":"String",
+										"_type":"String"
 									}
-								},
-								"startupPolicy":"String"
+								}
 							}
 						},
-						"model":"String",
 						"product":{
 							"text":"String"
 						},
-						"rawio":"String",
 						"readonly":{},
 						"serial":{
-							"text":"String",
-							"type":"String"
+							"_type":"String",
+							"text":"String"
 						},
-						"sgio":"String",
 						"shareable":{},
-						"snapshot":"String",
 						"source":{
-							"controller":"String",
+							"_controller":"String",
+							"_file":"String",
+							"_index":"String",
+							"_startupPolicy":"String",
 							"encryption":{
-								"format":"String",
+								"_format":"String",
 								"secret":{
-									"type":"String",
-									"usage":"String",
-									"uuid":"String"
+									"_type":"String",
+									"_usage":"String",
+									"_uuid":"String"
 								}
 							},
-							"file":"String",
-							"index":"String",
 							"reservations":{
-								"enabled":"String",
-								"managed":"String",
+								"_enabled":"String",
+								"_managed":"String",
 								"source":{
-									"dev":"String",
-									"mode":"String",
-									"path":"String",
-									"type":"String"
+									"_dev":"String",
+									"_mode":"String",
+									"_path":"String",
+									"_type":"String"
 								}
-							},
-							"startupPolicy":"String"
+							}
 						},
 						"target":{
-							"bus":"String",
-							"dev":"String",
-							"removable":"String",
-							"tray":"String"
+							"_bus":"String",
+							"_dev":"String",
+							"_removable":"String",
+							"_tray":"String"
 						},
-						"transient":{},
-						"type":"String",
 						"vendor":{
 							"text":"String"
 						},
@@ -5787,528 +6572,184 @@
 				},
 				"filesystem":[
 					{
-						"accessmode":"String",
+						"_accessmode":"String",
+						"_model":"String",
 						"address":{},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
 						"driver":{
-							"ats":"String",
-							"format":"String",
-							"iommu":"String",
-							"name":"String",
-							"type":"String",
-							"wrpolicy":"String"
+							"_ats":"String",
+							"_format":"String",
+							"_iommu":"String",
+							"_name":"String",
+							"_type":"String",
+							"_wrpolicy":"String"
 						},
-						"model":"String",
 						"readonly":{},
 						"source":{},
 						"space_hard_limit":{
-							"text":"String",
-							"unit":"String"
+							"_unit":"String",
+							"text":"String"
 						},
 						"space_soft_limit":{
-							"text":"String",
-							"unit":"String"
+							"_unit":"String",
+							"text":"String"
 						},
 						"target":{
-							"dir":"String"
+							"_dir":"String"
 						}
 					},
 					{
-						"accessmode":"String",
+						"_accessmode":"String",
+						"_model":"String",
 						"address":{},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
 						"driver":{
-							"ats":"String",
-							"format":"String",
-							"iommu":"String",
-							"name":"String",
-							"type":"String",
-							"wrpolicy":"String"
+							"_ats":"String",
+							"_format":"String",
+							"_iommu":"String",
+							"_name":"String",
+							"_type":"String",
+							"_wrpolicy":"String"
 						},
-						"model":"String",
 						"readonly":{},
 						"source":{},
 						"space_hard_limit":{
-							"text":"String",
-							"unit":"String"
+							"_unit":"String",
+							"text":"String"
 						},
 						"space_soft_limit":{
-							"text":"String",
-							"unit":"String"
+							"_unit":"String",
+							"text":"String"
 						},
 						"target":{
-							"dir":"String"
+							"_dir":"String"
 						}
 					}
 				],
 				"graphics":[
 					{
-						"autoport":"String",
+						"_autoport":"String",
+						"_port":"String",
+						"_type":"String",
 						"listen":{
-							"address":"String",
-							"type":"String"
-						},
-						"port":"String",
-						"type":"String"
+							"_address":"String",
+							"_type":"String"
+						}
 					},
 					{
-						"autoport":"String",
+						"_autoport":"String",
+						"_port":"String",
+						"_type":"String",
 						"listen":{
-							"address":"String",
-							"type":"String"
-						},
-						"port":"String",
-						"type":"String"
+							"_address":"String",
+							"_type":"String"
+						}
 					}
 				],
 				"hostdev":[
 					{
+						"_managed":"String",
 						"address":{},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
 						"boot":{
-							"loadparm":"String",
-							"order":"String"
+							"_loadparm":"String",
+							"_order":"String"
 						},
-						"managed":"String",
 						"rom":{
-							"bar":"String",
-							"enabled":"String",
-							"file":"String"
+							"_bar":"String",
+							"_enabled":"String",
+							"_file":"String"
 						}
 					},
 					{
+						"_managed":"String",
 						"address":{},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
 						"boot":{
-							"loadparm":"String",
-							"order":"String"
+							"_loadparm":"String",
+							"_order":"String"
 						},
-						"managed":"String",
 						"rom":{
-							"bar":"String",
-							"enabled":"String",
-							"file":"String"
+							"_bar":"String",
+							"_enabled":"String",
+							"_file":"String"
 						}
 					}
 				],
 				"hub":[
 					{
+						"_type":"String",
 						"address":{},
 						"alias":{
-							"name":"String"
-						},
-						"type":"String"
+							"_name":"String"
+						}
 					},
 					{
+						"_type":"String",
 						"address":{},
 						"alias":{
-							"name":"String"
-						},
-						"type":"String"
+							"_name":"String"
+						}
 					}
 				],
 				"input":[
 					{
+						"_bus":"String",
+						"_model":"String",
+						"_type":"String",
 						"address":{
-							"bus":"String",
-							"port":"String",
-							"type":"String"
+							"_bus":"String",
+							"_port":"String",
+							"_type":"String"
 						},
 						"alias":{
-							"name":"String"
-						},
-						"bus":"String",
-						"driver":{
-							"ats":"String",
-							"iommu":"String"
-						},
-						"model":"String",
-						"source":{
-							"evdev":"String"
-						},
-						"type":"String"
-					},
-					{
-						"address":{
-							"bus":"String",
-							"port":"String",
-							"type":"String"
-						},
-						"alias":{
-							"name":"String"
-						},
-						"bus":"String",
-						"driver":{
-							"ats":"String",
-							"iommu":"String"
-						},
-						"model":"String",
-						"source":{
-							"evdev":"String"
-						},
-						"type":"String"
-					}
-				],
-				"interface":[
-					{
-						"address":{
-							"bus":"String",
-							"domain":"String",
-							"function":"String",
-							"slot":"String",
-							"type":"String"
-						},
-						"alias":{
-							"name":"String"
-						},
-						"backend":{
-							"tap":"String",
-							"vhost":"String"
-						},
-						"bandwidth":{
-							"inbound":{
-								"average":"String",
-								"burst":"String",
-								"floor":"String",
-								"peak":"String"
-							},
-							"outbound":{
-								"average":"String",
-								"burst":"String",
-								"floor":"String",
-								"peak":"String"
-							}
-						},
-						"boot":{
-							"loadparm":"String",
-							"order":"String"
-						},
-						"coalesce":{
-							"rx":{
-								"frames":{
-									"max":"String"
-								}
-							}
+							"_name":"String"
 						},
 						"driver":{
-							"ats":"String",
-							"event_idx":"String",
-							"guest":{
-								"csum":"String",
-								"ecn":"String",
-								"tso4":"String",
-								"tso6":"String",
-								"ufo":"String"
-							},
-							"host":{
-								"csum":"String",
-								"ecn":"String",
-								"gso":"String",
-								"mrg_rxbuf":"String",
-								"tso4":"String",
-								"tso6":"String",
-								"ufo":"String"
-							},
-							"ioeventfd":"String",
-							"iommu":"String",
-							"name":"String",
-							"queues":"String",
-							"rx_queue_size":"String",
-							"tx_queue_size":"String",
-							"txmode":"String"
-						},
-						"filterref":{
-							"filter":"String",
-							"parameter":[
-								{
-									"name":"String",
-									"value":"String"
-								},
-								{
-									"name":"String",
-									"value":"String"
-								}
-							]
-						},
-						"guest":{
-							"actual":"String",
-							"dev":"String"
-						},
-						"ip":[
-							{
-								"address":"String",
-								"family":"String",
-								"peer":"String",
-								"prefix":"String"
-							},
-							{
-								"address":"String",
-								"family":"String",
-								"peer":"String",
-								"prefix":"String"
-							}
-						],
-						"link":{
-							"state":"String"
-						},
-						"mac":{
-							"address":"String"
-						},
-						"managed":"String",
-						"model":{
-							"type":"String"
-						},
-						"mtu":{
-							"size":"String"
-						},
-						"rom":{
-							"bar":"String",
-							"enabled":"String",
-							"file":"String"
-						},
-						"route":[
-							{
-								"address":"String",
-								"family":"String",
-								"gateway":"String",
-								"metric":"String",
-								"netmask":"String",
-								"prefix":"String"
-							},
-							{
-								"address":"String",
-								"family":"String",
-								"gateway":"String",
-								"metric":"String",
-								"netmask":"String",
-								"prefix":"String"
-							}
-						],
-						"script":{
-							"path":"String"
+							"_ats":"String",
+							"_iommu":"String"
 						},
 						"source":{
-							"bridge":"String",
-							"network":"String"
-						},
-						"target":{
-							"dev":"String"
-						},
-						"trustGuestRxFilters":"String",
-						"tune":{
-							"sndbuf":{
-								"text":"String"
-							}
-						},
-						"type":"String",
-						"virtualport":{
-							"parameters":{
-								"_interfaceid":"String"
-							},
-							"type":"String"
-						},
-						"vlan":{
-							"tag":[
-								{
-									"id":"String",
-									"nativeMode":"String"
-								},
-								{
-									"id":"String",
-									"nativeMode":"String"
-								}
-							],
-							"trunk":"String"
+							"_evdev":"String"
 						}
 					},
 					{
+						"_bus":"String",
+						"_model":"String",
+						"_type":"String",
 						"address":{
-							"bus":"String",
-							"domain":"String",
-							"function":"String",
-							"slot":"String",
-							"type":"String"
+							"_bus":"String",
+							"_port":"String",
+							"_type":"String"
 						},
 						"alias":{
-							"name":"String"
-						},
-						"backend":{
-							"tap":"String",
-							"vhost":"String"
-						},
-						"bandwidth":{
-							"inbound":{
-								"average":"String",
-								"burst":"String",
-								"floor":"String",
-								"peak":"String"
-							},
-							"outbound":{
-								"average":"String",
-								"burst":"String",
-								"floor":"String",
-								"peak":"String"
-							}
-						},
-						"boot":{
-							"loadparm":"String",
-							"order":"String"
-						},
-						"coalesce":{
-							"rx":{
-								"frames":{
-									"max":"String"
-								}
-							}
+							"_name":"String"
 						},
 						"driver":{
-							"ats":"String",
-							"event_idx":"String",
-							"guest":{
-								"csum":"String",
-								"ecn":"String",
-								"tso4":"String",
-								"tso6":"String",
-								"ufo":"String"
-							},
-							"host":{
-								"csum":"String",
-								"ecn":"String",
-								"gso":"String",
-								"mrg_rxbuf":"String",
-								"tso4":"String",
-								"tso6":"String",
-								"ufo":"String"
-							},
-							"ioeventfd":"String",
-							"iommu":"String",
-							"name":"String",
-							"queues":"String",
-							"rx_queue_size":"String",
-							"tx_queue_size":"String",
-							"txmode":"String"
-						},
-						"filterref":{
-							"filter":"String",
-							"parameter":[
-								{
-									"name":"String",
-									"value":"String"
-								},
-								{
-									"name":"String",
-									"value":"String"
-								}
-							]
-						},
-						"guest":{
-							"actual":"String",
-							"dev":"String"
-						},
-						"ip":[
-							{
-								"address":"String",
-								"family":"String",
-								"peer":"String",
-								"prefix":"String"
-							},
-							{
-								"address":"String",
-								"family":"String",
-								"peer":"String",
-								"prefix":"String"
-							}
-						],
-						"link":{
-							"state":"String"
-						},
-						"mac":{
-							"address":"String"
-						},
-						"managed":"String",
-						"model":{
-							"type":"String"
-						},
-						"mtu":{
-							"size":"String"
-						},
-						"rom":{
-							"bar":"String",
-							"enabled":"String",
-							"file":"String"
-						},
-						"route":[
-							{
-								"address":"String",
-								"family":"String",
-								"gateway":"String",
-								"metric":"String",
-								"netmask":"String",
-								"prefix":"String"
-							},
-							{
-								"address":"String",
-								"family":"String",
-								"gateway":"String",
-								"metric":"String",
-								"netmask":"String",
-								"prefix":"String"
-							}
-						],
-						"script":{
-							"path":"String"
+							"_ats":"String",
+							"_iommu":"String"
 						},
 						"source":{
-							"bridge":"String",
-							"network":"String"
-						},
-						"target":{
-							"dev":"String"
-						},
-						"trustGuestRxFilters":"String",
-						"tune":{
-							"sndbuf":{
-								"text":"String"
-							}
-						},
-						"type":"String",
-						"virtualport":{
-							"parameters":{
-								"_interfaceid":"String"
-							},
-							"type":"String"
-						},
-						"vlan":{
-							"tag":[
-								{
-									"id":"String",
-									"nativeMode":"String"
-								},
-								{
-									"id":"String",
-									"nativeMode":"String"
-								}
-							],
-							"trunk":"String"
+							"_evdev":"String"
 						}
 					}
 				],
 				"iommu":{
+					"_model":"String",
 					"driver":{
-						"caching_mode":"String",
-						"eim":"String",
-						"intremap":"String",
-						"iotlb":"String"
-					},
-					"model":"String"
+						"_caching_mode":"String",
+						"_eim":"String",
+						"_intremap":"String",
+						"_iotlb":"String"
+					}
 				},
 				"lease":[
 					{
@@ -6319,8 +6760,8 @@
 							"text":"String"
 						},
 						"target":{
-							"offset":"String",
-							"path":"String"
+							"_offset":"String",
+							"_path":"String"
 						}
 					},
 					{
@@ -6331,52 +6772,52 @@
 							"text":"String"
 						},
 						"target":{
-							"offset":"String",
-							"path":"String"
+							"_offset":"String",
+							"_path":"String"
 						}
 					}
 				],
 				"memballoon":{
+					"_autodeflate":"String",
+					"_model":"String",
 					"address":{
-						"bus":"String",
-						"domain":"String",
-						"function":"String",
-						"slot":"String",
-						"type":"String"
+						"_bus":"String",
+						"_domain":"String",
+						"_function":"String",
+						"_slot":"String",
+						"_type":"String"
 					},
 					"alias":{
-						"name":"String"
+						"_name":"String"
 					},
-					"autodeflate":"String",
 					"driver":{
-						"ats":"String",
-						"iommu":"String"
+						"_ats":"String",
+						"_iommu":"String"
 					},
-					"model":"String",
 					"stats":{
-						"period":"String"
+						"_period":"String"
 					}
 				},
 				"memory":[
 					{
-						"access":"String",
+						"_access":"String",
+						"_discard":"String",
+						"_model":"String",
 						"address":{},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
-						"discard":"String",
-						"model":"String",
 						"source":{
 							"alignsize":{
-								"text":"String",
-								"unit":"String"
+								"_unit":"String",
+								"text":"String"
 							},
 							"nodemask":{
 								"text":"String"
 							},
 							"pagesize":{
-								"text":"String",
-								"unit":"String"
+								"_unit":"String",
+								"text":"String"
 							},
 							"path":{
 								"text":"String"
@@ -6386,8 +6827,8 @@
 						"target":{
 							"label":{
 								"size":{
-									"text":"String",
-									"unit":"String"
+									"_unit":"String",
+									"text":"String"
 								}
 							},
 							"node":{
@@ -6395,30 +6836,30 @@
 							},
 							"readonly":{},
 							"size":{
-								"text":"String",
-								"unit":"String"
+								"_unit":"String",
+								"text":"String"
 							}
 						}
 					},
 					{
-						"access":"String",
+						"_access":"String",
+						"_discard":"String",
+						"_model":"String",
 						"address":{},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
-						"discard":"String",
-						"model":"String",
 						"source":{
 							"alignsize":{
-								"text":"String",
-								"unit":"String"
+								"_unit":"String",
+								"text":"String"
 							},
 							"nodemask":{
 								"text":"String"
 							},
 							"pagesize":{
-								"text":"String",
-								"unit":"String"
+								"_unit":"String",
+								"text":"String"
 							},
 							"path":{
 								"text":"String"
@@ -6428,8 +6869,8 @@
 						"target":{
 							"label":{
 								"size":{
-									"text":"String",
-									"unit":"String"
+									"_unit":"String",
+									"text":"String"
 								}
 							},
 							"node":{
@@ -6437,8 +6878,8 @@
 							},
 							"readonly":{},
 							"size":{
-								"text":"String",
-								"unit":"String"
+								"_unit":"String",
+								"text":"String"
 							}
 						}
 					}
@@ -6446,91 +6887,91 @@
 				"nvram":{
 					"address":{},
 					"alias":{
-						"name":"String"
+						"_name":"String"
 					}
 				},
 				"panic":[
 					{
+						"_model":"String",
 						"address":{},
 						"alias":{
-							"name":"String"
-						},
-						"model":"String"
+							"_name":"String"
+						}
 					},
 					{
+						"_model":"String",
 						"address":{},
 						"alias":{
-							"name":"String"
-						},
-						"model":"String"
+							"_name":"String"
+						}
 					}
 				],
 				"parallel":[
 					{
 						"address":{},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
 						"log":{
-							"append":"String",
-							"file":"String"
+							"_append":"String",
+							"_file":"String"
 						},
 						"protocol":{
-							"type":"String"
+							"_type":"String"
 						},
 						"source":{},
 						"target":{
-							"port":"String",
-							"type":"String"
+							"_port":"String",
+							"_type":"String"
 						}
 					},
 					{
 						"address":{},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
 						"log":{
-							"append":"String",
-							"file":"String"
+							"_append":"String",
+							"_file":"String"
 						},
 						"protocol":{
-							"type":"String"
+							"_type":"String"
 						},
 						"source":{},
 						"target":{
-							"port":"String",
-							"type":"String"
+							"_port":"String",
+							"_type":"String"
 						}
 					}
 				],
 				"redirdev":[
 					{
+						"_bus":"String",
 						"address":{},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
 						"boot":{
-							"loadparm":"String",
-							"order":"String"
+							"_loadparm":"String",
+							"_order":"String"
 						},
-						"bus":"String",
 						"protocol":{
-							"type":"String"
+							"_type":"String"
 						},
 						"source":{}
 					},
 					{
+						"_bus":"String",
 						"address":{},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
 						"boot":{
-							"loadparm":"String",
-							"order":"String"
+							"_loadparm":"String",
+							"_order":"String"
 						},
-						"bus":"String",
 						"protocol":{
-							"type":"String"
+							"_type":"String"
 						},
 						"source":{}
 					}
@@ -6539,185 +6980,185 @@
 					{
 						"usbdev":[
 							{
-								"allow":"String",
-								"class":"String",
-								"product":"String",
-								"vendor":"String",
-								"version":"String"
+								"_allow":"String",
+								"_class":"String",
+								"_product":"String",
+								"_vendor":"String",
+								"_version":"String"
 							},
 							{
-								"allow":"String",
-								"class":"String",
-								"product":"String",
-								"vendor":"String",
-								"version":"String"
+								"_allow":"String",
+								"_class":"String",
+								"_product":"String",
+								"_vendor":"String",
+								"_version":"String"
 							}
 						]
 					},
 					{
 						"usbdev":[
 							{
-								"allow":"String",
-								"class":"String",
-								"product":"String",
-								"vendor":"String",
-								"version":"String"
+								"_allow":"String",
+								"_class":"String",
+								"_product":"String",
+								"_vendor":"String",
+								"_version":"String"
 							},
 							{
-								"allow":"String",
-								"class":"String",
-								"product":"String",
-								"vendor":"String",
-								"version":"String"
+								"_allow":"String",
+								"_class":"String",
+								"_product":"String",
+								"_vendor":"String",
+								"_version":"String"
 							}
 						]
 					}
 				],
 				"rng":[
 					{
+						"_model":"String",
 						"address":{
-							"bus":"String",
-							"domain":"String",
-							"function":"String",
-							"slot":"String",
-							"type":"String"
+							"_bus":"String",
+							"_domain":"String",
+							"_function":"String",
+							"_slot":"String",
+							"_type":"String"
 						},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
 						"backend":{
-							"model":"String",
+							"_model":"String",
 							"text":"String"
 						},
 						"driver":{
-							"ats":"String",
-							"iommu":"String"
+							"_ats":"String",
+							"_iommu":"String"
 						},
-						"model":"String",
 						"rate":{
-							"bytes":"String",
-							"period":"String"
+							"_bytes":"String",
+							"_period":"String"
 						}
 					},
 					{
+						"_model":"String",
 						"address":{
-							"bus":"String",
-							"domain":"String",
-							"function":"String",
-							"slot":"String",
-							"type":"String"
+							"_bus":"String",
+							"_domain":"String",
+							"_function":"String",
+							"_slot":"String",
+							"_type":"String"
 						},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
 						"backend":{
-							"model":"String",
+							"_model":"String",
 							"text":"String"
 						},
 						"driver":{
-							"ats":"String",
-							"iommu":"String"
+							"_ats":"String",
+							"_iommu":"String"
 						},
-						"model":"String",
 						"rate":{
-							"bytes":"String",
-							"period":"String"
+							"_bytes":"String",
+							"_period":"String"
 						}
 					}
 				],
 				"serial":[
 					{
+						"_type":"String",
 						"address":{},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
 						"log":{
-							"append":"String",
-							"file":"String"
+							"_append":"String",
+							"_file":"String"
 						},
 						"protocol":{
-							"type":"String"
+							"_type":"String"
 						},
 						"source":{
-							"path":"String"
+							"_path":"String"
 						},
 						"target":{
+							"_port":"String",
+							"_type":"String",
 							"model":{
-								"name":"String"
-							},
-							"port":"String",
-							"type":"String"
-						},
-						"type":"String"
+								"_name":"String"
+							}
+						}
 					},
 					{
+						"_type":"String",
 						"address":{},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
 						"log":{
-							"append":"String",
-							"file":"String"
+							"_append":"String",
+							"_file":"String"
 						},
 						"protocol":{
-							"type":"String"
+							"_type":"String"
 						},
 						"source":{
-							"path":"String"
+							"_path":"String"
 						},
 						"target":{
+							"_port":"String",
+							"_type":"String",
 							"model":{
-								"name":"String"
-							},
-							"port":"String",
-							"type":"String"
-						},
-						"type":"String"
+								"_name":"String"
+							}
+						}
 					}
 				],
 				"shmem":[
 					{
+						"_name":"String",
 						"address":{},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
 						"model":{
-							"type":"String"
+							"_type":"String"
 						},
 						"msi":{
-							"enabled":"String",
-							"ioeventfd":"String",
-							"vectors":"String"
+							"_enabled":"String",
+							"_ioeventfd":"String",
+							"_vectors":"String"
 						},
-						"name":"String",
 						"server":{
-							"path":"String"
+							"_path":"String"
 						},
 						"size":{
-							"text":"String",
-							"unit":"String"
+							"_unit":"String",
+							"text":"String"
 						}
 					},
 					{
+						"_name":"String",
 						"address":{},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
 						"model":{
-							"type":"String"
+							"_type":"String"
 						},
 						"msi":{
-							"enabled":"String",
-							"ioeventfd":"String",
-							"vectors":"String"
+							"_enabled":"String",
+							"_ioeventfd":"String",
+							"_vectors":"String"
 						},
-						"name":"String",
 						"server":{
-							"path":"String"
+							"_path":"String"
 						},
 						"size":{
-							"text":"String",
-							"unit":"String"
+							"_unit":"String",
+							"text":"String"
 						}
 					}
 				],
@@ -6725,7 +7166,7 @@
 					{
 						"address":{},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
 						"certificate":[
 							{
@@ -6739,14 +7180,14 @@
 							"text":"String"
 						},
 						"protocol":{
-							"type":"String"
+							"_type":"String"
 						},
 						"source":{}
 					},
 					{
 						"address":{},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
 						"certificate":[
 							{
@@ -6760,397 +7201,396 @@
 							"text":"String"
 						},
 						"protocol":{
-							"type":"String"
+							"_type":"String"
 						},
 						"source":{}
 					}
 				],
 				"sound":[
 					{
+						"_model":"String",
 						"address":{},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
 						"codec":[
 							{
-								"type":"String"
+								"_type":"String"
 							},
 							{
-								"type":"String"
+								"_type":"String"
 							}
-						],
-						"model":"String"
+						]
 					},
 					{
+						"_model":"String",
 						"address":{},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
 						"codec":[
 							{
-								"type":"String"
+								"_type":"String"
 							},
 							{
-								"type":"String"
+								"_type":"String"
 							}
-						],
-						"model":"String"
+						]
 					}
 				],
 				"tpm":[
 					{
+						"_model":"String",
 						"address":{},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
-						"backend":{},
-						"model":"String"
+						"backend":{}
 					},
 					{
+						"_model":"String",
 						"address":{},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
-						"backend":{},
-						"model":"String"
+						"backend":{}
 					}
 				],
 				"video":[
 					{
 						"address":{
-							"bus":"String",
-							"domain":"String",
-							"function":"String",
-							"slot":"String",
-							"type":"String"
+							"_bus":"String",
+							"_domain":"String",
+							"_function":"String",
+							"_slot":"String",
+							"_type":"String"
 						},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
 						"driver":{
-							"ats":"String",
-							"iommu":"String",
-							"vgaconf":"String"
+							"_ats":"String",
+							"_iommu":"String",
+							"_vgaconf":"String"
 						},
 						"model":{
+							"_heads":"String",
+							"_primary":"String",
+							"_ram":"String",
+							"_type":"String",
+							"_vgamem":"String",
+							"_vram":"String",
+							"_vram64":"String",
 							"acceleration":{
-								"accel2d":"String",
-								"accel3d":"String"
-							},
-							"heads":"String",
-							"primary":"String",
-							"ram":"String",
-							"type":"String",
-							"vgamem":"String",
-							"vram":"String",
-							"vram64":"String"
+								"_accel2d":"String",
+								"_accel3d":"String"
+							}
 						}
 					},
 					{
 						"address":{
-							"bus":"String",
-							"domain":"String",
-							"function":"String",
-							"slot":"String",
-							"type":"String"
+							"_bus":"String",
+							"_domain":"String",
+							"_function":"String",
+							"_slot":"String",
+							"_type":"String"
 						},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
 						"driver":{
-							"ats":"String",
-							"iommu":"String",
-							"vgaconf":"String"
+							"_ats":"String",
+							"_iommu":"String",
+							"_vgaconf":"String"
 						},
 						"model":{
+							"_heads":"String",
+							"_primary":"String",
+							"_ram":"String",
+							"_type":"String",
+							"_vgamem":"String",
+							"_vram":"String",
+							"_vram64":"String",
 							"acceleration":{
-								"accel2d":"String",
-								"accel3d":"String"
-							},
-							"heads":"String",
-							"primary":"String",
-							"ram":"String",
-							"type":"String",
-							"vgamem":"String",
-							"vram":"String",
-							"vram64":"String"
+								"_accel2d":"String",
+								"_accel3d":"String"
+							}
 						}
 					}
 				],
 				"vsock":{
+					"_model":"String",
 					"address":{},
 					"alias":{
-						"name":"String"
+						"_name":"String"
 					},
 					"cid":{
-						"address":"String",
-						"auto":"String"
-					},
-					"model":"String"
+						"_address":"String",
+						"_auto":"String"
+					}
 				},
 				"watchdog":{
-					"action":"String",
+					"_action":"String",
+					"_model":"String",
 					"address":{},
 					"alias":{
-						"name":"String"
-					},
-					"model":"String"
+						"_name":"String"
+					}
 				}
 			},
 			"features":{
 				"acpi":{},
 				"apic":{
-					"eoi":"String"
+					"_eoi":"String"
 				},
 				"capabilities":{
+					"_policy":"String",
 					"audit_control":{
-						"state":"String"
+						"_state":"String"
 					},
 					"audit_write":{
-						"state":"String"
+						"_state":"String"
 					},
 					"block_suspend":{
-						"state":"String"
+						"_state":"String"
 					},
 					"chown":{
-						"state":"String"
+						"_state":"String"
 					},
 					"dac_override":{
-						"state":"String"
+						"_state":"String"
 					},
 					"dac_read_Search":{
-						"state":"String"
+						"_state":"String"
 					},
 					"fowner":{
-						"state":"String"
+						"_state":"String"
 					},
 					"fsetid":{
-						"state":"String"
+						"_state":"String"
 					},
 					"ipc_lock":{
-						"state":"String"
+						"_state":"String"
 					},
 					"ipc_owner":{
-						"state":"String"
+						"_state":"String"
 					},
 					"kill":{
-						"state":"String"
+						"_state":"String"
 					},
 					"lease":{
-						"state":"String"
+						"_state":"String"
 					},
 					"linux_immutable":{
-						"state":"String"
+						"_state":"String"
 					},
 					"mac_admin":{
-						"state":"String"
+						"_state":"String"
 					},
 					"mac_override":{
-						"state":"String"
+						"_state":"String"
 					},
 					"mknod":{
-						"state":"String"
+						"_state":"String"
 					},
 					"net_admin":{
-						"state":"String"
+						"_state":"String"
 					},
 					"net_bind_service":{
-						"state":"String"
+						"_state":"String"
 					},
 					"net_broadcast":{
-						"state":"String"
+						"_state":"String"
 					},
 					"net_raw":{
-						"state":"String"
+						"_state":"String"
 					},
-					"policy":"String",
 					"setfcap":{
-						"state":"String"
+						"_state":"String"
 					},
 					"setgid":{
-						"state":"String"
+						"_state":"String"
 					},
 					"setpcap":{
-						"state":"String"
+						"_state":"String"
 					},
 					"setuid":{
-						"state":"String"
+						"_state":"String"
 					},
 					"sys_admin":{
-						"state":"String"
+						"_state":"String"
 					},
 					"sys_boot":{
-						"state":"String"
+						"_state":"String"
 					},
 					"sys_chroot":{
-						"state":"String"
+						"_state":"String"
 					},
 					"sys_module":{
-						"state":"String"
+						"_state":"String"
 					},
 					"sys_nice":{
-						"state":"String"
+						"_state":"String"
 					},
 					"sys_pacct":{
-						"state":"String"
+						"_state":"String"
 					},
 					"sys_ptrace":{
-						"state":"String"
+						"_state":"String"
 					},
 					"sys_rawio":{
-						"state":"String"
+						"_state":"String"
 					},
 					"sys_resource":{
-						"state":"String"
+						"_state":"String"
 					},
 					"sys_time":{
-						"state":"String"
+						"_state":"String"
 					},
 					"sys_tty_config":{
-						"state":"String"
+						"_state":"String"
 					},
 					"syslog":{
-						"state":"String"
+						"_state":"String"
 					},
 					"wake_alarm":{
-						"state":"String"
+						"_state":"String"
 					}
 				},
 				"gic":{
-					"version":"String"
+					"_version":"String"
 				},
 				"hap":{
-					"state":"String"
+					"_state":"String"
 				},
 				"hpt":{
+					"_resizing":"String",
 					"maxpagesize":{
-						"text":"String",
-						"unit":"String"
-					},
-					"resizing":"String"
+						"_unit":"String",
+						"text":"String"
+					}
 				},
 				"htm":{
-					"state":"String"
+					"_state":"String"
 				},
 				"hyperv":{
 					"evmcs":{
-						"state":"String"
+						"_state":"String"
 					},
 					"frequencies":{
-						"state":"String"
+						"_state":"String"
 					},
 					"ipi":{
-						"state":"String"
+						"_state":"String"
 					},
 					"reenlightenment":{
-						"state":"String"
+						"_state":"String"
 					},
 					"relaxed":{
-						"state":"String"
+						"_state":"String"
 					},
 					"reset":{
-						"state":"String"
+						"_state":"String"
 					},
 					"runtime":{
-						"state":"String"
+						"_state":"String"
 					},
 					"spinlocks":{
-						"retries":"String",
-						"state":"String"
+						"_retries":"String",
+						"_state":"String"
 					},
 					"stimer":{
-						"state":"String"
+						"_state":"String"
 					},
 					"synic":{
-						"state":"String"
+						"_state":"String"
 					},
 					"tlbflush":{
-						"state":"String"
+						"_state":"String"
 					},
 					"vapic":{
-						"state":"String"
+						"_state":"String"
 					},
 					"vendor_id":{
-						"value":"String"
+						"_value":"String"
 					},
 					"vpindex":{
-						"state":"String"
+						"_state":"String"
 					}
 				},
 				"ioapic":{
-					"driver":"String"
+					"_driver":"String"
 				},
 				"kvm":{
 					"hidden":{
-						"state":"String"
+						"_state":"String"
 					}
 				},
 				"msrs":{
-					"unknown":"String"
+					"_unknown":"String"
 				},
 				"nested_hv":{
-					"state":"String"
+					"_state":"String"
 				},
 				"pae":{},
 				"pmu":{
-					"state":"String"
+					"_state":"String"
 				},
 				"privnet":{},
 				"pvspinlock":{
-					"state":"String"
+					"_state":"String"
 				},
 				"smm":{
-					"state":"String",
+					"_state":"String",
 					"tseg":{
-						"text":"String",
-						"unit":"String"
+						"_unit":"String",
+						"text":"String"
 					}
 				},
 				"viridian":{},
 				"vmcoreinfo":{
-					"state":"String"
+					"_state":"String"
 				},
 				"vmport":{
-					"state":"String"
+					"_state":"String"
 				}
 			},
 			"genid":{
 				"text":"String"
 			},
-			"id":"String",
 			"idmap":{
 				"gid":[
 					{
-						"count":"String",
-						"start":"String",
-						"target":"String"
+						"_count":"String",
+						"_start":"String",
+						"_target":"String"
 					},
 					{
-						"count":"String",
-						"start":"String",
-						"target":"String"
+						"_count":"String",
+						"_start":"String",
+						"_target":"String"
 					}
 				],
 				"uid":[
 					{
-						"count":"String",
-						"start":"String",
-						"target":"String"
+						"_count":"String",
+						"_start":"String",
+						"_target":"String"
 					},
 					{
-						"count":"String",
-						"start":"String",
-						"target":"String"
+						"_count":"String",
+						"_start":"String",
+						"_target":"String"
 					}
 				]
 			},
 			"iothreadids":{
 				"iothread":[
 					{
-						"id":"String"
+						"_id":"String"
 					},
 					{
-						"id":"String"
+						"_id":"String"
 					}
 				]
 			},
@@ -7160,70 +7600,70 @@
 			"keywrap":{
 				"cipher":[
 					{
-						"name":"String",
-						"state":"String"
+						"_name":"String",
+						"_state":"String"
 					},
 					{
-						"name":"String",
-						"state":"String"
+						"_name":"String",
+						"_state":"String"
 					}
 				]
 			},
 			"launchSecurity":{},
 			"maxMemory":{
-				"slots":"String",
-				"text":"String",
-				"unit":"String"
+				"_slots":"String",
+				"_unit":"String",
+				"text":"String"
 			},
 			"memory":{
-				"dumpCore":"String",
-				"text":"String",
-				"unit":"String"
+				"_dumpCore":"String",
+				"_unit":"String",
+				"text":"String"
 			},
 			"memoryBacking":{
 				"access":{
-					"mode":"String"
+					"_mode":"String"
 				},
 				"allocation":{
-					"mode":"String"
+					"_mode":"String"
 				},
 				"discard":{},
 				"hugepages":{
 					"page":[
 						{
-							"nodeset":"String",
-							"size":"String",
-							"unit":"String"
+							"_nodeset":"String",
+							"_size":"String",
+							"_unit":"String"
 						},
 						{
-							"nodeset":"String",
-							"size":"String",
-							"unit":"String"
+							"_nodeset":"String",
+							"_size":"String",
+							"_unit":"String"
 						}
 					]
 				},
 				"locked":{},
 				"nosharepages":{},
 				"source":{
-					"type":"String"
+					"_type":"String"
 				}
 			},
 			"memtune":{
 				"hard_limit":{
-					"text":"String",
-					"unit":"String"
+					"_unit":"String",
+					"text":"String"
 				},
 				"min_guarantee":{
-					"text":"String",
-					"unit":"String"
+					"_unit":"String",
+					"text":"String"
 				},
 				"soft_limit":{
-					"text":"String",
-					"unit":"String"
+					"_unit":"String",
+					"text":"String"
 				},
 				"swap_hard_limit":{
-					"text":"String",
-					"unit":"String"
+					"_unit":"String",
+					"text":"String"
 				}
 			},
 			"metadata":{},
@@ -7233,20 +7673,20 @@
 			"numatune":{
 				"memnode":[
 					{
-						"cellid":"String",
-						"mode":"String",
-						"nodeset":"String"
+						"_cellid":"String",
+						"_mode":"String",
+						"_nodeset":"String"
 					},
 					{
-						"cellid":"String",
-						"mode":"String",
-						"nodeset":"String"
+						"_cellid":"String",
+						"_mode":"String",
+						"_nodeset":"String"
 					}
 				],
 				"memory":{
-					"mode":"String",
-					"nodeset":"String",
-					"placement":"String"
+					"_mode":"String",
+					"_nodeset":"String",
+					"_placement":"String"
 				}
 			},
 			"on_crash":{
@@ -7262,30 +7702,30 @@
 				"acpi":{
 					"table":[
 						{
-							"text":"String",
-							"type":"String"
+							"_type":"String",
+							"text":"String"
 						},
 						{
-							"text":"String",
-							"type":"String"
+							"_type":"String",
+							"text":"String"
 						}
 					]
 				},
 				"bios":{
-					"rebootTimeout":"String",
-					"useserial":"String"
+					"_rebootTimeout":"String",
+					"_useserial":"String"
 				},
 				"boot":[
 					{
-						"dev":"String"
+						"_dev":"String"
 					},
 					{
-						"dev":"String"
+						"_dev":"String"
 					}
 				],
 				"bootmenu":{
-					"enable":"String",
-					"timeout":"String"
+					"_enable":"String",
+					"_timeout":"String"
 				},
 				"cmdline":{
 					"text":"String"
@@ -7304,11 +7744,11 @@
 				},
 				"initenv":[
 					{
-						"name":"String",
+						"_name":"String",
 						"text":"String"
 					},
 					{
-						"name":"String",
+						"_name":"String",
 						"text":"String"
 					}
 				],
@@ -7325,40 +7765,40 @@
 					"text":"String"
 				},
 				"loader":{
-					"readonly":"String",
-					"text":"String",
-					"type":"String"
+					"_readonly":"String",
+					"_type":"String",
+					"text":"String"
 				},
 				"nvram":{
 					"text":"String"
 				},
 				"smbios":{
-					"mode":"String"
+					"_mode":"String"
 				},
 				"type":{
-					"arch":"String",
-					"machine":"String",
+					"_arch":"String",
+					"_machine":"String",
 					"text":"String"
 				}
 			},
 			"perf":{
 				"event":[
 					{
-						"enabled":"String",
-						"name":"String"
+						"_enabled":"String",
+						"_name":"String"
 					},
 					{
-						"enabled":"String",
-						"name":"String"
+						"_enabled":"String",
+						"_name":"String"
 					}
 				]
 			},
 			"pm":{
 				"suspend_to_disk":{
-					"enabled":"String"
+					"_enabled":"String"
 				},
 				"suspend_to_mem":{
-					"enabled":"String"
+					"_enabled":"String"
 				}
 			},
 			"resource":{
@@ -7368,6 +7808,9 @@
 			},
 			"seclabel":[
 				{
+					"_model":"String",
+					"_relabel":"String",
+					"_type":"String",
 					"baselabel":{
 						"text":"String"
 					},
@@ -7376,12 +7819,12 @@
 					},
 					"label":{
 						"text":"String"
-					},
-					"model":"String",
-					"relabel":"String",
-					"type":"String"
+					}
 				},
 				{
+					"_model":"String",
+					"_relabel":"String",
+					"_type":"String",
 					"baselabel":{
 						"text":"String"
 					},
@@ -7390,22 +7833,20 @@
 					},
 					"label":{
 						"text":"String"
-					},
-					"model":"String",
-					"relabel":"String",
-					"type":"String"
+					}
 				}
 			],
 			"sysinfo":{
+				"_type":"String",
 				"baseBoard":[
 					{
 						"entry":[
 							{
-								"name":"String",
+								"_name":"String",
 								"text":"String"
 							},
 							{
-								"name":"String",
+								"_name":"String",
 								"text":"String"
 							}
 						]
@@ -7413,11 +7854,11 @@
 					{
 						"entry":[
 							{
-								"name":"String",
+								"_name":"String",
 								"text":"String"
 							},
 							{
-								"name":"String",
+								"_name":"String",
 								"text":"String"
 							}
 						]
@@ -7426,11 +7867,11 @@
 				"bios":{
 					"entry":[
 						{
-							"name":"String",
+							"_name":"String",
 							"text":"String"
 						},
 						{
-							"name":"String",
+							"_name":"String",
 							"text":"String"
 						}
 					]
@@ -7438,11 +7879,11 @@
 				"chassis":{
 					"entry":[
 						{
-							"name":"String",
+							"_name":"String",
 							"text":"String"
 						},
 						{
-							"name":"String",
+							"_name":"String",
 							"text":"String"
 						}
 					]
@@ -7451,11 +7892,11 @@
 					{
 						"entry":[
 							{
-								"name":"String",
+								"_name":"String",
 								"text":"String"
 							},
 							{
-								"name":"String",
+								"_name":"String",
 								"text":"String"
 							}
 						]
@@ -7463,11 +7904,11 @@
 					{
 						"entry":[
 							{
-								"name":"String",
+								"_name":"String",
 								"text":"String"
 							},
 							{
-								"name":"String",
+								"_name":"String",
 								"text":"String"
 							}
 						]
@@ -7482,11 +7923,11 @@
 					{
 						"entry":[
 							{
-								"name":"String",
+								"_name":"String",
 								"text":"String"
 							},
 							{
-								"name":"String",
+								"_name":"String",
 								"text":"String"
 							}
 						]
@@ -7494,11 +7935,11 @@
 					{
 						"entry":[
 							{
-								"name":"String",
+								"_name":"String",
 								"text":"String"
 							},
 							{
-								"name":"String",
+								"_name":"String",
 								"text":"String"
 							}
 						]
@@ -7507,43 +7948,41 @@
 				"system":{
 					"entry":[
 						{
-							"name":"String",
+							"_name":"String",
 							"text":"String"
 						},
 						{
-							"name":"String",
+							"_name":"String",
 							"text":"String"
 						}
 					]
-				},
-				"type":"String"
+				}
 			},
 			"title":{
 				"text":"String"
 			},
-			"type":"String",
 			"uuid":{
 				"text":"String"
 			},
 			"vcpu":{
-				"cpuset":"String",
-				"current":"String",
-				"placement":"String",
+				"_cpuset":"String",
+				"_current":"String",
+				"_placement":"String",
 				"text":"String"
 			},
 			"vcpus":{
 				"vcpu":[
 					{
-						"enabled":"String",
-						"hotpluggable":"String",
-						"id":"String",
-						"order":"String"
+						"_enabled":"String",
+						"_hotpluggable":"String",
+						"_id":"String",
+						"_order":"String"
 					},
 					{
-						"enabled":"String",
-						"hotpluggable":"String",
-						"id":"String",
-						"order":"String"
+						"_enabled":"String",
+						"_hotpluggable":"String",
+						"_id":"String",
+						"_order":"String"
 					}
 				]
 			}
@@ -7589,7 +8028,7 @@
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| type|String|true|存储池的类型|只能是dir，uus，nfs，glusterfs之一|dir|
+| type|String|true|存储池的类型|只能是dir，uraid，uus，nfs，glusterfs之一|dir|
 | delete_snapshots|Boolean|false|删除所有快照|true或者false|true|
 | pool|String|true|云盘所在的存储池名|已创建出的存储池|pool2|
 |  |  |  |  |  |
@@ -7636,7 +8075,7 @@
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| type|String|true|存储池的类型|只能是dir，uus，nfs，glusterfs之一|dir|
+| type|String|true|存储池的类型|只能是dir，uraid，nfs，glusterfs之一|dir|
 | pool|String|true|云盘所在的存储池名|已创建出的存储池|pool2|
 | capacity|String|true|扩容后的云盘空间大小, 1G到1T|1000000000-999999999999（单位：Byte），需要比以前的云盘空间大|‭10,737,418,240‬|
 |  |  |  |  |  |
@@ -7684,7 +8123,7 @@
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| type|String|true|存储池的类型|只能是dir，uus，nfs，glusterfs之一|dir|
+| type|String|true|存储池的类型|只能是dir，uraid，uus，nfs，glusterfs之一|dir|
 | backing_vol_format|String|true|根云盘文件的类型|qcow2|qcow2|
 | format|String|true|云盘文件的类型|qcow2|qcow2|
 | pool|String|true|创建云盘使用的存储池名|已创建出的存储池|pool2|
@@ -7735,9 +8174,9 @@
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| type|String|true|存储池的类型|只能是dir，uus，nfs，glusterfs之一|dir|
+| type|String|true|存储池的类型|只能是dir，uraid，nfs，glusterfs之一|dir|
 | targetPool|String|true|目标存储池名|由4-100位的数字和小写字母组成，已创建出的存储池|pool2|
-| sourceImage|String|true|源云盘镜像名|由4-100位的数字和小写字母组成，已存在的云盘镜像名|image2|
+| source|String|true|云盘镜像的路径|路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点|/var/lib/libvirt/test.qcow2|
 |  |  |  |  |  |
 
 **接口异常:**
@@ -7759,53 +8198,7 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 3.5 ConvertDiskToDiskImage(转化为云盘镜像)
-
-**接口功能:**
-	转化为云盘镜像，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
-
-**接口依赖:**
-	云盘存在，即已调用过CreateDisk/CreateDiskFromDiskImage
-
-**接口所属:**
-	com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.ConvertDiskToDiskImage
-
-**参数描述:**
-
-| name | type | required | description | exampe |
-| ----- | ------ | ------ | ------ | ------ |
-| name | String | true | 资源名称 | convertDiskToDiskImage.name.001|
-| convertDiskToDiskImage | ConvertDiskToDiskImage | true | 转化为云盘镜像 | 详细见下 |
-| eventId | String | fasle | 事件ID | convertDiskToDiskImage.event.001 |
-
-对象convertDiskToDiskImage参数说明:
-
-| name | type | required | description | constraint | example |
-| ----- | ------ | ------ | ------ | ------ | ------ |
-| type|String|true|存储池的类型|只能是dir，uus，nfs，glusterfs之一|dir|
-| targetPool|String|true|目标存储池名，用于存储转化的云盘镜像|由4-100位的数字和小写字母组成，已创建出的存储池|pool2|
-|  |  |  |  |  |
-
-**接口异常:**
-
-(1)在调用本方法抛出;
-
-| name  | description | 
-| ----- | ----- | 
-| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
-| IllegalFormatException | 传递的参数不符合约束条件    |
-| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
-
-(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看ConvertDiskToDiskImagespec下的status域，从message中获取详细异常信息
-
-| name  | description | 
-| ----- | ----- | 
-| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
-| VirtctlError | Libvirt不支持的生命周期    |
-| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
-| Exception    | 后台代码异常退出,比如主机的hostname变化    |
-
-## 3.6 CloneDisk(克隆云盘)
+## 3.5 CloneDisk(克隆云盘)
 
 **接口功能:**
 	克隆云盘，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
@@ -7828,9 +8221,10 @@
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| type|String|true|存储池的类型|只能是dir，uus，nfs，glusterfs之一|dir|
+| type|String|true|存储池的类型|只能是dir, uraid，nfs，glusterfs之一|dir|
 | pool|String|true|云盘所在的存储池名|由4-100位的数字和小写字母组成，已创建出的存储池|pool2|
 | newname|String|true|新云盘的名字|由4-100位的数字和小写字母组成|newdisk|
+| format|String|true|云盘文件的类型|qcow2|qcow2|
 |  |  |  |  |  |
 
 **接口异常:**
@@ -7852,7 +8246,7 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 3.7 CreateDiskInternalSnapshot(创建云盘内部快照)
+## 3.6 CreateDiskInternalSnapshot(创建云盘内部快照)
 
 **接口功能:**
 	创建云盘内部快照，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
@@ -7876,7 +8270,7 @@
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| type|String|true|存储池的类型|只能是dir，uus，nfs，glusterfs之一|dir|
+| type|String|true|存储池的类型|只能是dir，nfs，glusterfs, uraid之一|dir|
 | pool|String|true|云盘所在的存储池名|由4-100位的数字和小写字母组成，已创建出的存储池|pool2|
 | snapshotname|String|true|快照的名字|由4-100位的数字和小写字母组成|snap1|
 |  |  |  |  |  |
@@ -7900,7 +8294,7 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 3.8 RevertDiskInternalSnapshot(从云盘内部快照恢复)
+## 3.7 RevertDiskInternalSnapshot(从云盘内部快照恢复)
 
 **接口功能:**
 	从云盘内部快照恢复，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
@@ -7923,7 +8317,7 @@
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| type|String|true|存储池的类型|只能是dir，uus，nfs，glusterfs之一|dir|
+| type|String|true|存储池的类型|只能是dir, uraid，nfs，glusterfs之一|dir|
 | pool|String|true|云盘所在的存储池名|由4-100位的数字和小写字母组成，已创建出的存储池|pool2|
 | snapshotname|String|true|快照的名字|由4-100位的数字和小写字母组成|snap1|
 |  |  |  |  |  |
@@ -7947,7 +8341,7 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 3.9 DeleteDiskInternalSnapshot(删除云盘内部快照)
+## 3.8 DeleteDiskInternalSnapshot(删除云盘内部快照)
 
 **接口功能:**
 	删除云盘内部快照，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
@@ -7970,7 +8364,7 @@
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| type|String|true|存储池的类型|只能是dir，uus，nfs，glusterfs之一|dir|
+| type|String|true|存储池的类型|只能是dir, uraid，nfs，glusterfs之一|dir|
 | pool|String|true|云盘所在的存储池名|由4-100位的数字和小写字母组成，已创建出的存储池|pool2|
 | snapshotname|String|true|快照的名字|由4-100位的数字和小写字母组成|snap1|
 |  |  |  |  |  |
@@ -8009,14 +8403,11 @@
 		"additionalProperties":{},
 		"lifecycle":{
 			"cloneDisk":{
+				"format":"String",
 				"newname":"String",
 				"pool":"String",
 				"prealloc_metadata":true,
 				"reflink":true,
-				"type":"String"
-			},
-			"convertDiskToDiskImage":{
-				"targetPool":"String",
 				"type":"String"
 			},
 			"createDisk":{
@@ -8030,7 +8421,7 @@
 				"type":"String"
 			},
 			"createDiskFromDiskImage":{
-				"sourceImage":"String",
+				"source":"String",
 				"targetPool":"String",
 				"type":"String"
 			},
@@ -8075,6 +8466,7 @@
 			"current":"String",
 			"dirty_flag":"String",
 			"disk":"String",
+			"disktype":"String",
 			"filename":"String",
 			"format":"String",
 			"format_specific":{
@@ -8087,6 +8479,7 @@
 				"type":"String"
 			},
 			"full_backing_filename":"String",
+			"pool":"String",
 			"virtual_size":"String"
 		}
 	}
@@ -8096,31 +8489,33 @@
 
 云盘模板，主要是指大小和文件格式等.VirtualMachineDiskImage所有操作的返回值一样，见**[返回值]**
 
-## 4.1 ConvertDiskImageToDisk(将云盘镜像转化为云盘)
+## 4.1 CreateDiskImageFromDisk(从云盘创建云盘镜像)
 
 **接口功能:**
-	将云盘镜像转化为云盘，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
+	从云盘创建云盘镜像，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
 
 **接口依赖:**
-	云盘镜像存在，即已调用过CreateDiskImage/ConvertDiskToDiskImage
+	云盘存在，即已调用过CreateDisk/CreateDiskFromDiskImage
 
 **接口所属:**
-	com.github.kubesys.kubernetes.api.model.virtualmachinediskimage.Lifecycle.ConvertDiskImageToDisk
+	com.github.kubesys.kubernetes.api.model.virtualmachinediskimage.Lifecycle.CreateDiskImageFromDisk
 
 **参数描述:**
 
 | name | type | required | description | exampe |
 | ----- | ------ | ------ | ------ | ------ |
-| name | String | true | 资源名称 | convertDiskImageToDisk.name.001|
-| convertDiskImageToDisk | ConvertDiskImageToDisk | true | 将云盘镜像转化为云盘 | 详细见下 |
-| eventId | String | fasle | 事件ID | convertDiskImageToDisk.event.001 |
+| name | String | true | 资源名称 | createDiskImageFromDisk.name.001|
+| nodeName | String | false | 选择部署的物理机，可以通过kubernetes.nodes().list进行查询 | node22 |
+| createDiskImageFromDisk | CreateDiskImageFromDisk | true | 从云盘创建云盘镜像 | 详细见下 |
+| eventId | String | fasle | 事件ID | createDiskImageFromDisk.event.001 |
 
-对象convertDiskImageToDisk参数说明:
+对象createDiskImageFromDisk参数说明:
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| targetPool|String|true|目标存储池名，用于存储转化的云盘|由4-100位的数字和小写字母组成，已创建出的存储池|pool2|
-| type|String|true|存储池的类型|只能是dir，uus，nfs，glusterfs之一|dir|
+| targetPool|String|true|目标存储池名，用于存储创建的云盘镜像|由4-100位的数字和小写字母组成，已创建出的存储池|pool2|
+| sourcePool|String|true|源存储池名，源云盘所在的存储池名|由4-100位的数字和小写字母组成，已创建出的存储池|pool1|
+| sourceVolume|String|true|源云盘名称，用于创建云盘镜像的云盘名称|由4-100位的数字和小写字母组成，已创建出的存储池|volume1|
 |  |  |  |  |  |
 
 **接口异常:**
@@ -8133,7 +8528,7 @@
 | IllegalFormatException | 传递的参数不符合约束条件    |
 | Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
 
-(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看ConvertDiskImageToDiskspec下的status域，从message中获取详细异常信息
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看CreateDiskImageFromDiskspec下的status域，从message中获取详细异常信息
 
 | name  | description | 
 | ----- | ----- | 
@@ -8142,51 +8537,7 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 4.2 DeleteDiskImage(删除云盘镜像)
-
-**接口功能:**
-	删除云盘镜像，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
-
-**接口依赖:**
-	云盘镜像存在，即已调用过CreateDiskImage/ConvertDiskToDiskImage
-
-**接口所属:**
-	com.github.kubesys.kubernetes.api.model.virtualmachinediskimage.Lifecycle.DeleteDiskImage
-
-**参数描述:**
-
-| name | type | required | description | exampe |
-| ----- | ------ | ------ | ------ | ------ |
-| name | String | true | 资源名称 | deleteDiskImage.name.001|
-| deleteDiskImage | DeleteDiskImage | true | 删除云盘镜像 | 详细见下 |
-| eventId | String | fasle | 事件ID | deleteDiskImage.event.001 |
-
-对象deleteDiskImage参数说明:
-
-| name | type | required | description | constraint | example |
-| ----- | ------ | ------ | ------ | ------ | ------ |
-|  |  |  |  |  |
-
-**接口异常:**
-
-(1)在调用本方法抛出;
-
-| name  | description | 
-| ----- | ----- | 
-| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
-| IllegalFormatException | 传递的参数不符合约束条件    |
-| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
-
-(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看DeleteDiskImagespec下的status域，从message中获取详细异常信息
-
-| name  | description | 
-| ----- | ----- | 
-| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
-| VirtctlError | Libvirt不支持的生命周期    |
-| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
-| Exception    | 后台代码异常退出,比如主机的hostname变化    |
-
-## 4.3 CreateDiskImage(创建云盘镜像)
+## 4.2 CreateDiskImage(创建云盘镜像)
 
 **接口功能:**
 	创建云盘镜像，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
@@ -8233,6 +8584,50 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
+## 4.3 DeleteDiskImage(删除云盘镜像)
+
+**接口功能:**
+	删除云盘镜像，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
+
+**接口依赖:**
+	云盘镜像存在，即已调用过CreateDiskImage/ConvertDiskToDiskImage
+
+**接口所属:**
+	com.github.kubesys.kubernetes.api.model.virtualmachinediskimage.Lifecycle.DeleteDiskImage
+
+**参数描述:**
+
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+| name | String | true | 资源名称 | deleteDiskImage.name.001|
+| deleteDiskImage | DeleteDiskImage | true | 删除云盘镜像 | 详细见下 |
+| eventId | String | fasle | 事件ID | deleteDiskImage.event.001 |
+
+对象deleteDiskImage参数说明:
+
+| name | type | required | description | constraint | example |
+| ----- | ------ | ------ | ------ | ------ | ------ |
+|  |  |  |  |  |
+
+**接口异常:**
+
+(1)在调用本方法抛出;
+
+| name  | description | 
+| ----- | ----- | 
+| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
+| IllegalFormatException | 传递的参数不符合约束条件    |
+| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
+
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看DeleteDiskImagespec下的status域，从message中获取详细异常信息
+
+| name  | description | 
+| ----- | ----- | 
+| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
+| VirtctlError | Libvirt不支持的生命周期    |
+| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
+| Exception    | 后台代码异常退出,比如主机的hostname变化    |
+
 ## **返回值:**
 
 ```
@@ -8247,12 +8642,13 @@
 		"additionalPrinterColumns":[],
 		"additionalProperties":{},
 		"lifecycle":{
-			"convertDiskImageToDisk":{
-				"targetPool":"String",
-				"type":"String"
-			},
 			"createDiskImage":{
 				"source":"String",
+				"targetPool":"String"
+			},
+			"createDiskImageFromDisk":{
+				"sourcePool":"String",
+				"sourceVolume":"String",
 				"targetPool":"String"
 			},
 			"deleteDiskImage":{}
@@ -8292,7 +8688,7 @@
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| type|String|true|存储池的类型|只能是dir，uus，nfs，glusterfs之一|dir|
+| type|String|true|存储池的类型|只能是dir，uraid，nfs，glusterfs之一|dir|
 | pool|String|true|云盘所在的存储池名|由4-100位的数字和小写字母组成，已创建出的存储池，只支持dir、nfs和glusterfs类型|pool2|
 | format|String|true|云盘文件的类型|qcow2|qcow2|
 | vol|String|true|云盘名|磁盘和快照|disk1|
@@ -8341,10 +8737,11 @@
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| type|String|true|存储池的类型|只能是dir，uus，nfs，glusterfs之一|dir|
+| type|String|true|存储池的类型|只能是dir，uraid，nfs，glusterfs之一|dir|
 | pool|String|true|云盘所在的存储池名|由4-100位的数字和小写字母组成，已创建出的存储池|pool2|
 | vol|String|true|云盘名|磁盘和快照|disk1|
 | format|String|true|云盘文件的类型|qcow2|qcow2|
+| domain|String|false|若该云盘加载到虚拟机内（包括系统盘、数据盘），并且虚拟机处于开机状态，则需要填写该虚拟机名，否则将报错Write lock|已存在的虚拟机名，由4-100位的数字和小写字母组成|950646e8c17a49d0b83c1c797811e001|
 |  |  |  |  |  |
 
 **接口异常:**
@@ -8389,7 +8786,7 @@
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| type|String|true|存储池的类型|只能是dir，uus，nfs，glusterfs之一|dir|
+| type|String|true|存储池的类型|只能是dir，uraid，nfs，glusterfs之一|dir|
 | pool|String|true|云盘所在的存储池名|由4-100位的数字和小写字母组成，已创建出的存储池|pool2|
 | vol|String|true|云盘名|磁盘和快照|disk1|
 | domain|String|false|若该云盘加载到虚拟机内（包括系统盘、数据盘），并且虚拟机处于开机状态，则需要填写该虚拟机名，否则将报错Write lock|已存在的虚拟机名，由4-100位的数字和小写字母组成|950646e8c17a49d0b83c1c797811e001|
@@ -8442,6 +8839,7 @@
 				"vol":"String"
 			},
 			"revertDiskExternalSnapshot":{
+				"domain":"String",
 				"format":"String",
 				"pool":"String",
 				"type":"String",
@@ -8712,21 +9110,21 @@
 			},
 			"cookie":{
 				"cpu":{
-					"check":"String",
+					"_check":"String",
+					"_match":"String",
+					"_mode":"String",
 					"feature":[
 						{
-							"name":"String",
-							"policy":"String"
+							"_name":"String",
+							"_policy":"String"
 						},
 						{
-							"name":"String",
-							"policy":"String"
+							"_name":"String",
+							"_policy":"String"
 						}
 					],
-					"match":"String",
-					"mode":"String",
 					"model":{
-						"fallback":"String",
+						"_fallback":"String",
 						"text":"String"
 					}
 				}
@@ -8740,70 +9138,72 @@
 			"disks":{
 				"disk":[
 					{
+						"_name":"String",
+						"_snapshot":"String",
+						"_type":"String",
 						"driver":{
-							"type":"String"
+							"_type":"String"
 						},
-						"name":"String",
-						"snapshot":"String",
 						"source":{
+							"_file":"String",
+							"_index":"String",
+							"_startupPolicy":"String",
 							"encryption":{
-								"format":"String",
+								"_format":"String",
 								"secret":{
-									"type":"String",
-									"usage":"String",
-									"uuid":"String"
+									"_type":"String",
+									"_usage":"String",
+									"_uuid":"String"
 								}
 							},
-							"file":"String",
-							"index":"String",
 							"reservations":{
-								"enabled":"String",
-								"managed":"String",
+								"_enabled":"String",
+								"_managed":"String",
 								"source":{
-									"dev":"String",
-									"mode":"String",
-									"path":"String",
-									"type":"String"
+									"_dev":"String",
+									"_mode":"String",
+									"_path":"String",
+									"_type":"String"
 								}
-							},
-							"startupPolicy":"String"
-						},
-						"type":"String"
+							}
+						}
 					},
 					{
+						"_name":"String",
+						"_snapshot":"String",
+						"_type":"String",
 						"driver":{
-							"type":"String"
+							"_type":"String"
 						},
-						"name":"String",
-						"snapshot":"String",
 						"source":{
+							"_file":"String",
+							"_index":"String",
+							"_startupPolicy":"String",
 							"encryption":{
-								"format":"String",
+								"_format":"String",
 								"secret":{
-									"type":"String",
-									"usage":"String",
-									"uuid":"String"
+									"_type":"String",
+									"_usage":"String",
+									"_uuid":"String"
 								}
 							},
-							"file":"String",
-							"index":"String",
 							"reservations":{
-								"enabled":"String",
-								"managed":"String",
+								"_enabled":"String",
+								"_managed":"String",
 								"source":{
-									"dev":"String",
-									"mode":"String",
-									"path":"String",
-									"type":"String"
+									"_dev":"String",
+									"_mode":"String",
+									"_path":"String",
+									"_type":"String"
 								}
-							},
-							"startupPolicy":"String"
-						},
-						"type":"String"
+							}
+						}
 					}
 				]
 			},
 			"domain":{
+				"_id":"String",
+				"_type":"String",
 				"blkiotune":{
 					"device":[
 						{
@@ -8858,110 +9258,110 @@
 					"text":"String"
 				},
 				"clock":{
-					"adjustment":"String",
-					"basis":"String",
-					"offset":"String",
+					"_adjustment":"String",
+					"_basis":"String",
+					"_offset":"String",
+					"_timezone":"String",
 					"timer":[
 						{
+							"_frequency":"String",
+							"_mode":"String",
+							"_name":"String",
+							"_present":"String",
+							"_tickpolicy":"String",
+							"_track":"String",
 							"catchup":{
-								"limit":"String",
-								"slew":"String",
-								"threshold":"String"
-							},
-							"frequency":"String",
-							"mode":"String",
-							"name":"String",
-							"present":"String",
-							"tickpolicy":"String",
-							"track":"String"
+								"_limit":"String",
+								"_slew":"String",
+								"_threshold":"String"
+							}
 						},
 						{
+							"_frequency":"String",
+							"_mode":"String",
+							"_name":"String",
+							"_present":"String",
+							"_tickpolicy":"String",
+							"_track":"String",
 							"catchup":{
-								"limit":"String",
-								"slew":"String",
-								"threshold":"String"
-							},
-							"frequency":"String",
-							"mode":"String",
-							"name":"String",
-							"present":"String",
-							"tickpolicy":"String",
-							"track":"String"
+								"_limit":"String",
+								"_slew":"String",
+								"_threshold":"String"
+							}
 						}
-					],
-					"timezone":"String"
+					]
 				},
 				"cpu":{
+					"_check":"String",
+					"_match":"String",
+					"_mode":"String",
 					"cache":{
-						"level":"String",
-						"mode":"String"
+						"_level":"String",
+						"_mode":"String"
 					},
-					"check":"String",
 					"feature":[
 						{
-							"name":"String",
-							"policy":"String"
+							"_name":"String",
+							"_policy":"String"
 						},
 						{
-							"name":"String",
-							"policy":"String"
+							"_name":"String",
+							"_policy":"String"
 						}
 					],
-					"match":"String",
-					"mode":"String",
 					"model":{
-						"fallback":"String",
-						"text":"String",
-						"vendor_id":"String"
+						"_fallback":"String",
+						"_vendor_id":"String",
+						"text":"String"
 					},
 					"numa":{
 						"cell":[
 							{
-								"cpus":"String",
-								"discard":"String",
+								"_cpus":"String",
+								"_discard":"String",
+								"_id":"String",
+								"_memAccess":"String",
+								"_memory":"String",
+								"_unit":"String",
 								"distances":{
 									"sibling":[
 										{
-											"id":"String",
-											"value":"String"
+											"_id":"String",
+											"_value":"String"
 										},
 										{
-											"id":"String",
-											"value":"String"
+											"_id":"String",
+											"_value":"String"
 										}
 									]
-								},
-								"id":"String",
-								"memAccess":"String",
-								"memory":"String",
-								"unit":"String"
+								}
 							},
 							{
-								"cpus":"String",
-								"discard":"String",
+								"_cpus":"String",
+								"_discard":"String",
+								"_id":"String",
+								"_memAccess":"String",
+								"_memory":"String",
+								"_unit":"String",
 								"distances":{
 									"sibling":[
 										{
-											"id":"String",
-											"value":"String"
+											"_id":"String",
+											"_value":"String"
 										},
 										{
-											"id":"String",
-											"value":"String"
+											"_id":"String",
+											"_value":"String"
 										}
 									]
-								},
-								"id":"String",
-								"memAccess":"String",
-								"memory":"String",
-								"unit":"String"
+								}
 							}
 						]
 					},
 					"topology":{
-						"cores":"String",
-						"sockets":"String",
-						"threads":"String"
+						"_cores":"String",
+						"_sockets":"String",
+						"_threads":"String"
 					},
 					"vendor":{
 						"text":"String"
@@ -8970,62 +9370,62 @@
 				"cputune":{
 					"cachetune":[
 						{
+							"_vcpus":"String",
 							"cache":[
 								{
-									"id":"String",
-									"level":"String",
-									"size":"String",
-									"type":"String",
-									"unit":"String"
+									"_id":"String",
+									"_level":"String",
+									"_size":"String",
+									"_type":"String",
+									"_unit":"String"
 								},
 								{
-									"id":"String",
-									"level":"String",
-									"size":"String",
-									"type":"String",
-									"unit":"String"
+									"_id":"String",
+									"_level":"String",
+									"_size":"String",
+									"_type":"String",
+									"_unit":"String"
 								}
 							],
 							"monitor":[
 								{
-									"level":"String",
-									"vcpus":"String"
+									"_level":"String",
+									"_vcpus":"String"
 								},
 								{
-									"level":"String",
-									"vcpus":"String"
+									"_level":"String",
+									"_vcpus":"String"
 								}
-							],
-							"vcpus":"String"
+							]
 						},
 						{
+							"_vcpus":"String",
 							"cache":[
 								{
-									"id":"String",
-									"level":"String",
-									"size":"String",
-									"type":"String",
-									"unit":"String"
+									"_id":"String",
+									"_level":"String",
+									"_size":"String",
+									"_type":"String",
+									"_unit":"String"
 								},
 								{
-									"id":"String",
-									"level":"String",
-									"size":"String",
-									"type":"String",
-									"unit":"String"
+									"_id":"String",
+									"_level":"String",
+									"_size":"String",
+									"_type":"String",
+									"_unit":"String"
 								}
 							],
 							"monitor":[
 								{
-									"level":"String",
-									"vcpus":"String"
+									"_level":"String",
+									"_vcpus":"String"
 								},
 								{
-									"level":"String",
-									"vcpus":"String"
+									"_level":"String",
+									"_vcpus":"String"
 								}
-							],
-							"vcpus":"String"
+							]
 						}
 					],
 					"emulator_period":{
@@ -9035,7 +9435,7 @@
 						"text":"String"
 					},
 					"emulatorpin":{
-						"cpuset":"String"
+						"_cpuset":"String"
 					},
 					"global_period":{
 						"text":"String"
@@ -9051,52 +9451,52 @@
 					},
 					"iothreadpin":[
 						{
-							"cpuset":"String",
-							"iothread":"String"
+							"_cpuset":"String",
+							"_iothread":"String"
 						},
 						{
-							"cpuset":"String",
-							"iothread":"String"
+							"_cpuset":"String",
+							"_iothread":"String"
 						}
 					],
 					"iothreadsched":[
 						{
-							"iothreads":"String",
-							"priority":"String",
-							"scheduler":"String"
+							"_iothreads":"String",
+							"_priority":"String",
+							"_scheduler":"String"
 						},
 						{
-							"iothreads":"String",
-							"priority":"String",
-							"scheduler":"String"
+							"_iothreads":"String",
+							"_priority":"String",
+							"_scheduler":"String"
 						}
 					],
 					"memorytune":[
 						{
+							"_vcpus":"String",
 							"node":[
 								{
-									"bandwidth":"String",
-									"id":"String"
+									"_bandwidth":"String",
+									"_id":"String"
 								},
 								{
-									"bandwidth":"String",
-									"id":"String"
+									"_bandwidth":"String",
+									"_id":"String"
 								}
-							],
-							"vcpus":"String"
+							]
 						},
 						{
+							"_vcpus":"String",
 							"node":[
 								{
-									"bandwidth":"String",
-									"id":"String"
+									"_bandwidth":"String",
+									"_id":"String"
 								},
 								{
-									"bandwidth":"String",
-									"id":"String"
+									"_bandwidth":"String",
+									"_id":"String"
 								}
-							],
-							"vcpus":"String"
+							]
 						}
 					],
 					"period":{
@@ -9110,300 +9510,650 @@
 					},
 					"vcpupin":[
 						{
-							"cpuset":"String",
-							"vcpu":"String"
+							"_cpuset":"String",
+							"_vcpu":"String"
 						},
 						{
-							"cpuset":"String",
-							"vcpu":"String"
+							"_cpuset":"String",
+							"_vcpu":"String"
 						}
 					],
 					"vcpusched":[
 						{
-							"priority":"String",
-							"scheduler":"String",
-							"vcpus":"String"
+							"_priority":"String",
+							"_scheduler":"String",
+							"_vcpus":"String"
 						},
 						{
-							"priority":"String",
-							"scheduler":"String",
-							"vcpus":"String"
+							"_priority":"String",
+							"_scheduler":"String",
+							"_vcpus":"String"
 						}
 					]
 				},
 				"currentMemory":{
-					"text":"String",
-					"unit":"String"
+					"_unit":"String",
+					"text":"String"
 				},
 				"description":{
 					"text":"String"
 				},
 				"devices":{
-					"channel":[
+					"_interface":[
 						{
+							"_managed":"String",
+							"_trustGuestRxFilters":"String",
+							"_type":"String",
 							"address":{
-								"bus":"String",
-								"controller":"String",
-								"port":"String",
-								"type":"String"
+								"_bus":"String",
+								"_domain":"String",
+								"_function":"String",
+								"_slot":"String",
+								"_type":"String"
 							},
 							"alias":{
-								"name":"String"
+								"_name":"String"
 							},
-							"log":{
-								"append":"String",
-								"file":"String"
+							"backend":{
+								"_tap":"String",
+								"_vhost":"String"
 							},
-							"protocol":{
-								"type":"String"
+							"bandwidth":{
+								"inbound":{
+									"_average":"String",
+									"_burst":"String",
+									"_floor":"String",
+									"_peak":"String"
+								},
+								"outbound":{
+									"_average":"String",
+									"_burst":"String",
+									"_floor":"String",
+									"_peak":"String"
+								}
+							},
+							"boot":{
+								"_loadparm":"String",
+								"_order":"String"
+							},
+							"coalesce":{
+								"rx":{
+									"frames":{
+										"_max":"String"
+									}
+								}
+							},
+							"driver":{
+								"_ats":"String",
+								"_event_idx":"String",
+								"_ioeventfd":"String",
+								"_iommu":"String",
+								"_name":"String",
+								"_queues":"String",
+								"_rx_queue_size":"String",
+								"_tx_queue_size":"String",
+								"_txmode":"String",
+								"guest":{
+									"_csum":"String",
+									"_ecn":"String",
+									"_tso4":"String",
+									"_tso6":"String",
+									"_ufo":"String"
+								},
+								"host":{
+									"_csum":"String",
+									"_ecn":"String",
+									"_gso":"String",
+									"_mrg_rxbuf":"String",
+									"_tso4":"String",
+									"_tso6":"String",
+									"_ufo":"String"
+								}
+							},
+							"filterref":{
+								"_filter":"String",
+								"parameter":[
+									{
+										"_name":"String",
+										"_value":"String"
+									},
+									{
+										"_name":"String",
+										"_value":"String"
+									}
+								]
+							},
+							"guest":{
+								"_actual":"String",
+								"_dev":"String"
+							},
+							"ip":[
+								{
+									"_address":"String",
+									"_family":"String",
+									"_peer":"String",
+									"_prefix":"String"
+								},
+								{
+									"_address":"String",
+									"_family":"String",
+									"_peer":"String",
+									"_prefix":"String"
+								}
+							],
+							"link":{
+								"_state":"String"
+							},
+							"mac":{
+								"_address":"String"
+							},
+							"model":{
+								"_type":"String"
+							},
+							"mtu":{
+								"_size":"String"
+							},
+							"rom":{
+								"_bar":"String",
+								"_enabled":"String",
+								"_file":"String"
+							},
+							"route":[
+								{
+									"_address":"String",
+									"_family":"String",
+									"_gateway":"String",
+									"_metric":"String",
+									"_netmask":"String",
+									"_prefix":"String"
+								},
+								{
+									"_address":"String",
+									"_family":"String",
+									"_gateway":"String",
+									"_metric":"String",
+									"_netmask":"String",
+									"_prefix":"String"
+								}
+							],
+							"script":{
+								"_path":"String"
 							},
 							"source":{
-								"mode":"String",
-								"path":"String"
+								"_bridge":"String",
+								"_network":"String"
 							},
 							"target":{
-								"name":"String",
-								"state":"String",
-								"type":"String"
+								"_dev":"String"
 							},
-							"type":"String"
+							"tune":{
+								"sndbuf":{
+									"text":"String"
+								}
+							},
+							"virtualport":{
+								"_type":"String",
+								"parameters":{
+									"__interfaceid":"String"
+								}
+							},
+							"vlan":{
+								"_trunk":"String",
+								"tag":[
+									{
+										"_id":"String",
+										"_nativeMode":"String"
+									},
+									{
+										"_id":"String",
+										"_nativeMode":"String"
+									}
+								]
+							}
 						},
 						{
+							"_managed":"String",
+							"_trustGuestRxFilters":"String",
+							"_type":"String",
 							"address":{
-								"bus":"String",
-								"controller":"String",
-								"port":"String",
-								"type":"String"
+								"_bus":"String",
+								"_domain":"String",
+								"_function":"String",
+								"_slot":"String",
+								"_type":"String"
 							},
 							"alias":{
-								"name":"String"
+								"_name":"String"
 							},
-							"log":{
-								"append":"String",
-								"file":"String"
+							"backend":{
+								"_tap":"String",
+								"_vhost":"String"
 							},
-							"protocol":{
-								"type":"String"
+							"bandwidth":{
+								"inbound":{
+									"_average":"String",
+									"_burst":"String",
+									"_floor":"String",
+									"_peak":"String"
+								},
+								"outbound":{
+									"_average":"String",
+									"_burst":"String",
+									"_floor":"String",
+									"_peak":"String"
+								}
+							},
+							"boot":{
+								"_loadparm":"String",
+								"_order":"String"
+							},
+							"coalesce":{
+								"rx":{
+									"frames":{
+										"_max":"String"
+									}
+								}
+							},
+							"driver":{
+								"_ats":"String",
+								"_event_idx":"String",
+								"_ioeventfd":"String",
+								"_iommu":"String",
+								"_name":"String",
+								"_queues":"String",
+								"_rx_queue_size":"String",
+								"_tx_queue_size":"String",
+								"_txmode":"String",
+								"guest":{
+									"_csum":"String",
+									"_ecn":"String",
+									"_tso4":"String",
+									"_tso6":"String",
+									"_ufo":"String"
+								},
+								"host":{
+									"_csum":"String",
+									"_ecn":"String",
+									"_gso":"String",
+									"_mrg_rxbuf":"String",
+									"_tso4":"String",
+									"_tso6":"String",
+									"_ufo":"String"
+								}
+							},
+							"filterref":{
+								"_filter":"String",
+								"parameter":[
+									{
+										"_name":"String",
+										"_value":"String"
+									},
+									{
+										"_name":"String",
+										"_value":"String"
+									}
+								]
+							},
+							"guest":{
+								"_actual":"String",
+								"_dev":"String"
+							},
+							"ip":[
+								{
+									"_address":"String",
+									"_family":"String",
+									"_peer":"String",
+									"_prefix":"String"
+								},
+								{
+									"_address":"String",
+									"_family":"String",
+									"_peer":"String",
+									"_prefix":"String"
+								}
+							],
+							"link":{
+								"_state":"String"
+							},
+							"mac":{
+								"_address":"String"
+							},
+							"model":{
+								"_type":"String"
+							},
+							"mtu":{
+								"_size":"String"
+							},
+							"rom":{
+								"_bar":"String",
+								"_enabled":"String",
+								"_file":"String"
+							},
+							"route":[
+								{
+									"_address":"String",
+									"_family":"String",
+									"_gateway":"String",
+									"_metric":"String",
+									"_netmask":"String",
+									"_prefix":"String"
+								},
+								{
+									"_address":"String",
+									"_family":"String",
+									"_gateway":"String",
+									"_metric":"String",
+									"_netmask":"String",
+									"_prefix":"String"
+								}
+							],
+							"script":{
+								"_path":"String"
 							},
 							"source":{
-								"mode":"String",
-								"path":"String"
+								"_bridge":"String",
+								"_network":"String"
 							},
 							"target":{
-								"name":"String",
-								"state":"String",
-								"type":"String"
+								"_dev":"String"
 							},
-							"type":"String"
+							"tune":{
+								"sndbuf":{
+									"text":"String"
+								}
+							},
+							"virtualport":{
+								"_type":"String",
+								"parameters":{
+									"__interfaceid":"String"
+								}
+							},
+							"vlan":{
+								"_trunk":"String",
+								"tag":[
+									{
+										"_id":"String",
+										"_nativeMode":"String"
+									},
+									{
+										"_id":"String",
+										"_nativeMode":"String"
+									}
+								]
+							}
+						}
+					],
+					"channel":[
+						{
+							"_type":"String",
+							"address":{
+								"_bus":"String",
+								"_controller":"String",
+								"_port":"String",
+								"_type":"String"
+							},
+							"alias":{
+								"_name":"String"
+							},
+							"log":{
+								"_append":"String",
+								"_file":"String"
+							},
+							"protocol":{
+								"_type":"String"
+							},
+							"source":{
+								"_mode":"String",
+								"_path":"String"
+							},
+							"target":{
+								"_name":"String",
+								"_state":"String",
+								"_type":"String"
+							}
+						},
+						{
+							"_type":"String",
+							"address":{
+								"_bus":"String",
+								"_controller":"String",
+								"_port":"String",
+								"_type":"String"
+							},
+							"alias":{
+								"_name":"String"
+							},
+							"log":{
+								"_append":"String",
+								"_file":"String"
+							},
+							"protocol":{
+								"_type":"String"
+							},
+							"source":{
+								"_mode":"String",
+								"_path":"String"
+							},
+							"target":{
+								"_name":"String",
+								"_state":"String",
+								"_type":"String"
+							}
 						}
 					],
 					"console":[
 						{
+							"_tty":"String",
+							"_type":"String",
 							"address":{},
 							"alias":{
-								"name":"String"
+								"_name":"String"
 							},
 							"log":{
-								"append":"String",
-								"file":"String"
+								"_append":"String",
+								"_file":"String"
 							},
 							"protocol":{
-								"type":"String"
+								"_type":"String"
 							},
 							"source":{
-								"path":"String"
+								"_path":"String"
 							},
 							"target":{
-								"port":"String",
-								"type":"String"
-							},
-							"tty":"String",
-							"type":"String"
+								"_port":"String",
+								"_type":"String"
+							}
 						},
 						{
+							"_tty":"String",
+							"_type":"String",
 							"address":{},
 							"alias":{
-								"name":"String"
+								"_name":"String"
 							},
 							"log":{
-								"append":"String",
-								"file":"String"
+								"_append":"String",
+								"_file":"String"
 							},
 							"protocol":{
-								"type":"String"
+								"_type":"String"
 							},
 							"source":{
-								"path":"String"
+								"_path":"String"
 							},
 							"target":{
-								"port":"String",
-								"type":"String"
-							},
-							"tty":"String",
-							"type":"String"
+								"_port":"String",
+								"_type":"String"
+							}
 						}
 					],
 					"controller":[
 						{
+							"_index":"String",
+							"_type":"String",
 							"address":{
-								"bus":"String",
-								"domain":"String",
-								"function":"String",
-								"multifunction":"String",
-								"slot":"String",
-								"type":"String"
+								"_bus":"String",
+								"_domain":"String",
+								"_function":"String",
+								"_multifunction":"String",
+								"_slot":"String",
+								"_type":"String"
 							},
 							"alias":{
-								"name":"String"
+								"_name":"String"
 							},
 							"driver":{
-								"ats":"String",
-								"cmd_per_lun":"String",
-								"ioeventfd":"String",
-								"iommu":"String",
-								"iothread":"String",
-								"max_sectors":"String",
-								"queues":"String"
+								"_ats":"String",
+								"_cmd_per_lun":"String",
+								"_ioeventfd":"String",
+								"_iommu":"String",
+								"_iothread":"String",
+								"_max_sectors":"String",
+								"_queues":"String"
 							},
-							"index":"String",
 							"master":{
-								"startport":"String"
+								"_startport":"String"
 							},
 							"model":"String",
 							"target":{
-								"chassis":"String",
-								"chassisNr":"String",
-								"port":"String"
-							},
-							"type":"String"
+								"_chassis":"String",
+								"_chassisNr":"String",
+								"_port":"String"
+							}
 						},
 						{
+							"_index":"String",
+							"_type":"String",
 							"address":{
-								"bus":"String",
-								"domain":"String",
-								"function":"String",
-								"multifunction":"String",
-								"slot":"String",
-								"type":"String"
+								"_bus":"String",
+								"_domain":"String",
+								"_function":"String",
+								"_multifunction":"String",
+								"_slot":"String",
+								"_type":"String"
 							},
 							"alias":{
-								"name":"String"
+								"_name":"String"
 							},
 							"driver":{
-								"ats":"String",
-								"cmd_per_lun":"String",
-								"ioeventfd":"String",
-								"iommu":"String",
-								"iothread":"String",
-								"max_sectors":"String",
-								"queues":"String"
+								"_ats":"String",
+								"_cmd_per_lun":"String",
+								"_ioeventfd":"String",
+								"_iommu":"String",
+								"_iothread":"String",
+								"_max_sectors":"String",
+								"_queues":"String"
 							},
-							"index":"String",
 							"master":{
-								"startport":"String"
+								"_startport":"String"
 							},
 							"model":"String",
 							"target":{
-								"chassis":"String",
-								"chassisNr":"String",
-								"port":"String"
-							},
-							"type":"String"
+								"_chassis":"String",
+								"_chassisNr":"String",
+								"_port":"String"
+							}
 						}
 					],
 					"disk":[
 						{
+							"_device":"String",
+							"_model":"String",
+							"_rawio":"String",
+							"_sgio":"String",
+							"_snapshot":"String",
+							"_transient":{},
+							"_type":"String",
 							"address":{
-								"bus":"String",
-								"controller":"String",
-								"domain":"String",
-								"function":"String",
-								"slot":"String",
-								"target":"String",
-								"type":"String",
-								"unit":"String"
+								"_bus":"String",
+								"_controller":"String",
+								"_domain":"String",
+								"_function":"String",
+								"_slot":"String",
+								"_target":"String",
+								"_type":"String",
+								"_unit":"String"
 							},
 							"alias":{
-								"name":"String"
+								"_name":"String"
 							},
 							"auth":{
+								"_username":"String",
 								"secret":{
-									"type":"String",
-									"usage":"String",
-									"uuid":"String"
-								},
-								"username":"String"
+									"_type":"String",
+									"_usage":"String",
+									"_uuid":"String"
+								}
 							},
 							"backingStore":{
-								"file":"String",
+								"_file":"String",
+								"_index":"String",
+								"_type":"String",
 								"format":{
-									"type":"String"
+									"_type":"String"
 								},
-								"index":"String",
 								"source":{
+									"_file":"String",
+									"_index":"String",
+									"_startupPolicy":"String",
 									"encryption":{
-										"format":"String",
+										"_format":"String",
 										"secret":{
-											"type":"String",
-											"usage":"String",
-											"uuid":"String"
+											"_type":"String",
+											"_usage":"String",
+											"_uuid":"String"
 										}
 									},
-									"file":"String",
-									"index":"String",
 									"reservations":{
-										"enabled":"String",
-										"managed":"String",
+										"_enabled":"String",
+										"_managed":"String",
 										"source":{
-											"dev":"String",
-											"mode":"String",
-											"path":"String",
-											"type":"String"
+											"_dev":"String",
+											"_mode":"String",
+											"_path":"String",
+											"_type":"String"
 										}
-									},
-									"startupPolicy":"String"
-								},
-								"type":"String"
+									}
+								}
 							},
 							"blockio":{
-								"logical_block_size":"String",
-								"physical_block_size":"String"
+								"_logical_block_size":"String",
+								"_physical_block_size":"String"
 							},
 							"boot":{
-								"loadparm":"String",
-								"order":"String"
+								"_loadparm":"String",
+								"_order":"String"
 							},
-							"device":"String",
 							"driver":{
-								"ats":"String",
-								"cache":"String",
-								"copy_on_read":"String",
-								"detect_zeroes":"String",
-								"discard":"String",
-								"error_policy":"String",
-								"event_idx":"String",
-								"io":"String",
-								"ioeventfd":"String",
-								"iommu":"String",
-								"iothread":"String",
-								"name":"String",
-								"queues":"String",
-								"rerror_policy":"String",
-								"type":"String"
+								"_ats":"String",
+								"_cache":"String",
+								"_copy_on_read":"String",
+								"_detect_zeroes":"String",
+								"_discard":"String",
+								"_error_policy":"String",
+								"_event_idx":"String",
+								"_io":"String",
+								"_ioeventfd":"String",
+								"_iommu":"String",
+								"_iothread":"String",
+								"_name":"String",
+								"_queues":"String",
+								"_rerror_policy":"String",
+								"_type":"String"
 							},
 							"encryption":{
-								"format":"String",
+								"_format":"String",
 								"secret":{
-									"type":"String",
-									"usage":"String",
-									"uuid":"String"
+									"_type":"String",
+									"_usage":"String",
+									"_uuid":"String"
 								}
 							},
 							"geometry":{
-								"cyls":"String",
-								"heads":"String",
-								"secs":"String",
-								"trans":"String"
+								"_cyls":"String",
+								"_heads":"String",
+								"_secs":"String",
+								"_trans":"String"
 							},
 							"iotune":{
 								"group_name":{
@@ -9468,79 +10218,73 @@
 								}
 							},
 							"mirror":{
+								"_job":"String",
+								"_ready":"String",
 								"format":{
-									"type":"String"
+									"_type":"String"
 								},
-								"job":"String",
-								"ready":"String",
 								"source":{
+									"_index":"String",
+									"_startupPolicy":"String",
 									"encryption":{
-										"format":"String",
+										"_format":"String",
 										"secret":{
-											"type":"String",
-											"usage":"String",
-											"uuid":"String"
+											"_type":"String",
+											"_usage":"String",
+											"_uuid":"String"
 										}
 									},
-									"index":"String",
 									"reservations":{
-										"enabled":"String",
-										"managed":"String",
+										"_enabled":"String",
+										"_managed":"String",
 										"source":{
-											"dev":"String",
-											"mode":"String",
-											"path":"String",
-											"type":"String"
+											"_dev":"String",
+											"_mode":"String",
+											"_path":"String",
+											"_type":"String"
 										}
-									},
-									"startupPolicy":"String"
+									}
 								}
 							},
-							"model":"String",
 							"product":{
 								"text":"String"
 							},
-							"rawio":"String",
 							"readonly":{},
 							"serial":{
-								"text":"String",
-								"type":"String"
+								"_type":"String",
+								"text":"String"
 							},
-							"sgio":"String",
 							"shareable":{},
-							"snapshot":"String",
 							"source":{
-								"controller":"String",
+								"_controller":"String",
+								"_file":"String",
+								"_index":"String",
+								"_startupPolicy":"String",
 								"encryption":{
-									"format":"String",
+									"_format":"String",
 									"secret":{
-										"type":"String",
-										"usage":"String",
-										"uuid":"String"
+										"_type":"String",
+										"_usage":"String",
+										"_uuid":"String"
 									}
 								},
-								"file":"String",
-								"index":"String",
 								"reservations":{
-									"enabled":"String",
-									"managed":"String",
+									"_enabled":"String",
+									"_managed":"String",
 									"source":{
-										"dev":"String",
-										"mode":"String",
-										"path":"String",
-										"type":"String"
+										"_dev":"String",
+										"_mode":"String",
+										"_path":"String",
+										"_type":"String"
 									}
-								},
-								"startupPolicy":"String"
+								}
 							},
 							"target":{
-								"bus":"String",
-								"dev":"String",
-								"removable":"String",
-								"tray":"String"
+								"_bus":"String",
+								"_dev":"String",
+								"_removable":"String",
+								"_tray":"String"
 							},
-							"transient":{},
-							"type":"String",
 							"vendor":{
 								"text":"String"
 							},
@@ -9549,97 +10293,103 @@
 							}
 						},
 						{
+							"_device":"String",
+							"_model":"String",
+							"_rawio":"String",
+							"_sgio":"String",
+							"_snapshot":"String",
+							"_transient":{},
+							"_type":"String",
 							"address":{
-								"bus":"String",
-								"controller":"String",
-								"domain":"String",
-								"function":"String",
-								"slot":"String",
-								"target":"String",
-								"type":"String",
-								"unit":"String"
+								"_bus":"String",
+								"_controller":"String",
+								"_domain":"String",
+								"_function":"String",
+								"_slot":"String",
+								"_target":"String",
+								"_type":"String",
+								"_unit":"String"
 							},
 							"alias":{
-								"name":"String"
+								"_name":"String"
 							},
 							"auth":{
+								"_username":"String",
 								"secret":{
-									"type":"String",
-									"usage":"String",
-									"uuid":"String"
-								},
-								"username":"String"
+									"_type":"String",
+									"_usage":"String",
+									"_uuid":"String"
+								}
 							},
 							"backingStore":{
-								"file":"String",
+								"_file":"String",
+								"_index":"String",
+								"_type":"String",
 								"format":{
-									"type":"String"
+									"_type":"String"
 								},
-								"index":"String",
 								"source":{
+									"_file":"String",
+									"_index":"String",
+									"_startupPolicy":"String",
 									"encryption":{
-										"format":"String",
+										"_format":"String",
 										"secret":{
-											"type":"String",
-											"usage":"String",
-											"uuid":"String"
+											"_type":"String",
+											"_usage":"String",
+											"_uuid":"String"
 										}
 									},
-									"file":"String",
-									"index":"String",
 									"reservations":{
-										"enabled":"String",
-										"managed":"String",
+										"_enabled":"String",
+										"_managed":"String",
 										"source":{
-											"dev":"String",
-											"mode":"String",
-											"path":"String",
-											"type":"String"
+											"_dev":"String",
+											"_mode":"String",
+											"_path":"String",
+											"_type":"String"
 										}
-									},
-									"startupPolicy":"String"
-								},
-								"type":"String"
+									}
+								}
 							},
 							"blockio":{
-								"logical_block_size":"String",
-								"physical_block_size":"String"
+								"_logical_block_size":"String",
+								"_physical_block_size":"String"
 							},
 							"boot":{
-								"loadparm":"String",
-								"order":"String"
+								"_loadparm":"String",
+								"_order":"String"
 							},
-							"device":"String",
 							"driver":{
-								"ats":"String",
-								"cache":"String",
-								"copy_on_read":"String",
-								"detect_zeroes":"String",
-								"discard":"String",
-								"error_policy":"String",
-								"event_idx":"String",
-								"io":"String",
-								"ioeventfd":"String",
-								"iommu":"String",
-								"iothread":"String",
-								"name":"String",
-								"queues":"String",
-								"rerror_policy":"String",
-								"type":"String"
+								"_ats":"String",
+								"_cache":"String",
+								"_copy_on_read":"String",
+								"_detect_zeroes":"String",
+								"_discard":"String",
+								"_error_policy":"String",
+								"_event_idx":"String",
+								"_io":"String",
+								"_ioeventfd":"String",
+								"_iommu":"String",
+								"_iothread":"String",
+								"_name":"String",
+								"_queues":"String",
+								"_rerror_policy":"String",
+								"_type":"String"
 							},
 							"encryption":{
-								"format":"String",
+								"_format":"String",
 								"secret":{
-									"type":"String",
-									"usage":"String",
-									"uuid":"String"
+									"_type":"String",
+									"_usage":"String",
+									"_uuid":"String"
 								}
 							},
 							"geometry":{
-								"cyls":"String",
-								"heads":"String",
-								"secs":"String",
-								"trans":"String"
+								"_cyls":"String",
+								"_heads":"String",
+								"_secs":"String",
+								"_trans":"String"
 							},
 							"iotune":{
 								"group_name":{
@@ -9704,79 +10454,73 @@
 								}
 							},
 							"mirror":{
+								"_job":"String",
+								"_ready":"String",
 								"format":{
-									"type":"String"
+									"_type":"String"
 								},
-								"job":"String",
-								"ready":"String",
 								"source":{
+									"_index":"String",
+									"_startupPolicy":"String",
 									"encryption":{
-										"format":"String",
+										"_format":"String",
 										"secret":{
-											"type":"String",
-											"usage":"String",
-											"uuid":"String"
+											"_type":"String",
+											"_usage":"String",
+											"_uuid":"String"
 										}
 									},
-									"index":"String",
 									"reservations":{
-										"enabled":"String",
-										"managed":"String",
+										"_enabled":"String",
+										"_managed":"String",
 										"source":{
-											"dev":"String",
-											"mode":"String",
-											"path":"String",
-											"type":"String"
+											"_dev":"String",
+											"_mode":"String",
+											"_path":"String",
+											"_type":"String"
 										}
-									},
-									"startupPolicy":"String"
+									}
 								}
 							},
-							"model":"String",
 							"product":{
 								"text":"String"
 							},
-							"rawio":"String",
 							"readonly":{},
 							"serial":{
-								"text":"String",
-								"type":"String"
+								"_type":"String",
+								"text":"String"
 							},
-							"sgio":"String",
 							"shareable":{},
-							"snapshot":"String",
 							"source":{
-								"controller":"String",
+								"_controller":"String",
+								"_file":"String",
+								"_index":"String",
+								"_startupPolicy":"String",
 								"encryption":{
-									"format":"String",
+									"_format":"String",
 									"secret":{
-										"type":"String",
-										"usage":"String",
-										"uuid":"String"
+										"_type":"String",
+										"_usage":"String",
+										"_uuid":"String"
 									}
 								},
-								"file":"String",
-								"index":"String",
 								"reservations":{
-									"enabled":"String",
-									"managed":"String",
+									"_enabled":"String",
+									"_managed":"String",
 									"source":{
-										"dev":"String",
-										"mode":"String",
-										"path":"String",
-										"type":"String"
+										"_dev":"String",
+										"_mode":"String",
+										"_path":"String",
+										"_type":"String"
 									}
-								},
-								"startupPolicy":"String"
+								}
 							},
 							"target":{
-								"bus":"String",
-								"dev":"String",
-								"removable":"String",
-								"tray":"String"
+								"_bus":"String",
+								"_dev":"String",
+								"_removable":"String",
+								"_tray":"String"
 							},
-							"transient":{},
-							"type":"String",
 							"vendor":{
 								"text":"String"
 							},
@@ -9790,528 +10534,184 @@
 					},
 					"filesystem":[
 						{
-							"accessmode":"String",
+							"_accessmode":"String",
+							"_model":"String",
 							"address":{},
 							"alias":{
-								"name":"String"
+								"_name":"String"
 							},
 							"driver":{
-								"ats":"String",
-								"format":"String",
-								"iommu":"String",
-								"name":"String",
-								"type":"String",
-								"wrpolicy":"String"
+								"_ats":"String",
+								"_format":"String",
+								"_iommu":"String",
+								"_name":"String",
+								"_type":"String",
+								"_wrpolicy":"String"
 							},
-							"model":"String",
 							"readonly":{},
 							"source":{},
 							"space_hard_limit":{
-								"text":"String",
-								"unit":"String"
+								"_unit":"String",
+								"text":"String"
 							},
 							"space_soft_limit":{
-								"text":"String",
-								"unit":"String"
+								"_unit":"String",
+								"text":"String"
 							},
 							"target":{
-								"dir":"String"
+								"_dir":"String"
 							}
 						},
 						{
-							"accessmode":"String",
+							"_accessmode":"String",
+							"_model":"String",
 							"address":{},
 							"alias":{
-								"name":"String"
+								"_name":"String"
 							},
 							"driver":{
-								"ats":"String",
-								"format":"String",
-								"iommu":"String",
-								"name":"String",
-								"type":"String",
-								"wrpolicy":"String"
+								"_ats":"String",
+								"_format":"String",
+								"_iommu":"String",
+								"_name":"String",
+								"_type":"String",
+								"_wrpolicy":"String"
 							},
-							"model":"String",
 							"readonly":{},
 							"source":{},
 							"space_hard_limit":{
-								"text":"String",
-								"unit":"String"
+								"_unit":"String",
+								"text":"String"
 							},
 							"space_soft_limit":{
-								"text":"String",
-								"unit":"String"
+								"_unit":"String",
+								"text":"String"
 							},
 							"target":{
-								"dir":"String"
+								"_dir":"String"
 							}
 						}
 					],
 					"graphics":[
 						{
-							"autoport":"String",
+							"_autoport":"String",
+							"_port":"String",
+							"_type":"String",
 							"listen":{
-								"address":"String",
-								"type":"String"
-							},
-							"port":"String",
-							"type":"String"
+								"_address":"String",
+								"_type":"String"
+							}
 						},
 						{
-							"autoport":"String",
+							"_autoport":"String",
+							"_port":"String",
+							"_type":"String",
 							"listen":{
-								"address":"String",
-								"type":"String"
-							},
-							"port":"String",
-							"type":"String"
+								"_address":"String",
+								"_type":"String"
+							}
 						}
 					],
 					"hostdev":[
 						{
+							"_managed":"String",
 							"address":{},
 							"alias":{
-								"name":"String"
+								"_name":"String"
 							},
 							"boot":{
-								"loadparm":"String",
-								"order":"String"
+								"_loadparm":"String",
+								"_order":"String"
 							},
-							"managed":"String",
 							"rom":{
-								"bar":"String",
-								"enabled":"String",
-								"file":"String"
+								"_bar":"String",
+								"_enabled":"String",
+								"_file":"String"
 							}
 						},
 						{
+							"_managed":"String",
 							"address":{},
 							"alias":{
-								"name":"String"
+								"_name":"String"
 							},
 							"boot":{
-								"loadparm":"String",
-								"order":"String"
+								"_loadparm":"String",
+								"_order":"String"
 							},
-							"managed":"String",
 							"rom":{
-								"bar":"String",
-								"enabled":"String",
-								"file":"String"
+								"_bar":"String",
+								"_enabled":"String",
+								"_file":"String"
 							}
 						}
 					],
 					"hub":[
 						{
+							"_type":"String",
 							"address":{},
 							"alias":{
-								"name":"String"
-							},
-							"type":"String"
+								"_name":"String"
+							}
 						},
 						{
+							"_type":"String",
 							"address":{},
 							"alias":{
-								"name":"String"
-							},
-							"type":"String"
+								"_name":"String"
+							}
 						}
 					],
 					"input":[
 						{
+							"_bus":"String",
+							"_model":"String",
+							"_type":"String",
 							"address":{
-								"bus":"String",
-								"port":"String",
-								"type":"String"
+								"_bus":"String",
+								"_port":"String",
+								"_type":"String"
 							},
 							"alias":{
-								"name":"String"
-							},
-							"bus":"String",
-							"driver":{
-								"ats":"String",
-								"iommu":"String"
-							},
-							"model":"String",
-							"source":{
-								"evdev":"String"
-							},
-							"type":"String"
-						},
-						{
-							"address":{
-								"bus":"String",
-								"port":"String",
-								"type":"String"
-							},
-							"alias":{
-								"name":"String"
-							},
-							"bus":"String",
-							"driver":{
-								"ats":"String",
-								"iommu":"String"
-							},
-							"model":"String",
-							"source":{
-								"evdev":"String"
-							},
-							"type":"String"
-						}
-					],
-					"interface":[
-						{
-							"address":{
-								"bus":"String",
-								"domain":"String",
-								"function":"String",
-								"slot":"String",
-								"type":"String"
-							},
-							"alias":{
-								"name":"String"
-							},
-							"backend":{
-								"tap":"String",
-								"vhost":"String"
-							},
-							"bandwidth":{
-								"inbound":{
-									"average":"String",
-									"burst":"String",
-									"floor":"String",
-									"peak":"String"
-								},
-								"outbound":{
-									"average":"String",
-									"burst":"String",
-									"floor":"String",
-									"peak":"String"
-								}
-							},
-							"boot":{
-								"loadparm":"String",
-								"order":"String"
-							},
-							"coalesce":{
-								"rx":{
-									"frames":{
-										"max":"String"
-									}
-								}
+								"_name":"String"
 							},
 							"driver":{
-								"ats":"String",
-								"event_idx":"String",
-								"guest":{
-									"csum":"String",
-									"ecn":"String",
-									"tso4":"String",
-									"tso6":"String",
-									"ufo":"String"
-								},
-								"host":{
-									"csum":"String",
-									"ecn":"String",
-									"gso":"String",
-									"mrg_rxbuf":"String",
-									"tso4":"String",
-									"tso6":"String",
-									"ufo":"String"
-								},
-								"ioeventfd":"String",
-								"iommu":"String",
-								"name":"String",
-								"queues":"String",
-								"rx_queue_size":"String",
-								"tx_queue_size":"String",
-								"txmode":"String"
-							},
-							"filterref":{
-								"filter":"String",
-								"parameter":[
-									{
-										"name":"String",
-										"value":"String"
-									},
-									{
-										"name":"String",
-										"value":"String"
-									}
-								]
-							},
-							"guest":{
-								"actual":"String",
-								"dev":"String"
-							},
-							"ip":[
-								{
-									"address":"String",
-									"family":"String",
-									"peer":"String",
-									"prefix":"String"
-								},
-								{
-									"address":"String",
-									"family":"String",
-									"peer":"String",
-									"prefix":"String"
-								}
-							],
-							"link":{
-								"state":"String"
-							},
-							"mac":{
-								"address":"String"
-							},
-							"managed":"String",
-							"model":{
-								"type":"String"
-							},
-							"mtu":{
-								"size":"String"
-							},
-							"rom":{
-								"bar":"String",
-								"enabled":"String",
-								"file":"String"
-							},
-							"route":[
-								{
-									"address":"String",
-									"family":"String",
-									"gateway":"String",
-									"metric":"String",
-									"netmask":"String",
-									"prefix":"String"
-								},
-								{
-									"address":"String",
-									"family":"String",
-									"gateway":"String",
-									"metric":"String",
-									"netmask":"String",
-									"prefix":"String"
-								}
-							],
-							"script":{
-								"path":"String"
+								"_ats":"String",
+								"_iommu":"String"
 							},
 							"source":{
-								"bridge":"String",
-								"network":"String"
-							},
-							"target":{
-								"dev":"String"
-							},
-							"trustGuestRxFilters":"String",
-							"tune":{
-								"sndbuf":{
-									"text":"String"
-								}
-							},
-							"type":"String",
-							"virtualport":{
-								"parameters":{
-									"_interfaceid":"String"
-								},
-								"type":"String"
-							},
-							"vlan":{
-								"tag":[
-									{
-										"id":"String",
-										"nativeMode":"String"
-									},
-									{
-										"id":"String",
-										"nativeMode":"String"
-									}
-								],
-								"trunk":"String"
+								"_evdev":"String"
 							}
 						},
 						{
+							"_bus":"String",
+							"_model":"String",
+							"_type":"String",
 							"address":{
-								"bus":"String",
-								"domain":"String",
-								"function":"String",
-								"slot":"String",
-								"type":"String"
+								"_bus":"String",
+								"_port":"String",
+								"_type":"String"
 							},
 							"alias":{
-								"name":"String"
-							},
-							"backend":{
-								"tap":"String",
-								"vhost":"String"
-							},
-							"bandwidth":{
-								"inbound":{
-									"average":"String",
-									"burst":"String",
-									"floor":"String",
-									"peak":"String"
-								},
-								"outbound":{
-									"average":"String",
-									"burst":"String",
-									"floor":"String",
-									"peak":"String"
-								}
-							},
-							"boot":{
-								"loadparm":"String",
-								"order":"String"
-							},
-							"coalesce":{
-								"rx":{
-									"frames":{
-										"max":"String"
-									}
-								}
+								"_name":"String"
 							},
 							"driver":{
-								"ats":"String",
-								"event_idx":"String",
-								"guest":{
-									"csum":"String",
-									"ecn":"String",
-									"tso4":"String",
-									"tso6":"String",
-									"ufo":"String"
-								},
-								"host":{
-									"csum":"String",
-									"ecn":"String",
-									"gso":"String",
-									"mrg_rxbuf":"String",
-									"tso4":"String",
-									"tso6":"String",
-									"ufo":"String"
-								},
-								"ioeventfd":"String",
-								"iommu":"String",
-								"name":"String",
-								"queues":"String",
-								"rx_queue_size":"String",
-								"tx_queue_size":"String",
-								"txmode":"String"
-							},
-							"filterref":{
-								"filter":"String",
-								"parameter":[
-									{
-										"name":"String",
-										"value":"String"
-									},
-									{
-										"name":"String",
-										"value":"String"
-									}
-								]
-							},
-							"guest":{
-								"actual":"String",
-								"dev":"String"
-							},
-							"ip":[
-								{
-									"address":"String",
-									"family":"String",
-									"peer":"String",
-									"prefix":"String"
-								},
-								{
-									"address":"String",
-									"family":"String",
-									"peer":"String",
-									"prefix":"String"
-								}
-							],
-							"link":{
-								"state":"String"
-							},
-							"mac":{
-								"address":"String"
-							},
-							"managed":"String",
-							"model":{
-								"type":"String"
-							},
-							"mtu":{
-								"size":"String"
-							},
-							"rom":{
-								"bar":"String",
-								"enabled":"String",
-								"file":"String"
-							},
-							"route":[
-								{
-									"address":"String",
-									"family":"String",
-									"gateway":"String",
-									"metric":"String",
-									"netmask":"String",
-									"prefix":"String"
-								},
-								{
-									"address":"String",
-									"family":"String",
-									"gateway":"String",
-									"metric":"String",
-									"netmask":"String",
-									"prefix":"String"
-								}
-							],
-							"script":{
-								"path":"String"
+								"_ats":"String",
+								"_iommu":"String"
 							},
 							"source":{
-								"bridge":"String",
-								"network":"String"
-							},
-							"target":{
-								"dev":"String"
-							},
-							"trustGuestRxFilters":"String",
-							"tune":{
-								"sndbuf":{
-									"text":"String"
-								}
-							},
-							"type":"String",
-							"virtualport":{
-								"parameters":{
-									"_interfaceid":"String"
-								},
-								"type":"String"
-							},
-							"vlan":{
-								"tag":[
-									{
-										"id":"String",
-										"nativeMode":"String"
-									},
-									{
-										"id":"String",
-										"nativeMode":"String"
-									}
-								],
-								"trunk":"String"
+								"_evdev":"String"
 							}
 						}
 					],
 					"iommu":{
+						"_model":"String",
 						"driver":{
-							"caching_mode":"String",
-							"eim":"String",
-							"intremap":"String",
-							"iotlb":"String"
-						},
-						"model":"String"
+							"_caching_mode":"String",
+							"_eim":"String",
+							"_intremap":"String",
+							"_iotlb":"String"
+						}
 					},
 					"lease":[
 						{
@@ -10322,8 +10722,8 @@
 								"text":"String"
 							},
 							"target":{
-								"offset":"String",
-								"path":"String"
+								"_offset":"String",
+								"_path":"String"
 							}
 						},
 						{
@@ -10334,52 +10734,52 @@
 								"text":"String"
 							},
 							"target":{
-								"offset":"String",
-								"path":"String"
+								"_offset":"String",
+								"_path":"String"
 							}
 						}
 					],
 					"memballoon":{
+						"_autodeflate":"String",
+						"_model":"String",
 						"address":{
-							"bus":"String",
-							"domain":"String",
-							"function":"String",
-							"slot":"String",
-							"type":"String"
+							"_bus":"String",
+							"_domain":"String",
+							"_function":"String",
+							"_slot":"String",
+							"_type":"String"
 						},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
-						"autodeflate":"String",
 						"driver":{
-							"ats":"String",
-							"iommu":"String"
+							"_ats":"String",
+							"_iommu":"String"
 						},
-						"model":"String",
 						"stats":{
-							"period":"String"
+							"_period":"String"
 						}
 					},
 					"memory":[
 						{
-							"access":"String",
+							"_access":"String",
+							"_discard":"String",
+							"_model":"String",
 							"address":{},
 							"alias":{
-								"name":"String"
+								"_name":"String"
 							},
-							"discard":"String",
-							"model":"String",
 							"source":{
 								"alignsize":{
-									"text":"String",
-									"unit":"String"
+									"_unit":"String",
+									"text":"String"
 								},
 								"nodemask":{
 									"text":"String"
 								},
 								"pagesize":{
-									"text":"String",
-									"unit":"String"
+									"_unit":"String",
+									"text":"String"
 								},
 								"path":{
 									"text":"String"
@@ -10389,8 +10789,8 @@
 							"target":{
 								"label":{
 									"size":{
-										"text":"String",
-										"unit":"String"
+										"_unit":"String",
+										"text":"String"
 									}
 								},
 								"node":{
@@ -10398,30 +10798,30 @@
 								},
 								"readonly":{},
 								"size":{
-									"text":"String",
-									"unit":"String"
+									"_unit":"String",
+									"text":"String"
 								}
 							}
 						},
 						{
-							"access":"String",
+							"_access":"String",
+							"_discard":"String",
+							"_model":"String",
 							"address":{},
 							"alias":{
-								"name":"String"
+								"_name":"String"
 							},
-							"discard":"String",
-							"model":"String",
 							"source":{
 								"alignsize":{
-									"text":"String",
-									"unit":"String"
+									"_unit":"String",
+									"text":"String"
 								},
 								"nodemask":{
 									"text":"String"
 								},
 								"pagesize":{
-									"text":"String",
-									"unit":"String"
+									"_unit":"String",
+									"text":"String"
 								},
 								"path":{
 									"text":"String"
@@ -10431,8 +10831,8 @@
 							"target":{
 								"label":{
 									"size":{
-										"text":"String",
-										"unit":"String"
+										"_unit":"String",
+										"text":"String"
 									}
 								},
 								"node":{
@@ -10440,8 +10840,8 @@
 								},
 								"readonly":{},
 								"size":{
-									"text":"String",
-									"unit":"String"
+									"_unit":"String",
+									"text":"String"
 								}
 							}
 						}
@@ -10449,91 +10849,91 @@
 					"nvram":{
 						"address":{},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						}
 					},
 					"panic":[
 						{
+							"_model":"String",
 							"address":{},
 							"alias":{
-								"name":"String"
-							},
-							"model":"String"
+								"_name":"String"
+							}
 						},
 						{
+							"_model":"String",
 							"address":{},
 							"alias":{
-								"name":"String"
-							},
-							"model":"String"
+								"_name":"String"
+							}
 						}
 					],
 					"parallel":[
 						{
 							"address":{},
 							"alias":{
-								"name":"String"
+								"_name":"String"
 							},
 							"log":{
-								"append":"String",
-								"file":"String"
+								"_append":"String",
+								"_file":"String"
 							},
 							"protocol":{
-								"type":"String"
+								"_type":"String"
 							},
 							"source":{},
 							"target":{
-								"port":"String",
-								"type":"String"
+								"_port":"String",
+								"_type":"String"
 							}
 						},
 						{
 							"address":{},
 							"alias":{
-								"name":"String"
+								"_name":"String"
 							},
 							"log":{
-								"append":"String",
-								"file":"String"
+								"_append":"String",
+								"_file":"String"
 							},
 							"protocol":{
-								"type":"String"
+								"_type":"String"
 							},
 							"source":{},
 							"target":{
-								"port":"String",
-								"type":"String"
+								"_port":"String",
+								"_type":"String"
 							}
 						}
 					],
 					"redirdev":[
 						{
+							"_bus":"String",
 							"address":{},
 							"alias":{
-								"name":"String"
+								"_name":"String"
 							},
 							"boot":{
-								"loadparm":"String",
-								"order":"String"
+								"_loadparm":"String",
+								"_order":"String"
 							},
-							"bus":"String",
 							"protocol":{
-								"type":"String"
+								"_type":"String"
 							},
 							"source":{}
 						},
 						{
+							"_bus":"String",
 							"address":{},
 							"alias":{
-								"name":"String"
+								"_name":"String"
 							},
 							"boot":{
-								"loadparm":"String",
-								"order":"String"
+								"_loadparm":"String",
+								"_order":"String"
 							},
-							"bus":"String",
 							"protocol":{
-								"type":"String"
+								"_type":"String"
 							},
 							"source":{}
 						}
@@ -10542,185 +10942,185 @@
 						{
 							"usbdev":[
 								{
-									"allow":"String",
-									"class":"String",
-									"product":"String",
-									"vendor":"String",
-									"version":"String"
+									"_allow":"String",
+									"_class":"String",
+									"_product":"String",
+									"_vendor":"String",
+									"_version":"String"
 								},
 								{
-									"allow":"String",
-									"class":"String",
-									"product":"String",
-									"vendor":"String",
-									"version":"String"
+									"_allow":"String",
+									"_class":"String",
+									"_product":"String",
+									"_vendor":"String",
+									"_version":"String"
 								}
 							]
 						},
 						{
 							"usbdev":[
 								{
-									"allow":"String",
-									"class":"String",
-									"product":"String",
-									"vendor":"String",
-									"version":"String"
+									"_allow":"String",
+									"_class":"String",
+									"_product":"String",
+									"_vendor":"String",
+									"_version":"String"
 								},
 								{
-									"allow":"String",
-									"class":"String",
-									"product":"String",
-									"vendor":"String",
-									"version":"String"
+									"_allow":"String",
+									"_class":"String",
+									"_product":"String",
+									"_vendor":"String",
+									"_version":"String"
 								}
 							]
 						}
 					],
 					"rng":[
 						{
+							"_model":"String",
 							"address":{
-								"bus":"String",
-								"domain":"String",
-								"function":"String",
-								"slot":"String",
-								"type":"String"
+								"_bus":"String",
+								"_domain":"String",
+								"_function":"String",
+								"_slot":"String",
+								"_type":"String"
 							},
 							"alias":{
-								"name":"String"
+								"_name":"String"
 							},
 							"backend":{
-								"model":"String",
+								"_model":"String",
 								"text":"String"
 							},
 							"driver":{
-								"ats":"String",
-								"iommu":"String"
+								"_ats":"String",
+								"_iommu":"String"
 							},
-							"model":"String",
 							"rate":{
-								"bytes":"String",
-								"period":"String"
+								"_bytes":"String",
+								"_period":"String"
 							}
 						},
 						{
+							"_model":"String",
 							"address":{
-								"bus":"String",
-								"domain":"String",
-								"function":"String",
-								"slot":"String",
-								"type":"String"
+								"_bus":"String",
+								"_domain":"String",
+								"_function":"String",
+								"_slot":"String",
+								"_type":"String"
 							},
 							"alias":{
-								"name":"String"
+								"_name":"String"
 							},
 							"backend":{
-								"model":"String",
+								"_model":"String",
 								"text":"String"
 							},
 							"driver":{
-								"ats":"String",
-								"iommu":"String"
+								"_ats":"String",
+								"_iommu":"String"
 							},
-							"model":"String",
 							"rate":{
-								"bytes":"String",
-								"period":"String"
+								"_bytes":"String",
+								"_period":"String"
 							}
 						}
 					],
 					"serial":[
 						{
+							"_type":"String",
 							"address":{},
 							"alias":{
-								"name":"String"
+								"_name":"String"
 							},
 							"log":{
-								"append":"String",
-								"file":"String"
+								"_append":"String",
+								"_file":"String"
 							},
 							"protocol":{
-								"type":"String"
+								"_type":"String"
 							},
 							"source":{
-								"path":"String"
+								"_path":"String"
 							},
 							"target":{
+								"_port":"String",
+								"_type":"String",
 								"model":{
-									"name":"String"
-								},
-								"port":"String",
-								"type":"String"
-							},
-							"type":"String"
+									"_name":"String"
+								}
+							}
 						},
 						{
+							"_type":"String",
 							"address":{},
 							"alias":{
-								"name":"String"
+								"_name":"String"
 							},
 							"log":{
-								"append":"String",
-								"file":"String"
+								"_append":"String",
+								"_file":"String"
 							},
 							"protocol":{
-								"type":"String"
+								"_type":"String"
 							},
 							"source":{
-								"path":"String"
+								"_path":"String"
 							},
 							"target":{
+								"_port":"String",
+								"_type":"String",
 								"model":{
-									"name":"String"
-								},
-								"port":"String",
-								"type":"String"
-							},
-							"type":"String"
+									"_name":"String"
+								}
+							}
 						}
 					],
 					"shmem":[
 						{
+							"_name":"String",
 							"address":{},
 							"alias":{
-								"name":"String"
+								"_name":"String"
 							},
 							"model":{
-								"type":"String"
+								"_type":"String"
 							},
 							"msi":{
-								"enabled":"String",
-								"ioeventfd":"String",
-								"vectors":"String"
+								"_enabled":"String",
+								"_ioeventfd":"String",
+								"_vectors":"String"
 							},
-							"name":"String",
 							"server":{
-								"path":"String"
+								"_path":"String"
 							},
 							"size":{
-								"text":"String",
-								"unit":"String"
+								"_unit":"String",
+								"text":"String"
 							}
 						},
 						{
+							"_name":"String",
 							"address":{},
 							"alias":{
-								"name":"String"
+								"_name":"String"
 							},
 							"model":{
-								"type":"String"
+								"_type":"String"
 							},
 							"msi":{
-								"enabled":"String",
-								"ioeventfd":"String",
-								"vectors":"String"
+								"_enabled":"String",
+								"_ioeventfd":"String",
+								"_vectors":"String"
 							},
-							"name":"String",
 							"server":{
-								"path":"String"
+								"_path":"String"
 							},
 							"size":{
-								"text":"String",
-								"unit":"String"
+								"_unit":"String",
+								"text":"String"
 							}
 						}
 					],
@@ -10728,7 +11128,7 @@
 						{
 							"address":{},
 							"alias":{
-								"name":"String"
+								"_name":"String"
 							},
 							"certificate":[
 								{
@@ -10742,14 +11142,14 @@
 								"text":"String"
 							},
 							"protocol":{
-								"type":"String"
+								"_type":"String"
 							},
 							"source":{}
 						},
 						{
 							"address":{},
 							"alias":{
-								"name":"String"
+								"_name":"String"
 							},
 							"certificate":[
 								{
@@ -10763,397 +11163,396 @@
 								"text":"String"
 							},
 							"protocol":{
-								"type":"String"
+								"_type":"String"
 							},
 							"source":{}
 						}
 					],
 					"sound":[
 						{
+							"_model":"String",
 							"address":{},
 							"alias":{
-								"name":"String"
+								"_name":"String"
 							},
 							"codec":[
 								{
-									"type":"String"
+									"_type":"String"
 								},
 								{
-									"type":"String"
+									"_type":"String"
 								}
-							],
-							"model":"String"
+							]
 						},
 						{
+							"_model":"String",
 							"address":{},
 							"alias":{
-								"name":"String"
+								"_name":"String"
 							},
 							"codec":[
 								{
-									"type":"String"
+									"_type":"String"
 								},
 								{
-									"type":"String"
+									"_type":"String"
 								}
-							],
-							"model":"String"
+							]
 						}
 					],
 					"tpm":[
 						{
+							"_model":"String",
 							"address":{},
 							"alias":{
-								"name":"String"
+								"_name":"String"
 							},
-							"backend":{},
-							"model":"String"
+							"backend":{}
 						},
 						{
+							"_model":"String",
 							"address":{},
 							"alias":{
-								"name":"String"
+								"_name":"String"
 							},
-							"backend":{},
-							"model":"String"
+							"backend":{}
 						}
 					],
 					"video":[
 						{
 							"address":{
-								"bus":"String",
-								"domain":"String",
-								"function":"String",
-								"slot":"String",
-								"type":"String"
+								"_bus":"String",
+								"_domain":"String",
+								"_function":"String",
+								"_slot":"String",
+								"_type":"String"
 							},
 							"alias":{
-								"name":"String"
+								"_name":"String"
 							},
 							"driver":{
-								"ats":"String",
-								"iommu":"String",
-								"vgaconf":"String"
+								"_ats":"String",
+								"_iommu":"String",
+								"_vgaconf":"String"
 							},
 							"model":{
+								"_heads":"String",
+								"_primary":"String",
+								"_ram":"String",
+								"_type":"String",
+								"_vgamem":"String",
+								"_vram":"String",
+								"_vram64":"String",
 								"acceleration":{
-									"accel2d":"String",
-									"accel3d":"String"
-								},
-								"heads":"String",
-								"primary":"String",
-								"ram":"String",
-								"type":"String",
-								"vgamem":"String",
-								"vram":"String",
-								"vram64":"String"
+									"_accel2d":"String",
+									"_accel3d":"String"
+								}
 							}
 						},
 						{
 							"address":{
-								"bus":"String",
-								"domain":"String",
-								"function":"String",
-								"slot":"String",
-								"type":"String"
+								"_bus":"String",
+								"_domain":"String",
+								"_function":"String",
+								"_slot":"String",
+								"_type":"String"
 							},
 							"alias":{
-								"name":"String"
+								"_name":"String"
 							},
 							"driver":{
-								"ats":"String",
-								"iommu":"String",
-								"vgaconf":"String"
+								"_ats":"String",
+								"_iommu":"String",
+								"_vgaconf":"String"
 							},
 							"model":{
+								"_heads":"String",
+								"_primary":"String",
+								"_ram":"String",
+								"_type":"String",
+								"_vgamem":"String",
+								"_vram":"String",
+								"_vram64":"String",
 								"acceleration":{
-									"accel2d":"String",
-									"accel3d":"String"
-								},
-								"heads":"String",
-								"primary":"String",
-								"ram":"String",
-								"type":"String",
-								"vgamem":"String",
-								"vram":"String",
-								"vram64":"String"
+									"_accel2d":"String",
+									"_accel3d":"String"
+								}
 							}
 						}
 					],
 					"vsock":{
+						"_model":"String",
 						"address":{},
 						"alias":{
-							"name":"String"
+							"_name":"String"
 						},
 						"cid":{
-							"address":"String",
-							"auto":"String"
-						},
-						"model":"String"
+							"_address":"String",
+							"_auto":"String"
+						}
 					},
 					"watchdog":{
-						"action":"String",
+						"_action":"String",
+						"_model":"String",
 						"address":{},
 						"alias":{
-							"name":"String"
-						},
-						"model":"String"
+							"_name":"String"
+						}
 					}
 				},
 				"features":{
 					"acpi":{},
 					"apic":{
-						"eoi":"String"
+						"_eoi":"String"
 					},
 					"capabilities":{
+						"_policy":"String",
 						"audit_control":{
-							"state":"String"
+							"_state":"String"
 						},
 						"audit_write":{
-							"state":"String"
+							"_state":"String"
 						},
 						"block_suspend":{
-							"state":"String"
+							"_state":"String"
 						},
 						"chown":{
-							"state":"String"
+							"_state":"String"
 						},
 						"dac_override":{
-							"state":"String"
+							"_state":"String"
 						},
 						"dac_read_Search":{
-							"state":"String"
+							"_state":"String"
 						},
 						"fowner":{
-							"state":"String"
+							"_state":"String"
 						},
 						"fsetid":{
-							"state":"String"
+							"_state":"String"
 						},
 						"ipc_lock":{
-							"state":"String"
+							"_state":"String"
 						},
 						"ipc_owner":{
-							"state":"String"
+							"_state":"String"
 						},
 						"kill":{
-							"state":"String"
+							"_state":"String"
 						},
 						"lease":{
-							"state":"String"
+							"_state":"String"
 						},
 						"linux_immutable":{
-							"state":"String"
+							"_state":"String"
 						},
 						"mac_admin":{
-							"state":"String"
+							"_state":"String"
 						},
 						"mac_override":{
-							"state":"String"
+							"_state":"String"
 						},
 						"mknod":{
-							"state":"String"
+							"_state":"String"
 						},
 						"net_admin":{
-							"state":"String"
+							"_state":"String"
 						},
 						"net_bind_service":{
-							"state":"String"
+							"_state":"String"
 						},
 						"net_broadcast":{
-							"state":"String"
+							"_state":"String"
 						},
 						"net_raw":{
-							"state":"String"
+							"_state":"String"
 						},
-						"policy":"String",
 						"setfcap":{
-							"state":"String"
+							"_state":"String"
 						},
 						"setgid":{
-							"state":"String"
+							"_state":"String"
 						},
 						"setpcap":{
-							"state":"String"
+							"_state":"String"
 						},
 						"setuid":{
-							"state":"String"
+							"_state":"String"
 						},
 						"sys_admin":{
-							"state":"String"
+							"_state":"String"
 						},
 						"sys_boot":{
-							"state":"String"
+							"_state":"String"
 						},
 						"sys_chroot":{
-							"state":"String"
+							"_state":"String"
 						},
 						"sys_module":{
-							"state":"String"
+							"_state":"String"
 						},
 						"sys_nice":{
-							"state":"String"
+							"_state":"String"
 						},
 						"sys_pacct":{
-							"state":"String"
+							"_state":"String"
 						},
 						"sys_ptrace":{
-							"state":"String"
+							"_state":"String"
 						},
 						"sys_rawio":{
-							"state":"String"
+							"_state":"String"
 						},
 						"sys_resource":{
-							"state":"String"
+							"_state":"String"
 						},
 						"sys_time":{
-							"state":"String"
+							"_state":"String"
 						},
 						"sys_tty_config":{
-							"state":"String"
+							"_state":"String"
 						},
 						"syslog":{
-							"state":"String"
+							"_state":"String"
 						},
 						"wake_alarm":{
-							"state":"String"
+							"_state":"String"
 						}
 					},
 					"gic":{
-						"version":"String"
+						"_version":"String"
 					},
 					"hap":{
-						"state":"String"
+						"_state":"String"
 					},
 					"hpt":{
+						"_resizing":"String",
 						"maxpagesize":{
-							"text":"String",
-							"unit":"String"
-						},
-						"resizing":"String"
+							"_unit":"String",
+							"text":"String"
+						}
 					},
 					"htm":{
-						"state":"String"
+						"_state":"String"
 					},
 					"hyperv":{
 						"evmcs":{
-							"state":"String"
+							"_state":"String"
 						},
 						"frequencies":{
-							"state":"String"
+							"_state":"String"
 						},
 						"ipi":{
-							"state":"String"
+							"_state":"String"
 						},
 						"reenlightenment":{
-							"state":"String"
+							"_state":"String"
 						},
 						"relaxed":{
-							"state":"String"
+							"_state":"String"
 						},
 						"reset":{
-							"state":"String"
+							"_state":"String"
 						},
 						"runtime":{
-							"state":"String"
+							"_state":"String"
 						},
 						"spinlocks":{
-							"retries":"String",
-							"state":"String"
+							"_retries":"String",
+							"_state":"String"
 						},
 						"stimer":{
-							"state":"String"
+							"_state":"String"
 						},
 						"synic":{
-							"state":"String"
+							"_state":"String"
 						},
 						"tlbflush":{
-							"state":"String"
+							"_state":"String"
 						},
 						"vapic":{
-							"state":"String"
+							"_state":"String"
 						},
 						"vendor_id":{
-							"value":"String"
+							"_value":"String"
 						},
 						"vpindex":{
-							"state":"String"
+							"_state":"String"
 						}
 					},
 					"ioapic":{
-						"driver":"String"
+						"_driver":"String"
 					},
 					"kvm":{
 						"hidden":{
-							"state":"String"
+							"_state":"String"
 						}
 					},
 					"msrs":{
-						"unknown":"String"
+						"_unknown":"String"
 					},
 					"nested_hv":{
-						"state":"String"
+						"_state":"String"
 					},
 					"pae":{},
 					"pmu":{
-						"state":"String"
+						"_state":"String"
 					},
 					"privnet":{},
 					"pvspinlock":{
-						"state":"String"
+						"_state":"String"
 					},
 					"smm":{
-						"state":"String",
+						"_state":"String",
 						"tseg":{
-							"text":"String",
-							"unit":"String"
+							"_unit":"String",
+							"text":"String"
 						}
 					},
 					"viridian":{},
 					"vmcoreinfo":{
-						"state":"String"
+						"_state":"String"
 					},
 					"vmport":{
-						"state":"String"
+						"_state":"String"
 					}
 				},
 				"genid":{
 					"text":"String"
 				},
-				"id":"String",
 				"idmap":{
 					"gid":[
 						{
-							"count":"String",
-							"start":"String",
-							"target":"String"
+							"_count":"String",
+							"_start":"String",
+							"_target":"String"
 						},
 						{
-							"count":"String",
-							"start":"String",
-							"target":"String"
+							"_count":"String",
+							"_start":"String",
+							"_target":"String"
 						}
 					],
 					"uid":[
 						{
-							"count":"String",
-							"start":"String",
-							"target":"String"
+							"_count":"String",
+							"_start":"String",
+							"_target":"String"
 						},
 						{
-							"count":"String",
-							"start":"String",
-							"target":"String"
+							"_count":"String",
+							"_start":"String",
+							"_target":"String"
 						}
 					]
 				},
 				"iothreadids":{
 					"iothread":[
 						{
-							"id":"String"
+							"_id":"String"
 						},
 						{
-							"id":"String"
+							"_id":"String"
 						}
 					]
 				},
@@ -11163,70 +11562,70 @@
 				"keywrap":{
 					"cipher":[
 						{
-							"name":"String",
-							"state":"String"
+							"_name":"String",
+							"_state":"String"
 						},
 						{
-							"name":"String",
-							"state":"String"
+							"_name":"String",
+							"_state":"String"
 						}
 					]
 				},
 				"launchSecurity":{},
 				"maxMemory":{
-					"slots":"String",
-					"text":"String",
-					"unit":"String"
+					"_slots":"String",
+					"_unit":"String",
+					"text":"String"
 				},
 				"memory":{
-					"dumpCore":"String",
-					"text":"String",
-					"unit":"String"
+					"_dumpCore":"String",
+					"_unit":"String",
+					"text":"String"
 				},
 				"memoryBacking":{
 					"access":{
-						"mode":"String"
+						"_mode":"String"
 					},
 					"allocation":{
-						"mode":"String"
+						"_mode":"String"
 					},
 					"discard":{},
 					"hugepages":{
 						"page":[
 							{
-								"nodeset":"String",
-								"size":"String",
-								"unit":"String"
+								"_nodeset":"String",
+								"_size":"String",
+								"_unit":"String"
 							},
 							{
-								"nodeset":"String",
-								"size":"String",
-								"unit":"String"
+								"_nodeset":"String",
+								"_size":"String",
+								"_unit":"String"
 							}
 						]
 					},
 					"locked":{},
 					"nosharepages":{},
 					"source":{
-						"type":"String"
+						"_type":"String"
 					}
 				},
 				"memtune":{
 					"hard_limit":{
-						"text":"String",
-						"unit":"String"
+						"_unit":"String",
+						"text":"String"
 					},
 					"min_guarantee":{
-						"text":"String",
-						"unit":"String"
+						"_unit":"String",
+						"text":"String"
 					},
 					"soft_limit":{
-						"text":"String",
-						"unit":"String"
+						"_unit":"String",
+						"text":"String"
 					},
 					"swap_hard_limit":{
-						"text":"String",
-						"unit":"String"
+						"_unit":"String",
+						"text":"String"
 					}
 				},
 				"metadata":{},
@@ -11236,20 +11635,20 @@
 				"numatune":{
 					"memnode":[
 						{
-							"cellid":"String",
-							"mode":"String",
-							"nodeset":"String"
+							"_cellid":"String",
+							"_mode":"String",
+							"_nodeset":"String"
 						},
 						{
-							"cellid":"String",
-							"mode":"String",
-							"nodeset":"String"
+							"_cellid":"String",
+							"_mode":"String",
+							"_nodeset":"String"
 						}
 					],
 					"memory":{
-						"mode":"String",
-						"nodeset":"String",
-						"placement":"String"
+						"_mode":"String",
+						"_nodeset":"String",
+						"_placement":"String"
 					}
 				},
 				"on_crash":{
@@ -11265,30 +11664,30 @@
 					"acpi":{
 						"table":[
 							{
-								"text":"String",
-								"type":"String"
+								"_type":"String",
+								"text":"String"
 							},
 							{
-								"text":"String",
-								"type":"String"
+								"_type":"String",
+								"text":"String"
 							}
 						]
 					},
 					"bios":{
-						"rebootTimeout":"String",
-						"useserial":"String"
+						"_rebootTimeout":"String",
+						"_useserial":"String"
 					},
 					"boot":[
 						{
-							"dev":"String"
+							"_dev":"String"
 						},
 						{
-							"dev":"String"
+							"_dev":"String"
 						}
 					],
 					"bootmenu":{
-						"enable":"String",
-						"timeout":"String"
+						"_enable":"String",
+						"_timeout":"String"
 					},
 					"cmdline":{
 						"text":"String"
@@ -11307,11 +11706,11 @@
 					},
 					"initenv":[
 						{
-							"name":"String",
+							"_name":"String",
 							"text":"String"
 						},
 						{
-							"name":"String",
+							"_name":"String",
 							"text":"String"
 						}
 					],
@@ -11328,40 +11727,40 @@
 						"text":"String"
 					},
 					"loader":{
-						"readonly":"String",
-						"text":"String",
-						"type":"String"
+						"_readonly":"String",
+						"_type":"String",
+						"text":"String"
 					},
 					"nvram":{
 						"text":"String"
 					},
 					"smbios":{
-						"mode":"String"
+						"_mode":"String"
 					},
 					"type":{
-						"arch":"String",
-						"machine":"String",
+						"_arch":"String",
+						"_machine":"String",
 						"text":"String"
 					}
 				},
 				"perf":{
 					"event":[
 						{
-							"enabled":"String",
-							"name":"String"
+							"_enabled":"String",
+							"_name":"String"
 						},
 						{
-							"enabled":"String",
-							"name":"String"
+							"_enabled":"String",
+							"_name":"String"
 						}
 					]
 				},
 				"pm":{
 					"suspend_to_disk":{
-						"enabled":"String"
+						"_enabled":"String"
 					},
 					"suspend_to_mem":{
-						"enabled":"String"
+						"_enabled":"String"
 					}
 				},
 				"resource":{
@@ -11371,6 +11770,9 @@
 				},
 				"seclabel":[
 					{
+						"_model":"String",
+						"_relabel":"String",
+						"_type":"String",
 						"baselabel":{
 							"text":"String"
 						},
@@ -11379,12 +11781,12 @@
 						},
 						"label":{
 							"text":"String"
-						},
-						"model":"String",
-						"relabel":"String",
-						"type":"String"
+						}
 					},
 					{
+						"_model":"String",
+						"_relabel":"String",
+						"_type":"String",
 						"baselabel":{
 							"text":"String"
 						},
@@ -11393,22 +11795,20 @@
 						},
 						"label":{
 							"text":"String"
-						},
-						"model":"String",
-						"relabel":"String",
-						"type":"String"
+						}
 					}
 				],
 				"sysinfo":{
+					"_type":"String",
 					"baseBoard":[
 						{
 							"entry":[
 								{
-									"name":"String",
+									"_name":"String",
 									"text":"String"
 								},
 								{
-									"name":"String",
+									"_name":"String",
 									"text":"String"
 								}
 							]
@@ -11416,11 +11816,11 @@
 						{
 							"entry":[
 								{
-									"name":"String",
+									"_name":"String",
 									"text":"String"
 								},
 								{
-									"name":"String",
+									"_name":"String",
 									"text":"String"
 								}
 							]
@@ -11429,11 +11829,11 @@
 					"bios":{
 						"entry":[
 							{
-								"name":"String",
+								"_name":"String",
 								"text":"String"
 							},
 							{
-								"name":"String",
+								"_name":"String",
 								"text":"String"
 							}
 						]
@@ -11441,11 +11841,11 @@
 					"chassis":{
 						"entry":[
 							{
-								"name":"String",
+								"_name":"String",
 								"text":"String"
 							},
 							{
-								"name":"String",
+								"_name":"String",
 								"text":"String"
 							}
 						]
@@ -11454,11 +11854,11 @@
 						{
 							"entry":[
 								{
-									"name":"String",
+									"_name":"String",
 									"text":"String"
 								},
 								{
-									"name":"String",
+									"_name":"String",
 									"text":"String"
 								}
 							]
@@ -11466,11 +11866,11 @@
 						{
 							"entry":[
 								{
-									"name":"String",
+									"_name":"String",
 									"text":"String"
 								},
 								{
-									"name":"String",
+									"_name":"String",
 									"text":"String"
 								}
 							]
@@ -11485,11 +11885,11 @@
 						{
 							"entry":[
 								{
-									"name":"String",
+									"_name":"String",
 									"text":"String"
 								},
 								{
-									"name":"String",
+									"_name":"String",
 									"text":"String"
 								}
 							]
@@ -11497,11 +11897,11 @@
 						{
 							"entry":[
 								{
-									"name":"String",
+									"_name":"String",
 									"text":"String"
 								},
 								{
-									"name":"String",
+									"_name":"String",
 									"text":"String"
 								}
 							]
@@ -11510,50 +11910,48 @@
 					"system":{
 						"entry":[
 							{
-								"name":"String",
+								"_name":"String",
 								"text":"String"
 							},
 							{
-								"name":"String",
+								"_name":"String",
 								"text":"String"
 							}
 						]
-					},
-					"type":"String"
+					}
 				},
 				"title":{
 					"text":"String"
 				},
-				"type":"String",
 				"uuid":{
 					"text":"String"
 				},
 				"vcpu":{
-					"cpuset":"String",
-					"current":"String",
-					"placement":"String",
+					"_cpuset":"String",
+					"_current":"String",
+					"_placement":"String",
 					"text":"String"
 				},
 				"vcpus":{
 					"vcpu":[
 						{
-							"enabled":"String",
-							"hotpluggable":"String",
-							"id":"String",
-							"order":"String"
+							"_enabled":"String",
+							"_hotpluggable":"String",
+							"_id":"String",
+							"_order":"String"
 						},
 						{
-							"enabled":"String",
-							"hotpluggable":"String",
-							"id":"String",
-							"order":"String"
+							"_enabled":"String",
+							"_hotpluggable":"String",
+							"_id":"String",
+							"_order":"String"
 						}
 					]
 				}
 			},
 			"memory":{
-				"file":"String",
-				"snapshot":"String"
+				"_file":"String",
+				"_snapshot":"String"
 			},
 			"name":{
 				"text":"String"
@@ -11645,7 +12043,7 @@
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| type|String|false|存储池的类型|只能是dir，nfs，glusterfs之一|dir|
+| type|String|false|存储池的类型|只能是dir，uraid, nfs，glusterfs之一|dir|
 | disable|Boolean|true|修改存储池autostart状态|true或者false|true|
 |  |  |  |  |  |
 
@@ -11692,12 +12090,11 @@
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| type|String|true|存储池的类型|只能是dir，uus，nfs，glusterfs之一|dir|
+| type|String|true|存储池的类型|只能是dir，uus，nfs，glusterfs, uraid之一|dir|
 | content|String|true|存储池的内容，用于标识存储池的用途|只能是vmd，vmdi，iso之一|vmd|
-| url|String|false|云存储池的url|建立云存储池时通过cstor-cli pool-list查询出的云存储池路径|uus-iscsi-independent://admin:admin@192.168.3.10:7000/p1/4/2/0/32/0/3|
+| url|String|true|云存储池的url|建立云存储池时通过cstor-cli pool-list查询出的云存储池路径|uus-iscsi-independent://admin:admin@192.168.3.10:7000/p1/4/2/0/32/0/3|
 | opt|String|false|nfs挂载参数|当type为nfs类型时，nfs的挂载参数|nolock|
 | autostart|boolean|false|创建存储池后是否设置为自动打开|true或false|true|
-| target|String|true|创建存储池使用的存储路径|完整有效的存储路径|/var/lib/libvirt/poolg|
 |  |  |  |  |  |
 
 **接口异常:**
@@ -11742,7 +12139,7 @@
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| type|String|false|存储池的类型|只能是dir，nfs，glusterfs之一|dir|
+| type|String|false|存储池的类型|只能是dir，uraid，nfs，glusterfs之一|dir|
 |  |  |  |  |  |
 
 **接口异常:**
@@ -11787,7 +12184,7 @@
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| type|String|false|存储池的类型|只能是dir，nfs，glusterfs之一|dir|
+| type|String|false|存储池的类型|只能是dir，uraid，nfs，glusterfs之一|dir|
 |  |  |  |  |  |
 
 **接口异常:**
@@ -11832,7 +12229,7 @@
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| type|String|false|存储池的类型|只能是dir，uus，nfs，glusterfs之一|dir|
+| type|String|false|存储池的类型|只能是dir，uraid，uus，nfs，glusterfs, uraid之一|dir|
 |  |  |  |  |  |
 
 **接口异常:**
@@ -11895,7 +12292,6 @@
 				"source_host":"String",
 				"source_name":"String",
 				"source_path":"String",
-				"target":"String",
 				"type":"String",
 				"url":"String"
 			},
@@ -11913,6 +12309,7 @@
 			}
 		},
 		"pool":{
+			"_type":"String",
 			"autostart":"String",
 			"capacity":"String",
 			"content":"String",
@@ -11921,7 +12318,6 @@
 			"persistent":"String",
 			"pooltype":"String",
 			"state":"String",
-			"type":"String",
 			"uuid":"String"
 		},
 		"versions":[]
@@ -12232,10 +12628,13 @@
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| subnet|String|false|网段，这里后台只会做形式，不会做逻辑判断，只要符合xx.xx.xx.xx/y形式即可，请确保传入正确的数值, y的取值必须是8,16,24之一|网段和掩码|192.168.5.1/24|
-| gateway|String|false|网关地址|IP|192.168.5.5|
+| subnet|String|true|网段，这里后台只会做形式，不会做逻辑判断，只要符合xx.xx.xx.xx/y形式即可，请确保传入正确的数值, y的取值必须是8,16,24之一|网段和掩码|192.168.5.1/24|
+| dhcp|String|true|DHCP地址|IP|192.168.5.5|
+| gateway|String|true|网关地址|IP|192.168.5.5|
 | mtu|String|false|mtu|10-1000|1500|
+| bridge|String|false|网桥名|网桥|br-ex|
 | excludeIPs|String|false|IP列表黑名单|单个IP之间通过空格分开，IP范围使用..分开|192.168.5.2 192.168.5.10..192.168.5.100|
+| dnsServer|String|false|域名服务器|IP地址，允许多个，以,号分开|192.168.5.5|
 |  |  |  |  |  |
 
 **接口异常:**
@@ -12280,6 +12679,7 @@
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
+| bridge|String|true|网桥名|网桥|br-ex|
 |  |  |  |  |  |
 
 **接口异常:**
@@ -12326,6 +12726,8 @@
 | ----- | ------ | ------ | ------ | ------ | ------ |
 | gateway|String|false|网关地址|IP|192.168.5.5|
 | mtu|String|false|mtu|10-1000|1500|
+| dnsServer|String|false|域名服务器|IP地址|192.168.5.5|
+| dhcp|String|false|DHCP地址|IP|192.168.5.5|
 |  |  |  |  |  |
 
 **接口异常:**
@@ -12347,31 +12749,31 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 8.10 BindFip(绑定外网IP)
+## 8.10 CreateAddress(创建地址列表)
 
 **接口功能:**
-	适用于虚拟IP和浮动IP场景，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
+	创建地址列表，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
 
 **接口依赖:**
-	虚拟机网络存在，即已调用过CreateSwitch
+	
 
 **接口所属:**
-	com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.BindFip
+	com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.CreateAddress
 
 **参数描述:**
 
 | name | type | required | description | exampe |
 | ----- | ------ | ------ | ------ | ------ |
-| name | String | true | 资源名称 | bindFip.name.001|
-| bindFip | BindFip | true | 绑定外网IP | 详细见下 |
-| eventId | String | fasle | 事件ID | bindFip.event.001 |
+| name | String | true | 资源名称 | createAddress.name.001|
+| nodeName | String | false | 选择部署的物理机，可以通过kubernetes.nodes().list进行查询 | node22 |
+| createAddress | CreateAddress | true | 创建地址列表 | 详细见下 |
+| eventId | String | fasle | 事件ID | createAddress.event.001 |
 
-对象bindFip参数说明:
+对象createAddress参数说明:
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| vmmac|String|true|虚拟机mac地址|mac地址不能以fe开头|7e:0c:b0:ef:6a:04|
-| fip|String|true|外网IP|x.x.x.x,x取值范围0到255|192.168.5.2|
+| address|String|true|地址列表|IP以,分割|192.168.1.1，192.168.1.2|
 |  |  |  |  |  |
 
 **接口异常:**
@@ -12384,7 +12786,7 @@
 | IllegalFormatException | 传递的参数不符合约束条件    |
 | Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
 
-(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看BindFipspec下的status域，从message中获取详细异常信息
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看CreateAddressspec下的status域，从message中获取详细异常信息
 
 | name  | description | 
 | ----- | ----- | 
@@ -12393,30 +12795,29 @@
 | VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
 | Exception    | 后台代码异常退出,比如主机的hostname变化    |
 
-## 8.11 UnbindFip(解绑定外网IP)
+## 8.11 DeleteAddress(删除地址列表)
 
 **接口功能:**
-	适用于虚拟IP和浮动IP场景，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
+	删除地址列表，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
 
 **接口依赖:**
 	虚拟机网络存在，即已调用过CreateSwitch
 
 **接口所属:**
-	com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.UnbindFip
+	com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.DeleteAddress
 
 **参数描述:**
 
 | name | type | required | description | exampe |
 | ----- | ------ | ------ | ------ | ------ |
-| name | String | true | 资源名称 | unbindFip.name.001|
-| unbindFip | UnbindFip | true | 解绑定外网IP | 详细见下 |
-| eventId | String | fasle | 事件ID | unbindFip.event.001 |
+| name | String | true | 资源名称 | deleteAddress.name.001|
+| deleteAddress | DeleteAddress | true | 删除地址列表 | 详细见下 |
+| eventId | String | fasle | 事件ID | deleteAddress.event.001 |
 
-对象unbindFip参数说明:
+对象deleteAddress参数说明:
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| vmmac|String|true|虚拟机mac地址|mac地址不能以fe开头|7e:0c:b0:ef:6a:04|
 |  |  |  |  |  |
 
 **接口异常:**
@@ -12429,7 +12830,52 @@
 | IllegalFormatException | 传递的参数不符合约束条件    |
 | Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
 
-(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看UnbindFipspec下的status域，从message中获取详细异常信息
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看DeleteAddressspec下的status域，从message中获取详细异常信息
+
+| name  | description | 
+| ----- | ----- | 
+| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
+| VirtctlError | Libvirt不支持的生命周期    |
+| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
+| Exception    | 后台代码异常退出,比如主机的hostname变化    |
+
+## 8.12 ModifyAddress(修改地址列表)
+
+**接口功能:**
+	修改地址列表，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
+
+**接口依赖:**
+	
+
+**接口所属:**
+	com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.ModifyAddress
+
+**参数描述:**
+
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+| name | String | true | 资源名称 | modifyAddress.name.001|
+| modifyAddress | ModifyAddress | true | 修改地址列表 | 详细见下 |
+| eventId | String | fasle | 事件ID | modifyAddress.event.001 |
+
+对象modifyAddress参数说明:
+
+| name | type | required | description | constraint | example |
+| ----- | ------ | ------ | ------ | ------ | ------ |
+| address|String|true|地址列表|IP以,分割|192.168.1.1，192.168.1.2|
+|  |  |  |  |  |
+
+**接口异常:**
+
+(1)在调用本方法抛出;
+
+| name  | description | 
+| ----- | ----- | 
+| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
+| IllegalFormatException | 传递的参数不符合约束条件    |
+| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
+
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看ModifyAddressspec下的status域，从message中获取详细异常信息
 
 | name  | description | 
 | ----- | ----- | 
@@ -12452,6 +12898,12 @@
 		"additionalPrinterColumns":[],
 		"additionalProperties":{},
 		"data":{
+			"addressInfo":{
+				"_uuid":"String",
+				"addresses":"String",
+				"external_ids":"String",
+				"name":"String"
+			},
 			"bridgeInfo":{
 				"name":"String",
 				"ports":[
@@ -12553,20 +13005,22 @@
 			}
 		},
 		"lifecycle":{
-			"bindFip":{
-				"fip":"String",
-				"vmmac":"String"
-			},
 			"bindPortVlan":{
 				"domain":"String",
 				"mac":"String",
 				"vlan":"String"
+			},
+			"createAddress":{
+				"address":"String"
 			},
 			"createBridge":{
 				"nic":"String",
 				"vlan":"String"
 			},
 			"createSwitch":{
+				"bridge":"String",
+				"dhcp":"String",
+				"dnsServer":"String",
 				"excludeIPs":"String",
 				"gateway":"String",
 				"mtu":"String",
@@ -12575,19 +13029,24 @@
 			"delBridgeVlan":{
 				
 			},
+			"deleteAddress":{},
 			"deleteBridge":{
 				"nic":"String"
 			},
-			"deleteSwitch":{},
+			"deleteSwitch":{
+				"bridge":"String"
+			},
+			"modifyAddress":{
+				
+			},
 			"modifySwitch":{
+				"dhcp":"String",
+				"dnsServer":"String",
 				"gateway":"String",
 				"mtu":"String"
 			},
 			"setBridgeVlan":{
 				"vlan":"String"
-			},
-			"unbindFip":{
-				"vmmac":"String"
 			},
 			"unbindPortVlan":{
 				
@@ -12598,3 +13057,4 @@
 	}
 }
 ```
+
