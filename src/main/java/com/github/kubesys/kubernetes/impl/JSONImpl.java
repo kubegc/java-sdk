@@ -3,7 +3,6 @@
  */
 package com.github.kubesys.kubernetes.impl;
 
-import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.ArrayList;

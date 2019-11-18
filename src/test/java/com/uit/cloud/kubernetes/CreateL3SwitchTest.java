@@ -28,7 +28,7 @@ public class CreateL3SwitchTest {
 
 	protected static CreateSwitch get() {
 		CreateSwitch vxlan = new CreateSwitch();
-		vxlan.setSubnet("133.133.135.0/24");
+//		vxlan.setSubnet("133.133.135.0/24");
 		vxlan.setExcludeIPs("133.133.135.1..133.133.135.200");
 		vxlan.setGateway("133.133.135.40");
 		vxlan.setMtu("1480");

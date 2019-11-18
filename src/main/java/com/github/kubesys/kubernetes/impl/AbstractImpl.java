@@ -95,7 +95,7 @@ public abstract class AbstractImpl<R, S, T> {
 	 * @throws Exception        delete resource fail
 	 */
 	@SuppressWarnings("unchecked")
-	protected boolean delete(HasMetadata object) throws Exception {
+	public boolean delete(HasMetadata object) throws Exception {
 		client.delete(object);
 		m_logger.log(Level.INFO, "delete " + type + " " 
 					+ object.getMetadata().getName() + " successful.");
@@ -401,9 +401,10 @@ public abstract class AbstractImpl<R, S, T> {
 		}
 
 		// t.setLifecycle(lifecycle)
-		
-		Method setLifecycle = t.getClass().getMethod("setLifecycle", lifecycle.getClass());
-		setLifecycle.invoke(t, lifecycle);
+		if (lifecycle != null) {
+			Method setLifecycle = t.getClass().getMethod("setLifecycle", lifecycle.getClass());
+			setLifecycle.invoke(t, lifecycle);
+		}
 		
 		return t;
 	}
