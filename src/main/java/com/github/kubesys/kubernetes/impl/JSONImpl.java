@@ -131,4 +131,10 @@ public class JSONImpl implements ParameterNamespaceListVisitFromServerGetDeleteR
 		return null;
 	}
 
+	@Override
+	public Object withPropagationPolicy(String propagationPolicy) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 }
