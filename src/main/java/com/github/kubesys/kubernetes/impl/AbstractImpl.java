@@ -52,19 +52,18 @@ public abstract class AbstractImpl<R, S, T> {
 	 * client
 	 */
 	@SuppressWarnings("rawtypes")
-	protected final MixedOperation client;
+	protected MixedOperation client;
 	
 	/**
 	 * resource type
 	 */
-	protected final String type;
+	protected String type;
 
 	/**
 	 * @param client         the client can manage the lifecyle of the specified 
 	 * @param type           resource type, such as VirtualMachine, VirtualMachinePool
 	 */
 	public AbstractImpl() {
-		super();
 		String classname = getClass().getSimpleName();
 		this.type = classname.substring(0, classname.length() - "Impl".length());
 		this.client = ExtendedKubernetesClient.crdClients.get(type);
