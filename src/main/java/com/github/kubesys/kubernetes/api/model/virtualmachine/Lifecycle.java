@@ -757,6 +757,8 @@ public class Lifecycle {
 
 		protected String domain;
 
+		@ParameterDescriber(required = true, description = "目标主机服务地址", constraint = "目标主机的服务url", example = "133.133.135.31")
+		@Pattern(regexp = RegExpUtils.IP_PATTERN)
 		protected String desturi;
 
 		protected Boolean abort_on_error;
