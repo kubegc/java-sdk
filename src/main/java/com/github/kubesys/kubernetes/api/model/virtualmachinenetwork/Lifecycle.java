@@ -399,7 +399,7 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class CreateBridge {
 		
-		@ParameterDescriber(required = true, description = "被接管的网卡", constraint = "名称是字符串类型，长度是3到32位，只允许数字、小写字母、中划线、以及圆点", example = "l2bridge")
+		@ParameterDescriber(required = true, description = "被接管的网卡", constraint = "名称是字符串类型，长度是3到12位，只允许数字、小写字母、中划线、以及圆点", example = "l2bridge")
 		@Pattern(regexp = RegExpUtils.NIC_PATTERN)
 		protected String nic;
 		
@@ -429,7 +429,7 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class DeleteBridge {
 		
-		@ParameterDescriber(required = true, description = "被接管的网卡", constraint = "名称是字符串类型，长度是3到32位，只允许数字、小写字母、中划线、以及圆点", example = "l2bridge")
+		@ParameterDescriber(required = true, description = "被接管的网卡", constraint = "名称是字符串类型，长度是3到12位，只允许数字、小写字母、中划线、以及圆点", example = "l2bridge")
 		@Pattern(regexp = RegExpUtils.NIC_PATTERN)
 		protected String nic;
 		
