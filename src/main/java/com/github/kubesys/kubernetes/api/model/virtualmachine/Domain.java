@@ -8039,18 +8039,26 @@ public class Domain {
 			
 			protected String _type;
 			
-			protected Listen listen;
+			protected String listen;
 			
-			public Listen getListen() {
-				return listen;
-			}
-
-			public void setListen(Listen listen) {
-				this.listen = listen;
-			}
+//			public Listen getListen() {
+//				return listen;
+//			}
+//
+//			public void setListen(Listen listen) {
+//				this.listen = listen;
+//			}
 
 			public String get_listen() {
 				return _listen;
+			}
+
+			public String getListen() {
+				return listen;
+			}
+
+			public void setListen(String listen) {
+				this.listen = listen;
 			}
 
 			public void set_listen(String _listen) {
