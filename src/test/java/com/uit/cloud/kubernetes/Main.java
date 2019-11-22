@@ -11,23 +11,23 @@ public class Main {
 			"    \"apiVersion\": \"cloudplus.io/v1alpha3\",\r\n" + 
 			"    \"kind\": \"VirtualMachine\",\r\n" + 
 			"    \"metadata\": {\r\n" + 
-			"        \"creationTimestamp\": \"2019-11-22T00:33:21Z\",\r\n" + 
+			"        \"creationTimestamp\": \"2019-11-22T00:37:22Z\",\r\n" + 
 			"        \"generation\": 1,\r\n" + 
 			"        \"labels\": {\r\n" + 
 			"            \"host\": \"vm.worker1\"\r\n" + 
 			"        },\r\n" + 
-			"        \"name\": \"gzhu1\",\r\n" + 
+			"        \"name\": \"gzhu4\",\r\n" + 
 			"        \"namespace\": \"default\",\r\n" + 
-			"        \"resourceVersion\": \"3828\",\r\n" + 
-			"        \"selfLink\": \"/apis/cloudplus.io/v1alpha3/namespaces/default/virtualmachines/gzhu1\",\r\n" + 
-			"        \"uid\": \"afb0f866-0cbf-11ea-869c-108184003a14\"\r\n" + 
+			"        \"resourceVersion\": \"4126\",\r\n" + 
+			"        \"selfLink\": \"/apis/cloudplus.io/v1alpha3/namespaces/default/virtualmachines/gzhu4\",\r\n" + 
+			"        \"uid\": \"3f5ea1ae-0cc0-11ea-869c-108184003a14\"\r\n" + 
 			"    },\r\n" + 
 			"    \"spec\": {\r\n" + 
 			"        \"description\": {\r\n" + 
-			"            \"lastOperationTimeStamp\": 1574382801403\r\n" + 
+			"            \"lastOperationTimeStamp\": 1574383042467\r\n" + 
 			"        },\r\n" + 
 			"        \"domain\": {\r\n" + 
-			"            \"_id\": 22,\r\n" + 
+			"            \"_id\": 21,\r\n" + 
 			"            \"_type\": \"kvm\",\r\n" + 
 			"            \"clock\": {\r\n" + 
 			"                \"_offset\": \"utc\"\r\n" + 
@@ -85,18 +85,18 @@ public class Main {
 			"                            \"_name\": \"net0\"\r\n" + 
 			"                        },\r\n" + 
 			"                        \"mac\": {\r\n" + 
-			"                            \"_address\": \"00:00:00:00:00:01\"\r\n" + 
+			"                            \"_address\": \"00:00:00:00:00:03\"\r\n" + 
 			"                        },\r\n" + 
 			"                        \"model\": {\r\n" + 
 			"                            \"_type\": \"virtio\"\r\n" + 
 			"                        },\r\n" + 
 			"                        \"source\": {\r\n" + 
 			"                            \"_mode\": \"client\",\r\n" + 
-			"                            \"_path\": \"/usr/local/var/run/openvswitch/vhost-user1\",\r\n" + 
+			"                            \"_path\": \"/usr/local/var/run/openvswitch/vhost-user3\",\r\n" + 
 			"                            \"_type\": \"unix\"\r\n" + 
 			"                        },\r\n" + 
 			"                        \"target\": {\r\n" + 
-			"                            \"_dev\": \"vhost-user1\"\r\n" + 
+			"                            \"_dev\": \"vhost-user3\"\r\n" + 
 			"                        }\r\n" + 
 			"                    },\r\n" + 
 			"                    {\r\n" + 
@@ -112,7 +112,7 @@ public class Main {
 			"                            \"_name\": \"net1\"\r\n" + 
 			"                        },\r\n" + 
 			"                        \"mac\": {\r\n" + 
-			"                            \"_address\": \"52:54:00:23:f4:b8\"\r\n" + 
+			"                            \"_address\": \"52:54:00:ff:78:3a\"\r\n" + 
 			"                        },\r\n" + 
 			"                        \"model\": {\r\n" + 
 			"                            \"_type\": \"virtio\"\r\n" + 
@@ -122,19 +122,19 @@ public class Main {
 			"                            \"_mode\": \"bridge\"\r\n" + 
 			"                        },\r\n" + 
 			"                        \"target\": {\r\n" + 
-			"                            \"_dev\": \"macvtap1\"\r\n" + 
+			"                            \"_dev\": \"macvtap3\"\r\n" + 
 			"                        }\r\n" + 
 			"                    }\r\n" + 
 			"                ],\r\n" + 
 			"                \"console\": [\r\n" + 
 			"                    {\r\n" + 
-			"                        \"_tty\": \"/dev/pts/3\",\r\n" + 
+			"                        \"_tty\": \"/dev/pts/11\",\r\n" + 
 			"                        \"_type\": \"pty\",\r\n" + 
 			"                        \"alias\": {\r\n" + 
 			"                            \"_name\": \"serial0\"\r\n" + 
 			"                        },\r\n" + 
 			"                        \"source\": {\r\n" + 
-			"                            \"_path\": \"/dev/pts/3\"\r\n" + 
+			"                            \"_path\": \"/dev/pts/11\"\r\n" + 
 			"                        },\r\n" + 
 			"                        \"target\": {\r\n" + 
 			"                            \"_port\": 0,\r\n" + 
@@ -363,7 +363,7 @@ public class Main {
 			"                            \"_type\": \"qcow2\"\r\n" + 
 			"                        },\r\n" + 
 			"                        \"source\": {\r\n" + 
-			"                            \"_file\": \"/var/lib/libvirt/images/gzhu1.qcow2\"\r\n" + 
+			"                            \"_file\": \"/var/lib/libvirt/images/gzhu4.qcow2\"\r\n" + 
 			"                        },\r\n" + 
 			"                        \"target\": {\r\n" + 
 			"                            \"_bus\": \"scsi\",\r\n" + 
@@ -397,7 +397,7 @@ public class Main {
 			"                    {\r\n" + 
 			"                        \"_autoport\": \"yes\",\r\n" + 
 			"                        \"_listen\": \"127.0.0.1\",\r\n" + 
-			"                        \"_port\": 5902,\r\n" + 
+			"                        \"_port\": 5904,\r\n" + 
 			"                        \"_type\": \"vnc\",\r\n" + 
 			"                        \"listen\": {\r\n" + 
 			"                            \"_address\": \"127.0.0.1\",\r\n" + 
@@ -438,7 +438,7 @@ public class Main {
 			"                            \"_name\": \"serial0\"\r\n" + 
 			"                        },\r\n" + 
 			"                        \"source\": {\r\n" + 
-			"                            \"_path\": \"/dev/pts/3\"\r\n" + 
+			"                            \"_path\": \"/dev/pts/11\"\r\n" + 
 			"                        },\r\n" + 
 			"                        \"target\": {\r\n" + 
 			"                            \"_port\": 0,\r\n" + 
@@ -492,7 +492,7 @@ public class Main {
 			"                }\r\n" + 
 			"            },\r\n" + 
 			"            \"name\": {\r\n" + 
-			"                \"text\": \"gzhu1\"\r\n" + 
+			"                \"text\": \"gzhu4\"\r\n" + 
 			"            },\r\n" + 
 			"            \"on_crash\": {\r\n" + 
 			"                \"text\": \"restart\"\r\n" + 
@@ -515,7 +515,7 @@ public class Main {
 			"                    \"text\": \"/usr/share/AAVMF/AAVMF_CODE.fd\"\r\n" + 
 			"                },\r\n" + 
 			"                \"nvram\": {\r\n" + 
-			"                    \"text\": \"/var/lib/libvirt/qemu/nvram/gzhu1_VARS.fd\"\r\n" + 
+			"                    \"text\": \"/var/lib/libvirt/qemu/nvram/gzhu4_VARS.fd\"\r\n" + 
 			"                },\r\n" + 
 			"                \"type\": {\r\n" + 
 			"                    \"_arch\": \"aarch64\",\r\n" + 
@@ -542,7 +542,7 @@ public class Main {
 			"                }\r\n" + 
 			"            ],\r\n" + 
 			"            \"uuid\": {\r\n" + 
-			"                \"text\": \"3be24b64-e092-4dd5-b1e5-a88e3be9776c\"\r\n" + 
+			"                \"text\": \"6be24b64-e092-4dd5-b1e5-a88e3be9776c\"\r\n" + 
 			"            },\r\n" + 
 			"            \"vcpu\": {\r\n" + 
 			"                \"_placement\": \"static\",\r\n" + 
@@ -561,7 +561,8 @@ public class Main {
 			"            }\r\n" + 
 			"        }\r\n" + 
 			"    }\r\n" + 
-			"}";
+			"}\r\n" + 
+			"";
 	
 	public static void main(String[] args) {
 		System.out.println(JSON.parseObject(VM, VirtualMachine.class));
