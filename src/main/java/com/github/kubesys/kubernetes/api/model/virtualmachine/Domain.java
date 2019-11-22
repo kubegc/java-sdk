@@ -11302,7 +11302,7 @@ public class Domain {
 
 			protected Alias alias;
 
-			protected String _model;
+//			protected String _model;
 
 			protected Target target;
 			
@@ -11405,13 +11405,13 @@ public class Domain {
 			 * Ignore the user setting, use 'lifecycle' to update VM's info
 			 *
 			 */
-			public void set_model(String _model) {
-				this._model = _model;
-			}
-
-			public String get_model() {
-				return this._model;
-			}
+//			public void set_model(String _model) {
+//				this._model = _model;
+//			}
+//
+//			public String get_model() {
+//				return this._model;
+//			}
 
 			@JsonInclude(JsonInclude.Include.NON_NULL)
 			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
