@@ -8039,13 +8039,23 @@ public class Domain {
 			
 			protected String _type;
 			
-			protected Listen listen;
+//			protected Listen listen;
 			
-			public Listen getListen() {
+			protected String listen;
+			
+//			public Listen getListen() {
+//				return listen;
+//			}
+//
+//			public void setListen(Listen listen) {
+//				this.listen = listen;
+//			}
+
+			public String getListen() {
 				return listen;
 			}
 
-			public void setListen(Listen listen) {
+			public void setListen(String listen) {
 				this.listen = listen;
 			}
 
@@ -9216,6 +9226,10 @@ public class Domain {
 			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Source {
 				
+				protected String _type;
+				
+				protected String _dev;
+				
 				protected String _path;
 				
 				protected String _mode;
@@ -9223,6 +9237,23 @@ public class Domain {
 				protected String _bridge;
 				
 				protected String _network;
+
+				
+				public String get_type() {
+					return _type;
+				}
+
+				public void set_type(String _type) {
+					this._type = _type;
+				}
+
+				public String get_dev() {
+					return _dev;
+				}
+
+				public void set_dev(String _dev) {
+					this._dev = _dev;
+				}
 
 				public String get_path() {
 					return _path;
@@ -11275,7 +11306,7 @@ public class Domain {
 
 			protected Target target;
 			
-			protected Model model;
+			protected String model;
 
 			public Target getTarget() {
 				return target;
@@ -11285,16 +11316,25 @@ public class Domain {
 				this.target = target;
 			}
 
-			public Model getModel() {
+//			public Model getModel() {
+//				return model;
+//			}
+//
+//			public void setModel(Model model) {
+//				this.model = model;
+//			}
+
+			
+			public Master getMaster() {
+				return master;
+			}
+
+			public String getModel() {
 				return model;
 			}
 
-			public void setModel(Model model) {
+			public void setModel(String model) {
 				this.model = model;
-			}
-
-			public Master getMaster() {
-				return master;
 			}
 
 			public void setMaster(Master master) {
@@ -11377,7 +11417,17 @@ public class Domain {
 			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Model {
 
+				protected String model;
+				
 				protected String _name;
+
+				public String getModel() {
+					return model;
+				}
+
+				public void setModel(String model) {
+					this.model = model;
+				}
 
 				public String get_name() {
 					return _name;
