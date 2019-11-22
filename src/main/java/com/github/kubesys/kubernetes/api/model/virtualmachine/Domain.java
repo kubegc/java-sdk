@@ -9216,20 +9216,25 @@ public class Domain {
 			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Source {
 				
+				protected String _path;
+				
 				protected String _mode;
 
 				protected String _bridge;
 				
 				protected String _network;
-				
-				public Source() {
 
+				public String get_path() {
+					return _path;
+				}
+
+				public void set_path(String _path) {
+					this._path = _path;
 				}
 
 				public String get_mode() {
 					return _mode;
 				}
-
 
 				public void set_mode(String _mode) {
 					this._mode = _mode;
