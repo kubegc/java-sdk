@@ -78,7 +78,7 @@ public abstract class AbstractImpl<R, S, T> {
 	 * @throws Exception       create resource fail
 	 */
 	@SuppressWarnings("unchecked")
-	protected boolean create(HasMetadata object) throws Exception {
+	public boolean create(HasMetadata object) throws Exception {
 		client.create(object);
 		m_logger.log(Level.INFO, "create "+ type + " "
 					+ object.getMetadata().getName() + " successful.");
@@ -111,7 +111,7 @@ public abstract class AbstractImpl<R, S, T> {
 	 * @throws Exception         update resource fail
 	 */
 	@SuppressWarnings("unchecked")
-	protected boolean update(HasMetadata object) throws Exception {
+	public boolean update(HasMetadata object) throws Exception {
 		client.createOrReplace(object);
 		m_logger.log(Level.INFO, type + ": update " 
 					+ object.getMetadata().getName() + " successful.");
