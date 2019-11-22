@@ -8039,23 +8039,13 @@ public class Domain {
 			
 			protected String _type;
 			
-//			protected Listen listen;
+			protected Listen listen;
 			
-			protected String listen;
-			
-//			public Listen getListen() {
-//				return listen;
-//			}
-//
-//			public void setListen(Listen listen) {
-//				this.listen = listen;
-//			}
-
-			public String getListen() {
+			public Listen getListen() {
 				return listen;
 			}
 
-			public void setListen(String listen) {
+			public void setListen(Listen listen) {
 				this.listen = listen;
 			}
 
@@ -11306,7 +11296,7 @@ public class Domain {
 
 			protected Target target;
 			
-			protected String model;
+			protected Model model;
 
 			public Target getTarget() {
 				return target;
@@ -11316,25 +11306,16 @@ public class Domain {
 				this.target = target;
 			}
 
-//			public Model getModel() {
-//				return model;
-//			}
-//
-//			public void setModel(Model model) {
-//				this.model = model;
-//			}
-
-			
-			public Master getMaster() {
-				return master;
-			}
-
-			public String getModel() {
+			public Model getModel() {
 				return model;
 			}
 
-			public void setModel(String model) {
+			public void setModel(Model model) {
 				this.model = model;
+			}
+
+			public Master getMaster() {
+				return master;
 			}
 
 			public void setMaster(Master master) {
