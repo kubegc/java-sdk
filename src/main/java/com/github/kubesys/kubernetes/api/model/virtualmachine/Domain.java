@@ -8039,23 +8039,13 @@ public class Domain {
 			
 			protected String _type;
 			
-//			protected Listen listen;
+			protected Listen listen;
 			
-			protected String listen;
-			
-//			public Listen getListen() {
-//				return listen;
-//			}
-//
-//			public void setListen(Listen listen) {
-//				this.listen = listen;
-//			}
-
-			public String getListen() {
+			public Listen getListen() {
 				return listen;
 			}
 
-			public void setListen(String listen) {
+			public void setListen(Listen listen) {
 				this.listen = listen;
 			}
 
@@ -11302,12 +11292,12 @@ public class Domain {
 
 			protected Alias alias;
 
-//			protected String _model;
+			protected String _model;
 
 			protected Target target;
 			
-			protected String model;
-
+			protected Model model;
+			
 			public Target getTarget() {
 				return target;
 			}
@@ -11316,25 +11306,16 @@ public class Domain {
 				this.target = target;
 			}
 
-//			public Model getModel() {
-//				return model;
-//			}
-//
-//			public void setModel(Model model) {
-//				this.model = model;
-//			}
-
-			
-			public Master getMaster() {
-				return master;
-			}
-
-			public String getModel() {
+			public Model getModel() {
 				return model;
 			}
 
-			public void setModel(String model) {
+			public void setModel(Model model) {
 				this.model = model;
+			}
+
+			public Master getMaster() {
+				return master;
 			}
 
 			public void setMaster(Master master) {
@@ -11405,13 +11386,13 @@ public class Domain {
 			 * Ignore the user setting, use 'lifecycle' to update VM's info
 			 *
 			 */
-//			public void set_model(String _model) {
-//				this._model = _model;
-//			}
-//
-//			public String get_model() {
-//				return this._model;
-//			}
+			public void set_model(String _model) {
+				this._model = _model;
+			}
+
+			public String get_model() {
+				return this._model;
+			}
 
 			@JsonInclude(JsonInclude.Include.NON_NULL)
 			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
