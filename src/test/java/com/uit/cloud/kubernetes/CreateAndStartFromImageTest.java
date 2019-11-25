@@ -23,7 +23,7 @@ public class CreateAndStartFromImageTest {
 		CreateAndStartVMFromImage createAndStartVMFromImage = get();
 		// name
 		boolean successful = client.virtualMachines()
-				.createAndStartVMFromImage("350646e8c17a49d0b83c1c797811a081",
+				.createAndStartVMFromImage("350646e8c17a49d0b83c1c797811a022",
 						"vm.leader", createAndStartVMFromImage);
 		System.out.println(successful);
 	}
@@ -33,7 +33,7 @@ public class CreateAndStartFromImageTest {
 		
 		CreateAndStartVMFromImage createAndStartVMFromImage = new CreateAndStartVMFromImage();
 		// default value
-		createAndStartVMFromImage.setMetadata("uuid=350646e8-c17a-49d0-b83c-1c797a11e080");
+		createAndStartVMFromImage.setMetadata("uuid=350646e8-c17a-49d0-b83c-1c797a11e020");
 		createAndStartVMFromImage.setVirt_type("kvm");
 		// @see https://github.com/uit-plus/api/blob/master/src/main/java/com/github/uitplus/utils/OSDistroUtils.java
 		createAndStartVMFromImage.setOs_variant("centos7.0");
@@ -47,7 +47,7 @@ public class CreateAndStartFromImageTest {
 		
 		createAndStartVMFromImage.setCdrom("/root/Kylin-4.0.2-server-sp2-17111109.Z1-marco-316kernel-arm64.qcow2");
 		// Disk and QoS for 1 disk and many disks
-		createAndStartVMFromImage.setDisk("ROOTDISK=/var/lib/libvirt/images/diskroot22,read_bytes_sec=1024000000,write_bytes_sec=1024000000");
+		createAndStartVMFromImage.setDisk("ROOTDISK=/var/lib/libvirt/images/diskroot11,read_bytes_sec=1024000000,write_bytes_sec=1024000000");
 		
 		/*
 		 * libivrt default bridge

@@ -1550,7 +1550,7 @@ public class Lifecycle {
 
 		@ParameterDescriber(required = true, description = "虚拟机磁盘，包括硬盘和光驱", constraint = "硬盘的约束：/var/lib/libvirt/images/test3.qcow2,target=hda,read_bytes_sec=1024000000,write_bytes_sec=1024000000，"
 				+ "光驱的约束：/opt/ISO/CentOS-7-x86_64-Minimal-1511.iso,device=cdrom,perms=ro，支持多个硬盘，第一个硬盘无需添加--disk，后续的需要", example = "/var/lib/libvirt/images/test3.qcow2,read_bytes_sec=1024000000,write_bytes_sec=1024000000 --disk /opt/ISO/CentOS-7-x86_64-Minimal-1511.iso,device=cdrom,perms=ro")
-		@Pattern(regexp = RegExpUtils.MUTI_DISKS_PATTERN)
+//		@Pattern(regexp = RegExpUtils.MUTI_DISKS_PATTERN)
 		protected String disk;
 
 		protected String memorybacking;

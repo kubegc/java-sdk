@@ -8026,7 +8026,7 @@
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| type|String|true|存储池的类型|只能是dir，uraid，uus，nfs，glusterfs之一|dir|
+| type|String|true|存储池的类型|只能是dir，vdiskfs，uus，nfs，glusterfs之一|dir|
 | delete_snapshots|Boolean|false|删除所有快照|true或者false|true|
 | pool|String|true|云盘所在的存储池名|已创建出的存储池|pool2|
 |  |  |  |  |  |
@@ -8073,7 +8073,7 @@
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| type|String|true|存储池的类型|只能是dir，uraid，nfs，glusterfs之一|dir|
+| type|String|true|存储池的类型|只能是dir，vdiskfs，nfs，glusterfs之一|dir|
 | pool|String|true|云盘所在的存储池名|已创建出的存储池|pool2|
 | capacity|String|true|扩容后的云盘空间大小, 1G到1T|1000000000-999999999999（单位：Byte），需要比以前的云盘空间大|‭10,737,418,240‬|
 |  |  |  |  |  |
@@ -8121,7 +8121,7 @@
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| type|String|true|存储池的类型|只能是dir，uraid，uus，nfs，glusterfs之一|dir|
+| type|String|true|存储池的类型|只能是dir，vdiskfs，uus，nfs，glusterfs之一|dir|
 | backing_vol_format|String|true|根云盘文件的类型|qcow2|qcow2|
 | format|String|true|云盘文件的类型|qcow2|qcow2|
 | pool|String|true|创建云盘使用的存储池名|已创建出的存储池|pool2|
@@ -8172,7 +8172,7 @@
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| type|String|true|存储池的类型|只能是dir，uraid，nfs，glusterfs之一|dir|
+| type|String|true|存储池的类型|只能是dir，vdiskfs，nfs，glusterfs之一|dir|
 | targetPool|String|true|目标存储池名|由4-100位的数字和小写字母组成，已创建出的存储池|pool2|
 | source|String|true|云盘镜像的路径|路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点|/var/lib/libvirt/test.qcow2|
 |  |  |  |  |  |
@@ -8219,7 +8219,7 @@
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| type|String|true|存储池的类型|只能是dir, uraid，nfs，glusterfs之一|dir|
+| type|String|true|存储池的类型|只能是dir, vdiskfs，nfs，glusterfs之一|dir|
 | pool|String|true|云盘所在的存储池名|由4-100位的数字和小写字母组成，已创建出的存储池|pool2|
 | newname|String|true|新云盘的名字|由4-100位的数字和小写字母组成|newdisk|
 | format|String|true|云盘文件的类型|qcow2|qcow2|
@@ -8268,7 +8268,7 @@
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| type|String|true|存储池的类型|只能是dir，nfs，glusterfs, uraid之一|dir|
+| type|String|true|存储池的类型|只能是dir，nfs，glusterfs, vdiskfs之一|dir|
 | pool|String|true|云盘所在的存储池名|由4-100位的数字和小写字母组成，已创建出的存储池|pool2|
 | snapshotname|String|true|快照的名字|由4-100位的数字和小写字母组成|snap1|
 |  |  |  |  |  |
@@ -8315,7 +8315,7 @@
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| type|String|true|存储池的类型|只能是dir, uraid，nfs，glusterfs之一|dir|
+| type|String|true|存储池的类型|只能是dir, vdiskfs，nfs，glusterfs之一|dir|
 | pool|String|true|云盘所在的存储池名|由4-100位的数字和小写字母组成，已创建出的存储池|pool2|
 | snapshotname|String|true|快照的名字|由4-100位的数字和小写字母组成|snap1|
 |  |  |  |  |  |
@@ -8362,7 +8362,7 @@
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| type|String|true|存储池的类型|只能是dir, uraid，nfs，glusterfs之一|dir|
+| type|String|true|存储池的类型|只能是dir, vdiskfs，nfs，glusterfs之一|dir|
 | pool|String|true|云盘所在的存储池名|由4-100位的数字和小写字母组成，已创建出的存储池|pool2|
 | snapshotname|String|true|快照的名字|由4-100位的数字和小写字母组成|snap1|
 |  |  |  |  |  |
@@ -8686,7 +8686,7 @@
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| type|String|true|存储池的类型|只能是dir，uraid，nfs，glusterfs之一|dir|
+| type|String|true|存储池的类型|只能是dir，vdiskfs，nfs，glusterfs之一|dir|
 | pool|String|true|云盘所在的存储池名|由4-100位的数字和小写字母组成，已创建出的存储池，只支持dir、nfs和glusterfs类型|pool2|
 | format|String|true|云盘文件的类型|qcow2|qcow2|
 | vol|String|true|云盘名|磁盘和快照|disk1|
@@ -8735,7 +8735,7 @@
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| type|String|true|存储池的类型|只能是dir，uraid，nfs，glusterfs之一|dir|
+| type|String|true|存储池的类型|只能是dir，vdiskfs，nfs，glusterfs之一|dir|
 | pool|String|true|云盘所在的存储池名|由4-100位的数字和小写字母组成，已创建出的存储池|pool2|
 | vol|String|true|云盘名|磁盘和快照|disk1|
 | format|String|true|云盘文件的类型|qcow2|qcow2|
@@ -8784,7 +8784,7 @@
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| type|String|true|存储池的类型|只能是dir，uraid，nfs，glusterfs之一|dir|
+| type|String|true|存储池的类型|只能是dir，vdiskfs，nfs，glusterfs之一|dir|
 | pool|String|true|云盘所在的存储池名|由4-100位的数字和小写字母组成，已创建出的存储池|pool2|
 | vol|String|true|云盘名|磁盘和快照|disk1|
 | domain|String|false|若该云盘加载到虚拟机内（包括系统盘、数据盘），并且虚拟机处于开机状态，则需要填写该虚拟机名，否则将报错Write lock|已存在的虚拟机名，由4-100位的数字和小写字母组成|950646e8c17a49d0b83c1c797811e001|
@@ -12041,7 +12041,7 @@
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| type|String|false|存储池的类型|只能是dir，uraid, nfs，glusterfs之一|dir|
+| type|String|false|存储池的类型|只能是dir，vdiskfs, nfs，glusterfs之一|dir|
 | disable|Boolean|true|修改存储池autostart状态|true或者false|true|
 |  |  |  |  |  |
 
@@ -12088,7 +12088,7 @@
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| type|String|true|存储池的类型|只能是dir，uus，nfs，glusterfs, uraid之一|dir|
+| type|String|true|存储池的类型|只能是dir，uus，nfs，glusterfs, vdiskfs之一|dir|
 | content|String|true|存储池的内容，用于标识存储池的用途|只能是vmd，vmdi，iso之一|vmd|
 | url|String|true|云存储池的url|建立云存储池时通过cstor-cli pool-list查询出的云存储池路径|uus-iscsi-independent://admin:admin@192.168.3.10:7000/p1/4/2/0/32/0/3|
 | opt|String|false|nfs挂载参数|当type为nfs类型时，nfs的挂载参数|nolock|
@@ -12137,7 +12137,7 @@
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| type|String|false|存储池的类型|只能是dir，uraid，nfs，glusterfs之一|dir|
+| type|String|false|存储池的类型|只能是dir，vdiskfs，nfs，glusterfs之一|dir|
 |  |  |  |  |  |
 
 **接口异常:**
@@ -12182,7 +12182,7 @@
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| type|String|false|存储池的类型|只能是dir，uraid，nfs，glusterfs之一|dir|
+| type|String|false|存储池的类型|只能是dir，vdiskfs，nfs，glusterfs之一|dir|
 |  |  |  |  |  |
 
 **接口异常:**
@@ -12227,7 +12227,7 @@
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| type|String|false|存储池的类型|只能是dir，uraid，uus，nfs，glusterfs, uraid之一|dir|
+| type|String|false|存储池的类型|只能是dir，vdiskfs，uus，nfs，glusterfs, vdiskfs之一|dir|
 |  |  |  |  |  |
 
 **接口异常:**

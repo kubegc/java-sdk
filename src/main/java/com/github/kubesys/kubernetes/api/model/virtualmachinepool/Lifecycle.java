@@ -129,7 +129,7 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class AutoStartPool {
 
-		@ParameterDescriber(required = false, description = "存储池的类型", constraint = "只能是dir，uraid, nfs，glusterfs之一", example = "dir")
+		@ParameterDescriber(required = false, description = "存储池的类型", constraint = "只能是dir，vdiskfs, nfs，glusterfs之一", example = "dir")
 		@Pattern(regexp = RegExpUtils.POOL_TYPE_NOT_SUPPORT_UUS)
 	    protected String type;
 
@@ -157,7 +157,7 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class CreatePool {
 
-		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，uus，nfs，glusterfs, uraid之一", example = "dir")
+		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，uus，nfs，glusterfs, vdiskfs之一", example = "dir")
 		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
 		protected String type;
 		
@@ -182,6 +182,12 @@ public class Lifecycle {
 
 		@ParameterDescriber(required = false, description = "创建存储池后是否设置为自动打开", constraint = "true或false", example = "true")
 		protected boolean autostart;
+
+		@ParameterDescriber(required = false, description = "创建nfs或glusterfs存储池时的挂载路径，不填则默认在/var/lib/libvirt/cstor目录下挂载", constraint = "/nfs/pool", example = "/nfs/pool")
+		protected String path;
+
+		@ParameterDescriber(required = false, description = "创建nfs或glusterfs存储池时的挂载路径，不填则默认在/var/lib/libvirt/cstor目录下挂载", constraint = "/nfs/pool", example = "/nfs/pool")
+		protected boolean force;
 
 //		@ParameterDescriber(required = true, description = "创建存储池使用的存储路径", constraint = "完整有效的存储路径", example = "/var/lib/libvirt/poolg")
 //		@Pattern(regexp = RegExpUtils.TARGET_PATTERN)
@@ -216,6 +222,22 @@ public class Lifecycle {
 		protected Boolean no_overwrite;
 		
 		protected Boolean overwrite;
+
+		public String getPath() {
+			return path;
+		}
+
+		public void setPath(String path) {
+			this.path = path;
+		}
+
+		public boolean getForce() {
+			return force;
+		}
+
+		public void setForce(boolean force) {
+			this.force = force;
+		}
 
 		public String getContent() {
 			return content;
@@ -608,7 +630,7 @@ public class Lifecycle {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class StartPool {
-		@ParameterDescriber(required = false, description = "存储池的类型", constraint = "只能是dir，uraid，nfs，glusterfs之一", example = "dir")
+		@ParameterDescriber(required = false, description = "存储池的类型", constraint = "只能是dir，vdiskfs，nfs，glusterfs之一", example = "dir")
 		@Pattern(regexp = RegExpUtils.POOL_TYPE_NOT_SUPPORT_UUS)
         protected String type;
 		
@@ -654,7 +676,7 @@ public class Lifecycle {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class StopPool {
-		@ParameterDescriber(required = false, description = "存储池的类型", constraint = "只能是dir，uraid，nfs，glusterfs之一", example = "dir")
+		@ParameterDescriber(required = false, description = "存储池的类型", constraint = "只能是dir，vdiskfs，nfs，glusterfs之一", example = "dir")
 		@Pattern(regexp = RegExpUtils.POOL_TYPE_NOT_SUPPORT_UUS)
         protected String type;
 
@@ -670,7 +692,7 @@ public class Lifecycle {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class DeletePool {
-		@ParameterDescriber(required = false, description = "存储池的类型", constraint = "只能是dir，uraid，uus，nfs，glusterfs, uraid之一", example = "dir")
+		@ParameterDescriber(required = false, description = "存储池的类型", constraint = "只能是dir，vdiskfs，uus，nfs，glusterfs, vdiskfs之一", example = "dir")
 		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
 		protected String type;
 
