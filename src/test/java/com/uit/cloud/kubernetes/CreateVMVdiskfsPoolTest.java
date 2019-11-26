@@ -15,7 +15,7 @@ import com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle;
  * @since   2019/9/3
  *
  */
-public class CreateVMUusPoolTest {
+public class CreateVMVdiskfsPoolTest {
 	
 	
 	public static void main(String[] args) throws Exception {
@@ -30,9 +30,9 @@ public class CreateVMUusPoolTest {
 		Lifecycle.CreatePool createPool = new Lifecycle.CreatePool();
 
 		// uus
-		createPool.setType("uus");
-		createPool.setUrl("192.168.3.100:p1");
-		createPool.setOpt("iscsi,username=admin,password=admin,port=7000");
+		createPool.setType("vdiskfs");
+		createPool.setUrl("local");
+		createPool.setContent("vmd");
 		return createPool;
 	}
 	
