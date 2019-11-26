@@ -186,8 +186,8 @@ public class Lifecycle {
 		@ParameterDescriber(required = false, description = "创建nfs或glusterfs存储池时的挂载路径，不填则默认在/var/lib/libvirt/cstor目录下挂载", constraint = "/nfs/pool", example = "/nfs/pool")
 		protected String path;
 
-		@ParameterDescriber(required = false, description = "创建nfs或glusterfs存储池时的挂载路径，不填则默认在/var/lib/libvirt/cstor目录下挂载", constraint = "/nfs/pool", example = "/nfs/pool")
-		protected boolean force;
+		@ParameterDescriber(required = false, description = "强力创建vdiskfs", constraint = "True", example = "/nfs/pool")
+		protected String force;
 
 //		@ParameterDescriber(required = true, description = "创建存储池使用的存储路径", constraint = "完整有效的存储路径", example = "/var/lib/libvirt/poolg")
 //		@Pattern(regexp = RegExpUtils.TARGET_PATTERN)
@@ -231,11 +231,11 @@ public class Lifecycle {
 			this.path = path;
 		}
 
-		public boolean getForce() {
+		public String getForce() {
 			return force;
 		}
 
-		public void setForce(boolean force) {
+		public void setForce(String force) {
 			this.force = force;
 		}
 
