@@ -369,6 +369,9 @@ public class Lifecycle {
 		@ParameterDescriber(required = true, description = "云盘镜像的路径", constraint = "路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点", example = "/var/lib/libvirt/test.qcow2")
 		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
 		protected String source;
+
+		@ParameterDescriber(required = false, description = "默认为从快照创建，true为全拷贝", constraint = "默认为从快照创建，true为全拷贝", example = "true")
+		protected boolean full_copy;
 		
 		public String getSource() {
 			return source;
@@ -394,6 +397,13 @@ public class Lifecycle {
 			this.targetPool = targetPool;
 		}
 
+		public boolean getFull_copy() {
+			return full_copy;
+		}
+
+		public void setFull_copy(boolean full_copy) {
+			this.full_copy = full_copy;
+		}
 	}
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)

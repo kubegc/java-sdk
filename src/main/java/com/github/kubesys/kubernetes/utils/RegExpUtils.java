@@ -30,7 +30,7 @@ public class RegExpUtils {
 	public final static String UUID_PATTERN = "uuid=[a-z0-9-.]{12,36}";
 	
 	@FieldDescriber("路径是字符串类型，长度是2到64位，只允许数字、小写字母、中划线、以及圆点")
-	public final static String PATH_PATTERN = "/var/lib/libvirt(/[a-z0-9-.]{2,64})*";
+	public final static String PATH_PATTERN = "(/var/lib/libvirt(/[a-z0-9-.]{2,64})*)|(/mnt/(localfs|usb)(/[a-z0-9-.]{2,64})*)";
 	
 	@FieldDescriber("名称是字符串类型，长度是6到128位，只允许数字、小写字母、中划线、以及圆点")
 	public final static String TARGET_PATTERN = "(" + NAME_PATTERN + ")|(" + PATH_PATTERN + ")";
