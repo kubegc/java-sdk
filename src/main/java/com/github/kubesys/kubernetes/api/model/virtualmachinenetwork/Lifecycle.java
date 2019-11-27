@@ -378,6 +378,10 @@ public class Lifecycle {
 		@ParameterDescriber(required = true, description = "vlan ID", constraint = "0~4094", example = "1")
 		@Pattern(regexp = RegExpUtils.VLAN_PATTERN)
 		protected String vlan;
+		
+		@ParameterDescriber(required = true, description = "桥接的名字", constraint = "桥接名，3到12位，只允许数字、小写字母、中划线", example = "l2bridge")
+		@Pattern(regexp = RegExpUtils.BRIDGE_PATTERN)
+		protected String name;
 
 		public String getVlan() {
 			return vlan;
@@ -385,6 +389,14 @@ public class Lifecycle {
 
 		public void setVlan(String vlan) {
 			this.vlan = vlan;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
 		}
 
 	}
@@ -402,6 +414,10 @@ public class Lifecycle {
 		@ParameterDescriber(required = true, description = "被接管的网卡", constraint = "名称是字符串类型，长度是3到12位，只允许数字、小写字母、中划线、以及圆点", example = "l2bridge")
 		@Pattern(regexp = RegExpUtils.NIC_PATTERN)
 		protected String nic;
+		
+		@ParameterDescriber(required = true, description = "桥接的名字", constraint = "桥接名，3到12位，只允许数字、小写字母、中划线", example = "l2bridge")
+		@Pattern(regexp = RegExpUtils.BRIDGE_PATTERN)
+		protected String name;
 		
 		@ParameterDescriber(required = false, description = "vlan ID", constraint = "0~4094", example = "1")
 		@Pattern(regexp = RegExpUtils.VLAN_PATTERN)
@@ -423,6 +439,14 @@ public class Lifecycle {
 			this.vlan = vlan;
 		}
 
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+		
 	}
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
@@ -433,12 +457,24 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.NIC_PATTERN)
 		protected String nic;
 		
+		@ParameterDescriber(required = true, description = "桥接的名字", constraint = "桥接名，3到12位，只允许数字、小写字母、中划线", example = "l2bridge")
+		@Pattern(regexp = RegExpUtils.BRIDGE_PATTERN)
+		protected String name;
+		
 		public String getNic() {
 			return nic;
 		}
 
 		public void setNic(String nic) {
 			this.nic = nic;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
 		}
 		
 	}
