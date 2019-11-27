@@ -56,7 +56,7 @@
 		</plugins>
 	</build>
 
-	<repositories><!-- 代码库 -->
+	<repositories>
 		<repository>
 			<id>maven-ali</id>
 			<url>http://maven.aliyun.com/nexus/content/groups/public//</url>
