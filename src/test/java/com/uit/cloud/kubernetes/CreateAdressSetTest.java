@@ -22,7 +22,7 @@ public class CreateAdressSetTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineNetworks()
-				.createAddress("wyw123", "vm.k8s-3", get());
+				.createAddress("www111", "vm.node30", get(), "123");
 		System.out.println(successful);
 	}
 

@@ -28,7 +28,8 @@ public class DeleteBridgeTest {
 
 	protected static DeleteBridge get() {
 		DeleteBridge deleteBridge = new DeleteBridge();
-//		deleteBridge.setNic("enp6s0f1");
+		deleteBridge.setNic("enp6s0f1");
+		deleteBridge.setName("wyw1");
 		return deleteBridge;
 	}
 }

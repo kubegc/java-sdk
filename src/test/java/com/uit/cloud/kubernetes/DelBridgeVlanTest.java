@@ -22,13 +22,14 @@ public class DelBridgeVlanTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineNetworks()
-				.delBridgeVlan("bridge1", get());
+				.delBridgeVlan("br-native", get());
 		System.out.println(successful);
 	}
 
 	protected static DelBridgeVlan get() {
 		DelBridgeVlan delBridgeVlan = new DelBridgeVlan();
 		delBridgeVlan.setVlan("1");
+		delBridgeVlan.setName("wyw1");
 		return delBridgeVlan;
 	}
 }

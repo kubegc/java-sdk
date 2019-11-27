@@ -22,13 +22,14 @@ public class SetBridgeVlanTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineNetworks()
-				.setBridgeVlan("bridge1", get());
+				.setBridgeVlan("br-native", get());
 		System.out.println(successful);
 	}
 
 	protected static SetBridgeVlan get() {
 		SetBridgeVlan setBridgeVlan = new SetBridgeVlan();
 		setBridgeVlan.setVlan("1");
+		setBridgeVlan.setName("wyw1");
 		return setBridgeVlan;
 	}
 }
