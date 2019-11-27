@@ -216,7 +216,7 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.SUBNET_PATTERN)
 		protected String subnet;
 
-		@ParameterDescriber(required = true, description = "DHCP地址", constraint = "IP", example = "192.168.5.5")
+		@ParameterDescriber(required = false, description = "DHCP地址", constraint = "IP", example = "192.168.5.5")
 		@Pattern(regexp = RegExpUtils.IP_PATTERN)
 		protected String dhcp;
 		
@@ -356,7 +356,7 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class DeleteSwitch {
 		
-		@ParameterDescriber(required = true, description = "网桥名", constraint = "网桥", example = "br-ex")
+		@ParameterDescriber(required = false, description = "网桥名", constraint = "网桥", example = "br-ex")
 		@Pattern(regexp = RegExpUtils.BRIDGE_PATTERN)
 		protected String bridge;
 
