@@ -70,7 +70,7 @@ public class Lifecycle {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class CreateDiskExternalSnapshot{
-		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，uraid，nfs，glusterfs之一", example = "dir")
+		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，vdiskfs，nfs，glusterfs之一", example = "dir")
 		@Pattern(regexp = RegExpUtils.POOL_TYPE_NOT_SUPPORT_UUS)
 		protected String type;
 
@@ -135,7 +135,7 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class RevertDiskExternalSnapshot {
 
-		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，uraid，nfs，glusterfs之一", example = "dir")
+		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，vdiskfs，nfs，glusterfs之一", example = "dir")
 		@Pattern(regexp = RegExpUtils.POOL_TYPE_NOT_SUPPORT_UUS)
 		protected String type;
 		
@@ -199,7 +199,7 @@ public class Lifecycle {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class DeleteDiskExternalSnapshot{
-		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，uraid，nfs，glusterfs之一", example = "dir")
+		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，vdiskfs，nfs，glusterfs之一", example = "dir")
 		@Pattern(regexp = RegExpUtils.POOL_TYPE_NOT_SUPPORT_UUS)
 		protected String type;
 

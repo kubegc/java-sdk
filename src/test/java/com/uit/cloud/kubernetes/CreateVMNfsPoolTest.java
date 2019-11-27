@@ -31,8 +31,9 @@ public class CreateVMNfsPoolTest {
 
 		// nfs
 		createPool.setType("nfs");
-		createPool.setUrl("nfs://192.168.3.99:/nfs/nfs");
+		createPool.setUrl("192.168.3.100:/nfs/nfs");
 		createPool.setOpt("nolock");
+		createPool.setContent("vmd");
 		return createPool;
 	}
 	

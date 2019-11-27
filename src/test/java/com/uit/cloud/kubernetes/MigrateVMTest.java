@@ -4,7 +4,8 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
-import com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.SuspendVM;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -15,25 +16,20 @@ import com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle;
  * @since   2019/9/3
  *
  */
-public class CreateVMGlusterfsPoolTest {
+public class MigrateVMTest {
 	
 	
 	public static void main(String[] args) throws Exception {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
-		boolean successful = client.virtualMachinePools()
-				.createPool("node35-pool1", "vm.node35", getPool(), "123");
+		boolean successful = client.virtualMachines()
+				.migrateVM("vm006", new Lifecycle.MigrateVM());
 		System.out.println(successful);
 	}
 
-	protected static Lifecycle.CreatePool getPool() {
-		Lifecycle.CreatePool createPool = new Lifecycle.CreatePool();
-		
-		// glusterfs
-		createPool.setType("glusterfs");
-		createPool.setUrl("192.168.3.100:nfsvol");
-		createPool.setContent("vmd");
-		return createPool;
+	public static Lifecycle.MigrateVM get() throws Exception {
+		Lifecycle.MigrateVM migrateVM = new Lifecycle.MigrateVM();
+		migrateVM.setDesturi("133.133.135.22");
+		return migrateVM;
 	}
-	
 }

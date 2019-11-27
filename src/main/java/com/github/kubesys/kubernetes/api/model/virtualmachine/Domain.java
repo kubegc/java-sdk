@@ -9215,14 +9215,52 @@ public class Domain {
 			@JsonInclude(JsonInclude.Include.NON_NULL)
 			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Source {
+				
+				protected String _type;
+				
+				protected String _dev;
+				
+				protected String _path;
+				
+				protected String _mode;
 
 				protected String _bridge;
 				
 				protected String _network;
-				
-				public Source() {
 
+				
+				public String get_type() {
+					return _type;
 				}
+
+				public void set_type(String _type) {
+					this._type = _type;
+				}
+
+				public String get_dev() {
+					return _dev;
+				}
+
+				public void set_dev(String _dev) {
+					this._dev = _dev;
+				}
+
+				public String get_path() {
+					return _path;
+				}
+
+				public void set_path(String _path) {
+					this._path = _path;
+				}
+
+				public String get_mode() {
+					return _mode;
+				}
+
+				public void set_mode(String _mode) {
+					this._mode = _mode;
+				}
+
 
 				public String get_bridge() {
 					return _bridge;
@@ -11259,7 +11297,7 @@ public class Domain {
 			protected Target target;
 			
 			protected Model model;
-
+			
 			public Target getTarget() {
 				return target;
 			}
@@ -11360,7 +11398,17 @@ public class Domain {
 			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Model {
 
+				protected String model;
+				
 				protected String _name;
+
+				public String getModel() {
+					return model;
+				}
+
+				public void setModel(String model) {
+					this.model = model;
+				}
 
 				public String get_name() {
 					return _name;
