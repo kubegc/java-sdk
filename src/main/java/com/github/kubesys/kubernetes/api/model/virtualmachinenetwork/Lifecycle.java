@@ -216,7 +216,7 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.SUBNET_PATTERN)
 		protected String subnet;
 
-		@ParameterDescriber(required = true, description = "DHCP地址", constraint = "IP", example = "192.168.5.5")
+		@ParameterDescriber(required = false, description = "DHCP地址", constraint = "IP", example = "192.168.5.5")
 		@Pattern(regexp = RegExpUtils.IP_PATTERN)
 		protected String dhcp;
 		
@@ -229,7 +229,7 @@ public class Lifecycle {
 		protected String mtu;
 		
 		@ParameterDescriber(required = false, description = "网桥名", constraint = "网桥", example = "br-ex")
-		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		@Pattern(regexp = RegExpUtils.BRIDGE_PATTERN)
 		protected String bridge;
 		
 		@ParameterDescriber(required = false, description = "IP列表黑名单", constraint = "单个IP之间通过空格分开，IP范围使用..分开", example = "192.168.5.2 192.168.5.10..192.168.5.100")
@@ -356,8 +356,8 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class DeleteSwitch {
 		
-		@ParameterDescriber(required = true, description = "网桥名", constraint = "网桥", example = "br-ex")
-		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		@ParameterDescriber(required = false, description = "网桥名", constraint = "网桥", example = "br-ex")
+		@Pattern(regexp = RegExpUtils.BRIDGE_PATTERN)
 		protected String bridge;
 
 		public String getBridge() {
@@ -378,6 +378,10 @@ public class Lifecycle {
 		@ParameterDescriber(required = true, description = "vlan ID", constraint = "0~4094", example = "1")
 		@Pattern(regexp = RegExpUtils.VLAN_PATTERN)
 		protected String vlan;
+		
+		@ParameterDescriber(required = true, description = "桥接的名字", constraint = "桥接名，3到12位，只允许数字、小写字母、中划线", example = "l2bridge")
+		@Pattern(regexp = RegExpUtils.BRIDGE_PATTERN)
+		protected String name;
 
 		public String getVlan() {
 			return vlan;
@@ -385,6 +389,14 @@ public class Lifecycle {
 
 		public void setVlan(String vlan) {
 			this.vlan = vlan;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
 		}
 
 	}
@@ -402,6 +414,10 @@ public class Lifecycle {
 		@ParameterDescriber(required = true, description = "被接管的网卡", constraint = "名称是字符串类型，长度是3到12位，只允许数字、小写字母、中划线、以及圆点", example = "l2bridge")
 		@Pattern(regexp = RegExpUtils.NIC_PATTERN)
 		protected String nic;
+		
+		@ParameterDescriber(required = true, description = "桥接的名字", constraint = "桥接名，3到12位，只允许数字、小写字母、中划线", example = "l2bridge")
+		@Pattern(regexp = RegExpUtils.BRIDGE_PATTERN)
+		protected String name;
 		
 		@ParameterDescriber(required = false, description = "vlan ID", constraint = "0~4094", example = "1")
 		@Pattern(regexp = RegExpUtils.VLAN_PATTERN)
@@ -423,6 +439,14 @@ public class Lifecycle {
 			this.vlan = vlan;
 		}
 
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+		
 	}
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
@@ -433,12 +457,24 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.NIC_PATTERN)
 		protected String nic;
 		
+		@ParameterDescriber(required = true, description = "桥接的名字", constraint = "桥接名，3到12位，只允许数字、小写字母、中划线", example = "l2bridge")
+		@Pattern(regexp = RegExpUtils.BRIDGE_PATTERN)
+		protected String name;
+		
 		public String getNic() {
 			return nic;
 		}
 
 		public void setNic(String nic) {
 			this.nic = nic;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
 		}
 		
 	}
