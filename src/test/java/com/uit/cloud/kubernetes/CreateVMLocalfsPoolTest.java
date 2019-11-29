@@ -15,7 +15,7 @@ import com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle;
  * @since   2019/9/3
  *
  */
-public class CreateVMDirPoolTest {
+public class CreateVMLocalfsPoolTest {
 	
 	
 	public static void main(String[] args) throws Exception {
