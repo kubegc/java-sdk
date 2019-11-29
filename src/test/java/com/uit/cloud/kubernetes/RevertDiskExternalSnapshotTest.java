@@ -28,7 +28,7 @@ public class RevertDiskExternalSnapshotTest {
 
 	protected static RevertDiskExternalSnapshot get() {
 		RevertDiskExternalSnapshot revertDiskExternalSnapshot = new RevertDiskExternalSnapshot();
-		revertDiskExternalSnapshot.setType("dir");
+		revertDiskExternalSnapshot.setType("localfs");
 		revertDiskExternalSnapshot.setPool("pooluittest");
 		revertDiskExternalSnapshot.setVol("diskuittest");
 		revertDiskExternalSnapshot.setFormat("qcow2");

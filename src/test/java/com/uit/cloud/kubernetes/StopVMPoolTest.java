@@ -28,7 +28,7 @@ public class StopVMPoolTest {
 
 	protected static Lifecycle.StopPool getPool() {
 		Lifecycle.StopPool stopPool = new Lifecycle.StopPool();
-		stopPool.setType("dir");
+		stopPool.setType("localfs");
 		return stopPool;
 	}
 	

@@ -28,7 +28,7 @@ public class DeleteVMPoolTest {
 
 	protected static Lifecycle.DeletePool getPool() {
 		Lifecycle.DeletePool deletePool = new Lifecycle.DeletePool();
-		deletePool.setType("dir");
+		deletePool.setType("localfs");
 		return deletePool;
 	}
 	

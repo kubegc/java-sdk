@@ -29,7 +29,7 @@ public class CloneDiskTest {
 	public static CloneDisk getCreateDisk() {
 		CloneDisk createDisk = new CloneDisk();
 		createDisk.setPool("pooluittest");
-		createDisk.setType("dir");
+		createDisk.setType("localfs");
 		createDisk.setNewname("diskuittestclone1");
 		createDisk.setFormat("qcow2");
 		return createDisk;

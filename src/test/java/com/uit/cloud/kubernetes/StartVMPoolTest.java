@@ -28,7 +28,7 @@ public class StartVMPoolTest {
 
 	protected static Lifecycle.StartPool getPool() {
 		Lifecycle.StartPool startPool = new Lifecycle.StartPool();
-        startPool.setType("dir");
+        startPool.setType("localfs");
 		return startPool;
 	}
 	

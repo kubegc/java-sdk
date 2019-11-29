@@ -28,7 +28,7 @@ public class ResizeDiskTest {
 
 	protected static ResizeDisk get() {
 		ResizeDisk resizeDisk = new ResizeDisk();
-		resizeDisk.setType("dir");
+		resizeDisk.setType("localfs");
 		resizeDisk.setCapacity("21737418240");
 		resizeDisk.setPool("pooluittest");
 		return resizeDisk;

@@ -31,7 +31,7 @@ public class CreateDiskExternalSnapshotTest {
 		createDiskExternalSnapshot.setPool("pooluittest");
 		createDiskExternalSnapshot.setVol("diskuittest");
 		createDiskExternalSnapshot.setFormat("qcow2");
-		createDiskExternalSnapshot.setType("dir");
+		createDiskExternalSnapshot.setType("localfs");
 		createDiskExternalSnapshot.setDomain("vm010");
 		return createDiskExternalSnapshot;
 	}

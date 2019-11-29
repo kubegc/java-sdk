@@ -29,7 +29,7 @@ public class DeleteDiskExternalSnapshotTest {
 	public static DeleteDiskExternalSnapshot get() {
 		DeleteDiskExternalSnapshot deleteDiskExternalSnapshot = new DeleteDiskExternalSnapshot();
 		deleteDiskExternalSnapshot.setPool("pooluittest");
-		deleteDiskExternalSnapshot.setType("dir");
+		deleteDiskExternalSnapshot.setType("localfs");
 		deleteDiskExternalSnapshot.setVol("diskuittest");
 //		createDiskExternalSnapshot.setDomain("vm010");
 		return deleteDiskExternalSnapshot;

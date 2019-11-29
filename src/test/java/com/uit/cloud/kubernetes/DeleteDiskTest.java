@@ -29,7 +29,7 @@ public class DeleteDiskTest {
 	public static DeleteDisk getDeleteDisk() {
 		DeleteDisk deleteDisk = new DeleteDisk();
 		deleteDisk.setPool("pooltest3");
-		deleteDisk.setType("dir");
+		deleteDisk.setType("localfs");
 		return deleteDisk;
 	}
 }

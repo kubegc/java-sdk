@@ -95,8 +95,8 @@ public class RegExpUtils {
 	@FieldDescriber("虚拟机agent支持的操作系统类型，只能是linux或windows")
 	public final static String VM_AGENT_OS_TYPE_PATTERN = "linux|windows";
 	
-	@FieldDescriber("存储池类型，只能是dir,uus,nfs,glusterfs,vdiskfs之一")
-	public final static String POOL_TYPE_PATTERN = "dir|uus|nfs|glusterfs|vdiskfs";
+	@FieldDescriber("存储池类型，只能是localfs,uus,nfs,glusterfs,vdiskfs之一")
+	public final static String POOL_TYPE_PATTERN = "localfs|uus|nfs|glusterfs|vdiskfs";
 
 	@FieldDescriber("True或False")
 	public final static String BOOL_TYPE_PATTERN = "True|False";
@@ -104,8 +104,8 @@ public class RegExpUtils {
 	@FieldDescriber("存储池类型，只能是vmd，vmdi，iso之一")
 	public final static String POOL_CONTENT_PATTERN = "vmd|vmdi|iso";
 
-	@FieldDescriber("存储池类型，只能是dir,vdiskfs,nfs,glusterfs之一")
-	public final static String POOL_TYPE_NOT_SUPPORT_UUS = "dir|vdiskfs|nfs|glusterfs";
+	@FieldDescriber("存储池类型，只能是localfs,vdiskfs,nfs,glusterfs之一")
+	public final static String POOL_TYPE_NOT_SUPPORT_UUS = "localfs|vdiskfs|nfs|glusterfs";
 	
 	@FieldDescriber("IP范围，如192.168.1.0")
 	public final static String IP_PATTERN  = "((25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)\\.){3}(25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)";
