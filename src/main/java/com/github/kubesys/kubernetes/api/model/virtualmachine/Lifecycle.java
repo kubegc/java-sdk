@@ -759,7 +759,7 @@ public class Lifecycle {
 
 		@ParameterDescriber(required = true, description = "目标主机服务地址", constraint = "目标主机的服务url", example = "133.133.135.31")
 		@Pattern(regexp = RegExpUtils.IP_PATTERN)
-		protected String desturi;
+		protected String ip;
 
 		protected Boolean abort_on_error;
 
@@ -885,12 +885,12 @@ public class Lifecycle {
 			return this.domain;
 		}
 
-		public void setDesturi(String desturi) {
-			this.desturi = desturi;
+		public void setIp(String ip) {
+			this.ip = ip;
 		}
 
-		public String getDesturi() {
-			return this.desturi;
+		public String getIp() {
+			return this.ip;
 		}
 
 		public void setAbort_on_error(Boolean abort_on_error) {

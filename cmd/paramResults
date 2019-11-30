@@ -490,7 +490,7 @@
 
 [virsh migrate]
 [--domain] <string>  domain name, id or uuid
-[--desturi] <string>  客户端（常规迁移）或者源（p2p 迁移）中看到到目的地主机连接 URI
+[--ip] <string>  客户端（常规迁移）或者源（p2p 迁移）中看到到目的地主机连接 URI
 --live           热迁移
 --offline        离线迁移
 --p2p            点对点迁移
