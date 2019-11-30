@@ -111,7 +111,7 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 	public boolean startVM(String name, String nodeName, StartVM startVM) throws Exception {
 		VirtualMachine vm = get(name);
 		Map<String, String> labels = vm.getMetadata().getLabels();
-		labels.put("host", "nodeName");
+		labels.put("host", nodeName);
 		vm.getSpec().setNodeName(nodeName);
 		return update(vm, startVM);
 	}
