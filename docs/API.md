@@ -4902,7 +4902,7 @@
 				"compressed":true,
 				"copy_storage_all":true,
 				"copy_storage_inc":true,
-				"desturi":"String",
+				"ip":"String",
 				"direct":true,
 				"domain":"String",
 				"live":true,
