@@ -64,6 +64,9 @@ public class RegExpUtils {
 	
 	@FieldDescriber("磁盘类型，只能是raw，bochs，qcow，qcow2，vmdk，qed之一")
 	public final static String DISK_TYPE_PATTERN = "raw|bochs|qcow|qcow2|vmdk|qed";
+	
+	@FieldDescriber("磁盘缓存类型，只能是none, writethrough, directsync, unsafe, writeback之一")
+	public final static String DISK_CACHE_PATTERN = "none|writethrough|directsync|unsafe|writeback";
 
 	@FieldDescriber("盘符名称，只能是vd[x]，hd[x]，sd[x]之一")
 	public final static String FDISK_TYPE_PATTERN = "vd[a-z]|hd[a-z]|sd[a-z]";

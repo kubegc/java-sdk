@@ -1023,6 +1023,8 @@ public class Lifecycle {
 
 		protected String iothread;
 
+		@ParameterDescriber(required = false, description = "云盘缓存类型", constraint = "取值范围：none, writethrough, directsync, unsafe, writeback", example = "none")
+		@Pattern(regexp = RegExpUtils.DISK_CACHE_PATTERN)
 		protected String cache;
 
 		protected String address;
@@ -2652,9 +2654,23 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class CloneVM {
 
-		@ParameterDescriber(required = true, description = "克隆虚拟机", constraint = "克隆虚拟机所有磁盘，新虚拟机名长度是4到100位", example = "newdisk")
+		@ParameterDescriber(required = true, description = "克隆虚拟机的名称", constraint = "新虚拟机名长度是4到100位", example = "newvm")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String name;
+		
+		@ParameterDescriber(required = true, description = "新磁盘路径", constraint = "路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点", example = "/var/lib/libvirt/images/test1.qcow2")
+		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
+		protected String file;
+		
+		@ParameterDescriber(required = false, description = "不克隆存储，通过 --file 参数指定的新磁盘镜像将保留不变", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
+		protected String preserve_data;
+		
+		@ParameterDescriber(required = true, description = "网卡的mac地址", constraint = "mac地址不能以fe开头", example = "7e:0c:b0:ef:6a:04")
+		@Pattern(regexp = RegExpUtils.MAC_PATTERN)
+		protected String mac;
+		
+		@ParameterDescriber(required = false, description = "不使用稀疏文件作为克隆的磁盘镜像", constraint = AnnotationUtils.DESC_BOOLEAN, example = "false")
+		protected String nonsparse;
 
 		public String getName() {
 			return name;
