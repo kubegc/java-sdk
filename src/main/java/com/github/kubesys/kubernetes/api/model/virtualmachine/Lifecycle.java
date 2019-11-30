@@ -2663,14 +2663,57 @@ public class Lifecycle {
 		protected String file;
 		
 		@ParameterDescriber(required = false, description = "不克隆存储，通过 --file 参数指定的新磁盘镜像将保留不变", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
-		protected String preserve_data;
+		protected Boolean preserve_data;
 		
 		@ParameterDescriber(required = true, description = "网卡的mac地址", constraint = "mac地址不能以fe开头", example = "7e:0c:b0:ef:6a:04")
 		@Pattern(regexp = RegExpUtils.MAC_PATTERN)
 		protected String mac;
 		
 		@ParameterDescriber(required = false, description = "不使用稀疏文件作为克隆的磁盘镜像", constraint = AnnotationUtils.DESC_BOOLEAN, example = "false")
-		protected String nonsparse;
+		protected Boolean nonsparse;
+		
+		@ParameterDescriber(required = false, description = "从原始客户机配置中自动生成克隆名称和存储路径", constraint = AnnotationUtils.DESC_BOOLEAN, example = "false")
+		protected Boolean auto_clone;
+
+		public String getFile() {
+			return file;
+		}
+
+		public void setFile(String file) {
+			this.file = file;
+		}
+
+		public Boolean getPreserve_data() {
+			return preserve_data;
+		}
+
+		public void setPreserve_data(Boolean preserve_data) {
+			this.preserve_data = preserve_data;
+		}
+
+		public String getMac() {
+			return mac;
+		}
+
+		public void setMac(String mac) {
+			this.mac = mac;
+		}
+
+		public Boolean getNonsparse() {
+			return nonsparse;
+		}
+
+		public void setNonsparse(Boolean nonsparse) {
+			this.nonsparse = nonsparse;
+		}
+
+		public Boolean getAuto_clone() {
+			return auto_clone;
+		}
+
+		public void setAuto_clone(Boolean auto_clone) {
+			this.auto_clone = auto_clone;
+		}
 
 		public String getName() {
 			return name;
