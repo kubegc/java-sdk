@@ -2679,6 +2679,14 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.VM_CLONE_CHECK_PATTERN)
 		protected String check;
 
+		public String getCheck() {
+			return check;
+		}
+
+		public void setCheck(String check) {
+			this.check = check;
+		}
+
 		public String getFile() {
 			return file;
 		}
