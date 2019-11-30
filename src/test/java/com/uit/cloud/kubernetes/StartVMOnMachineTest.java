@@ -4,6 +4,7 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StartVM;
 
 /**
@@ -22,8 +23,15 @@ public class StartVMOnMachineTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.startVM("vm006", "vm.node30", new StartVM());
+				.migrateVM("vm006", get());
 		System.out.println(successful);
 	}
+		
+		public static Lifecycle.MigrateVM get() throws Exception {
+			Lifecycle.MigrateVM migrateVM = new Lifecycle.MigrateVM();
+			migrateVM.setIp("133.133.135.22");
+			migrateVM.setOffline(true);
+			return migrateVM;
+		}
 	
 }
