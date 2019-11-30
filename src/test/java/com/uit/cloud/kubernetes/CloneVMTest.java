@@ -30,8 +30,7 @@ public class CloneVMTest {
 		CloneVM cloneVM = new CloneVM();
 		cloneVM.setName("wyw111-clone");
 //		cloneVM.setAuto_clone(true);
-		cloneVM.setFile("/var/lib/libvirt/imasges/ttt-1.qcow2");
-		cloneVM.setCheck("path_in_use=off");
+		cloneVM.setFile("/var/lib/libvirt/images/ttt-1.qcow2");
 		return cloneVM;
 	}
 }

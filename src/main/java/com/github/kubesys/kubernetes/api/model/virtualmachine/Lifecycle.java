@@ -2675,18 +2675,6 @@ public class Lifecycle {
 		@ParameterDescriber(required = false, description = "从原始客户机配置中自动生成克隆名称和存储路径", constraint = AnnotationUtils.DESC_BOOLEAN, example = "false")
 		protected Boolean auto_clone;
 		
-		@ParameterDescriber(required = false, description = "用或禁用验证检查", constraint = "取值范围: path_in_use=off或all=off", example = "all=off")
-		@Pattern(regexp = RegExpUtils.VM_CLONE_CHECK_PATTERN)
-		protected String check;
-
-		public String getCheck() {
-			return check;
-		}
-
-		public void setCheck(String check) {
-			this.check = check;
-		}
-
 		public String getFile() {
 			return file;
 		}
