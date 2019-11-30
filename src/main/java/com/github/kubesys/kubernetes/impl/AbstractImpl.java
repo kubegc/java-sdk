@@ -313,6 +313,24 @@ public abstract class AbstractImpl<R, S, T> {
 		return create((HasMetadata) r);
 	}
 	
+	
+	/**
+	 * @param r                       r 
+	 * @param operator                operator
+	 * @return                        true or an exception
+	 * @throws Exception
+	 */
+	public boolean update(R r, Object operator) throws Exception {
+		
+		T t = getSpec(r);
+		Object lifecycle = createLifecycle(operator);
+		
+		// t.setLifecycle(lifecycle)
+		Method setLifecycle = t.getClass().getMethod("setLifecycle", lifecycle.getClass());
+		setLifecycle.invoke(t, lifecycle);
+		
+		return update(operator.getClass().getSimpleName(), (HasMetadata) r);
+	}
 	/**
 	 * @param name                    name
 	 * @param om                      ObjectMeta  

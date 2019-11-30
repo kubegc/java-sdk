@@ -50,10 +50,6 @@ import io.fabric8.kubernetes.internal.KubernetesDeserializer;
  * @version 1.0.0
  * @since   2019/9/3
  *
- * @version 1.2.0
- * @update  2019/9/9
- * 
- * <p>
  * <code>ExtendedKubernetesClient<code> extends <code>DefaultKubernetesClient<code>
  * to provide the lifecycle of VirtualMachine, VirtualMachinePool, VirtualMachineDisk,
  * VirtualMachineImage, VirtualMachineSnapshot, VirtualMachineNetwork

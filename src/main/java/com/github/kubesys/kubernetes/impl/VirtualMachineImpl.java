@@ -4,6 +4,7 @@
 package com.github.kubesys.kubernetes.impl;
 
 
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesConstants;
@@ -98,6 +99,21 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 	 */
 	public boolean unsetHA(String name) throws Exception {
 		return deleteTag(name, ExtendedKubernetesConstants.LABEL_VM_HA);
+	}
+	
+	/**
+	 * @param name
+	 * @param nodeName
+	 * @param startVM
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean startVM(String name, String nodeName, StartVM startVM) throws Exception {
+		VirtualMachine vm = get(name);
+		Map<String, String> labels = vm.getMetadata().getLabels();
+		labels.put("host", "nodeName");
+		vm.getSpec().setNodeName(nodeName);
+		return update(vm, startVM);
 	}
 
 
