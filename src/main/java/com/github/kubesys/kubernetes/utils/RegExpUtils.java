@@ -62,6 +62,9 @@ public class RegExpUtils {
 	@FieldDescriber("存储池自动打开的参数，只能是yes和no之一")
 	public final static String AUTOSTART_PATTERN = "yes|no";
 	
+	@FieldDescriber("克隆虚拟机时启用或禁用验证检查")
+	public final static String VM_CLONE_CHECK_PATTERN = "path_in_use=off|all=off";
+	
 	@FieldDescriber("磁盘类型，只能是raw，bochs，qcow，qcow2，vmdk，qed之一")
 	public final static String DISK_TYPE_PATTERN = "raw|bochs|qcow|qcow2|vmdk|qed";
 	
