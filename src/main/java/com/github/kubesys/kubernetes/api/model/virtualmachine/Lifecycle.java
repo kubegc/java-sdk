@@ -2658,14 +2658,14 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String name;
 		
-		@ParameterDescriber(required = true, description = "新磁盘路径", constraint = "路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点", example = "/var/lib/libvirt/images/test1.qcow2")
+		@ParameterDescriber(required = false, description = "新磁盘路径", constraint = "路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点", example = "/var/lib/libvirt/images/test1.qcow2")
 		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
 		protected String file;
 		
 		@ParameterDescriber(required = false, description = "不克隆存储，通过 --file 参数指定的新磁盘镜像将保留不变", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean preserve_data;
 		
-		@ParameterDescriber(required = true, description = "网卡的mac地址", constraint = "mac地址不能以fe开头", example = "7e:0c:b0:ef:6a:04")
+		@ParameterDescriber(required = false, description = "网卡的mac地址", constraint = "mac地址不能以fe开头", example = "7e:0c:b0:ef:6a:04")
 		@Pattern(regexp = RegExpUtils.MAC_PATTERN)
 		protected String mac;
 		

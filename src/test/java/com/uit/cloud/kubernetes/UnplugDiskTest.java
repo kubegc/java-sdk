@@ -22,14 +22,14 @@ public class UnplugDiskTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.unplugDisk("950646e8c17a49d0b83c1c797811e001", getUnplugDisk());
+				.unplugDisk("wyw111", getUnplugDisk());
 		System.out.println(successful);
 	}
 	
 	public static UnplugDisk getUnplugDisk() {
 		UnplugDisk unplugDisk = new UnplugDisk();
-		unplugDisk.setTarget("vdc");
-//		unplugDisk.setLive(true);
+		unplugDisk.setTarget("vdb");
+		unplugDisk.setLive(true);
 		unplugDisk.setConfig(true);
 		return unplugDisk;
 	}
