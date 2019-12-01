@@ -45,6 +45,10 @@ public class StartVMOnMachineTest {
 							e.printStackTrace();
 						}
 						onClose(null);
+					} 
+					else if (resource.getMessage().indexOf("status:Done") != -1 && resource.getType().equals("Warning")) {
+						System.out.println("migrate VM failed!");
+						onClose(null);
 					}
 				}
 			}
