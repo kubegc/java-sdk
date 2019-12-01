@@ -5,7 +5,11 @@ package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StartVM;
+
+import io.fabric8.kubernetes.api.model.Event;
+import io.fabric8.kubernetes.client.KubernetesClientException;
+import io.fabric8.kubernetes.client.Watch;
+import io.fabric8.kubernetes.client.Watcher;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -23,8 +27,21 @@ public class StartVMOnMachineTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.migrateVM("vm006", get());
+				.migrateVM("vm006", get(), "abc123");
 		System.out.println(successful);
+		client.events().withName("abc123").watch(new Watcher<Event>() {
+
+			  @Override
+			  public void eventReceived(Action action, Event resource) {
+			    System.out.println("event " + action.name() + " " + resource.toString());
+			  }
+
+			  @Override
+			  public void onClose(KubernetesClientException cause) {
+			    System.out.println("Watcher close due to " + cause);
+			  }
+
+			});
 	}
 		
 		public static Lifecycle.MigrateVM get() throws Exception {
