@@ -49,7 +49,7 @@ public class Lifecycle {
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected UnplugNIC unplugNIC;
 
-	@FunctionDescriber(shortName = "虚机迁移", description = "虚拟机迁移，必须依赖共享存储"
+	@FunctionDescriber(shortName = "虚机迁移", description = "虚拟机迁移，必须依赖共享存储，且所有物理机之间免密登陆"
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected MigrateVM migrateVM;
 
