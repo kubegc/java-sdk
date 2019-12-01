@@ -3,12 +3,14 @@
  */
 package com.uit.cloud.kubernetes;
 
+import java.util.UUID;
+
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StartVM;
 
 import io.fabric8.kubernetes.api.model.Event;
 import io.fabric8.kubernetes.client.KubernetesClientException;
-import io.fabric8.kubernetes.client.Watch;
 import io.fabric8.kubernetes.client.Watcher;
 
 /**
@@ -17,38 +19,50 @@ import io.fabric8.kubernetes.client.Watcher;
  * @author liuhe@otcaix.iscas.ac.cn
  * 
  * @version 1.3.0
- * @since   2019/9/3
+ * @since 2019/9/3
  *
  */
 public class StartVMOnMachineTest {
-	
-	
+
 	public static void main(String[] args) throws Exception {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
-		boolean successful = client.virtualMachines()
-				.migrateVM("vm006", get(), "abc123");
+		String eventId = UUID.randomUUID().toString().replaceAll("-", "");
+		boolean successful = client.virtualMachines().migrateVM("vm006", get(), eventId);
 		System.out.println(successful);
-		client.events().withName("abc123").watch(new Watcher<Event>() {
+		client.events().withField("reason", "migrateVM").watch(new Watcher<Event>() {
 
-			  @Override
-			  public void eventReceived(Action action, Event resource) {
-			    System.out.println("event " + action.name() + " " + resource.toString());
-			  }
+			@Override
+			public void eventReceived(Action action, Event resource) {
+				if (resource.getMessage().indexOf("eventId:" + eventId) != -1) {
+					System.out.println("event " + action.name() + " " + resource.toString());
+					if (resource.getMessage().indexOf("status:Done") != -1 && resource.getType().equals("Normal")) {
+						System.out.println("migrate VM done success, now start the VM.");
+						try {
+							Thread.sleep(2000);
+							client.virtualMachines().startVM("vm006", new StartVM());
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						onClose(null);
+					}
+				}
+			}
 
-			  @Override
-			  public void onClose(KubernetesClientException cause) {
-			    System.out.println("Watcher close due to " + cause);
-			  }
+			@Override
+			public void onClose(KubernetesClientException cause) {
+				System.out.println("Watcher close due to " + cause);
+				client.close();
+			}
 
-			});
+		});
 	}
-		
-		public static Lifecycle.MigrateVM get() throws Exception {
-			Lifecycle.MigrateVM migrateVM = new Lifecycle.MigrateVM();
-			migrateVM.setIp("133.133.135.22");
-			migrateVM.setOffline(true);
-			return migrateVM;
-		}
 	
+	public static Lifecycle.MigrateVM get() throws Exception {
+		Lifecycle.MigrateVM migrateVM = new Lifecycle.MigrateVM();
+		migrateVM.setIp("133.133.135.22");
+		migrateVM.setOffline(true);
+		return migrateVM;
+	}
+
 }
