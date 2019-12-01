@@ -173,7 +173,7 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.POOL_URL_PATTERN)
 		protected String url;
 
-		@ParameterDescriber(required = false, description = "nfs挂载参数，为存储类型为nfs时必填", constraint = "当type为nfs类型时，nfs的挂载参数", example = "nolock")
+		@ParameterDescriber(required = false, description = "nfs挂载参数或uus的创建选项，为存储类型为uus和nfs时必填", constraint = "当type为nfs类型时，nfs的挂载参数", example = "nolock")
 		protected String opt;
 
 		@ParameterDescriber(required = false, description = "nfs和glusterfs挂载路径的一部分", constraint = "当type为nfs或glusterfs类型时必填，所需要的挂在路径", example = "07098ca5-fd17-4fcc-afed-76b0d7fccde4")
