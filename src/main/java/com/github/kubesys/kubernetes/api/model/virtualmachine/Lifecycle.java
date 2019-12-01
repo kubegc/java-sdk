@@ -751,13 +751,14 @@ public class Lifecycle {
 
 		protected Boolean postcopy;
 
+		@ParameterDescriber(required = false, description = "虚拟机关机迁移，关机时时必填", constraint = "虚拟机关机迁移，关机时时必填", example = "true")
 		protected Boolean offline;
 
 		protected Boolean tunnelled;
 
 		protected String domain;
 
-		@ParameterDescriber(required = true, description = "目标主机服务地址", constraint = "目标主机的服务url", example = "133.133.135.31")
+		@ParameterDescriber(required = true, description = "目标主机服务地址，主机之间需要提前免密登录", constraint = "目标主机的服务url，主机之间需要提前配置免密登录", example = "133.133.135.31")
 		@Pattern(regexp = RegExpUtils.IP_PATTERN)
 		protected String ip;
 
