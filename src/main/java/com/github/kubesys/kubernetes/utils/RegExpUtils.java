@@ -90,7 +90,7 @@ public class RegExpUtils {
 	public final static String DISK_SIZE_PATTERN = "\\d{10,13}";
 	
 	@FieldDescriber("名称是字符串类型，长度是4到100位，只允许数字、小写字母、中划线、等于、与符号以及圆点")
-	public final static String RULE_PATTERN = "[a-z0-9-.,&= ]{2,200}";
+	public final static String RULE_PATTERN = "'[a-z0-9-.,&= ]{2,200}'";
 	
 	@FieldDescriber("虚拟化类型，取值为kvm, xen之一")
 	public final static String VIRT_TYPE_PATTERN = "kvm|xen";
@@ -197,8 +197,8 @@ public class RegExpUtils {
 	public final static String BURST_PATTERN = "\\d{1,5}";
 	
 	public static void main(String[] args) {
-        System.out.println(POOL_URL_PATTERN);
-		String name = "ip.src == a && asd.ed == v";
+        System.out.println(RULE_PATTERN);
+		String name = "'ip.src == a && asd.ed == v'";
 		Pattern pattern = Pattern.compile(RegExpUtils.RULE_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("");
