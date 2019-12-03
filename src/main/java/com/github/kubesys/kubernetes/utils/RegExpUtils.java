@@ -107,8 +107,11 @@ public class RegExpUtils {
 //	比如限制访问tcp 22-100 端口，源地址为address_set dmz 或者cidr 192.168.1.0/24
 //	规则的写法为
 //	 22 <= tcp.src <= 100 && （ ip4.src == $dmz || ip4.src == 192.168.1.0/24 ）
-	@FieldDescriber("名称是字符串类型，长度是4到100位，只允许数字、小写字母、中划线、等于、与符号以及圆点")
+	@FieldDescriber("名称是字符串类型，长度是4到200位，只允许数字、小写字母、中划线、等于、与符号以及圆点")
 	public final static String RULE_PATTERN = "'[a-z0-9-.,/{}()$&=<>| ]{2,200}'";
+	
+	@FieldDescriber("Address是字符串类型，长度是2到100位，只允许数字、小写字母、中划线、等于、与符号以及圆点")
+	public final static String ADDRESS_PATTERN = "[a-z0-9-.,{}]{2,100}";
 	
 	@FieldDescriber("虚拟化类型，取值为kvm, xen之一")
 	public final static String VIRT_TYPE_PATTERN = "kvm|xen";

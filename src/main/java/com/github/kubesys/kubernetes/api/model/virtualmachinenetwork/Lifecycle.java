@@ -534,7 +534,7 @@ public class Lifecycle {
 	public static class CreateAddress {
 		
 		@ParameterDescriber(required = true, description = "地址列表", constraint = "IP以,分割", example = "192.168.1.1，192.168.1.2")
-		@Pattern(regexp = RegExpUtils.RULE_PATTERN)
+		@Pattern(regexp = RegExpUtils.ADDRESS_PATTERN)
 		protected String address;
 
 		public String getAddress() {
