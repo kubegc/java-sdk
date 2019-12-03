@@ -22,13 +22,13 @@ public class StopVMPoolTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachinePools()
-				.stopPool("pooluittest", getPool(), "123");
+				.stopPool("node35-poolnfs", getPool(), "123");
 		System.out.println(successful);
 	}
 
 	protected static Lifecycle.StopPool getPool() {
 		Lifecycle.StopPool stopPool = new Lifecycle.StopPool();
-		stopPool.setType("localfs");
+		stopPool.setType("nfs");
 		return stopPool;
 	}
 	

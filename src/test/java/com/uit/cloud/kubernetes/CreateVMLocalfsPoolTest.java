@@ -22,7 +22,7 @@ public class CreateVMLocalfsPoolTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachinePools()
-				.createPool("pooltest111", "vm.node22", getPool(), "123");
+				.createPool("pooltest11ccc", "vm.node35", getPool(), "123");
 		System.out.println(successful);
 	}
 
