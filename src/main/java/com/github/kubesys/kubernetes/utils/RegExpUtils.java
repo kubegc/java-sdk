@@ -219,8 +219,8 @@ public class RegExpUtils {
 	
 	public static void main(String[] args) {
         System.out.println(RULE_PATTERN);
-		String name = "'ip4.src == { 192.168.1.100,192.168.1.102 }'";
-		Pattern pattern = Pattern.compile(RegExpUtils.RULE_PATTERN);
+		String name = "192.168.1.100,192.168.1.102";
+		Pattern pattern = Pattern.compile(RegExpUtils.ADDRESS_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("");
 		}
