@@ -85,6 +85,12 @@ public class RegExpUtils {
 	
 	@FieldDescriber("磁盘IOPS，取值范围0-9999")
 	public final static String DISK_IOPS_PATTERN = "\\d{1,5}";
+
+	@FieldDescriber("名称是字符串类型，长度是4到100位，只允许数字、小写字母")
+	public final static String POOL_PATH= "[a-z0-9]{4,100}";
+
+	@FieldDescriber("名称是字符串类型，长度是4到100位，只允许数字、小写字母")
+	public final static String POOL_UUID= "[a-z0-9]{4,100}";
 	
 	@FieldDescriber("磁盘大小，单位是Bytes，取值范围1000000000-999999999999")
 	public final static String DISK_SIZE_PATTERN = "\\d{10,13}";

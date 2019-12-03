@@ -22,17 +22,17 @@ public class CreateDiskFromDiskImageTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineDisks()
-				.createDiskFromDiskImage("vm006copy", "vm.node22", get(), "abc");
+				.createDiskFromDiskImage("vm006copynnn", "vm.node22", get(), "abc");
 		System.out.println(successful);
 	}
 
 	protected static CreateDiskFromDiskImage get() {
 		CreateDiskFromDiskImage createDisk = new CreateDiskFromDiskImage();
-		createDisk.setType("dir");
+		createDisk.setType("localfs");
 		// create a volume in this pool
-		createDisk.setTargetPool("vmdi");
+		createDisk.setTargetPool("node22-poolnfs");
 		// vm disk image name
-		createDisk.setSource("/mnt/localfs/sdb/vmdi/vm006/vm006");
+		createDisk.setSource("/var/lib/libvirt/cstor/07098ca5-fd17-4fcc-afed-76b0d7fccde9/07098ca5-fd17-4fcc-afed-76b0d7fccde9/wyw222/wyw222");
 //		createDisk.setFull_copy(true);
 		return createDisk;
 	}

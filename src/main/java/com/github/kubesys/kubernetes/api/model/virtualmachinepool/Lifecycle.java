@@ -177,6 +177,7 @@ public class Lifecycle {
 		protected String opt;
 
 		@ParameterDescriber(required = false, description = "nfs和glusterfs挂载路径的一部分", constraint = "当type为nfs或glusterfs类型时必填，所需要的挂在路径", example = "07098ca5-fd17-4fcc-afed-76b0d7fccde4")
+		@Pattern(regexp = RegExpUtils.POOL_UUID)
 		protected String uuid;
 
 		protected String source_dev;
@@ -187,6 +188,7 @@ public class Lifecycle {
 		protected boolean autostart;
 
 		@ParameterDescriber(required = false, description = "创建nfs或glusterfs存储池时的挂载路径，不填则默认在/var/lib/libvirt/cstor目录下挂载", constraint = "/nfs/pool", example = "/nfs/pool")
+		@Pattern(regexp = RegExpUtils.POOL_PATH)
 		protected String path;
 
 		@ParameterDescriber(required = false, description = "强力创建vdiskfs", constraint = "True或False", example = "True")
