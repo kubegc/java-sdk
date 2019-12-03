@@ -20,8 +20,10 @@ public class ExtendedKubernetesConstants {
 	
 	
 	
-	public final static String OPERATOR_ADD_TAG  = "AddTag";
+	public final static String OPERATOR_ADD_TAG      = "AddTag";
 	
-	public final static String OPERATOR_DEL_TAG  = "DeleteTag";
+	public final static String OPERATOR_DEL_TAG      = "DeleteTag";
+	
+	public final static String OPERATOR_UPDATE_HOST  = "UpdateHostName";
 	
 }

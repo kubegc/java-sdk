@@ -103,5 +103,14 @@ public class VirtualMachineDiskImageImpl extends AbstractImpl<VirtualMachineDisk
 		}
 		return delete(name, updateMetadata(name, eventId), deleteDiskImage);
 	}
-	
+
+	public boolean deleteDiskImage(String name, String nodeName, DeleteDiskImage deleteDiskImage) throws Exception {
+		updateHost(name, nodeName);
+		return deleteDiskImage(name, deleteDiskImage, null);
+	}
+
+	public boolean deleteDiskImage(String name, String nodeName, DeleteDiskImage deleteDiskImage, String eventId) throws Exception {
+		updateHost(name, nodeName);
+		return deleteDiskImage(name, deleteDiskImage, eventId);
+	}
 }

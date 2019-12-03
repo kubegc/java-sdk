@@ -82,6 +82,16 @@ public class VirtualMachineDiskSnapshotImpl extends AbstractImpl<VirtualMachineD
 		return update(name, updateMetadata(name, eventId), revertDiskExternalSnapshot);
 	}
 
+	public boolean revertDiskExternalSnapshot(String name, String nodeName, RevertDiskExternalSnapshot revertDiskExternalSnapshot) throws Exception {
+		updateHost(name, nodeName);
+		return revertDiskExternalSnapshot(name, revertDiskExternalSnapshot, null);
+	}
+
+	public boolean revertDiskExternalSnapshot(String name, String nodeName, RevertDiskExternalSnapshot revertDiskExternalSnapshot, String eventId) throws Exception {
+		updateHost(name, nodeName);
+		return revertDiskExternalSnapshot(name, revertDiskExternalSnapshot, eventId);
+	}
+
 	public boolean deleteDiskExternalSnapshot(String name, DeleteDiskExternalSnapshot deleteDiskExternalSnapshot) throws Exception {
 		return deleteDiskExternalSnapshot(name, deleteDiskExternalSnapshot, null);
 	}
@@ -94,4 +104,13 @@ public class VirtualMachineDiskSnapshotImpl extends AbstractImpl<VirtualMachineD
 		return delete(name, updateMetadata(name, eventId), deleteDiskExternalSnapshot);
 	}
 
+	public boolean deleteDiskExternalSnapshot(String name, String nodeName, DeleteDiskExternalSnapshot deleteDiskExternalSnapshot) throws Exception {
+		updateHost(name, nodeName);
+		return deleteDiskExternalSnapshot(name, deleteDiskExternalSnapshot, null);
+	}
+
+	public boolean deleteDiskExternalSnapshot(String name, String nodeName, DeleteDiskExternalSnapshot deleteDiskExternalSnapshot, String eventId) throws Exception {
+		updateHost(name, nodeName);
+		return deleteDiskExternalSnapshot(name, deleteDiskExternalSnapshot, eventId);
+	}
 }

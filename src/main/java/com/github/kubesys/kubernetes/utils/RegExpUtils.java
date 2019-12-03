@@ -95,8 +95,29 @@ public class RegExpUtils {
 	@FieldDescriber("磁盘大小，单位是Bytes，取值范围1000000000-999999999999")
 	public final static String DISK_SIZE_PATTERN = "\\d{10,13}";
 	
-	@FieldDescriber("名称是字符串类型，长度是4到100位，只允许数字、小写字母、中划线、等于、与符号以及圆点")
-	public final static String RULE_PATTERN = "[a-z0-9-.,&= ]{2,200}";
+//	1 单独限制协议
+//	tcp
+//	2 限制协议和端口
+//	tcp.src == 22
+//	3 限制单个ip
+//	ip4.src == 192.168.1.100
+//	4 限制一组ip
+//	ip4.src == { 192.168.1.100,192.168.1.102 }
+//	5 限制cidr
+//	ip4.src == 192.168.1.0/24
+//	6 使用ovn中的address_set 的名字代表一组ip列表，比如dmz
+//	ip4.src == $dmz
+//	7 限制端口范围
+//	1024 <= tcp.src <= 49151 等价于 1024 <= tcp.src && tcp.src <= 49151
+//	8 组合不同的规则之间使用 && 表示 and ，|| 表示 or ，同时可以加（）
+//	比如限制访问tcp 22-100 端口，源地址为address_set dmz 或者cidr 192.168.1.0/24
+//	规则的写法为
+//	 22 <= tcp.src <= 100 && （ ip4.src == $dmz || ip4.src == 192.168.1.0/24 ）
+	@FieldDescriber("名称是字符串类型，长度是4到200位，只允许数字、小写字母、中划线、等于、与符号以及圆点")
+	public final static String RULE_PATTERN = "'[a-z0-9-.,/{}()$&=<>| ]{2,200}'";
+	
+	@FieldDescriber("Address是字符串类型，长度是2到100位，只允许数字、小写字母、中划线、等于、与符号以及圆点")
+	public final static String ADDRESS_PATTERN = "[a-z0-9-.,{}]{2,100}";
 	
 	@FieldDescriber("虚拟化类型，取值为kvm, xen之一")
 	public final static String VIRT_TYPE_PATTERN = "kvm|xen";
@@ -203,8 +224,8 @@ public class RegExpUtils {
 	public final static String BURST_PATTERN = "\\d{1,5}";
 	
 	public static void main(String[] args) {
-        System.out.println(POOL_URL_PATTERN);
-		String name = "ip.src == a && asd.ed == v";
+        System.out.println(RULE_PATTERN);
+		String name = "'ip4.src == { 192.168.1.100,192.168.1.102 }'";
 		Pattern pattern = Pattern.compile(RegExpUtils.RULE_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("");

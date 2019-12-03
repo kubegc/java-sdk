@@ -73,7 +73,7 @@ public class VirtualMachineImageImpl extends AbstractImpl<VirtualMachineImage, V
 		return deleteImage(name, deleteImage, null);
 	}
 
-	public boolean deleteImage(String name,DeleteImage deleteImage, String eventId) throws Exception {
+	public boolean deleteImage(String name, DeleteImage deleteImage, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
@@ -81,16 +81,36 @@ public class VirtualMachineImageImpl extends AbstractImpl<VirtualMachineImage, V
 		return delete(name, updateMetadata(name, eventId), deleteImage);
 	}
 
+	public boolean deleteImage(String name, String nodeName, DeleteImage deleteImage) throws Exception {
+		updateHost(name, nodeName);
+		return deleteImage(name, deleteImage, null);
+	}
+
+	public boolean deleteImage(String name, String nodeName, DeleteImage deleteImage, String eventId) throws Exception {
+		updateHost(name, nodeName);
+		return deleteImage(name, deleteImage, eventId);
+	}
+
 	public boolean convertImageToVM(String name, ConvertImageToVM convertImageToVM) throws Exception {
 		return convertImageToVM(name, convertImageToVM, null);
 	}
 
-	public boolean convertImageToVM(String name,ConvertImageToVM convertImageToVM, String eventId) throws Exception {
+	public boolean convertImageToVM(String name, ConvertImageToVM convertImageToVM, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
 		return update(name, updateMetadata(name, eventId), convertImageToVM);
+	}
+
+	public boolean convertImageToVM(String name, String nodeName, ConvertImageToVM convertImageToVM) throws Exception {
+		updateHost(name, nodeName);
+		return convertImageToVM(name, convertImageToVM, null);
+	}
+
+	public boolean convertImageToVM(String name, String nodeName, ConvertImageToVM convertImageToVM, String eventId) throws Exception {
+		updateHost(name, nodeName);
+		return convertImageToVM(name, convertImageToVM, eventId);
 	}
 
 }
