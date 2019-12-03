@@ -4,7 +4,7 @@
 package com.github.kubesys.assistant.generators;
 
 import com.github.kubesys.kubernetes.impl.AbstractImpl;
-import com.github.kubesys.kubernetes.impl.VirtualMachineNetworkImpl;
+import com.github.kubesys.kubernetes.impl.VirtualMachineDiskImageImpl;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -61,6 +61,18 @@ public class MethodGenerator {
 				sb.append("\t\t}\n");
 				sb.append("\t\treturn delete(name, updateMetadata(name, eventId), " + cmd + ");\n");
 				sb.append("\t}\n\n");
+				
+				sb.append("\tpublic boolean " + cmd +"(String name, String nodeName, " 
+						+ getClassName(cmd) + " " + cmd + ") throws Exception {\n");
+				sb.append("\t\tupdateHost(name, nodeName);\n");
+				sb.append("\t\treturn " + cmd + "(name, " + cmd + ", null);\n");
+				sb.append("\t}\n\n");
+				
+				sb.append("\tpublic boolean " + cmd +"(String name, String nodeName, " 
+						+ getClassName(cmd) + " " + cmd + ", String eventId) throws Exception {\n");
+				sb.append("\t\tupdateHost(name, nodeName);\n");
+				sb.append("\t\treturn " + cmd + "(name, " + cmd + ", eventId);\n");
+				sb.append("\t}\n\n");
 			} else {
 				sb.append("\tpublic boolean " + cmd +"(String name, " 
 						+ getClassName(cmd) + " " + cmd + ") throws Exception {\n");
@@ -75,6 +87,18 @@ public class MethodGenerator {
 				sb.append("\t\t}\n");
 				sb.append("\t\treturn update(name, updateMetadata(name, eventId), " + cmd + ");\n");
 				sb.append("\t}\n\n");
+				
+				sb.append("\tpublic boolean " + cmd +"(String name, String nodeName, " 
+						+ getClassName(cmd) + " " + cmd + ") throws Exception {\n");
+				sb.append("\t\tupdateHost(name, nodeName);\n");
+				sb.append("\t\treturn " + cmd + "(name, " + cmd + ", null);\n");
+				sb.append("\t}\n\n");
+				
+				sb.append("\tpublic boolean " + cmd +"(String name, String nodeName, " 
+						+ getClassName(cmd) + " " + cmd + ", String eventId) throws Exception {\n");
+				sb.append("\t\tupdateHost(name, nodeName);\n");
+				sb.append("\t\treturn " + cmd + "(name, " + cmd + ", eventId);\n");
+				sb.append("\t}\n\n");
 			}
 		}
 		return sb.toString();
@@ -87,8 +111,8 @@ public class MethodGenerator {
 //		System.out.println(generate(new VirtualMachinePoolImpl()));
 //		System.out.println(generate(new VirtualMachineImageImpl()));
 //		System.out.println(generate(new VirtualMachineSnapshotImpl()));
-		System.out.println(generate(new VirtualMachineNetworkImpl()));
-//		System.out.println(generate(new VirtualMachineDiskImageImpl()));
+//		System.out.println(generate(new VirtualMachineNetworkImpl()));
+		System.out.println(generate(new VirtualMachineDiskImageImpl()));
 	}
 	
 	public static String getClassName(String name) {
