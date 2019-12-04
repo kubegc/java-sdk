@@ -32,6 +32,7 @@ public class APIGenerator {
 		sb.append("\t").append("本文有两种通用的约束:\n");
 		sb.append("\t\t").append("(1)名称：只允许小写字母和、数字、中划线和圆点组合，4-100位\n");
 		sb.append("\t\t").append("(2)路径：必须是/xx/xx形式，且在/var/lib/libvirt目录下，xx允许小写字母、数字、中划线和点，18-1024位\n\n\n");
+		sb.append("\t\t").append("(3)目前JDK提供的参数数量多余文档，以文档为准，其它为预留参数，传入会导致系统失败\n\n\n");
 		
 		int i = 1; 
 		for (String classname : JSONGenerator.list) {
