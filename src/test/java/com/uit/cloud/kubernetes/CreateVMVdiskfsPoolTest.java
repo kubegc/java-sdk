@@ -22,7 +22,7 @@ public class CreateVMVdiskfsPoolTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachinePools()
-				.createPool("node35-pool1", "vm.node35", getPool(), "123");
+				.createPool("node22dadad", "vm.node22", getPool(), "123");
 		System.out.println(successful);
 	}
 
@@ -31,7 +31,7 @@ public class CreateVMVdiskfsPoolTest {
 
 		// uus
 		createPool.setType("vdiskfs");
-		createPool.setUrl("local");
+		createPool.setUrl("/mnt/localfs/pooldir1");
 		createPool.setContent("vmd");
 		return createPool;
 	}

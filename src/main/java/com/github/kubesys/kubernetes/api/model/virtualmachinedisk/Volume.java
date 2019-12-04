@@ -42,6 +42,8 @@ public class Volume {
 	protected String virtual_size;
 	
 	protected String pool;
+
+	protected String uni;
 	
 	protected String disktype;
 	
@@ -59,6 +61,14 @@ public class Volume {
 
 	public void setPool(String pool) {
 		this.pool = pool;
+	}
+
+	public String getUni() {
+		return uni;
+	}
+
+	public void setUni(String uni) {
+		this.uni = uni;
 	}
 
 	public String getBacking_filename_format() {

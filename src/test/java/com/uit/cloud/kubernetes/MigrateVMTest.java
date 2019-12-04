@@ -29,7 +29,7 @@ public class MigrateVMTest {
 	public static Lifecycle.MigrateVM get() throws Exception {
 		Lifecycle.MigrateVM migrateVM = new Lifecycle.MigrateVM();
 		migrateVM.setIp("133.133.135.35");
-		migrateVM.setOffline(true);
+//		migrateVM.setOffline(true);
 		return migrateVM;
 	}
 }
