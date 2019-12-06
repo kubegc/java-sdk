@@ -769,9 +769,15 @@ public class Lifecycle {
 		protected Boolean persistent;
 
 		protected Boolean live;
+		
+		protected String desturi;
 
-		public MigrateVM() {
+		public String getDesturi() {
+			return desturi;
+		}
 
+		public void setDesturi(String desturi) {
+			this.desturi = desturi;
 		}
 
 		public void setSuspend(Boolean suspend) {
