@@ -18,13 +18,13 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 public class Data {
 
 	protected SwitchInfo switchInfo;
-	
+
 	protected RouterInfo routerInfo;
-	
+
 	protected GatewayInfo gatewayInfo;
-	
+
 	protected BridgeInfo bridgeInfo;
-	
+
 	protected AddressInfo addressInfo;
 
 	public BridgeInfo getBridgeInfo() {
@@ -70,27 +70,24 @@ public class Data {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class SwitchInfo {
-		
+
 		protected String id;
-		
+
 		protected String name;
-		
+
 		protected List<Ports> ports;
-		
+
 		public List<Ports> getPorts() {
 			return ports;
 		}
-
 
 		public void setPorts(List<Ports> ports) {
 			this.ports = ports;
 		}
 
-
 		public SwitchInfo() {
 			super();
 		}
-
 
 		public String getId() {
 			return id;
@@ -111,15 +108,15 @@ public class Data {
 		@JsonInclude(JsonInclude.Include.NON_NULL)
 		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Ports {
-			
+
 			protected String name;
-			
+
 			protected String tag;
-			
+
 			protected String type;
-			
+
 			protected Object addresses;
-			
+
 			protected String router_port;
 
 			public String getTag() {
@@ -161,22 +158,22 @@ public class Data {
 			public void setRouter_port(String router_port) {
 				this.router_port = router_port;
 			}
-			
+
 		}
 	}
-	
+
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class RouterInfo {
-		
+
 		protected String id;
-		
+
 		protected String name;
-		
+
 		protected List<Ports> ports;
-		
+
 		protected List<Nat> nat;
-		
+
 		public List<Ports> getPorts() {
 			return ports;
 		}
@@ -188,7 +185,7 @@ public class Data {
 		public RouterInfo() {
 			super();
 		}
-		
+
 		public String getId() {
 			return id;
 		}
@@ -216,13 +213,13 @@ public class Data {
 		@JsonInclude(JsonInclude.Include.NON_NULL)
 		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Ports {
-			
+
 			protected String name;
-			
+
 			protected String mac;
-			
+
 			protected String networks;
-			
+
 			protected String gateway;
 
 			public String getName() {
@@ -256,21 +253,21 @@ public class Data {
 			public void setGateway(String gateway) {
 				this.gateway = gateway;
 			}
-			
+
 		}
-		
+
 		@JsonInclude(JsonInclude.Include.NON_NULL)
 		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Nat {
-			
+
 			protected String name;
-			
+
 			protected String externalIP;
-			
+
 			protected String logicalIP;
-			
+
 			protected String type;
-			
+
 			protected String gateway;
 
 			public Nat() {
@@ -320,19 +317,19 @@ public class Data {
 		}
 
 	}
-	
+
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class GatewayInfo {
-		
+
 		protected String id;
-		
+
 		protected String server_mac;
-		
+
 		protected String server_id;
-		
+
 		protected String router;
-		
+
 		protected String lease_time;
 
 		public String getId() {
@@ -374,18 +371,18 @@ public class Data {
 		public void setLease_time(String lease_time) {
 			this.lease_time = lease_time;
 		}
-		
+
 	}
-	
+
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class BridgeInfo {
 		protected String name;
-		
+
 		protected List<Ports> ports;
-		
+
 		protected String uuid;
-		
+
 		public List<Ports> getPorts() {
 			return ports;
 		}
@@ -414,13 +411,13 @@ public class Data {
 		@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 		public static class Ports {
 			protected String name;
-			
+
 			protected String uuid;
-			
+
 			protected String vlan;
-			
+
 			protected List<Interfaces> interfaces;
-			
+
 			public String getName() {
 				return name;
 			}
@@ -456,11 +453,11 @@ public class Data {
 			@JsonInclude(JsonInclude.Include.NON_NULL)
 			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Interfaces {
-				
+
 				protected String name;
-				
+
 				protected String uuid;
-				
+
 				protected String mac;
 
 				public String getName() {
@@ -489,17 +486,17 @@ public class Data {
 			}
 		}
 	}
-	
+
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class AddressInfo {
-		
+
 		protected String _uuid;
-		
+
 		protected String addresses;
-		
+
 		protected String external_ids;
-		
+
 		protected String name;
 
 		public String getAddresses() {
@@ -533,7 +530,6 @@ public class Data {
 		public void setName(String name) {
 			this.name = name;
 		}
-		
-		
+
 	}
 }

@@ -330,6 +330,10 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.IP_PATTERN)
 		protected String dhcp;
 		
+		@ParameterDescriber(required = false, description = "vlanID", constraint = "0-4094", example = "br-ex")
+		@Pattern(regexp = RegExpUtils.VLAN_PATTERN)
+		protected String vlanId;
+		
 		public String getGateway() {
 			return gateway;
 		}
@@ -360,6 +364,14 @@ public class Lifecycle {
 
 		public void setDhcp(String dhcp) {
 			this.dhcp = dhcp;
+		}
+
+		public String getVlanId() {
+			return vlanId;
+		}
+
+		public void setVlanId(String vlanId) {
+			this.vlanId = vlanId;
 		}
 		
 	}
