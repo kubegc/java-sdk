@@ -21,7 +21,7 @@ public class GetVirtualMachineNetworkTest {
 //				.getVMByName("650646e8c17a49d0b83c1c797811e066"));
 		System.out.println(
 				JSON.toJSONString(
-						AbstractTest.getVMNetworkByName("vxlan").getSpec().getData(), true));
+						AbstractTest.getVMNetworkByName("switch1").getSpec().getData(), true));
 	}
 	
 }
