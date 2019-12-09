@@ -232,6 +232,10 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.BRIDGE_PATTERN)
 		protected String bridge;
 		
+		@ParameterDescriber(required = false, description = "vlanID", constraint = "0-4094", example = "br-ex")
+		@Pattern(regexp = RegExpUtils.VLAN_PATTERN)
+		protected String vlanId;
+		
 		@ParameterDescriber(required = false, description = "IP列表黑名单", constraint = "单个IP之间通过空格分开，IP范围使用..分开", example = "192.168.5.2 192.168.5.10..192.168.5.100")
 		@Pattern(regexp = RegExpUtils.EXCLUDEIPS_PATTERN)
 		protected String excludeIPs;
@@ -240,6 +244,14 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.DNS_PATTERN)
 		protected String dnsServer;
 		
+		public String getVlanId() {
+			return vlanId;
+		}
+
+		public void setVlanId(String vlanId) {
+			this.vlanId = vlanId;
+		}
+
 		public String getBridge() {
 			return bridge;
 		}

@@ -114,11 +114,21 @@ public class Data {
 			
 			protected String name;
 			
+			protected String tag;
+			
 			protected String type;
 			
 			protected Object addresses;
 			
 			protected String router_port;
+
+			public String getTag() {
+				return tag;
+			}
+
+			public void setTag(String tag) {
+				this.tag = tag;
+			}
 
 			public Object getAddresses() {
 				return addresses;

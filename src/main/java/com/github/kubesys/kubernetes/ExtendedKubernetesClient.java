@@ -197,8 +197,6 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 		try {
 			return new JSONImpl(this, kind, jsonStr);
 		} catch (Exception ex) {
-			ex.printStackTrace();
-			m_logger.log(Level.SEVERE, ex.toString());
 			return load(new ByteArrayInputStream(jsonStr.getBytes()));
 		}
 	}
@@ -225,9 +223,6 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 		configs.add("/VirtualMachineDiskImage.conf");
 	}
 	
-	
-	
-	
 	/**
 	 * @return        VirtualMachines
 	 */
@@ -242,13 +237,6 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 	public void watchVirtualMachines(Watcher<VirtualMachine> watcher) {
 		crdClients.get(VirtualMachine.class.getSimpleName()).watch(watcher);
 	}
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	/**
@@ -266,16 +254,6 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 		return new VirtualMachineImageImpl();
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	/**
 	 * @return        VirtualMachineDisks
 	 */
@@ -290,12 +268,6 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 	public void watchVirtualMachineDisks(Watcher<VirtualMachineDisk> watcher) {
 		crdClients.get(VirtualMachineDisk.class.getSimpleName()).watch(watcher);
 	}
-	
-	
-	
-	
-	
-	
 	
 	/**
 	 * @return        VirtualMachineDiskSnapshots
@@ -312,13 +284,6 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 		crdClients.get(VirtualMachineDiskSnapshot.class.getSimpleName()).watch(watcher);
 	}	
 	
-	
-	
-	
-	
-	
-	
-	
 	/**
 	 * @return        VirtualMachinePools
 	 */
@@ -333,17 +298,6 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 	public void watchVirtualMachinePools(Watcher<VirtualMachinePool> watcher) {
 		crdClients.get(VirtualMachinePool.class.getSimpleName()).watch(watcher);
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	/**
 	 * @return        VirtualMachineNetworks
@@ -360,16 +314,6 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 		crdClients.get(VirtualMachineNetwork.class.getSimpleName()).watch(watcher);
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	/**
 	 * @return        VirtualMachineSnapshots
 	 */
@@ -384,20 +328,6 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 	public void watchVirtualMachineSnapshots(Watcher<VirtualMachineSnapshot> watcher) {
 		crdClients.get(VirtualMachineSnapshot.class.getSimpleName()).watch(watcher);
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	/**
 	 * @return        VirtualMachineDiskImages
@@ -414,24 +344,12 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 		crdClients.get(VirtualMachineDiskImage.class.getSimpleName()).watch(watcher);
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	/**
 	 * @return NodeSelector
 	 */
 	public NodeSelectorImpl getNodeSelector() {
 		return new NodeSelectorImpl(this);
 	}
-	
-	
-	
 	
 	/**
 	 * the same as  'virtualMachines'
