@@ -22,7 +22,7 @@ public class UnplugDiskTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.unplugDisk("wyw111", getUnplugDisk());
+				.unplugDisk("wyw123", getUnplugDisk());
 		System.out.println(successful);
 	}
 	

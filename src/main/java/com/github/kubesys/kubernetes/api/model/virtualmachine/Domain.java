@@ -16015,6 +16015,16 @@ public class Domain {
 					protected String _startupPolicy;
 					
 					protected String _file;
+					
+					protected String _dev;
+					
+					public String get_dev() {
+						return _dev;
+					}
+
+					public void set_dev(String _dev) {
+						this._dev = _dev;
+					}
 
 					public String get_file() {
 						return _file;
