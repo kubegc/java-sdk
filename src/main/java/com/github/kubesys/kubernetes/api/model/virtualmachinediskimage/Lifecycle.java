@@ -70,6 +70,18 @@ public class Lifecycle {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class DeleteDiskImage {
+		
+		@ParameterDescriber(required = true, description = "源存储池名，源云盘所在的存储池名", constraint = "由4-100位的数字和小写字母组成，已创建出的存储池", example = "pool1")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String sourcePool;
+
+		public String getSourcePool() {
+			return sourcePool;
+		}
+
+		public void setSourcePool(String sourcePool) {
+			this.sourcePool = sourcePool;
+		}
 
 	}
 	
