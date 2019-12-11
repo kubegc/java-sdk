@@ -22,13 +22,13 @@ public class DeleteDiskImageTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineDiskImages()
-				.deleteDiskImage("wyw124", get());
+				.deleteDiskImage("wyw124aaa21", get());
 		System.out.println(successful);
 	}
 
 	protected static DeleteDiskImage get() {
 		DeleteDiskImage delteDiskImage = new DeleteDiskImage();
-		delteDiskImage.setSourcePool("pool1");
+		delteDiskImage.setSourcePool("444poolnfs");
 		return delteDiskImage;
 	}
 	

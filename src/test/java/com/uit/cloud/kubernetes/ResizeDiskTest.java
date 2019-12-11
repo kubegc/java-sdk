@@ -22,15 +22,15 @@ public class ResizeDiskTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineDisks()
-				.resizeDisk("diskuittest", get());
+				.resizeDisk("disk44444", get());
 		System.out.println(successful);
 	}
 
 	protected static ResizeDisk get() {
 		ResizeDisk resizeDisk = new ResizeDisk();
-		resizeDisk.setType("localfs");
+		resizeDisk.setType("nfs");
 		resizeDisk.setCapacity("21737418240");
-		resizeDisk.setPool("pooluittest");
+		resizeDisk.setPool("123poolnfs");
 		return resizeDisk;
 	}
 }

@@ -46,6 +46,8 @@ public class Volume {
 	protected String uni;
 	
 	protected String disktype;
+
+	protected String poolname;
 	
 	public String getDisktype() {
 		return disktype;
@@ -61,6 +63,14 @@ public class Volume {
 
 	public void setPool(String pool) {
 		this.pool = pool;
+	}
+
+	public String getPoolname() {
+		return poolname;
+	}
+
+	public void setPoolname(String poolname) {
+		this.poolname = poolname;
 	}
 
 	public String getUni() {

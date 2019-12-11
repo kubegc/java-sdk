@@ -34,7 +34,17 @@ public class Pool {
 	protected String capacity;
 	
 	protected String path;
-	
+
+	protected String poolname;
+
+	public String getPoolname() {
+		return poolname;
+	}
+
+	public void setPoolname(String poolname) {
+		this.poolname = poolname;
+	}
+
 	public String getContent() {
 		return content;
 	}

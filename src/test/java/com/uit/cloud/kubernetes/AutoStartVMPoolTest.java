@@ -21,9 +21,9 @@ public class AutoStartVMPoolTest {
 	public static void main(String[] args) throws Exception {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
-//		boolean successful = client.virtualMachinePools()
-//				.autoStart("pooltest2", getPool());
-//		System.out.println(successful);
+		boolean successful = client.virtualMachinePools()
+				.autoStartPool("poolnbv", getPool());
+		System.out.println(successful);
 	}
 
 	protected static Lifecycle.AutoStartPool getPool() {

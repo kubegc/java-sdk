@@ -22,15 +22,15 @@ public class CloneDiskTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineDisks()
-				.cloneDisk("diskuittest", getCreateDisk());
+				.cloneDisk("disk44444", getCreateDisk());
 		System.out.println(successful);
 	}
 
 	public static CloneDisk getCreateDisk() {
 		CloneDisk createDisk = new CloneDisk();
-		createDisk.setPool("pooluittest");
-		createDisk.setType("localfs");
-		createDisk.setNewname("diskuittestclone1");
+		createDisk.setPool("123poolnfs");
+		createDisk.setType("nfs");
+		createDisk.setNewname("disk44444clone");
 		createDisk.setFormat("qcow2");
 		return createDisk;
 	}
