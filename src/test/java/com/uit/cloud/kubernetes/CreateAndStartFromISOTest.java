@@ -44,7 +44,7 @@ public class CreateAndStartFromISOTest {
 		// cdrom
 		createAndStartVMFromISO.setCdrom("/var/lib/libvirt/iso/centos7-minimal-1511.iso"); 
 		// Disk and QoS for 1 disk and many disks
-		createAndStartVMFromISO.setDisk("/var/lib/libvirt/cstor/17098caccd174fccafed76b0d7fccde0/17098caccd174fccafed76b0d7fccde0/diskdada466/diskdada466,read_bytes_sec=1024000000,write_bytes_sec=1024000000 --disk /var/lib/libvirt/cstor/17098caccd174fccafed76b0d7fccde0/17098caccd174fccafed76b0d7fccde0/disk66466/disk66466,read_bytes_sec=1024000000,write_bytes_sec=1024000000 " + getOtherCDROMs());
+		createAndStartVMFromISO.setDisk("/var/lib/libvirt/cstor/1709accf174fccaced76b0dbfccdev/1709accf174fccaced76b0dbfccdev/vmdisk1/vmdisk1,read_bytes_sec=1024000000,write_bytes_sec=1024000000 --disk /var/lib/libvirt/cstor/1709accf174fccaced76b0dbfccdev/1709accf174fccaced76b0dbfccdev/vmdisk2/vmdisk2,read_bytes_sec=1024000000,write_bytes_sec=1024000000 " + getOtherCDROMs());
 		
 		/*
 		 * libivrt default bridge

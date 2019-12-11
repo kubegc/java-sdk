@@ -14282,8 +14282,18 @@ public class Domain {
 				
 				protected String _controller;
 
+				protected String _dev;
+
 				public Source() {
 
+				}
+
+				public String get_dev() {
+					return _dev;
+				}
+
+				public void set_dev(String _dev) {
+					this._dev = _dev;
 				}
 
 				public String get_controller() {

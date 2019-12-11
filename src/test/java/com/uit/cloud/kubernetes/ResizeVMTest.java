@@ -22,13 +22,13 @@ public class ResizeVMTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.resizeVM("950646e8c17a49d0b83c1c797811e004", get());
+				.resizeVM("vmtest111", get());
 		System.out.println(successful);
 	}
 
 	protected static ResizeVM get() {
 		ResizeVM resizevm = new ResizeVM();
-		resizevm.setPath("/var/lib/libvirt/images/950646e8c17a49d0b83c1c797811e004");
+		resizevm.setPath("/var/lib/libvirt/cstor/1709accf174fccaced76b0dbfccdev/1709accf174fccaced76b0dbfccdev/vmdisk1/vmdisk1");
 		Long size = 40L*1024*1024*1024;
 		resizevm.setSize(String.valueOf(size));
 		return resizevm;

@@ -22,15 +22,15 @@ public class CloneVMTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.cloneVM("wyw111", getCreateDisk());
+				.cloneVM("vmtest111", getCreateDisk());
 		System.out.println(successful);
 	}
 
 	public static CloneVM getCreateDisk() {
 		CloneVM cloneVM = new CloneVM();
-		cloneVM.setName("wyw111-clone");
-//		cloneVM.setAuto_clone(true);
-		cloneVM.setFile("/var/lib/libvirt/images/ttt-1.qcow2");
+		cloneVM.setName("vmtest111-clone");
+		cloneVM.setAuto_clone(true);
+//		cloneVM.setFile("/var/lib/libvirt/cstor/1709accf174fccaced76b0dbfccdev/1709accf174fccaced76b0dbfccdev/vmdisk5/vmdisk5");
 		return cloneVM;
 	}
 }

@@ -22,13 +22,13 @@ public class CreateDiskTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineDisks()
-				.createDisk("diskdada466", "vm.node22", get(), "abc");
+				.createDisk("vmdisk4", "vm.node35", get(), "abc");
 		System.out.println(successful);
 	}
 
 	protected static CreateDisk get() {
 		CreateDisk createDisk = new CreateDisk();
-		createDisk.setPool("222poolnfs");
+		createDisk.setPool("vmtestpool");
 		// bytes 10G
 		Long size = 10L*1024*1024*1024;
 		createDisk.setCapacity(String.valueOf(size));
