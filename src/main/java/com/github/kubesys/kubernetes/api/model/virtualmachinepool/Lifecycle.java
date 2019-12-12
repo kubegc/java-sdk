@@ -187,9 +187,9 @@ public class Lifecycle {
 		@ParameterDescriber(required = false, description = "创建存储池后是否设置为自动打开", constraint = "true或false", example = "true")
 		protected boolean autostart;
 
-		@ParameterDescriber(required = false, description = "创建nfs或glusterfs存储池时的挂载路径，不填则默认在/var/lib/libvirt/cstor目录下挂载", constraint = "/nfs/pool", example = "/nfs/pool")
-		@Pattern(regexp = RegExpUtils.POOL_PATH)
-		protected String path;
+//		@ParameterDescriber(required = false, description = "创建nfs或glusterfs存储池时的挂载路径，不填则默认在/var/lib/libvirt/cstor目录下挂载", constraint = "/nfs/pool", example = "/nfs/pool")
+//		@Pattern(regexp = RegExpUtils.POOL_PATH)
+//		protected String path;
 
 		@ParameterDescriber(required = false, description = "强力创建vdiskfs", constraint = "True或False", example = "True")
 		@Pattern(regexp = RegExpUtils.BOOL_TYPE_PATTERN)
@@ -238,13 +238,13 @@ public class Lifecycle {
 		}
 
 
-		public String getPath() {
-			return path;
-		}
-
-		public void setPath(String path) {
-			this.path = path;
-		}
+//		public String getPath() {
+//			return path;
+//		}
+//
+//		public void setPath(String path) {
+//			this.path = path;
+//		}
 
 		public String getForce() {
 			return force;
