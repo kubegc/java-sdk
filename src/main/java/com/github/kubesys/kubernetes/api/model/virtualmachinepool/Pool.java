@@ -37,6 +37,16 @@ public class Pool {
 
 	protected String poolname;
 
+	protected String pool;
+
+	public String getPool() {
+		return pool;
+	}
+
+	public void setPool(String pool) {
+		this.pool = pool;
+	}
+
 	public String getPoolname() {
 		return poolname;
 	}
