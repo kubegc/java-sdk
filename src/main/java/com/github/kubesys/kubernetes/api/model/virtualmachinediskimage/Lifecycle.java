@@ -132,7 +132,7 @@ public class Lifecycle {
 	public static class CreateDiskImage {
 
 		@ParameterDescriber(required = true, description = "要转化为云盘镜像的源文件路径", constraint = "路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点", example = "/var/lib/libvirt/test.qcow2")
-		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
+//		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
 		protected String source;
 		
 		@ParameterDescriber(required = true, description = "目标存储池名", constraint = "由4-100位的数字和小写字母组成，已创建出的存储池", example = "pool2")
