@@ -1,9 +1,13 @@
+
 # 文档简介
 
 	本文档用于说明基于Kubernetes的虚拟机生命周期如何管理, 项目地址：https://github.com/kubesys/kubeext-jdk.
 	本文有两种通用的约束:
 		(1)名称：只允许小写字母和、数字、中划线和圆点组合，4-100位
-		(2)路径：必须是/xx/xx形式，且在/var/lib/libvirt目录下，xx允许小写字母、数字、中划线和点，18-1024位
+		(2)路径：必须是/xx/xx形式，且在/var/lib/libvirt、/mnt/localfs或/mnt/usb目录下，xx允许小写字母、数字、中划线和点，18-1024位
+
+
+		(3)目前JDK提供的参数数量多余文档，以文档为准，其它为预留参数，传入会导致系统失败
 
 
 # 1 VirtualMachine
@@ -35,6 +39,7 @@
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
 | metadata|String|false|用户生成虚拟机的元数据|uuid=<UUID>，UUID是字符串类型，长度是12到36位，只允许数字、小写字母、中划线、以及圆点|uuid=950646e8-c17a-49d0-b83c-1c797811e001|
+| graphics|String|true|虚拟机VNC/SPICE及其密码|取值范围：<vnc/spice,listen=0.0.0.0>,password=xxx（<必填>，选填），密码为4-16位，是小写字母、数字和中划线组合|vnc,listen=0.0.0.0,password=abcdefg|
 | disk|String|true|虚拟机磁盘，包括硬盘和光驱|硬盘的约束：/var/lib/libvirt/images/test3.qcow2,target=hda,read_bytes_sec=1024000000,write_bytes_sec=1024000000，光驱的约束：/opt/ISO/CentOS-7-x86_64-Minimal-1511.iso,device=cdrom,perms=ro，支持多个硬盘，第一个硬盘无需添加--disk，后续的需要|/var/lib/libvirt/images/test3.qcow2,read_bytes_sec=1024000000,write_bytes_sec=1024000000 --disk /opt/ISO/CentOS-7-x86_64-Minimal-1511.iso,device=cdrom,perms=ro|
 | memory|String|true|虚拟机内存大小，单位为MiB|取值范围：100~99999|2048|
 | network|String|true|虚拟机网络|type=bridge（libvirt默认网桥virbr0）/ l2bridge（ovs网桥）/ l3bridge（支持ovn的ovs网桥），source=源网桥（必填），inbound=网络输入带宽QoS限制，单位为KiB，outbound=网络输出带宽QoS限制，单位为KiB，ip=IP地址（选填，只有type=l3bridge类型支持该参数），switch=ovn交换机名称（选填，只有type=l3bridge类型支持该参数）,参数顺序必须是type,source,ip,switch,inbound,outbound,model,mac|type=l3bridge,source=br-int,ip=192.168.5.9,switch=switch8888,inbound=102400,outbound=102400|
@@ -90,6 +95,7 @@
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
 | metadata|String|false|用户生成虚拟机的元数据|uuid=<UUID>，UUID是字符串类型，长度是12到36位，只允许数字、小写字母、中划线、以及圆点|uuid=950646e8-c17a-49d0-b83c-1c797811e001|
+| graphics|String|true|虚拟机VNC/SPICE及其密码|取值范围：<vnc/spice,listen=0.0.0.0>,password=xxx（<必填>，选填），密码为4-16位，是小写字母、数字和中划线组合|vnc,listen=0.0.0.0,password=abcdefg|
 | disk|String|true|虚拟机磁盘，包括硬盘和光驱|硬盘的约束：/var/lib/libvirt/images/test3.qcow2,target=hda,read_bytes_sec=1024000000,write_bytes_sec=1024000000，光驱的约束：/opt/ISO/CentOS-7-x86_64-Minimal-1511.iso,device=cdrom,perms=ro，支持多个硬盘，第一个硬盘无需添加--disk，后续的需要|/var/lib/libvirt/images/test3.qcow2,read_bytes_sec=1024000000,write_bytes_sec=1024000000 --disk /opt/ISO/CentOS-7-x86_64-Minimal-1511.iso,device=cdrom,perms=ro|
 | memory|String|true|虚拟机内存大小，单位为MiB|取值范围：100~99999|2048|
 | network|String|true|虚拟机网络|type=bridge（libvirt默认网桥virbr0）/ l2bridge（ovs网桥）/ l3bridge（支持ovn的ovs网桥），source=源网桥（必填），inbound=网络输入带宽QoS限制，单位为KiB，outbound=网络输出带宽QoS限制，单位为KiB，ip=IP地址（选填，只有type=l3bridge类型支持该参数），switch=ovn交换机名称（选填，只有type=l3bridge类型支持该参数）,参数顺序必须是type,source,ip,switch,inbound,outbound,model,mac|type=l3bridge,source=br-int,ip=192.168.5.9,switch=switch8888,inbound=102400,outbound=102400|
@@ -310,7 +316,7 @@
 ## 1.7 MigrateVM(虚机迁移)
 
 **接口功能:**
-	虚拟机迁移，必须依赖共享存储只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
+	虚拟机迁移，必须依赖共享存储，且所有物理机之间免密登陆只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
 
 **接口依赖:**
 	虚拟机存在，即已调用过CreatePool, CreateSwitch, CreateDisk/CreateDiskImage, CreateAndStartVMFromISO/CreateAndStartVMFromImage
@@ -330,6 +336,8 @@
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
+| offline|Boolean|false|虚拟机关机迁移，关机时时必填|虚拟机关机迁移，关机时时必填|true|
+| ip|String|true|目标主机服务地址，主机之间需要提前免密登录|目标主机的服务url，主机之间需要提前配置免密登录|133.133.135.31|
 |  |  |  |  |  |
 
 **接口异常:**
@@ -471,6 +479,7 @@
 | persistent|Boolean|false|对配置进行持久化|true或者false|true|
 | config|Boolean|false|如果不设置，当前配置下次不会生效|true或者false|true|
 | live|Boolean|false|立即生效，对于开机虚拟机|true或者false|true|
+| cache|String|false|云盘缓存类型|取值范围：none, writethrough, directsync, unsafe, writeback|none|
 | source|String|true|云盘源路径|路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点|/var/lib/libvirt/images/test1.qcow2|
 | type|String|false|云盘类型|取值范围：lun, cdrom, floppy|cdrom|
 | subdriver|String|false|云盘子驱动类型|取值范围：qcow2, raw|qcow2|
@@ -1195,7 +1204,12 @@
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| name|String|true|克隆虚拟机|克隆虚拟机所有磁盘，新虚拟机名长度是4到100位|newdisk|
+| name|String|true|克隆虚拟机的名称|新虚拟机名长度是4到100位|newvm|
+| file|String|false|新磁盘路径|路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点|/var/lib/libvirt/images/test1.qcow2|
+| preserve_data|Boolean|false|不克隆存储，通过 --file 参数指定的新磁盘镜像将保留不变|true或者false|true|
+| mac|String|false|网卡的mac地址|mac地址不能以fe开头|7e:0c:b0:ef:6a:04|
+| nonsparse|Boolean|false|不使用稀疏文件作为克隆的磁盘镜像|true或者false|false|
+| auto_clone|Boolean|false|从原始客户机配置中自动生成克隆名称和存储路径|true或者false|false|
 |  |  |  |  |  |
 
 **接口异常:**
@@ -2007,6 +2021,7 @@
 	"metadata":{
 		"additionalProperties":{},
 		"finalizers":[],
+		"managedFields":[],
 		"ownerReferences":[]
 	},
 	"spec":{
@@ -2492,7 +2507,11 @@
 						},
 						"source":{
 							"_bridge":"String",
-							"_network":"String"
+							"_dev":"String",
+							"_mode":"String",
+							"_network":"String",
+							"_path":"String",
+							"_type":"String"
 						},
 						"target":{
 							"_dev":"String"
@@ -2663,7 +2682,11 @@
 						},
 						"source":{
 							"_bridge":"String",
-							"_network":"String"
+							"_dev":"String",
+							"_mode":"String",
+							"_network":"String",
+							"_path":"String",
+							"_type":"String"
 						},
 						"target":{
 							"_dev":"String"
@@ -3408,19 +3431,13 @@
 						"_autoport":"String",
 						"_port":"String",
 						"_type":"String",
-						"listen":{
-							"_address":"String",
-							"_type":"String"
-						}
+						"listen":"String"
 					},
 					{
 						"_autoport":"String",
 						"_port":"String",
 						"_type":"String",
-						"listen":{
-							"_address":"String",
-							"_type":"String"
-						}
+						"listen":"String"
 					}
 				],
 				"hostdev":[
@@ -4784,7 +4801,12 @@
 				"live":true
 			},
 			"cloneVM":{
-				"name":"String"
+				"auto_clone":true,
+				"file":"String",
+				"mac":"String",
+				"name":"String",
+				"nonsparse":true,
+				"preserve_data":true
 			},
 			"convertVMToImage":{
 				"targetPool":"String"
@@ -4902,9 +4924,10 @@
 				"compressed":true,
 				"copy_storage_all":true,
 				"copy_storage_inc":true,
-				"ip":"String",
+				"desturi":"String",
 				"direct":true,
 				"domain":"String",
+				"ip":"String",
 				"live":true,
 				"offline":true,
 				"p2p":true,
@@ -5232,6 +5255,7 @@
 	"metadata":{
 		"additionalProperties":{},
 		"finalizers":[],
+		"managedFields":[],
 		"ownerReferences":[]
 	},
 	"spec":{
@@ -5717,7 +5741,11 @@
 						},
 						"source":{
 							"_bridge":"String",
-							"_network":"String"
+							"_dev":"String",
+							"_mode":"String",
+							"_network":"String",
+							"_path":"String",
+							"_type":"String"
 						},
 						"target":{
 							"_dev":"String"
@@ -5888,7 +5916,11 @@
 						},
 						"source":{
 							"_bridge":"String",
-							"_network":"String"
+							"_dev":"String",
+							"_mode":"String",
+							"_network":"String",
+							"_path":"String",
+							"_type":"String"
 						},
 						"target":{
 							"_dev":"String"
@@ -6633,19 +6665,13 @@
 						"_autoport":"String",
 						"_port":"String",
 						"_type":"String",
-						"listen":{
-							"_address":"String",
-							"_type":"String"
-						}
+						"listen":"String"
 					},
 					{
 						"_autoport":"String",
 						"_port":"String",
 						"_type":"String",
-						"listen":{
-							"_address":"String",
-							"_type":"String"
-						}
+						"listen":"String"
 					}
 				],
 				"hostdev":[
@@ -8026,8 +8052,7 @@
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| type|String|true|存储池的类型|只能是dir，vdiskfs，uus，nfs，glusterfs之一|dir|
-| delete_snapshots|Boolean|false|删除所有快照|true或者false|true|
+| type|String|true|存储池的类型|只能是localfs，vdiskfs，uus，nfs，glusterfs之一|localfs|
 | pool|String|true|云盘所在的存储池名|已创建出的存储池|pool2|
 |  |  |  |  |  |
 
@@ -8073,7 +8098,7 @@
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| type|String|true|存储池的类型|只能是dir，vdiskfs，nfs，glusterfs之一|dir|
+| type|String|true|存储池的类型|只能是localfs，vdiskfs，nfs，glusterfs之一|localfs|
 | pool|String|true|云盘所在的存储池名|已创建出的存储池|pool2|
 | capacity|String|true|扩容后的云盘空间大小, 1G到1T|1000000000-999999999999（单位：Byte），需要比以前的云盘空间大|‭10,737,418,240‬|
 |  |  |  |  |  |
@@ -8121,11 +8146,9 @@
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| type|String|true|存储池的类型|只能是dir，vdiskfs，uus，nfs，glusterfs之一|dir|
-| backing_vol_format|String|true|根云盘文件的类型|qcow2|qcow2|
+| type|String|true|存储池的类型|只能是localfs，vdiskfs，uus，nfs，glusterfs之一|localfs|
 | format|String|true|云盘文件的类型|qcow2|qcow2|
 | pool|String|true|创建云盘使用的存储池名|已创建出的存储池|pool2|
-| backing_vol|String|true|根云盘的名字|已创建出的云盘|volume1|
 | capacity|String|true|云盘空间大小,1G到1T|1000000000-999999999999（单位：Byte）|‭10,737,418,240‬|
 |  |  |  |  |  |
 
@@ -8172,9 +8195,10 @@
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| type|String|true|存储池的类型|只能是dir，vdiskfs，nfs，glusterfs之一|dir|
+| type|String|true|存储池的类型|只能是localfs，vdiskfs，nfs，glusterfs之一|localfs|
 | targetPool|String|true|目标存储池名|由4-100位的数字和小写字母组成，已创建出的存储池|pool2|
 | source|String|true|云盘镜像的路径|路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点|/var/lib/libvirt/test.qcow2|
+| full_copy|boolean|false|默认为从快照创建，true为全拷贝|默认为从快照创建，true为全拷贝|true|
 |  |  |  |  |  |
 
 **接口异常:**
@@ -8219,7 +8243,7 @@
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| type|String|true|存储池的类型|只能是dir, vdiskfs，nfs，glusterfs之一|dir|
+| type|String|true|存储池的类型|只能是localfs, vdiskfs，nfs，glusterfs之一|localfs|
 | pool|String|true|云盘所在的存储池名|由4-100位的数字和小写字母组成，已创建出的存储池|pool2|
 | newname|String|true|新云盘的名字|由4-100位的数字和小写字母组成|newdisk|
 | format|String|true|云盘文件的类型|qcow2|qcow2|
@@ -8268,7 +8292,7 @@
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| type|String|true|存储池的类型|只能是dir，nfs，glusterfs, vdiskfs之一|dir|
+| type|String|true|存储池的类型|只能是localfs，nfs，glusterfs, vdiskfs之一|localfs|
 | pool|String|true|云盘所在的存储池名|由4-100位的数字和小写字母组成，已创建出的存储池|pool2|
 | snapshotname|String|true|快照的名字|由4-100位的数字和小写字母组成|snap1|
 |  |  |  |  |  |
@@ -8315,7 +8339,7 @@
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| type|String|true|存储池的类型|只能是dir, vdiskfs，nfs，glusterfs之一|dir|
+| type|String|true|存储池的类型|只能是localfs, vdiskfs，nfs，glusterfs之一|localfs|
 | pool|String|true|云盘所在的存储池名|由4-100位的数字和小写字母组成，已创建出的存储池|pool2|
 | snapshotname|String|true|快照的名字|由4-100位的数字和小写字母组成|snap1|
 |  |  |  |  |  |
@@ -8362,7 +8386,7 @@
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| type|String|true|存储池的类型|只能是dir, vdiskfs，nfs，glusterfs之一|dir|
+| type|String|true|存储池的类型|只能是localfs, vdiskfs，nfs，glusterfs之一|localfs|
 | pool|String|true|云盘所在的存储池名|由4-100位的数字和小写字母组成，已创建出的存储池|pool2|
 | snapshotname|String|true|快照的名字|由4-100位的数字和小写字母组成|snap1|
 |  |  |  |  |  |
@@ -8394,6 +8418,7 @@
 	"metadata":{
 		"additionalProperties":{},
 		"finalizers":[],
+		"managedFields":[],
 		"ownerReferences":[]
 	},
 	"spec":{
@@ -8410,8 +8435,6 @@
 			},
 			"createDisk":{
 				"allocation":"String",
-				"backing_vol":"String",
-				"backing_vol_format":"String",
 				"capacity":"String",
 				"format":"String",
 				"pool":"String",
@@ -8419,6 +8442,7 @@
 				"type":"String"
 			},
 			"createDiskFromDiskImage":{
+				"full_copy":true,
 				"source":"String",
 				"targetPool":"String",
 				"type":"String"
@@ -8430,7 +8454,6 @@
 			},
 			"createDiskSnapshot":{"$ref":"$.spec.lifecycle.createDiskInternalSnapshot"},
 			"deleteDisk":{
-				"delete_snapshots":true,
 				"pool":"String",
 				"type":"String"
 			},
@@ -8478,6 +8501,7 @@
 			},
 			"full_backing_filename":"String",
 			"pool":"String",
+			"uni":"String",
 			"virtual_size":"String"
 		}
 	}
@@ -8634,6 +8658,7 @@
 	"metadata":{
 		"additionalProperties":{},
 		"finalizers":[],
+		"managedFields":[],
 		"ownerReferences":[]
 	},
 	"spec":{
@@ -8686,8 +8711,8 @@
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| type|String|true|存储池的类型|只能是dir，vdiskfs，nfs，glusterfs之一|dir|
-| pool|String|true|云盘所在的存储池名|由4-100位的数字和小写字母组成，已创建出的存储池，只支持dir、nfs和glusterfs类型|pool2|
+| type|String|true|存储池的类型|只能是localfs，vdiskfs，nfs，glusterfs之一|localfs|
+| pool|String|true|云盘所在的存储池名|由4-100位的数字和小写字母组成，已创建出的存储池，只支持localfs、nfs和glusterfs类型|pool2|
 | format|String|true|云盘文件的类型|qcow2|qcow2|
 | vol|String|true|云盘名|磁盘和快照|disk1|
 | domain|String|false|若该云盘加载到虚拟机内（包括系统盘、数据盘），并且虚拟机处于开机状态，则需要填写该虚拟机名，否则将报错Write lock|已存在的虚拟机名，由4-100位的数字和小写字母组成|950646e8c17a49d0b83c1c797811e001|
@@ -8735,7 +8760,7 @@
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| type|String|true|存储池的类型|只能是dir，vdiskfs，nfs，glusterfs之一|dir|
+| type|String|true|存储池的类型|只能是localfs，vdiskfs，nfs，glusterfs之一|localfs|
 | pool|String|true|云盘所在的存储池名|由4-100位的数字和小写字母组成，已创建出的存储池|pool2|
 | vol|String|true|云盘名|磁盘和快照|disk1|
 | format|String|true|云盘文件的类型|qcow2|qcow2|
@@ -8784,7 +8809,7 @@
 
 | name | type | required | description | constraint | example |
 | ----- | ------ | ------ | ------ | ------ | ------ |
-| type|String|true|存储池的类型|只能是dir，vdiskfs，nfs，glusterfs之一|dir|
+| type|String|true|存储池的类型|只能是localfs，vdiskfs，nfs，glusterfs之一|localfs|
 | pool|String|true|云盘所在的存储池名|由4-100位的数字和小写字母组成，已创建出的存储池|pool2|
 | vol|String|true|云盘名|磁盘和快照|disk1|
 | domain|String|false|若该云盘加载到虚拟机内（包括系统盘、数据盘），并且虚拟机处于开机状态，则需要填写该虚拟机名，否则将报错Write lock|已存在的虚拟机名，由4-100位的数字和小写字母组成|950646e8c17a49d0b83c1c797811e001|
@@ -8817,6 +8842,7 @@
 	"metadata":{
 		"additionalProperties":{},
 		"finalizers":[],
+		"managedFields":[],
 		"ownerReferences":[]
 	},
 	"spec":{
@@ -9097,6 +9123,7 @@
 	"metadata":{
 		"additionalProperties":{},
 		"finalizers":[],
+		"managedFields":[],
 		"ownerReferences":[]
 	},
 	"spec":{
@@ -9679,7 +9706,11 @@
 							},
 							"source":{
 								"_bridge":"String",
-								"_network":"String"
+								"_dev":"String",
+								"_mode":"String",
+								"_network":"String",
+								"_path":"String",
+								"_type":"String"
 							},
 							"target":{
 								"_dev":"String"
@@ -9850,7 +9881,11 @@
 							},
 							"source":{
 								"_bridge":"String",
-								"_network":"String"
+								"_dev":"String",
+								"_mode":"String",
+								"_network":"String",
+								"_path":"String",
+								"_type":"String"
 							},
 							"target":{
 								"_dev":"String"
@@ -10008,6 +10043,3070 @@
 								"_iothread":"String",
 								"_max_sectors":"String",
 								"_queues":"String"
+							},
+							"master":{
+								"_startport":"String"
+							},
+							"model":"String",
+							"target":{
+								"_chassis":"String",
+								"_chassisNr":"String",
+								"_port":"String"
+							}
+						},
+						{
+							"_index":"String",
+							"_type":"String",
+							"address":{
+								"_bus":"String",
+								"_domain":"String",
+								"_function":"String",
+								"_multifunction":"String",
+								"_slot":"String",
+								"_type":"String"
+							},
+							"alias":{
+								"_name":"String"
+							},
+							"driver":{
+								"_ats":"String",
+								"_cmd_per_lun":"String",
+								"_ioeventfd":"String",
+								"_iommu":"String",
+								"_iothread":"String",
+								"_max_sectors":"String",
+								"_queues":"String"
+							},
+							"master":{
+								"_startport":"String"
+							},
+							"model":"String",
+							"target":{
+								"_chassis":"String",
+								"_chassisNr":"String",
+								"_port":"String"
+							}
+						}
+					],
+					"disk":[
+						{
+							"_device":"String",
+							"_model":"String",
+							"_rawio":"String",
+							"_sgio":"String",
+							"_snapshot":"String",
+							"_transient":{},
+							"_type":"String",
+							"address":{
+								"_bus":"String",
+								"_controller":"String",
+								"_domain":"String",
+								"_function":"String",
+								"_slot":"String",
+								"_target":"String",
+								"_type":"String",
+								"_unit":"String"
+							},
+							"alias":{
+								"_name":"String"
+							},
+							"auth":{
+								"_username":"String",
+								"secret":{
+									"_type":"String",
+									"_usage":"String",
+									"_uuid":"String"
+								}
+							},
+							"backingStore":{
+								"_file":"String",
+								"_index":"String",
+								"_type":"String",
+								"format":{
+									"_type":"String"
+								},
+								"source":{
+									"_file":"String",
+									"_index":"String",
+									"_startupPolicy":"String",
+									"encryption":{
+										"_format":"String",
+										"secret":{
+											"_type":"String",
+											"_usage":"String",
+											"_uuid":"String"
+										}
+									},
+									"reservations":{
+										"_enabled":"String",
+										"_managed":"String",
+										"source":{
+											"_dev":"String",
+											"_mode":"String",
+											"_path":"String",
+											"_type":"String"
+										}
+									}
+								}
+							},
+							"blockio":{
+								"_logical_block_size":"String",
+								"_physical_block_size":"String"
+							},
+							"boot":{
+								"_loadparm":"String",
+								"_order":"String"
+							},
+							"driver":{
+								"_ats":"String",
+								"_cache":"String",
+								"_copy_on_read":"String",
+								"_detect_zeroes":"String",
+								"_discard":"String",
+								"_error_policy":"String",
+								"_event_idx":"String",
+								"_io":"String",
+								"_ioeventfd":"String",
+								"_iommu":"String",
+								"_iothread":"String",
+								"_name":"String",
+								"_queues":"String",
+								"_rerror_policy":"String",
+								"_type":"String"
+							},
+							"encryption":{
+								"_format":"String",
+								"secret":{
+									"_type":"String",
+									"_usage":"String",
+									"_uuid":"String"
+								}
+							},
+							"geometry":{
+								"_cyls":"String",
+								"_heads":"String",
+								"_secs":"String",
+								"_trans":"String"
+							},
+							"iotune":{
+								"group_name":{
+									"text":"String"
+								},
+								"read_bytes_sec":{
+									"text":"String"
+								},
+								"read_bytes_sec_max":{
+									"text":"String"
+								},
+								"read_bytes_sec_max_length":{
+									"text":"String"
+								},
+								"read_iops_sec":{
+									"text":"String"
+								},
+								"read_iops_sec_max":{
+									"text":"String"
+								},
+								"read_iops_sec_max_length":{
+									"text":"String"
+								},
+								"size_iops_sec":{
+									"text":"String"
+								},
+								"total_bytes_sec":{
+									"text":"String"
+								},
+								"total_bytes_sec_max":{
+									"text":"String"
+								},
+								"total_bytes_sec_max_length":{
+									"text":"String"
+								},
+								"total_iops_sec":{
+									"text":"String"
+								},
+								"total_iops_sec_max":{
+									"text":"String"
+								},
+								"total_iops_sec_max_length":{
+									"text":"String"
+								},
+								"write_bytes_sec":{
+									"text":"String"
+								},
+								"write_bytes_sec_max":{
+									"text":"String"
+								},
+								"write_bytes_sec_max_length":{
+									"text":"String"
+								},
+								"write_iops_sec":{
+									"text":"String"
+								},
+								"write_iops_sec_max":{
+									"text":"String"
+								},
+								"write_iops_sec_max_length":{
+									"text":"String"
+								}
+							},
+							"mirror":{
+								"_job":"String",
+								"_ready":"String",
+								"format":{
+									"_type":"String"
+								},
+								"source":{
+									"_index":"String",
+									"_startupPolicy":"String",
+									"encryption":{
+										"_format":"String",
+										"secret":{
+											"_type":"String",
+											"_usage":"String",
+											"_uuid":"String"
+										}
+									},
+									"reservations":{
+										"_enabled":"String",
+										"_managed":"String",
+										"source":{
+											"_dev":"String",
+											"_mode":"String",
+											"_path":"String",
+											"_type":"String"
+										}
+									}
+								}
+							},
+							"product":{
+								"text":"String"
+							},
+							"readonly":{},
+							"serial":{
+								"_type":"String",
+								"text":"String"
+							},
+							"shareable":{},
+							"source":{
+								"_controller":"String",
+								"_file":"String",
+								"_index":"String",
+								"_startupPolicy":"String",
+								"encryption":{
+									"_format":"String",
+									"secret":{
+										"_type":"String",
+										"_usage":"String",
+										"_uuid":"String"
+									}
+								},
+								"reservations":{
+									"_enabled":"String",
+									"_managed":"String",
+									"source":{
+										"_dev":"String",
+										"_mode":"String",
+										"_path":"String",
+										"_type":"String"
+									}
+								}
+							},
+							"target":{
+								"_bus":"String",
+								"_dev":"String",
+								"_removable":"String",
+								"_tray":"String"
+							},
+							"vendor":{
+								"text":"String"
+							},
+							"wwn":{
+								"text":"String"
+							}
+						},
+						{
+							"_device":"String",
+							"_model":"String",
+							"_rawio":"String",
+							"_sgio":"String",
+							"_snapshot":"String",
+							"_transient":{},
+							"_type":"String",
+							"address":{
+								"_bus":"String",
+								"_controller":"String",
+								"_domain":"String",
+								"_function":"String",
+								"_slot":"String",
+								"_target":"String",
+								"_type":"String",
+								"_unit":"String"
+							},
+							"alias":{
+								"_name":"String"
+							},
+							"auth":{
+								"_username":"String",
+								"secret":{
+									"_type":"String",
+									"_usage":"String",
+									"_uuid":"String"
+								}
+							},
+							"backingStore":{
+								"_file":"String",
+								"_index":"String",
+								"_type":"String",
+								"format":{
+									"_type":"String"
+								},
+								"source":{
+									"_file":"String",
+									"_index":"String",
+									"_startupPolicy":"String",
+									"encryption":{
+										"_format":"String",
+										"secret":{
+											"_type":"String",
+											"_usage":"String",
+											"_uuid":"String"
+										}
+									},
+									"reservations":{
+										"_enabled":"String",
+										"_managed":"String",
+										"source":{
+											"_dev":"String",
+											"_mode":"String",
+											"_path":"String",
+											"_type":"String"
+										}
+									}
+								}
+							},
+							"blockio":{
+								"_logical_block_size":"String",
+								"_physical_block_size":"String"
+							},
+							"boot":{
+								"_loadparm":"String",
+								"_order":"String"
+							},
+							"driver":{
+								"_ats":"String",
+								"_cache":"String",
+								"_copy_on_read":"String",
+								"_detect_zeroes":"String",
+								"_discard":"String",
+								"_error_policy":"String",
+								"_event_idx":"String",
+								"_io":"String",
+								"_ioeventfd":"String",
+								"_iommu":"String",
+								"_iothread":"String",
+								"_name":"String",
+								"_queues":"String",
+								"_rerror_policy":"String",
+								"_type":"String"
+							},
+							"encryption":{
+								"_format":"String",
+								"secret":{
+									"_type":"String",
+									"_usage":"String",
+									"_uuid":"String"
+								}
+							},
+							"geometry":{
+								"_cyls":"String",
+								"_heads":"String",
+								"_secs":"String",
+								"_trans":"String"
+							},
+							"iotune":{
+								"group_name":{
+									"text":"String"
+								},
+								"read_bytes_sec":{
+									"text":"String"
+								},
+								"read_bytes_sec_max":{
+									"text":"String"
+								},
+								"read_bytes_sec_max_length":{
+									"text":"String"
+								},
+								"read_iops_sec":{
+									"text":"String"
+								},
+								"read_iops_sec_max":{
+									"text":"String"
+								},
+								"read_iops_sec_max_length":{
+									"text":"String"
+								},
+								"size_iops_sec":{
+									"text":"String"
+								},
+								"total_bytes_sec":{
+									"text":"String"
+								},
+								"total_bytes_sec_max":{
+									"text":"String"
+								},
+								"total_bytes_sec_max_length":{
+									"text":"String"
+								},
+								"total_iops_sec":{
+									"text":"String"
+								},
+								"total_iops_sec_max":{
+									"text":"String"
+								},
+								"total_iops_sec_max_length":{
+									"text":"String"
+								},
+								"write_bytes_sec":{
+									"text":"String"
+								},
+								"write_bytes_sec_max":{
+									"text":"String"
+								},
+								"write_bytes_sec_max_length":{
+									"text":"String"
+								},
+								"write_iops_sec":{
+									"text":"String"
+								},
+								"write_iops_sec_max":{
+									"text":"String"
+								},
+								"write_iops_sec_max_length":{
+									"text":"String"
+								}
+							},
+							"mirror":{
+								"_job":"String",
+								"_ready":"String",
+								"format":{
+									"_type":"String"
+								},
+								"source":{
+									"_index":"String",
+									"_startupPolicy":"String",
+									"encryption":{
+										"_format":"String",
+										"secret":{
+											"_type":"String",
+											"_usage":"String",
+											"_uuid":"String"
+										}
+									},
+									"reservations":{
+										"_enabled":"String",
+										"_managed":"String",
+										"source":{
+											"_dev":"String",
+											"_mode":"String",
+											"_path":"String",
+											"_type":"String"
+										}
+									}
+								}
+							},
+							"product":{
+								"text":"String"
+							},
+							"readonly":{},
+							"serial":{
+								"_type":"String",
+								"text":"String"
+							},
+							"shareable":{},
+							"source":{
+								"_controller":"String",
+								"_file":"String",
+								"_index":"String",
+								"_startupPolicy":"String",
+								"encryption":{
+									"_format":"String",
+									"secret":{
+										"_type":"String",
+										"_usage":"String",
+										"_uuid":"String"
+									}
+								},
+								"reservations":{
+									"_enabled":"String",
+									"_managed":"String",
+									"source":{
+										"_dev":"String",
+										"_mode":"String",
+										"_path":"String",
+										"_type":"String"
+									}
+								}
+							},
+							"target":{
+								"_bus":"String",
+								"_dev":"String",
+								"_removable":"String",
+								"_tray":"String"
+							},
+							"vendor":{
+								"text":"String"
+							},
+							"wwn":{
+								"text":"String"
+							}
+						}
+					],
+					"emulator":{
+						"text":"String"
+					},
+					"filesystem":[
+						{
+							"_accessmode":"String",
+							"_model":"String",
+							"address":{},
+							"alias":{
+								"_name":"String"
+							},
+							"driver":{
+								"_ats":"String",
+								"_format":"String",
+								"_iommu":"String",
+								"_name":"String",
+								"_type":"String",
+								"_wrpolicy":"String"
+							},
+							"readonly":{},
+							"source":{},
+							"space_hard_limit":{
+								"_unit":"String",
+								"text":"String"
+							},
+							"space_soft_limit":{
+								"_unit":"String",
+								"text":"String"
+							},
+							"target":{
+								"_dir":"String"
+							}
+						},
+						{
+							"_accessmode":"String",
+							"_model":"String",
+							"address":{},
+							"alias":{
+								"_name":"String"
+							},
+							"driver":{
+								"_ats":"String",
+								"_format":"String",
+								"_iommu":"String",
+								"_name":"String",
+								"_type":"String",
+								"_wrpolicy":"String"
+							},
+							"readonly":{},
+							"source":{},
+							"space_hard_limit":{
+								"_unit":"String",
+								"text":"String"
+							},
+							"space_soft_limit":{
+								"_unit":"String",
+								"text":"String"
+							},
+							"target":{
+								"_dir":"String"
+							}
+						}
+					],
+					"graphics":[
+						{
+							"_autoport":"String",
+							"_port":"String",
+							"_type":"String",
+							"listen":"String"
+						},
+						{
+							"_autoport":"String",
+							"_port":"String",
+							"_type":"String",
+							"listen":"String"
+						}
+					],
+					"hostdev":[
+						{
+							"_managed":"String",
+							"address":{},
+							"alias":{
+								"_name":"String"
+							},
+							"boot":{
+								"_loadparm":"String",
+								"_order":"String"
+							},
+							"rom":{
+								"_bar":"String",
+								"_enabled":"String",
+								"_file":"String"
+							}
+						},
+						{
+							"_managed":"String",
+							"address":{},
+							"alias":{
+								"_name":"String"
+							},
+							"boot":{
+								"_loadparm":"String",
+								"_order":"String"
+							},
+							"rom":{
+								"_bar":"String",
+								"_enabled":"String",
+								"_file":"String"
+							}
+						}
+					],
+					"hub":[
+						{
+							"_type":"String",
+							"address":{},
+							"alias":{
+								"_name":"String"
+							}
+						},
+						{
+							"_type":"String",
+							"address":{},
+							"alias":{
+								"_name":"String"
+							}
+						}
+					],
+					"input":[
+						{
+							"_bus":"String",
+							"_model":"String",
+							"_type":"String",
+							"address":{
+								"_bus":"String",
+								"_port":"String",
+								"_type":"String"
+							},
+							"alias":{
+								"_name":"String"
+							},
+							"driver":{
+								"_ats":"String",
+								"_iommu":"String"
+							},
+							"source":{
+								"_evdev":"String"
+							}
+						},
+						{
+							"_bus":"String",
+							"_model":"String",
+							"_type":"String",
+							"address":{
+								"_bus":"String",
+								"_port":"String",
+								"_type":"String"
+							},
+							"alias":{
+								"_name":"String"
+							},
+							"driver":{
+								"_ats":"String",
+								"_iommu":"String"
+							},
+							"source":{
+								"_evdev":"String"
+							}
+						}
+					],
+					"iommu":{
+						"_model":"String",
+						"driver":{
+							"_caching_mode":"String",
+							"_eim":"String",
+							"_intremap":"String",
+							"_iotlb":"String"
+						}
+					},
+					"lease":[
+						{
+							"key":{
+								"text":"String"
+							},
+							"lockspace":{
+								"text":"String"
+							},
+							"target":{
+								"_offset":"String",
+								"_path":"String"
+							}
+						},
+						{
+							"key":{
+								"text":"String"
+							},
+							"lockspace":{
+								"text":"String"
+							},
+							"target":{
+								"_offset":"String",
+								"_path":"String"
+							}
+						}
+					],
+					"memballoon":{
+						"_autodeflate":"String",
+						"_model":"String",
+						"address":{
+							"_bus":"String",
+							"_domain":"String",
+							"_function":"String",
+							"_slot":"String",
+							"_type":"String"
+						},
+						"alias":{
+							"_name":"String"
+						},
+						"driver":{
+							"_ats":"String",
+							"_iommu":"String"
+						},
+						"stats":{
+							"_period":"String"
+						}
+					},
+					"memory":[
+						{
+							"_access":"String",
+							"_discard":"String",
+							"_model":"String",
+							"address":{},
+							"alias":{
+								"_name":"String"
+							},
+							"source":{
+								"alignsize":{
+									"_unit":"String",
+									"text":"String"
+								},
+								"nodemask":{
+									"text":"String"
+								},
+								"pagesize":{
+									"_unit":"String",
+									"text":"String"
+								},
+								"path":{
+									"text":"String"
+								},
+								"pmem":{}
+							},
+							"target":{
+								"label":{
+									"size":{
+										"_unit":"String",
+										"text":"String"
+									}
+								},
+								"node":{
+									"text":"String"
+								},
+								"readonly":{},
+								"size":{
+									"_unit":"String",
+									"text":"String"
+								}
+							}
+						},
+						{
+							"_access":"String",
+							"_discard":"String",
+							"_model":"String",
+							"address":{},
+							"alias":{
+								"_name":"String"
+							},
+							"source":{
+								"alignsize":{
+									"_unit":"String",
+									"text":"String"
+								},
+								"nodemask":{
+									"text":"String"
+								},
+								"pagesize":{
+									"_unit":"String",
+									"text":"String"
+								},
+								"path":{
+									"text":"String"
+								},
+								"pmem":{}
+							},
+							"target":{
+								"label":{
+									"size":{
+										"_unit":"String",
+										"text":"String"
+									}
+								},
+								"node":{
+									"text":"String"
+								},
+								"readonly":{},
+								"size":{
+									"_unit":"String",
+									"text":"String"
+								}
+							}
+						}
+					],
+					"nvram":{
+						"address":{},
+						"alias":{
+							"_name":"String"
+						}
+					},
+					"panic":[
+						{
+							"_model":"String",
+							"address":{},
+							"alias":{
+								"_name":"String"
+							}
+						},
+						{
+							"_model":"String",
+							"address":{},
+							"alias":{
+								"_name":"String"
+							}
+						}
+					],
+					"parallel":[
+						{
+							"address":{},
+							"alias":{
+								"_name":"String"
+							},
+							"log":{
+								"_append":"String",
+								"_file":"String"
+							},
+							"protocol":{
+								"_type":"String"
+							},
+							"source":{},
+							"target":{
+								"_port":"String",
+								"_type":"String"
+							}
+						},
+						{
+							"address":{},
+							"alias":{
+								"_name":"String"
+							},
+							"log":{
+								"_append":"String",
+								"_file":"String"
+							},
+							"protocol":{
+								"_type":"String"
+							},
+							"source":{},
+							"target":{
+								"_port":"String",
+								"_type":"String"
+							}
+						}
+					],
+					"redirdev":[
+						{
+							"_bus":"String",
+							"address":{},
+							"alias":{
+								"_name":"String"
+							},
+							"boot":{
+								"_loadparm":"String",
+								"_order":"String"
+							},
+							"protocol":{
+								"_type":"String"
+							},
+							"source":{}
+						},
+						{
+							"_bus":"String",
+							"address":{},
+							"alias":{
+								"_name":"String"
+							},
+							"boot":{
+								"_loadparm":"String",
+								"_order":"String"
+							},
+							"protocol":{
+								"_type":"String"
+							},
+							"source":{}
+						}
+					],
+					"redirfilter":[
+						{
+							"usbdev":[
+								{
+									"_allow":"String",
+									"_class":"String",
+									"_product":"String",
+									"_vendor":"String",
+									"_version":"String"
+								},
+								{
+									"_allow":"String",
+									"_class":"String",
+									"_product":"String",
+									"_vendor":"String",
+									"_version":"String"
+								}
+							]
+						},
+						{
+							"usbdev":[
+								{
+									"_allow":"String",
+									"_class":"String",
+									"_product":"String",
+									"_vendor":"String",
+									"_version":"String"
+								},
+								{
+									"_allow":"String",
+									"_class":"String",
+									"_product":"String",
+									"_vendor":"String",
+									"_version":"String"
+								}
+							]
+						}
+					],
+					"rng":[
+						{
+							"_model":"String",
+							"address":{
+								"_bus":"String",
+								"_domain":"String",
+								"_function":"String",
+								"_slot":"String",
+								"_type":"String"
+							},
+							"alias":{
+								"_name":"String"
+							},
+							"backend":{
+								"_model":"String",
+								"text":"String"
+							},
+							"driver":{
+								"_ats":"String",
+								"_iommu":"String"
+							},
+							"rate":{
+								"_bytes":"String",
+								"_period":"String"
+							}
+						},
+						{
+							"_model":"String",
+							"address":{
+								"_bus":"String",
+								"_domain":"String",
+								"_function":"String",
+								"_slot":"String",
+								"_type":"String"
+							},
+							"alias":{
+								"_name":"String"
+							},
+							"backend":{
+								"_model":"String",
+								"text":"String"
+							},
+							"driver":{
+								"_ats":"String",
+								"_iommu":"String"
+							},
+							"rate":{
+								"_bytes":"String",
+								"_period":"String"
+							}
+						}
+					],
+					"serial":[
+						{
+							"_type":"String",
+							"address":{},
+							"alias":{
+								"_name":"String"
+							},
+							"log":{
+								"_append":"String",
+								"_file":"String"
+							},
+							"protocol":{
+								"_type":"String"
+							},
+							"source":{
+								"_path":"String"
+							},
+							"target":{
+								"_port":"String",
+								"_type":"String",
+								"model":{
+									"_name":"String"
+								}
+							}
+						},
+						{
+							"_type":"String",
+							"address":{},
+							"alias":{
+								"_name":"String"
+							},
+							"log":{
+								"_append":"String",
+								"_file":"String"
+							},
+							"protocol":{
+								"_type":"String"
+							},
+							"source":{
+								"_path":"String"
+							},
+							"target":{
+								"_port":"String",
+								"_type":"String",
+								"model":{
+									"_name":"String"
+								}
+							}
+						}
+					],
+					"shmem":[
+						{
+							"_name":"String",
+							"address":{},
+							"alias":{
+								"_name":"String"
+							},
+							"model":{
+								"_type":"String"
+							},
+							"msi":{
+								"_enabled":"String",
+								"_ioeventfd":"String",
+								"_vectors":"String"
+							},
+							"server":{
+								"_path":"String"
+							},
+							"size":{
+								"_unit":"String",
+								"text":"String"
+							}
+						},
+						{
+							"_name":"String",
+							"address":{},
+							"alias":{
+								"_name":"String"
+							},
+							"model":{
+								"_type":"String"
+							},
+							"msi":{
+								"_enabled":"String",
+								"_ioeventfd":"String",
+								"_vectors":"String"
+							},
+							"server":{
+								"_path":"String"
+							},
+							"size":{
+								"_unit":"String",
+								"text":"String"
+							}
+						}
+					],
+					"smartcard":[
+						{
+							"address":{},
+							"alias":{
+								"_name":"String"
+							},
+							"certificate":[
+								{
+									"text":"String"
+								},
+								{
+									"text":"String"
+								}
+							],
+							"database":{
+								"text":"String"
+							},
+							"protocol":{
+								"_type":"String"
+							},
+							"source":{}
+						},
+						{
+							"address":{},
+							"alias":{
+								"_name":"String"
+							},
+							"certificate":[
+								{
+									"text":"String"
+								},
+								{
+									"text":"String"
+								}
+							],
+							"database":{
+								"text":"String"
+							},
+							"protocol":{
+								"_type":"String"
+							},
+							"source":{}
+						}
+					],
+					"sound":[
+						{
+							"_model":"String",
+							"address":{},
+							"alias":{
+								"_name":"String"
+							},
+							"codec":[
+								{
+									"_type":"String"
+								},
+								{
+									"_type":"String"
+								}
+							]
+						},
+						{
+							"_model":"String",
+							"address":{},
+							"alias":{
+								"_name":"String"
+							},
+							"codec":[
+								{
+									"_type":"String"
+								},
+								{
+									"_type":"String"
+								}
+							]
+						}
+					],
+					"tpm":[
+						{
+							"_model":"String",
+							"address":{},
+							"alias":{
+								"_name":"String"
+							},
+							"backend":{}
+						},
+						{
+							"_model":"String",
+							"address":{},
+							"alias":{
+								"_name":"String"
+							},
+							"backend":{}
+						}
+					],
+					"video":[
+						{
+							"address":{
+								"_bus":"String",
+								"_domain":"String",
+								"_function":"String",
+								"_slot":"String",
+								"_type":"String"
+							},
+							"alias":{
+								"_name":"String"
+							},
+							"driver":{
+								"_ats":"String",
+								"_iommu":"String",
+								"_vgaconf":"String"
+							},
+							"model":{
+								"_heads":"String",
+								"_primary":"String",
+								"_ram":"String",
+								"_type":"String",
+								"_vgamem":"String",
+								"_vram":"String",
+								"_vram64":"String",
+								"acceleration":{
+									"_accel2d":"String",
+									"_accel3d":"String"
+								}
+							}
+						},
+						{
+							"address":{
+								"_bus":"String",
+								"_domain":"String",
+								"_function":"String",
+								"_slot":"String",
+								"_type":"String"
+							},
+							"alias":{
+								"_name":"String"
+							},
+							"driver":{
+								"_ats":"String",
+								"_iommu":"String",
+								"_vgaconf":"String"
+							},
+							"model":{
+								"_heads":"String",
+								"_primary":"String",
+								"_ram":"String",
+								"_type":"String",
+								"_vgamem":"String",
+								"_vram":"String",
+								"_vram64":"String",
+								"acceleration":{
+									"_accel2d":"String",
+									"_accel3d":"String"
+								}
+							}
+						}
+					],
+					"vsock":{
+						"_model":"String",
+						"address":{},
+						"alias":{
+							"_name":"String"
+						},
+						"cid":{
+							"_address":"String",
+							"_auto":"String"
+						}
+					},
+					"watchdog":{
+						"_action":"String",
+						"_model":"String",
+						"address":{},
+						"alias":{
+							"_name":"String"
+						}
+					}
+				},
+				"features":{
+					"acpi":{},
+					"apic":{
+						"_eoi":"String"
+					},
+					"capabilities":{
+						"_policy":"String",
+						"audit_control":{
+							"_state":"String"
+						},
+						"audit_write":{
+							"_state":"String"
+						},
+						"block_suspend":{
+							"_state":"String"
+						},
+						"chown":{
+							"_state":"String"
+						},
+						"dac_override":{
+							"_state":"String"
+						},
+						"dac_read_Search":{
+							"_state":"String"
+						},
+						"fowner":{
+							"_state":"String"
+						},
+						"fsetid":{
+							"_state":"String"
+						},
+						"ipc_lock":{
+							"_state":"String"
+						},
+						"ipc_owner":{
+							"_state":"String"
+						},
+						"kill":{
+							"_state":"String"
+						},
+						"lease":{
+							"_state":"String"
+						},
+						"linux_immutable":{
+							"_state":"String"
+						},
+						"mac_admin":{
+							"_state":"String"
+						},
+						"mac_override":{
+							"_state":"String"
+						},
+						"mknod":{
+							"_state":"String"
+						},
+						"net_admin":{
+							"_state":"String"
+						},
+						"net_bind_service":{
+							"_state":"String"
+						},
+						"net_broadcast":{
+							"_state":"String"
+						},
+						"net_raw":{
+							"_state":"String"
+						},
+						"setfcap":{
+							"_state":"String"
+						},
+						"setgid":{
+							"_state":"String"
+						},
+						"setpcap":{
+							"_state":"String"
+						},
+						"setuid":{
+							"_state":"String"
+						},
+						"sys_admin":{
+							"_state":"String"
+						},
+						"sys_boot":{
+							"_state":"String"
+						},
+						"sys_chroot":{
+							"_state":"String"
+						},
+						"sys_module":{
+							"_state":"String"
+						},
+						"sys_nice":{
+							"_state":"String"
+						},
+						"sys_pacct":{
+							"_state":"String"
+						},
+						"sys_ptrace":{
+							"_state":"String"
+						},
+						"sys_rawio":{
+							"_state":"String"
+						},
+						"sys_resource":{
+							"_state":"String"
+						},
+						"sys_time":{
+							"_state":"String"
+						},
+						"sys_tty_config":{
+							"_state":"String"
+						},
+						"syslog":{
+							"_state":"String"
+						},
+						"wake_alarm":{
+							"_state":"String"
+						}
+					},
+					"gic":{
+						"_version":"String"
+					},
+					"hap":{
+						"_state":"String"
+					},
+					"hpt":{
+						"_resizing":"String",
+						"maxpagesize":{
+							"_unit":"String",
+							"text":"String"
+						}
+					},
+					"htm":{
+						"_state":"String"
+					},
+					"hyperv":{
+						"evmcs":{
+							"_state":"String"
+						},
+						"frequencies":{
+							"_state":"String"
+						},
+						"ipi":{
+							"_state":"String"
+						},
+						"reenlightenment":{
+							"_state":"String"
+						},
+						"relaxed":{
+							"_state":"String"
+						},
+						"reset":{
+							"_state":"String"
+						},
+						"runtime":{
+							"_state":"String"
+						},
+						"spinlocks":{
+							"_retries":"String",
+							"_state":"String"
+						},
+						"stimer":{
+							"_state":"String"
+						},
+						"synic":{
+							"_state":"String"
+						},
+						"tlbflush":{
+							"_state":"String"
+						},
+						"vapic":{
+							"_state":"String"
+						},
+						"vendor_id":{
+							"_value":"String"
+						},
+						"vpindex":{
+							"_state":"String"
+						}
+					},
+					"ioapic":{
+						"_driver":"String"
+					},
+					"kvm":{
+						"hidden":{
+							"_state":"String"
+						}
+					},
+					"msrs":{
+						"_unknown":"String"
+					},
+					"nested_hv":{
+						"_state":"String"
+					},
+					"pae":{},
+					"pmu":{
+						"_state":"String"
+					},
+					"privnet":{},
+					"pvspinlock":{
+						"_state":"String"
+					},
+					"smm":{
+						"_state":"String",
+						"tseg":{
+							"_unit":"String",
+							"text":"String"
+						}
+					},
+					"viridian":{},
+					"vmcoreinfo":{
+						"_state":"String"
+					},
+					"vmport":{
+						"_state":"String"
+					}
+				},
+				"genid":{
+					"text":"String"
+				},
+				"idmap":{
+					"gid":[
+						{
+							"_count":"String",
+							"_start":"String",
+							"_target":"String"
+						},
+						{
+							"_count":"String",
+							"_start":"String",
+							"_target":"String"
+						}
+					],
+					"uid":[
+						{
+							"_count":"String",
+							"_start":"String",
+							"_target":"String"
+						},
+						{
+							"_count":"String",
+							"_start":"String",
+							"_target":"String"
+						}
+					]
+				},
+				"iothreadids":{
+					"iothread":[
+						{
+							"_id":"String"
+						},
+						{
+							"_id":"String"
+						}
+					]
+				},
+				"iothreads":{
+					"text":"String"
+				},
+				"keywrap":{
+					"cipher":[
+						{
+							"_name":"String",
+							"_state":"String"
+						},
+						{
+							"_name":"String",
+							"_state":"String"
+						}
+					]
+				},
+				"launchSecurity":{},
+				"maxMemory":{
+					"_slots":"String",
+					"_unit":"String",
+					"text":"String"
+				},
+				"memory":{
+					"_dumpCore":"String",
+					"_unit":"String",
+					"text":"String"
+				},
+				"memoryBacking":{
+					"access":{
+						"_mode":"String"
+					},
+					"allocation":{
+						"_mode":"String"
+					},
+					"discard":{},
+					"hugepages":{
+						"page":[
+							{
+								"_nodeset":"String",
+								"_size":"String",
+								"_unit":"String"
+							},
+							{
+								"_nodeset":"String",
+								"_size":"String",
+								"_unit":"String"
+							}
+						]
+					},
+					"locked":{},
+					"nosharepages":{},
+					"source":{
+						"_type":"String"
+					}
+				},
+				"memtune":{
+					"hard_limit":{
+						"_unit":"String",
+						"text":"String"
+					},
+					"min_guarantee":{
+						"_unit":"String",
+						"text":"String"
+					},
+					"soft_limit":{
+						"_unit":"String",
+						"text":"String"
+					},
+					"swap_hard_limit":{
+						"_unit":"String",
+						"text":"String"
+					}
+				},
+				"metadata":{},
+				"name":{
+					"text":"String"
+				},
+				"numatune":{
+					"memnode":[
+						{
+							"_cellid":"String",
+							"_mode":"String",
+							"_nodeset":"String"
+						},
+						{
+							"_cellid":"String",
+							"_mode":"String",
+							"_nodeset":"String"
+						}
+					],
+					"memory":{
+						"_mode":"String",
+						"_nodeset":"String",
+						"_placement":"String"
+					}
+				},
+				"on_crash":{
+					"text":"String"
+				},
+				"on_poweroff":{
+					"text":"String"
+				},
+				"on_reboot":{
+					"text":"String"
+				},
+				"os":{
+					"acpi":{
+						"table":[
+							{
+								"_type":"String",
+								"text":"String"
+							},
+							{
+								"_type":"String",
+								"text":"String"
+							}
+						]
+					},
+					"bios":{
+						"_rebootTimeout":"String",
+						"_useserial":"String"
+					},
+					"boot":[
+						{
+							"_dev":"String"
+						},
+						{
+							"_dev":"String"
+						}
+					],
+					"bootmenu":{
+						"_enable":"String",
+						"_timeout":"String"
+					},
+					"cmdline":{
+						"text":"String"
+					},
+					"dtb":{
+						"text":"String"
+					},
+					"init":{
+						"text":"String"
+					},
+					"initarg":{
+						"text":"String"
+					},
+					"initdir":{
+						"text":"String"
+					},
+					"initenv":[
+						{
+							"_name":"String",
+							"text":"String"
+						},
+						{
+							"_name":"String",
+							"text":"String"
+						}
+					],
+					"initgroup":{
+						"text":"String"
+					},
+					"initrd":{
+						"text":"String"
+					},
+					"inituser":{
+						"text":"String"
+					},
+					"kernel":{
+						"text":"String"
+					},
+					"loader":{
+						"_readonly":"String",
+						"_type":"String",
+						"text":"String"
+					},
+					"nvram":{
+						"text":"String"
+					},
+					"smbios":{
+						"_mode":"String"
+					},
+					"type":{
+						"_arch":"String",
+						"_machine":"String",
+						"text":"String"
+					}
+				},
+				"perf":{
+					"event":[
+						{
+							"_enabled":"String",
+							"_name":"String"
+						},
+						{
+							"_enabled":"String",
+							"_name":"String"
+						}
+					]
+				},
+				"pm":{
+					"suspend_to_disk":{
+						"_enabled":"String"
+					},
+					"suspend_to_mem":{
+						"_enabled":"String"
+					}
+				},
+				"resource":{
+					"partition":{
+						"text":"String"
+					}
+				},
+				"seclabel":[
+					{
+						"_model":"String",
+						"_relabel":"String",
+						"_type":"String",
+						"baselabel":{
+							"text":"String"
+						},
+						"imagelabel":{
+							"text":"String"
+						},
+						"label":{
+							"text":"String"
+						}
+					},
+					{
+						"_model":"String",
+						"_relabel":"String",
+						"_type":"String",
+						"baselabel":{
+							"text":"String"
+						},
+						"imagelabel":{
+							"text":"String"
+						},
+						"label":{
+							"text":"String"
+						}
+					}
+				],
+				"sysinfo":{
+					"_type":"String",
+					"baseBoard":[
+						{
+							"entry":[
+								{
+									"_name":"String",
+									"text":"String"
+								},
+								{
+									"_name":"String",
+									"text":"String"
+								}
+							]
+						},
+						{
+							"entry":[
+								{
+									"_name":"String",
+									"text":"String"
+								},
+								{
+									"_name":"String",
+									"text":"String"
+								}
+							]
+						}
+					],
+					"bios":{
+						"entry":[
+							{
+								"_name":"String",
+								"text":"String"
+							},
+							{
+								"_name":"String",
+								"text":"String"
+							}
+						]
+					},
+					"chassis":{
+						"entry":[
+							{
+								"_name":"String",
+								"text":"String"
+							},
+							{
+								"_name":"String",
+								"text":"String"
+							}
+						]
+					},
+					"memory":[
+						{
+							"entry":[
+								{
+									"_name":"String",
+									"text":"String"
+								},
+								{
+									"_name":"String",
+									"text":"String"
+								}
+							]
+						},
+						{
+							"entry":[
+								{
+									"_name":"String",
+									"text":"String"
+								},
+								{
+									"_name":"String",
+									"text":"String"
+								}
+							]
+						}
+					],
+					"oemStrings":{
+						"entry":{
+							"text":"String"
+						}
+					},
+					"processor":[
+						{
+							"entry":[
+								{
+									"_name":"String",
+									"text":"String"
+								},
+								{
+									"_name":"String",
+									"text":"String"
+								}
+							]
+						},
+						{
+							"entry":[
+								{
+									"_name":"String",
+									"text":"String"
+								},
+								{
+									"_name":"String",
+									"text":"String"
+								}
+							]
+						}
+					],
+					"system":{
+						"entry":[
+							{
+								"_name":"String",
+								"text":"String"
+							},
+							{
+								"_name":"String",
+								"text":"String"
+							}
+						]
+					}
+				},
+				"title":{
+					"text":"String"
+				},
+				"uuid":{
+					"text":"String"
+				},
+				"vcpu":{
+					"_cpuset":"String",
+					"_current":"String",
+					"_placement":"String",
+					"text":"String"
+				},
+				"vcpus":{
+					"vcpu":[
+						{
+							"_enabled":"String",
+							"_hotpluggable":"String",
+							"_id":"String",
+							"_order":"String"
+						},
+						{
+							"_enabled":"String",
+							"_hotpluggable":"String",
+							"_id":"String",
+							"_order":"String"
+						}
+					]
+				}
+			},
+			"memory":{
+				"_file":"String",
+				"_snapshot":"String"
+			},
+			"name":{
+				"text":"String"
+			},
+			"parent":{
+				"name":{
+					"text":"String"
+				}
+			},
+			"state":{
+				"text":"String"
+			}
+		},
+		"lifecycle":{
+			"copySnapshot":{
+				"blockdev":true,
+				"buf_size":"String",
+				"dest":"String",
+				"finish":true,
+				"granularity":"String",
+				"isExternal":true,
+				"pivot":true,
+				"reuse_external":true,
+				"shallow":true,
+				"transient_job":true
+			},
+			"createSnapshot":{
+				"atomic":true,
+				"description":"String",
+				"disk_only":true,
+				"diskspec":"String",
+				"domain":"String",
+				"halt":true,
+				"isExternal":true,
+				"live":true,
+				"memspec":"String",
+				"no_metadata":true,
+				"quiesce":true,
+				"reuse_external":true
+			},
+			"deleteSnapshot":{
+				"children":true,
+				"children_only":true,
+				"domain":"String",
+				"isExternal":true,
+				"metadata":true
+			},
+			"mergeSnapshot":{
+				"bandwidth":"String",
+				"domain":"String",
+				"isExternal":true
+			},
+			"revertVirtualMachine":{
+				"domain":"String",
+				"force":true,
+				"isExternal":true,
+				"paused":true,
+				"running":true
+			}
+		},
+		"versions":[]
+	}
+}
+```
+# 7 VirtualMachinePool
+
+扩展支持各种存储后端.VirtualMachinePool所有操作的返回值一样，见**[返回值]**
+
+## 7.1 AutoStartPool(开机启动存储池)
+
+**接口功能:**
+	开机启动存储池，否则开机该存储池会连接不上，导致不可用。适用libvirt指令创建存储池情况。只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
+
+**接口依赖:**
+	虚拟机存储池存在，即已调用过CreatePool
+
+**接口所属:**
+	com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle.AutoStartPool
+
+**参数描述:**
+
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+| name | String | true | 资源名称 | autoStartPool.name.001|
+| autoStartPool | AutoStartPool | true | 开机启动存储池 | 详细见下 |
+| eventId | String | fasle | 事件ID | autoStartPool.event.001 |
+
+对象autoStartPool参数说明:
+
+| name | type | required | description | constraint | example |
+| ----- | ------ | ------ | ------ | ------ | ------ |
+| type|String|false|存储池的类型|只能是localfs，vdiskfs, nfs，glusterfs之一|localfs|
+| disable|Boolean|true|修改存储池autostart状态|true或者false|true|
+|  |  |  |  |  |
+
+**接口异常:**
+
+(1)在调用本方法抛出;
+
+| name  | description | 
+| ----- | ----- | 
+| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
+| IllegalFormatException | 传递的参数不符合约束条件    |
+| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
+
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看AutoStartPoolspec下的status域，从message中获取详细异常信息
+
+| name  | description | 
+| ----- | ----- | 
+| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
+| VirtctlError | Libvirt不支持的生命周期    |
+| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
+| Exception    | 后台代码异常退出,比如主机的hostname变化    |
+
+## 7.2 CreatePool(创建存储池)
+
+**接口功能:**
+	创建存储池，适用libvirt指令创建存储池情况。只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
+
+**接口依赖:**
+	
+
+**接口所属:**
+	com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle.CreatePool
+
+**参数描述:**
+
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+| name | String | true | 资源名称 | createPool.name.001|
+| nodeName | String | false | 选择部署的物理机，可以通过kubernetes.nodes().list进行查询 | node22 |
+| createPool | CreatePool | true | 创建存储池 | 详细见下 |
+| eventId | String | fasle | 事件ID | createPool.event.001 |
+
+对象createPool参数说明:
+
+| name | type | required | description | constraint | example |
+| ----- | ------ | ------ | ------ | ------ | ------ |
+| type|String|true|存储池的类型|只能是localfs，uus，nfs，glusterfs, vdiskfs之一|localfs|
+| content|String|true|存储池的内容，用于标识存储池的用途|只能是vmd，vmdi，iso之一|vmd|
+| url|String|true|创建云存储池时的url|建立云存储池时通过cstor-cli pool-list查询出的云存储池路径|uus-iscsi-independent://admin:admin@192.168.3.10:7000/p1/4/2/0/32/0/3|
+| opt|String|false|nfs挂载参数或uus的创建选项，为存储类型为uus和nfs时必填，本地存储和vdiskfs不填|当type为nfs类型时，nfs的挂载参数|nolock|
+| uuid|String|false|nfs和glusterfs挂载路径的一部分|当type为nfs或glusterfs类型时必填，所需要的挂在路径|07098ca5-fd17-4fcc-afed-76b0d7fccde4|
+| autostart|boolean|false|创建存储池后是否设置为自动打开|true或false|true|
+| path|String|false|创建nfs或glusterfs存储池时的挂载路径，不填则默认在/var/lib/libvirt/cstor目录下挂载|/nfs/pool|/nfs/pool|
+| force|String|false|强力创建vdiskfs|True或False|True|
+|  |  |  |  |  |
+
+**接口异常:**
+
+(1)在调用本方法抛出;
+
+| name  | description | 
+| ----- | ----- | 
+| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
+| IllegalFormatException | 传递的参数不符合约束条件    |
+| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
+
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看CreatePoolspec下的status域，从message中获取详细异常信息
+
+| name  | description | 
+| ----- | ----- | 
+| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
+| VirtctlError | Libvirt不支持的生命周期    |
+| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
+| Exception    | 后台代码异常退出,比如主机的hostname变化    |
+
+## 7.3 StartPool(启动存储池)
+
+**接口功能:**
+	启动存储池，如果存储池处于Inactive状态，可以启动。适用libvirt指令创建存储池情况。只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
+
+**接口依赖:**
+	虚拟机存储池存在，即已调用过CreatePool
+
+**接口所属:**
+	com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle.StartPool
+
+**参数描述:**
+
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+| name | String | true | 资源名称 | startPool.name.001|
+| startPool | StartPool | true | 启动存储池 | 详细见下 |
+| eventId | String | fasle | 事件ID | startPool.event.001 |
+
+对象startPool参数说明:
+
+| name | type | required | description | constraint | example |
+| ----- | ------ | ------ | ------ | ------ | ------ |
+| type|String|false|存储池的类型|只能是localfs，vdiskfs，nfs，glusterfs之一|localfs|
+|  |  |  |  |  |
+
+**接口异常:**
+
+(1)在调用本方法抛出;
+
+| name  | description | 
+| ----- | ----- | 
+| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
+| IllegalFormatException | 传递的参数不符合约束条件    |
+| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
+
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看StartPoolspec下的status域，从message中获取详细异常信息
+
+| name  | description | 
+| ----- | ----- | 
+| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
+| VirtctlError | Libvirt不支持的生命周期    |
+| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
+| Exception    | 后台代码异常退出,比如主机的hostname变化    |
+
+## 7.4 StopPool(停止存储池)
+
+**接口功能:**
+	停止存储池，将存储池状态设置为Inactive，适用libvirt指令创建存储池情况。只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
+
+**接口依赖:**
+	虚拟机存储池存在，即已调用过CreatePool
+
+**接口所属:**
+	com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle.StopPool
+
+**参数描述:**
+
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+| name | String | true | 资源名称 | stopPool.name.001|
+| stopPool | StopPool | true | 停止存储池 | 详细见下 |
+| eventId | String | fasle | 事件ID | stopPool.event.001 |
+
+对象stopPool参数说明:
+
+| name | type | required | description | constraint | example |
+| ----- | ------ | ------ | ------ | ------ | ------ |
+| type|String|false|存储池的类型|只能是localfs，vdiskfs，nfs，glusterfs之一|localfs|
+|  |  |  |  |  |
+
+**接口异常:**
+
+(1)在调用本方法抛出;
+
+| name  | description | 
+| ----- | ----- | 
+| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
+| IllegalFormatException | 传递的参数不符合约束条件    |
+| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
+
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看StopPoolspec下的status域，从message中获取详细异常信息
+
+| name  | description | 
+| ----- | ----- | 
+| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
+| VirtctlError | Libvirt不支持的生命周期    |
+| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
+| Exception    | 后台代码异常退出,比如主机的hostname变化    |
+
+## 7.5 DeletePool(删除存储池)
+
+**接口功能:**
+	删除存储池，适用libvirt指令创建存储池情况。只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
+
+**接口依赖:**
+	虚拟机存储池存在，即已调用过CreatePool
+
+**接口所属:**
+	com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle.DeletePool
+
+**参数描述:**
+
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+| name | String | true | 资源名称 | deletePool.name.001|
+| deletePool | DeletePool | true | 删除存储池 | 详细见下 |
+| eventId | String | fasle | 事件ID | deletePool.event.001 |
+
+对象deletePool参数说明:
+
+| name | type | required | description | constraint | example |
+| ----- | ------ | ------ | ------ | ------ | ------ |
+| type|String|false|存储池的类型|只能是localfs，vdiskfs，uus，nfs，glusterfs, vdiskfs之一|localfs|
+|  |  |  |  |  |
+
+**接口异常:**
+
+(1)在调用本方法抛出;
+
+| name  | description | 
+| ----- | ----- | 
+| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
+| IllegalFormatException | 传递的参数不符合约束条件    |
+| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
+
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看DeletePoolspec下的status域，从message中获取详细异常信息
+
+| name  | description | 
+| ----- | ----- | 
+| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
+| VirtctlError | Libvirt不支持的生命周期    |
+| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
+| Exception    | 后台代码异常退出,比如主机的hostname变化    |
+
+## **返回值:**
+
+```
+{
+	"kind":"VirtualMachinePool",
+	"metadata":{
+		"additionalProperties":{},
+		"finalizers":[],
+		"managedFields":[],
+		"ownerReferences":[]
+	},
+	"spec":{
+		"additionalPrinterColumns":[],
+		"additionalProperties":{},
+		"lifecycle":{
+			"autoStartPool":{
+				"disable":true,
+				"type":"String"
+			},
+			"createPool":{
+				"adapter_name":"String",
+				"adapter_parent":"String",
+				"adapter_parent_fabric_wwn":"String",
+				"adapter_parent_wwnn":"String",
+				"adapter_parent_wwpn":"String",
+				"adapter_wwnn":"String",
+				"adapter_wwpn":"String",
+				"auth_type":"String",
+				"auth_username":"String",
+				"autostart":true,
+				"build":true,
+				"content":"String",
+				"force":"String",
+				"no_overwrite":true,
+				"opt":"String",
+				"overwrite":true,
+				"path":"String",
+				"secret_usage":"String",
+				"secret_uuid":"String",
+				"source_dev":"String",
+				"source_format":"String",
+				"source_host":"String",
+				"source_name":"String",
+				"source_path":"String",
+				"type":"String",
+				"url":"String",
+				"uuid":"String"
+			},
+			"deletePool":{
+				"type":"String"
+			},
+			"startPool":{
+				"build":true,
+				"no_overwrite":true,
+				"overwrite":true,
+				"type":"String"
+			},
+			"stopPool":{
+				"type":"String"
+			}
+		},
+		"pool":{
+			"_type":"String",
+			"autostart":"String",
+			"capacity":"String",
+			"content":"String",
+			"name":"String",
+			"path":"String",
+			"persistent":"String",
+			"pooltype":"String",
+			"state":"String",
+			"uuid":"String"
+		},
+		"versions":[]
+	}
+}
+```
+# 8 VirtualMachineNetwork
+
+扩展支持OVN插件.VirtualMachineNetwork所有操作的返回值一样，见**[返回值]**
+
+## 8.1 CreateBridge(创建二层桥接网络，用于vlan场景)
+
+**接口功能:**
+	创建二层桥接，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
+
+**接口依赖:**
+	
+
+**接口所属:**
+	com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.CreateBridge
+
+**参数描述:**
+
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+| name | String | true | 资源名称 | createBridge.name.001|
+| nodeName | String | false | 选择部署的物理机，可以通过kubernetes.nodes().list进行查询 | node22 |
+| createBridge | CreateBridge | true | 创建二层桥接网络，用于vlan场景 | 详细见下 |
+| eventId | String | fasle | 事件ID | createBridge.event.001 |
+
+对象createBridge参数说明:
+
+| name | type | required | description | constraint | example |
+| ----- | ------ | ------ | ------ | ------ | ------ |
+| nic|String|true|被接管的网卡|名称是字符串类型，长度是3到12位，只允许数字、小写字母、中划线、以及圆点|l2bridge|
+| name|String|true|桥接的名字|桥接名，3到12位，只允许数字、小写字母、中划线|l2bridge|
+| vlan|String|false|vlan ID|0~4094|1|
+|  |  |  |  |  |
+
+**接口异常:**
+
+(1)在调用本方法抛出;
+
+| name  | description | 
+| ----- | ----- | 
+| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
+| IllegalFormatException | 传递的参数不符合约束条件    |
+| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
+
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看CreateBridgespec下的status域，从message中获取详细异常信息
+
+| name  | description | 
+| ----- | ----- | 
+| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
+| VirtctlError | Libvirt不支持的生命周期    |
+| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
+| Exception    | 后台代码异常退出,比如主机的hostname变化    |
+
+## 8.2 DeleteBridge(删除二层桥接网络)
+
+**接口功能:**
+	删除二层桥接,只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
+
+**接口依赖:**
+	虚拟机网络存在，即已调用过CreateSwitch
+
+**接口所属:**
+	com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.DeleteBridge
+
+**参数描述:**
+
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+| name | String | true | 资源名称 | deleteBridge.name.001|
+| deleteBridge | DeleteBridge | true | 删除二层桥接网络 | 详细见下 |
+| eventId | String | fasle | 事件ID | deleteBridge.event.001 |
+
+对象deleteBridge参数说明:
+
+| name | type | required | description | constraint | example |
+| ----- | ------ | ------ | ------ | ------ | ------ |
+| nic|String|true|被接管的网卡|名称是字符串类型，长度是3到12位，只允许数字、小写字母、中划线、以及圆点|l2bridge|
+| name|String|true|桥接的名字|桥接名，3到12位，只允许数字、小写字母、中划线|l2bridge|
+|  |  |  |  |  |
+
+**接口异常:**
+
+(1)在调用本方法抛出;
+
+| name  | description | 
+| ----- | ----- | 
+| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
+| IllegalFormatException | 传递的参数不符合约束条件    |
+| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
+
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看DeleteBridgespec下的status域，从message中获取详细异常信息
+
+| name  | description | 
+| ----- | ----- | 
+| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
+| VirtctlError | Libvirt不支持的生命周期    |
+| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
+| Exception    | 后台代码异常退出,比如主机的hostname变化    |
+
+## 8.3 SetBridgeVlan(设置二层网桥的vlan ID)
+
+**接口功能:**
+	适用于OpenvSwitch二层网桥，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
+
+**接口依赖:**
+	虚拟机网络存在，即已调用过CreateSwitch
+
+**接口所属:**
+	com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.SetBridgeVlan
+
+**参数描述:**
+
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+| name | String | true | 资源名称 | setBridgeVlan.name.001|
+| setBridgeVlan | SetBridgeVlan | true | 设置二层网桥的vlan ID | 详细见下 |
+| eventId | String | fasle | 事件ID | setBridgeVlan.event.001 |
+
+对象setBridgeVlan参数说明:
+
+| name | type | required | description | constraint | example |
+| ----- | ------ | ------ | ------ | ------ | ------ |
+| vlan|String|true|vlan ID|0~4094|1|
+| name|String|true|桥接的名字|桥接名，3到12位，只允许数字、小写字母、中划线|l2bridge|
+|  |  |  |  |  |
+
+**接口异常:**
+
+(1)在调用本方法抛出;
+
+| name  | description | 
+| ----- | ----- | 
+| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
+| IllegalFormatException | 传递的参数不符合约束条件    |
+| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
+
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看SetBridgeVlanspec下的status域，从message中获取详细异常信息
+
+| name  | description | 
+| ----- | ----- | 
+| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
+| VirtctlError | Libvirt不支持的生命周期    |
+| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
+| Exception    | 后台代码异常退出,比如主机的hostname变化    |
+
+## 8.4 DelBridgeVlan(删除二层网桥的vlan ID)
+
+**接口功能:**
+	适用于OpenvSwitch二层网桥，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
+
+**接口依赖:**
+	虚拟机网络存在，即已调用过CreateSwitch
+
+**接口所属:**
+	com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.DelBridgeVlan
+
+**参数描述:**
+
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+| name | String | true | 资源名称 | delBridgeVlan.name.001|
+| delBridgeVlan | DelBridgeVlan | true | 删除二层网桥的vlan ID | 详细见下 |
+| eventId | String | fasle | 事件ID | delBridgeVlan.event.001 |
+
+对象delBridgeVlan参数说明:
+
+| name | type | required | description | constraint | example |
+| ----- | ------ | ------ | ------ | ------ | ------ |
+| vlan|String|true|vlan ID|0~4094|1|
+| name|String|true|桥接的名字|桥接名，3到12位，只允许数字、小写字母、中划线|l2bridge|
+|  |  |  |  |  |
+
+**接口异常:**
+
+(1)在调用本方法抛出;
+
+| name  | description | 
+| ----- | ----- | 
+| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
+| IllegalFormatException | 传递的参数不符合约束条件    |
+| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
+
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看DelBridgeVlanspec下的status域，从message中获取详细异常信息
+
+| name  | description | 
+| ----- | ----- | 
+| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
+| VirtctlError | Libvirt不支持的生命周期    |
+| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
+| Exception    | 后台代码异常退出,比如主机的hostname变化    |
+
+## 8.5 BindPortVlan(给虚拟机绑定vlan ID)
+
+**接口功能:**
+	适用于OpenvSwitch二层网桥，更换虚拟机的vlan只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
+
+**接口依赖:**
+	虚拟机网络存在，即已调用过CreateSwitch
+
+**接口所属:**
+	com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.BindPortVlan
+
+**参数描述:**
+
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+| name | String | true | 资源名称 | bindPortVlan.name.001|
+| bindPortVlan | BindPortVlan | true | 给虚拟机绑定vlan ID | 详细见下 |
+| eventId | String | fasle | 事件ID | bindPortVlan.event.001 |
+
+对象bindPortVlan参数说明:
+
+| name | type | required | description | constraint | example |
+| ----- | ------ | ------ | ------ | ------ | ------ |
+| mac|String|true|mac地址|mac地址不能以fe开头|7e:0c:b0:ef:6a:04|
+| domain|String|true|虚拟机名称|4-100位，包含小写字母，数字0-9，中划线，以及圆点|950646e8c17a49d0b83c1c797811e004|
+| vlan|String|false|vlan ID|0~4094|1|
+|  |  |  |  |  |
+
+**接口异常:**
+
+(1)在调用本方法抛出;
+
+| name  | description | 
+| ----- | ----- | 
+| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
+| IllegalFormatException | 传递的参数不符合约束条件    |
+| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
+
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看BindPortVlanspec下的status域，从message中获取详细异常信息
+
+| name  | description | 
+| ----- | ----- | 
+| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
+| VirtctlError | Libvirt不支持的生命周期    |
+| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
+| Exception    | 后台代码异常退出,比如主机的hostname变化    |
+
+## 8.6 UnbindPortVlan(解除虚拟机的vlan ID)
+
+**接口功能:**
+	适用于OpenvSwitch二层网桥，更换虚拟机的vlan只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
+
+**接口依赖:**
+	虚拟机网络存在，即已调用过CreateSwitch
+
+**接口所属:**
+	com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.UnbindPortVlan
+
+**参数描述:**
+
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+| name | String | true | 资源名称 | unbindPortVlan.name.001|
+| unbindPortVlan | UnbindPortVlan | true | 解除虚拟机的vlan ID | 详细见下 |
+| eventId | String | fasle | 事件ID | unbindPortVlan.event.001 |
+
+对象unbindPortVlan参数说明:
+
+| name | type | required | description | constraint | example |
+| ----- | ------ | ------ | ------ | ------ | ------ |
+| mac|String|true|mac地址|mac地址不能以fe开头|7e:0c:b0:ef:6a:04|
+| domain|String|true|虚拟机名称|4-100位，包含小写字母，数字0-9，中划线，以及圆点|950646e8c17a49d0b83c1c797811e004|
+| vlan|String|false|vlan ID|0~4094|1|
+|  |  |  |  |  |
+
+**接口异常:**
+
+(1)在调用本方法抛出;
+
+| name  | description | 
+| ----- | ----- | 
+| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
+| IllegalFormatException | 传递的参数不符合约束条件    |
+| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
+
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看UnbindPortVlanspec下的status域，从message中获取详细异常信息
+
+| name  | description | 
+| ----- | ----- | 
+| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
+| VirtctlError | Libvirt不支持的生命周期    |
+| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
+| Exception    | 后台代码异常退出,比如主机的hostname变化    |
+
+## 8.7 CreateSwitch(创建三层网络交换机)
+
+**接口功能:**
+	创建三层网络交换机，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
+
+**接口依赖:**
+	
+
+**接口所属:**
+	com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.CreateSwitch
+
+**参数描述:**
+
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+| name | String | true | 资源名称 | createSwitch.name.001|
+| nodeName | String | false | 选择部署的物理机，可以通过kubernetes.nodes().list进行查询 | node22 |
+| createSwitch | CreateSwitch | true | 创建三层网络交换机 | 详细见下 |
+| eventId | String | fasle | 事件ID | createSwitch.event.001 |
+
+对象createSwitch参数说明:
+
+| name | type | required | description | constraint | example |
+| ----- | ------ | ------ | ------ | ------ | ------ |
+| subnet|String|true|网段，这里后台只会做形式，不会做逻辑判断，只要符合xx.xx.xx.xx/y形式即可，请确保传入正确的数值, y的取值必须是8,16,24之一|网段和掩码|192.168.5.1/24|
+| dhcp|String|false|DHCP地址|IP|192.168.5.5|
+| gateway|String|true|网关地址|IP|192.168.5.5|
+| mtu|String|false|mtu|10-1000|1500|
+| bridge|String|false|网桥名|网桥|br-ex|
+| vlanId|String|false|vlanID|0-4094|br-ex|
+| excludeIPs|String|false|IP列表黑名单|单个IP之间通过空格分开，IP范围使用..分开|192.168.5.2 192.168.5.10..192.168.5.100|
+| dnsServer|String|false|域名服务器|IP地址，允许多个，以,号分开|192.168.5.5|
+|  |  |  |  |  |
+
+**接口异常:**
+
+(1)在调用本方法抛出;
+
+| name  | description | 
+| ----- | ----- | 
+| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
+| IllegalFormatException | 传递的参数不符合约束条件    |
+| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
+
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看CreateSwitchspec下的status域，从message中获取详细异常信息
+
+| name  | description | 
+| ----- | ----- | 
+| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
+| VirtctlError | Libvirt不支持的生命周期    |
+| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
+| Exception    | 后台代码异常退出,比如主机的hostname变化    |
+
+## 8.8 DeleteSwitch(删除三层网络交换机)
+
+**接口功能:**
+	删除三层网络交换机，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
+
+**接口依赖:**
+	虚拟机网络存在，即已调用过CreateSwitch
+
+**接口所属:**
+	com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.DeleteSwitch
+
+**参数描述:**
+
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+| name | String | true | 资源名称 | deleteSwitch.name.001|
+| deleteSwitch | DeleteSwitch | true | 删除三层网络交换机 | 详细见下 |
+| eventId | String | fasle | 事件ID | deleteSwitch.event.001 |
+
+对象deleteSwitch参数说明:
+
+| name | type | required | description | constraint | example |
+| ----- | ------ | ------ | ------ | ------ | ------ |
+| bridge|String|false|网桥名|网桥|br-ex|
+|  |  |  |  |  |
+
+**接口异常:**
+
+(1)在调用本方法抛出;
+
+| name  | description | 
+| ----- | ----- | 
+| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
+| IllegalFormatException | 传递的参数不符合约束条件    |
+| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
+
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看DeleteSwitchspec下的status域，从message中获取详细异常信息
+
+| name  | description | 
+| ----- | ----- | 
+| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
+| VirtctlError | Libvirt不支持的生命周期    |
+| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
+| Exception    | 后台代码异常退出,比如主机的hostname变化    |
+
+## 8.9 ModifySwitch(修改三层网络交换机配置)
+
+**接口功能:**
+	修改三层网络交换机配置，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
+
+**接口依赖:**
+	
+
+**接口所属:**
+	com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.ModifySwitch
+
+**参数描述:**
+
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+| name | String | true | 资源名称 | modifySwitch.name.001|
+| modifySwitch | ModifySwitch | true | 修改三层网络交换机配置 | 详细见下 |
+| eventId | String | fasle | 事件ID | modifySwitch.event.001 |
+
+对象modifySwitch参数说明:
+
+| name | type | required | description | constraint | example |
+| ----- | ------ | ------ | ------ | ------ | ------ |
+| gateway|String|false|网关地址|IP|192.168.5.5|
+| mtu|String|false|mtu|10-1000|1500|
+| dnsServer|String|false|域名服务器|IP地址|192.168.5.5|
+| dhcp|String|false|DHCP地址|IP|192.168.5.5|
+| vlanId|String|false|vlanID|0-4094|br-ex|
+|  |  |  |  |  |
+
+**接口异常:**
+
+(1)在调用本方法抛出;
+
+| name  | description | 
+| ----- | ----- | 
+| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
+| IllegalFormatException | 传递的参数不符合约束条件    |
+| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
+
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看ModifySwitchspec下的status域，从message中获取详细异常信息
+
+| name  | description | 
+| ----- | ----- | 
+| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
+| VirtctlError | Libvirt不支持的生命周期    |
+| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
+| Exception    | 后台代码异常退出,比如主机的hostname变化    |
+
+## 8.10 CreateAddress(创建地址列表)
+
+**接口功能:**
+	创建地址列表，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
+
+**接口依赖:**
+	
+
+**接口所属:**
+	com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.CreateAddress
+
+**参数描述:**
+
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+| name | String | true | 资源名称 | createAddress.name.001|
+| nodeName | String | false | 选择部署的物理机，可以通过kubernetes.nodes().list进行查询 | node22 |
+| createAddress | CreateAddress | true | 创建地址列表 | 详细见下 |
+| eventId | String | fasle | 事件ID | createAddress.event.001 |
+
+对象createAddress参数说明:
+
+| name | type | required | description | constraint | example |
+| ----- | ------ | ------ | ------ | ------ | ------ |
+| address|String|true|地址列表|IP以,分割|192.168.1.1，192.168.1.2|
+|  |  |  |  |  |
+
+**接口异常:**
+
+(1)在调用本方法抛出;
+
+| name  | description | 
+| ----- | ----- | 
+| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
+| IllegalFormatException | 传递的参数不符合约束条件    |
+| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
+
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看CreateAddressspec下的status域，从message中获取详细异常信息
+
+| name  | description | 
+| ----- | ----- | 
+| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
+| VirtctlError | Libvirt不支持的生命周期    |
+| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
+| Exception    | 后台代码异常退出,比如主机的hostname变化    |
+
+## 8.11 DeleteAddress(删除地址列表)
+
+**接口功能:**
+	删除地址列表，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
+
+**接口依赖:**
+	虚拟机网络存在，即已调用过CreateSwitch
+
+**接口所属:**
+	com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.DeleteAddress
+
+**参数描述:**
+
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+| name | String | true | 资源名称 | deleteAddress.name.001|
+| deleteAddress | DeleteAddress | true | 删除地址列表 | 详细见下 |
+| eventId | String | fasle | 事件ID | deleteAddress.event.001 |
+
+对象deleteAddress参数说明:
+
+| name | type | required | description | constraint | example |
+| ----- | ------ | ------ | ------ | ------ | ------ |
+|  |  |  |  |  |
+
+**接口异常:**
+
+(1)在调用本方法抛出;
+
+| name  | description | 
+| ----- | ----- | 
+| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
+| IllegalFormatException | 传递的参数不符合约束条件    |
+| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
+
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看DeleteAddressspec下的status域，从message中获取详细异常信息
+
+| name  | description | 
+| ----- | ----- | 
+| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
+| VirtctlError | Libvirt不支持的生命周期    |
+| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
+| Exception    | 后台代码异常退出,比如主机的hostname变化    |
+
+## 8.12 ModifyAddress(修改地址列表)
+
+**接口功能:**
+	修改地址列表，只会返回True或者异常返回True意味着提交到Kubernetes成功，并不代表执行成功(异步设计)。开发人员需要通过监听Event和Watcher方法获取更详细信息；如果提交到Kubernetes后执行错误，请查看[接口异常]
+
+**接口依赖:**
+	
+
+**接口所属:**
+	com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.ModifyAddress
+
+**参数描述:**
+
+| name | type | required | description | exampe |
+| ----- | ------ | ------ | ------ | ------ |
+| name | String | true | 资源名称 | modifyAddress.name.001|
+| modifyAddress | ModifyAddress | true | 修改地址列表 | 详细见下 |
+| eventId | String | fasle | 事件ID | modifyAddress.event.001 |
+
+对象modifyAddress参数说明:
+
+| name | type | required | description | constraint | example |
+| ----- | ------ | ------ | ------ | ------ | ------ |
+| address|String|true|地址列表|IP以,分割|192.168.1.1，192.168.1.2|
+|  |  |  |  |  |
+
+**接口异常:**
+
+(1)在调用本方法抛出;
+
+| name  | description | 
+| ----- | ----- | 
+| RuntimeException |  重名，或则资源(VirtualMachine, VirtualMachinePool等)不存在   |
+| IllegalFormatException | 传递的参数不符合约束条件    |
+| Exception    | 后台代码异常，比如未安装VM的Kubernets插件    |
+
+(2)调用本方法返回True，因本API是异步处理，开发者需要进一步监听是否正确执行。本文考虑第(2)种情况请查看ModifyAddressspec下的status域，从message中获取详细异常信息
+
+| name  | description | 
+| ----- | ----- | 
+| LibvirtError | 因传递错误参数，或者后台缺少软件包导致执行Libvirt命令出错   |
+| VirtctlError | Libvirt不支持的生命周期    |
+| VirtletError | Libvirt监听事件错误，比如绕开Kubernetes,后台执行操作  |
+| Exception    | 后台代码异常退出,比如主机的hostname变化    |
+
+## **返回值:**
+
+```
+{
+	"kind":"VirtualMachineNetwork",
+	"metadata":{
+		"additionalProperties":{},
+		"finalizers":[],
+		"managedFields":[],
+		"ownerReferences":[]
+	},
+	"spec":{
+		"additionalPrinterColumns":[],
+		"additionalProperties":{},
+		"data":{
+			"addressInfo":{
+				"_uuid":"String",
+				"addresses":"String",
+				"external_ids":"String",
+				"name":"String"
+			},
+			"bridgeInfo":{
+				"name":"String",
+				"ports":[
+					{
+						"interfaces":[
+							{
+								"mac":"String",
+								"name":"String",
+								"uuid":"String"
+							},
+							{
+								"mac":"String",
+								"name":"String",
+								"uuid":"String"
+							}
+						],
+						"name":"String",
+						"uuid":"String",
+						"vlan":"String"
+					},
+					{
+						"interfaces":[
+							{
+								"mac":"String",
+								"name":"String",
+								"uuid":"String"
+							},
+							{
+								"mac":"String",
+								"name":"String",
+								"uuid":"String"
+							}
+						],
+						"name":"String",
+						"uuid":"String",
+						"vlan":"String"
+					}
+				],
+				"uuid":"String"
+			},
+			"gatewayInfo":{
+				"id":"String",
+				"lease_time":"String",
+				"router":"String",
+				"server_id":"String",
+				"server_mac":"String"
+			},
+			"routerInfo":{
+				"id":"String",
+				"name":"String",
+				"nat":[
+					{
+						"externalIP":"String",
+						"gateway":"String",
+						"logicalIP":"String",
+						"name":"String",
+						"type":"String"
+					},
+					{
+						"externalIP":"String",
+						"gateway":"String",
+						"logicalIP":"String",
+						"name":"String",
+						"type":"String"
+					}
+				],
+				"ports":[
+					{
+						"gateway":"String",
+						"mac":"String",
+						"name":"String",
+						"networks":"String"
+					},
+					{
+						"gateway":"String",
+						"mac":"String",
+						"name":"String",
+						"networks":"String"
+					}
+				]
+			},
+			"switchInfo":{
+				"id":"String",
+				"name":"String",
+				"ports":[
+					{
+						"addresses":{},
+						"name":"String",
+						"router_port":"String",
+						"tag":"String",
+						"type":"String"
+					},
+					{
+						"addresses":{},
+						"name":"String",
+						"router_port":"String",
+						"tag":"String",
+						"type":"String"
+					}
+				]
+			}
+		},
+		"lifecycle":{
+			"bindPortVlan":{
+				"domain":"String",
+				"mac":"String",
+				"vlan":"String"
+			},
+			"createAddress":{
+				"address":"String"
+			},
+			"createBridge":{
+				"name":"String",
+				"nic":"String",
+				"vlan":"String"
+			},
+			"createSwitch":{
+				"bridge":"String",
+				"dhcp":"String",
+				"dnsServer":"String",
+				"excludeIPs":"String",
+				"gateway":"String",
+				"mtu":"String",
+				"subnet":"String",
+				"vlanId":"String"
+			},
+			"delBridgeVlan":{
+				
+			},
+			"deleteAddress":{},
+			"deleteBridge":{
+				"name":"String",
+				"nic":"String"
+			},
+			"deleteSwitch":{
+				"bridge":"String"
+			},
+			"modifyAddress":{
+				
+			},
+			"modifySwitch":{
+				"dhcp":"String",
+				"dnsServer":"String",
+				"gateway":"String",
+				"mtu":"String",
+				"vlanId":"String"
+			},
+			"setBridgeVlan":{
+				"name":"String",
+				"vlan":"String"
+			},
+			"unbindPortVlan":{
+				
+			}
+		},
+		"type":"String",
+		"versions":[]
+	}
+}
+```
+
+queues":"String"
 							},
 							"master":{
 								"_startport":"String"
