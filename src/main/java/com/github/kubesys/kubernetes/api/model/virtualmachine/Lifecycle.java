@@ -2665,7 +2665,7 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String name;
 		
-		@ParameterDescriber(required = false, description = "新磁盘路径", constraint = "路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点", example = "/var/lib/libvirt/images/test1.qcow2")
+		@ParameterDescriber(required = false, description = "新磁盘路径，多个路径用多个--file标识", constraint = "路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点", example = "/var/lib/libvirt/images/test1.qcow2 --file /var/lib/libvirt/images/test2.qcow2")
 		protected String file;
 		
 		@ParameterDescriber(required = false, description = "不克隆存储，通过 --file 参数指定的新磁盘镜像将保留不变", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
