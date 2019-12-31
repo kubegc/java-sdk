@@ -94,6 +94,9 @@ public class RegExpUtils {
 	
 	@FieldDescriber("磁盘大小，单位是Bytes，取值范围1000000000-999999999999")
 	public final static String DISK_SIZE_PATTERN = "\\d{10,13}";
+
+	@FieldDescriber("磁盘大小，单位是KiB，取值范围1000000-999999999999")
+	public final static String DISK_SIZE_KIB_PATTERN = "\\d{7,13}";
 	
 //	1 单独限制协议
 //	tcp
