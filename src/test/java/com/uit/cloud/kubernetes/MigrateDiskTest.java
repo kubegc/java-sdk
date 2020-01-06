@@ -29,7 +29,7 @@ public class MigrateDiskTest {
 
 	public static Lifecycle.MigrateDisk getMigrateDisk() {
 		Lifecycle.MigrateDisk createDisk = new Lifecycle.MigrateDisk();
-		createDisk.setPool("vmbbstddolgg11");
+		createDisk.setPool("migratepoolnode22");
 		return createDisk;
 	}
 }

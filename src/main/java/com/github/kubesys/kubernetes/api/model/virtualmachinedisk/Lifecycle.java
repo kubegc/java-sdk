@@ -432,7 +432,7 @@ public class Lifecycle {
 
 		protected Boolean prealloc_metadata;
 
-		@ParameterDescriber(required = true, description = "云盘所在的存储池名", constraint = "由4-100位的数字和小写字母组成，已创建出的存储池", example = "pool2")
+		@ParameterDescriber(required = true, description = "目标存储池名", constraint = "由4-100位的数字和小写字母组成，已创建出的存储池", example = "pool2")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String pool;
 
