@@ -22,7 +22,7 @@ public class CreateVMLocalfsPoolTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachinePools()
-				.createPool("pooldircccccc", "vm.node22", getPool(), "123");
+				.createPool("poollocalfsmigrate31", "vm.node31", getPool(), "123");
 		System.out.println(successful);
 	}
 
@@ -34,7 +34,7 @@ public class CreateVMLocalfsPoolTest {
 		createPool.setContent("vmd");
 		createPool.setAutostart(true);
         createPool.setUrl("/mnt/localfs/pooldir");
-		createPool.setUuid("070zzca5fd174fccafee76b0d7fccde4");
+		createPool.setUuid("070zzca5fd174fccafee76b0d7fc2235");
 		// uus
 //		createPool.setType("uus");
 //		createPool.setUrl("uus-iscsi-independent://admin:admin@192.168.3.10:7000/p1/4/2/0/32/0/3");

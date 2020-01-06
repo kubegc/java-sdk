@@ -54,6 +54,12 @@ public class Lifecycle {
 		prerequisite = AnnotationUtils.DESC_FUNCTION_VMD, 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected CloneDisk cloneDisk;
+
+	@FunctionDescriber(shortName = "迁移云盘", description = "迁移云盘，"
+			+ AnnotationUtils.DESC_FUNCTION_DESC,
+			prerequisite = AnnotationUtils.DESC_FUNCTION_VMD,
+			exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected MigrateDisk migrateDisk;
 	
 	@FunctionDescriber(shortName = "创建云盘内部快照", description = "创建云盘内部快照，" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
@@ -75,6 +81,14 @@ public class Lifecycle {
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	@Deprecated
 	protected DeleteDiskInternalSnapshot deleteDiskInternalSnapshot;
+
+	public MigrateDisk getMigrateDisk() {
+		return migrateDisk;
+	}
+
+	public void setMigrateDisk(MigrateDisk migrateDisk) {
+		this.migrateDisk = migrateDisk;
+	}
 
 	public CreateDiskInternalSnapshot getCreateDiskSnapshot() {
 		return createDiskInternalSnapshot;
@@ -480,6 +494,26 @@ public class Lifecycle {
 
 		public void setFormat(String format) {
 			this.format = format;
+		}
+	}
+
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class MigrateDisk {
+		@ParameterDescriber(required = true, description = "云盘所在的存储池名", constraint = "由4-100位的数字和小写字母组成，已创建出的存储池", example = "pool2")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String pool;
+
+		public MigrateDisk() {
+
+		}
+
+		public void setPool(String pool) {
+			this.pool = pool;
+		}
+
+		public String getPool() {
+			return this.pool;
 		}
 	}
 

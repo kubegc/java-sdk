@@ -22,7 +22,7 @@ public class CreateVMNfsPoolTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachinePools()
-				.createPool("migratepoolnode35", "vm.node35", getPool(), "123");
+				.createPool("migratepoolnode31nfs", "vm.node31", getPool(), "123");
 		System.out.println(successful);
 	}
 

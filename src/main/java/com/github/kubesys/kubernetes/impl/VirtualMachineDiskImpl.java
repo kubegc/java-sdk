@@ -152,6 +152,18 @@ public class VirtualMachineDiskImpl extends AbstractImpl<VirtualMachineDisk, Vir
 		return update(name, updateMetadata(name, eventId), cloneDisk);
 	}
 
+	public boolean migrateDisk(String name, Lifecycle.MigrateDisk migrateDisk) throws Exception {
+		return migrateDisk(name, migrateDisk, null);
+	}
+
+	public boolean migrateDisk(String name, Lifecycle.MigrateDisk migrateDisk, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), migrateDisk);
+	}
+
 	public boolean cloneDisk(String name, String nodeName, CloneDisk cloneDisk) throws Exception {
 		updateHost(name, nodeName);
 		return cloneDisk(name, cloneDisk, null);

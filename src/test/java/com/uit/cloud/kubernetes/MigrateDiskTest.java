@@ -4,6 +4,7 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
+import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CloneDisk;
 
 /**
@@ -15,23 +16,20 @@ import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.Clon
  * @since   2019/9/3
  *
  */
-public class CloneDiskTest {
+public class MigrateDiskTest {
 	
 	
 	public static void main(String[] args) throws Exception {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineDisks()
-				.cloneDisk("vm006migratedisk4", getCreateDisk());
+				.migrateDisk("vm006migratedisk2", getMigrateDisk());
 		System.out.println(successful);
 	}
 
-	public static CloneDisk getCreateDisk() {
-		CloneDisk createDisk = new CloneDisk();
-		createDisk.setPool("migratepoolnode22");
-		createDisk.setType("nfs");
-		createDisk.setNewname("vm006migratedisk2");
-		createDisk.setFormat("qcow2");
+	public static Lifecycle.MigrateDisk getMigrateDisk() {
+		Lifecycle.MigrateDisk createDisk = new Lifecycle.MigrateDisk();
+		createDisk.setPool("vmbbstddolgg11");
 		return createDisk;
 	}
 }
