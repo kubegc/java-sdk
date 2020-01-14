@@ -236,6 +236,18 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 		return unplugNIC(name, unplugNIC, eventId);
 	}
 
+	public boolean migrateVMDisk(String name, Lifecycle.MigrateVMDisk migrateVMDisk) throws Exception {
+		return migrateVMDisk(name, migrateVMDisk, null);
+	}
+
+	public boolean migrateVMDisk(String name, Lifecycle.MigrateVMDisk migrateVMDisk, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), migrateVMDisk);
+	}
+
 	public boolean migrateVM(String name, MigrateVM migrateVM) throws Exception {
 		return migrateVM(name, migrateVM, null);
 	}

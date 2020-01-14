@@ -53,6 +53,10 @@ public class Lifecycle {
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected MigrateVM migrateVM;
 
+	@FunctionDescriber(shortName = "虚机存储迁移", description = "虚拟机存储迁移，不支持"
+			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected MigrateVMDisk migrateVMDisk;
+
 	@FunctionDescriber(shortName = "CPU设置", description = "修改虚拟机CPU个数"
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected ChangeNumberOfCPU changeNumberOfCPU;
@@ -196,6 +200,14 @@ public class Lifecycle {
 	@FunctionDescriber(shortName = "删除QoS", description = "删除QoS，"
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected UnsetQoS unsetQoS;
+
+	public MigrateVMDisk getMigrateVMDisk() {
+		return migrateVMDisk;
+	}
+
+	public void setMigrateVMDisk(MigrateVMDisk migrateVMDisk) {
+		this.migrateVMDisk = migrateVMDisk;
+	}
 
 	public SetQoS getSetQoS() {
 		return setQoS;
@@ -932,6 +944,45 @@ public class Lifecycle {
 			return this.live;
 		}
 	}
+
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class MigrateVMDisk {
+
+		protected String domain;
+
+		@ParameterDescriber(required = true, description = "目标主机服务地址，主机之间需要提前免密登录", constraint = "目标主机的服务url，主机之间需要提前配置免密登录", example = "133.133.135.31")
+		@Pattern(regexp = RegExpUtils.IP_PATTERN)
+		protected String ip;
+
+		@ParameterDescriber(required = true, description = "需要迁移的云盘和云盘要迁移到的存储池，必须遵守disk=disk1,pool=poolnfs1的格式，有多个要迁移的云盘需要用分号分割开，如disk=/var/lib/libvirt/cstor/pool1/pool1/disk1,pool=poolnfs1;disk=/var/lib/libvirt/cstor/pool2/pool2/disk2,pool=poolnfs2，目标存储池要在要迁移的目标节点。支持其他类型的存储到的文件类型存储的迁移，支持块设备到相同存储池uuid之间的迁移，不支持文件类型到块设备类型的迁移和块设备类型到其他uuid块设备存储的迁移。", constraint = "目标主机的服务url，主机之间需要提前配置免密登录", example = "disk=/var/lib/libvirt/cstor/pool1/pool1/disk1,pool=poolnfs1;disk=/var/lib/libvirt/cstor/pool2/pool2/disk2,pool=poolnfs2")
+		protected String migratedisks;
+
+		public String getDomain() {
+			return domain;
+		}
+
+		public void setDomain(String domain) {
+			this.domain = domain;
+		}
+
+		public String getIp() {
+			return ip;
+		}
+
+		public void setIp(String ip) {
+			this.ip = ip;
+		}
+
+		public String getMigratedisks() {
+			return migratedisks;
+		}
+
+		public void setMigratedisks(String migratedisks) {
+			this.migratedisks = migratedisks;
+		}
+	}
+
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)

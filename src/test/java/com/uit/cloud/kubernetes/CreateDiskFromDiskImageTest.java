@@ -22,7 +22,7 @@ public class CreateDiskFromDiskImageTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineDisks()
-				.createDiskFromDiskImage("vm006copdssdn", "vm.node22", get(), "abc");
+				.createDiskFromDiskImage("vm006copdssdndddd", "vm.node22", get(), "abc");
 		System.out.println(successful);
 	}
 
@@ -30,7 +30,7 @@ public class CreateDiskFromDiskImageTest {
 		CreateDiskFromDiskImage createDisk = new CreateDiskFromDiskImage();
 		createDisk.setType("nfs");
 		// create a volume in this pool
-		createDisk.setTargetPool("333poolnfs");
+		createDisk.setTargetPool("migratepoolnode22");
 		// vm disk image name
 		createDisk.setSource("/var/lib/libvirt/cstor/1709accf174fccafed76b0d7fccdev/1709accf174fccafed76b0d7fccdev/wyw124bb/wyw124bb");
 //		createDisk.setFull_copy(true);

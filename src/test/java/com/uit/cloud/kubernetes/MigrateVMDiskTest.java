@@ -15,21 +15,21 @@ import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle;
  * @since   2019/9/3
  *
  */
-public class MigrateVMTest {
+public class MigrateVMDiskTest {
 	
 	
 	public static void main(String[] args) throws Exception {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.migrateVM("vm006", get());
+				.migrateVMDisk("vm006", get());
 		System.out.println(successful);
 	}
 
-	public static Lifecycle.MigrateVM get() throws Exception {
-		Lifecycle.MigrateVM migrateVM = new Lifecycle.MigrateVM();
-		migrateVM.setIp("133.133.135.22");
-//		migrateVM.setOffline(true);
-		return migrateVM;
+	public static Lifecycle.MigrateVMDisk get() throws Exception {
+		Lifecycle.MigrateVMDisk migrateVMDisk = new Lifecycle.MigrateVMDisk();
+		migrateVMDisk.setIp("192.168.3.83");
+		migrateVMDisk.setMigratedisks("disk=/var/lib/libvirt/cstor/1709accf174vccaced76b0dbfccdev/migratedisk4devnew333,pool=migratepool83");
+		return migrateVMDisk;
 	}
 }
