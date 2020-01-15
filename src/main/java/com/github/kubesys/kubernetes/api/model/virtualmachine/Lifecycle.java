@@ -53,7 +53,7 @@ public class Lifecycle {
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected MigrateVM migrateVM;
 
-	@FunctionDescriber(shortName = "虚机存储迁移", description = "虚拟机存储迁移，不支持"
+	@FunctionDescriber(shortName = "虚机存储迁移", description = "虚拟机存储迁移，只支持冷迁，迁移之前虚拟机需要关机"
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected MigrateVMDisk migrateVMDisk;
 
