@@ -955,7 +955,7 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.IP_PATTERN)
 		protected String ip;
 
-		@ParameterDescriber(required = true, description = "需要迁移的云盘和云盘要迁移到的存储池，必须遵守disk=disk1,pool=poolnfs1的格式，有多个要迁移的云盘需要用分号分割开，如disk=/var/lib/libvirt/cstor/pool1/pool1/disk1,pool=poolnfs1;disk=/var/lib/libvirt/cstor/pool2/pool2/disk2,pool=poolnfs2，目标存储池要在要迁移的目标节点。支持其他类型的存储到的文件类型存储的迁移，支持块设备到相同存储池uuid之间的迁移，不支持文件类型到块设备类型的迁移和块设备类型到其他uuid块设备存储的迁移。", constraint = "目标主机的服务url，主机之间需要提前配置免密登录", example = "disk=/var/lib/libvirt/cstor/pool1/pool1/disk1,pool=poolnfs1;disk=/var/lib/libvirt/cstor/pool2/pool2/disk2,pool=poolnfs2")
+		@ParameterDescriber(required = true, description = "需要迁移的云盘和云盘要迁移到的存储池，必须遵守vol=disk1,pool=poolnfs1的格式，有多个要迁移的云盘需要用分号分割开，如vol=/var/lib/libvirt/cstor/pool1/pool1/disk1,pool=poolnfs1;vol=/var/lib/libvirt/cstor/pool2/pool2/disk2,pool=poolnfs2，目标存储池要在要迁移的目标节点。支持其他类型的存储到的文件类型存储的迁移，支持块设备到相同存储池uuid之间的迁移，不支持文件类型到块设备类型的迁移和块设备类型到其他uuid块设备存储的迁移。", constraint = "云主机存储迁移", example = "disk=/var/lib/libvirt/cstor/pool1/pool1/disk1,pool=poolnfs1;disk=/var/lib/libvirt/cstor/pool2/pool2/disk2,pool=poolnfs2")
 		protected String migratedisks;
 
 		public String getDomain() {

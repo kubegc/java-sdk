@@ -28,8 +28,8 @@ public class MigrateVMDiskTest {
 
 	public static Lifecycle.MigrateVMDisk get() throws Exception {
 		Lifecycle.MigrateVMDisk migrateVMDisk = new Lifecycle.MigrateVMDisk();
-		migrateVMDisk.setIp("192.168.3.83");
-		migrateVMDisk.setMigratedisks("disk=/var/lib/libvirt/cstor/1709accf174vccaced76b0dbfccdev/migratedisk4devnew333,pool=migratepool83");
+		migrateVMDisk.setIp("133.133.135.22");
+		migrateVMDisk.setMigratedisks("vol=/var/lib/libvirt/cstor/1709accdd174caced76b0db2235/1709accdd174caced76b0db2235/vm003migratevmdisk2/snapshots/vm003migratevmdisk2.1,pool=vmbbstddolgg11node22");
 		return migrateVMDisk;
 	}
 }

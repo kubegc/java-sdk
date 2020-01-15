@@ -248,6 +248,11 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 		return update(name, updateMetadata(name, eventId), migrateVMDisk);
 	}
 
+	public boolean migrateVMDisk(String name, String nodeName, Lifecycle.MigrateVMDisk migrateVMDisk) throws Exception {
+		updateHost(name, nodeName);
+		return migrateVMDisk(name, migrateVMDisk, null);
+	}
+
 	public boolean migrateVM(String name, MigrateVM migrateVM) throws Exception {
 		return migrateVM(name, migrateVM, null);
 	}
