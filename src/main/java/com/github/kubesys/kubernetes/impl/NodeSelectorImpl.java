@@ -83,6 +83,11 @@ public class NodeSelectorImpl {
 		return DEFAULT_NODE;
 	}
 
+	public String getNodename(Policy policy, String defaultName) {
+		String nodeName = getNodename(policy);
+		return (nodeName != null) ? nodeName : defaultName;
+	}
+	
 	/**
 	 * @param nodes     the node with minimum instances
 	 */
@@ -173,7 +178,7 @@ public class NodeSelectorImpl {
 	 * @param node         node
 	 * @return             if this node is disable scheduling
 	 */
-	protected boolean unSched(Node node) {
+	public static boolean unSched(Node node) {
 		for (Taint taint : node.getSpec().getTaints()) {
 			if (taint.getEffect().equals("NoSchedule")) {
 				return true;
@@ -186,7 +191,7 @@ public class NodeSelectorImpl {
 	 * @param node          node
 	 * @return              if this node encounters some errors 
 	 */
-	protected boolean notReady(Node node) {
+	public static boolean notReady(Node node) {
 		for (NodeCondition nc : node.getStatus().getConditions()) {
 			if (nc.getType().equals("Ready")) {
 				return false;
@@ -199,7 +204,7 @@ public class NodeSelectorImpl {
 	 * @param node           node
 	 * @return               if this node is master
 	 */
-	protected boolean isMaster(Node node) {
+	public static boolean isMaster(Node node) {
 		return node.getMetadata().getLabels()
 				.containsKey("node-role.kubernetes.io/master");
 	}
