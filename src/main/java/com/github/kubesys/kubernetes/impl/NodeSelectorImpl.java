@@ -193,7 +193,7 @@ public class NodeSelectorImpl {
 	 */
 	public static boolean notReady(Node node) {
 		for (NodeCondition nc : node.getStatus().getConditions()) {
-			if (nc.getType().equals("Ready")) {
+			if (nc.getType().equals("Ready") && nc.getStatus().equals("True")) {
 				return false;
 			}
 		}
