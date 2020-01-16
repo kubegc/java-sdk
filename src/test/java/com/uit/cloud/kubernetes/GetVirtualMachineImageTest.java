@@ -15,8 +15,8 @@ package com.uit.cloud.kubernetes;
 public class GetVirtualMachineImageTest {
 	
 	public static void main(String[] args) throws Exception {
-		System.out.println(AbstractTest
-				.getVMImageByName("test"));
+//		System.out.println(AbstractTest
+//				.getVMImageByName("test"));
 	}
 	
 }

@@ -17,6 +17,7 @@ import java.util.Set;
 import javax.validation.constraints.Pattern;
 
 import com.alibaba.fastjson.JSON;
+import com.github.kubesys.henry.AbstractTest;
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
 import com.github.kubesys.kubernetes.annotations.ParameterDescriber;
 import com.github.kubesys.kubernetes.api.model.VirtualMachine;
@@ -42,7 +43,6 @@ import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.Resi
 import com.github.kubesys.kubernetes.api.model.virtualmachinesnapshot.Lifecycle.CreateSnapshot;
 import com.github.kubesys.kubernetes.api.model.virtualmachinesnapshot.Lifecycle.DeleteSnapshot;
 import com.github.kubesys.kubernetes.utils.RegExpUtils;
-import com.uit.cloud.kubernetes.AbstractTest;
 
 import io.fabric8.kubernetes.api.model.Status;
 

@@ -15,8 +15,8 @@ package com.uit.cloud.kubernetes;
 public class GetVirtualMachineDiskImageTest {
 	
 	public static void main(String[] args) throws Exception {
-		System.out.println(AbstractTest
-				.getVMDiskImageByName("wyw124aaa"));
+//		System.out.println(AbstractTest
+//				.getVMDiskImageByName("wyw124aaa"));
 	}
 	
 }
