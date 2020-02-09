@@ -1664,7 +1664,7 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.OS_PATTERN)
 		protected String os_variant;
 
-		@ParameterDescriber(required = true, description = "虚拟机CPU个数，及其物理CPU绑定关系", constraint = "0~99", example = "2,cpuset=1-4")
+		@ParameterDescriber(required = true, description = "虚拟机CPU个数，及其物理CPU绑定关系", constraint = "0~40", example = "2,cpuset=1-4")
 		@Pattern(regexp = RegExpUtils.VCPUSET_PATTERN)
 		protected String vcpus;
 

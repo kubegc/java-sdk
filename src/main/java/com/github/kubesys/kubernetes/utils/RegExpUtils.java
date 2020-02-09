@@ -44,8 +44,8 @@ public class RegExpUtils {
 	@FieldDescriber("mac地址但不能以fe开头，只支持小写字母和数字")
 	public final static String MAC_PATTERN  = "(([a-eg-z0-9][a-z0-9])|(f[a-df-z0-9]))(:[a-z0-9]{2}){5}";
 	
-	@FieldDescriber("vcpu个数，1到99之间")
-	public final static String VCPU_PATTERN = "[1-9](\\d{1})?";
+	@FieldDescriber("vcpu个数，1到40之间")
+	public final static String VCPU_PATTERN = "[1-3](\\d{1})?";
 	
 	@FieldDescriber("vlan ID号，0到4094之间")
 	public final static String VLAN_PATTERN = "\\d{1,3}|[1-3][0-9][0-9][0-9]|40[0-8][0-9]|409[0-4]";
@@ -162,7 +162,7 @@ public class RegExpUtils {
 	public final static String IP_SWITCH_PATTERN      = "source=(virbr0|br-native|br-int|" + NAME_PATTERN + ")(,ip=" + IP_PATTERN + ")?(,switch=([a-z0-9-.]{4,32}))?";
 	
 	@FieldDescriber("VCPU高级配置，允许绑定具体物理CPU，但cpuset是选填的")
-	public final static String VCPUSET_PATTERN      = VCPU_PATTERN + "(,cpuset=\\d{1,3}((,|-)\\d{1,3})*)?" + ",maxvcpus=100";
+	public final static String VCPUSET_PATTERN      = VCPU_PATTERN + "(,cpuset=\\d{1,3}((,|-)\\d{1,3})*)?" + ",maxvcpus=40";
 	
 	@FieldDescriber("配置基于vnc或者spice协议的虚拟机远程访问，密码是可选择的，为4-16位密码，是小写字母、数字和中划线组合")
 	public final static String GRAPHICS_PATTERN     = "(vnc|spice),listen=0.0.0.0(,password=([a-z0-9-.]{4,16}))?";
