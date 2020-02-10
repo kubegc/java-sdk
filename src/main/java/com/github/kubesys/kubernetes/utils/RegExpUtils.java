@@ -44,8 +44,8 @@ public class RegExpUtils {
 	@FieldDescriber("mac地址但不能以fe开头，只支持小写字母和数字")
 	public final static String MAC_PATTERN  = "(([a-eg-z0-9][a-z0-9])|(f[a-df-z0-9]))(:[a-z0-9]{2}){5}";
 	
-	@FieldDescriber("vcpu个数，1到40之间")
-	public final static String VCPU_PATTERN = "[1-3](\\d{1})?";
+	@FieldDescriber("vcpu个数，1到100之间")
+	public final static String VCPU_PATTERN = "[1-9](\\d{1})?";
 	
 	@FieldDescriber("vlan ID号，0到4094之间")
 	public final static String VLAN_PATTERN = "\\d{1,3}|[1-3][0-9][0-9][0-9]|40[0-8][0-9]|409[0-4]";

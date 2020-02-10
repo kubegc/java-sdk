@@ -107,6 +107,7 @@ public class CreateAndStartFromISOTest {
 		
 		// consoleMode amd passowrd
 		createAndStartVMFromISO.setGraphics("vnc,listen=0.0.0.0" + getconsolePassword("123456"));
+//		createAndStartVMFromISO.setGraphics("rdp,listen=0.0.0.0" + getconsolePassword("123456"));
 //		createAndStartVMFromISO.setGraphics("spice,listen=0.0.0.0" + getconsolePassword("567890")); 
 		
 		return createAndStartVMFromISO;

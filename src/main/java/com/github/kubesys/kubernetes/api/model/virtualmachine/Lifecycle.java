@@ -1000,7 +1000,7 @@ public class Lifecycle {
 		@ParameterDescriber(required = false, description = "对于开机虚拟机进行运行时插拔，与--live等价", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean hotpluggable;
 
-		@ParameterDescriber(required = true, description = "vcpu数量", constraint = "1-40个", example = "16")
+		@ParameterDescriber(required = true, description = "vcpu数量", constraint = "1-100个", example = "16")
 		@Pattern(regexp = RegExpUtils.VCPU_PATTERN)
 		protected String count;
 
@@ -1664,7 +1664,7 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.OS_PATTERN)
 		protected String os_variant;
 
-		@ParameterDescriber(required = true, description = "虚拟机CPU个数，及其物理CPU绑定关系", constraint = "0~40", example = "2,cpuset=1-4")
+		@ParameterDescriber(required = true, description = "虚拟机CPU个数，及其物理CPU绑定关系", constraint = "0~100", example = "2,cpuset=1-4")
 		@Pattern(regexp = RegExpUtils.VCPUSET_PATTERN)
 		protected String vcpus;
 
