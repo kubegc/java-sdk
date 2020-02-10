@@ -106,9 +106,10 @@ public class CreateAndStartFromISOTest {
 //		createAndStartVMFromISO.setNetwork("type=l3bridge,source=br-int,ip=192.168.5.12,switch=switch8888,inbound=102400,outbound=102400");
 		
 		// consoleMode amd passowrd
-		createAndStartVMFromISO.setGraphics("vnc,listen=0.0.0.0" + getconsolePassword("123456"));
+//		createAndStartVMFromISO.setGraphics("vnc,listen=0.0.0.0" + getconsolePassword("123456"));
 //		createAndStartVMFromISO.setGraphics("rdp,listen=0.0.0.0" + getconsolePassword("123456"));
-//		createAndStartVMFromISO.setGraphics("spice,listen=0.0.0.0" + getconsolePassword("567890")); 
+		createAndStartVMFromISO.setGraphics("spice,listen=0.0.0.0" + getconsolePassword("567890")); 
+		createAndStartVMFromISO.setRedirdev("usb,type=tcp,server=192.168.1.1:4000");
 		
 		return createAndStartVMFromISO;
 	}
