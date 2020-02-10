@@ -225,11 +225,13 @@ public class RegExpUtils {
 	
 	@FieldDescriber("带宽波动，单位是kbps, 0-100Mbps")
 	public final static String BURST_PATTERN = "\\d{1,5}";
+
+	@FieldDescriber("USB模式，逗号是连接符，usb,type=协议,server=IP:端口")
+	public static final String USB_PATTERN = "1usb,type=tcp,server=" + IP_PATTERN + ":" + PORT_PATTERN;
 	
 	public static void main(String[] args) {
-        System.out.println(RULE_PATTERN);
-		String name = "192.168.1.100,192.168.1.102";
-		Pattern pattern = Pattern.compile(RegExpUtils.ADDRESS_PATTERN);
+		String name = "usb,type=tcp,server=192.168.1.1:4000";
+		Pattern pattern = Pattern.compile(RegExpUtils.USB_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("");
 		}

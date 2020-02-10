@@ -1658,6 +1658,8 @@ public class Lifecycle {
 
 		protected String memdev;
 
+		@ParameterDescriber(required = false, description = "支持USB重定向", constraint = "协议,类型=，服务器=IP：端口", example = "usb,type=tcp,server=192.168.1.1:4000")
+		@Pattern(regexp = RegExpUtils.USB_PATTERN)
 		protected String redirdev;
 
 		@ParameterDescriber(required = true, description = "操作系统类型，如果不设置可能发生鼠标偏移等问题", constraint = "参考https://tower.im/teams/616100/repository_documents/3550/", example = "centos7.0")
