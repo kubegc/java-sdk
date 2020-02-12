@@ -1105,7 +1105,7 @@ public class Lifecycle {
 
 		protected Boolean multifunction;
 
-		@ParameterDescriber(required = true, description = "目标盘符，对应虚拟机内看到的盘符号", constraint = "取值范围：vdX, hdX, sdX", example = "vdc")
+		@ParameterDescriber(required = true, description = "目标盘符，对应虚拟机内看到的盘符号，其中vdX对应virtio支持的文件存储，hdX对应ide存储（如cdrom），sdX对应iscsi块存储", constraint = "取值范围：vdX, hdX, sdX", example = "vdc")
 		@Pattern(regexp = RegExpUtils.FDISK_TYPE_PATTERN)
 		protected String target;
 
