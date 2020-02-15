@@ -163,6 +163,10 @@ public class Lifecycle {
 	@FunctionDescriber(shortName = "虚机密码", description = "设置虚拟机密码，"
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected SetGuestPassword setGuestPassword;
+	
+	@FunctionDescriber(shortName = "虚机ssh key", description = "注入虚拟机ssh key，"
+			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected InjectSshKey injectSshKey;
 
 	@FunctionDescriber(shortName = "内存扩容", description = "对虚拟机内存扩容，"
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
@@ -311,6 +315,14 @@ public class Lifecycle {
 
 	public void setSetVncPassword(SetVncPassword setVncPassword) {
 		this.setVncPassword = setVncPassword;
+	}
+
+	public InjectSshKey getInjectSshKey() {
+		return injectSshKey;
+	}
+
+	public void setInjectSshKey(InjectSshKey injectSshKey) {
+		this.injectSshKey = injectSshKey;
 	}
 
 	public ResizeMaxRAM getResizeMaxRAM() {
@@ -3167,6 +3179,45 @@ public class Lifecycle {
 		}
 
 	}
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class InjectSshKey {
+
+		@ParameterDescriber(required = true, description = "虚拟机操作系统类型", constraint = "取值范围：windows/linux", example = "linux")
+		@Pattern(regexp = RegExpUtils.VM_AGENT_OS_TYPE_PATTERN)
+		protected String os_type;
+
+		@ParameterDescriber(required = true, description = "虚拟机登录用户", constraint = "名称是字符串类型，长度是4到100位，只允许数字、小写字母、中划线、以及圆点", example = "root")
+		protected String user;
+
+		@ParameterDescriber(required = true, description = "ssh登录公钥", constraint = "取值范围：只允许数字、大小写字母、空格、-+/@", example = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC9kyC1EUvxppNqYSr8mh8GIC9VBk0IdL7t+Y4dp5vcyKO+Qtx4W9mRdQ8aPuEVAxSfjDsbpfyW1O/cPUbCJJZR9Gg9FYL63V8Q97UN3V4i/ILUMTazF+MfN82ln80PQhCv0SQwfx9qsAmhmVvukPDESr2i2TO93SiY15dh1niX8AeptfXfAZWg+zJA5gIdov1u88IE1xIPjhytUCnGPJNW0kvqJzRsCSzDY7puYXO7mWRuDYpHV7VZp0qYX9urrQB+YPzIP3UBC6VbhpapRLtir8whzFCu0MKTXjzzE7h++DiTaqLMtQIfuXHKgMTA39wnQPuqnf7Q/hbm9qYMCauf root@node22")
+		protected String ssh_key;
+
+		public String getSsh_key() {
+			return ssh_key;
+		}
+
+		public void setSsh_key(String ssh_key) {
+			this.ssh_key = ssh_key;
+		}
+
+		public String getOs_type() {
+			return os_type;
+		}
+
+		public void setOs_type(String os_type) {
+			this.os_type = os_type;
+		}
+
+		public String getUser() {
+			return user;
+		}
+
+		public void setUser(String user) {
+			this.user = user;
+		}
+
+	}	
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)

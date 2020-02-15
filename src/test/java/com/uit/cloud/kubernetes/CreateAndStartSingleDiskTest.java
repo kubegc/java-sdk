@@ -23,7 +23,7 @@ public class CreateAndStartSingleDiskTest {
 		CreateAndStartVMFromISO createAndStartVMFromISO = get();
 		// name
 		boolean successful = client.virtualMachines()
-				.createAndStartVMFromISO("wyw123", "vm.node30", createAndStartVMFromISO, "01");
+				.createAndStartVMFromISO("wyw123", "vm.node22", createAndStartVMFromISO, "01");
 		System.out.println(successful);
 	}
 	

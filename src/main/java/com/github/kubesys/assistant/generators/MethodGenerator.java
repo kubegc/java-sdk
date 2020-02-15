@@ -4,7 +4,7 @@
 package com.github.kubesys.assistant.generators;
 
 import com.github.kubesys.kubernetes.impl.AbstractImpl;
-import com.github.kubesys.kubernetes.impl.VirtualMachineDiskImageImpl;
+import com.github.kubesys.kubernetes.impl.VirtualMachineImpl;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -107,12 +107,12 @@ public class MethodGenerator {
 	public static void main(String[] args) throws Exception {
 //		System.out.println(generate(new VirtualMachineDiskImpl()));
 //		System.out.println(generate(new VirtualMachineDiskSnapshotImpl()));
-//		System.out.println(generate(new VirtualMachineImpl()));
+		System.out.println(generate(new VirtualMachineImpl()));
 //		System.out.println(generate(new VirtualMachinePoolImpl()));
 //		System.out.println(generate(new VirtualMachineImageImpl()));
 //		System.out.println(generate(new VirtualMachineSnapshotImpl()));
 //		System.out.println(generate(new VirtualMachineNetworkImpl()));
-		System.out.println(generate(new VirtualMachineDiskImageImpl()));
+//		System.out.println(generate(new VirtualMachineDiskImageImpl()));
 	}
 	
 	public static String getClassName(String name) {

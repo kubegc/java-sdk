@@ -21,9 +21,11 @@ import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CreateAn
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.DeleteVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.DeprecatedACL;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.EjectISO;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.InjectSshKey;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.InsertISO;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ManageISO;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.MigrateVM;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.MigrateVMDisk;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ModifyACL;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ModifyQoS;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.PlugDevice;
@@ -236,23 +238,6 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 		return unplugNIC(name, unplugNIC, eventId);
 	}
 
-	public boolean migrateVMDisk(String name, Lifecycle.MigrateVMDisk migrateVMDisk) throws Exception {
-		return migrateVMDisk(name, migrateVMDisk, null);
-	}
-
-	public boolean migrateVMDisk(String name, Lifecycle.MigrateVMDisk migrateVMDisk, String eventId) throws Exception {
-		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
-		if (!pattern.matcher(name).matches()) {
-			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
-		}
-		return update(name, updateMetadata(name, eventId), migrateVMDisk);
-	}
-
-	public boolean migrateVMDisk(String name, String nodeName, Lifecycle.MigrateVMDisk migrateVMDisk) throws Exception {
-		updateHost(name, nodeName);
-		return migrateVMDisk(name, migrateVMDisk, null);
-	}
-
 	public boolean migrateVM(String name, MigrateVM migrateVM) throws Exception {
 		return migrateVM(name, migrateVM, null);
 	}
@@ -273,6 +258,28 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 	public boolean migrateVM(String name, String nodeName, MigrateVM migrateVM, String eventId) throws Exception {
 		updateHost(name, nodeName);
 		return migrateVM(name, migrateVM, eventId);
+	}
+
+	public boolean migrateVMDisk(String name, MigrateVMDisk migrateVMDisk) throws Exception {
+		return migrateVMDisk(name, migrateVMDisk, null);
+	}
+
+	public boolean migrateVMDisk(String name, MigrateVMDisk migrateVMDisk, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), migrateVMDisk);
+	}
+
+	public boolean migrateVMDisk(String name, String nodeName, MigrateVMDisk migrateVMDisk) throws Exception {
+		updateHost(name, nodeName);
+		return migrateVMDisk(name, migrateVMDisk, null);
+	}
+
+	public boolean migrateVMDisk(String name, String nodeName, MigrateVMDisk migrateVMDisk, String eventId) throws Exception {
+		updateHost(name, nodeName);
+		return migrateVMDisk(name, migrateVMDisk, eventId);
 	}
 
 	public boolean changeNumberOfCPU(String name, ChangeNumberOfCPU changeNumberOfCPU) throws Exception {
@@ -825,6 +832,28 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 		return setGuestPassword(name, setGuestPassword, eventId);
 	}
 
+	public boolean injectSshKey(String name, InjectSshKey injectSshKey) throws Exception {
+		return injectSshKey(name, injectSshKey, null);
+	}
+
+	public boolean injectSshKey(String name, InjectSshKey injectSshKey, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), injectSshKey);
+	}
+
+	public boolean injectSshKey(String name, String nodeName, InjectSshKey injectSshKey) throws Exception {
+		updateHost(name, nodeName);
+		return injectSshKey(name, injectSshKey, null);
+	}
+
+	public boolean injectSshKey(String name, String nodeName, InjectSshKey injectSshKey, String eventId) throws Exception {
+		updateHost(name, nodeName);
+		return injectSshKey(name, injectSshKey, eventId);
+	}
+
 	public boolean resizeRAM(String name, ResizeRAM resizeRAM) throws Exception {
 		return resizeRAM(name, resizeRAM, null);
 	}
@@ -1022,5 +1051,7 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 		updateHost(name, nodeName);
 		return unsetQoS(name, unsetQoS, eventId);
 	}
+
+
 
 }
