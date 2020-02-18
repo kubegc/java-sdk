@@ -163,7 +163,7 @@ public class Lifecycle {
 	@FunctionDescriber(shortName = "虚机密码", description = "设置虚拟机密码，"
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected SetGuestPassword setGuestPassword;
-	
+
 	@FunctionDescriber(shortName = "虚机ssh key", description = "注入虚拟机ssh key，"
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected InjectSshKey injectSshKey;
@@ -171,39 +171,76 @@ public class Lifecycle {
 	@FunctionDescriber(shortName = "内存扩容", description = "对虚拟机内存扩容，"
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected ResizeRAM resizeRAM;
-	
+
 	@FunctionDescriber(shortName = "绑定浮动IP", description = "适用浮动和虚拟IP场景，"
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected BindFloatingIP bindFloatingIP;
-	
+
 	@FunctionDescriber(shortName = "解绑浮动IP", description = "适用浮动和虚拟IP场景，"
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected UnbindFloatingIP unbindFloatingIP;
-	
+
 	@FunctionDescriber(shortName = "创建安全组", description = "创建安全规则，"
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected AddACL addACL;
-	
+
 	@FunctionDescriber(shortName = "修改安全组", description = "修改安全规则，"
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected ModifyACL modifyACL;
-	
+
 	@FunctionDescriber(shortName = "删除安全组", description = "删除安全规则，"
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected DeprecatedACL deprecatedACL;
 
-	
+
 	@FunctionDescriber(shortName = "设置QoS", description = "设置QoS，"
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected SetQoS setQoS;
-	
+
 	@FunctionDescriber(shortName = "修改QoS", description = "修改QoS，"
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected ModifyQoS modifyQoS;
-	
+
 	@FunctionDescriber(shortName = "删除QoS", description = "删除QoS，"
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected UnsetQoS unsetQoS;
+
+	@FunctionDescriber(shortName = "导出虚拟机", description = "导出虚拟机，"
+			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected ExportVM exportVM;
+
+	@FunctionDescriber(shortName = "备份虚拟机", description = "备份虚拟机，"
+			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected BackupVM backupVM;
+
+
+	@FunctionDescriber(shortName = "恢复虚拟机", description = "恢复虚拟机，"
+			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected RestoreVM restoreVM;
+
+	public ExportVM getExportVM() {
+		return exportVM;
+	}
+
+	public void setExportVM(ExportVM exportVM) {
+		this.exportVM = exportVM;
+	}
+
+	public BackupVM getBackupVM() {
+		return backupVM;
+	}
+
+	public void setBackupVM(BackupVM backupVM) {
+		this.backupVM = backupVM;
+	}
+
+	public RestoreVM getRestoreVM() {
+		return restoreVM;
+	}
+
+	public void setRestoreVM(RestoreVM restoreVM) {
+		this.restoreVM = restoreVM;
+	}
 
 	public MigrateVMDisk getMigrateVMDisk() {
 		return migrateVMDisk;
@@ -793,7 +830,7 @@ public class Lifecycle {
 		protected Boolean persistent;
 
 		protected Boolean live;
-		
+
 		protected String desturi;
 
 		public String getDesturi() {
@@ -2677,7 +2714,7 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	@Deprecated
 	public static class ConvertVMToImage {
-		
+
 		@ParameterDescriber(required = true, description = "目标存储池名", constraint = "由4-100位的数字和小写字母组成，已创建出的存储池", example = "pool2")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String targetPool;
@@ -2729,23 +2766,23 @@ public class Lifecycle {
 		@ParameterDescriber(required = true, description = "克隆虚拟机的名称", constraint = "新虚拟机名长度是4到100位", example = "newvm")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String name;
-		
+
 		@ParameterDescriber(required = false, description = "新磁盘路径，多个路径用多个--file标识", constraint = "路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点", example = "/var/lib/libvirt/images/test1.qcow2 --file /var/lib/libvirt/images/test2.qcow2")
 		protected String file;
-		
+
 		@ParameterDescriber(required = false, description = "不克隆存储，通过 --file 参数指定的新磁盘镜像将保留不变", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean preserve_data;
-		
+
 		@ParameterDescriber(required = false, description = "网卡的mac地址", constraint = "mac地址不能以fe开头", example = "7e:0c:b0:ef:6a:04")
 		@Pattern(regexp = RegExpUtils.MAC_PATTERN)
 		protected String mac;
-		
+
 		@ParameterDescriber(required = false, description = "不使用稀疏文件作为克隆的磁盘镜像", constraint = AnnotationUtils.DESC_BOOLEAN, example = "false")
 		protected Boolean nonsparse;
-		
+
 		@ParameterDescriber(required = false, description = "从原始客户机配置中自动生成克隆名称和存储路径", constraint = AnnotationUtils.DESC_BOOLEAN, example = "false")
 		protected Boolean auto_clone;
-		
+
 		public String getFile() {
 			return file;
 		}
@@ -3217,8 +3254,8 @@ public class Lifecycle {
 			this.user = user;
 		}
 
-	}	
-	
+	}
+
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class BindFloatingIP {
@@ -3226,18 +3263,18 @@ public class Lifecycle {
 		@ParameterDescriber(required = true, description = "交换机名", constraint = "名称是字符串类型，长度是4到100位，只允许数字、小写字母、中划线、以及圆点", example = "switch11")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String swName;
-		
+
 		@ParameterDescriber(required = true, description = "外部交换机名", constraint = "名称是字符串类型，长度是4到100位，只允许数字、小写字母、中划线、以及圆点", example = "switch11")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String outSwName;
-		
+
 		@Pattern(regexp = RegExpUtils.MAC_PATTERN)
 		protected String vmmac;
-		
+
 		@ParameterDescriber(required = true, description = "外网IP，以及子网掩码", constraint = "x.x.x.x,x取值范围0到255", example = "192.168.5.2/24")
 		@Pattern(regexp = RegExpUtils.SUBNET_PATTERN)
 		protected String fip;
-		
+
 		public String getVmmac() {
 			return vmmac;
 		}
@@ -3269,9 +3306,9 @@ public class Lifecycle {
 		public void setOutSwName(String outSwName) {
 			this.outSwName = outSwName;
 		}
-		
+
 	}
-	
+
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class UnbindFloatingIP {
@@ -3279,15 +3316,15 @@ public class Lifecycle {
 		@ParameterDescriber(required = true, description = "交换机名", constraint = "名称是字符串类型，长度是4到100位，只允许数字、小写字母、中划线、以及圆点", example = "switch11")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String swName;
-		
+
 		@ParameterDescriber(required = true, description = "虚拟机mac地址", constraint = "mac地址不能以fe开头", example = "7e:0c:b0:ef:6a:04")
 		@Pattern(regexp = RegExpUtils.MAC_PATTERN)
 		protected String vmmac;
-		
+
 		@ParameterDescriber(required = true, description = "外网IP", constraint = "x.x.x.x,x取值范围0到255", example = "192.168.5.2")
 		@Pattern(regexp = RegExpUtils.IP_PATTERN)
 		protected String fip;
-		
+
 		@ParameterDescriber(required = true, description = "虚拟机IP", constraint = "x.x.x.x,x取值范围0到255", example = "192.168.5.2")
 		@Pattern(regexp = RegExpUtils.IP_PATTERN)
 		protected String vmip;
@@ -3323,9 +3360,9 @@ public class Lifecycle {
 		public void setVmip(String vmip) {
 			this.vmip = vmip;
 		}
-		
+
 	}
-	
+
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class AddACL {
@@ -3333,23 +3370,23 @@ public class Lifecycle {
 		@ParameterDescriber(required = true, description = "交换机名", constraint = "名称是字符串类型，长度是4到100位，只允许数字、小写字母、中划线、以及圆点", example = "switch11")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String swName;
-		
+
 		@ParameterDescriber(required = true, description = "虚拟机mac地址", constraint = "mac地址不能以fe开头", example = "7e:0c:b0:ef:6a:04")
 		@Pattern(regexp = RegExpUtils.MAC_PATTERN)
 		protected String vmmac;
-		
+
 		@ParameterDescriber(required = true, description = "ACL类型", constraint = "from或者to", example = "from")
 		@Pattern(regexp = RegExpUtils.ACL_TYPE_PATTERN)
 		protected String type;
-		
+
 		@ParameterDescriber(required = true, description = "ACL规则", constraint = "&&连接两个规则，注意src和dst后==前后必须有一个空格", example = "ip4.src == $dmz && tcp.dst == 3306")
 		@Pattern(regexp = RegExpUtils.RULE_PATTERN)
 		protected String rule;
-		
+
 		@ParameterDescriber(required = true, description = "ACL操作", constraint = "allow或者drop", example = "allow")
 		@Pattern(regexp = RegExpUtils.ACL_OPERATOR_PATTERN)
 		protected String operator;
-		
+
 		@ParameterDescriber(required = false, description = "优先级", constraint = "1-999", example = "1")
 		@Pattern(regexp = RegExpUtils.ACL_PRIORITY_PATTERN)
 		protected String priority;
@@ -3403,33 +3440,33 @@ public class Lifecycle {
 		}
 
 	}
-	
+
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class ModifyACL extends AddACL {
 
 	}
-	
+
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class DeprecatedACL {
-		
+
 		@ParameterDescriber(required = true, description = "交换机名", constraint = "名称是字符串类型，长度是4到100位，只允许数字、小写字母、中划线、以及圆点", example = "switch11")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String swName;
-		
+
 		@ParameterDescriber(required = true, description = "虚拟机mac地址", constraint = "mac地址不能以fe开头", example = "7e:0c:b0:ef:6a:04")
 		@Pattern(regexp = RegExpUtils.MAC_PATTERN)
 		protected String vmmac;
-		
+
 		@ParameterDescriber(required = false, description = "ACL类型", constraint = "from或者to", example = "from")
 		@Pattern(regexp = RegExpUtils.ACL_TYPE_PATTERN)
 		protected String type;
-		
+
 		@ParameterDescriber(required = false, description = "ACL规则", constraint = "&&连接两个规则，注意src和dst后==前后必须有一个空格", example = "ip4.src == $dmz && tcp.dst == 3306")
 		@Pattern(regexp = RegExpUtils.RULE_PATTERN)
 		protected String rule;
-		
+
 		@ParameterDescriber(required = false, description = "优先级", constraint = "1-999", example = "1")
 		@Pattern(regexp = RegExpUtils.ACL_PRIORITY_PATTERN)
 		protected String priority;
@@ -3479,15 +3516,15 @@ public class Lifecycle {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class SetQoS {
-		
+
 		@ParameterDescriber(required = true, description = "交换机名", constraint = "交换机名", example = "switch1")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String swName;
-		
+
 		@ParameterDescriber(required = true, description = "QoS类型", constraint = "from或者to", example = "from")
 		@Pattern(regexp = RegExpUtils.QOS_TYPE_PATTERN)
 		protected String type;
-		
+
 		@ParameterDescriber(required = true, description = "协议类型", constraint = "只能是ip, ip4, icmp之类", example = "ip")
 		@Pattern(regexp = RegExpUtils.RULE_PATTERN)
 		protected String rule;
@@ -3495,11 +3532,11 @@ public class Lifecycle {
 		@ParameterDescriber(required = true, description = "带宽速度", constraint = "单位是kbps, 0-1000Mbps", example = "10000")
 		@Pattern(regexp = RegExpUtils.RATE_PATTERN)
 		protected String rate;
-		
+
 		@ParameterDescriber(required = true, description = "带宽波动", constraint = "单位是kbps, 0-100Mbps", example = "100")
 		@Pattern(regexp = RegExpUtils.BURST_PATTERN)
 		protected String burst;
-		
+
 		@ParameterDescriber(required = false, description = "优先级", constraint = "0-32767", example = "2")
 		@Pattern(regexp = RegExpUtils.QOS_PRIORITY_PATTERN)
 		protected String priority;
@@ -3519,7 +3556,7 @@ public class Lifecycle {
 		public void setType(String type) {
 			this.type = type;
 		}
-		
+
 		public String getRule() {
 			return rule;
 		}
@@ -3553,25 +3590,25 @@ public class Lifecycle {
 		}
 
 	}
-	
+
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class ModifyQoS extends SetQoS {
 
 	}
-	
+
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class UnsetQoS {
-		
+
 		@ParameterDescriber(required = true, description = "交换机名", constraint = "交换机名", example = "switch1")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String swName;
-		
+
 		@ParameterDescriber(required = false, description = "QoS类型", constraint = "from或者to", example = "from")
 		@Pattern(regexp = RegExpUtils.QOS_TYPE_PATTERN)
 		protected String type;
-		
+
 		@ParameterDescriber(required = false, description = "协议类型", constraint = "只能是ip, ip4, icmp之类", example = "ip")
 		@Pattern(regexp = RegExpUtils.RULE_PATTERN)
 		protected String rule;
@@ -3611,6 +3648,84 @@ public class Lifecycle {
 		public void setPriority(String priority) {
 			this.priority = priority;
 		}
+
+	}
+
+
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class ExportVM {
+
+		@ParameterDescriber(required = true, description = "导出文件保存的路径", constraint = "/root", example = "from")
+		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
+		protected String path;
+
+		public String getPath() {
+			return path;
+		}
+
+		public void setPath(String path) {
+			this.path = path;
+		}
+	}
+
+
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class BackupVM {
+
+		@ParameterDescriber(required = false, description = "远程备份的ftp主机ip", constraint = "远程备份的ftp主机ip", example = "172.16.1.214")
+		@Pattern(regexp = RegExpUtils.IP_PATTERN)
+		protected String remote;
+
+		@ParameterDescriber(required = false, description = "远程备份的ftp主机端口", constraint = "远程备份的ftp主机端口", example = "21")
+		@Pattern(regexp = RegExpUtils.RULE_PATTERN)
+		protected String port;
+
+		@ParameterDescriber(required = false, description = "远程备份的ftp用户名", constraint = "ftpuser", example = "ftpuser")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String username;
+
+		@ParameterDescriber(required = false, description = "远程备份的ftp密码", constraint = "ftpuser", example = "ftpuser")
+		@Pattern(regexp = RegExpUtils.PASSWORD_PATTERN)
+		protected String password;
+
+		public String getRemote() {
+			return remote;
+		}
+
+		public void setRemote(String remote) {
+			this.remote = remote;
+		}
+
+		public String getPort() {
+			return port;
+		}
+
+		public void setPort(String port) {
+			this.port = port;
+		}
+
+		public String getUsername() {
+			return username;
+		}
+
+		public void setUsername(String username) {
+			this.username = username;
+		}
+
+		public String getPassword() {
+			return password;
+		}
+
+		public void setPassword(String password) {
+			this.password = password;
+		}
+	}
+
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class RestoreVM {
 
 	}
 }

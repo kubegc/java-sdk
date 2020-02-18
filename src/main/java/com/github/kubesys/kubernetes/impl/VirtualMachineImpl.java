@@ -1052,6 +1052,70 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 		return unsetQoS(name, unsetQoS, eventId);
 	}
 
+	public boolean exportVM(String name, Lifecycle.ExportVM exportVM) throws Exception {
+		return exportVM(name, exportVM, null);
+	}
 
+	public boolean exportVM(String name, Lifecycle.ExportVM exportVM, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), exportVM);
+	}
+
+	public boolean exportVM(String name, String nodeName, Lifecycle.ExportVM exportVM) throws Exception {
+		updateHost(name, nodeName);
+		return exportVM(name, exportVM, null);
+	}
+
+	public boolean exportVM(String name, String nodeName, Lifecycle.ExportVM exportVM, String eventId) throws Exception {
+		updateHost(name, nodeName);
+		return exportVM(name, exportVM, eventId);
+	}
+
+	public boolean backupVM(String name, Lifecycle.BackupVM backupVM) throws Exception {
+		return backupVM(name, backupVM, null);
+	}
+
+	public boolean backupVM(String name, Lifecycle.BackupVM backupVM, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), backupVM);
+	}
+
+	public boolean backupVM(String name, String nodeName, Lifecycle.BackupVM backupVM) throws Exception {
+		updateHost(name, nodeName);
+		return backupVM(name, backupVM, null);
+	}
+
+	public boolean backupVM(String name, String nodeName, Lifecycle.BackupVM backupVM, String eventId) throws Exception {
+		updateHost(name, nodeName);
+		return backupVM(name, backupVM, eventId);
+	}
+
+	public boolean restoreVM(String name, Lifecycle.RestoreVM restoreVM) throws Exception {
+		return restoreVM(name, restoreVM, null);
+	}
+
+	public boolean restoreVM(String name, Lifecycle.RestoreVM restoreVM, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), restoreVM);
+	}
+
+	public boolean restoreVM(String name, String nodeName, Lifecycle.RestoreVM restoreVM) throws Exception {
+		updateHost(name, nodeName);
+		return restoreVM(name, restoreVM, null);
+	}
+
+	public boolean restoreVM(String name, String nodeName, Lifecycle.RestoreVM restoreVM, String eventId) throws Exception {
+		updateHost(name, nodeName);
+		return restoreVM(name, restoreVM, eventId);
+	}
 
 }
