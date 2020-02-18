@@ -8,13 +8,13 @@ public class ExportVMTest {
 
         ExtendedKubernetesClient client = AbstractTest.getClient();
         boolean successful = client.virtualMachines()
-                .exportVM("vm006migratedisk4", getExportVM());
+                .exportVM("vmbackuptest", "vm.node51", getExportVM());
         System.out.println(successful);
     }
 
     public static Lifecycle.ExportVM getExportVM() {
         Lifecycle.ExportVM exportVM = new Lifecycle.ExportVM();
-        exportVM.setPath("nfs");
+        exportVM.setPath("/root/export");
         return exportVM;
     }
 }

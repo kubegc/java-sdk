@@ -3657,7 +3657,7 @@ public class Lifecycle {
 	public static class ExportVM {
 
 		@ParameterDescriber(required = true, description = "导出文件保存的路径", constraint = "/root", example = "from")
-		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
+		@Pattern(regexp = RegExpUtils.LINUX_PATH_PATTERN)
 		protected String path;
 
 		public String getPath() {

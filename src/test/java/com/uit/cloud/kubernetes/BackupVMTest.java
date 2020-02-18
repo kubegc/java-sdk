@@ -8,7 +8,7 @@ public class BackupVMTest {
 
         ExtendedKubernetesClient client = AbstractTest.getClient();
         boolean successful = client.virtualMachines()
-                .backupVM("vm006migratedisk4", getBackupVM());
+                .backupVM("vmbackuptest", getBackupVM());
         System.out.println(successful);
     }
 
