@@ -8,7 +8,7 @@ public class RestoreVMTest {
 
         ExtendedKubernetesClient client = AbstractTest.getClient();
         boolean successful = client.virtualMachines()
-                .restoreVM("vmbackuptest", new Lifecycle.RestoreVM());
+                .restoreVM("vmbackuptest", "vm.node51", new Lifecycle.RestoreVM());
         System.out.println(successful);
     }
 }

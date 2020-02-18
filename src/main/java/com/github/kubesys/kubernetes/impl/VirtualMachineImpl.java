@@ -1097,25 +1097,24 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 	}
 
 	public boolean restoreVM(String name, Lifecycle.RestoreVM restoreVM) throws Exception {
-		return restoreVM(name, restoreVM, null);
+		return restoreVM(name, null, restoreVM, null);
+	}
+
+	public boolean restoreVM(String name, String nodeName, Lifecycle.RestoreVM restoreVM) throws Exception {
+		return restoreVM(name, nodeName, restoreVM, null);
 	}
 
 	public boolean restoreVM(String name, Lifecycle.RestoreVM restoreVM, String eventId) throws Exception {
+		return restoreVM(name, null, restoreVM, eventId);
+	}
+
+	public boolean restoreVM(String name, String nodeName, Lifecycle.RestoreVM restoreVM, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
-		return update(name, updateMetadata(name, eventId), restoreVM);
-	}
-
-	public boolean restoreVM(String name, String nodeName, Lifecycle.RestoreVM restoreVM) throws Exception {
-		updateHost(name, nodeName);
-		return restoreVM(name, restoreVM, null);
-	}
-
-	public boolean restoreVM(String name, String nodeName, Lifecycle.RestoreVM restoreVM, String eventId) throws Exception {
-		updateHost(name, nodeName);
-		return restoreVM(name, restoreVM, eventId);
+		return create(getModel(), createMetadata(name, nodeName, eventId),
+				createSpec(nodeName, createLifecycle(restoreVM)));
 	}
 
 }
