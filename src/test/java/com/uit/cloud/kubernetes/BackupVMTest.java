@@ -14,7 +14,6 @@ public class BackupVMTest {
 
     public static Lifecycle.BackupVM getBackupVM() {
         Lifecycle.BackupVM backupVM = new Lifecycle.BackupVM();
-        backupVM.setDomain("migratepoolnode22");
         backupVM.setRemote("nfs");
         backupVM.setPort("vm006migratedisk2");
         backupVM.setUsername("qcow2");

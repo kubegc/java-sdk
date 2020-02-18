@@ -14,7 +14,6 @@ public class ExportVMTest {
 
     public static Lifecycle.ExportVM getExportVM() {
         Lifecycle.ExportVM exportVM = new Lifecycle.ExportVM();
-        exportVM.setDomain("migratepoolnode22");
         exportVM.setPath("nfs");
         return exportVM;
     }
