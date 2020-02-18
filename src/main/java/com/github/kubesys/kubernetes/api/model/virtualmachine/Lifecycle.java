@@ -3679,7 +3679,7 @@ public class Lifecycle {
 		protected String remote;
 
 		@ParameterDescriber(required = false, description = "远程备份的ftp主机端口", constraint = "远程备份的ftp主机端口", example = "21")
-		@Pattern(regexp = RegExpUtils.RULE_PATTERN)
+		@Pattern(regexp = RegExpUtils.PORT_PATTERN)
 		protected String port;
 
 		@ParameterDescriber(required = false, description = "远程备份的ftp用户名", constraint = "ftpuser", example = "ftpuser")

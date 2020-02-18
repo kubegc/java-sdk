@@ -8,7 +8,7 @@ public class RestoreVMTest {
 
         ExtendedKubernetesClient client = AbstractTest.getClient();
         boolean successful = client.virtualMachines()
-                .restoreVM("vm006migratedisk4", new Lifecycle.RestoreVM());
+                .restoreVM("vmbackuptest", new Lifecycle.RestoreVM());
         System.out.println(successful);
     }
 }

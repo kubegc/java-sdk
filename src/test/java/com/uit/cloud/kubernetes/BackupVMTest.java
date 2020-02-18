@@ -14,10 +14,10 @@ public class BackupVMTest {
 
     public static Lifecycle.BackupVM getBackupVM() {
         Lifecycle.BackupVM backupVM = new Lifecycle.BackupVM();
-        backupVM.setRemote("nfs");
-        backupVM.setPort("vm006migratedisk2");
-        backupVM.setUsername("qcow2");
-        backupVM.setPassword("qcow2");
+        backupVM.setRemote("172.16.1.214");
+        backupVM.setPort("21");
+        backupVM.setUsername("ftpuser");
+        backupVM.setPassword("ftpuser");
         return backupVM;
     }
 }
