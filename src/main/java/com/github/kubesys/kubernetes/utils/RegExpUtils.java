@@ -101,6 +101,9 @@ public class RegExpUtils {
 	@FieldDescriber("磁盘大小，单位是KiB，取值范围1000000-999999999999")
 	public final static String DISK_SIZE_KIB_PATTERN = "\\d{7,13}";
 	
+	@FieldDescriber("USB透传的操作类型，只能是add, remove之一")
+	public final static String USB_PASSTHROUGH_ACTION = "add|remove";
+	
 //	1 单独限制协议
 //	tcp
 //	2 限制协议和端口

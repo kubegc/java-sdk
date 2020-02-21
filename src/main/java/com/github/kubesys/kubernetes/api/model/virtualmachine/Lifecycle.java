@@ -217,6 +217,10 @@ public class Lifecycle {
 	@FunctionDescriber(shortName = "恢复虚拟机", description = "恢复虚拟机，"
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected RestoreVM restoreVM;
+	
+	@FunctionDescriber(shortName = "usb透传", description = "usb透传，"
+			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected PassthroughUsb passthroughUsb;
 
 	public ExportVM getExportVM() {
 		return exportVM;
@@ -584,6 +588,14 @@ public class Lifecycle {
 
 	public void setCloneVM(CloneVM cloneVM) {
 		this.cloneVM = cloneVM;
+	}
+
+	public PassthroughUsb getPassthroughUsb() {
+		return passthroughUsb;
+	}
+
+	public void setPassthroughUsb(PassthroughUsb passthroughUsb) {
+		this.passthroughUsb = passthroughUsb;
 	}
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
@@ -3726,6 +3738,57 @@ public class Lifecycle {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class RestoreVM {
+
+	}
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class PassthroughUsb {
+		
+		@ParameterDescriber(required = true, description = "执行的操作", constraint = "添加或删除：add/remove", example = "add")
+		@Pattern(regexp = RegExpUtils.USB_PASSTHROUGH_ACTION)
+		protected String action;
+		
+		@ParameterDescriber(required = true, description = "物理主机上的bus号", constraint = "用lsusb命令查询的bus号", example = "001")
+		protected String bus_num;
+		
+		@ParameterDescriber(required = true, description = "物理主机上的usb设备号", constraint = "用lsusb命令查询的device号", example = "001")
+		protected String dev_num;
+		
+		@ParameterDescriber(required = false, description = "立即生效，对于开机虚拟机", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
+		protected Boolean live;
+
+		public String getAction() {
+			return action;
+		}
+
+		public void setAction(String action) {
+			this.action = action;
+		}
+
+		public String getBus_num() {
+			return bus_num;
+		}
+
+		public void setBus_num(String bus_num) {
+			this.bus_num = bus_num;
+		}
+
+		public String getDev_num() {
+			return dev_num;
+		}
+
+		public void setDev_num(String dev_num) {
+			this.dev_num = dev_num;
+		}
+
+		public Boolean getLive() {
+			return live;
+		}
+
+		public void setLive(Boolean live) {
+			this.live = live;
+		}
 
 	}
 }

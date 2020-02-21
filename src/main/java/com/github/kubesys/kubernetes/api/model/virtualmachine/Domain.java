@@ -10418,6 +10418,36 @@ public class Domain {
 			protected Alias alias;
 
 			protected Boot boot;
+			
+			protected String _mode;
+			
+			protected String _type;
+			
+			protected Source source;
+
+			public Source getSource() {
+				return source;
+			}
+
+			public void setSource(Source source) {
+				this.source = source;
+			}
+
+			public String get_type() {
+				return _type;
+			}
+
+			public void set_type(String _type) {
+				this._type = _type;
+			}
+
+			public String get_mode() {
+				return _mode;
+			}
+
+			public void set_mode(String _mode) {
+				this._mode = _mode;
+			}
 
 			public Hostdev() {
 
@@ -10537,10 +10567,91 @@ public class Domain {
 			@JsonInclude(JsonInclude.Include.NON_NULL)
 			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Address {
+				
+				protected String _bus;
+				
+				protected String _device;
+				
+				protected String _type;
+				
+				protected String _port;
 
 				public Address() {
 
 				}
+
+				public String get_bus() {
+					return _bus;
+				}
+
+				public void set_bus(String _bus) {
+					this._bus = _bus;
+				}
+
+				public String get_device() {
+					return _device;
+				}
+
+				public void set_device(String _device) {
+					this._device = _device;
+				}
+
+				public String get_type() {
+					return _type;
+				}
+
+				public void set_type(String _type) {
+					this._type = _type;
+				}
+
+				public String get_port() {
+					return _port;
+				}
+
+				public void set_port(String _port) {
+					this._port = _port;
+				}
+			}
+			
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+			public static class Source {
+				
+				protected Address address;
+
+				public Address getAddress() {
+					return address;
+				}
+
+				public void setAddress(Address address) {
+					this.address = address;
+				}
+				
+				@JsonInclude(JsonInclude.Include.NON_NULL)
+				@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+				public static class Address {
+					protected String _bus;
+					
+					protected String _device;
+
+					public String get_bus() {
+						return _bus;
+					}
+
+					public void set_bus(String _bus) {
+						this._bus = _bus;
+					}
+
+					public String get_device() {
+						return _device;
+					}
+
+					public void set_device(String _device) {
+						this._device = _device;
+					}
+					
+				}
+				
 			}
 
 			@JsonInclude(JsonInclude.Include.NON_NULL)

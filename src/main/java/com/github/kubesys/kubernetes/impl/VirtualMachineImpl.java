@@ -12,6 +12,7 @@ import com.github.kubesys.kubernetes.api.model.VirtualMachineList;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineSpec;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.AddACL;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.BackupVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.BindFloatingIP;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ChangeNumberOfCPU;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CloneVM;
@@ -21,6 +22,7 @@ import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CreateAn
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.DeleteVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.DeprecatedACL;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.EjectISO;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ExportVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.InjectSshKey;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.InsertISO;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ManageISO;
@@ -28,6 +30,7 @@ import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.MigrateV
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.MigrateVMDisk;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ModifyACL;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ModifyQoS;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.PassthroughUsb;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.PlugDevice;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.PlugDisk;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.PlugNIC;
@@ -36,6 +39,7 @@ import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ResetVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ResizeMaxRAM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ResizeRAM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ResizeVM;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.RestoreVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ResumeVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.SetBootOrder;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.SetGuestPassword;
@@ -1052,11 +1056,11 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 		return unsetQoS(name, unsetQoS, eventId);
 	}
 
-	public boolean exportVM(String name, Lifecycle.ExportVM exportVM) throws Exception {
+	public boolean exportVM(String name, ExportVM exportVM) throws Exception {
 		return exportVM(name, exportVM, null);
 	}
 
-	public boolean exportVM(String name, Lifecycle.ExportVM exportVM, String eventId) throws Exception {
+	public boolean exportVM(String name, ExportVM exportVM, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
@@ -1064,21 +1068,21 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 		return update(name, updateMetadata(name, eventId), exportVM);
 	}
 
-	public boolean exportVM(String name, String nodeName, Lifecycle.ExportVM exportVM) throws Exception {
+	public boolean exportVM(String name, String nodeName, ExportVM exportVM) throws Exception {
 		updateHost(name, nodeName);
 		return exportVM(name, exportVM, null);
 	}
 
-	public boolean exportVM(String name, String nodeName, Lifecycle.ExportVM exportVM, String eventId) throws Exception {
+	public boolean exportVM(String name, String nodeName, ExportVM exportVM, String eventId) throws Exception {
 		updateHost(name, nodeName);
 		return exportVM(name, exportVM, eventId);
 	}
 
-	public boolean backupVM(String name, Lifecycle.BackupVM backupVM) throws Exception {
+	public boolean backupVM(String name, BackupVM backupVM) throws Exception {
 		return backupVM(name, backupVM, null);
 	}
 
-	public boolean backupVM(String name, Lifecycle.BackupVM backupVM, String eventId) throws Exception {
+	public boolean backupVM(String name, BackupVM backupVM, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
@@ -1086,35 +1090,59 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 		return update(name, updateMetadata(name, eventId), backupVM);
 	}
 
-	public boolean backupVM(String name, String nodeName, Lifecycle.BackupVM backupVM) throws Exception {
+	public boolean backupVM(String name, String nodeName, BackupVM backupVM) throws Exception {
 		updateHost(name, nodeName);
 		return backupVM(name, backupVM, null);
 	}
 
-	public boolean backupVM(String name, String nodeName, Lifecycle.BackupVM backupVM, String eventId) throws Exception {
+	public boolean backupVM(String name, String nodeName, BackupVM backupVM, String eventId) throws Exception {
 		updateHost(name, nodeName);
 		return backupVM(name, backupVM, eventId);
 	}
 
-	public boolean restoreVM(String name, Lifecycle.RestoreVM restoreVM) throws Exception {
-		return restoreVM(name, null, restoreVM, null);
+	public boolean restoreVM(String name, RestoreVM restoreVM) throws Exception {
+		return restoreVM(name, restoreVM, null);
 	}
 
-	public boolean restoreVM(String name, String nodeName, Lifecycle.RestoreVM restoreVM) throws Exception {
-		return restoreVM(name, nodeName, restoreVM, null);
-	}
-
-	public boolean restoreVM(String name, Lifecycle.RestoreVM restoreVM, String eventId) throws Exception {
-		return restoreVM(name, null, restoreVM, eventId);
-	}
-
-	public boolean restoreVM(String name, String nodeName, Lifecycle.RestoreVM restoreVM, String eventId) throws Exception {
+	public boolean restoreVM(String name, RestoreVM restoreVM, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
-		return create(getModel(), createMetadata(name, nodeName, eventId),
-				createSpec(nodeName, createLifecycle(restoreVM)));
+		return update(name, updateMetadata(name, eventId), restoreVM);
 	}
+
+	public boolean restoreVM(String name, String nodeName, RestoreVM restoreVM) throws Exception {
+		updateHost(name, nodeName);
+		return restoreVM(name, restoreVM, null);
+	}
+
+	public boolean restoreVM(String name, String nodeName, RestoreVM restoreVM, String eventId) throws Exception {
+		updateHost(name, nodeName);
+		return restoreVM(name, restoreVM, eventId);
+	}
+
+	public boolean passthroughUsb(String name, PassthroughUsb passthroughUsb) throws Exception {
+		return passthroughUsb(name, passthroughUsb, null);
+	}
+
+	public boolean passthroughUsb(String name, PassthroughUsb passthroughUsb, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), passthroughUsb);
+	}
+
+	public boolean passthroughUsb(String name, String nodeName, PassthroughUsb passthroughUsb) throws Exception {
+		updateHost(name, nodeName);
+		return passthroughUsb(name, passthroughUsb, null);
+	}
+
+	public boolean passthroughUsb(String name, String nodeName, PassthroughUsb passthroughUsb, String eventId) throws Exception {
+		updateHost(name, nodeName);
+		return passthroughUsb(name, passthroughUsb, eventId);
+	}
+
 
 }
