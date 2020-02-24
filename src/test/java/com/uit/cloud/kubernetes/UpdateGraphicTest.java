@@ -22,14 +22,15 @@ public class UpdateGraphicTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.updateGraphic("wywtest", updateGraphic());
+				.updateGraphic("wyw123", updateGraphic());
 		System.out.println(successful);
 	}
 	
 	public static UpdateGraphic updateGraphic() {
 		UpdateGraphic updateGraphic = new UpdateGraphic();
 		updateGraphic.setType("vnc");
-		updateGraphic.setPassword("123456");
+//		updateGraphic.setPassword("123456");
+		updateGraphic.setNo_password(true);
 		return updateGraphic;
 	}
 }
