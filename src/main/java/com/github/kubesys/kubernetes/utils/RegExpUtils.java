@@ -176,6 +176,9 @@ public class RegExpUtils {
 	@FieldDescriber("配置vnc或者spice的4-16位密码，是小写字母、数字和中划线组合")
 	public final static String PASSWORD_PATTERN     = "(([a-z0-9-.]{4,16}))?";
 	
+	@FieldDescriber("配置基于vnc或者spice协议的虚拟机远程访问")
+	public final static String GRAPHICS_TYPE     = "(vnc|spice)";
+	
 	@FieldDescriber("单一磁盘，read_bytes_sec和write_bytes_sec是可选项")
 	public final static String SINGLE_DISK_PATTERN  = PATH_PATTERN + "(,target=hda)?" + "(,read_bytes_sec=" + DISK_QoS_PATTERN + ")?" + "(,write_bytes_sec=" + DISK_QoS_PATTERN + ")?";
 	

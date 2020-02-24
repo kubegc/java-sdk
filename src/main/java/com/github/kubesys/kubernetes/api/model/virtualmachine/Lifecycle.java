@@ -154,10 +154,12 @@ public class Lifecycle {
 
 	@FunctionDescriber(shortName = "设置VNC密码", description = "设置虚拟机VNC密码，"
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	@Deprecated
 	protected SetVncPassword setVncPassword;
 
 	@FunctionDescriber(shortName = "取消VNC密码", description = "取消虚拟机VNC密码，"
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	@Deprecated
 	protected UnsetVncPassword unsetVncPassword;
 
 	@FunctionDescriber(shortName = "虚机密码", description = "设置虚拟机密码，"
@@ -221,6 +223,18 @@ public class Lifecycle {
 	@FunctionDescriber(shortName = "usb透传", description = "usb透传，"
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected PassthroughUsb passthroughUsb;
+	
+	@FunctionDescriber(shortName = "更新虚拟机远程终端", description = "更新虚拟机远程终端，"
+			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected UpdateGraphic updateGraphic;
+
+	public UpdateGraphic getUpdateGraphic() {
+		return updateGraphic;
+	}
+
+	public void setUpdateGraphic(UpdateGraphic updateGraphic) {
+		this.updateGraphic = updateGraphic;
+	}
 
 	public ExportVM getExportVM() {
 		return exportVM;
@@ -3070,10 +3084,10 @@ public class Lifecycle {
 		@ParameterDescriber(required = false, description = "如果不设置，当前配置下次不会生效", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean config;
 
-		@ParameterDescriber(required = true, description = "强制执行", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
+		@ParameterDescriber(required = false, description = "强制执行", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean force;
 
-		@ParameterDescriber(required = true, description = "虚拟机VNC/SPICE密码", constraint = "取值范围：密码为4-16位，是小写字母、数字和中划线组合", example = "abcdefg")
+		@ParameterDescriber(required = true, description = "虚拟机终端密码", constraint = "取值范围：密码为4-16位，是小写字母、数字和中划线组合", example = "abcdefg")
 		@Pattern(regexp = RegExpUtils.PASSWORD_PATTERN)
 		protected String password;
 
@@ -3143,7 +3157,7 @@ public class Lifecycle {
 		@ParameterDescriber(required = false, description = "如果不设置，当前配置下次不会生效", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean config;
 
-		@ParameterDescriber(required = true, description = "强制执行", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
+		@ParameterDescriber(required = false, description = "强制执行", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean force;
 
 		public Boolean getCurrent() {
@@ -3184,6 +3198,102 @@ public class Lifecycle {
 
 		public void setForce(Boolean force) {
 			this.force = force;
+		}
+
+	}
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class UpdateGraphic {
+
+		@ParameterDescriber(required = false, description = "对当前虚拟机生效", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
+		protected Boolean current;
+
+		@ParameterDescriber(required = false, description = "对配置进行持久化", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
+		protected Boolean persistent;
+
+		@ParameterDescriber(required = false, description = "立即生效，对于开机虚拟机", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
+		protected Boolean live;
+
+		@ParameterDescriber(required = false, description = "如果不设置，当前配置下次不会生效", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
+		protected Boolean config;
+
+		@ParameterDescriber(required = false, description = "强制执行", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
+		protected Boolean force;
+
+		@ParameterDescriber(required = false, description = "虚拟机终端密码", constraint = "取值范围：密码为4-16位，是小写字母、数字和中划线组合", example = "abcdefg")
+		@Pattern(regexp = RegExpUtils.PASSWORD_PATTERN)
+		protected String password;
+		
+		@ParameterDescriber(required = false, description = "取消虚拟机终端密码", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
+		protected Boolean no_password;
+		
+		@ParameterDescriber(required = true, description = "虚拟机终端类型", constraint = "取值范围：vnc/spice", example = "spice")
+		@Pattern(regexp = RegExpUtils.GRAPHICS_TYPE)
+		protected String type;
+
+		public Boolean getNo_password() {
+			return no_password;
+		}
+
+		public void setNo_password(Boolean no_password) {
+			this.no_password = no_password;
+		}
+
+		public String getType() {
+			return type;
+		}
+
+		public void setType(String type) {
+			this.type = type;
+		}
+
+		public Boolean getCurrent() {
+			return current;
+		}
+
+		public void setCurrent(Boolean current) {
+			this.current = current;
+		}
+
+		public Boolean getPersistent() {
+			return persistent;
+		}
+
+		public void setPersistent(Boolean persistent) {
+			this.persistent = persistent;
+		}
+
+		public Boolean getLive() {
+			return live;
+		}
+
+		public void setLive(Boolean live) {
+			this.live = live;
+		}
+
+		public Boolean getForce() {
+			return force;
+		}
+
+		public void setForce(Boolean force) {
+			this.force = force;
+		}
+
+		public Boolean getConfig() {
+			return config;
+		}
+
+		public void setConfig(Boolean config) {
+			this.config = config;
+		}
+
+		public String getPassword() {
+			return password;
+		}
+
+		public void setPassword(String password) {
+			this.password = password;
 		}
 
 	}

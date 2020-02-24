@@ -57,6 +57,7 @@ import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UnplugDi
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UnplugNIC;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UnsetQoS;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UnsetVncPassword;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UpdateGraphic;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UpdateOS;
 import com.github.kubesys.kubernetes.utils.RegExpUtils;
 
@@ -1142,6 +1143,28 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 	public boolean passthroughUsb(String name, String nodeName, PassthroughUsb passthroughUsb, String eventId) throws Exception {
 		updateHost(name, nodeName);
 		return passthroughUsb(name, passthroughUsb, eventId);
+	}
+
+	public boolean updateGraphic(String name, UpdateGraphic updateGraphic) throws Exception {
+		return updateGraphic(name, updateGraphic, null);
+	}
+
+	public boolean updateGraphic(String name, UpdateGraphic updateGraphic, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), updateGraphic);
+	}
+
+	public boolean updateGraphic(String name, String nodeName, UpdateGraphic updateGraphic) throws Exception {
+		updateHost(name, nodeName);
+		return updateGraphic(name, updateGraphic, null);
+	}
+
+	public boolean updateGraphic(String name, String nodeName, UpdateGraphic updateGraphic, String eventId) throws Exception {
+		updateHost(name, nodeName);
+		return updateGraphic(name, updateGraphic, eventId);
 	}
 
 
