@@ -3206,14 +3206,14 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class UpdateGraphic {
 
-		@ParameterDescriber(required = false, description = "虚拟机终端密码", constraint = "取值范围：密码为4-16位，是小写字母、数字和中划线组合", example = "abcdefg")
+		@ParameterDescriber(required = false, description = "修改虚拟机终端密码，运行虚拟机重启后生效", constraint = "取值范围：密码为4-16位，是小写字母、数字和中划线组合", example = "abcdefg")
 		@Pattern(regexp = RegExpUtils.PASSWORD_PATTERN)
 		protected String password;
 		
-		@ParameterDescriber(required = false, description = "取消虚拟机终端密码", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
+		@ParameterDescriber(required = false, description = "取消虚拟机终端密码，运行虚拟机重启后生效", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean no_password;
 		
-		@ParameterDescriber(required = true, description = "虚拟机终端类型", constraint = "取值范围：vnc/spice", example = "spice")
+		@ParameterDescriber(required = true, description = "修改虚拟机终端类型，运行虚拟机重启后生效", constraint = "取值范围：vnc/spice", example = "spice")
 		@Pattern(regexp = RegExpUtils.GRAPHICS_TYPE)
 		protected String type;
 
