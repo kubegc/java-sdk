@@ -1167,5 +1167,4 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 		return updateGraphic(name, updateGraphic, eventId);
 	}
 
-
 }

@@ -3206,21 +3206,6 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class UpdateGraphic {
 
-		@ParameterDescriber(required = false, description = "对当前虚拟机生效", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
-		protected Boolean current;
-
-		@ParameterDescriber(required = false, description = "对配置进行持久化", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
-		protected Boolean persistent;
-
-		@ParameterDescriber(required = false, description = "立即生效，对于开机虚拟机", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
-		protected Boolean live;
-
-		@ParameterDescriber(required = false, description = "如果不设置，当前配置下次不会生效", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
-		protected Boolean config;
-
-		@ParameterDescriber(required = false, description = "强制执行", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
-		protected Boolean force;
-
 		@ParameterDescriber(required = false, description = "虚拟机终端密码", constraint = "取值范围：密码为4-16位，是小写字母、数字和中划线组合", example = "abcdefg")
 		@Pattern(regexp = RegExpUtils.PASSWORD_PATTERN)
 		protected String password;
@@ -3246,46 +3231,6 @@ public class Lifecycle {
 
 		public void setType(String type) {
 			this.type = type;
-		}
-
-		public Boolean getCurrent() {
-			return current;
-		}
-
-		public void setCurrent(Boolean current) {
-			this.current = current;
-		}
-
-		public Boolean getPersistent() {
-			return persistent;
-		}
-
-		public void setPersistent(Boolean persistent) {
-			this.persistent = persistent;
-		}
-
-		public Boolean getLive() {
-			return live;
-		}
-
-		public void setLive(Boolean live) {
-			this.live = live;
-		}
-
-		public Boolean getForce() {
-			return force;
-		}
-
-		public void setForce(Boolean force) {
-			this.force = force;
-		}
-
-		public Boolean getConfig() {
-			return config;
-		}
-
-		public void setConfig(Boolean config) {
-			this.config = config;
 		}
 
 		public String getPassword() {

@@ -30,8 +30,6 @@ public class UpdateGraphicTest {
 		UpdateGraphic updateGraphic = new UpdateGraphic();
 		updateGraphic.setType("vnc");
 		updateGraphic.setPassword("123456");
-		updateGraphic.setLive(true);
-		updateGraphic.setConfig(true);
 		return updateGraphic;
 	}
 }
