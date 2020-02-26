@@ -224,7 +224,7 @@ public class Lifecycle {
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected PassthroughUsb passthroughUsb;
 	
-	@FunctionDescriber(shortName = "usb重定向", description = "usb重定向，"
+	@FunctionDescriber(shortName = "usb重定向，需搭配SPICE终端使用", description = "usb重定向，"
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected RedirectUsb redirectUsb;
 	
