@@ -22,7 +22,7 @@ public class PlugDiskTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.plugDisk("wywtest", getPlugBlock());
+				.plugDisk("wyw123", getPlugCdrom());
 //				.plugDisk("vm003", getPlugCdrom());
 		System.out.println(successful);
 	}
@@ -70,6 +70,7 @@ public class PlugDiskTest {
 		plugDisk.setTarget("hdb");
 		// Cdrom/floppy device hotplug isn't supported by Libvirt
 		plugDisk.setConfig(true);
+		plugDisk.setSubdriver("raw");
 		plugDisk.setType("cdrom");
 		return plugDisk;
 	}

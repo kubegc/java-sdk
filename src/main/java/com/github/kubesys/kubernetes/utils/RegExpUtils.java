@@ -104,6 +104,12 @@ public class RegExpUtils {
 	@FieldDescriber("USB透传的操作类型，只能是add, remove之一")
 	public final static String USB_PASSTHROUGH_ACTION = "add|remove";
 	
+	@FieldDescriber("USB重定向的操作类型，只能是on, off之一")
+	public final static String USB_REDIRECT_ACTION = "on|off";
+	
+	@FieldDescriber("模拟的USB个数，1到8之间")
+	public final static String USB_REDIRECT_NUMBER = "[1-8]";
+	
 //	1 单独限制协议
 //	tcp
 //	2 限制协议和端口
@@ -239,8 +245,8 @@ public class RegExpUtils {
 	public static final String USB_PATTERN = "1usb,type=tcp,server=" + IP_PATTERN + ":" + PORT_PATTERN;
 	
 	public static void main(String[] args) {
-		String name = "usb,type=tcp,server=192.168.1.1:4000";
-		Pattern pattern = Pattern.compile(RegExpUtils.USB_PATTERN);
+		String name = "4";
+		Pattern pattern = Pattern.compile(RegExpUtils.USB_REDIRECT_NUMBER);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("");
 		}

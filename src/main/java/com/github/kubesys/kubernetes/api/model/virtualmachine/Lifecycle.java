@@ -224,9 +224,21 @@ public class Lifecycle {
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected PassthroughUsb passthroughUsb;
 	
+	@FunctionDescriber(shortName = "usb重定向", description = "usb重定向，"
+			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected RedirectUsb redirectUsb;
+	
 	@FunctionDescriber(shortName = "更新虚拟机远程终端", description = "更新虚拟机远程终端，"
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected UpdateGraphic updateGraphic;
+
+	public RedirectUsb getRedirectUsb() {
+		return redirectUsb;
+	}
+
+	public void setRedirectUsb(RedirectUsb redirectUsb) {
+		this.redirectUsb = redirectUsb;
+	}
 
 	public UpdateGraphic getUpdateGraphic() {
 		return updateGraphic;
@@ -3845,5 +3857,35 @@ public class Lifecycle {
 			this.live = live;
 		}
 
+	}
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class RedirectUsb {
+		
+		@ParameterDescriber(required = true, description = "执行的操作，对于开机虚拟机重启后生效", constraint = "开启或关闭：on/off", example = "on")
+		@Pattern(regexp = RegExpUtils.USB_REDIRECT_ACTION)
+		protected String action;
+		
+		@ParameterDescriber(required = false, description = "开启usb透传时，设置虚拟机可透传的usb个数，默认4个", constraint = "取值范围：0~8", example = "4")
+		@Pattern(regexp = RegExpUtils.USB_REDIRECT_NUMBER)
+		protected String number;
+
+		public String getAction() {
+			return action;
+		}
+
+		public void setAction(String action) {
+			this.action = action;
+		}
+
+		public String getNumber() {
+			return number;
+		}
+
+		public void setNumber(String number) {
+			this.number = number;
+		}
+		
 	}
 }

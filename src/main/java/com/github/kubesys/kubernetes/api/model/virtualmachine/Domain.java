@@ -12082,6 +12082,16 @@ public class Domain {
 			protected Boot boot;
 
 			protected String _bus;
+			
+			protected String _type;
+
+			public String get_type() {
+				return _type;
+			}
+
+			public void set_type(String _type) {
+				this._type = _type;
+			}
 
 			public Redirdev() {
 
@@ -12185,6 +12195,36 @@ public class Domain {
 			@JsonInclude(JsonInclude.Include.NON_NULL)
 			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Address {
+				
+				protected String _bus;
+				
+				protected String _type;
+				
+				protected String _port;
+
+				public String get_type() {
+					return _type;
+				}
+
+				public void set_type(String _type) {
+					this._type = _type;
+				}
+
+				public String get_port() {
+					return _port;
+				}
+
+				public void set_port(String _port) {
+					this._port = _port;
+				}
+
+				public String get_bus() {
+					return _bus;
+				}
+
+				public void set_bus(String _bus) {
+					this._bus = _bus;
+				}
 
 				public Address() {
 
@@ -16561,6 +16601,36 @@ public class Domain {
 			@JsonInclude(JsonInclude.Include.NON_NULL)
 			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Address {
+				
+				protected String _type;
+				
+				protected String _bus;
+				
+				protected String _port;
+
+				public String get_type() {
+					return _type;
+				}
+
+				public void set_type(String _type) {
+					this._type = _type;
+				}
+
+				public String get_bus() {
+					return _bus;
+				}
+
+				public void set_bus(String _bus) {
+					this._bus = _bus;
+				}
+
+				public String get_port() {
+					return _port;
+				}
+
+				public void set_port(String _port) {
+					this._port = _port;
+				}
 
 				public Address() {
 
