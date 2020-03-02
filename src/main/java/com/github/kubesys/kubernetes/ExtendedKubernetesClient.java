@@ -43,6 +43,7 @@ import io.fabric8.kubernetes.client.Watcher;
 import io.fabric8.kubernetes.client.dsl.MixedOperation;
 import io.fabric8.kubernetes.client.dsl.ParameterNamespaceListVisitFromServerGetDeleteRecreateWaitApplicable;
 import io.fabric8.kubernetes.internal.KubernetesDeserializer;
+import okhttp3.OkHttpClient;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -91,7 +92,6 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 		initKube();
 	}
 
-	
 	/***************************************************************
 	 * 
 	 *                        Core
