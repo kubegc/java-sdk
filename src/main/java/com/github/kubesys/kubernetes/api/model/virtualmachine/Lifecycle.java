@@ -1715,7 +1715,12 @@ public class Lifecycle {
 		@ParameterDescriber(required = true, description = "虚拟机网络", constraint = "type=bridge（libvirt默认网桥virbr0）/ l2bridge（ovs网桥）/ l3bridge（支持ovn的ovs网桥），"
 				+ "source=源网桥（必填），inbound=网络输入带宽QoS限制，单位为KiB，outbound=网络输出带宽QoS限制，单位为KiB，"
 				+ "ip=IP地址（选填，只有type=l3bridge类型支持该参数），"
-				+ "switch=ovn交换机名称（选填，只有type=l3bridge类型支持该参数）,参数顺序必须是type,source,ip,switch,inbound,outbound,model,mac", example = "type=l3bridge,source=br-int,ip=192.168.5.9,switch=switch8888,inbound=102400,outbound=102400")
+				+ "switch=ovn交换机名称（选填，只有type=l3bridge类型支持该参数），"
+				+ "model=virtio/e1000/rtl8139（windows虚拟机），"
+				+ "inbound=io入带宽，"
+				+ "outbound=io出带宽，"
+				+ "mac=mac地址（选填），"
+				+ "参数顺序必须是type,source,ip,switch,model,inbound,outbound,mac", example = "type=l3bridge,source=br-int,ip=192.168.5.9,switch=switch8888,model=e1000,inbound=102400,outbound=102400")
 		@Pattern(regexp = RegExpUtils.NETWORK_TYPE_PATTERN)
 		protected String network;
 

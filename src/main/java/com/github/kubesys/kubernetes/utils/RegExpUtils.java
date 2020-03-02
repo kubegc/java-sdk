@@ -110,6 +110,9 @@ public class RegExpUtils {
 	@FieldDescriber("模拟的USB个数，1到8之间")
 	public final static String USB_REDIRECT_NUMBER = "[1-8]";
 	
+	@FieldDescriber("虚拟机网卡模式")
+	public final static String NETWORK_MODEL_PATTERN = "(e1000|virtio|rtl8139)";
+	
 //	1 单独限制协议
 //	tcp
 //	2 限制协议和端口
@@ -199,8 +202,8 @@ public class RegExpUtils {
 	public final static String MUTI_DISKS_PATTERN   = SINGLE_DISK_PATTERN + "( --disk (" + SINGLE_DISK_PATTERN +"|" + SINGLE_CD_PATTERN + "|" + SINGLE_IMAGE_PATTERN + "))*";
 	
 	//type=l3bridge,source=br-int,inbound=102400,outbound=102400,ip=192.168.5.9,switch=switch,mac
-	@FieldDescriber("高级网络设置，type, source和switch是必选项")
-	public final static String NETWORK_TYPE_PATTERN = "type=("+ SWITCH_TYPE_PATTERN +")," + IP_SWITCH_PATTERN + "(,inbound=" + NET_QoS_PATTERN +")?" + "(,outbound=" + NET_QoS_PATTERN +")?" + "(,model=e1000)?"+ "(,mac=" + MAC_PATTERN +")?";
+	@FieldDescriber("高级网络设置，type, source,model和switch是必选项")
+	public final static String NETWORK_TYPE_PATTERN = "type=("+ SWITCH_TYPE_PATTERN +")," + IP_SWITCH_PATTERN + "(,model=" + NETWORK_MODEL_PATTERN +")?" + "(,inbound=" + NET_QoS_PATTERN +")?" + "(,outbound=" + NET_QoS_PATTERN +")?" + "(,mac=" + MAC_PATTERN +")?";
 	
 	@FieldDescriber("设置虚拟机启动顺序，hd表示硬盘，cdrom表示光驱")
 	public final static String BOOT_PATTERN = "hd|cdrom";
@@ -245,8 +248,8 @@ public class RegExpUtils {
 	public static final String USB_PATTERN = "1usb,type=tcp,server=" + IP_PATTERN + ":" + PORT_PATTERN;
 	
 	public static void main(String[] args) {
-		String name = "4";
-		Pattern pattern = Pattern.compile(RegExpUtils.USB_REDIRECT_NUMBER);
+		String name = "type=bridge,source=virbr0,model=rtl8139";
+		Pattern pattern = Pattern.compile(RegExpUtils.NETWORK_TYPE_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("");
 		}
