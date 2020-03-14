@@ -22,13 +22,13 @@ public class DeleteDiskTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineDisks()
-				.deleteDisk("vmbackuplocalfsdisk2", getDeleteDisk());
+				.deleteDisk("disktest6", getDeleteDisk());
 		System.out.println(successful);
 	}
 	
 	public static DeleteDisk getDeleteDisk() {
 		DeleteDisk deleteDisk = new DeleteDisk();
-		deleteDisk.setPool("25aa4da8e659417fb27be62a78797822");
+		deleteDisk.setPool("pooldir1");
 		deleteDisk.setType("localfs");
 		return deleteDisk;
 	}
