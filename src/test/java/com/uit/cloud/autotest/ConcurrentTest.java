@@ -59,10 +59,10 @@ public class ConcurrentTest {
 				e.printStackTrace();
 			}
 			try {
-				jobCreateDisk(); // 先创建云盘，再创建虚拟机，再删除虚拟机，在删除云盘
+				jobCreateDisk(); // 先创建云盘，再创建虚拟机，再删除虚拟机，再删除云盘
 				jobEventHandler("createDiskFromDiskImage",this.id);
-				jobEventHandler("createAndStartVMFromISO",this.id);
-				jobEventHandler("deleteVM",this.id);
+//				jobEventHandler("createAndStartVMFromISO",this.id);
+//				jobEventHandler("deleteVM",this.id);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -70,7 +70,8 @@ public class ConcurrentTest {
 			
 //			try {
 //				jobDeleteVM(); // 先删除虚拟机，再删除云盘
-//				jobEventHandler("deleteVM",this.id);
+//				jobDeleteDisk();
+////				jobEventHandler("deleteVM",this.id);
 //			} catch (Exception e) {
 //				// TODO Auto-generated catch block
 //				e.printStackTrace();
@@ -238,7 +239,7 @@ public class ConcurrentTest {
 		}
 
 		protected static void calculationSpecification(CreateAndStartVMFromISO createAndStartVMFromISO) {
-			createAndStartVMFromISO.setMemory("1024,maxmemory=8092");
+			createAndStartVMFromISO.setMemory("2048,maxmemory=2048");
 			createAndStartVMFromISO.setVcpus("1" + getCPUSet("1-4,6,8"));
 		}
 
