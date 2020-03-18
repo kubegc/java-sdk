@@ -244,6 +244,10 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.DNS_PATTERN)
 		protected String dnsServer;
 		
+		@ParameterDescriber(required = false, description = "是否ipv6", constraint = "true或者false", example = "true")
+		@Pattern(regexp = RegExpUtils.BOOL_TYPE_PATTERN)
+		protected boolean ipv6;
+		
 		public String getVlanId() {
 			return vlanId;
 		}
@@ -307,6 +311,15 @@ public class Lifecycle {
 		public void setDhcp(String dhcp) {
 			this.dhcp = dhcp;
 		}
+
+		public boolean isIpv6() {
+			return ipv6;
+		}
+
+		public void setIpv6(boolean ipv6) {
+			this.ipv6 = ipv6;
+		}
+		
 		
 	}
 	
@@ -333,6 +346,10 @@ public class Lifecycle {
 		@ParameterDescriber(required = false, description = "vlanID", constraint = "0-4094", example = "br-ex")
 		@Pattern(regexp = RegExpUtils.VLAN_PATTERN)
 		protected String vlanId;
+		
+		@ParameterDescriber(required = false, description = "是否ipv6", constraint = "true或者false", example = "true")
+		@Pattern(regexp = RegExpUtils.BOOL_TYPE_PATTERN)
+		protected boolean ipv6;
 		
 		public String getGateway() {
 			return gateway;
@@ -373,6 +390,14 @@ public class Lifecycle {
 		public void setVlanId(String vlanId) {
 			this.vlanId = vlanId;
 		}
+
+		public boolean isIpv6() {
+			return ipv6;
+		}
+
+		public void setIpv6(boolean ipv6) {
+			this.ipv6 = ipv6;
+		}
 		
 	}
 
@@ -383,6 +408,10 @@ public class Lifecycle {
 		@ParameterDescriber(required = false, description = "网桥名", constraint = "网桥", example = "br-ex")
 		@Pattern(regexp = RegExpUtils.BRIDGE_PATTERN)
 		protected String bridge;
+		
+		@ParameterDescriber(required = false, description = "是否ipv6", constraint = "true或者false", example = "true")
+		@Pattern(regexp = RegExpUtils.BOOL_TYPE_PATTERN)
+		protected boolean ipv6;
 
 		public String getBridge() {
 			return bridge;
@@ -390,6 +419,14 @@ public class Lifecycle {
 
 		public void setBridge(String bridge) {
 			this.bridge = bridge;
+		}
+
+		public boolean isIpv6() {
+			return ipv6;
+		}
+
+		public void setIpv6(boolean ipv6) {
+			this.ipv6 = ipv6;
 		}
 		
 	}
