@@ -159,7 +159,7 @@ public class RegExpUtils {
 	public final static String POOL_TYPE_NOT_SUPPORT_UUS = "localfs|vdiskfs|nfs|glusterfs";
 	
 	@FieldDescriber("IP范围，如192.168.1.0")
-	public final static String IP_PATTERN  = "((25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)\\.){3}(25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)";
+	public final static String IP_PATTERN  = "((25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)\\.){3}(25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)|([a-zA-Z0-9]{1,4}(:[a-zA-Z0-9]{1,4}){7})";
 
     @FieldDescriber("端口范围，如19999")
     public final static String PORT_PATTERN  = "([0-9]|[1-9]\\d|[1-9]\\d{2}|[1-9]\\d{3}|[1-5]\\d{4}|6[0-4]\\d{3}|65[0-4]\\d{2}|655[0-2]\\d|6553[0-5])";
