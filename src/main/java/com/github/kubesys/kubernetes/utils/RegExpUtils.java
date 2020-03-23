@@ -66,7 +66,16 @@ public class RegExpUtils {
 	public final static String AUTOSTART_PATTERN = "yes|no";
 	
 	@FieldDescriber("磁盘类型，只能是raw，bochs，qcow，qcow2，vmdk，qed之一")
-	public final static String DISK_TYPE_PATTERN = "raw|bochs|qcow|qcow2|vmdk|qed";
+	public final static String DISK_SUBDRIVER_PATTERN = "raw|bochs|qcow|qcow2|vmdk|qed";
+	
+	@FieldDescriber("磁盘类型，只能是disk，lun，cdrom，floppy之一")
+	public final static String DISK_TYPE_PATTERN = "disk|lun|cdrom|floppy";
+	
+	@FieldDescriber("磁盘类型，只能是ide，scsi，virtio，xen，usb，sata，sd之一")
+	public final static String DISK_BUS_PATTERN = "ide|scsi|virtio|xen|usb|sata|sd";
+	
+	@FieldDescriber("磁盘SCSI设备IO模式，只能是unfiltered， filtered之一")
+	public final static String DISK_SGIO_PATTERN = "unfiltered|filtered";
 	
 	@FieldDescriber("磁盘缓存类型，只能是none, writethrough, directsync, unsafe, writeback之一")
 	public final static String DISK_CACHE_PATTERN = "none|writethrough|directsync|unsafe|writeback";
@@ -76,6 +85,9 @@ public class RegExpUtils {
 	
 	@FieldDescriber("磁盘读写类型，只能是readonly, shareable之一")
 	public final static String DISK_MODE_PATTERN = "readonly|shareable";
+	
+	@FieldDescriber("磁盘源类型，只能是file, block之一")
+	public final static String DISK_SOURCE_TYPE_PATTERN = "file|block";
 	
 	@FieldDescriber("磁盘驱动，只能是qemu, tap之一")
 	public final static String DISK_DRIVER_PATTERN = "qemu|tap";
