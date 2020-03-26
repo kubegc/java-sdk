@@ -79,7 +79,7 @@ public class Lifecycle {
 		protected String pool;
 
 		@ParameterDescriber(required = true, description = "云盘文件的类型", constraint = "qcow2", example = "qcow2")
-		@Pattern(regexp = RegExpUtils.DISK_TYPE_PATTERN)
+		@Pattern(regexp = RegExpUtils.DISK_SUBDRIVER_PATTERN)
 		protected String format;
 
 		@ParameterDescriber(required = true, description = "云盘名", constraint = "磁盘和快照", example = "disk1")
@@ -148,7 +148,7 @@ public class Lifecycle {
 		protected String vol;
 
 		@ParameterDescriber(required = true, description = "云盘文件的类型", constraint = "qcow2", example = "qcow2")
-		@Pattern(regexp = RegExpUtils.DISK_TYPE_PATTERN)
+		@Pattern(regexp = RegExpUtils.DISK_SUBDRIVER_PATTERN)
 		protected String format;
 
 		@ParameterDescriber(required = false, description = "若该云盘加载到虚拟机内（包括系统盘、数据盘），虚拟机需要处于关机状态，且需要填写该虚拟机名，否则将报错Write lock", constraint = "已存在的虚拟机名，由4-100位的数字和小写字母组成", example = "950646e8c17a49d0b83c1c797811e001")

@@ -22,7 +22,7 @@ public class PlugDiskTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.plugDisk("wyw123", getPlugCdrom());
+				.plugDisk("wyw123", getPlugBlock());
 //				.plugDisk("vm003", getPlugCdrom());
 		System.out.println(successful);
 	}
@@ -46,17 +46,18 @@ public class PlugDiskTest {
 	
 	public static PlugDisk getPlugBlock() {
 		PlugDisk plugDisk = new PlugDisk();
-		plugDisk.setSource("/mnt/localfs/loop0");
+		plugDisk.setSource("/dev/disk/by-id/scsi-3600140501a77a674131403caadfc8e4c");
 		plugDisk.setTarget("sda");
 		plugDisk.setLive(true);
 		plugDisk.setConfig(true);
-//		plugDisk.setType("disk");
-//		plugDisk.setDriver("block");
+		plugDisk.setType("lun");
+		plugDisk.setSgio("unfiltered");
 		plugDisk.setSubdriver("raw");
 		plugDisk.setTotal_bytes_sec("1024000000");
 		plugDisk.setRead_bytes_sec("1024000000");
 		plugDisk.setWrite_bytes_sec("1024000000");
 		plugDisk.setTargetbus("scsi");
+		plugDisk.setSourcetype("block");
 //		plugDisk.setTotal_iops_sec("40000");
 //		plugDisk.setRead_iops_sec("40000");
 //		plugDisk.setWrite_iops_sec("40000");

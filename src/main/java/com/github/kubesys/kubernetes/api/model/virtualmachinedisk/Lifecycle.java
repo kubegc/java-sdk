@@ -191,7 +191,7 @@ public class Lifecycle {
 		protected Boolean prealloc_metadata;
 
 		@ParameterDescriber(required = true, description = "云盘文件的类型", constraint = "qcow2", example = "qcow2")
-		@Pattern(regexp = RegExpUtils.DISK_TYPE_PATTERN)
+		@Pattern(regexp = RegExpUtils.DISK_SUBDRIVER_PATTERN)
 		protected String format;
 
 		@ParameterDescriber(required = true, description = "创建云盘使用的存储池名", constraint = "已创建出的存储池", example = "pool2")
@@ -441,7 +441,7 @@ public class Lifecycle {
 		protected String newname;
 
 		@ParameterDescriber(required = true, description = "云盘文件的类型", constraint = "qcow2", example = "qcow2")
-		@Pattern(regexp = RegExpUtils.DISK_TYPE_PATTERN)
+		@Pattern(regexp = RegExpUtils.DISK_SUBDRIVER_PATTERN)
 		protected String format;
 
 		public CloneDisk() {

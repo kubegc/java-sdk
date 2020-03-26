@@ -1175,19 +1175,25 @@ public class Lifecycle {
 		protected String address;
 
 		protected String io;
+		
+		@ParameterDescriber(required = false, description = "云盘SCSI设备IO模式，默认值unfiltered", constraint = "取值范围：unfiltered, filtered", example = "unfiltered")
+		@Pattern(regexp = RegExpUtils.DISK_SGIO_PATTERN)
+		protected String sgio;
 
 		@ParameterDescriber(required = true, description = "云盘源路径", constraint = "路径必须在/var/lib/libvirt下，18-1024位，只允许小写、字母、中划线和圆点", example = "/var/lib/libvirt/images/test1.qcow2")
-		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
+//		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
 		protected String source;
 
-//		@Parameter(required = false, description = "虚拟的云盘总线类型，如果不填将根据target的取值自动匹配，例如vdX匹配为virtio类型的总线、sdX匹配为scsi类型的总线", constraint = "取值范围：ide, scsi, virtio, xen, usb, sata, sd", example = "virtio")
+		@ParameterDescriber(required = false, description = "虚拟的云盘总线类型，如果不填将根据target的取值自动匹配，例如vdX匹配为virtio类型的总线、sdX匹配为scsi类型的总线", constraint = "取值范围：ide, scsi, virtio, xen, usb, sata, sd", example = "virtio")
+		@Pattern(regexp = RegExpUtils.DISK_BUS_PATTERN)
 		protected String targetbus;
 
-		@ParameterDescriber(required = false, description = "云盘类型", constraint = "取值范围：lun, cdrom, floppy", example = "cdrom")
-		protected String type;
-
-		@ParameterDescriber(required = false, description = "云盘子驱动类型", constraint = "取值范围：qcow2, raw", example = "qcow2")
+		@ParameterDescriber(required = false, description = "云盘类型", constraint = "取值范围：disk, lun, cdrom, floppy", example = "disk")
 		@Pattern(regexp = RegExpUtils.DISK_TYPE_PATTERN)
+		protected String type;
+		
+		@ParameterDescriber(required = false, description = "云盘子驱动类型", constraint = "取值范围：qcow2, raw", example = "qcow2")
+		@Pattern(regexp = RegExpUtils.DISK_SUBDRIVER_PATTERN)
 		protected String subdriver;
 
 		protected Boolean multifunction;
@@ -1210,6 +1216,8 @@ public class Lifecycle {
 
 		protected Boolean rawio;
 
+		@ParameterDescriber(required = false, description = "云盘源类型", constraint = "取值范围：file, block", example = "file")
+		@Pattern(regexp = RegExpUtils.DISK_SOURCE_TYPE_PATTERN)
 		protected String sourcetype;
 
 		@ParameterDescriber(required = false, description = "云盘总bps的QoS设置，单位为bytes，与read,write互斥", constraint = "0~9999999999", example = "1GiB: 1073741824")
@@ -1235,6 +1243,14 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.DISK_IOPS_PATTERN)
 		@ParameterDescriber(required = false, description = "云盘写iops的QoS设置，与total互斥", constraint = "0~99999", example = "40000")
 		protected String write_iops_sec;
+
+		public String getSgio() {
+			return sgio;
+		}
+
+		public void setSgio(String sgio) {
+			this.sgio = sgio;
+		}
 
 		public String getTotal_bytes_sec() {
 			return total_bytes_sec;
