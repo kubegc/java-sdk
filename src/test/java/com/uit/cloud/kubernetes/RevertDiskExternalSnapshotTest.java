@@ -22,17 +22,17 @@ public class RevertDiskExternalSnapshotTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineDiskSnapshots()
-				.revertDiskExternalSnapshot("vm006migratedisk2.2", get(), "abc");
+				.revertDiskExternalSnapshot("vmbackuptestdisk1.1", get(), "abc");
 		System.out.println(successful);
 	}
 
 	protected static RevertDiskExternalSnapshot get() {
 		RevertDiskExternalSnapshot revertDiskExternalSnapshot = new RevertDiskExternalSnapshot();
 		revertDiskExternalSnapshot.setType("nfs");
-		revertDiskExternalSnapshot.setPool("migratepoolnode22");
-		revertDiskExternalSnapshot.setVol("vm006migratedisk2");
+		revertDiskExternalSnapshot.setPool("61024b305b5c463b80bceee066077079");
+		revertDiskExternalSnapshot.setVol("vmbackuptestdisk1");
 		revertDiskExternalSnapshot.setFormat("qcow2");
-		revertDiskExternalSnapshot.setDomain("vm006");
+		revertDiskExternalSnapshot.setDomain("vmbackuptest");
 		return revertDiskExternalSnapshot;
 	}
 }
