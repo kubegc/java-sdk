@@ -12,6 +12,7 @@ import com.github.kubesys.kubernetes.api.model.VirtualMachineList;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineSpec;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.AddACL;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.AutoStartVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.BackupVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.BindFloatingIP;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ChangeNumberOfCPU;
@@ -1187,6 +1188,28 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 	public boolean updateGraphic(String name, String nodeName, UpdateGraphic updateGraphic, String eventId) throws Exception {
 		updateHost(name, nodeName);
 		return updateGraphic(name, updateGraphic, eventId);
+	}
+
+	public boolean autoStartVM(String name, AutoStartVM autoStartVM) throws Exception {
+		return autoStartVM(name, autoStartVM, null);
+	}
+
+	public boolean autoStartVM(String name, AutoStartVM autoStartVM, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), autoStartVM);
+	}
+
+	public boolean autoStartVM(String name, String nodeName, AutoStartVM autoStartVM) throws Exception {
+		updateHost(name, nodeName);
+		return autoStartVM(name, autoStartVM, null);
+	}
+
+	public boolean autoStartVM(String name, String nodeName, AutoStartVM autoStartVM, String eventId) throws Exception {
+		updateHost(name, nodeName);
+		return autoStartVM(name, autoStartVM, eventId);
 	}
 
 }

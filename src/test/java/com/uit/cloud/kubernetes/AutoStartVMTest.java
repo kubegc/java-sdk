@@ -4,7 +4,7 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StopVM;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.AutoStartVM;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -15,15 +15,21 @@ import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StopVM;
  * @since   2019/9/3
  *
  */
-public class StopVMTest {
+public class AutoStartVMTest {
 	
 	
 	public static void main(String[] args) throws Exception {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.stopVM("wywtest", new StopVM());
+				.autoStartVM("wywtest", getAutoStartVM());
 		System.out.println(successful);
+	}
+
+	protected static AutoStartVM getAutoStartVM() {
+		AutoStartVM autoStartVM = new AutoStartVM();
+//		autoStartVM.setDisable(true);
+		return autoStartVM;
 	}
 	
 }
