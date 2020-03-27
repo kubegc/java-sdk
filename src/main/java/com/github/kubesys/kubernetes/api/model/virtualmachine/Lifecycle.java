@@ -231,6 +231,18 @@ public class Lifecycle {
 	@FunctionDescriber(shortName = "更新虚拟机远程终端", description = "更新虚拟机远程终端，"
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected UpdateGraphic updateGraphic;
+	
+	@FunctionDescriber(shortName = "设置虚拟机高可用，对于正在运行的虚拟机重启后生效", description = "设置虚拟机高可用，"
+			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected AutoStartVM autoStartVM;
+
+	public AutoStartVM getAutoStartVM() {
+		return autoStartVM;
+	}
+
+	public void setAutoStartVM(AutoStartVM autoStartVM) {
+		this.autoStartVM = autoStartVM;
+	}
 
 	public RedirectUsb getRedirectUsb() {
 		return redirectUsb;
@@ -4002,4 +4014,22 @@ public class Lifecycle {
 		}
 		
 	}
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class AutoStartVM {
+		
+		@ParameterDescriber(required = false, description = "取消虚拟机高可用", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
+		protected Boolean disable;
+
+		public Boolean getDisable() {
+			return disable;
+		}
+
+		public void setDisable(Boolean disable) {
+			this.disable = disable;
+		}
+
+	}
+	
 }
