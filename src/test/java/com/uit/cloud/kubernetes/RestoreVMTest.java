@@ -8,7 +8,15 @@ public class RestoreVMTest {
 
         ExtendedKubernetesClient client = AbstractTest.getClient();
         boolean successful = client.virtualMachines()
-                .restoreVM("vmbackuptest", "vm.node51", new Lifecycle.RestoreVM());
+                .restoreVM("vmbackuptest", "vm.node25", getRestoreVM());
         System.out.println(successful);
+    }
+
+    public static Lifecycle.RestoreVM getRestoreVM() {
+        Lifecycle.RestoreVM restoreVM = new Lifecycle.RestoreVM();
+        restoreVM.setPool("61024b305b5c463b80bceee066077079");
+        restoreVM.setVersion("backup1");
+        restoreVM.setAll(false);
+        return restoreVM;
     }
 }

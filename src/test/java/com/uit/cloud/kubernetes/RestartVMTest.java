@@ -25,5 +25,5 @@ public class RestartVMTest {
 				.rebootVM("vmtest111", new RebootVM());
 		System.out.println(successful);
 	}
-	
+
 }

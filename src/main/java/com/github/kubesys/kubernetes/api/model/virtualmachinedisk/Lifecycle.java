@@ -82,6 +82,36 @@ public class Lifecycle {
 	@Deprecated
 	protected DeleteDiskInternalSnapshot deleteDiskInternalSnapshot;
 
+	@FunctionDescriber(shortName = "备份云盘", description = "备份云盘，"
+			+ AnnotationUtils.DESC_FUNCTION_DESC,
+			prerequisite = AnnotationUtils.DESC_FUNCTION_VMD,
+			exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	@Deprecated
+	protected BackupDisk backupDisk;
+
+	@FunctionDescriber(shortName = "恢复云盘", description = "从备份恢复云盘，"
+			+ AnnotationUtils.DESC_FUNCTION_DESC,
+			prerequisite = AnnotationUtils.DESC_FUNCTION_VMD,
+			exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	@Deprecated
+	protected RestoreDisk restoreDisk;
+
+	public BackupDisk getBackupDisk() {
+		return backupDisk;
+	}
+
+	public void setBackupDisk(BackupDisk backupDisk) {
+		this.backupDisk = backupDisk;
+	}
+
+	public RestoreDisk getRestoreDisk() {
+		return restoreDisk;
+	}
+
+	public void setRestoreDisk(RestoreDisk restoreDisk) {
+		this.restoreDisk = restoreDisk;
+	}
+
 	public MigrateDisk getMigrateDisk() {
 		return migrateDisk;
 	}
@@ -739,22 +769,22 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class RestoreDisk {
 
-		@ParameterDescriber(required = false, description = "远程备份的ftp主机ip", constraint = "远程备份的ftp主机ip", example = "172.16.1.214")
+		@ParameterDescriber(required = true, description = "要备份的云盘所在的云主机", constraint = "远程备份的ftp主机ip", example = "172.16.1.214")
 		protected String domain;
 
-		@ParameterDescriber(required = false, description = "远程备份的ftp主机ip", constraint = "远程备份的ftp主机ip", example = "172.16.1.214")
+		@ParameterDescriber(required = true, description = "云盘备份所在的存储池", constraint = "云盘备份所在的存储池", example = "172.16.1.214")
 		protected String pool;
 
-		@ParameterDescriber(required = false, description = "远程备份的ftp主机ip", constraint = "远程备份的ftp主机ip", example = "172.16.1.214")
+		@ParameterDescriber(required = true, description = "备份记录的版本号", constraint = "备份记录的版本号", example = "172.16.1.214")
 		protected String version;
 
-		@ParameterDescriber(required = false, description = "远程备份的ftp主机ip", constraint = "远程备份的ftp主机ip", example = "172.16.1.214")
+		@ParameterDescriber(required = false, description = "新建云盘的名字", constraint = "新建云盘的名字", example = "a63dd73f92a24a9ab840492f0e538f2b")
 		protected String newname;
 
-		@ParameterDescriber(required = false, description = "远程备份的ftp主机ip", constraint = "远程备份的ftp主机ip", example = "172.16.1.214")
+		@ParameterDescriber(required = false, description = "根据备份记录新建云盘时使用的存储池", constraint = "根据备份记录新建云盘时使用的存储池", example = "pooltest")
 		protected String target;
 
-		@ParameterDescriber(required = false, description = "远程备份的ftp主机ip", constraint = "远程备份的ftp主机ip", example = "172.16.1.214")
+		@ParameterDescriber(required = false, description = "新建云盘要挂载到的虚拟机", constraint = "新建云盘要挂载到的虚拟机", example = "172.16.1.214")
 		protected String targetDomain;
 
 		public String getDomain() {

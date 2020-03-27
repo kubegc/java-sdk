@@ -239,4 +239,48 @@ public class VirtualMachineDiskImpl extends AbstractImpl<VirtualMachineDisk, Vir
 		return deleteDiskInternalSnapshot(name, deleteDiskInternalSnapshot, eventId);
 	}
 
+	public boolean backupDisk(String name, Lifecycle.BackupDisk backupDisk) throws Exception {
+		return backupDisk(name, backupDisk, null);
+	}
+
+	public boolean backupDisk(String name, Lifecycle.BackupDisk backupDisk, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return delete(name, updateMetadata(name, eventId), backupDisk);
+	}
+
+	public boolean backupDisk(String name, String nodeName, Lifecycle.BackupDisk backupDisk) throws Exception {
+		updateHost(name, nodeName);
+		return backupDisk(name, backupDisk, null);
+	}
+
+	public boolean backupDisk(String name, String nodeName, Lifecycle.BackupDisk backupDisk, String eventId) throws Exception {
+		updateHost(name, nodeName);
+		return backupDisk(name, backupDisk, eventId);
+	}
+
+	//
+	public boolean restoreDisk(String name, Lifecycle.RestoreDisk restoreDisk) throws Exception {
+		return restoreDisk(name, restoreDisk, null);
+	}
+
+	public boolean restoreDisk(String name, Lifecycle.RestoreDisk restoreDisk, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return delete(name, updateMetadata(name, eventId), restoreDisk);
+	}
+
+	public boolean restoreDisk(String name, String nodeName, Lifecycle.RestoreDisk restoreDisk) throws Exception {
+		updateHost(name, nodeName);
+		return restoreDisk(name, restoreDisk, null);
+	}
+
+	public boolean restoreDisk(String name, String nodeName, Lifecycle.BackupDisk restoreDisk, String eventId) throws Exception {
+		updateHost(name, nodeName);
+		return backupDisk(name, restoreDisk, eventId);
+	}
 }

@@ -3772,6 +3772,17 @@ public class Lifecycle {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class BackupVM {
+		@ParameterDescriber(required = true, description = "备份主机使用的存储池", constraint = "备份主机使用的存储池", example = "61024b305b5c463b80bceee066077079")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String pool;
+
+		@ParameterDescriber(required = true, description = "备份记录的版本号", constraint = "备份记录的版本号", example = "13024b305b5c463b80bceee066077079")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String version;
+
+		@ParameterDescriber(required = false, description = "备份虚拟机所有的盘，否则只备份系统盘，需要注意的是恢复带有数据云盘的记录时，数据云盘必须还挂载在该虚拟机上",
+				constraint = "备份虚拟机所有的盘，否则只备份系统盘，需要注意的是恢复带有数据云盘的记录时，数据云盘必须还挂载在该虚拟机上", example = "true")
+		protected boolean all;
 
 		@ParameterDescriber(required = false, description = "远程备份的ftp主机ip", constraint = "远程备份的ftp主机ip", example = "172.16.1.214")
 		@Pattern(regexp = RegExpUtils.IP_PATTERN)
@@ -3788,6 +3799,31 @@ public class Lifecycle {
 		@ParameterDescriber(required = false, description = "远程备份的ftp密码", constraint = "ftpuser", example = "ftpuser")
 		@Pattern(regexp = RegExpUtils.PASSWORD_PATTERN)
 		protected String password;
+
+		public String getPool() {
+			return pool;
+		}
+
+		public void setPool(String pool) {
+			this.pool = pool;
+		}
+
+		public String getVersion() {
+			return version;
+		}
+
+		public void setVersion(String version) {
+			this.version = version;
+		}
+
+		public boolean getAll() {
+			return all;
+		}
+
+
+		public void setAll(boolean all) {
+			this.all = all;
+		}
 
 		public String getRemote() {
 			return remote;
@@ -3825,7 +3861,65 @@ public class Lifecycle {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class RestoreVM {
+		@ParameterDescriber(required = true, description = "备份主机使用的存储池", constraint = "备份主机使用的存储池", example = "61024b305b5c463b80bceee066077079")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String pool;
 
+		@ParameterDescriber(required = true, description = "备份记录的版本号", constraint = "备份记录的版本号", example = "13024b305b5c463b80bceee066077079")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String version;
+
+		@ParameterDescriber(required = false, description = "备份虚拟机所有的盘，否则只备份系统盘，需要注意的是恢复带有数据云盘的记录时，数据云盘必须还挂载在该虚拟机上",
+				constraint = "备份虚拟机所有的盘，否则只备份系统盘，需要注意的是恢复带有数据云盘的记录时，数据云盘必须还挂载在该虚拟机上", example = "true")
+		protected boolean all;
+
+		@ParameterDescriber(required = false, description = "新建虚拟机的名字", constraint = "新建虚拟机的名字", example = "13024b305b5c463b80bceee066077079")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String newname;
+
+		@ParameterDescriber(required = false, description = "新建虚拟机时所使用的存储池", constraint = "新建虚拟机所使用的存储池", example = "13024b305b5c463b80bceee066077079")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String target;
+
+		public String getPool() {
+			return pool;
+		}
+
+		public void setPool(String pool) {
+			this.pool = pool;
+		}
+
+		public String getVersion() {
+			return version;
+		}
+
+		public void setVersion(String version) {
+			this.version = version;
+		}
+
+		public boolean getAll() {
+			return all;
+		}
+
+		public void setAll(boolean all) {
+			this.all = all;
+		}
+
+		public String getNewname() {
+			return newname;
+		}
+
+		public void setNewname(String newname) {
+			this.newname = newname;
+		}
+
+		public String getTarget() {
+			return target;
+		}
+
+		public void setTarget(String target) {
+			this.target = target;
+		}
 	}
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)

@@ -8,12 +8,15 @@ public class BackupVMTest {
 
         ExtendedKubernetesClient client = AbstractTest.getClient();
         boolean successful = client.virtualMachines()
-                .backupVM("vmbackuptest", "vm.node51", getBackupVM());
+                .backupVM("vmbackuptest", "vm.node25", getBackupVM());
         System.out.println(successful);
     }
 
     public static Lifecycle.BackupVM getBackupVM() {
         Lifecycle.BackupVM backupVM = new Lifecycle.BackupVM();
+        backupVM.setPool("61024b305b5c463b80bceee066077079");
+        backupVM.setVersion("backup3");
+        backupVM.setAll(true);
         backupVM.setRemote("172.16.1.214");
         backupVM.setPort("21");
         backupVM.setUsername("ftpuser");

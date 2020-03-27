@@ -7445,8 +7445,53 @@ public class Domain {
 			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 			public static class Address {
 
-				public Address() {
+				protected String _type;
+				protected String _slot;
+				protected String _bus;
+				protected String _function;
+				protected String _domain;
 
+				public Address() {
+				}
+
+				public String get_bus() {
+					return _bus;
+				}
+
+				public void set_bus(String _bus) {
+					this._bus = _bus;
+				}
+
+				public String get_type() {
+					return _type;
+				}
+
+				public void set_type(String _type) {
+					this._type = _type;
+				}
+
+				public String get_slot() {
+					return _slot;
+				}
+
+				public void set_slot(String _slot) {
+					this._slot = _slot;
+				}
+
+				public String get_function() {
+					return _function;
+				}
+
+				public void set_function(String _function) {
+					this._function = _function;
+				}
+
+				public String get_domain() {
+					return _domain;
+				}
+
+				public void set_domain(String _domain) {
+					this._domain = _domain;
 				}
 			}
 
