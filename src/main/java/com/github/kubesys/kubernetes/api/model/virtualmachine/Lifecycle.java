@@ -3781,7 +3781,6 @@ public class Lifecycle {
 		}
 	}
 
-
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class BackupVM {

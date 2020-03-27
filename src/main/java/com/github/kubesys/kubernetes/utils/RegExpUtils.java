@@ -176,11 +176,13 @@ public class RegExpUtils {
     @FieldDescriber("端口范围，如19999")
     public final static String PORT_PATTERN  = "([0-9]|[1-9]\\d|[1-9]\\d{2}|[1-9]\\d{3}|[1-5]\\d{4}|6[0-4]\\d{3}|65[0-4]\\d{2}|655[0-2]\\d|6553[0-5])";
 
+	@FieldDescriber("存储池的IP范围，如192.168.1.0")
+	public final static String POOL_IP_PATTERN  = "((25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)\\.){3}(25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)";
     @FieldDescriber("创建存储池的url，如localfs:///dev/sdb1:/mnt/uit")
     public final static String POOL_URL_PATTERN = "(\\/mnt\\/localfs(\\/(\\w+\\/?)+)$)|" +
             "(\\w+(\\w+\\/?)+$)|" +
-            "("+IP_PATTERN+":(\\/(\\w+\\/?)+)$)|" +
-            "("+IP_PATTERN+":(\\w+)$)";
+            "("+POOL_IP_PATTERN+":(\\/(\\w+\\/?)+)$)|" +
+            "("+POOL_IP_PATTERN+":(\\w+)$)";
 
 	@FieldDescriber("子网及其掩码，如192.168.1.0/24，掩码是8,16,24之一")
 	public final static String SUBNET_PATTERN  = IP_PATTERN + "/([1-9]|1\\d|2\\d|30|31])";

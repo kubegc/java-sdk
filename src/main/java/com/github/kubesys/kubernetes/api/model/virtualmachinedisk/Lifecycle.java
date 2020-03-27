@@ -651,5 +651,158 @@ public class Lifecycle {
 		}
 		
 	}
-	
+
+
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class BackupDisk {
+
+		@ParameterDescriber(required = false, description = "远程备份的ftp主机ip", constraint = "远程备份的ftp主机ip", example = "172.16.1.214")
+		protected String domain;
+
+		@ParameterDescriber(required = false, description = "远程备份的ftp主机ip", constraint = "远程备份的ftp主机ip", example = "172.16.1.214")
+		protected String pool;
+
+		@ParameterDescriber(required = false, description = "远程备份的ftp主机ip", constraint = "远程备份的ftp主机ip", example = "172.16.1.214")
+		protected String version;
+
+		@ParameterDescriber(required = false, description = "远程备份的ftp主机ip", constraint = "远程备份的ftp主机ip", example = "172.16.1.214")
+		protected String remote;
+
+		@ParameterDescriber(required = false, description = "远程备份的ftp主机端口", constraint = "远程备份的ftp主机端口", example = "21")
+		protected String port;
+
+		@ParameterDescriber(required = false, description = "远程备份的ftp用户名", constraint = "ftpuser", example = "ftpuser")
+		protected String username;
+
+		@ParameterDescriber(required = false, description = "远程备份的ftp密码", constraint = "ftpuser", example = "ftpuser")
+		protected String password;
+
+		public String getDomain() {
+			return domain;
+		}
+
+		public void setDomain(String domain) {
+			this.domain = domain;
+		}
+
+		public String getPool() {
+			return pool;
+		}
+
+		public void setPool(String pool) {
+			this.pool = pool;
+		}
+
+		public String getVersion() {
+			return version;
+		}
+
+		public void setVersion(String version) {
+			this.version = version;
+		}
+
+		public String getRemote() {
+			return remote;
+		}
+
+		public void setRemote(String remote) {
+			this.remote = remote;
+		}
+
+		public String getPort() {
+			return port;
+		}
+
+		public void setPort(String port) {
+			this.port = port;
+		}
+
+		public String getUsername() {
+			return username;
+		}
+
+		public void setUsername(String username) {
+			this.username = username;
+		}
+
+		public String getPassword() {
+			return password;
+		}
+
+		public void setPassword(String password) {
+			this.password = password;
+		}
+	}
+
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class RestoreDisk {
+
+		@ParameterDescriber(required = false, description = "远程备份的ftp主机ip", constraint = "远程备份的ftp主机ip", example = "172.16.1.214")
+		protected String domain;
+
+		@ParameterDescriber(required = false, description = "远程备份的ftp主机ip", constraint = "远程备份的ftp主机ip", example = "172.16.1.214")
+		protected String pool;
+
+		@ParameterDescriber(required = false, description = "远程备份的ftp主机ip", constraint = "远程备份的ftp主机ip", example = "172.16.1.214")
+		protected String version;
+
+		@ParameterDescriber(required = false, description = "远程备份的ftp主机ip", constraint = "远程备份的ftp主机ip", example = "172.16.1.214")
+		protected String newname;
+
+		@ParameterDescriber(required = false, description = "远程备份的ftp主机ip", constraint = "远程备份的ftp主机ip", example = "172.16.1.214")
+		protected String target;
+
+		@ParameterDescriber(required = false, description = "远程备份的ftp主机ip", constraint = "远程备份的ftp主机ip", example = "172.16.1.214")
+		protected String targetDomain;
+
+		public String getDomain() {
+			return domain;
+		}
+
+		public void setDomain(String domain) {
+			this.domain = domain;
+		}
+
+		public String getPool() {
+			return pool;
+		}
+
+		public void setPool(String pool) {
+			this.pool = pool;
+		}
+
+		public String getVersion() {
+			return version;
+		}
+
+		public void setVersion(String version) {
+			this.version = version;
+		}
+
+		public String getNewname() {
+			return newname;
+		}
+
+		public void setNewname(String newname) {
+			this.newname = newname;
+		}
+
+		public String getTarget() {
+			return target;
+		}
+
+		public void setTarget(String target) {
+			this.target = target;
+		}
+
+		public String getTargetDomain() {
+			return targetDomain;
+		}
+
+		public void setTargetDomain(String targetDomain) {
+			this.targetDomain = targetDomain;
+		}
+	}
 }
