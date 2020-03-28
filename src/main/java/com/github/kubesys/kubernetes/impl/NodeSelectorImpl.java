@@ -5,6 +5,7 @@ package com.github.kubesys.kubernetes.impl;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -58,9 +59,9 @@ public class NodeSelectorImpl {
 	 * @param policy             policy
 	 * @return                   node name or null
 	 */
-	public String getNodename(Policy policy) {
+	public String getNodename(Policy policy, Map<String, String> filters) {
 		
-		Node[] nodes = getNodeCandidates();
+		Node[] nodes = getNodeCandidates(filters);
 		
 		if (policy == Policy.minimumCPUUsageHostAllocatorStrategyMode) {
 			sortByMinimumCPUUsage(nodes);
@@ -83,8 +84,8 @@ public class NodeSelectorImpl {
 		return DEFAULT_NODE;
 	}
 
-	public String getNodename(Policy policy, String defaultName) {
-		String nodeName = getNodename(policy);
+	public String getNodename(Policy policy, String defaultName, Map<String, String> filters) {
+		String nodeName = getNodename(policy, filters);
 		return (nodeName != null) ? nodeName : defaultName;
 	}
 	
@@ -163,10 +164,15 @@ public class NodeSelectorImpl {
 	/**
 	 * @return      get all nodes from Kubernetes
 	 */
-	protected Node[] getNodeCandidates() {
+	protected Node[] getNodeCandidates(Map<String, String> filters) {
 		try {
-			return client.nodes().list()
+			if (filters == null) {
+				return client.nodes().list()
 					.getItems().toArray(new Node[] {});
+			} else {
+				return client.nodes().withLabels(filters).list()
+						.getItems().toArray(new Node[] {});
+			}
 		} catch (Exception ex) {
 			// if client is null or we encounter unknown problem 
 			m_logger.log(Level.SEVERE, ex.getMessage());

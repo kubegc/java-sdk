@@ -4,6 +4,8 @@
 package com.github.kubesys.kubernetes.impl;
 
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesConstants;
@@ -99,6 +101,18 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 	 */
 	public boolean setHA(String name) throws Exception {
 		return this.addTag(name, ExtendedKubernetesConstants.LABEL_VM_HA, String.valueOf(true));
+	}
+	
+	/**
+	 * @param name  name
+	 * @param zone  zone
+	 * @throws Exception exception
+	 */
+	public boolean setHA(String name, String zone) throws Exception {
+		Map<String, String> labels = new HashMap<String, String>();
+		labels.put(ExtendedKubernetesConstants.LABEL_VM_HA, "true");
+		labels.put(ExtendedKubernetesConstants.LABEL_ZONE, zone);
+		return this.addTags(name, labels);
 	}
 	
 	/**

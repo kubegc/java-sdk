@@ -244,6 +244,28 @@ public abstract class AbstractImpl<R, S, T> {
 		tags.put(key, value);
 		return update(ExtendedKubernetesConstants.OPERATOR_ADD_TAG, metadata);
 	}
+	
+	/**
+	 * @param name               resource name, the .metadata.name
+	 * @param labels             map
+	 * @return                   true, or false, or an exception
+	 * @throws Exception         exception
+	 */
+	public boolean addTags(String name, Map<String, String> labels) throws Exception {
+
+		R res = get(name);
+		if (res == null) {
+			m_logger.log(Level.SEVERE, type + " " + name 
+				+ " not exist so that we cannot add this tag.");
+			return false;
+		}
+
+		HasMetadata metadata = (HasMetadata)res;
+		Map<String, String> tags = metadata.getMetadata().getLabels();
+		tags = (tags == null) ? new HashMap<String, String>() : tags;
+		tags.putAll(labels);
+		return update(ExtendedKubernetesConstants.OPERATOR_ADD_TAG, metadata);
+	}
 
 	/**
 	 * @param name               resource name, the .metadata.name
