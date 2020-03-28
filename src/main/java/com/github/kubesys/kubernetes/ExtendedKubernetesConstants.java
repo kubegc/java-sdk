@@ -16,9 +16,9 @@ public class ExtendedKubernetesConstants {
 	
 	public final static String LABEL_HOST        = "host";
 	
-	public final static String LABEL_VM_HA       = "vm.ha";
+	public final static String LABEL_VM_HA       = "ha";
 	
-	public final static String LABEL_ZONE       = "zone";
+	public final static String LABEL_ZONE        = "zone";
 	
 	
 	
