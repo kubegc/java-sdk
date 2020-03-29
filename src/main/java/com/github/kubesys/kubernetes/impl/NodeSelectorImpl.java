@@ -75,6 +75,8 @@ public class NodeSelectorImpl {
 			sortByMinInstancePerHost(nodes);
 		} 
 		
+		nodes = sortByPriority(nodes);
+		
 //		// get the optimized node name 
 //		for (Node node : nodes) {
 //			if (isMaster(node) || notReady(node) || unSched(node) || 
@@ -144,6 +146,39 @@ public class NodeSelectorImpl {
 			}
 			
 		});
+	}
+	
+	/**
+	 * @param nodes             the node with minimum used CPU
+	 */
+	protected Node[] sortByPriority(Node[] nodes) {
+		
+		if (nodes == null) {
+			return new Node[0];
+		}
+		
+		List<Node> clusters = new ArrayList<Node>();
+		List<Node> zones = new ArrayList<Node>();
+		List<Node> others = new ArrayList<Node>();
+		for (Node node : nodes) {
+			Map<String, String> labels = node.getMetadata().getLabels();
+			if (labels == null) {
+				others.add(node);
+			} else if (labels.get("cluster") != null) {
+				clusters.add(node);
+			} else if (labels.get("zone") != null) {
+				zones.add(node);
+			} else {
+				others.add(node);
+			}
+		}
+		
+		List<Node> list = new ArrayList<Node>();
+		list.addAll(clusters);
+		list.addAll(zones);
+		list.addAll(others);
+		
+		return list.toArray(new Node[] {});
 	}
 
 	/**

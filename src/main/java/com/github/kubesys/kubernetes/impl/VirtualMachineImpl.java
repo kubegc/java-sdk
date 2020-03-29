@@ -137,10 +137,9 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 		return deleteTags(name, tags);
 	}
 	
-
-	public boolean startVM(String name, String nodeName, StartVM startVM, String power, String eventId) throws Exception {
-		updateHost(name, nodeName);
-		return startVM(name, startVM, eventId);
+	public boolean startVMWithPower(String name, String nodeName, StartVM startVM, String power) throws Exception {
+		updateHostAndPower(name, nodeName, power);
+		return startVM(name, startVM, null);
 	}
 	
 	/*************************************************
