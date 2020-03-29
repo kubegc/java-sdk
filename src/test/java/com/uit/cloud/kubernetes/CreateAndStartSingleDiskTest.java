@@ -23,7 +23,7 @@ public class CreateAndStartSingleDiskTest {
 		CreateAndStartVMFromISO createAndStartVMFromISO = get();
 		// name
 		boolean successful = client.virtualMachines()
-				.createAndStartVMFromISO("wyw123", "vm.node22", createAndStartVMFromISO, "01");
+				.createAndStartVMFromISO("wywtest", "vm.node22", createAndStartVMFromISO, "01");
 		System.out.println(successful);
 	}
 	
@@ -47,7 +47,7 @@ public class CreateAndStartSingleDiskTest {
 //		createAndStartVMFromISO.setCdrom("/var/lib/libvirt/iso/centos7-minimal-1511.iso"); 
 		// Disk and QoS for 1 disk and many disks
 		createAndStartVMFromISO.setBoot("hd");
-		createAndStartVMFromISO.setDisk("/var/lib/libvirt/images/ttt.qcow2,cache=none,read_bytes_sec=1024000000,write_bytes_sec=1024000000");
+		createAndStartVMFromISO.setDisk("/var/lib/libvirt/cstor/170dd9accdd174caced76b0db2222/170dd9accdd174caced76b0db2222/wywtest/wywtest,cache=none,read_bytes_sec=1024000000,write_bytes_sec=1024000000");
 				
 
 		/*
@@ -118,8 +118,8 @@ public class CreateAndStartSingleDiskTest {
 
 
 	protected static void calculationSpecification(CreateAndStartVMFromISO createAndStartVMFromISO) {
-		createAndStartVMFromISO.setMemory("1024,maxmemory=8092");    
-		createAndStartVMFromISO.setVcpus("4" + getCPUSet("1-4,6,8"));
+		createAndStartVMFromISO.setMemory("1024,maxmemory=1024");    
+		createAndStartVMFromISO.setVcpus("1" + getCPUSet("1-4,6,8"));
 	}
 	
 	protected static String getCPUSet(String cpuset) {

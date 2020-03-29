@@ -22,7 +22,7 @@ public class StartVMTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.startVM("vmtest111", new StartVM());
+				.startVM("wywtest", new StartVM());
 		System.out.println(successful);
 	}
 	

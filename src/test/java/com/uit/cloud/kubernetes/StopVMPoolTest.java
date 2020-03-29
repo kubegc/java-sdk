@@ -22,7 +22,7 @@ public class StopVMPoolTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachinePools()
-				.stopPool("migratepoolnode35", getPool(), "123");
+				.stopPool("migratepoolnode31", getPool(), "123");
 		System.out.println(successful);
 	}
 

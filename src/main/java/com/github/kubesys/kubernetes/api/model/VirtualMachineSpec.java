@@ -35,6 +35,8 @@ public class VirtualMachineSpec extends ExtendedCustomResourceDefinitionSpec imp
 
 	protected Lifecycle lifecycle;
 	
+	protected String powerstate;
+	
 	public VirtualMachineSpec() {
 
 	}
@@ -55,4 +57,12 @@ public class VirtualMachineSpec extends ExtendedCustomResourceDefinitionSpec imp
 		this.lifecycle = lifecycle;
 	}
 
+	public String getPowerstate() {
+		return powerstate;
+	}
+
+	public void setPowerstate(String powerstate) {
+		this.powerstate = powerstate;
+	}
+	
 }

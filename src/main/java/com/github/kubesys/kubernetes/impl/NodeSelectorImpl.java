@@ -75,7 +75,8 @@ public class NodeSelectorImpl {
 		
 		// get the optimized node name 
 		for (Node node : nodes) {
-			if (isMaster(node) || notReady(node) || unSched(node)) {
+			if (isMaster(node) || notReady(node) || unSched(node) || 
+					!node.getMetadata().getName().startsWith("vm.")) {
 				continue;
 			}
 			return node.getMetadata().getName();
