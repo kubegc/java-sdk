@@ -223,6 +223,52 @@ public abstract class AbstractImpl<R, S, T> {
 	}
 	
 	/**
+	 * @param name                   name
+	 * @param hostname               hostbame
+	 * @param power                  power
+	 * @return                       true or Exception
+	 * @throws Exception             Exception
+	 */
+	public boolean updateHostAndPower(String name, String hostname, String power) throws Exception {
+		
+		R res = get(name);
+		HasMetadata metadata = (HasMetadata)res;
+		Map<String, String> tags = metadata.getMetadata().getLabels();
+		tags = (tags == null) ? new HashMap<String, String>() : tags;
+		tags.put("host", hostname);
+		metadata.getMetadata().setLabels(tags);
+		
+		Method specMethod = res.getClass().getMethod("getSpec");
+		Object spec = specMethod.invoke(res);
+		
+		Method nodeMethod = spec.getClass().getMethod("setNodeName", String.class);
+		nodeMethod.invoke(spec, hostname);
+		
+		Method powerMethod = spec.getClass().getMethod("getPowerstate", String.class);
+		powerMethod.invoke(spec, power);
+		
+		boolean sucess = update(ExtendedKubernetesConstants.OPERATOR_UPDATE_HOST, metadata);
+		
+		if (!sucess) {
+			throw new Exception("Target " + hostname + " is unreachable.");
+		}
+		
+		while(true) {
+			R res2 = get(name);
+			HasMetadata metadata2 = (HasMetadata)res2;
+			Map<String, String> tags2 = metadata2.getMetadata().getLabels();
+			tags2 = (tags2 == null) ? new HashMap<String, String>() : tags2;
+			if (hostname.equals(tags.get("host"))) {
+				break;
+			} else {
+				Thread.sleep(1000);
+			}
+		}
+		
+		return sucess;
+	}
+	
+	/**
 	 * @param name               resource name, the .metadata.name
 	 * @param key                key
 	 * @param value              value

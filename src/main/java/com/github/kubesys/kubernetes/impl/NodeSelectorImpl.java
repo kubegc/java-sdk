@@ -3,8 +3,10 @@
  */
 package com.github.kubesys.kubernetes.impl;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -73,16 +75,16 @@ public class NodeSelectorImpl {
 			sortByMinInstancePerHost(nodes);
 		} 
 		
-		// get the optimized node name 
-		for (Node node : nodes) {
-			if (isMaster(node) || notReady(node) || unSched(node) || 
-					!node.getMetadata().getName().startsWith("vm.")) {
-				continue;
-			}
-			return node.getMetadata().getName();
-		}
+//		// get the optimized node name 
+//		for (Node node : nodes) {
+//			if (isMaster(node) || notReady(node) || unSched(node) || 
+//					!node.getMetadata().getName().startsWith("vm.")) {
+//				continue;
+//			}
+//			return node.getMetadata().getName();
+//		}
 		
-		return DEFAULT_NODE;
+		return (nodes.length == 0) ? DEFAULT_NODE : nodes[0].getMetadata().getName();
 	}
 
 	public String getNodename(Policy policy, String defaultName, Map<String, String> filters) {
@@ -166,19 +168,26 @@ public class NodeSelectorImpl {
 	 * @return      get all nodes from Kubernetes
 	 */
 	protected Node[] getNodeCandidates(Map<String, String> filters) {
+		List<Node> nodeList = new ArrayList<Node>();
 		try {
-			if (filters == null) {
-				return client.nodes().list()
-					.getItems().toArray(new Node[] {});
-			} else {
-				return client.nodes().withLabels(filters).list()
-						.getItems().toArray(new Node[] {});
+			
+			List<Node> allNodes = (filters == null || filters.size() == 0) 
+							? client.nodes().list().getItems() 
+									: client.nodes().withLabels(filters).list().getItems();
+			for (Node node : allNodes) {
+				if (isMaster(node) || notReady(node) || unSched(node) || 
+						!node.getMetadata().getName().startsWith("vm.")) {
+					continue;
+				}
+				nodeList.add(node);
 			}
+			
 		} catch (Exception ex) {
 			// if client is null or we encounter unknown problem 
 			m_logger.log(Level.SEVERE, ex.getMessage());
-			return new Node[] {};
 		}
+		
+		return nodeList.toArray(new Node[] {});
 	}
 
 	/**
