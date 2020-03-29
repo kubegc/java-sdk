@@ -267,6 +267,31 @@ public abstract class AbstractImpl<R, S, T> {
 		return update(ExtendedKubernetesConstants.OPERATOR_ADD_TAG, metadata);
 	}
 
+	
+	/**
+	 * @param name               resource name, the .metadata.name
+	 * @param keys               List
+	 * @return                   true, or false, or an exception
+	 * @throws Exception         exception
+	 */
+	public boolean deleteTags(String name, List<String> keys) throws Exception {
+
+		R res = get(name);
+		if (res == null) {
+			m_logger.log(Level.SEVERE, type + " " + name + " not exist.");
+			return false;
+		}
+
+		HasMetadata metadata = (HasMetadata)res;
+		Map<String, String> tags = metadata.getMetadata().getLabels();
+		if (tags != null) {	
+			for (String key : keys) {
+				tags.remove(key);
+			}
+		}
+		return update(ExtendedKubernetesConstants.OPERATOR_DEL_TAG, metadata);
+	}
+	
 	/**
 	 * @param name               resource name, the .metadata.name
 	 * @param key                key

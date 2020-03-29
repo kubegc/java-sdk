@@ -4,7 +4,9 @@
 package com.github.kubesys.kubernetes.impl;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -105,13 +107,13 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 	
 	/**
 	 * @param name  name
-	 * @param zone  zone
+	 * @param labels  map <now just support zone and cluster>
 	 * @throws Exception exception
 	 */
-	public boolean setHA(String name, String zone) throws Exception {
-		Map<String, String> labels = new HashMap<String, String>();
-		labels.put(ExtendedKubernetesConstants.LABEL_VM_HA, "true");
-		labels.put(ExtendedKubernetesConstants.LABEL_ZONE, zone);
+	public boolean setHA(String name, Map<String, String>  labels) throws Exception {
+		Map<String, String> tags = new HashMap<String, String>();
+		tags.put(ExtendedKubernetesConstants.LABEL_VM_HA, "true");
+		tags.putAll(labels);
 		return this.addTags(name, labels);
 	}
 	
@@ -121,6 +123,18 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 	 */
 	public boolean unsetHA(String name) throws Exception {
 		return deleteTag(name, ExtendedKubernetesConstants.LABEL_VM_HA);
+	}
+	
+	/**
+	 * @param name  name
+	 * @param keys  list   
+	 * @throws Exception exception
+	 */
+	public boolean unsetHA(String name, List<String>  keys) throws Exception {
+		List<String> tags = new ArrayList<String>();
+		tags.add(ExtendedKubernetesConstants.LABEL_VM_HA);
+		tags.addAll(keys);
+		return deleteTags(name, tags);
 	}
 	
 	/*************************************************
