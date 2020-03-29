@@ -244,7 +244,7 @@ public abstract class AbstractImpl<R, S, T> {
 		Method nodeMethod = spec.getClass().getMethod("setNodeName", String.class);
 		nodeMethod.invoke(spec, hostname);
 		
-		Method powerMethod = spec.getClass().getMethod("getPowerstate", String.class);
+		Method powerMethod = spec.getClass().getMethod("setPowerstate", String.class);
 		powerMethod.invoke(spec, power);
 		
 		boolean sucess = update(ExtendedKubernetesConstants.OPERATOR_UPDATE_HOST, metadata);
