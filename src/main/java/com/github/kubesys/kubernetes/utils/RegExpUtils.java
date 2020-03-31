@@ -171,7 +171,7 @@ public class RegExpUtils {
 	public final static String POOL_TYPE_NOT_SUPPORT_UUS = "localfs|vdiskfs|nfs|glusterfs";
 	
 	@FieldDescriber("IP范围，如192.168.1.0")
-	public final static String IP_PATTERN  = "((25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)\\.){3}(25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)|([a-zA-Z0-9]{1,4}(:[a-zA-Z0-9]{1,4}){7})";
+	public final static String IP_PATTERN  = "(((25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)\\.){3}(25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)|([a-zA-Z0-9]{1,4}(:[a-zA-Z0-9]{1,4}){7}))";
 
     @FieldDescriber("端口范围，如19999")
     public final static String PORT_PATTERN  = "([0-9]|[1-9]\\d|[1-9]\\d{2}|[1-9]\\d{3}|[1-5]\\d{4}|6[0-4]\\d{3}|65[0-4]\\d{2}|655[0-2]\\d|6553[0-5])";
@@ -262,8 +262,8 @@ public class RegExpUtils {
 	public static final String USB_PATTERN = "1usb,type=tcp,server=" + IP_PATTERN + ":" + PORT_PATTERN;
 	
 	public static void main(String[] args) {
-		String name = "type=bridge,source=virbr0,model=rtl8139";
-		Pattern pattern = Pattern.compile(RegExpUtils.NETWORK_TYPE_PATTERN);
+		String name = "192.168.1.10/24";
+		Pattern pattern = Pattern.compile(RegExpUtils.SUBNET_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("");
 		}
