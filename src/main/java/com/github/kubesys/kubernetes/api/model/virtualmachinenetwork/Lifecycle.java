@@ -312,7 +312,7 @@ public class Lifecycle {
 			this.dhcp = dhcp;
 		}
 
-		public boolean isIpv6() {
+		public boolean getIpv6() {
 			return ipv6;
 		}
 
