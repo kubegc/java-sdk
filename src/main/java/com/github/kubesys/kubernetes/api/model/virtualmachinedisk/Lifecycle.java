@@ -331,8 +331,8 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class ResizeDisk {
 
-		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是localfs，vdiskfs，nfs，glusterfs之一", example = "localfs")
-		@Pattern(regexp = RegExpUtils.POOL_TYPE_NOT_SUPPORT_UUS)
+		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "localfs，vdiskfs，nfs，glusterfs支持扩容，uus类型中dev和iscsi支持扩容，dev-fast和iscsi-fast不支持扩容", example = "localfs")
+		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
 		protected String type;
 
 		protected Boolean allocate;
