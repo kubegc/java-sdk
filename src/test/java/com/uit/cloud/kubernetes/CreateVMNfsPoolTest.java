@@ -22,7 +22,7 @@ public class CreateVMNfsPoolTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachinePools()
-				.createPool("migratepoolnodepool31", "vm.node31", getPool(), "123");
+				.createPool("migratepoolnodepool25", "vm.node25", getPool(), "123");
 		System.out.println(successful);
 	}
 
@@ -31,11 +31,10 @@ public class CreateVMNfsPoolTest {
 
 		// nfs
 		createPool.setType("nfs");
-		createPool.setUrl("133.133.135.30:/home/nfs");
+		createPool.setUrl("192.168.5.11:/nfs/nfs1");
 		createPool.setOpt("nolock");
 		createPool.setContent("vmd");
 		createPool.setUuid("170dd9accdd174caced76b0db2222");
 		return createPool;
 	}
-	
 }
