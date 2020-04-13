@@ -22,14 +22,14 @@ public class PlugDiskTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.plugDisk("wyw123", getPlugBlock());
+				.plugDisk("81f4943d337f46cc82de45825239e998", getPlugDisk());
 //				.plugDisk("vm003", getPlugCdrom());
 		System.out.println(successful);
 	}
 	
 	public static PlugDisk getPlugDisk() {
 		PlugDisk plugDisk = new PlugDisk();
-		plugDisk.setSource("/var/lib/libvirt/snapshots/disk1.1");
+		plugDisk.setSource("/mnt/usb/vdiskfs/170dd9accdd174caced76b0db2551/vdiskfstest1/vdiskfstest1");
 		plugDisk.setTarget("vdb");
 		plugDisk.setLive(true);
 		plugDisk.setConfig(true);

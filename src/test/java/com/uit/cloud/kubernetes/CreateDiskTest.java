@@ -22,18 +22,18 @@ public class CreateDiskTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineDisks()
-				.createDisk("wywtest", "vm.node25", get(), "abc");
+				.createDisk("vdiskfstest2", "vm.node51", get(), "abc");
 		System.out.println(successful);
 	}
 
 	protected static CreateDisk get() {
 		CreateDisk createDisk = new CreateDisk();
-		createDisk.setPool("migratepoolnodepool25");
+		createDisk.setPool("vdiskfspool51");
 		// bytes 10G
 		Long size = 10L*1024*1024*1024;
 		createDisk.setCapacity(String.valueOf(size));
 		createDisk.setFormat("qcow2");
-		createDisk.setType("nfs");
+		createDisk.setType("vdiskfs");
 		return createDisk;
 	}
 }

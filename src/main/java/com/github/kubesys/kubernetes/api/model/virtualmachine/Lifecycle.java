@@ -3796,6 +3796,10 @@ public class Lifecycle {
 				constraint = "备份虚拟机所有的盘，否则只备份系统盘，需要注意的是恢复带有数据云盘的记录时，数据云盘必须还挂载在该虚拟机上", example = "true")
 		protected boolean all;
 
+		@ParameterDescriber(required = false, description = "全量备份",
+				constraint = "全量备份", example = "true")
+		protected boolean full;
+
 		@ParameterDescriber(required = false, description = "远程备份的ftp主机ip", constraint = "远程备份的ftp主机ip", example = "172.16.1.214")
 		@Pattern(regexp = RegExpUtils.IP_PATTERN)
 		protected String remote;
@@ -3867,6 +3871,14 @@ public class Lifecycle {
 
 		public void setPassword(String password) {
 			this.password = password;
+		}
+
+		public boolean getFull() {
+			return full;
+		}
+
+		public void setFull(boolean full) {
+			this.full = full;
 		}
 	}
 

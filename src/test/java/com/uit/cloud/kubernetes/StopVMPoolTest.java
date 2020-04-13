@@ -22,13 +22,13 @@ public class StopVMPoolTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachinePools()
-				.stopPool("migratepoolnode31", getPool(), "123");
+				.stopPool("vdiskfspool25", getPool(), "123");
 		System.out.println(successful);
 	}
 
 	protected static Lifecycle.StopPool getPool() {
 		Lifecycle.StopPool stopPool = new Lifecycle.StopPool();
-		stopPool.setType("nfs");
+		stopPool.setType("vdiskfs");
 		return stopPool;
 	}
 	

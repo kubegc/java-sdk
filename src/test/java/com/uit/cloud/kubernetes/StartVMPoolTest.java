@@ -22,13 +22,13 @@ public class StartVMPoolTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachinePools()
-				.startPool("1234poolnfs", getPool());
+				.startPool("vdiskfspool51", getPool());
 		System.out.println(successful);
 	}
 
 	protected static Lifecycle.StartPool getPool() {
 		Lifecycle.StartPool startPool = new Lifecycle.StartPool();
-        startPool.setType("nfs");
+        startPool.setType("vdiskfs");
 		return startPool;
 	}
 	

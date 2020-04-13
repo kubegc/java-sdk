@@ -696,6 +696,10 @@ public class Lifecycle {
 		@ParameterDescriber(required = false, description = "远程备份的ftp主机ip", constraint = "远程备份的ftp主机ip", example = "172.16.1.214")
 		protected String version;
 
+		@ParameterDescriber(required = false, description = "全量备份",
+				constraint = "全量备份", example = "true")
+		protected boolean full;
+
 		@ParameterDescriber(required = false, description = "远程备份的ftp主机ip", constraint = "远程备份的ftp主机ip", example = "172.16.1.214")
 		protected String remote;
 
@@ -762,6 +766,14 @@ public class Lifecycle {
 
 		public void setPassword(String password) {
 			this.password = password;
+		}
+
+		public boolean getFull() {
+			return full;
+		}
+
+		public void setFull(boolean full) {
+			this.full = full;
 		}
 	}
 
