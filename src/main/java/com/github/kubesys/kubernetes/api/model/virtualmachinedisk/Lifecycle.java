@@ -687,13 +687,15 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class BackupDisk {
 
-		@ParameterDescriber(required = false, description = "远程备份的ftp主机ip", constraint = "远程备份的ftp主机ip", example = "172.16.1.214")
+		@ParameterDescriber(required = false, description = "备份云盘所在的云主机", constraint = "备份云盘所在的云主机", example = "61024b305b5c463b80bceee066077079")
 		protected String domain;
 
-		@ParameterDescriber(required = false, description = "远程备份的ftp主机ip", constraint = "远程备份的ftp主机ip", example = "172.16.1.214")
+		@ParameterDescriber(required = true, description = "备份主机磁盘使用的存储池", constraint = "备份主机使用的存储池", example = "61024b305b5c463b80bceee066077079")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String pool;
 
-		@ParameterDescriber(required = false, description = "远程备份的ftp主机ip", constraint = "远程备份的ftp主机ip", example = "172.16.1.214")
+		@ParameterDescriber(required = true, description = "备份记录的版本号", constraint = "备份记录的版本号", example = "13024b305b5c463b80bceee066077079")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String version;
 
 		@ParameterDescriber(required = false, description = "全量备份",
@@ -781,7 +783,7 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class RestoreDisk {
 
-		@ParameterDescriber(required = true, description = "要备份的云盘所在的云主机", constraint = "远程备份的ftp主机ip", example = "172.16.1.214")
+		@ParameterDescriber(required = true, description = "要备份的云盘所在的云主机", constraint = "要备份的云盘所在的云主机", example = "a63dd73f92a24a9ab840492f0e538f2b")
 		protected String domain;
 
 		@ParameterDescriber(required = true, description = "云盘备份所在的存储池", constraint = "云盘备份所在的存储池", example = "172.16.1.214")

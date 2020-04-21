@@ -23,13 +23,13 @@ public class MigrateDiskTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineDisks()
-				.migrateDisk("vm003migratevmdisk2", getMigrateDisk());
+				.migrateDisk("vmtest111disk2", getMigrateDisk());
 		System.out.println(successful);
 	}
 
 	public static Lifecycle.MigrateDisk getMigrateDisk() {
 		Lifecycle.MigrateDisk createDisk = new Lifecycle.MigrateDisk();
-		createDisk.setPool("migratepoolnode31nfs");
+		createDisk.setPool("c6ce75b556b445929a3c24e865a07df0");
 		return createDisk;
 	}
 }

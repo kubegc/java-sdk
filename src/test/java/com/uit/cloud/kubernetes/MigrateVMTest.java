@@ -22,14 +22,14 @@ public class MigrateVMTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.migrateVM("81f4943d337f46cc82de45825239e998", get());
+				.migrateVM("49b8e6979f074f56ba2daee5a77151c1", get());
 		System.out.println(successful);
 	}
 
 	public static Lifecycle.MigrateVM get() throws Exception {
 		Lifecycle.MigrateVM migrateVM = new Lifecycle.MigrateVM();
 		migrateVM.setIp("172.16.1.51");
-		migrateVM.setOffline(true);
+//		migrateVM.setOffline(true);
 		return migrateVM;
 	}
 }

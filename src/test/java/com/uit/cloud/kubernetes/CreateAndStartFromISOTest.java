@@ -23,7 +23,7 @@ public class CreateAndStartFromISOTest {
 		CreateAndStartVMFromISO createAndStartVMFromISO = get();
 		// name
 		boolean successful = client.virtualMachines()
-				.createAndStartVMFromISO("vmtest111", "vm.node35", createAndStartVMFromISO, "123");
+				.createAndStartVMFromISO("vmtest111", "vm.node25", createAndStartVMFromISO, "123");
 		System.out.println(successful);
 	}
 	
@@ -42,9 +42,9 @@ public class CreateAndStartFromISOTest {
 		calculationSpecification(createAndStartVMFromISO);  
 		
 		// cdrom
-		createAndStartVMFromISO.setCdrom("/var/lib/libvirt/iso/centos7-minimal-1511.iso"); 
+		createAndStartVMFromISO.setCdrom("/var/lib/libvirt/iso/f045e85ed4f84034907f60172891c72b.iso");
 		// Disk and QoS for 1 disk and many disks
-		createAndStartVMFromISO.setDisk("/var/lib/libvirt/cstor/1709accf174fccaced76b0dbfccdev/1709accf174fccaced76b0dbfccdev/vmdisk1/vmdisk1,read_bytes_sec=1024000000,write_bytes_sec=1024000000 --disk /var/lib/libvirt/cstor/1709accf174fccaced76b0dbfccdev/1709accf174fccaced76b0dbfccdev/vmdisk2/vmdisk2,read_bytes_sec=1024000000,write_bytes_sec=1024000000 " + getOtherCDROMs());
+		createAndStartVMFromISO.setDisk("/var/lib/libvirt/cstor/8c8a012b6092487f8cd6745735bf28a2/8c8a012b6092487f8cd6745735bf28a2/vmtest111disk1/vmtest111disk1,read_bytes_sec=1024000000,write_bytes_sec=1024000000 --disk /var/lib/libvirt/cstor/8c8a012b6092487f8cd6745735bf28a2/8c8a012b6092487f8cd6745735bf28a2/vmtest111disk2/vmtest111disk2,read_bytes_sec=1024000000,write_bytes_sec=1024000000 " + getOtherCDROMs());
 		
 		/*
 		 * libivrt default bridge
@@ -109,7 +109,7 @@ public class CreateAndStartFromISOTest {
 //		createAndStartVMFromISO.setGraphics("vnc,listen=0.0.0.0" + getconsolePassword("123456"));
 //		createAndStartVMFromISO.setGraphics("rdp,listen=0.0.0.0" + getconsolePassword("123456"));
 		createAndStartVMFromISO.setGraphics("spice,listen=0.0.0.0" + getconsolePassword("567890")); 
-		createAndStartVMFromISO.setRedirdev("usb,type=tcp,server=192.168.1.1:4000");
+//		createAndStartVMFromISO.setRedirdev("lusb,type=tcp,server=192.168.1.1:4000");
 		
 		return createAndStartVMFromISO;
 	}
@@ -130,7 +130,7 @@ public class CreateAndStartFromISOTest {
 	}
 	
 	protected static String getOtherCDROMs() {
-		return "--disk /var/lib/libvirt/iso/centos7-minimal-1511.iso,device=cdrom,perms=ro";
+		return "--disk /var/lib/libvirt/iso/f045e85ed4f84034907f60172891c72b.iso,device=cdrom,perms=ro";
 	}
 	
 	protected static String nameToUUID(String name) {
