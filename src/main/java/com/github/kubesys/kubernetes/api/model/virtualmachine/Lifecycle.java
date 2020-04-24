@@ -4013,7 +4013,7 @@ public class Lifecycle {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class DeleteRemoteBackup {
-		@ParameterDescriber(required = true, description = "仅删除该云主机的云盘备份", constraint = "仅拉取云盘备份", example = "61024b305b5c463b80bceee066077079")
+		@ParameterDescriber(required = true, description = "仅删除该云主机的云盘备份", constraint = "仅删除该云主机的云盘备份", example = "61024b305b5c463b80bceee066077079")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String vol;
 
