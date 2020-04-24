@@ -279,8 +279,30 @@ public class VirtualMachineDiskImpl extends AbstractImpl<VirtualMachineDisk, Vir
 		return restoreDisk(name, restoreDisk, null);
 	}
 
-	public boolean restoreDisk(String name, String nodeName, Lifecycle.BackupDisk restoreDisk, String eventId) throws Exception {
+	public boolean restoreDisk(String name, String nodeName, Lifecycle.RestoreDisk restoreDisk, String eventId) throws Exception {
 		updateHost(name, nodeName);
-		return backupDisk(name, restoreDisk, eventId);
+		return restoreDisk(name, restoreDisk, eventId);
+	}
+
+	public boolean deleteVMDiskBackup(String name, Lifecycle.DeleteVMDiskBackup deleteVMDiskBackup) throws Exception {
+		return deleteVMDiskBackup(name, deleteVMDiskBackup, null);
+	}
+
+	public boolean deleteVMDiskBackup(String name, Lifecycle.DeleteVMDiskBackup deleteVMDiskBackup, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return delete(name, updateMetadata(name, eventId), deleteVMDiskBackup);
+	}
+
+	public boolean deleteVMDiskBackup(String name, String nodeName, Lifecycle.DeleteVMDiskBackup deleteVMDiskBackup) throws Exception {
+		updateHost(name, nodeName);
+		return deleteVMDiskBackup(name, deleteVMDiskBackup, null);
+	}
+
+	public boolean deleteVMDiskBackup(String name, String nodeName, Lifecycle.DeleteVMDiskBackup deleteVMDiskBackup, String eventId) throws Exception {
+		updateHost(name, nodeName);
+		return deleteVMDiskBackup(name, deleteVMDiskBackup, eventId);
 	}
 }

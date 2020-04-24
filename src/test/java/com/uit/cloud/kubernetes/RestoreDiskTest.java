@@ -8,14 +8,14 @@ public class RestoreDiskTest {
 
         ExtendedKubernetesClient client = AbstractTest.getClient();
         boolean successful = client.virtualMachineDisks()
-                .restoreDisk("vmbackuptestdisk1", "vm.node25", getBackupVM());
+                .restoreDisk("vmbackupdisktest1", "vm.node25", getBackupVM());
         System.out.println(successful);
     }
 
     public static Lifecycle.RestoreDisk getBackupVM() {
         Lifecycle.RestoreDisk restoreDisk = new Lifecycle.RestoreDisk();
         restoreDisk.setDomain("vmbackuptest");
-        restoreDisk.setPool("61024b305b5c463b80bceee066077079");
+        restoreDisk.setPool("3915282a12dd4c34a0ae565d3ba2da41");
         restoreDisk.setVersion("backup1");
 //        restoreDisk.setRemote("172.16.1.214");
 //        restoreDisk.setPort("21");

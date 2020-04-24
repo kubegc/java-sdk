@@ -96,6 +96,21 @@ public class Lifecycle {
 	@Deprecated
 	protected RestoreDisk restoreDisk;
 
+	@FunctionDescriber(shortName = "删除本地云盘", description = "删除本地云盘，"
+			+ AnnotationUtils.DESC_FUNCTION_DESC,
+			prerequisite = AnnotationUtils.DESC_FUNCTION_VMD,
+			exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	@Deprecated
+	protected DeleteVMDiskBackup deleteVMDiskBackup;
+
+	public DeleteVMDiskBackup getDeleteVMDiskBackup() {
+		return deleteVMDiskBackup;
+	}
+
+	public void setDeleteVMDiskBackup(DeleteVMDiskBackup deleteVMDiskBackup) {
+		this.deleteVMDiskBackup = deleteVMDiskBackup;
+	}
+
 	public BackupDisk getBackupDisk() {
 		return backupDisk;
 	}
@@ -782,7 +797,6 @@ public class Lifecycle {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class RestoreDisk {
-
 		@ParameterDescriber(required = true, description = "要备份的云盘所在的云主机", constraint = "要备份的云盘所在的云主机", example = "a63dd73f92a24a9ab840492f0e538f2b")
 		protected String domain;
 
@@ -847,6 +861,46 @@ public class Lifecycle {
 
 		public void setTargetDomain(String targetDomain) {
 			this.targetDomain = targetDomain;
+		}
+	}
+
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class DeleteVMDiskBackup {
+		@ParameterDescriber(required = true, description = "要删除云盘的备份所在的云主机", constraint = "要删除云盘的备份所在的云主机", example = "a63dd73f92a24a9ab840492f0e538f2b")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String domain;
+
+		@ParameterDescriber(required = true, description = "备份主机云盘使用的存储池", constraint = "备份主机云盘使用的存储池", example = "61024b305b5c463b80bceee066077079")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String pool;
+
+		@ParameterDescriber(required = true, description = "备份记录的版本号", constraint = "备份记录的版本号", example = "13024b305b5c463b80bceee066077079")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String version;
+
+		public String getDomain() {
+			return domain;
+		}
+
+		public void setDomain(String domain) {
+			this.domain = domain;
+		}
+
+		public String getPool() {
+			return pool;
+		}
+
+		public void setPool(String pool) {
+			this.pool = pool;
+		}
+
+		public String getVersion() {
+			return version;
+		}
+
+		public void setVersion(String version) {
+			this.version = version;
 		}
 	}
 }
