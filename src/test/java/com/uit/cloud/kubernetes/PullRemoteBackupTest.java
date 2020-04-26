@@ -14,7 +14,7 @@ public class PullRemoteBackupTest {
 
     public static Lifecycle.PullRemoteBackup getPullRemoteBackup() {
         Lifecycle.PullRemoteBackup pullRemoteBackup = new Lifecycle.PullRemoteBackup();
-//        pullRemoteBackup.setVol("vmbackupdisktest1");
+        pullRemoteBackup.setVol("vmbackupdisktest1");
         pullRemoteBackup.setPool("3915282a12dd4c34a0ae565d3ba2da41");
         pullRemoteBackup.setVersion("backup1");
         pullRemoteBackup.setRemote("172.16.1.214");

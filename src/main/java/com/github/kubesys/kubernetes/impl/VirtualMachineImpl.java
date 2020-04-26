@@ -1223,6 +1223,28 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 		return deleteVMBackup(name, deleteVMBackup, eventId);
 	}
 
+	public boolean pushRemoteBackup(String name, Lifecycle.PushRemoteBackup pushRemoteBackup) throws Exception {
+		return pushRemoteBackup(name, pushRemoteBackup, null);
+	}
+
+	public boolean pushRemoteBackup(String name, Lifecycle.PushRemoteBackup pushRemoteBackup, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), pushRemoteBackup);
+	}
+
+	public boolean pushRemoteBackup(String name, String nodeName, Lifecycle.PushRemoteBackup pushRemoteBackup) throws Exception {
+		updateHost(name, nodeName);
+		return pushRemoteBackup(name, pushRemoteBackup, null);
+	}
+
+	public boolean pushRemoteBackup(String name, String nodeName, Lifecycle.PushRemoteBackup pushRemoteBackup, String eventId) throws Exception {
+		updateHost(name, nodeName);
+		return pushRemoteBackup(name, pushRemoteBackup, eventId);
+	}
+
 	public boolean passthroughUsb(String name, PassthroughUsb passthroughUsb) throws Exception {
 		return passthroughUsb(name, passthroughUsb, null);
 	}

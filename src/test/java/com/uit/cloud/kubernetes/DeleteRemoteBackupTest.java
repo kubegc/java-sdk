@@ -14,6 +14,7 @@ public class DeleteRemoteBackupTest {
 
     public static Lifecycle.DeleteRemoteBackup getDeleteRemoteBackup() {
         Lifecycle.DeleteRemoteBackup deleteRemoteBackup = new Lifecycle.DeleteRemoteBackup();
+        deleteRemoteBackup.setVol("vmbackupdisktest1");
         deleteRemoteBackup.setVersion("backup1");
         deleteRemoteBackup.setRemote("172.16.1.214");
         deleteRemoteBackup.setPort("21");
