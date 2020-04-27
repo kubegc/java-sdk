@@ -16,7 +16,10 @@ public class RestoreDiskTest {
         Lifecycle.RestoreDisk restoreDisk = new Lifecycle.RestoreDisk();
         restoreDisk.setDomain("vmbackuptest");
         restoreDisk.setPool("3915282a12dd4c34a0ae565d3ba2da41");
-        restoreDisk.setVersion("backup1");
+        restoreDisk.setVersion("backup2");
+        restoreDisk.setNewname("vmbackupdisktest1backup2");
+        restoreDisk.setTarget("233041549cb44e5a83eba623716f122f");
+        restoreDisk.setTargetDomain("vmbackuptest");
 //        restoreDisk.setRemote("172.16.1.214");
 //        restoreDisk.setPort("21");
 //        restoreDisk.setUsername("ftpuser");

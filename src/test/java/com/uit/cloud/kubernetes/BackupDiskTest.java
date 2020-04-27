@@ -16,11 +16,11 @@ public class BackupDiskTest {
         Lifecycle.BackupDisk backupDisk = new Lifecycle.BackupDisk();
         backupDisk.setDomain("vmbackuptest");
         backupDisk.setPool("3915282a12dd4c34a0ae565d3ba2da41");
-        backupDisk.setVersion("backup1");
-        backupDisk.setRemote("172.16.1.214");
-        backupDisk.setPort("21");
-        backupDisk.setUsername("ftpuser");
-        backupDisk.setPassword("ftpuser");
+        backupDisk.setVersion("backup2");
+//        backupDisk.setRemote("172.16.1.214");
+//        backupDisk.setPort("21");
+//        backupDisk.setUsername("ftpuser");
+//        backupDisk.setPassword("ftpuser");
         return backupDisk;
     }
 }

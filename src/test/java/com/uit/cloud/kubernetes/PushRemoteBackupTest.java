@@ -16,7 +16,7 @@ public class PushRemoteBackupTest {
         Lifecycle.PushRemoteBackup pushRemoteBackup = new Lifecycle.PushRemoteBackup();
         pushRemoteBackup.setVol("vmbackupdisktest1");
         pushRemoteBackup.setPool("3915282a12dd4c34a0ae565d3ba2da41");
-        pushRemoteBackup.setVersion("backup1");
+        pushRemoteBackup.setVersion("backup2");
         pushRemoteBackup.setRemote("172.16.1.214");
         pushRemoteBackup.setPort("21");
         pushRemoteBackup.setUsername("ftpuser");

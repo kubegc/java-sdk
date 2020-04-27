@@ -15,12 +15,12 @@ public class BackupVMTest {
     public static Lifecycle.BackupVM getBackupVM() {
         Lifecycle.BackupVM backupVM = new Lifecycle.BackupVM();
         backupVM.setPool("3915282a12dd4c34a0ae565d3ba2da41");
-        backupVM.setVersion("backup1");
-        backupVM.setAll(true);
-        backupVM.setRemote("172.16.1.214");
-        backupVM.setPort("21");
-        backupVM.setUsername("ftpuser");
-        backupVM.setPassword("ftpuser");
+        backupVM.setVersion("backup2");
+//        backupVM.setAll(true);
+//        backupVM.setRemote("172.16.1.214");
+//        backupVM.setPort("21");
+//        backupVM.setUsername("ftpuser");
+//        backupVM.setPassword("ftpuser");
         return backupVM;
     }
 }

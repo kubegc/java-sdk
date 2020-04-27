@@ -15,8 +15,10 @@ public class RestoreVMTest {
     public static Lifecycle.RestoreVM getRestoreVM() {
         Lifecycle.RestoreVM restoreVM = new Lifecycle.RestoreVM();
         restoreVM.setPool("3915282a12dd4c34a0ae565d3ba2da41");
-        restoreVM.setVersion("backup1");
+        restoreVM.setVersion("backup2");
         restoreVM.setAll(true);
+        restoreVM.setTarget("233041549cb44e5a83eba623716f122f");
+        restoreVM.setNewname("vmbackuptest2");
         return restoreVM;
     }
 }
