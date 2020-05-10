@@ -22,15 +22,15 @@ public class PassthroughDeviceTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.passthroughDevice("wyw123", passthroughDevice());
+				.passthroughDevice("gputest", passthroughDevice());
 		System.out.println(successful);
 	}
 	
 	public static PassthroughDevice passthroughDevice() {
 		PassthroughDevice passthroughDevice = new PassthroughDevice();
-		passthroughDevice.setAction("remove");
-		passthroughDevice.setBus_num("001");
-		passthroughDevice.setDev_num("001");
+		passthroughDevice.setAction("add");
+		passthroughDevice.setBus_num("01");
+		passthroughDevice.setDev_num("1");
 		passthroughDevice.setLive(false);
 		passthroughDevice.setDev_type("pci");
 		return passthroughDevice;

@@ -10620,6 +10620,36 @@ public class Domain {
 				protected String _type;
 				
 				protected String _port;
+				
+				protected String _domain;
+				
+				protected String _slot;
+				
+				protected String _function;
+
+				public String get_domain() {
+					return _domain;
+				}
+
+				public void set_domain(String _domain) {
+					this._domain = _domain;
+				}
+
+				public String get_slot() {
+					return _slot;
+				}
+
+				public void set_slot(String _slot) {
+					this._slot = _slot;
+				}
+
+				public String get_function() {
+					return _function;
+				}
+
+				public void set_function(String _function) {
+					this._function = _function;
+				}
 
 				public Address() {
 
@@ -10678,6 +10708,36 @@ public class Domain {
 					protected String _bus;
 					
 					protected String _device;
+					
+					protected String _domain;
+					
+					protected String _slot;
+					
+					protected String _function;
+
+					public String get_domain() {
+						return _domain;
+					}
+
+					public void set_domain(String _domain) {
+						this._domain = _domain;
+					}
+
+					public String get_slot() {
+						return _slot;
+					}
+
+					public void set_slot(String _slot) {
+						this._slot = _slot;
+					}
+
+					public String get_function() {
+						return _function;
+					}
+
+					public void set_function(String _function) {
+						this._function = _function;
+					}
 
 					public String get_bus() {
 						return _bus;
