@@ -114,7 +114,10 @@ public class RegExpUtils {
 	public final static String DISK_SIZE_KIB_PATTERN = "\\d{7,13}";
 	
 	@FieldDescriber("USB透传的操作类型，只能是add, remove之一")
-	public final static String USB_PASSTHROUGH_ACTION = "add|remove";
+	public final static String DEVICE_PASSTHROUGH_ACTION = "add|remove";
+	
+	@FieldDescriber("USB透传的操作类型，只能是add, remove之一")
+	public final static String DEVICE_PASSTHROUGH_DEV_TYPE = "usb|pci";
 	
 	@FieldDescriber("USB重定向的操作类型，只能是on, off之一")
 	public final static String USB_REDIRECT_ACTION = "on|off";

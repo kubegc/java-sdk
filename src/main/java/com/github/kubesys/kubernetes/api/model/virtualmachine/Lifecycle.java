@@ -236,9 +236,9 @@ public class Lifecycle {
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected DeleteVMBackup deleteVMBackup;
 	
-	@FunctionDescriber(shortName = "usb透传", description = "usb透传，"
+	@FunctionDescriber(shortName = "设备透传", description = "设备透传，"
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
-	protected PassthroughUsb passthroughUsb;
+	protected PassthroughDevice passthroughDevice;
 	
 	@FunctionDescriber(shortName = "usb重定向，需搭配SPICE终端使用", description = "usb重定向，"
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
@@ -274,6 +274,14 @@ public class Lifecycle {
 
 	public void setRedirectUsb(RedirectUsb redirectUsb) {
 		this.redirectUsb = redirectUsb;
+	}
+
+	public PassthroughDevice getPassthroughDevice() {
+		return passthroughDevice;
+	}
+
+	public void setPassthroughDevice(PassthroughDevice passthroughDevice) {
+		this.passthroughDevice = passthroughDevice;
 	}
 
 	public UpdateGraphic getUpdateGraphic() {
@@ -674,14 +682,6 @@ public class Lifecycle {
 
 	public void setCloneVM(CloneVM cloneVM) {
 		this.cloneVM = cloneVM;
-	}
-
-	public PassthroughUsb getPassthroughUsb() {
-		return passthroughUsb;
-	}
-
-	public void setPassthroughUsb(PassthroughUsb passthroughUsb) {
-		this.passthroughUsb = passthroughUsb;
 	}
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
@@ -4280,10 +4280,10 @@ public class Lifecycle {
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class PassthroughUsb {
+	public static class PassthroughDevice {
 		
 		@ParameterDescriber(required = true, description = "执行的操作", constraint = "添加或删除：add/remove", example = "add")
-		@Pattern(regexp = RegExpUtils.USB_PASSTHROUGH_ACTION)
+		@Pattern(regexp = RegExpUtils.DEVICE_PASSTHROUGH_ACTION)
 		protected String action;
 		
 		@ParameterDescriber(required = true, description = "物理主机上的bus号", constraint = "用lsusb命令查询的bus号", example = "001")
@@ -4294,6 +4294,18 @@ public class Lifecycle {
 		
 		@ParameterDescriber(required = false, description = "立即生效，对于开机虚拟机", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean live;
+		
+		@ParameterDescriber(required = true, description = "设备的类型", constraint = "取值范围：usb/pci", example = "pci")
+		@Pattern(regexp = RegExpUtils.DEVICE_PASSTHROUGH_DEV_TYPE)
+		protected String dev_type;
+
+		public String getDev_type() {
+			return dev_type;
+		}
+
+		public void setDev_type(String dev_type) {
+			this.dev_type = dev_type;
+		}
 
 		public String getAction() {
 			return action;

@@ -4,7 +4,7 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.PassthroughUsb;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.PassthroughDevice;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -15,23 +15,24 @@ import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.Passthro
  * @since   2019/9/3
  *
  */
-public class PassthroughUSBTest {
+public class PassthroughDeviceTest {
 	
 	
 	public static void main(String[] args) throws Exception {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.passthroughUsb("wyw123", passthroughUsb());
+				.passthroughDevice("wyw123", passthroughDevice());
 		System.out.println(successful);
 	}
 	
-	public static PassthroughUsb passthroughUsb() {
-		PassthroughUsb passthroughUsb = new PassthroughUsb();
-		passthroughUsb.setAction("remove");
-		passthroughUsb.setBus_num("001");
-		passthroughUsb.setDev_num("001");
-		passthroughUsb.setLive(false);
-		return passthroughUsb;
+	public static PassthroughDevice passthroughDevice() {
+		PassthroughDevice passthroughDevice = new PassthroughDevice();
+		passthroughDevice.setAction("remove");
+		passthroughDevice.setBus_num("001");
+		passthroughDevice.setDev_num("001");
+		passthroughDevice.setLive(false);
+		passthroughDevice.setDev_type("pci");
+		return passthroughDevice;
 	}
 }
