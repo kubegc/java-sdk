@@ -102,6 +102,18 @@ public class Lifecycle {
 			exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	@Deprecated
 	protected DeleteVMDiskBackup deleteVMDiskBackup;
+	
+	@FunctionDescriber(shortName = "创建cloud-init的镜像文件", description = "创建云盘，" 
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+		prerequisite = "", 
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected CreateCloudInitUserDataImage createCloudInitUserDataImage;
+	
+	@FunctionDescriber(shortName = "删除cloud-init的镜像文件", description = "创建云盘，" 
+			+ AnnotationUtils.DESC_FUNCTION_DESC, 
+		prerequisite = "", 
+		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected DeleteCloudInitUserDataImage deleteCloudInitUserDataImage;
 
 	public DeleteVMDiskBackup getDeleteVMDiskBackup() {
 		return deleteVMDiskBackup;
@@ -903,4 +915,52 @@ public class Lifecycle {
 			this.version = version;
 		}
 	}
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class CreateCloudInitUserDataImage {
+		
+		@ParameterDescriber(required = true, description = "云盘使用的存储池", constraint = "云盘使用的存储池", example = "61024b305b5c463b80bceee066077079")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String pool;
+		
+		@ParameterDescriber(required = true, description = "符合cloud-init语法的用户指令", constraint = "必须能转换成yaml格式", example = "")
+		protected String user_data;
+
+		public String getPool() {
+			return pool;
+		}
+
+		public void setPool(String pool) {
+			this.pool = pool;
+		}
+
+		public String getUser_data() {
+			return user_data;
+		}
+
+		public void setUser_data(String user_data) {
+			this.user_data = user_data;
+		}
+		
+	}
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class DeleteCloudInitUserDataImage {
+		
+		@ParameterDescriber(required = true, description = "云盘使用的存储池", constraint = "云盘使用的存储池", example = "61024b305b5c463b80bceee066077079")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String pool;
+
+		public String getPool() {
+			return pool;
+		}
+
+		public void setPool(String pool) {
+			this.pool = pool;
+		}
+		
+	}
+	
 }

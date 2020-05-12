@@ -23,7 +23,7 @@ public class CreateAndStartSingleDiskTest {
 		CreateAndStartVMFromISO createAndStartVMFromISO = get();
 		// name
 		boolean successful = client.virtualMachines()
-				.createAndStartVMFromISO("wywtest", "vm.node22", createAndStartVMFromISO, "01");
+				.createAndStartVMFromISO("cloudinit", "vm.node22", createAndStartVMFromISO, "01");
 		System.out.println(successful);
 	}
 	
@@ -46,8 +46,8 @@ public class CreateAndStartSingleDiskTest {
 		// cdrom
 //		createAndStartVMFromISO.setCdrom("/var/lib/libvirt/iso/centos7-minimal-1511.iso"); 
 		// Disk and QoS for 1 disk and many disks
-		createAndStartVMFromISO.setBoot("hd");
-		createAndStartVMFromISO.setDisk("/var/lib/libvirt/cstor/170dd9accdd174caced76b0db2222/170dd9accdd174caced76b0db2222/wywtest/wywtest,cache=none,read_bytes_sec=1024000000,write_bytes_sec=1024000000");
+//		createAndStartVMFromISO.setBoot("hd");
+		createAndStartVMFromISO.setDisk("/var/lib/libvirt/cstor/170dd9accdd174caced76b0db2223/170dd9accdd174caced76b0db2223/cloudinit/cloudinit,cache=none,read_bytes_sec=1024000000,write_bytes_sec=1024000000");
 				
 
 		/*

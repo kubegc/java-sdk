@@ -4286,10 +4286,10 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.DEVICE_PASSTHROUGH_ACTION)
 		protected String action;
 		
-		@ParameterDescriber(required = true, description = "物理主机上的bus号", constraint = "用lsusb命令查询的bus号", example = "001")
+		@ParameterDescriber(required = true, description = "物理主机上的bus号", constraint = "用lsusb/lspci命令查询的bus号", example = "001")
 		protected String bus_num;
 		
-		@ParameterDescriber(required = true, description = "物理主机上的usb设备号", constraint = "用lsusb命令查询的device号", example = "001")
+		@ParameterDescriber(required = true, description = "物理主机上的设备号", constraint = "用lsusb/lspci命令查询的device号", example = "001")
 		protected String dev_num;
 		
 		@ParameterDescriber(required = false, description = "立即生效，对于开机虚拟机", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
