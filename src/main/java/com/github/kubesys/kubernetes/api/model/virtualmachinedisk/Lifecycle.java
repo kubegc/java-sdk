@@ -115,6 +115,22 @@ public class Lifecycle {
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected DeleteCloudInitUserDataImage deleteCloudInitUserDataImage;
 
+	public CreateCloudInitUserDataImage getCreateCloudInitUserDataImage() {
+		return createCloudInitUserDataImage;
+	}
+
+	public void setCreateCloudInitUserDataImage(CreateCloudInitUserDataImage createCloudInitUserDataImage) {
+		this.createCloudInitUserDataImage = createCloudInitUserDataImage;
+	}
+
+	public DeleteCloudInitUserDataImage getDeleteCloudInitUserDataImage() {
+		return deleteCloudInitUserDataImage;
+	}
+
+	public void setDeleteCloudInitUserDataImage(DeleteCloudInitUserDataImage deleteCloudInitUserDataImage) {
+		this.deleteCloudInitUserDataImage = deleteCloudInitUserDataImage;
+	}
+
 	public DeleteVMDiskBackup getDeleteVMDiskBackup() {
 		return deleteVMDiskBackup;
 	}
