@@ -925,7 +925,7 @@ public class Lifecycle {
 		protected String pool;
 		
 		@ParameterDescriber(required = true, description = "符合cloud-init语法的用户指令", constraint = "必须能转换成yaml格式", example = "")
-		protected String user_data;
+		protected String userData;
 
 		public String getPool() {
 			return pool;
@@ -935,12 +935,12 @@ public class Lifecycle {
 			this.pool = pool;
 		}
 
-		public String getUser_data() {
-			return user_data;
+		public String getUserData() {
+			return userData;
 		}
 
-		public void setUser_data(String user_data) {
-			this.user_data = user_data;
+		public void setUserData(String userData) {
+			this.userData = userData;
 		}
 		
 	}

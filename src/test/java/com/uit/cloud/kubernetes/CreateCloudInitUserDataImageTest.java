@@ -29,7 +29,7 @@ public class CreateCloudInitUserDataImageTest {
 	protected static CreateCloudInitUserDataImage get() {
 		CreateCloudInitUserDataImage createCloudInitUserDataImage = new CreateCloudInitUserDataImage();
 		createCloudInitUserDataImage.setPool("migratepoolnodepool22");
-		createCloudInitUserDataImage.setUser_data("#cloud-config\r\n" + 
+		createCloudInitUserDataImage.setUserData("#cloud-config\r\n" +
 				"hostname: ctest1\r\n" + 
 				"fqdn: ctest1.example.com\r\n" + 
 				"manage_etc_hosts: true\r\n" + 
