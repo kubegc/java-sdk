@@ -1797,7 +1797,7 @@ public class Lifecycle {
 				+ "outbound=io出带宽，"
 				+ "mac=mac地址（选填），"
 				+ "参数顺序必须是type,source,ip,switch,model,inbound,outbound,mac", example = "type=l3bridge,source=br-int,ip=192.168.5.9,switch=switch8888,model=e1000,inbound=102400,outbound=102400")
-		@Pattern(regexp = RegExpUtils.NETWORK_TYPE_PATTERN)
+//		@Pattern(regexp = RegExpUtils.NETWORK_TYPE_PATTERN)
 		protected String network;
 
 		protected String security;

@@ -20,7 +20,7 @@ public class DeleteVMTest {
 
 		ExtendedKubernetesClient client = com.uit.cloud.kubernetes.AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.deleteVM("vmtest6", 
+				.deleteVM("ipv6test", 
 						new DeleteVM(), "123");
 		System.out.println(successful);
 	}

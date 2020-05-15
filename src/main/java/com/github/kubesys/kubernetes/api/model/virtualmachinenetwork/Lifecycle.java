@@ -213,15 +213,15 @@ public class Lifecycle {
 	public static class CreateSwitch {
 
 		@ParameterDescriber(required = true, description = "网段，这里后台只会做形式，不会做逻辑判断，只要符合xx.xx.xx.xx/y形式即可，请确保传入正确的数值, y的取值必须是8,16,24之一", constraint = "网段和掩码", example = "192.168.5.1/24")
-		@Pattern(regexp = RegExpUtils.SUBNET_PATTERN)
+//		@Pattern(regexp = RegExpUtils.SUBNET_PATTERN)
 		protected String subnet;
 
 		@ParameterDescriber(required = false, description = "DHCP地址", constraint = "IP", example = "192.168.5.5")
-		@Pattern(regexp = RegExpUtils.IP_PATTERN)
+//		@Pattern(regexp = RegExpUtils.IP_PATTERN)
 		protected String dhcp;
 		
 		@ParameterDescriber(required = true, description = "网关地址", constraint = "IP", example = "192.168.5.5")
-		@Pattern(regexp = RegExpUtils.IP_PATTERN)
+//		@Pattern(regexp = RegExpUtils.IP_PATTERN)
 		protected String gateway;
 		
 		@ParameterDescriber(required = false, description = "mtu", constraint = "10-1000", example = "1500")
@@ -245,8 +245,8 @@ public class Lifecycle {
 		protected String dnsServer;
 		
 		@ParameterDescriber(required = false, description = "是否ipv6", constraint = "true或者false", example = "true")
-		@Pattern(regexp = RegExpUtils.BOOL_TYPE_PATTERN)
-		protected boolean ipv6;
+		@Pattern(regexp = RegExpUtils.BOOL_STRING_TYPE_PATTERN)
+		protected String ipv6;
 		
 		public String getVlanId() {
 			return vlanId;
@@ -312,14 +312,14 @@ public class Lifecycle {
 			this.dhcp = dhcp;
 		}
 
-		public boolean getIpv6() {
+		public String getIpv6() {
 			return ipv6;
 		}
 
-		public void setIpv6(boolean ipv6) {
+		public void setIpv6(String ipv6) {
 			this.ipv6 = ipv6;
 		}
-		
+
 		
 	}
 	
@@ -349,7 +349,7 @@ public class Lifecycle {
 		
 		@ParameterDescriber(required = false, description = "是否ipv6", constraint = "true或者false", example = "true")
 		@Pattern(regexp = RegExpUtils.BOOL_TYPE_PATTERN)
-		protected boolean ipv6;
+		protected String ipv6;
 		
 		public String getGateway() {
 			return gateway;
@@ -391,11 +391,11 @@ public class Lifecycle {
 			this.vlanId = vlanId;
 		}
 
-		public boolean getIpv6() {
+		public String getIpv6() {
 			return ipv6;
 		}
 
-		public void setIpv6(boolean ipv6) {
+		public void setIpv6(String ipv6) {
 			this.ipv6 = ipv6;
 		}
 		
@@ -411,7 +411,15 @@ public class Lifecycle {
 		
 		@ParameterDescriber(required = false, description = "是否ipv6", constraint = "true或者false", example = "true")
 		@Pattern(regexp = RegExpUtils.BOOL_TYPE_PATTERN)
-		protected boolean ipv6;
+		protected String ipv6;
+
+		public String getIpv6() {
+			return ipv6;
+		}
+
+		public void setIpv6(String ipv6) {
+			this.ipv6 = ipv6;
+		}
 
 		public String getBridge() {
 			return bridge;
@@ -421,14 +429,6 @@ public class Lifecycle {
 			this.bridge = bridge;
 		}
 
-		public boolean getIpv6() {
-			return ipv6;
-		}
-
-		public void setIpv6(boolean ipv6) {
-			this.ipv6 = ipv6;
-		}
-		
 	}
 	
 	
