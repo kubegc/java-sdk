@@ -22,13 +22,13 @@ public class DeleteCloudInitUserDataImageTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineDisks()
-				.deleteCloudInitUserDataImage("disktest6", get());
+				.deleteCloudInitUserDataImage("cloudinit1", get());
 		System.out.println(successful);
 	}
 	
 	public static DeleteCloudInitUserDataImage get() {
 		DeleteCloudInitUserDataImage deleteDisk = new DeleteCloudInitUserDataImage();
-		deleteDisk.setPool("pooldir1");
+		deleteDisk.setPool("migratepoolnodepool22");
 		return deleteDisk;
 	}
 }

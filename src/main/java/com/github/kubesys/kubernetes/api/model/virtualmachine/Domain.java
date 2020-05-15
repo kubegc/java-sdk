@@ -8086,6 +8086,16 @@ public class Domain {
 			
 			protected Listen listen;
 			
+			protected Image image;
+			
+			public Image getImage() {
+				return image;
+			}
+
+			public void setImage(Image image) {
+				this.image = image;
+			}
+
 			public Listen getListen() {
 				return listen;
 			}
@@ -8153,6 +8163,21 @@ public class Domain {
 
 				public void set_type(String _type) {
 					this._type = _type;
+				}
+				
+			}
+			
+			@JsonInclude(JsonInclude.Include.NON_NULL)
+			@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+			public static class Image {
+				protected String _compression;
+
+				public String get_compression() {
+					return _compression;
+				}
+
+				public void set_compression(String _compression) {
+					this._compression = _compression;
 				}
 				
 			}

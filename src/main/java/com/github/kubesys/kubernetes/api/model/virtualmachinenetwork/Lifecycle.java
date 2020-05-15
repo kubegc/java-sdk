@@ -391,7 +391,7 @@ public class Lifecycle {
 			this.vlanId = vlanId;
 		}
 
-		public boolean isIpv6() {
+		public boolean getIpv6() {
 			return ipv6;
 		}
 
@@ -421,7 +421,7 @@ public class Lifecycle {
 			this.bridge = bridge;
 		}
 
-		public boolean isIpv6() {
+		public boolean getIpv6() {
 			return ipv6;
 		}
 

@@ -22,7 +22,7 @@ public class CreateCloudInitUserDataImageTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineDisks()
-				.createCloudInitUserDataImage("vmtest111disk1", "vm.node25", get(), "abc");
+				.createCloudInitUserDataImage("userdata1", "vm.node22", get(), "abc");
 		System.out.println(successful);
 	}
 
@@ -47,7 +47,7 @@ public class CreateCloudInitUserDataImageTest {
 				"disable_root: false\r\n" + 
 				"chpasswd:\r\n" + 
 				"  list: |\r\n" + 
-				"     root:linux\r\n" + 
+				"     root:123456\r\n" + 
 				"     centos:newpass123\r\n" + 
 				"  expire: False\r\n" + 
 				"packages:\r\n" + 

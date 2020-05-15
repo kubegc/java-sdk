@@ -23,7 +23,7 @@ public class CreateAndStartFromISOTest {
 		CreateAndStartVMFromISO createAndStartVMFromISO = get();
 		// name
 		boolean successful = client.virtualMachines()
-				.createAndStartVMFromISO("cloudinit", "vm.node22", createAndStartVMFromISO, "123");
+				.createAndStartVMFromISO("cloudinit1", "vm.node22", createAndStartVMFromISO, "123");
 		System.out.println(successful);
 	}
 	
@@ -32,7 +32,7 @@ public class CreateAndStartFromISOTest {
 		
 		CreateAndStartVMFromISO createAndStartVMFromISO = new CreateAndStartVMFromISO();
 		// default value
-		createAndStartVMFromISO.setMetadata("uuid=450646ed-c17a-49d0-b83c-1c797811e045");
+		createAndStartVMFromISO.setMetadata("uuid=450646ed-c17a-49d0-b83c-1c797811e035");
 		createAndStartVMFromISO.setVirt_type("kvm"); 
 		// @see https://github.com/uit-plus/api/blob/master/src/main/java/com/github/uitplus/utils/OSDistroUtils.java
 		createAndStartVMFromISO.setOs_variant("centos7.0");
@@ -44,7 +44,7 @@ public class CreateAndStartFromISOTest {
 		// cdrom
 //		createAndStartVMFromISO.setCdrom("/var/lib/libvirt/iso/f045e85ed4f84034907f60172891c72b.iso");
 		// Disk and QoS for 1 disk and many disks
-		createAndStartVMFromISO.setDisk("/var/lib/libvirt/cstor/170dd9accdd174caced76b0db2223/170dd9accdd174caced76b0db2223/cloudinit/cloudinit,read_bytes_sec=1024000000,write_bytes_sec=1024000000 " + getOtherCDROMs());
+		createAndStartVMFromISO.setDisk("/var/lib/libvirt/cstor/170dd9accdd174caced76b0db2223/170dd9accdd174caced76b0db2223/cloudinit1/cloudinit1,read_bytes_sec=1024000000,write_bytes_sec=1024000000 " + getOtherCDROMs());
 		
 		/*
 		 * libivrt default bridge
@@ -130,7 +130,7 @@ public class CreateAndStartFromISOTest {
 	}
 	
 	protected static String getOtherCDROMs() {
-		return "--disk /var/lib/libvirt/iso/test1-seed.qcow2,device=cdrom,perms=ro";
+		return "--disk /var/lib/libvirt/cstor/170dd9accdd174caced76b0db2223/170dd9accdd174caced76b0db2223/userdata1/userdata1,device=cdrom,perms=ro";
 	}
 	
 	protected static String nameToUUID(String name) {

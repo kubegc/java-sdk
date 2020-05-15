@@ -22,14 +22,14 @@ public class UnplugDiskTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.unplugDisk("wywtest", getUnplugDisk());
+				.unplugDisk("cloudinit1", getUnplugDisk());
 		System.out.println(successful);
 	}
 	
 	public static UnplugDisk getUnplugDisk() {
 		UnplugDisk unplugDisk = new UnplugDisk();
-		unplugDisk.setTarget("sda");
-		unplugDisk.setLive(true);
+		unplugDisk.setTarget("hda");
+		unplugDisk.setLive(false);
 		unplugDisk.setConfig(true);
 		return unplugDisk;
 	}
