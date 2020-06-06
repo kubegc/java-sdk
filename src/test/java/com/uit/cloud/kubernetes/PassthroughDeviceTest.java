@@ -31,7 +31,7 @@ public class PassthroughDeviceTest {
 		passthroughDevice.setAction("add");
 		passthroughDevice.setBus_num("01");
 		passthroughDevice.setSub_bus_num("00");
-		passthroughDevice.setDev_num("1");
+		passthroughDevice.setDev_num("0");
 		passthroughDevice.setLive(false);
 		passthroughDevice.setDev_type("pci");
 		return passthroughDevice;
