@@ -4287,10 +4287,13 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.DEVICE_PASSTHROUGH_ACTION)
 		protected String action;
 		
-		@ParameterDescriber(required = true, description = "物理主机上的bus号", constraint = "用lsusb/lspci命令查询的bus号", example = "001")
+		@ParameterDescriber(required = true, description = "物理主机上的bus号，例如01:00.0中的01", constraint = "用lsusb/lspci命令查询的bus号", example = "01")
 		protected String bus_num;
 		
-		@ParameterDescriber(required = true, description = "物理主机上的设备号", constraint = "用lsusb/lspci命令查询的device号", example = "001")
+		@ParameterDescriber(required = true, description = "（仅影响PCI设备）物理主机上的副bus号，例如01:00.0中的00", constraint = "用lsusb/lspci命令查询的副bus号", example = "00")
+		protected String sub_bus_num;
+		
+		@ParameterDescriber(required = true, description = "物理主机上的设备号，例如01:00.0中的0", constraint = "用lsusb/lspci命令查询的device号", example = "0")
 		protected String dev_num;
 		
 		@ParameterDescriber(required = false, description = "立即生效，对于开机虚拟机", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
@@ -4299,6 +4302,14 @@ public class Lifecycle {
 		@ParameterDescriber(required = true, description = "设备的类型", constraint = "取值范围：usb/pci", example = "pci")
 		@Pattern(regexp = RegExpUtils.DEVICE_PASSTHROUGH_DEV_TYPE)
 		protected String dev_type;
+
+		public String getSub_bus_num() {
+			return sub_bus_num;
+		}
+
+		public void setSub_bus_num(String sub_bus_num) {
+			this.sub_bus_num = sub_bus_num;
+		}
 
 		public String getDev_type() {
 			return dev_type;
