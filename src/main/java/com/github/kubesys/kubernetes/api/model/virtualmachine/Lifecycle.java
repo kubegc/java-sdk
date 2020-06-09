@@ -1797,7 +1797,7 @@ public class Lifecycle {
 				+ "outbound=io出带宽，"
 				+ "mac=mac地址（选填），"
 				+ "参数顺序必须是type,source,ip,switch,model,inbound,outbound,mac", example = "type=l3bridge,source=br-int,ip=192.168.5.9,switch=switch8888,model=e1000,inbound=102400,outbound=102400")
-		@Pattern(regexp = RegExpUtils.NETWORK_TYPE_PATTERN)
+//		@Pattern(regexp = RegExpUtils.NETWORK_TYPE_PATTERN)
 		protected String network;
 
 		protected String security;
@@ -1827,7 +1827,7 @@ public class Lifecycle {
 		protected String memdev;
 
 		@ParameterDescriber(required = false, description = "支持USB重定向", constraint = "协议,类型=，服务器=IP：端口", example = "usb,type=tcp,server=192.168.1.1:4000")
-		@Pattern(regexp = RegExpUtils.USB_PATTERN)
+//		@Pattern(regexp = RegExpUtils.USB_PATTERN)
 		protected String redirdev;
 
 		@ParameterDescriber(required = true, description = "操作系统类型，如果不设置可能发生鼠标偏移等问题", constraint = "参考https://tower.im/teams/616100/repository_documents/3550/", example = "centos7.0")
@@ -1842,6 +1842,7 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.PATH_PATTERN)
 		protected String cdrom;
 
+		@ParameterDescriber(required = false, description = "设置虚拟机CPU参数", constraint = "参考virt-install中的--cputune参数", example = "vcpupin0.vcpu=0")
 		protected String cputune;
 
 		protected String filesystem;
@@ -4286,10 +4287,13 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.DEVICE_PASSTHROUGH_ACTION)
 		protected String action;
 		
-		@ParameterDescriber(required = true, description = "物理主机上的bus号", constraint = "用lsusb/lspci命令查询的bus号", example = "001")
+		@ParameterDescriber(required = true, description = "物理主机上的bus号，例如01:00.0中的01", constraint = "用lsusb/lspci命令查询的bus号", example = "01")
 		protected String bus_num;
 		
-		@ParameterDescriber(required = true, description = "物理主机上的设备号", constraint = "用lsusb/lspci命令查询的device号", example = "001")
+		@ParameterDescriber(required = true, description = "（仅影响PCI设备）物理主机上的副bus号，例如01:00.0中的00", constraint = "用lsusb/lspci命令查询的副bus号", example = "00")
+		protected String sub_bus_num;
+		
+		@ParameterDescriber(required = true, description = "物理主机上的设备号，例如01:00.0中的0", constraint = "用lsusb/lspci命令查询的device号", example = "0")
 		protected String dev_num;
 		
 		@ParameterDescriber(required = false, description = "立即生效，对于开机虚拟机", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
@@ -4298,6 +4302,14 @@ public class Lifecycle {
 		@ParameterDescriber(required = true, description = "设备的类型", constraint = "取值范围：usb/pci", example = "pci")
 		@Pattern(regexp = RegExpUtils.DEVICE_PASSTHROUGH_DEV_TYPE)
 		protected String dev_type;
+
+		public String getSub_bus_num() {
+			return sub_bus_num;
+		}
+
+		public void setSub_bus_num(String sub_bus_num) {
+			this.sub_bus_num = sub_bus_num;
+		}
 
 		public String getDev_type() {
 			return dev_type;

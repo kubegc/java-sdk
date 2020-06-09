@@ -23,18 +23,31 @@ public class CreateSwitchTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineNetworks()
-				.createSwitch("switch1", "vm.node35", get());
+				.createSwitch("switch2", "vm.node32", getIpv6());
 		System.out.println(successful);
 	}
 
 	protected static CreateSwitch get() {
 		CreateSwitch vxlan = new CreateSwitch();
-		vxlan.setSubnet("192.168.1.0/24");
+		vxlan.setSubnet("192.168.2.0/24");
 		vxlan.setMtu("1450");
-		vxlan.setGateway("192.168.1.1");
+		vxlan.setGateway("192.168.2.1");
 		vxlan.setBridge("br-ex");
 		vxlan.setVlanId("20");
-		vxlan.setDhcp("192.168.1.1");
+		vxlan.setDhcp("192.168.2.1");
+		vxlan.setIpv6("false");
+		return vxlan;
+	}
+	
+	protected static CreateSwitch getIpv6() {
+		CreateSwitch vxlan = new CreateSwitch();
+		vxlan.setSubnet("2001:198:10::/64");
+		vxlan.setMtu("1450");
+		vxlan.setGateway("2001:1::1");
+		vxlan.setBridge("br-ex");
+		vxlan.setVlanId("20");
+		vxlan.setDhcp("2001:1::1");
+		vxlan.setIpv6("true");
 		return vxlan;
 	}
 }

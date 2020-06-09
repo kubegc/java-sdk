@@ -167,6 +167,9 @@ public class RegExpUtils {
 	@FieldDescriber("True或False")
 	public final static String BOOL_TYPE_PATTERN = "True|False";
 	
+	@FieldDescriber("true或false")
+	public final static String BOOL_STRING_TYPE_PATTERN = "true|false";
+	
 	@FieldDescriber("存储池类型，只能是vmd，vmdi，iso之一")
 	public final static String POOL_CONTENT_PATTERN = "vmd|vmdi|iso";
 
