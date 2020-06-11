@@ -252,6 +252,14 @@ public class Lifecycle {
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected AutoStartVM autoStartVM;
 
+	public UnplugDisk getUnplugDisk() {
+		return unplugDisk;
+	}
+
+	public void setUnplugDisk(UnplugDisk unplugDisk) {
+		this.unplugDisk = unplugDisk;
+	}
+
 	public PushRemoteBackup getPushRemoteBackup() {
 		return pushRemoteBackup;
 	}
@@ -594,14 +602,6 @@ public class Lifecycle {
 
 	public ResetVM getResetVM() {
 		return this.resetVM;
-	}
-
-	public void setUnplugDisk(UnplugDisk unplugDisk) {
-		this.unplugDisk = unplugDisk;
-	}
-
-	public UnplugDisk getUnplugDisk() {
-		return this.unplugDisk;
 	}
 
 	public void setStopVM(StopVM stopVM) {
@@ -3766,17 +3766,29 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String swName;
 
-		@ParameterDescriber(required = false, description = "QoS类型", constraint = "from或者to", example = "from")
+		@ParameterDescriber(required = true, description = "QoS类型", constraint = "from或者to", example = "from")
 		@Pattern(regexp = RegExpUtils.QOS_TYPE_PATTERN)
 		protected String type;
 
-		@ParameterDescriber(required = false, description = "协议类型", constraint = "只能是ip, ip4, icmp之类", example = "ip")
+		@ParameterDescriber(required = true, description = "协议类型", constraint = "只能是ip, ip4, icmp之类", example = "ip")
 		@Pattern(regexp = RegExpUtils.RULE_PATTERN)
 		protected String rule;
 
-		@ParameterDescriber(required = false, description = "优先级", constraint = "0-32767", example = "2")
+		@ParameterDescriber(required = true, description = "优先级", constraint = "0-32767", example = "2")
 		@Pattern(regexp = RegExpUtils.QOS_PRIORITY_PATTERN)
 		protected String priority;
+		
+		@ParameterDescriber(required = true, description = "mac地址", constraint = "虚拟机的mac地址", example = "7e:0c:b0:ef:6a:04")
+		@Pattern(regexp = RegExpUtils.MAC_PATTERN)
+		protected String vmmac;
+
+		public String getVmmac() {
+			return vmmac;
+		}
+
+		public void setVmmac(String vmmac) {
+			this.vmmac = vmmac;
+		}
 
 		public String getSwName() {
 			return swName;

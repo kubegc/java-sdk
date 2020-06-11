@@ -33,7 +33,7 @@ import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ResizeRA
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StartVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StopVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StopVMForce;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UnplugDisk;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UnplugNIC;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CloneDisk;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CreateDisk;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CreateDiskInternalSnapshot;
@@ -281,7 +281,7 @@ public class JUintFlowStep3Test {
 			testRound1.add(VirtualMachineDisk.class.getSimpleName() + "=" + CreateDiskInternalSnapshot.class.getName());
 			testRound1.add(VirtualMachineDisk.class.getSimpleName() + "=" + DeleteDiskInternalSnapshot.class.getName());
 			
-			testRound1.add(VirtualMachine.class.getSimpleName() + "=" + UnplugDisk.class.getName());
+			testRound1.add(VirtualMachine.class.getSimpleName() + "=" + UnplugNIC.class.getName());
 			
 			testRound1.add(VirtualMachineDisk.class.getSimpleName() + "=" + CloneDisk.class.getName());
 			testRound1.add(VirtualMachineDisk.class.getSimpleName() + "=" + DeleteDisk.class.getName());
@@ -311,7 +311,7 @@ public class JUintFlowStep3Test {
 			testRound2.add(VirtualMachineDisk.class.getSimpleName() + "=" + CreateDiskInternalSnapshot.class.getName());
 			testRound2.add(VirtualMachineDisk.class.getSimpleName() + "=" + DeleteDiskInternalSnapshot.class.getName());
 			
-			testRound2.add(VirtualMachine.class.getSimpleName() + "=" + UnplugDisk.class.getName());
+			testRound2.add(VirtualMachine.class.getSimpleName() + "=" + UnplugNIC.class.getName());
 			
 			testRound2.add(VirtualMachineDisk.class.getSimpleName() + "=" + CloneDisk.class.getName());
 			testRound2.add(VirtualMachineDisk.class.getSimpleName() + "=" + DeleteDisk.class.getName());
