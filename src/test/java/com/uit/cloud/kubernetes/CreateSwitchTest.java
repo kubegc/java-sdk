@@ -23,7 +23,7 @@ public class CreateSwitchTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineNetworks()
-				.createSwitch("switch2", "vm.node32", getIpv6());
+				.createSwitch("switch22", "vm.node22", get());
 		System.out.println(successful);
 	}
 
