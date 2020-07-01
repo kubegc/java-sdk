@@ -10325,6 +10325,16 @@ public class Domain {
 
 					protected String __interfaceid;
 					
+					protected String _profileid;
+
+					public String get_profileid() {
+						return _profileid;
+					}
+
+					public void set_profileid(String _profileid) {
+						this._profileid = _profileid;
+					}
+
 					public Parameters() {
 
 					}
