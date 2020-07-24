@@ -60,6 +60,12 @@ public class Lifecycle {
 		prerequisite = AnnotationUtils.DESC_FUNCTION_VMP, 
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected DeletePool deletePool;
+
+	@FunctionDescriber(shortName = "查询存储池", description = "查询存储池的当前状态并注册到k8s，适用libvirt指令创建存储池情况。"
+			+ AnnotationUtils.DESC_FUNCTION_DESC,
+			prerequisite = AnnotationUtils.DESC_FUNCTION_VMP,
+			exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected ShowPool showPool;
 	
 //	@FunctionDescriber(shortName = "反注册存储池", description = "反注册存储池，将存储池信息从libvirt里面注销"
 //			+ AnnotationUtils.DESC_FUNCTION_DESC,
@@ -116,7 +122,15 @@ public class Lifecycle {
 		this.deletePool = deletePool;
 	}
 
-//	public UnregisterPool getUnregisterPool() {
+	public ShowPool getShowPool() {
+		return showPool;
+	}
+
+	public void setShowPool(ShowPool showPool) {
+		this.showPool = showPool;
+	}
+
+	//	public UnregisterPool getUnregisterPool() {
 //		return unregisterPool;
 //	}
 //
@@ -718,6 +732,12 @@ public class Lifecycle {
 		public void setType(String type) {
 			this.type = type;
 		}
+	}
+
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class ShowPool {
+
 	}
 	
 //	@JsonInclude(JsonInclude.Include.NON_NULL)
