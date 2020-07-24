@@ -4,6 +4,7 @@
 package com.github.kubesys.kubernetes.impl;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -476,6 +477,34 @@ public abstract class AbstractImpl<R, S, T> {
 	 */
 	public boolean update(String name, ObjectMeta om, Object operator) throws Exception {
 		
+		String oname = operator.getClass().getSimpleName();
+		
+		if (oname.startsWith("Batch")) {
+			
+			Method method = operator.getClass().getDeclaredMethod("get" + oname.substring("Batch".length()) + "s");
+			List<?> values = (List<?>) method.invoke(operator);
+			for (Object suboperator : values) {
+				for (int i = 0; i < 3; i++) {
+					try {
+						doUpdate(name, om, suboperator);
+						break;
+					} catch (Exception ex) {
+						if (i == 2) {
+							throw new RuntimeException(ex);
+						} else {
+							Thread.sleep(3000);
+						}
+					}
+				}
+			}
+			return true;
+		} else {
+			return doUpdate(name, om, operator);
+		}
+	}
+
+	protected boolean doUpdate(String name, ObjectMeta om, Object operator)
+			throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, Exception {
 		R r = get(name);
 		if (r == null) {
 			throw new RuntimeException(type + " " + name + " is not exist");

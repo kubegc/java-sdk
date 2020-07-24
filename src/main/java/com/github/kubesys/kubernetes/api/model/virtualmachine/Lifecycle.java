@@ -3,6 +3,8 @@
  */
 package com.github.kubesys.kubernetes.api.model.virtualmachine;
 
+import java.util.List;
+
 import javax.validation.constraints.Pattern;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -193,7 +195,10 @@ public class Lifecycle {
 	@FunctionDescriber(shortName = "删除安全组", description = "删除安全规则，"
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected DeprecatedACL deprecatedACL;
-
+	
+	@FunctionDescriber(shortName = "批量删除安全组", description = "删除安全规则，"
+			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected BatchDeprecatedACL batchDeprecatedACL;
 
 	@FunctionDescriber(shortName = "设置QoS", description = "设置QoS，"
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
@@ -251,6 +256,14 @@ public class Lifecycle {
 	@FunctionDescriber(shortName = "设置虚拟机高可用，对于正在运行的虚拟机重启后生效", description = "设置虚拟机高可用，"
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected AutoStartVM autoStartVM;
+
+	public BatchDeprecatedACL getBatchDeprecatedACL() {
+		return batchDeprecatedACL;
+	}
+
+	public void setBatchDeprecatedACL(BatchDeprecatedACL batchDeprecatedACL) {
+		this.batchDeprecatedACL = batchDeprecatedACL;
+	}
 
 	public UnplugDisk getUnplugDisk() {
 		return unplugDisk;
@@ -3608,6 +3621,23 @@ public class Lifecycle {
 
 	}
 
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class BatchDeprecatedACL {
+		
+		protected List<DeprecatedACL> deprecatedACLs;
+
+		public List<DeprecatedACL> getDeprecatedACLs() {
+			return deprecatedACLs;
+		}
+
+		public void setDeprecatedACLs(List<DeprecatedACL> deprecatedACLs) {
+			this.deprecatedACLs = deprecatedACLs;
+		}
+		
+	}
+	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class DeprecatedACL {

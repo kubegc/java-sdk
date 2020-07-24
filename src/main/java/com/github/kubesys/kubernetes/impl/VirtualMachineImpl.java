@@ -18,6 +18,7 @@ import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.AddACL;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.AutoStartVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.BackupVM;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.BatchDeprecatedACL;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.BindFloatingIP;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ChangeNumberOfCPU;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CloneVM;
@@ -1027,6 +1028,28 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 	public boolean deprecatedACL(String name, String nodeName, DeprecatedACL deprecatedACL, String eventId) throws Exception {
 		updateHost(name, nodeName);
 		return deprecatedACL(name, deprecatedACL, eventId);
+	}
+
+	public boolean batchDeprecatedACL(String name, BatchDeprecatedACL batchDeprecatedACL) throws Exception {
+		return batchDeprecatedACL(name, batchDeprecatedACL, null);
+	}
+
+	public boolean batchDeprecatedACL(String name, BatchDeprecatedACL batchDeprecatedACL, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), batchDeprecatedACL);
+	}
+
+	public boolean batchDeprecatedACL(String name, String nodeName, BatchDeprecatedACL batchDeprecatedACL) throws Exception {
+		updateHost(name, nodeName);
+		return batchDeprecatedACL(name, batchDeprecatedACL, null);
+	}
+
+	public boolean batchDeprecatedACL(String name, String nodeName, BatchDeprecatedACL batchDeprecatedACL, String eventId) throws Exception {
+		updateHost(name, nodeName);
+		return batchDeprecatedACL(name, batchDeprecatedACL, eventId);
 	}
 
 	public boolean setQoS(String name, SetQoS setQoS) throws Exception {

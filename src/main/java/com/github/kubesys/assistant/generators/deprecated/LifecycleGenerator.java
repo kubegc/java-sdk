@@ -152,8 +152,8 @@ public class LifecycleGenerator extends AbstractClassGenerator {
 	
 	public static void main(String[] args) throws Exception {
 		LifecycleGenerator gen = new LifecycleGenerator("com.github.kubesys.kubernetes.api.model");
-		Map parseObject = JSON.parseObject(new FileInputStream(new File("conf/lifecycle.json")), Map.class);
-		gen.setObjMap(parseObject);
+//		Map parseObject = JSON.parseObject(new FileInputStream(new File("conf/lifecycle.json")), Map.class);
+//		gen.setObjMap(parseObject);
 		System.out.println(gen.autoGen("VirtualMachine"));
 		
 	}
