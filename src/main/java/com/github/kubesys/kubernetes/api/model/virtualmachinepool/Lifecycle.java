@@ -61,7 +61,7 @@ public class Lifecycle {
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected DeletePool deletePool;
 
-	@FunctionDescriber(shortName = "查询存储池", description = "查询存储池的当前状态并注册到k8s，适用libvirt指令创建存储池情况。"
+	@FunctionDescriber(shortName = "查询存储池", description = "调用本接口后会同步存储池的当前状态并注册到k8s，再使用GetVMPool接口获得当前存储池状态，适用libvirt指令创建存储池情况。"
 			+ AnnotationUtils.DESC_FUNCTION_DESC,
 			prerequisite = AnnotationUtils.DESC_FUNCTION_VMP,
 			exception = AnnotationUtils.DESC_FUNCTION_EXEC)
