@@ -737,7 +737,17 @@ public class Lifecycle {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class ShowPool {
+		@ParameterDescriber(required = false, description = "存储池的类型", constraint = "只能是localfs，vdiskfs，uus，nfs，glusterfs, vdiskfs之一", example = "localfs")
+		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
+		protected String type;
 
+		public String getType() {
+			return type;
+		}
+
+		public void setType(String type) {
+			this.type = type;
+		}
 	}
 	
 //	@JsonInclude(JsonInclude.Include.NON_NULL)

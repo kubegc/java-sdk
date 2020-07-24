@@ -22,14 +22,14 @@ public class ShowVMPoolTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachinePools()
-				.deletePool("migratepoolnodepool32", getPool(), "123");
+				.showPool("88145631c61a4a64ac5f08b33942d396", getPool(), "123");
 		System.out.println(successful);
 	}
 
-	protected static Lifecycle.DeletePool getPool() {
-		Lifecycle.DeletePool deletePool = new Lifecycle.DeletePool();
-		deletePool.setType("vdiskfs");
-		return deletePool;
+	protected static Lifecycle.ShowPool getPool() {
+		Lifecycle.ShowPool showPool = new Lifecycle.ShowPool();
+		showPool.setType("nfs");
+		return showPool;
 	}
 	
 }
