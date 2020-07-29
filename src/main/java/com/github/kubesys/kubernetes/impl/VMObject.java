@@ -24,6 +24,8 @@ public class VMObject {
 	protected String datetime;
 	
 	protected String eventId;
+	
+	protected String lifecycle;
 
 	public Object getObject() {
 		return object;
@@ -47,6 +49,14 @@ public class VMObject {
 
 	public void setEventId(String eventId) {
 		this.eventId = eventId;
+	}
+
+	public String getLifecycle() {
+		return lifecycle;
+	}
+
+	public void setLifecycle(String lifecycle) {
+		this.lifecycle = lifecycle;
 	}
 	
 	

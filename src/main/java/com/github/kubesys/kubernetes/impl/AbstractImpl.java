@@ -485,7 +485,7 @@ public abstract class AbstractImpl<R, S, T> {
 			for (Object suboperator : values) {
 				for (int i = 0; i < 3; i++) {
 					try {
-						doUpdate(name, om, suboperator);
+						doUpdate(name, om, suboperator, eventId);
 						break;
 					} catch (Exception ex) {
 						if (i == 2) {
@@ -600,10 +600,6 @@ public abstract class AbstractImpl<R, S, T> {
 	 */
 	public VMObject createLifecycle(Object operator, String eventId) throws Exception {
 		
-		VMObject lifecycle  = new VMObject();
-		lifecycle.setDatetime(String.valueOf(System.currentTimeMillis()));
-		lifecycle.setEventId(eventId);
-		
 		// JSR 303
 		for (Field field : operator.getClass().getDeclaredFields()) {
 			ParameterDescriber param = field.getAnnotation(ParameterDescriber.class);
@@ -640,9 +636,11 @@ public abstract class AbstractImpl<R, S, T> {
 			}
 		}
 		
-		String name = "set" + operator.getClass().getSimpleName();
-		Method setOperator = lifecycle.getClass().getMethod(name, operator.getClass());
-		lifecycle.setObject(setOperator.invoke(lifecycle, operator));
+		VMObject lifecycle  = new VMObject();
+		lifecycle.setDatetime(String.valueOf(System.currentTimeMillis()));
+		lifecycle.setEventId(eventId);
+		lifecycle.setObject(operator);
+		lifecycle.setLifecycle(operator.getClass().getSimpleName());
 		return lifecycle;
 	}
 	
