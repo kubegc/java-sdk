@@ -5,6 +5,7 @@ package com.github.kubesys.kubernetes.impl;
 
 import java.util.regex.Pattern;
 
+import com.github.kubesys.kubernetes.api.model.AbstractLifecycle;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineImage;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineImageList;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineImageSpec;
@@ -33,7 +34,7 @@ public class VirtualMachineImageImpl extends AbstractImpl<VirtualMachineImage, V
 	}
 
 	@Override
-	public Object getLifecycle() {
+	public AbstractLifecycle getLifecycle() {
 		return new Lifecycle();
 	}
 

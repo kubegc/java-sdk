@@ -5,6 +5,7 @@ package com.github.kubesys.kubernetes.impl;
 
 import java.util.regex.Pattern;
 
+import com.github.kubesys.kubernetes.api.model.AbstractLifecycle;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineDiskImage;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineDiskImageList;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineDiskImageSpec;
@@ -24,7 +25,7 @@ public class VirtualMachineDiskImageImpl extends AbstractImpl<VirtualMachineDisk
 
 
 	@Override
-	public Object getLifecycle() {
+	public AbstractLifecycle getLifecycle() {
 		return new Lifecycle();
 	}
 

@@ -7,9 +7,10 @@ import javax.validation.constraints.Pattern;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.github.kubesys.kubernetes.annotations.ClassDescriber;
 import com.github.kubesys.kubernetes.annotations.FunctionDescriber;
 import com.github.kubesys.kubernetes.annotations.ParameterDescriber;
-import com.github.kubesys.kubernetes.annotations.ClassDescriber;
+import com.github.kubesys.kubernetes.api.model.AbstractLifecycle;
 import com.github.kubesys.kubernetes.utils.AnnotationUtils;
 import com.github.kubesys.kubernetes.utils.RegExpUtils;
 
@@ -23,7 +24,7 @@ import com.github.kubesys.kubernetes.utils.RegExpUtils;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 @ClassDescriber(value = "VirtualMachineDiskSnapshot", desc = "云盘快照是指云盘的外部快照，目前支持QCOW2格式")
-public class Lifecycle {
+public class Lifecycle implements AbstractLifecycle {
 
 	@FunctionDescriber(shortName = "创建云盘外部快照", description = "创建云盘外部快照，" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 

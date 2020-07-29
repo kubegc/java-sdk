@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.github.kubesys.kubernetes.annotations.ClassDescriber;
 import com.github.kubesys.kubernetes.annotations.FunctionDescriber;
 import com.github.kubesys.kubernetes.annotations.ParameterDescriber;
+import com.github.kubesys.kubernetes.api.model.AbstractLifecycle;
 import com.github.kubesys.kubernetes.utils.AnnotationUtils;
 import com.github.kubesys.kubernetes.utils.RegExpUtils;
 
@@ -25,7 +26,7 @@ import com.github.kubesys.kubernetes.utils.RegExpUtils;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 @ClassDescriber(value = "VirtualMachine", desc = "虚拟机是指安装了OS的磁盘")
-public class Lifecycle {
+public class Lifecycle implements AbstractLifecycle {
 
 	@FunctionDescriber(shortName = "通过ISO装虚拟机", description = "通过光驱安装云OS，光驱必须存在"
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = "", exception = AnnotationUtils.DESC_FUNCTION_EXEC)
@@ -3624,6 +3625,7 @@ public class Lifecycle {
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	@Deprecated
 	public static class BatchDeprecatedACL {
 		
 		protected List<DeprecatedACL> deprecatedACLs;

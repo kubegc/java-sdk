@@ -3,6 +3,7 @@
  */
 package com.github.kubesys.kubernetes.api.model;
 
+import java.util.List;
 import java.util.Map;
 
 import com.fasterxml.jackson.databind.JsonDeserializer;
@@ -60,6 +61,8 @@ public abstract class ExtendedCustomResourceDefinitionSpec extends CustomResourc
 	 * CRD status
 	 */
 	protected Status status;
+	
+	protected List<Object> lifecycles;
 
 	/**
 	 * @return                    user description
@@ -152,6 +155,14 @@ public abstract class ExtendedCustomResourceDefinitionSpec extends CustomResourc
 	 */
 	public void setStatus(Status status) {
 		this.status = status;
+	}
+
+	public List<Object> getLifecycles() {
+		return lifecycles;
+	}
+
+	public void setLifecycles(List<Object> lifecycles) {
+		this.lifecycles = lifecycles;
 	}
 	
 }

@@ -31,7 +31,7 @@ public class ListenVMTest {
 				
 				//Action can be ADDED, MODIFIED, DELETED, ERROR
 				
-				if (resource.getSpec().getLifecycle() != null) {
+				if (resource.getSpec().getLifecycles() != null) {
 					System.out.println("虚拟机正在处理中[根据Action的状态]");
 					return;
 				}

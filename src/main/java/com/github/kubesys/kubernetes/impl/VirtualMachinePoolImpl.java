@@ -5,6 +5,7 @@ package com.github.kubesys.kubernetes.impl;
 
 import java.util.regex.Pattern;
 
+import com.github.kubesys.kubernetes.api.model.AbstractLifecycle;
 import com.github.kubesys.kubernetes.api.model.VirtualMachinePool;
 import com.github.kubesys.kubernetes.api.model.VirtualMachinePoolList;
 import com.github.kubesys.kubernetes.api.model.VirtualMachinePoolSpec;
@@ -37,7 +38,7 @@ public class VirtualMachinePoolImpl extends AbstractImpl<VirtualMachinePool, Vir
 	}
 	
 	@Override
-	public Object getLifecycle() {
+	public AbstractLifecycle getLifecycle() {
 		return new Lifecycle();
 	}
 

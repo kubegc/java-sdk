@@ -7,9 +7,10 @@ import javax.validation.constraints.Pattern;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.github.kubesys.kubernetes.annotations.ClassDescriber;
 import com.github.kubesys.kubernetes.annotations.FunctionDescriber;
 import com.github.kubesys.kubernetes.annotations.ParameterDescriber;
-import com.github.kubesys.kubernetes.annotations.ClassDescriber;
+import com.github.kubesys.kubernetes.api.model.AbstractLifecycle;
 import com.github.kubesys.kubernetes.utils.AnnotationUtils;
 import com.github.kubesys.kubernetes.utils.RegExpUtils;
 
@@ -23,7 +24,7 @@ import com.github.kubesys.kubernetes.utils.RegExpUtils;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 @ClassDescriber(value = "VirtualMachineDisk", desc = "云盘是指未格式化的云盘")
-public class Lifecycle {
+public class Lifecycle implements AbstractLifecycle {
 
 	@FunctionDescriber(shortName = "删除云盘", description = "删除云盘，" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 

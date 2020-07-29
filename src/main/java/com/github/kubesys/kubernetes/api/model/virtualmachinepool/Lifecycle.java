@@ -7,9 +7,10 @@ import javax.validation.constraints.Pattern;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.github.kubesys.kubernetes.annotations.ClassDescriber;
 import com.github.kubesys.kubernetes.annotations.FunctionDescriber;
 import com.github.kubesys.kubernetes.annotations.ParameterDescriber;
-import com.github.kubesys.kubernetes.annotations.ClassDescriber;
+import com.github.kubesys.kubernetes.api.model.AbstractLifecycle;
 import com.github.kubesys.kubernetes.utils.AnnotationUtils;
 import com.github.kubesys.kubernetes.utils.RegExpUtils;
 
@@ -23,7 +24,7 @@ import com.github.kubesys.kubernetes.utils.RegExpUtils;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 @ClassDescriber(value = "VirtualMachinePool", desc = "扩展支持各种存储后端")
-public class Lifecycle {
+public class Lifecycle implements AbstractLifecycle {
 	
 	@FunctionDescriber(shortName = "开机启动存储池", description = "开机启动存储池，否则开机该存储池会连接不上，导致不可用。适用libvirt指令创建存储池情况。" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 

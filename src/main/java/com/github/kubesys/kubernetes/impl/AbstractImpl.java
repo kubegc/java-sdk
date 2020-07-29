@@ -18,9 +18,8 @@ import javax.validation.constraints.Pattern;
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
 import com.github.kubesys.kubernetes.ExtendedKubernetesConstants;
 import com.github.kubesys.kubernetes.annotations.ParameterDescriber;
+import com.github.kubesys.kubernetes.api.model.AbstractLifecycle;
 import com.github.kubesys.kubernetes.api.model.ExtendedCustomResourceDefinitionSpec;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ResetVM;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StopVMForce;
 import com.github.kubesys.kubernetes.utils.RegExpUtils;
 
 import io.fabric8.kubernetes.api.model.HasMetadata;
@@ -47,7 +46,7 @@ public abstract class AbstractImpl<R, S, T> {
 	/**
 	 * m_logger
 	 */
-	protected final static Logger m_logger = Logger.getLogger(AbstractImpl.class.getName());
+	protected static final Logger m_logger = Logger.getLogger(AbstractImpl.class.getName());
 
 	/**
 	 * client
@@ -415,7 +414,7 @@ public abstract class AbstractImpl<R, S, T> {
 	/**
 	 * @return                   Lifecycle, see fabric8 example
 	 */
-	public abstract Object getLifecycle();
+	public abstract AbstractLifecycle getLifecycle();
 	
 	/******************************************************
 	 * 
@@ -511,20 +510,23 @@ public abstract class AbstractImpl<R, S, T> {
 		}
 		
 		T t = getSpec(r);
-		if (!operator.getClass().getSimpleName().equals(StopVMForce.class.getSimpleName())
-				&& !operator.getClass().getSimpleName().equals(ResetVM.class.getSimpleName())) {
-			Method glf = t.getClass().getMethod("getLifecycle");
-			Object gva = glf.invoke(t);
-			if (gva != null) {
-				throw new RuntimeException(type + " " + name + " is now under processing");
-			}
-		}
+//		if (!operator.getClass().getSimpleName().equals(StopVMForce.class.getSimpleName())
+//				&& !operator.getClass().getSimpleName().equals(ResetVM.class.getSimpleName())) {
+//			Method glf = t.getClass().getMethod("getLifecycle");
+//			Object gva = glf.invoke(t);
+//			if (gva != null) {
+//				throw new RuntimeException(type + " " + name + " is now under processing");
+//			}
+//		}
 		
-		Object lifecycle = createLifecycle(operator);
+		// t.setLifecycles(lifecycle)
+		Method glf = t.getClass().getMethod("getLifecycles");
+		List<Object> lifecycles = (List<Object>) glf.invoke(t);
+		lifecycles = (lifecycles == null) ? new ArrayList<>() : lifecycles;
 		
-		// t.setLifecycle(lifecycle)
-		Method setLifecycle = t.getClass().getMethod("setLifecycle", lifecycle.getClass());
-		setLifecycle.invoke(t, lifecycle);
+		lifecycles.add(createLifecycle(operator));
+		Method setLifecycle = t.getClass().getMethod("setLifecycles", List.class);
+		setLifecycle.invoke(t, lifecycles);
 		
 		// r.setSpec(spec)
 		Method setSpec = r.getClass().getMethod("setSpec", t.getClass());
@@ -596,7 +598,7 @@ public abstract class AbstractImpl<R, S, T> {
 	 * @return                       lifecycle, or an exception
 	 * @throws Exception             exception
 	 */
-	public Object createLifecycle(Object operator) throws Exception {
+	public AbstractLifecycle createLifecycle(Object operator) throws Exception {
 		
 		// JSR 303
 		for (Field field : operator.getClass().getDeclaredFields()) {
@@ -634,7 +636,7 @@ public abstract class AbstractImpl<R, S, T> {
 			}
 		}
 		
-		Object lifecycle = getLifecycle();
+		AbstractLifecycle lifecycle = getLifecycle();
 		String name = "set" + operator.getClass().getSimpleName();
 		Method setOperator = lifecycle.getClass().getMethod(name, operator.getClass());
 		setOperator.invoke(lifecycle, operator);

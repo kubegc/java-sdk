@@ -7,9 +7,10 @@ import javax.validation.constraints.Pattern;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.github.kubesys.kubernetes.annotations.ClassDescriber;
 import com.github.kubesys.kubernetes.annotations.FunctionDescriber;
 import com.github.kubesys.kubernetes.annotations.ParameterDescriber;
-import com.github.kubesys.kubernetes.annotations.ClassDescriber;
+import com.github.kubesys.kubernetes.api.model.AbstractLifecycle;
 import com.github.kubesys.kubernetes.utils.AnnotationUtils;
 import com.github.kubesys.kubernetes.utils.RegExpUtils;
 
@@ -23,7 +24,7 @@ import com.github.kubesys.kubernetes.utils.RegExpUtils;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 @ClassDescriber(value = "VirtualMachineDiskImage", desc = "云盘模板，主要是指大小和文件格式等")
-public class Lifecycle {
+public class Lifecycle implements AbstractLifecycle {
 	
 	@FunctionDescriber(shortName = "从云盘创建云盘镜像", description = "从云盘创建云盘镜像，" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
