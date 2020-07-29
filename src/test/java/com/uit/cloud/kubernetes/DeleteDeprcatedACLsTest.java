@@ -4,6 +4,8 @@
 package com.uit.cloud.kubernetes;
 
 
+import java.util.Date;
+
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.DeprecatedACL;
 
@@ -21,6 +23,7 @@ public class DeleteDeprcatedACLsTest {
 	
 	public static void main(String[] args) throws Exception {
 
+		System.out.println(System.currentTimeMillis());
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
 				.deprecatedACL("cloudinit1", get());

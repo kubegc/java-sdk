@@ -456,10 +456,10 @@ public abstract class AbstractImpl<R, S, T> {
 	 * @return                        true or an exception
 	 * @throws Exception
 	 */
-	public boolean update(R r, Object operator) throws Exception {
+	public boolean update(R r, Object operator, String eventId) throws Exception {
 		
 		T t = getSpec(r);
-		Object lifecycle = createLifecycle(operator);
+		Object lifecycle = createLifecycle(operator, eventId);
 		
 		// t.setLifecycle(lifecycle)
 		Method setLifecycle = t.getClass().getMethod("setLifecycle", lifecycle.getClass());
@@ -474,7 +474,7 @@ public abstract class AbstractImpl<R, S, T> {
 	 * @return                        true or an exception
 	 * @throws Exception
 	 */
-	public boolean update(String name, ObjectMeta om, Object operator) throws Exception {
+	public boolean update(String name, ObjectMeta om, Object operator, String eventId) throws Exception {
 		
 		String oname = operator.getClass().getSimpleName();
 		
@@ -498,11 +498,11 @@ public abstract class AbstractImpl<R, S, T> {
 			}
 			return true;
 		} else {
-			return doUpdate(name, om, operator);
+			return doUpdate(name, om, operator, eventId);
 		}
 	}
 
-	protected boolean doUpdate(String name, ObjectMeta om, Object operator)
+	protected boolean doUpdate(String name, ObjectMeta om, Object operator, String eventId)
 			throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, Exception {
 		R r = get(name);
 		if (r == null) {
@@ -521,10 +521,10 @@ public abstract class AbstractImpl<R, S, T> {
 		
 		// t.setLifecycles(lifecycle)
 		Method glf = t.getClass().getMethod("getLifecycles");
-		List<Object> lifecycles = (List<Object>) glf.invoke(t);
+		List<VMObject> lifecycles = (List<VMObject>) glf.invoke(t);
 		lifecycles = (lifecycles == null) ? new ArrayList<>() : lifecycles;
 		
-		lifecycles.add(createLifecycle(operator));
+		lifecycles.add(createLifecycle(operator, eventId));
 		Method setLifecycle = t.getClass().getMethod("setLifecycles", List.class);
 		setLifecycle.invoke(t, lifecycles);
 		
@@ -546,7 +546,7 @@ public abstract class AbstractImpl<R, S, T> {
 	 * @return                        true or an exception
 	 * @throws Exception              exception
 	 */
-	public boolean delete(String name, ObjectMeta om, Object operator) throws Exception {
+	public boolean delete(String name, ObjectMeta om, Object operator, String eventId) throws Exception {
 		
 		R r = get(name);
 		if (r == null) {
@@ -561,7 +561,7 @@ public abstract class AbstractImpl<R, S, T> {
 			return true;
 		}
 		
-		return update(name, om, operator);
+		return update(name, om, operator, eventId);
 	}
 	
 	/*************************************************
@@ -598,7 +598,11 @@ public abstract class AbstractImpl<R, S, T> {
 	 * @return                       lifecycle, or an exception
 	 * @throws Exception             exception
 	 */
-	public AbstractLifecycle createLifecycle(Object operator) throws Exception {
+	public VMObject createLifecycle(Object operator, String eventId) throws Exception {
+		
+		VMObject lifecycle  = new VMObject();
+		lifecycle.setDatetime(String.valueOf(System.currentTimeMillis()));
+		lifecycle.setEventId(eventId);
 		
 		// JSR 303
 		for (Field field : operator.getClass().getDeclaredFields()) {
@@ -636,10 +640,9 @@ public abstract class AbstractImpl<R, S, T> {
 			}
 		}
 		
-		AbstractLifecycle lifecycle = getLifecycle();
 		String name = "set" + operator.getClass().getSimpleName();
 		Method setOperator = lifecycle.getClass().getMethod(name, operator.getClass());
-		setOperator.invoke(lifecycle, operator);
+		lifecycle.setObject(setOperator.invoke(lifecycle, operator));
 		return lifecycle;
 	}
 	

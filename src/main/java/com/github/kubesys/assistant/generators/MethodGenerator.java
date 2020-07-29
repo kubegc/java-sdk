@@ -44,7 +44,7 @@ public class MethodGenerator {
 				sb.append("\t\t\tthrow new IllegalArgumentException(\"the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.\");\n");
 				sb.append("\t\t}\n");
 				sb.append("\t\treturn create(getModel(), createMetadata(name, nodeName, eventId), \r\n" + 
-						"				createSpec(nodeName, createLifecycle(" + cmd + ")));\n");
+						"				createSpec(nodeName, createLifecycle(" + cmd + ", eventId)));\n");
 				sb.append("\t}\n\n");
 				
 			} else if (cmd.startsWith("delete")) {
@@ -59,7 +59,7 @@ public class MethodGenerator {
 				sb.append("\t\tif (!pattern.matcher(name).matches()) {\n");
 				sb.append("\t\t\tthrow new IllegalArgumentException(\"the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.\");\n");
 				sb.append("\t\t}\n");
-				sb.append("\t\treturn delete(name, updateMetadata(name, eventId), " + cmd + ");\n");
+				sb.append("\t\treturn delete(name, updateMetadata(name, eventId), " + cmd + ", eventId);\n");
 				sb.append("\t}\n\n");
 				
 				sb.append("\tpublic boolean " + cmd +"(String name, String nodeName, " 
@@ -85,7 +85,7 @@ public class MethodGenerator {
 				sb.append("\t\tif (!pattern.matcher(name).matches()) {\n");
 				sb.append("\t\t\tthrow new IllegalArgumentException(\"the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.\");\n");
 				sb.append("\t\t}\n");
-				sb.append("\t\treturn update(name, updateMetadata(name, eventId), " + cmd + ");\n");
+				sb.append("\t\treturn update(name, updateMetadata(name, eventId), " + cmd + ", eventId);\n");
 				sb.append("\t}\n\n");
 				
 				sb.append("\tpublic boolean " + cmd +"(String name, String nodeName, " 

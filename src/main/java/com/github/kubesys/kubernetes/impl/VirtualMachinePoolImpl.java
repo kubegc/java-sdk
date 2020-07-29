@@ -62,7 +62,7 @@ public class VirtualMachinePoolImpl extends AbstractImpl<VirtualMachinePool, Vir
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
-		return update(name, updateMetadata(name, eventId), autoStartPool);
+		return update(name, updateMetadata(name, eventId), autoStartPool, eventId);
 	}
 
 	public boolean autoStartPool(String name, String nodeName, AutoStartPool autoStartPool) throws Exception {
@@ -93,7 +93,7 @@ public class VirtualMachinePoolImpl extends AbstractImpl<VirtualMachinePool, Vir
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
 		return create(getModel(), createMetadata(name, nodeName, eventId), 
-				createSpec(nodeName, createLifecycle(createPool)));
+				createSpec(nodeName, createLifecycle(createPool, eventId)));
 	}
 
 	public boolean startPool(String name, StartPool startPool) throws Exception {
@@ -105,7 +105,7 @@ public class VirtualMachinePoolImpl extends AbstractImpl<VirtualMachinePool, Vir
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
-		return update(name, updateMetadata(name, eventId), startPool);
+		return update(name, updateMetadata(name, eventId), startPool, eventId);
 	}
 
 	public boolean startPool(String name, String nodeName, StartPool startPool) throws Exception {
@@ -127,7 +127,7 @@ public class VirtualMachinePoolImpl extends AbstractImpl<VirtualMachinePool, Vir
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
-		return update(name, updateMetadata(name, eventId), stopPool);
+		return update(name, updateMetadata(name, eventId), stopPool, eventId);
 	}
 
 	public boolean stopPool(String name, String nodeName, StopPool stopPool) throws Exception {
@@ -149,7 +149,7 @@ public class VirtualMachinePoolImpl extends AbstractImpl<VirtualMachinePool, Vir
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
-		return delete(name, updateMetadata(name, eventId), deletePool);
+		return delete(name, updateMetadata(name, eventId), deletePool, eventId);
 	}
 
 	public boolean deletePool(String name, String nodeName, DeletePool deletePool) throws Exception {
@@ -172,7 +172,7 @@ public class VirtualMachinePoolImpl extends AbstractImpl<VirtualMachinePool, Vir
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
-		return update(name, updateMetadata(name, eventId), showPool);
+		return update(name, updateMetadata(name, eventId), showPool, eventId);
 	}
 
 	public boolean showPool(String name, String nodeName, Lifecycle.ShowPool showPool) throws Exception {

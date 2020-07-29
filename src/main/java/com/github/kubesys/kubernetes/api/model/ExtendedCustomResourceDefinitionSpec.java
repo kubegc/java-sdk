@@ -8,6 +8,7 @@ import java.util.Map;
 
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.github.kubesys.kubernetes.impl.VMObject;
 
 import io.fabric8.kubernetes.api.model.Affinity;
 import io.fabric8.kubernetes.api.model.Status;
@@ -62,7 +63,7 @@ public abstract class ExtendedCustomResourceDefinitionSpec extends CustomResourc
 	 */
 	protected Status status;
 	
-	protected List<Object> lifecycles;
+	protected List<VMObject> lifecycles;
 
 	/**
 	 * @return                    user description
@@ -157,11 +158,11 @@ public abstract class ExtendedCustomResourceDefinitionSpec extends CustomResourc
 		this.status = status;
 	}
 
-	public List<Object> getLifecycles() {
+	public List<VMObject> getLifecycles() {
 		return lifecycles;
 	}
 
-	public void setLifecycles(List<Object> lifecycles) {
+	public void setLifecycles(List<VMObject> lifecycles) {
 		this.lifecycles = lifecycles;
 	}
 	

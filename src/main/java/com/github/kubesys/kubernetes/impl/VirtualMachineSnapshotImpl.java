@@ -62,7 +62,7 @@ public class VirtualMachineSnapshotImpl extends AbstractImpl<VirtualMachineSnaps
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
-		return delete(name, updateMetadata(name, eventId), deleteSnapshot);
+		return delete(name, updateMetadata(name, eventId), deleteSnapshot, eventId);
 	}
 
 	public boolean deleteSnapshot(String name, String nodeName, DeleteSnapshot deleteSnapshot) throws Exception {
@@ -93,7 +93,7 @@ public class VirtualMachineSnapshotImpl extends AbstractImpl<VirtualMachineSnaps
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
 		return create(getModel(), createMetadata(name, nodeName, eventId), 
-				createSpec(nodeName, createLifecycle(createSnapshot)));
+				createSpec(nodeName, createLifecycle(createSnapshot, eventId)));
 	}
 
 	public boolean revertVirtualMachine(String name, RevertVirtualMachine revertVirtualMachine) throws Exception {
@@ -105,7 +105,7 @@ public class VirtualMachineSnapshotImpl extends AbstractImpl<VirtualMachineSnaps
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
-		return update(name, updateMetadata(name, eventId), revertVirtualMachine);
+		return update(name, updateMetadata(name, eventId), revertVirtualMachine, eventId);
 	}
 
 	public boolean revertVirtualMachine(String name, String nodeName, RevertVirtualMachine revertVirtualMachine) throws Exception {
@@ -127,7 +127,7 @@ public class VirtualMachineSnapshotImpl extends AbstractImpl<VirtualMachineSnaps
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
-		return update(name, updateMetadata(name, eventId), copySnapshot);
+		return update(name, updateMetadata(name, eventId), copySnapshot, eventId);
 	}
 
 	public boolean copySnapshot(String name, String nodeName, CopySnapshot copySnapshot) throws Exception {
@@ -149,7 +149,7 @@ public class VirtualMachineSnapshotImpl extends AbstractImpl<VirtualMachineSnaps
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
-		return update(name, updateMetadata(name, eventId), mergeSnapshot);
+		return update(name, updateMetadata(name, eventId), mergeSnapshot, eventId);
 	}
 
 	public boolean mergeSnapshot(String name, String nodeName, MergeSnapshot mergeSnapshot) throws Exception {

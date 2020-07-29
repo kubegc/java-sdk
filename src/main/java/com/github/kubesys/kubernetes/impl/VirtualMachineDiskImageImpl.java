@@ -69,7 +69,7 @@ public class VirtualMachineDiskImageImpl extends AbstractImpl<VirtualMachineDisk
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
 		return create(getModel(), createMetadata(name, nodeName, eventId), 
-				createSpec(nodeName, createLifecycle(createDiskImageFromDisk)));
+				createSpec(nodeName, createLifecycle(createDiskImageFromDisk, eventId)));
 	}
 
 	public boolean createDiskImage(String name, CreateDiskImage createDiskImage) throws Exception {
@@ -90,7 +90,7 @@ public class VirtualMachineDiskImageImpl extends AbstractImpl<VirtualMachineDisk
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
 		return create(getModel(), createMetadata(name, nodeName, eventId), 
-				createSpec(nodeName, createLifecycle(createDiskImage)));
+				createSpec(nodeName, createLifecycle(createDiskImage, eventId)));
 	}
 
 	public boolean deleteDiskImage(String name, DeleteDiskImage deleteDiskImage) throws Exception {
@@ -102,7 +102,7 @@ public class VirtualMachineDiskImageImpl extends AbstractImpl<VirtualMachineDisk
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
-		return delete(name, updateMetadata(name, eventId), deleteDiskImage);
+		return delete(name, updateMetadata(name, eventId), deleteDiskImage, eventId);
 	}
 
 	public boolean deleteDiskImage(String name, String nodeName, DeleteDiskImage deleteDiskImage) throws Exception {
