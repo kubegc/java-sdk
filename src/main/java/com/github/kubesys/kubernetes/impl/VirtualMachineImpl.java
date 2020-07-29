@@ -511,7 +511,7 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
-		return delete(name, updateMetadata(name, eventId), deleteVM);
+		return update(name, updateMetadata(name, eventId), deleteVM);
 	}
 
 	public boolean deleteVM(String name, String nodeName, DeleteVM deleteVM) throws Exception {
@@ -1193,7 +1193,7 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
-		return delete(name, updateMetadata(name, eventId), deleteRemoteBackup);
+		return update(name, updateMetadata(name, eventId), deleteRemoteBackup);
 	}
 
 	public boolean deleteRemoteBackup(String name, String nodeName, DeleteRemoteBackup deleteRemoteBackup) throws Exception {
@@ -1259,7 +1259,7 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
-		return delete(name, updateMetadata(name, eventId), deleteVMBackup);
+		return update(name, updateMetadata(name, eventId), deleteVMBackup);
 	}
 
 	public boolean deleteVMBackup(String name, String nodeName, DeleteVMBackup deleteVMBackup) throws Exception {

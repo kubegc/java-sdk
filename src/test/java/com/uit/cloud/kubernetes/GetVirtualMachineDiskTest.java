@@ -17,9 +17,9 @@ import com.alibaba.fastjson.JSON;
 public class GetVirtualMachineDiskTest {
 	
 	public static void main(String[] args) throws Exception {
-//		System.out.println(AbstractTest
-//				.getVMByName("650646e8c17a49d0b83c1c797811e066"));
-//		System.out.println(JSON.toJSONString(AbstractTest.getVMDiskByName("disk66466").getSpec().getVolume(), true));
+		System.out.println(AbstractTest
+				.getVMByName("650646e8c17a49d0b83c1c797811e066"));
+		System.out.println(JSON.toJSONString(AbstractTest.getVMDiskByName("disk66466").getSpec().getVolume(), true));
 	}
 	
 }

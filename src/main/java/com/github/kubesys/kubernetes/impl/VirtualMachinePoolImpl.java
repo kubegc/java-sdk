@@ -162,4 +162,26 @@ public class VirtualMachinePoolImpl extends AbstractImpl<VirtualMachinePool, Vir
 		return deletePool(name, deletePool, eventId);
 	}
 
+
+	public boolean showPool(String name, Lifecycle.ShowPool deletePool) throws Exception {
+		return showPool(name, deletePool, null);
+	}
+
+	public boolean showPool(String name, Lifecycle.ShowPool showPool, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), showPool);
+	}
+
+	public boolean showPool(String name, String nodeName, Lifecycle.ShowPool showPool) throws Exception {
+		updateHost(name, nodeName);
+		return showPool(name, showPool, null);
+	}
+
+	public boolean showPool(String name, String nodeName, Lifecycle.ShowPool showPool, String eventId) throws Exception {
+		updateHost(name, nodeName);
+		return showPool(name, showPool, eventId);
+	}
 }
