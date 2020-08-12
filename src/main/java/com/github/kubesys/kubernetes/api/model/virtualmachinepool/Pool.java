@@ -24,6 +24,8 @@ public class Pool {
 	protected String name;
 	
 	protected String uuid;
+
+	protected String free;
 	
 	protected String state;
 	
@@ -61,6 +63,14 @@ public class Pool {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	public String getFree() {
+		return free;
+	}
+
+	public void setFree(String free) {
+		this.free = free;
 	}
 
 	public Pool() {
