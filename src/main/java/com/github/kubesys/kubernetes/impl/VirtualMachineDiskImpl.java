@@ -308,7 +308,7 @@ public class VirtualMachineDiskImpl extends AbstractImpl<VirtualMachineDisk, Vir
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
-		return delete(name, updateMetadata(name, eventId), deleteVMDiskBackup);
+		return update(name, updateMetadata(name, eventId), deleteVMDiskBackup);
 	}
 
 	public boolean deleteVMDiskBackup(String name, String nodeName, DeleteVMDiskBackup deleteVMDiskBackup) throws Exception {
