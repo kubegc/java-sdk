@@ -16,9 +16,9 @@ public class RestoreVMTest {
         Lifecycle.RestoreVM restoreVM = new Lifecycle.RestoreVM();
         restoreVM.setPool("migratepoolnodepool22");
         restoreVM.setVersion("vmbackup2");
-//        restoreVM.setAll(true);
-//        restoreVM.setTarget("migratepoolnodepool22");
-//        restoreVM.setNewname("cloudinitbackup2");
+        restoreVM.setAll(true);
+        restoreVM.setTarget("migratepoolnodepool22");
+        restoreVM.setNewname("cloudinitbackup3");
         return restoreVM;
     }
 }

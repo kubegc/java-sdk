@@ -17,13 +17,9 @@ public class RestoreDiskTest {
         restoreDisk.setDomain("cloudinit");
         restoreDisk.setPool("migratepoolnodepool22");
         restoreDisk.setVersion("backup1");
-//        restoreDisk.setNewname("cloudinitnew");
-//        restoreDisk.setTarget("migratepoolnodepool22");
-//        restoreDisk.setTargetDomain("cloudinit");
-//        restoreDisk.setRemote("172.16.1.214");
-//        restoreDisk.setPort("21");
-//        restoreDisk.setUsername("ftpuser");
-//        restoreDisk.setPassword("ftpuser");
+        restoreDisk.setNewname("cloudinitnew321");
+        restoreDisk.setTarget("migratepoolnodepool22");
+        restoreDisk.setTargetDomain("cloudinitbackup3");
         return restoreDisk;
     }
 }

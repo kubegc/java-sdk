@@ -15,8 +15,8 @@ public class BackupVMTest {
     public static Lifecycle.BackupVM getBackupVM() {
         Lifecycle.BackupVM backupVM = new Lifecycle.BackupVM();
         backupVM.setPool("migratepoolnodepool22");
-        backupVM.setVersion("vmbackup2");
-//        backupVM.setAll(true);
+        backupVM.setVersion("vmbackup1");
+        backupVM.setAll(true);
         backupVM.setFull(true);
         backupVM.setRemote("133.133.135.30");
         backupVM.setPort("21");

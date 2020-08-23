@@ -8,18 +8,19 @@ public class CleanVMRemoteBackupTest {
 
         ExtendedKubernetesClient client = AbstractTest.getClient();
         boolean successful = client.virtualMachines()
-                .cleanVMRemoteBackup("vmbackupdisktest1", "vm.node25", getCleanVMBackup());
+                .cleanVMRemoteBackup("cloudinit", "vm.node22", getCleanVMBackup());
         System.out.println(successful);
     }
 
     public static Lifecycle.CleanVMRemoteBackup getCleanVMBackup() {
         Lifecycle.CleanVMRemoteBackup cleanVMBackup = new Lifecycle.CleanVMRemoteBackup();
-        cleanVMBackup.setPool("3915282a12dd4c34a0ae565d3ba2da41");
+        cleanVMBackup.setPool("migratepoolnodepool22");
+        cleanVMBackup.setVol("cloudinit");
         cleanVMBackup.setVersion("backup2");
-//        backupDisk.setRemote("172.16.1.214");
-//        backupDisk.setPort("21");
-//        backupDisk.setUsername("ftpuser");
-//        backupDisk.setPassword("ftpuser");
+        cleanVMBackup.setRemote("133.133.135.30");
+        cleanVMBackup.setPort("21");
+        cleanVMBackup.setUsername("ftpuser");
+        cleanVMBackup.setPassword("ftpuser");
         return cleanVMBackup;
     }
 }
