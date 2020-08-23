@@ -8,17 +8,17 @@ public class RestoreVMTest {
 
         ExtendedKubernetesClient client = AbstractTest.getClient();
         boolean successful = client.virtualMachines()
-                .restoreVM("vmbackuptest", "vm.node25", getRestoreVM());
+                .restoreVM("cloudinit", "vm.node22", getRestoreVM());
         System.out.println(successful);
     }
 
     public static Lifecycle.RestoreVM getRestoreVM() {
         Lifecycle.RestoreVM restoreVM = new Lifecycle.RestoreVM();
-        restoreVM.setPool("3915282a12dd4c34a0ae565d3ba2da41");
-        restoreVM.setVersion("backup2");
-        restoreVM.setAll(true);
-        restoreVM.setTarget("233041549cb44e5a83eba623716f122f");
-        restoreVM.setNewname("vmbackuptest2");
+        restoreVM.setPool("migratepoolnodepool22");
+        restoreVM.setVersion("vmbackup2");
+//        restoreVM.setAll(true);
+//        restoreVM.setTarget("migratepoolnodepool22");
+//        restoreVM.setNewname("cloudinitbackup2");
         return restoreVM;
     }
 }

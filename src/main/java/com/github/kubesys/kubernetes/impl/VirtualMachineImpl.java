@@ -1272,6 +1272,72 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 		return deleteVMBackup(name, deleteVMBackup, eventId);
 	}
 
+	public boolean cleanVMBackup(String name, Lifecycle.CleanVMBackup cleanVMBackup) throws Exception {
+		return cleanVMBackup(name, cleanVMBackup, null);
+	}
+
+	public boolean cleanVMBackup(String name, Lifecycle.CleanVMBackup cleanVMBackup, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), cleanVMBackup);
+	}
+
+	public boolean cleanVMBackup(String name, String nodeName, Lifecycle.CleanVMBackup cleanVMBackup) throws Exception {
+		updateHost(name, nodeName);
+		return cleanVMBackup(name, cleanVMBackup, null);
+	}
+
+	public boolean cleanVMBackup(String name, String nodeName, Lifecycle.CleanVMBackup cleanVMBackup, String eventId) throws Exception {
+		updateHost(name, nodeName);
+		return cleanVMBackup(name, cleanVMBackup, eventId);
+	}
+
+	public boolean cleanVMRemoteBackup(String name, Lifecycle.CleanVMRemoteBackup cleanVMRemoteBackup) throws Exception {
+		return cleanVMRemoteBackup(name, cleanVMRemoteBackup, null);
+	}
+
+	public boolean cleanVMRemoteBackup(String name, Lifecycle.CleanVMRemoteBackup cleanVMRemoteBackup, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), cleanVMRemoteBackup);
+	}
+
+	public boolean cleanVMRemoteBackup(String name, String nodeName, Lifecycle.CleanVMRemoteBackup cleanVMRemoteBackup) throws Exception {
+		updateHost(name, nodeName);
+		return cleanVMRemoteBackup(name, cleanVMRemoteBackup, null);
+	}
+
+	public boolean cleanVMRemoteBackup(String name, String nodeName, Lifecycle.CleanVMRemoteBackup cleanVMRemoteBackup, String eventId) throws Exception {
+		updateHost(name, nodeName);
+		return cleanVMRemoteBackup(name, cleanVMRemoteBackup, eventId);
+	}
+
+	public boolean scanVmBackup(String name, Lifecycle.ScanVMBackup scanVMBackup) throws Exception {
+		return scanVmBackup(name, scanVMBackup, null);
+	}
+
+	public boolean scanVmBackup(String name, Lifecycle.ScanVMBackup scanVMBackup, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), scanVMBackup);
+	}
+
+	public boolean scanVmBackup(String name, String nodeName, Lifecycle.ScanVMBackup scanVMBackup) throws Exception {
+		updateHost(name, nodeName);
+		return scanVmBackup(name, scanVMBackup, null);
+	}
+
+	public boolean scanVmBackup(String name, String nodeName, Lifecycle.ScanVMBackup scanVMBackup, String eventId) throws Exception {
+		updateHost(name, nodeName);
+		return scanVmBackup(name, scanVMBackup, eventId);
+	}
+
 	public boolean passthroughDevice(String name, PassthroughDevice passthroughDevice) throws Exception {
 		return passthroughDevice(name, passthroughDevice, null);
 	}

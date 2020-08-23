@@ -5,15 +5,12 @@ package com.uit.cloud.kubernetes;
  */
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
-import com.github.kubesys.kubernetes.api.model.VirtualMachine;
-import com.github.kubesys.kubernetes.api.model.VirtualMachineDisk;
-import com.github.kubesys.kubernetes.api.model.VirtualMachineDiskImage;
-import com.github.kubesys.kubernetes.api.model.VirtualMachineImage;
-import com.github.kubesys.kubernetes.api.model.VirtualMachineNetwork;
-import com.github.kubesys.kubernetes.api.model.VirtualMachinePool;
+import com.github.kubesys.kubernetes.api.model.*;
 
 import io.fabric8.kubernetes.client.Config;
 import io.fabric8.kubernetes.client.ConfigBuilder;
+
+import java.util.*;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -40,6 +37,20 @@ public class AbstractTest {
 
     public static VirtualMachine getVMByName(String name) throws Exception {
         return getClient().virtualMachines().get(name);
+    }
+
+    public static VirtualMachineBackup getVMBByName(String name) throws Exception {
+        return getClient().virtualMachineBackups().get(name);
+    }
+
+    public static List<VirtualMachineBackup> getVMBList() throws Exception {
+        return getClient().virtualMachineBackups().list().getItems();
+    }
+
+    public static List<VirtualMachineBackup> getVMBList(String domain) throws Exception {
+        Map<String, String> map = new HashMap<>();
+        map.put("domain", domain);
+        return getClient().virtualMachineBackups().list(map).getItems();
     }
 
     public static VirtualMachineImage getVMImageByName(String name) throws Exception {

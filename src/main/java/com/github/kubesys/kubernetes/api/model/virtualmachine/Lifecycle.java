@@ -240,6 +240,18 @@ public class Lifecycle {
 	@FunctionDescriber(shortName = "删除本地备份", description = "删除本地备份，"
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected DeleteVMBackup deleteVMBackup;
+
+	@FunctionDescriber(shortName = "清理本地备份", description = "清理本地备份，"
+			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected CleanVMBackup cleanVMBackup;
+
+	@FunctionDescriber(shortName = "清理远端备份", description = "清理远端备份，"
+			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected CleanVMRemoteBackup cleanVMRemoteBackup;
+
+	@FunctionDescriber(shortName = "扫描本地备份", description = "扫描本地备份，"
+			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected ScanVMBackup scanVMBackup;
 	
 	@FunctionDescriber(shortName = "设备透传", description = "设备透传，"
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
@@ -256,6 +268,30 @@ public class Lifecycle {
 	@FunctionDescriber(shortName = "设置虚拟机高可用，对于正在运行的虚拟机重启后生效", description = "设置虚拟机高可用，"
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected AutoStartVM autoStartVM;
+
+	public CleanVMBackup getCleanVMBackup() {
+		return cleanVMBackup;
+	}
+
+	public void setCleanVMBackup(CleanVMBackup cleanVMBackup) {
+		this.cleanVMBackup = cleanVMBackup;
+	}
+
+	public CleanVMRemoteBackup getCleanVMRemoteBackup() {
+		return cleanVMRemoteBackup;
+	}
+
+	public void setCleanVMRemoteBackup(CleanVMRemoteBackup cleanVMRemoteBackup) {
+		this.cleanVMRemoteBackup = cleanVMRemoteBackup;
+	}
+
+	public ScanVMBackup getScanVMBackup() {
+		return scanVMBackup;
+	}
+
+	public void setScanVMBackup(ScanVMBackup scanVMBackup) {
+		this.scanVMBackup = scanVMBackup;
+	}
 
 	public BatchDeprecatedACL getBatchDeprecatedACL() {
 		return batchDeprecatedACL;
@@ -4320,7 +4356,165 @@ public class Lifecycle {
 		}
 	}
 
-	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class CleanVMBackup {
+
+		@ParameterDescriber(required = false, description = "云主机备份时使用的存储池", constraint = "云主机备份时使用的存储池", example = "61024b305b5c463b80bceee066077079")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String pool;
+
+		@ParameterDescriber(required = false, description = "仅清除该云主机的云盘备份", constraint = "仅清除该云主机的云盘备份", example = "61024b305b5c463b80bceee066077079")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String vol;
+
+		@ParameterDescriber(required = true, description = "备份记录的版本号，多个版本号以逗号隔开", constraint = "备份记录的版本号", example = "13024b305b5c463b80bceee066077079")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String version;
+
+		public String getPool() {
+			return pool;
+		}
+
+		public void setPool(String pool) {
+			this.pool = pool;
+		}
+
+		public String getVersion() {
+			return version;
+		}
+
+		public void setVersion(String version) {
+			this.version = version;
+		}
+
+		public String getVol() {
+			return vol;
+		}
+
+		public void setVol(String vol) {
+			this.vol = vol;
+		}
+	}
+
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class CleanVMRemoteBackup {
+
+		@ParameterDescriber(required = false, description = "云主机备份时使用的存储池", constraint = "云主机备份时使用的存储池", example = "61024b305b5c463b80bceee066077079")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String pool;
+
+		@ParameterDescriber(required = false, description = "仅清除该云主机的云盘备份", constraint = "仅清除该云主机的云盘备份", example = "61024b305b5c463b80bceee066077079")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String vol;
+
+		@ParameterDescriber(required = true, description = "备份记录的版本号，多个版本号以逗号隔开", constraint = "备份记录的版本号", example = "13024b305b5c463b80bceee066077079")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String version;
+
+		@ParameterDescriber(required = true, description = "远程备份的ftp主机ip", constraint = "远程备份的ftp主机ip", example = "172.16.1.214")
+		@Pattern(regexp = RegExpUtils.IP_PATTERN)
+		protected String remote;
+
+		@ParameterDescriber(required = true, description = "远程备份的ftp主机端口", constraint = "远程备份的ftp主机端口", example = "21")
+		@Pattern(regexp = RegExpUtils.PORT_PATTERN)
+		protected String port;
+
+		@ParameterDescriber(required = true, description = "远程备份的ftp用户名", constraint = "ftpuser", example = "ftpuser")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String username;
+
+		@ParameterDescriber(required = true, description = "远程备份的ftp密码", constraint = "ftpuser", example = "ftpuser")
+		@Pattern(regexp = RegExpUtils.PASSWORD_PATTERN)
+		protected String password;
+
+		public String getPool() {
+			return pool;
+		}
+
+		public void setPool(String pool) {
+			this.pool = pool;
+		}
+
+		public String getVersion() {
+			return version;
+		}
+
+		public void setVersion(String version) {
+			this.version = version;
+		}
+
+		public String getVol() {
+			return vol;
+		}
+
+		public void setVol(String vol) {
+			this.vol = vol;
+		}
+
+		public String getRemote() {
+			return remote;
+		}
+
+		public void setRemote(String remote) {
+			this.remote = remote;
+		}
+
+		public String getPort() {
+			return port;
+		}
+
+		public void setPort(String port) {
+			this.port = port;
+		}
+
+		public String getUsername() {
+			return username;
+		}
+
+		public void setUsername(String username) {
+			this.username = username;
+		}
+
+		public String getPassword() {
+			return password;
+		}
+
+		public void setPassword(String password) {
+			this.password = password;
+		}
+	}
+
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class ScanVMBackup {
+
+		@ParameterDescriber(required = false, description = "云主机备份时使用的存储池", constraint = "云主机备份时使用的存储池", example = "61024b305b5c463b80bceee066077079")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String pool;
+
+		@ParameterDescriber(required = false, description = "仅清除该云主机的云盘备份", constraint = "仅清除该云主机的云盘备份", example = "61024b305b5c463b80bceee066077079")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String vol;
+
+		public String getPool() {
+			return pool;
+		}
+
+		public void setPool(String pool) {
+			this.pool = pool;
+		}
+
+		public String getVol() {
+			return vol;
+		}
+
+		public void setVol(String vol) {
+			this.vol = vol;
+		}
+	}
+
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class PassthroughDevice {

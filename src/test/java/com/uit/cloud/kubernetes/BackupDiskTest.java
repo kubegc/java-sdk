@@ -8,19 +8,21 @@ public class BackupDiskTest {
 
         ExtendedKubernetesClient client = AbstractTest.getClient();
         boolean successful = client.virtualMachineDisks()
-                .backupDisk("vmbackupdisktest1", "vm.node25", getBackupVM());
+                .backupDisk("cloudinit", "vm.node22", getBackupVM());
         System.out.println(successful);
     }
 
     public static Lifecycle.BackupDisk getBackupVM() {
         Lifecycle.BackupDisk backupDisk = new Lifecycle.BackupDisk();
-        backupDisk.setDomain("vmbackuptest");
-        backupDisk.setPool("3915282a12dd4c34a0ae565d3ba2da41");
-        backupDisk.setVersion("backup2");
-//        backupDisk.setRemote("172.16.1.214");
-//        backupDisk.setPort("21");
-//        backupDisk.setUsername("ftpuser");
-//        backupDisk.setPassword("ftpuser");
+        backupDisk.setDomain("cloudinit");
+        backupDisk.setPool("migratepoolnodepool22");
+        backupDisk.setVersion("backup1");
+        backupDisk.setFull(true);
+
+        backupDisk.setRemote("133.133.135.30");
+        backupDisk.setPort("21");
+        backupDisk.setUsername("ftpuser");
+        backupDisk.setPassword("ftpuser");
         return backupDisk;
     }
 }

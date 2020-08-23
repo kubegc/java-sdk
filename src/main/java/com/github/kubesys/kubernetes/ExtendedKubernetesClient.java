@@ -12,24 +12,8 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.github.kubesys.kubernetes.api.model.VirtualMachine;
-import com.github.kubesys.kubernetes.api.model.VirtualMachineDisk;
-import com.github.kubesys.kubernetes.api.model.VirtualMachineDiskImage;
-import com.github.kubesys.kubernetes.api.model.VirtualMachineDiskSnapshot;
-import com.github.kubesys.kubernetes.api.model.VirtualMachineImage;
-import com.github.kubesys.kubernetes.api.model.VirtualMachineNetwork;
-import com.github.kubesys.kubernetes.api.model.VirtualMachinePool;
-import com.github.kubesys.kubernetes.api.model.VirtualMachineSnapshot;
-import com.github.kubesys.kubernetes.impl.JSONImpl;
-import com.github.kubesys.kubernetes.impl.NodeSelectorImpl;
-import com.github.kubesys.kubernetes.impl.VirtualMachineDiskImageImpl;
-import com.github.kubesys.kubernetes.impl.VirtualMachineDiskImpl;
-import com.github.kubesys.kubernetes.impl.VirtualMachineDiskSnapshotImpl;
-import com.github.kubesys.kubernetes.impl.VirtualMachineImageImpl;
-import com.github.kubesys.kubernetes.impl.VirtualMachineImpl;
-import com.github.kubesys.kubernetes.impl.VirtualMachineNetworkImpl;
-import com.github.kubesys.kubernetes.impl.VirtualMachinePoolImpl;
-import com.github.kubesys.kubernetes.impl.VirtualMachineSnapshotImpl;
+import com.github.kubesys.kubernetes.api.model.*;
+import com.github.kubesys.kubernetes.impl.*;
 
 import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.api.model.KubernetesResource;
@@ -220,6 +204,7 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 		configs.add("/VirtualMachineNetwork.conf");
 		configs.add("/VirtualMachinePool.conf");
 		configs.add("/VirtualMachineDiskImage.conf");
+		configs.add("/VirtualMachineBackup.conf");
 	}
 	
 	/**
@@ -258,6 +243,13 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 	 */
 	public VirtualMachineDiskImpl virtualMachineDisks() {
 		return new VirtualMachineDiskImpl();
+	}
+
+	/**
+	 * @return        virtualMachineBackups
+	 */
+	public VirtualMachineBackupImpl virtualMachineBackups() {
+		return new VirtualMachineBackupImpl();
 	}
 	
 	/**
