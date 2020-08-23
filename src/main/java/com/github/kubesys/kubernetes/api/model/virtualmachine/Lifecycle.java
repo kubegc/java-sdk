@@ -4360,7 +4360,7 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class CleanVMBackup {
 
-		@ParameterDescriber(required = false, description = "云主机备份时使用的存储池", constraint = "云主机备份时使用的存储池", example = "61024b305b5c463b80bceee066077079")
+		@ParameterDescriber(required = true, description = "云主机备份时使用的存储池", constraint = "云主机备份时使用的存储池", example = "61024b305b5c463b80bceee066077079")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String pool;
 
@@ -4369,7 +4369,6 @@ public class Lifecycle {
 		protected String vol;
 
 		@ParameterDescriber(required = true, description = "备份记录的版本号，多个版本号以逗号隔开", constraint = "备份记录的版本号", example = "13024b305b5c463b80bceee066077079")
-		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String version;
 
 		public String getPool() {
@@ -4410,7 +4409,6 @@ public class Lifecycle {
 		protected String vol;
 
 		@ParameterDescriber(required = true, description = "备份记录的版本号，多个版本号以逗号隔开", constraint = "备份记录的版本号", example = "13024b305b5c463b80bceee066077079")
-		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String version;
 
 		@ParameterDescriber(required = true, description = "远程备份的ftp主机ip", constraint = "远程备份的ftp主机ip", example = "172.16.1.214")

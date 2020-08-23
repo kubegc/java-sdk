@@ -14,7 +14,8 @@ public class CleanVMBackupTest {
 
     public static Lifecycle.CleanVMBackup getCleanVMBackup() {
         Lifecycle.CleanVMBackup cleanVMBackup = new Lifecycle.CleanVMBackup();
-        cleanVMBackup.setPool("3915282a12dd4c34a0ae565d3ba2da41");
+        cleanVMBackup.setPool("migratepoolnodepool22");
+        cleanVMBackup.setVol("cloudinit");
         cleanVMBackup.setVersion("backup2");
         return cleanVMBackup;
     }

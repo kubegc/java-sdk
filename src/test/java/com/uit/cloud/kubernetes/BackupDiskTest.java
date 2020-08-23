@@ -16,8 +16,8 @@ public class BackupDiskTest {
         Lifecycle.BackupDisk backupDisk = new Lifecycle.BackupDisk();
         backupDisk.setDomain("cloudinit");
         backupDisk.setPool("migratepoolnodepool22");
-        backupDisk.setVersion("backup1");
-        backupDisk.setFull(true);
+        backupDisk.setVersion("backup3.1");
+//        backupDisk.setFull(true);
 
         backupDisk.setRemote("133.133.135.30");
         backupDisk.setPort("21");

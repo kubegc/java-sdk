@@ -738,7 +738,6 @@ public class Lifecycle {
 		protected String pool;
 
 		@ParameterDescriber(required = true, description = "备份记录的版本号", constraint = "备份记录的版本号", example = "13024b305b5c463b80bceee066077079")
-		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String version;
 
 		@ParameterDescriber(required = false, description = "全量备份",
