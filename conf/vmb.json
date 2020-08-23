@@ -1,7 +1,3 @@
 {
-	"cleanVMBackup":{
-		"domain":"String",
-		"pool":"String",
-		"version":"String"
-	}
+
 }

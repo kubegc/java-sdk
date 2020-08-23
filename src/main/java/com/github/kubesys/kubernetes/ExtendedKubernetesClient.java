@@ -204,6 +204,7 @@ public class ExtendedKubernetesClient extends DefaultKubernetesClient {
 		configs.add("/VirtualMachineNetwork.conf");
 		configs.add("/VirtualMachinePool.conf");
 		configs.add("/VirtualMachineDiskImage.conf");
+		configs.add("/VirtualMachineBackup.conf");
 	}
 	
 	/**

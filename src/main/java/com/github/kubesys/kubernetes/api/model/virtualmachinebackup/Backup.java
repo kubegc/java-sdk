@@ -21,7 +21,9 @@ public class Backup {
 	
 	protected String disk;
 	
-	protected String space;
+	protected String full;
+
+	protected String time;
 
 	public String getDomain() {
 		return domain;
@@ -47,11 +49,19 @@ public class Backup {
 		this.disk = disk;
 	}
 
-	public String getSpace() {
-		return space;
+	public String getFull() {
+		return full;
 	}
 
-	public void setSpace(String space) {
-		this.space = space;
+	public void setFull(String full) {
+		this.full = full;
+	}
+
+	public String getTime() {
+		return time;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
 	}
 }
