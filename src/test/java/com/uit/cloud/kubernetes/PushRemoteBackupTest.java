@@ -8,16 +8,16 @@ public class PushRemoteBackupTest {
 
         ExtendedKubernetesClient client = AbstractTest.getClient();
         boolean successful = client.virtualMachines()
-                .pushRemoteBackup("vmbackuptest", "vm.node25", getPushRemoteBackup());
+                .pushRemoteBackup("cloudinit", "vm.node22", getPushRemoteBackup());
         System.out.println(successful);
     }
 
     public static Lifecycle.PushRemoteBackup getPushRemoteBackup() {
         Lifecycle.PushRemoteBackup pushRemoteBackup = new Lifecycle.PushRemoteBackup();
-        pushRemoteBackup.setVol("vmbackupdisktest1");
-        pushRemoteBackup.setPool("3915282a12dd4c34a0ae565d3ba2da41");
-        pushRemoteBackup.setVersion("backup2");
-        pushRemoteBackup.setRemote("172.16.1.214");
+//        pushRemoteBackup.setVol("vmbackupdisktest1");
+        pushRemoteBackup.setPool("migratepoolnodepool22");
+        pushRemoteBackup.setVersion("vmbackup2");
+        pushRemoteBackup.setRemote("133.133.135.30");
         pushRemoteBackup.setPort("21");
         pushRemoteBackup.setUsername("ftpuser");
         pushRemoteBackup.setPassword("ftpuser");
