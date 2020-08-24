@@ -25,6 +25,8 @@ public class Backup {
 
 	protected String time;
 
+	protected String version;
+
 	public String getDomain() {
 		return domain;
 	}
@@ -63,5 +65,13 @@ public class Backup {
 
 	public void setTime(String time) {
 		this.time = time;
+	}
+
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
 	}
 }
