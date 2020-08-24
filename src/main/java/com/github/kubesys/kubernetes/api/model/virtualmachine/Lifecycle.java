@@ -4399,11 +4399,6 @@ public class Lifecycle {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class CleanVMRemoteBackup {
-
-		@ParameterDescriber(required = false, description = "云主机备份时使用的存储池", constraint = "云主机备份时使用的存储池", example = "61024b305b5c463b80bceee066077079")
-		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
-		protected String pool;
-
 		@ParameterDescriber(required = false, description = "仅清除该云主机的云盘备份", constraint = "仅清除该云主机的云盘备份", example = "61024b305b5c463b80bceee066077079")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String vol;
@@ -4426,14 +4421,6 @@ public class Lifecycle {
 		@ParameterDescriber(required = true, description = "远程备份的ftp密码", constraint = "ftpuser", example = "ftpuser")
 		@Pattern(regexp = RegExpUtils.PASSWORD_PATTERN)
 		protected String password;
-
-		public String getPool() {
-			return pool;
-		}
-
-		public void setPool(String pool) {
-			this.pool = pool;
-		}
 
 		public String getVersion() {
 			return version;
