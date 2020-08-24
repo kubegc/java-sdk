@@ -14,7 +14,6 @@ public class CleanVMRemoteBackupTest {
 
     public static Lifecycle.CleanVMRemoteBackup getCleanVMBackup() {
         Lifecycle.CleanVMRemoteBackup cleanVMBackup = new Lifecycle.CleanVMRemoteBackup();
-        cleanVMBackup.setPool("migratepoolnodepool22");
         cleanVMBackup.setVol("cloudinit");
         cleanVMBackup.setVersion("backup2");
         cleanVMBackup.setRemote("133.133.135.30");
