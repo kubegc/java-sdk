@@ -9,13 +9,7 @@ import com.github.kubesys.kubernetes.api.model.VirtualMachinePool;
 import com.github.kubesys.kubernetes.api.model.VirtualMachinePoolList;
 import com.github.kubesys.kubernetes.api.model.VirtualMachinePoolSpec;
 import com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle;
-import com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle.AutoStartPool;
-import com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle.CreatePool;
-import com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle.DeletePool;
-//import com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle.RegisterPool;
-import com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle.StartPool;
-import com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle.StopPool;
-//import com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle.UnregisterPool;
+import com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle.*;
 import com.github.kubesys.kubernetes.utils.RegExpUtils;
 
 /**
@@ -182,5 +176,225 @@ public class VirtualMachinePoolImpl extends AbstractImpl<VirtualMachinePool, Vir
 	public boolean showPool(String name, String nodeName, Lifecycle.ShowPool showPool, String eventId) throws Exception {
 		updateHost(name, nodeName);
 		return showPool(name, showPool, eventId);
+	}
+
+	public boolean restoreVM(String name, RestoreVM restoreVM) throws Exception {
+		return restoreVM(name, restoreVM, null);
+	}
+
+	public boolean restoreVM(String name, RestoreVM restoreVM, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), restoreVM);
+	}
+
+	public boolean restoreVM(String name, String nodeName, RestoreVM restoreVM) throws Exception {
+		updateHost(name, nodeName);
+		return restoreVM(name, restoreVM, null);
+	}
+
+	public boolean restoreVM(String name, String nodeName, RestoreVM restoreVM, String eventId) throws Exception {
+		updateHost(name, nodeName);
+		return restoreVM(name, restoreVM, eventId);
+	}
+
+	public boolean deleteRemoteBackup(String name, DeleteRemoteBackup deleteRemoteBackup) throws Exception {
+		return deleteRemoteBackup(name, deleteRemoteBackup, null);
+	}
+
+	public boolean deleteRemoteBackup(String name, DeleteRemoteBackup deleteRemoteBackup, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), deleteRemoteBackup);
+	}
+
+	public boolean deleteRemoteBackup(String name, String nodeName, DeleteRemoteBackup deleteRemoteBackup) throws Exception {
+		updateHost(name, nodeName);
+		return deleteRemoteBackup(name, deleteRemoteBackup, null);
+	}
+
+	public boolean deleteRemoteBackup(String name, String nodeName, DeleteRemoteBackup deleteRemoteBackup, String eventId) throws Exception {
+		updateHost(name, nodeName);
+		return deleteRemoteBackup(name, deleteRemoteBackup, eventId);
+	}
+
+	public boolean pullRemoteBackup(String name, PullRemoteBackup pullRemoteBackup) throws Exception {
+		return pullRemoteBackup(name, pullRemoteBackup, null);
+	}
+
+	public boolean pullRemoteBackup(String name, PullRemoteBackup pullRemoteBackup, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), pullRemoteBackup);
+	}
+
+	public boolean pullRemoteBackup(String name, String nodeName, PullRemoteBackup pullRemoteBackup) throws Exception {
+		updateHost(name, nodeName);
+		return pullRemoteBackup(name, pullRemoteBackup, null);
+	}
+
+	public boolean pullRemoteBackup(String name, String nodeName, PullRemoteBackup pullRemoteBackup, String eventId) throws Exception {
+		updateHost(name, nodeName);
+		return pullRemoteBackup(name, pullRemoteBackup, eventId);
+	}
+
+	public boolean pushRemoteBackup(String name, PushRemoteBackup pushRemoteBackup) throws Exception {
+		return pushRemoteBackup(name, pushRemoteBackup, null);
+	}
+
+	public boolean pushRemoteBackup(String name, PushRemoteBackup pushRemoteBackup, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), pushRemoteBackup);
+	}
+
+	public boolean pushRemoteBackup(String name, String nodeName, PushRemoteBackup pushRemoteBackup) throws Exception {
+		updateHost(name, nodeName);
+		return pushRemoteBackup(name, pushRemoteBackup, null);
+	}
+
+	public boolean pushRemoteBackup(String name, String nodeName, PushRemoteBackup pushRemoteBackup, String eventId) throws Exception {
+		updateHost(name, nodeName);
+		return pushRemoteBackup(name, pushRemoteBackup, eventId);
+	}
+
+	public boolean deleteVMBackup(String name, DeleteVMBackup deleteVMBackup) throws Exception {
+		return deleteVMBackup(name, deleteVMBackup, null);
+	}
+
+	public boolean deleteVMBackup(String name, DeleteVMBackup deleteVMBackup, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), deleteVMBackup);
+	}
+
+	public boolean deleteVMBackup(String name, String nodeName, DeleteVMBackup deleteVMBackup) throws Exception {
+		updateHost(name, nodeName);
+		return deleteVMBackup(name, deleteVMBackup, null);
+	}
+
+	public boolean deleteVMBackup(String name, String nodeName, DeleteVMBackup deleteVMBackup, String eventId) throws Exception {
+		updateHost(name, nodeName);
+		return deleteVMBackup(name, deleteVMBackup, eventId);
+	}
+
+	public boolean cleanVMBackup(String name, CleanVMBackup cleanVMBackup) throws Exception {
+		return cleanVMBackup(name, cleanVMBackup, null);
+	}
+
+	public boolean cleanVMBackup(String name, CleanVMBackup cleanVMBackup, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), cleanVMBackup);
+	}
+
+	public boolean cleanVMBackup(String name, String nodeName, CleanVMBackup cleanVMBackup) throws Exception {
+		updateHost(name, nodeName);
+		return cleanVMBackup(name, cleanVMBackup, null);
+	}
+
+	public boolean cleanVMBackup(String name, String nodeName, CleanVMBackup cleanVMBackup, String eventId) throws Exception {
+		updateHost(name, nodeName);
+		return cleanVMBackup(name, cleanVMBackup, eventId);
+	}
+
+	public boolean cleanVMRemoteBackup(String name, CleanVMRemoteBackup cleanVMRemoteBackup) throws Exception {
+		return cleanVMRemoteBackup(name, cleanVMRemoteBackup, null);
+	}
+
+	public boolean cleanVMRemoteBackup(String name, CleanVMRemoteBackup cleanVMRemoteBackup, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), cleanVMRemoteBackup);
+	}
+
+	public boolean cleanVMRemoteBackup(String name, String nodeName, CleanVMRemoteBackup cleanVMRemoteBackup) throws Exception {
+		updateHost(name, nodeName);
+		return cleanVMRemoteBackup(name, cleanVMRemoteBackup, null);
+	}
+
+	public boolean cleanVMRemoteBackup(String name, String nodeName, CleanVMRemoteBackup cleanVMRemoteBackup, String eventId) throws Exception {
+		updateHost(name, nodeName);
+		return cleanVMRemoteBackup(name, cleanVMRemoteBackup, eventId);
+	}
+
+	public boolean scanVmBackup(String name, ScanVMBackup scanVMBackup) throws Exception {
+		return scanVmBackup(name, scanVMBackup, null);
+	}
+
+	public boolean scanVmBackup(String name, ScanVMBackup scanVMBackup, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), scanVMBackup);
+	}
+
+	public boolean scanVmBackup(String name, String nodeName, ScanVMBackup scanVMBackup) throws Exception {
+		updateHost(name, nodeName);
+		return scanVmBackup(name, scanVMBackup, null);
+	}
+
+	public boolean scanVmBackup(String name, String nodeName, ScanVMBackup scanVMBackup, String eventId) throws Exception {
+		updateHost(name, nodeName);
+		return scanVmBackup(name, scanVMBackup, eventId);
+	}
+
+	public boolean restoreDisk(String name, RestoreDisk restoreDisk) throws Exception {
+		return restoreDisk(name, restoreDisk, null);
+	}
+
+	public boolean restoreDisk(String name, RestoreDisk restoreDisk, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), restoreDisk);
+	}
+
+	public boolean restoreDisk(String name, String nodeName, RestoreDisk restoreDisk) throws Exception {
+		updateHost(name, nodeName);
+		return restoreDisk(name, restoreDisk, null);
+	}
+
+	public boolean restoreDisk(String name, String nodeName, RestoreDisk restoreDisk, String eventId) throws Exception {
+		updateHost(name, nodeName);
+		return restoreDisk(name, restoreDisk, eventId);
+	}
+
+	public boolean deleteVMDiskBackup(String name, DeleteVMDiskBackup deleteVMDiskBackup) throws Exception {
+		return deleteVMDiskBackup(name, deleteVMDiskBackup, null);
+	}
+
+	public boolean deleteVMDiskBackup(String name, DeleteVMDiskBackup deleteVMDiskBackup, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), deleteVMDiskBackup);
+	}
+
+	public boolean deleteVMDiskBackup(String name, String nodeName, DeleteVMDiskBackup deleteVMDiskBackup) throws Exception {
+		updateHost(name, nodeName);
+		return deleteVMDiskBackup(name, deleteVMDiskBackup, null);
+	}
+
+	public boolean deleteVMDiskBackup(String name, String nodeName, DeleteVMDiskBackup deleteVMDiskBackup, String eventId) throws Exception {
+		updateHost(name, nodeName);
+		return deleteVMDiskBackup(name, deleteVMDiskBackup, eventId);
 	}
 }

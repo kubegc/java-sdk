@@ -1,13 +1,13 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle;
+import com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle;
 
 public class ScanVMBackupTest {
     public static void main(String[] args) throws Exception {
 
         ExtendedKubernetesClient client = AbstractTest.getClient();
-        boolean successful = client.virtualMachines()
+        boolean successful = client.virtualMachinePools()
                 .scanVmBackup("cloudinit", "vm.node22", getCleanVMBackup());
         System.out.println(successful);
     }

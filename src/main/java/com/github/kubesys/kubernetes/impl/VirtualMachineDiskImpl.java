@@ -18,10 +18,8 @@ import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.Crea
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.DeleteCloudInitUserDataImage;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.DeleteDisk;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.DeleteDiskInternalSnapshot;
-import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.DeleteVMDiskBackup;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.MigrateDisk;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.ResizeDisk;
-import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.RestoreDisk;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.RevertDiskInternalSnapshot;
 import com.github.kubesys.kubernetes.utils.RegExpUtils;
 
@@ -275,50 +273,6 @@ public class VirtualMachineDiskImpl extends AbstractImpl<VirtualMachineDisk, Vir
 	public boolean backupDisk(String name, String nodeName, BackupDisk backupDisk, String eventId) throws Exception {
 		updateHost(name, nodeName);
 		return backupDisk(name, backupDisk, eventId);
-	}
-
-	public boolean restoreDisk(String name, RestoreDisk restoreDisk) throws Exception {
-		return restoreDisk(name, restoreDisk, null);
-	}
-
-	public boolean restoreDisk(String name, RestoreDisk restoreDisk, String eventId) throws Exception {
-		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
-		if (!pattern.matcher(name).matches()) {
-			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
-		}
-		return update(name, updateMetadata(name, eventId), restoreDisk);
-	}
-
-	public boolean restoreDisk(String name, String nodeName, RestoreDisk restoreDisk) throws Exception {
-		updateHost(name, nodeName);
-		return restoreDisk(name, restoreDisk, null);
-	}
-
-	public boolean restoreDisk(String name, String nodeName, RestoreDisk restoreDisk, String eventId) throws Exception {
-		updateHost(name, nodeName);
-		return restoreDisk(name, restoreDisk, eventId);
-	}
-
-	public boolean deleteVMDiskBackup(String name, DeleteVMDiskBackup deleteVMDiskBackup) throws Exception {
-		return deleteVMDiskBackup(name, deleteVMDiskBackup, null);
-	}
-
-	public boolean deleteVMDiskBackup(String name, DeleteVMDiskBackup deleteVMDiskBackup, String eventId) throws Exception {
-		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
-		if (!pattern.matcher(name).matches()) {
-			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
-		}
-		return update(name, updateMetadata(name, eventId), deleteVMDiskBackup);
-	}
-
-	public boolean deleteVMDiskBackup(String name, String nodeName, DeleteVMDiskBackup deleteVMDiskBackup) throws Exception {
-		updateHost(name, nodeName);
-		return deleteVMDiskBackup(name, deleteVMDiskBackup, null);
-	}
-
-	public boolean deleteVMDiskBackup(String name, String nodeName, DeleteVMDiskBackup deleteVMDiskBackup, String eventId) throws Exception {
-		updateHost(name, nodeName);
-		return deleteVMDiskBackup(name, deleteVMDiskBackup, eventId);
 	}
 
 	public boolean createCloudInitUserDataImage(String name, CreateCloudInitUserDataImage createCloudInitUserDataImage) throws Exception {

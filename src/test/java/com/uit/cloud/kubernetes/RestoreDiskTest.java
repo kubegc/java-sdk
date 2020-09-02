@@ -1,25 +1,26 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
-import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle;
+import com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle;
 
 public class RestoreDiskTest {
     public static void main(String[] args) throws Exception {
 
         ExtendedKubernetesClient client = AbstractTest.getClient();
-        boolean successful = client.virtualMachineDisks()
-                .restoreDisk("cloudinit", "vm.node22", getBackupVM());
+        boolean successful = client.virtualMachinePools()
+                .restoreDisk("migratepoolnodepool22", "vm.node22", getBackupVM());
         System.out.println(successful);
     }
 
     public static Lifecycle.RestoreDisk getBackupVM() {
         Lifecycle.RestoreDisk restoreDisk = new Lifecycle.RestoreDisk();
-        restoreDisk.setDomain("cloudinit");
+        restoreDisk.setDomain("cloudinitbackup4");
         restoreDisk.setPool("migratepoolnodepool22");
-        restoreDisk.setVersion("backup1");
-        restoreDisk.setNewname("cloudinitnew321");
+        restoreDisk.setVol("vmbackupdisk1");
+        restoreDisk.setVersion("diskbackup1");
+        restoreDisk.setNewname("vmbackupdisk1backup1");
         restoreDisk.setTarget("migratepoolnodepool22");
-        restoreDisk.setTargetDomain("cloudinitbackup3");
+        restoreDisk.setTargetDomain("cloudinitbackup4");
         return restoreDisk;
     }
 }

@@ -25,9 +25,7 @@ import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CloneVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ConvertVMToImage;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CreateAndStartVMFromISO;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CreateAndStartVMFromImage;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.DeleteRemoteBackup;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.DeleteVM;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.DeleteVMBackup;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.DeprecatedACL;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.EjectISO;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ExportVM;
@@ -42,15 +40,12 @@ import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.Passthro
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.PlugDevice;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.PlugDisk;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.PlugNIC;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.PullRemoteBackup;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.PushRemoteBackup;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.RebootVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.RedirectUsb;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ResetVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ResizeMaxRAM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ResizeRAM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ResizeVM;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.RestoreVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ResumeVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.SetBootOrder;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.SetGuestPassword;
@@ -1160,182 +1155,6 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 	public boolean backupVM(String name, String nodeName, BackupVM backupVM, String eventId) throws Exception {
 		updateHost(name, nodeName);
 		return backupVM(name, backupVM, eventId);
-	}
-
-	public boolean restoreVM(String name, RestoreVM restoreVM) throws Exception {
-		return restoreVM(name, restoreVM, null);
-	}
-
-	public boolean restoreVM(String name, RestoreVM restoreVM, String eventId) throws Exception {
-		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
-		if (!pattern.matcher(name).matches()) {
-			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
-		}
-		return update(name, updateMetadata(name, eventId), restoreVM);
-	}
-
-	public boolean restoreVM(String name, String nodeName, RestoreVM restoreVM) throws Exception {
-		updateHost(name, nodeName);
-		return restoreVM(name, restoreVM, null);
-	}
-
-	public boolean restoreVM(String name, String nodeName, RestoreVM restoreVM, String eventId) throws Exception {
-		updateHost(name, nodeName);
-		return restoreVM(name, restoreVM, eventId);
-	}
-
-	public boolean deleteRemoteBackup(String name, DeleteRemoteBackup deleteRemoteBackup) throws Exception {
-		return deleteRemoteBackup(name, deleteRemoteBackup, null);
-	}
-
-	public boolean deleteRemoteBackup(String name, DeleteRemoteBackup deleteRemoteBackup, String eventId) throws Exception {
-		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
-		if (!pattern.matcher(name).matches()) {
-			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
-		}
-		return update(name, updateMetadata(name, eventId), deleteRemoteBackup);
-	}
-
-	public boolean deleteRemoteBackup(String name, String nodeName, DeleteRemoteBackup deleteRemoteBackup) throws Exception {
-		updateHost(name, nodeName);
-		return deleteRemoteBackup(name, deleteRemoteBackup, null);
-	}
-
-	public boolean deleteRemoteBackup(String name, String nodeName, DeleteRemoteBackup deleteRemoteBackup, String eventId) throws Exception {
-		updateHost(name, nodeName);
-		return deleteRemoteBackup(name, deleteRemoteBackup, eventId);
-	}
-
-	public boolean pullRemoteBackup(String name, PullRemoteBackup pullRemoteBackup) throws Exception {
-		return pullRemoteBackup(name, pullRemoteBackup, null);
-	}
-
-	public boolean pullRemoteBackup(String name, PullRemoteBackup pullRemoteBackup, String eventId) throws Exception {
-		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
-		if (!pattern.matcher(name).matches()) {
-			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
-		}
-		return update(name, updateMetadata(name, eventId), pullRemoteBackup);
-	}
-
-	public boolean pullRemoteBackup(String name, String nodeName, PullRemoteBackup pullRemoteBackup) throws Exception {
-		updateHost(name, nodeName);
-		return pullRemoteBackup(name, pullRemoteBackup, null);
-	}
-
-	public boolean pullRemoteBackup(String name, String nodeName, PullRemoteBackup pullRemoteBackup, String eventId) throws Exception {
-		updateHost(name, nodeName);
-		return pullRemoteBackup(name, pullRemoteBackup, eventId);
-	}
-
-	public boolean pushRemoteBackup(String name, PushRemoteBackup pushRemoteBackup) throws Exception {
-		return pushRemoteBackup(name, pushRemoteBackup, null);
-	}
-
-	public boolean pushRemoteBackup(String name, PushRemoteBackup pushRemoteBackup, String eventId) throws Exception {
-		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
-		if (!pattern.matcher(name).matches()) {
-			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
-		}
-		return update(name, updateMetadata(name, eventId), pushRemoteBackup);
-	}
-
-	public boolean pushRemoteBackup(String name, String nodeName, PushRemoteBackup pushRemoteBackup) throws Exception {
-		updateHost(name, nodeName);
-		return pushRemoteBackup(name, pushRemoteBackup, null);
-	}
-
-	public boolean pushRemoteBackup(String name, String nodeName, PushRemoteBackup pushRemoteBackup, String eventId) throws Exception {
-		updateHost(name, nodeName);
-		return pushRemoteBackup(name, pushRemoteBackup, eventId);
-	}
-
-	public boolean deleteVMBackup(String name, DeleteVMBackup deleteVMBackup) throws Exception {
-		return deleteVMBackup(name, deleteVMBackup, null);
-	}
-
-	public boolean deleteVMBackup(String name, DeleteVMBackup deleteVMBackup, String eventId) throws Exception {
-		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
-		if (!pattern.matcher(name).matches()) {
-			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
-		}
-		return update(name, updateMetadata(name, eventId), deleteVMBackup);
-	}
-
-	public boolean deleteVMBackup(String name, String nodeName, DeleteVMBackup deleteVMBackup) throws Exception {
-		updateHost(name, nodeName);
-		return deleteVMBackup(name, deleteVMBackup, null);
-	}
-
-	public boolean deleteVMBackup(String name, String nodeName, DeleteVMBackup deleteVMBackup, String eventId) throws Exception {
-		updateHost(name, nodeName);
-		return deleteVMBackup(name, deleteVMBackup, eventId);
-	}
-
-	public boolean cleanVMBackup(String name, Lifecycle.CleanVMBackup cleanVMBackup) throws Exception {
-		return cleanVMBackup(name, cleanVMBackup, null);
-	}
-
-	public boolean cleanVMBackup(String name, Lifecycle.CleanVMBackup cleanVMBackup, String eventId) throws Exception {
-		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
-		if (!pattern.matcher(name).matches()) {
-			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
-		}
-		return update(name, updateMetadata(name, eventId), cleanVMBackup);
-	}
-
-	public boolean cleanVMBackup(String name, String nodeName, Lifecycle.CleanVMBackup cleanVMBackup) throws Exception {
-		updateHost(name, nodeName);
-		return cleanVMBackup(name, cleanVMBackup, null);
-	}
-
-	public boolean cleanVMBackup(String name, String nodeName, Lifecycle.CleanVMBackup cleanVMBackup, String eventId) throws Exception {
-		updateHost(name, nodeName);
-		return cleanVMBackup(name, cleanVMBackup, eventId);
-	}
-
-	public boolean cleanVMRemoteBackup(String name, Lifecycle.CleanVMRemoteBackup cleanVMRemoteBackup) throws Exception {
-		return cleanVMRemoteBackup(name, cleanVMRemoteBackup, null);
-	}
-
-	public boolean cleanVMRemoteBackup(String name, Lifecycle.CleanVMRemoteBackup cleanVMRemoteBackup, String eventId) throws Exception {
-		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
-		if (!pattern.matcher(name).matches()) {
-			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
-		}
-		return update(name, updateMetadata(name, eventId), cleanVMRemoteBackup);
-	}
-
-	public boolean cleanVMRemoteBackup(String name, String nodeName, Lifecycle.CleanVMRemoteBackup cleanVMRemoteBackup) throws Exception {
-		updateHost(name, nodeName);
-		return cleanVMRemoteBackup(name, cleanVMRemoteBackup, null);
-	}
-
-	public boolean cleanVMRemoteBackup(String name, String nodeName, Lifecycle.CleanVMRemoteBackup cleanVMRemoteBackup, String eventId) throws Exception {
-		updateHost(name, nodeName);
-		return cleanVMRemoteBackup(name, cleanVMRemoteBackup, eventId);
-	}
-
-	public boolean scanVmBackup(String name, Lifecycle.ScanVMBackup scanVMBackup) throws Exception {
-		return scanVmBackup(name, scanVMBackup, null);
-	}
-
-	public boolean scanVmBackup(String name, Lifecycle.ScanVMBackup scanVMBackup, String eventId) throws Exception {
-		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
-		if (!pattern.matcher(name).matches()) {
-			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
-		}
-		return update(name, updateMetadata(name, eventId), scanVMBackup);
-	}
-
-	public boolean scanVmBackup(String name, String nodeName, Lifecycle.ScanVMBackup scanVMBackup) throws Exception {
-		updateHost(name, nodeName);
-		return scanVmBackup(name, scanVMBackup, null);
-	}
-
-	public boolean scanVmBackup(String name, String nodeName, Lifecycle.ScanVMBackup scanVMBackup, String eventId) throws Exception {
-		updateHost(name, nodeName);
-		return scanVmBackup(name, scanVMBackup, eventId);
 	}
 
 	public boolean passthroughDevice(String name, PassthroughDevice passthroughDevice) throws Exception {

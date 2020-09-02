@@ -1,19 +1,20 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle;
+import com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle;
 
 public class PushRemoteBackupTest {
     public static void main(String[] args) throws Exception {
 
         ExtendedKubernetesClient client = AbstractTest.getClient();
-        boolean successful = client.virtualMachines()
-                .pushRemoteBackup("cloudinit", "vm.node22", getPushRemoteBackup());
+        boolean successful = client.virtualMachinePools()
+                .pushRemoteBackup("migratepoolnodepool22", "vm.node22", getPushRemoteBackup());
         System.out.println(successful);
     }
 
     public static Lifecycle.PushRemoteBackup getPushRemoteBackup() {
         Lifecycle.PushRemoteBackup pushRemoteBackup = new Lifecycle.PushRemoteBackup();
+        pushRemoteBackup.setDomain("cloudinitbackup4");
 //        pushRemoteBackup.setVol("vmbackupdisktest1");
         pushRemoteBackup.setPool("migratepoolnodepool22");
         pushRemoteBackup.setVersion("vmbackup2");
