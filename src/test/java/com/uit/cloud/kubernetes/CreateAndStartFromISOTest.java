@@ -23,7 +23,7 @@ public class CreateAndStartFromISOTest {
 		CreateAndStartVMFromISO createAndStartVMFromISO = get();
 		// name
 		boolean successful = client.virtualMachines()
-				.createAndStartVMFromISO("ipv6test", "vm.node32", createAndStartVMFromISO, "123");
+				.createAndStartVMFromISO("crailcompute1", "vm.node22", createAndStartVMFromISO, "123");
 		System.out.println(successful);
 	}
 	
@@ -32,7 +32,7 @@ public class CreateAndStartFromISOTest {
 		
 		CreateAndStartVMFromISO createAndStartVMFromISO = new CreateAndStartVMFromISO();
 		// default value
-		createAndStartVMFromISO.setMetadata("uuid=450646ed-c17a-49d0-b83c-1c797811e031");
+		createAndStartVMFromISO.setMetadata("uuid=321746ed-c17a-49d0-b83c-1c797811e031");
 		createAndStartVMFromISO.setVirt_type("kvm"); 
 		// @see https://github.com/uit-plus/api/blob/master/src/main/java/com/github/uitplus/utils/OSDistroUtils.java
 		createAndStartVMFromISO.setOs_variant("centos7.0");
@@ -44,7 +44,7 @@ public class CreateAndStartFromISOTest {
 		// cdrom
 //		createAndStartVMFromISO.setCdrom("/var/lib/libvirt/iso/f045e85ed4f84034907f60172891c72b.iso");
 		// Disk and QoS for 1 disk and many disks
-		createAndStartVMFromISO.setDisk("/var/lib/libvirt/cstor/170dd9accdd174caced76b0db2533/170dd9accdd174caced76b0db2533/ipv6test/ipv6test,read_bytes_sec=1024000000,write_bytes_sec=1024000000 " + getOtherCDROMs());
+		createAndStartVMFromISO.setDisk("/var/lib/libvirt/cstor/170dd9accdd174caced76b0db2223/170dd9accdd174caced76b0db2223/crailcompute1/crailcompute1,read_bytes_sec=1024000000,write_bytes_sec=1024000000 " + getOtherCDROMs());
 		
 		/*
 		 * libivrt default bridge
@@ -100,10 +100,10 @@ public class CreateAndStartFromISOTest {
 		 * 		switch name
 		 */
 		
-//		createAndStartVMFromISO.setNetwork("type=bridge,source=virbr0,inbound=102400,outbound=102400");
+		createAndStartVMFromISO.setNetwork("type=bridge,source=virbr0,inbound=102400,outbound=102400");
 //		createAndStartVMFromISO.setNetwork("type=l2bridge,source=br-native,inbound=102400,outbound=102400");
 //      if you want to use l3bridge, please first execute the command on your master node, 'kubeovn-adm create-switch --name switch8888 --subnet 192.168.5.0/24' 		
-		createAndStartVMFromISO.setNetwork("type=l3bridge,source=br-int,ip=2001:198:10::254,switch=switch2,inbound=102400,outbound=102400");
+//		createAndStartVMFromISO.setNetwork("type=l3bridge,source=br-int,ip=2001:198:10::254,switch=switch2,inbound=102400,outbound=102400");
 		
 		// consoleMode amd passowrd
 		createAndStartVMFromISO.setGraphics("vnc,listen=0.0.0.0");
@@ -130,7 +130,7 @@ public class CreateAndStartFromISOTest {
 	}
 	
 	protected static String getOtherCDROMs() {
-		return "--disk /var/lib/libvirt/iso/centos7-1511.iso,device=cdrom,perms=ro";
+		return "--disk /var/lib/libvirt/iso/CentOS-7-x86-64-DVD-1503-01.iso,device=cdrom,perms=ro";
 	}
 	
 	protected static String nameToUUID(String name) {

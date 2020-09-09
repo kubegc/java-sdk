@@ -69,7 +69,7 @@ public class Lifecycle {
 
 	@FunctionDescriber(shortName = "恢复虚拟机", description = "恢复虚拟机，"
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
-	protected RestoreVM restoreVM;
+	protected RestoreVMBackup restoreVMBackup;
 
 	@FunctionDescriber(shortName = "删除远程备份", description = "删除远程备份，"
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
@@ -136,12 +136,12 @@ public class Lifecycle {
 		this.deleteVMDiskBackup = deleteVMDiskBackup;
 	}
 
-	public RestoreVM getRestoreVM() {
-		return restoreVM;
+	public RestoreVMBackup getRestoreVMBackup() {
+		return restoreVMBackup;
 	}
 
-	public void setRestoreVM(RestoreVM restoreVM) {
-		this.restoreVM = restoreVM;
+	public void setRestoreVMBackup(RestoreVMBackup restoreVMBackup) {
+		this.restoreVMBackup = restoreVMBackup;
 	}
 
 	public DeleteRemoteBackup getDeleteRemoteBackup() {
@@ -884,7 +884,7 @@ public class Lifecycle {
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class RestoreVM {
+	public static class RestoreVMBackup {
 
 		@ParameterDescriber(required = true, description = "备份时使用云主机", constraint = "备份时使用云主机", example = "a63dd73f92a24a9ab840492f0e538f2b")
 		@Pattern(regexp = RegExpUtils.NAME_PATTERN)

@@ -14,13 +14,13 @@ public class RestoreDiskTest {
 
     public static Lifecycle.RestoreDisk getBackupVM() {
         Lifecycle.RestoreDisk restoreDisk = new Lifecycle.RestoreDisk();
-        restoreDisk.setDomain("cloudinitbackup4");
+        restoreDisk.setDomain("crail");
         restoreDisk.setPool("migratepoolnodepool22");
-        restoreDisk.setVol("vmbackupdisk1");
+        restoreDisk.setVol("crail");
         restoreDisk.setVersion("diskbackup1");
-        restoreDisk.setNewname("vmbackupdisk1backup1");
+        restoreDisk.setNewname("vmbackupdisk1restore1");
         restoreDisk.setTarget("migratepoolnodepool22");
-        restoreDisk.setTargetDomain("cloudinitbackup4");
+        restoreDisk.setTargetDomain("crail");
         return restoreDisk;
     }
 }

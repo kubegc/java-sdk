@@ -178,26 +178,26 @@ public class VirtualMachinePoolImpl extends AbstractImpl<VirtualMachinePool, Vir
 		return showPool(name, showPool, eventId);
 	}
 
-	public boolean restoreVM(String name, RestoreVM restoreVM) throws Exception {
-		return restoreVM(name, restoreVM, null);
+	public boolean restoreVMBackup(String name, RestoreVMBackup restoreVMBackup) throws Exception {
+		return restoreVMBackup(name, restoreVMBackup, null);
 	}
 
-	public boolean restoreVM(String name, RestoreVM restoreVM, String eventId) throws Exception {
+	public boolean restoreVMBackup(String name, RestoreVMBackup restoreVMBackup, String eventId) throws Exception {
 		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
-		return update(name, updateMetadata(name, eventId), restoreVM);
+		return update(name, updateMetadata(name, eventId), restoreVMBackup);
 	}
 
-	public boolean restoreVM(String name, String nodeName, RestoreVM restoreVM) throws Exception {
+	public boolean restoreVMBackup(String name, String nodeName, RestoreVMBackup restoreVMBackup) throws Exception {
 		updateHost(name, nodeName);
-		return restoreVM(name, restoreVM, null);
+		return restoreVMBackup(name, restoreVMBackup, null);
 	}
 
-	public boolean restoreVM(String name, String nodeName, RestoreVM restoreVM, String eventId) throws Exception {
+	public boolean restoreVMBackup(String name, String nodeName, RestoreVMBackup restoreVMBackup, String eventId) throws Exception {
 		updateHost(name, nodeName);
-		return restoreVM(name, restoreVM, eventId);
+		return restoreVMBackup(name, restoreVMBackup, eventId);
 	}
 
 	public boolean deleteRemoteBackup(String name, DeleteRemoteBackup deleteRemoteBackup) throws Exception {
