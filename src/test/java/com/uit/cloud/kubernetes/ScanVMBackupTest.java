@@ -8,14 +8,15 @@ public class ScanVMBackupTest {
 
         ExtendedKubernetesClient client = AbstractTest.getClient();
         boolean successful = client.virtualMachinePools()
-                .scanVmBackup("cloudinit", "vm.node22", getCleanVMBackup());
+                .scanVmBackup("migratepoolnodepool22", "vm.node22", getCleanVMBackup());
         System.out.println(successful);
     }
 
     public static Lifecycle.ScanVMBackup getCleanVMBackup() {
         Lifecycle.ScanVMBackup scanVMBackup = new Lifecycle.ScanVMBackup();
+        scanVMBackup.setDomain("cloudinitbackup5555");
         scanVMBackup.setPool("migratepoolnodepool22");
-//        scanVMBackup.setVol("cloudinit");
+        scanVMBackup.setVol("e8c9b41664584253afa43592d5efeafb");
         return scanVMBackup;
     }
 }

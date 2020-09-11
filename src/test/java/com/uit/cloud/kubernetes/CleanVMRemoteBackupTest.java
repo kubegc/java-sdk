@@ -16,8 +16,8 @@ public class CleanVMRemoteBackupTest {
         Lifecycle.CleanVMRemoteBackup cleanVMBackup = new Lifecycle.CleanVMRemoteBackup();
         cleanVMBackup.setDomain("cloudinitbackup4");
 //        cleanVMBackup.setVol("");
-//        cleanVMBackup.setVersion("backup2");
-        cleanVMBackup.setAll(true);
+        cleanVMBackup.setVersion("backup2");
+//        cleanVMBackup.setAll(true);
         cleanVMBackup.setRemote("133.133.135.30");
         cleanVMBackup.setPort("21");
         cleanVMBackup.setUsername("ftpuser");

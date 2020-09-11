@@ -14,12 +14,12 @@ public class RestoreVMBackupTest {
 
     public static Lifecycle.RestoreVMBackup getRestoreVM() {
         Lifecycle.RestoreVMBackup restoreVMBackup = new Lifecycle.RestoreVMBackup();
-        restoreVMBackup.setDomain("cloudinitbackup4");
+        restoreVMBackup.setDomain("cloudinitbackup5555");
         restoreVMBackup.setPool("migratepoolnodepool22");
-        restoreVMBackup.setVersion("vmbackup2");
+        restoreVMBackup.setVersion("cloudinitbackup5555vmbackup2");
 //        restoreVMBackup.setAll(true);
         restoreVMBackup.setTarget("migratepoolnodepool22");
-        restoreVMBackup.setNewname("cloudinitbackup7777");
+        restoreVMBackup.setNewname("cloudinitbackup5555");
         return restoreVMBackup;
     }
 }

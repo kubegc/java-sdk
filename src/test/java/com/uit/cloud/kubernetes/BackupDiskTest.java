@@ -8,15 +8,15 @@ public class BackupDiskTest {
 
         ExtendedKubernetesClient client = AbstractTest.getClient();
         boolean successful = client.virtualMachineDisks()
-                .backupDisk("crail", "vm.node22", getBackupVM());
+                .backupDisk("e8c9b41664584253afa43592d5efeafb", "vm.node22", getBackupVM());
         System.out.println(successful);
     }
 
     public static Lifecycle.BackupDisk getBackupVM() {
         Lifecycle.BackupDisk backupDisk = new Lifecycle.BackupDisk();
-        backupDisk.setDomain("crail");
+        backupDisk.setDomain("cloudinitbackup5555");
         backupDisk.setPool("migratepoolnodepool22");
-        backupDisk.setVersion("diskbackup1");
+        backupDisk.setVersion("diskbackup123");
         backupDisk.setFull(true);
 //        backupDisk.setRemote("133.133.135.30");
 //        backupDisk.setPort("21");

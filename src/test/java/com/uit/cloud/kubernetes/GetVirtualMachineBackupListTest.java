@@ -24,8 +24,8 @@ public class GetVirtualMachineBackupListTest {
 	
 	public static void main(String[] args) throws Exception {
 
-		getBackup("cloudinit");
-		getBackup("cloudinit", "cloudinit");
+//		getBackup("cloudinitbackup5555");
+		getBackup("cloudinitbackup5555", "e8c9b41664584253afa43592d5efeafb");
 	}
 	public static List<Backup> getBackup(String domain) throws Exception {
 		List<VirtualMachineBackup> list = AbstractTest.getVMBList(domain);
@@ -43,7 +43,7 @@ public class GetVirtualMachineBackupListTest {
 		List<Backup> res = new ArrayList<>();
 		for (VirtualMachineBackup vmb : list) {
 			Backup backup = vmb.getSpec().getBackup();
-			if (backup.getDisk() != null && !backup.getDisk().equals(disk)) {
+			if (backup.getDisk() != null && backup.getDisk().equals(disk)) {
 				System.out.println(JSON.toJSONString(backup, true));
 				res.add(backup);
 			}
