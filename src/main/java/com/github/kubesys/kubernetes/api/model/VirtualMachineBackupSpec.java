@@ -5,9 +5,9 @@ package com.github.kubesys.kubernetes.api.model;
 
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle;
-import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Volume;
-
+import com.github.kubesys.kubernetes.api.model.virtualmachinebackup.Backup;
+import com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle;
+import com.github.kubesys.kubernetes.api.model.virtualmachinepool.Pool;
 import io.fabric8.kubernetes.api.model.KubernetesResource;
 
 /**
@@ -17,27 +17,28 @@ import io.fabric8.kubernetes.api.model.KubernetesResource;
  * @since   2019/9/4
  **/
 @JsonDeserialize(using = JsonDeserializer.None.class)
-public class VirtualMachineDiskSpec extends ExtendedCustomResourceDefinitionSpec implements KubernetesResource {
+public class VirtualMachineBackupSpec extends ExtendedCustomResourceDefinitionSpec implements KubernetesResource {
 
 	/**
-	 * 
+	 *
 	 */
-	private static final long serialVersionUID = 1171174592223281364L;
+	private static final long serialVersionUID = -5135652468821098029L;
 
-	protected Volume volume;
+
+	protected Backup backup;
 
 	protected Lifecycle lifecycle;
-	
-	public VirtualMachineDiskSpec() {
+
+	public VirtualMachineBackupSpec() {
 
 	}
 
-	public Volume getVolume() {
-		return volume;
+	public Backup getBackup() {
+		return backup;
 	}
 
-	public void setVolume(Volume volume) {
-		this.volume = volume;
+	public void setBackup(Backup backup) {
+		this.backup = backup;
 	}
 
 	public Lifecycle getLifecycle() {
@@ -47,5 +48,4 @@ public class VirtualMachineDiskSpec extends ExtendedCustomResourceDefinitionSpec
 	public void setLifecycle(Lifecycle lifecycle) {
 		this.lifecycle = lifecycle;
 	}
-
 }

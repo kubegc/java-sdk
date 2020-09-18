@@ -3,9 +3,8 @@
  */
 package com.uit.cloud.kubernetes;
 
-
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.DeprecatedACL;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ChangeNumberOfCPU;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -16,21 +15,23 @@ import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.Deprecat
  * @since   2019/9/3
  *
  */
-public class DeleteDeprcatedACLsTest {
+public class ChangeNumberOfCPUTest {
 	
 	
 	public static void main(String[] args) throws Exception {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.deprecatedACL("cloudinit1", get());
+				.changeNumberOfCPU("cloudinit1", get());
+//				.plugDisk("vm003", getPlugCdrom());
 		System.out.println(successful);
 	}
 	
-	public static DeprecatedACL get() {
-		DeprecatedACL a1 = new DeprecatedACL();
-		a1.setSwName("aaa1");
-		a1.setVmmac("52:54:00:fd:67:3b");
-		return a1;
+	public static ChangeNumberOfCPU get() {
+		ChangeNumberOfCPU cpu = new ChangeNumberOfCPU();
+		cpu.setCount("1");
+		cpu.setLive(true);
+		cpu.setConfig(true);
+		return cpu;
 	}
 }

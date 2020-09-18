@@ -22,7 +22,7 @@ public class ResizeVMTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.resizeVM("magic11", get(), "12345");
+				.resizeVM("vmtest111", get());
 		System.out.println(successful);
 	}
 

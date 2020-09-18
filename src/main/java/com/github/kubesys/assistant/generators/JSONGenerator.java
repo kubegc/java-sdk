@@ -29,6 +29,7 @@ public class JSONGenerator {
 		list.add("com.github.kubesys.kubernetes.api.model.virtualmachinesnapshot.Lifecycle");
 		list.add("com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle");
 		list.add("com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle");
+		list.add("com.github.kubesys.kubernetes.api.model.virtualmachinebackup.Lifecycle");
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })

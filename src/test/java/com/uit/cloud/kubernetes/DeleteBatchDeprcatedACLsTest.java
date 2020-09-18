@@ -25,9 +25,9 @@ public class DeleteBatchDeprcatedACLsTest {
 	public static void main(String[] args) throws Exception {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
-//		boolean successful = client.virtualMachines()
-//				.batchDeprecatedACL("cloudinit1", get());
-//		System.out.println(successful);
+		boolean successful = client.virtualMachines()
+				.batchDeprecatedACL("cloudinit1", get());
+		System.out.println(successful);
 	}
 	
 	public static BatchDeprecatedACL get() {

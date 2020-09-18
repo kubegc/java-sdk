@@ -7,10 +7,9 @@ import javax.validation.constraints.Pattern;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.github.kubesys.kubernetes.annotations.ClassDescriber;
 import com.github.kubesys.kubernetes.annotations.FunctionDescriber;
 import com.github.kubesys.kubernetes.annotations.ParameterDescriber;
-import com.github.kubesys.kubernetes.api.model.AbstractLifecycle;
+import com.github.kubesys.kubernetes.annotations.ClassDescriber;
 import com.github.kubesys.kubernetes.utils.AnnotationUtils;
 import com.github.kubesys.kubernetes.utils.RegExpUtils;
 
@@ -24,7 +23,7 @@ import com.github.kubesys.kubernetes.utils.RegExpUtils;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 @ClassDescriber(value = "VirtualMachineDisk", desc = "云盘是指未格式化的云盘")
-public class Lifecycle implements AbstractLifecycle {
+public class Lifecycle {
 
 	@FunctionDescriber(shortName = "删除云盘", description = "删除云盘，" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
@@ -89,20 +88,6 @@ public class Lifecycle implements AbstractLifecycle {
 			exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	@Deprecated
 	protected BackupDisk backupDisk;
-
-	@FunctionDescriber(shortName = "恢复云盘", description = "从备份恢复云盘，"
-			+ AnnotationUtils.DESC_FUNCTION_DESC,
-			prerequisite = AnnotationUtils.DESC_FUNCTION_VMD,
-			exception = AnnotationUtils.DESC_FUNCTION_EXEC)
-	@Deprecated
-	protected RestoreDisk restoreDisk;
-
-	@FunctionDescriber(shortName = "删除本地云盘", description = "删除本地云盘，"
-			+ AnnotationUtils.DESC_FUNCTION_DESC,
-			prerequisite = AnnotationUtils.DESC_FUNCTION_VMD,
-			exception = AnnotationUtils.DESC_FUNCTION_EXEC)
-	@Deprecated
-	protected DeleteVMDiskBackup deleteVMDiskBackup;
 	
 	@FunctionDescriber(shortName = "创建cloud-init的镜像文件", description = "创建云盘，" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 
@@ -132,28 +117,12 @@ public class Lifecycle implements AbstractLifecycle {
 		this.deleteCloudInitUserDataImage = deleteCloudInitUserDataImage;
 	}
 
-	public DeleteVMDiskBackup getDeleteVMDiskBackup() {
-		return deleteVMDiskBackup;
-	}
-
-	public void setDeleteVMDiskBackup(DeleteVMDiskBackup deleteVMDiskBackup) {
-		this.deleteVMDiskBackup = deleteVMDiskBackup;
-	}
-
 	public BackupDisk getBackupDisk() {
 		return backupDisk;
 	}
 
 	public void setBackupDisk(BackupDisk backupDisk) {
 		this.backupDisk = backupDisk;
-	}
-
-	public RestoreDisk getRestoreDisk() {
-		return restoreDisk;
-	}
-
-	public void setRestoreDisk(RestoreDisk restoreDisk) {
-		this.restoreDisk = restoreDisk;
 	}
 
 	public MigrateDisk getMigrateDisk() {
@@ -739,7 +708,6 @@ public class Lifecycle implements AbstractLifecycle {
 		protected String pool;
 
 		@ParameterDescriber(required = true, description = "备份记录的版本号", constraint = "备份记录的版本号", example = "13024b305b5c463b80bceee066077079")
-		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
 		protected String version;
 
 		@ParameterDescriber(required = false, description = "全量备份",
@@ -820,116 +788,6 @@ public class Lifecycle implements AbstractLifecycle {
 
 		public void setFull(boolean full) {
 			this.full = full;
-		}
-	}
-
-	@JsonInclude(JsonInclude.Include.NON_NULL)
-	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class RestoreDisk {
-		@ParameterDescriber(required = true, description = "要备份的云盘所在的云主机", constraint = "要备份的云盘所在的云主机", example = "a63dd73f92a24a9ab840492f0e538f2b")
-		protected String domain;
-
-		@ParameterDescriber(required = true, description = "云盘备份所在的存储池", constraint = "云盘备份所在的存储池", example = "172.16.1.214")
-		protected String pool;
-
-		@ParameterDescriber(required = true, description = "备份记录的版本号", constraint = "备份记录的版本号", example = "172.16.1.214")
-		protected String version;
-
-		@ParameterDescriber(required = false, description = "新建云盘的名字", constraint = "新建云盘的名字", example = "a63dd73f92a24a9ab840492f0e538f2b")
-		protected String newname;
-
-		@ParameterDescriber(required = false, description = "根据备份记录新建云盘时使用的存储池", constraint = "根据备份记录新建云盘时使用的存储池", example = "pooltest")
-		protected String target;
-
-		@ParameterDescriber(required = false, description = "新建云盘要挂载到的虚拟机", constraint = "新建云盘要挂载到的虚拟机", example = "172.16.1.214")
-		protected String targetDomain;
-
-		public String getDomain() {
-			return domain;
-		}
-
-		public void setDomain(String domain) {
-			this.domain = domain;
-		}
-
-		public String getPool() {
-			return pool;
-		}
-
-		public void setPool(String pool) {
-			this.pool = pool;
-		}
-
-		public String getVersion() {
-			return version;
-		}
-
-		public void setVersion(String version) {
-			this.version = version;
-		}
-
-		public String getNewname() {
-			return newname;
-		}
-
-		public void setNewname(String newname) {
-			this.newname = newname;
-		}
-
-		public String getTarget() {
-			return target;
-		}
-
-		public void setTarget(String target) {
-			this.target = target;
-		}
-
-		public String getTargetDomain() {
-			return targetDomain;
-		}
-
-		public void setTargetDomain(String targetDomain) {
-			this.targetDomain = targetDomain;
-		}
-	}
-
-	@JsonInclude(JsonInclude.Include.NON_NULL)
-	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	public static class DeleteVMDiskBackup {
-		@ParameterDescriber(required = true, description = "要删除云盘的备份所在的云主机", constraint = "要删除云盘的备份所在的云主机", example = "a63dd73f92a24a9ab840492f0e538f2b")
-		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
-		protected String domain;
-
-		@ParameterDescriber(required = true, description = "备份主机云盘使用的存储池", constraint = "备份主机云盘使用的存储池", example = "61024b305b5c463b80bceee066077079")
-		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
-		protected String pool;
-
-		@ParameterDescriber(required = true, description = "备份记录的版本号", constraint = "备份记录的版本号", example = "13024b305b5c463b80bceee066077079")
-		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
-		protected String version;
-
-		public String getDomain() {
-			return domain;
-		}
-
-		public void setDomain(String domain) {
-			this.domain = domain;
-		}
-
-		public String getPool() {
-			return pool;
-		}
-
-		public void setPool(String pool) {
-			this.pool = pool;
-		}
-
-		public String getVersion() {
-			return version;
-		}
-
-		public void setVersion(String version) {
-			this.version = version;
 		}
 	}
 	

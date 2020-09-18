@@ -8,19 +8,20 @@ public class BackupVMTest {
 
         ExtendedKubernetesClient client = AbstractTest.getClient();
         boolean successful = client.virtualMachines()
-                .backupVM("vmbackuptest", "vm.node25", getBackupVM());
+                .backupVM("cloudinitbackup5555", "vm.node22", getBackupVM());
         System.out.println(successful);
     }
 
     public static Lifecycle.BackupVM getBackupVM() {
         Lifecycle.BackupVM backupVM = new Lifecycle.BackupVM();
-        backupVM.setPool("3915282a12dd4c34a0ae565d3ba2da41");
-        backupVM.setVersion("backup2");
-//        backupVM.setAll(true);
-//        backupVM.setRemote("172.16.1.214");
-//        backupVM.setPort("21");
-//        backupVM.setUsername("ftpuser");
-//        backupVM.setPassword("ftpuser");
+        backupVM.setPool("migratepoolnodepool22");
+        backupVM.setVersion("cloudinitbackup5555vmbackup2");
+        backupVM.setAll(true);
+        backupVM.setFull(true);
+        backupVM.setRemote("133.133.135.30");
+        backupVM.setPort("21");
+        backupVM.setUsername("ftpuser");
+        backupVM.setPassword("ftpuser");
         return backupVM;
     }
 }

@@ -3,15 +3,17 @@
  */
 package com.github.kubesys.kubernetes.api.model;
 
+import io.fabric8.kubernetes.client.CustomResourceList;
+
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
  * @author xuyuanjia2017@otcaix.iscas.ac.cn
  * @author xianghao16@otcaix.iscas.ac.cn
  * @author yangchen18@otcaix.iscas.ac.cn
- * @since Thu July 8 21:39:55 CST 2019
+ * @since Thu Jun 13 21:47:50 CST 2019
  **/
-public interface AbstractLifecycle {
-
+@SuppressWarnings("serial")
+public class VirtualMachineBackupList extends CustomResourceList<VirtualMachineBackup> {
 }
 

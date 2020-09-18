@@ -22,13 +22,13 @@ public class DeleteDiskTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineDisks()
-				.deleteDisk("ipv6test", getDeleteDisk());
+				.deleteDisk("crail-compute1", getDeleteDisk());
 		System.out.println(successful);
 	}
 	
 	public static DeleteDisk getDeleteDisk() {
 		DeleteDisk deleteDisk = new DeleteDisk();
-		deleteDisk.setPool("migratepoolnodepool32");
+		deleteDisk.setPool("migratepoolnodepool22");
 		deleteDisk.setType("nfs");
 		return deleteDisk;
 	}

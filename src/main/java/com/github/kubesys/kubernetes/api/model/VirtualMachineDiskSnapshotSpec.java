@@ -3,9 +3,9 @@
  */
 package com.github.kubesys.kubernetes.api.model;
 
-
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.github.kubesys.kubernetes.api.model.virtualmachinedisksnapshot.Lifecycle;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisksnapshot.Volume;
 
 import io.fabric8.kubernetes.api.model.KubernetesResource;
@@ -26,6 +26,8 @@ public class VirtualMachineDiskSnapshotSpec extends ExtendedCustomResourceDefini
 
 	protected Volume volume;
 
+	protected Lifecycle lifecycle;
+	
 	public VirtualMachineDiskSnapshotSpec() {
 
 	}
@@ -36,6 +38,14 @@ public class VirtualMachineDiskSnapshotSpec extends ExtendedCustomResourceDefini
 
 	public void setVolume(Volume volume) {
 		this.volume = volume;
+	}
+
+	public Lifecycle getLifecycle() {
+		return lifecycle;
+	}
+
+	public void setLifecycle(Lifecycle lifecycle) {
+		this.lifecycle = lifecycle;
 	}
 
 }

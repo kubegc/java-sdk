@@ -18,8 +18,9 @@ import javax.validation.constraints.Pattern;
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
 import com.github.kubesys.kubernetes.ExtendedKubernetesConstants;
 import com.github.kubesys.kubernetes.annotations.ParameterDescriber;
-import com.github.kubesys.kubernetes.api.model.AbstractLifecycle;
 import com.github.kubesys.kubernetes.api.model.ExtendedCustomResourceDefinitionSpec;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ResetVM;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StopVMForce;
 import com.github.kubesys.kubernetes.utils.RegExpUtils;
 
 import io.fabric8.kubernetes.api.model.HasMetadata;
@@ -46,7 +47,7 @@ public abstract class AbstractImpl<R, S, T> {
 	/**
 	 * m_logger
 	 */
-	protected static final Logger m_logger = Logger.getLogger(AbstractImpl.class.getName());
+	protected final static Logger m_logger = Logger.getLogger(AbstractImpl.class.getName());
 
 	/**
 	 * client
@@ -414,7 +415,7 @@ public abstract class AbstractImpl<R, S, T> {
 	/**
 	 * @return                   Lifecycle, see fabric8 example
 	 */
-	public abstract AbstractLifecycle getLifecycle();
+	public abstract Object getLifecycle();
 	
 	/******************************************************
 	 * 
@@ -456,10 +457,10 @@ public abstract class AbstractImpl<R, S, T> {
 	 * @return                        true or an exception
 	 * @throws Exception
 	 */
-	public boolean update(R r, Object operator, String eventId) throws Exception {
+	public boolean update(R r, Object operator) throws Exception {
 		
 		T t = getSpec(r);
-		Object lifecycle = createLifecycle(operator, eventId);
+		Object lifecycle = createLifecycle(operator);
 		
 		// t.setLifecycle(lifecycle)
 		Method setLifecycle = t.getClass().getMethod("setLifecycle", lifecycle.getClass());
@@ -474,7 +475,7 @@ public abstract class AbstractImpl<R, S, T> {
 	 * @return                        true or an exception
 	 * @throws Exception
 	 */
-	public boolean update(String name, ObjectMeta om, Object operator, String eventId) throws Exception {
+	public boolean update(String name, ObjectMeta om, Object operator) throws Exception {
 		
 		String oname = operator.getClass().getSimpleName();
 		
@@ -485,7 +486,7 @@ public abstract class AbstractImpl<R, S, T> {
 			for (Object suboperator : values) {
 				for (int i = 0; i < 3; i++) {
 					try {
-						doUpdate(name, om, suboperator, eventId);
+						doUpdate(name, om, suboperator);
 						break;
 					} catch (Exception ex) {
 						if (i == 2) {
@@ -498,11 +499,11 @@ public abstract class AbstractImpl<R, S, T> {
 			}
 			return true;
 		} else {
-			return doUpdate(name, om, operator, eventId);
+			return doUpdate(name, om, operator);
 		}
 	}
 
-	protected boolean doUpdate(String name, ObjectMeta om, Object operator, String eventId)
+	protected boolean doUpdate(String name, ObjectMeta om, Object operator)
 			throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, Exception {
 		R r = get(name);
 		if (r == null) {
@@ -510,23 +511,20 @@ public abstract class AbstractImpl<R, S, T> {
 		}
 		
 		T t = getSpec(r);
-//		if (!operator.getClass().getSimpleName().equals(StopVMForce.class.getSimpleName())
-//				&& !operator.getClass().getSimpleName().equals(ResetVM.class.getSimpleName())) {
-//			Method glf = t.getClass().getMethod("getLifecycle");
-//			Object gva = glf.invoke(t);
-//			if (gva != null) {
-//				throw new RuntimeException(type + " " + name + " is now under processing");
-//			}
-//		}
+		if (!operator.getClass().getSimpleName().equals(StopVMForce.class.getSimpleName())
+				&& !operator.getClass().getSimpleName().equals(ResetVM.class.getSimpleName())) {
+			Method glf = t.getClass().getMethod("getLifecycle");
+			Object gva = glf.invoke(t);
+			if (gva != null) {
+				throw new RuntimeException(type + " " + name + " is now under processing");
+			}
+		}
 		
-		// t.setLifecycles(lifecycle)
-		Method glf = t.getClass().getMethod("getLifecycles");
-		List<VMObject> lifecycles = (List<VMObject>) glf.invoke(t);
-		lifecycles = (lifecycles == null) ? new ArrayList<>() : lifecycles;
+		Object lifecycle = createLifecycle(operator);
 		
-		lifecycles.add(createLifecycle(operator, eventId));
-		Method setLifecycle = t.getClass().getMethod("setLifecycles", List.class);
-		setLifecycle.invoke(t, lifecycles);
+		// t.setLifecycle(lifecycle)
+		Method setLifecycle = t.getClass().getMethod("setLifecycle", lifecycle.getClass());
+		setLifecycle.invoke(t, lifecycle);
 		
 		// r.setSpec(spec)
 		Method setSpec = r.getClass().getMethod("setSpec", t.getClass());
@@ -546,7 +544,7 @@ public abstract class AbstractImpl<R, S, T> {
 	 * @return                        true or an exception
 	 * @throws Exception              exception
 	 */
-	public boolean delete(String name, ObjectMeta om, Object operator, String eventId) throws Exception {
+	public boolean delete(String name, ObjectMeta om, Object operator) throws Exception {
 		
 		R r = get(name);
 		if (r == null) {
@@ -561,7 +559,7 @@ public abstract class AbstractImpl<R, S, T> {
 			return true;
 		}
 		
-		return update(name, om, operator, eventId);
+		return update(name, om, operator);
 	}
 	
 	/*************************************************
@@ -598,7 +596,7 @@ public abstract class AbstractImpl<R, S, T> {
 	 * @return                       lifecycle, or an exception
 	 * @throws Exception             exception
 	 */
-	public VMObject createLifecycle(Object operator, String eventId) throws Exception {
+	public Object createLifecycle(Object operator) throws Exception {
 		
 		// JSR 303
 		for (Field field : operator.getClass().getDeclaredFields()) {
@@ -636,11 +634,10 @@ public abstract class AbstractImpl<R, S, T> {
 			}
 		}
 		
-		VMObject lifecycle  = new VMObject();
-		lifecycle.setDatetime(String.valueOf(System.currentTimeMillis()));
-		lifecycle.setEventId(eventId);
-		lifecycle.setObject(operator);
-		lifecycle.setLifecycle(operator.getClass().getSimpleName());
+		Object lifecycle = getLifecycle();
+		String name = "set" + operator.getClass().getSimpleName();
+		Method setOperator = lifecycle.getClass().getMethod(name, operator.getClass());
+		setOperator.invoke(lifecycle, operator);
 		return lifecycle;
 	}
 	

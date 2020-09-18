@@ -5,7 +5,6 @@ package com.github.kubesys.kubernetes.impl;
 
 import java.util.regex.Pattern;
 
-import com.github.kubesys.kubernetes.api.model.AbstractLifecycle;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineDiskImage;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineDiskImageList;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineDiskImageSpec;
@@ -25,7 +24,7 @@ public class VirtualMachineDiskImageImpl extends AbstractImpl<VirtualMachineDisk
 
 
 	@Override
-	public AbstractLifecycle getLifecycle() {
+	public Object getLifecycle() {
 		return new Lifecycle();
 	}
 
@@ -69,7 +68,7 @@ public class VirtualMachineDiskImageImpl extends AbstractImpl<VirtualMachineDisk
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
 		return create(getModel(), createMetadata(name, nodeName, eventId), 
-				createSpec(nodeName, createLifecycle(createDiskImageFromDisk, eventId)));
+				createSpec(nodeName, createLifecycle(createDiskImageFromDisk)));
 	}
 
 	public boolean createDiskImage(String name, CreateDiskImage createDiskImage) throws Exception {
@@ -90,7 +89,7 @@ public class VirtualMachineDiskImageImpl extends AbstractImpl<VirtualMachineDisk
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
 		return create(getModel(), createMetadata(name, nodeName, eventId), 
-				createSpec(nodeName, createLifecycle(createDiskImage, eventId)));
+				createSpec(nodeName, createLifecycle(createDiskImage)));
 	}
 
 	public boolean deleteDiskImage(String name, DeleteDiskImage deleteDiskImage) throws Exception {
@@ -102,7 +101,7 @@ public class VirtualMachineDiskImageImpl extends AbstractImpl<VirtualMachineDisk
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
-		return delete(name, updateMetadata(name, eventId), deleteDiskImage, eventId);
+		return delete(name, updateMetadata(name, eventId), deleteDiskImage);
 	}
 
 	public boolean deleteDiskImage(String name, String nodeName, DeleteDiskImage deleteDiskImage) throws Exception {

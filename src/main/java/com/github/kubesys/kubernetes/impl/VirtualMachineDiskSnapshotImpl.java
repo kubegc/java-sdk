@@ -5,7 +5,6 @@ package com.github.kubesys.kubernetes.impl;
 
 import java.util.regex.Pattern;
 
-import com.github.kubesys.kubernetes.api.model.AbstractLifecycle;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineDiskSnapshot;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineDiskSnapshotList;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineDiskSnapshotSpec;
@@ -35,7 +34,7 @@ public class VirtualMachineDiskSnapshotImpl extends AbstractImpl<VirtualMachineD
 	
 
 	@Override
-	public AbstractLifecycle getLifecycle() {
+	public Object getLifecycle() {
 		return new Lifecycle();
 	}
 
@@ -68,7 +67,7 @@ public class VirtualMachineDiskSnapshotImpl extends AbstractImpl<VirtualMachineD
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
 		return create(getModel(), createMetadata(name, nodeName, eventId), 
-				createSpec(nodeName, createLifecycle(createDiskExternalSnapshot, eventId)));
+				createSpec(nodeName, createLifecycle(createDiskExternalSnapshot)));
 	}
 
 	public boolean revertDiskExternalSnapshot(String name, RevertDiskExternalSnapshot revertDiskExternalSnapshot) throws Exception {
@@ -80,7 +79,7 @@ public class VirtualMachineDiskSnapshotImpl extends AbstractImpl<VirtualMachineD
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
-		return update(name, updateMetadata(name, eventId), revertDiskExternalSnapshot, eventId);
+		return update(name, updateMetadata(name, eventId), revertDiskExternalSnapshot);
 	}
 
 	public boolean revertDiskExternalSnapshot(String name, String nodeName, RevertDiskExternalSnapshot revertDiskExternalSnapshot) throws Exception {
@@ -102,7 +101,7 @@ public class VirtualMachineDiskSnapshotImpl extends AbstractImpl<VirtualMachineD
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
-		return delete(name, updateMetadata(name, eventId), deleteDiskExternalSnapshot, eventId);
+		return delete(name, updateMetadata(name, eventId), deleteDiskExternalSnapshot);
 	}
 
 	public boolean deleteDiskExternalSnapshot(String name, String nodeName, DeleteDiskExternalSnapshot deleteDiskExternalSnapshot) throws Exception {

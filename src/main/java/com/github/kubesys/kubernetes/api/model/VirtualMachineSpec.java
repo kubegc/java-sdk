@@ -6,6 +6,7 @@ package com.github.kubesys.kubernetes.api.model;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Domain;
+import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle;
 
 import io.fabric8.kubernetes.api.model.KubernetesResource;
 
@@ -32,6 +33,8 @@ public class VirtualMachineSpec extends ExtendedCustomResourceDefinitionSpec imp
 
 	protected Domain domain;
 
+	protected Lifecycle lifecycle;
+	
 	protected String powerstate;
 	
 	public VirtualMachineSpec() {
@@ -44,6 +47,14 @@ public class VirtualMachineSpec extends ExtendedCustomResourceDefinitionSpec imp
 
 	public void setDomain(Domain domain) {
 		this.domain = domain;
+	}
+
+	public Lifecycle getLifecycle() {
+		return lifecycle;
+	}
+
+	public void setLifecycle(Lifecycle lifecycle) {
+		this.lifecycle = lifecycle;
 	}
 
 	public String getPowerstate() {

@@ -22,15 +22,15 @@ public class CreateDiskTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineDisks()
-				.createDisk("ipv6test", "vm.node32", get(), "abc");
+				.createDisk("crailcompute1", "vm.node22", get(), "abc");
 		System.out.println(successful);
 	}
 
 	protected static CreateDisk get() {
 		CreateDisk createDisk = new CreateDisk();
-		createDisk.setPool("migratepoolnodepool32");
+		createDisk.setPool("migratepoolnodepool22");
 		// bytes 10G
-		Long size = 10L*1024*1024*1024;
+		Long size = 30L*1024*1024*1024;
 		createDisk.setCapacity(String.valueOf(size));
 		createDisk.setFormat("qcow2");
 		createDisk.setType("nfs");

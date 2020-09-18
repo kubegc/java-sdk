@@ -5,7 +5,6 @@ package com.github.kubesys.kubernetes.impl;
 
 import java.util.regex.Pattern;
 
-import com.github.kubesys.kubernetes.api.model.AbstractLifecycle;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineImage;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineImageList;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineImageSpec;
@@ -34,7 +33,7 @@ public class VirtualMachineImageImpl extends AbstractImpl<VirtualMachineImage, V
 	}
 
 	@Override
-	public AbstractLifecycle getLifecycle() {
+	public Object getLifecycle() {
 		return new Lifecycle();
 	}
 
@@ -67,7 +66,7 @@ public class VirtualMachineImageImpl extends AbstractImpl<VirtualMachineImage, V
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
 		return create(getModel(), createMetadata(name, nodeName, eventId), 
-				createSpec(nodeName, createLifecycle(createImage, eventId)));
+				createSpec(nodeName, createLifecycle(createImage)));
 	}
 
 	public boolean deleteImage(String name, DeleteImage deleteImage) throws Exception {
@@ -79,7 +78,7 @@ public class VirtualMachineImageImpl extends AbstractImpl<VirtualMachineImage, V
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
-		return delete(name, updateMetadata(name, eventId), deleteImage, eventId);
+		return delete(name, updateMetadata(name, eventId), deleteImage);
 	}
 
 	public boolean deleteImage(String name, String nodeName, DeleteImage deleteImage) throws Exception {
@@ -101,7 +100,7 @@ public class VirtualMachineImageImpl extends AbstractImpl<VirtualMachineImage, V
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
-		return update(name, updateMetadata(name, eventId), convertImageToVM, eventId);
+		return update(name, updateMetadata(name, eventId), convertImageToVM);
 	}
 
 	public boolean convertImageToVM(String name, String nodeName, ConvertImageToVM convertImageToVM) throws Exception {

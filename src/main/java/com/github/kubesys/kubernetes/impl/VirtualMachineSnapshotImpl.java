@@ -6,7 +6,6 @@ package com.github.kubesys.kubernetes.impl;
 
 import java.util.regex.Pattern;
 
-import com.github.kubesys.kubernetes.api.model.AbstractLifecycle;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineSnapshot;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineSnapshotList;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineSnapshotSpec;
@@ -37,7 +36,7 @@ public class VirtualMachineSnapshotImpl extends AbstractImpl<VirtualMachineSnaps
 	}
 
 	@Override
-	public AbstractLifecycle getLifecycle() {
+	public Object getLifecycle() {
 		return new Lifecycle();
 	}
 
@@ -62,7 +61,7 @@ public class VirtualMachineSnapshotImpl extends AbstractImpl<VirtualMachineSnaps
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
-		return delete(name, updateMetadata(name, eventId), deleteSnapshot, eventId);
+		return delete(name, updateMetadata(name, eventId), deleteSnapshot);
 	}
 
 	public boolean deleteSnapshot(String name, String nodeName, DeleteSnapshot deleteSnapshot) throws Exception {
@@ -93,7 +92,7 @@ public class VirtualMachineSnapshotImpl extends AbstractImpl<VirtualMachineSnaps
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
 		return create(getModel(), createMetadata(name, nodeName, eventId), 
-				createSpec(nodeName, createLifecycle(createSnapshot, eventId)));
+				createSpec(nodeName, createLifecycle(createSnapshot)));
 	}
 
 	public boolean revertVirtualMachine(String name, RevertVirtualMachine revertVirtualMachine) throws Exception {
@@ -105,7 +104,7 @@ public class VirtualMachineSnapshotImpl extends AbstractImpl<VirtualMachineSnaps
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
-		return update(name, updateMetadata(name, eventId), revertVirtualMachine, eventId);
+		return update(name, updateMetadata(name, eventId), revertVirtualMachine);
 	}
 
 	public boolean revertVirtualMachine(String name, String nodeName, RevertVirtualMachine revertVirtualMachine) throws Exception {
@@ -127,7 +126,7 @@ public class VirtualMachineSnapshotImpl extends AbstractImpl<VirtualMachineSnaps
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
-		return update(name, updateMetadata(name, eventId), copySnapshot, eventId);
+		return update(name, updateMetadata(name, eventId), copySnapshot);
 	}
 
 	public boolean copySnapshot(String name, String nodeName, CopySnapshot copySnapshot) throws Exception {
@@ -149,7 +148,7 @@ public class VirtualMachineSnapshotImpl extends AbstractImpl<VirtualMachineSnaps
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
-		return update(name, updateMetadata(name, eventId), mergeSnapshot, eventId);
+		return update(name, updateMetadata(name, eventId), mergeSnapshot);
 	}
 
 	public boolean mergeSnapshot(String name, String nodeName, MergeSnapshot mergeSnapshot) throws Exception {

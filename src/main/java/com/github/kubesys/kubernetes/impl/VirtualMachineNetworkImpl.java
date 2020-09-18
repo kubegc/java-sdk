@@ -5,7 +5,6 @@ package com.github.kubesys.kubernetes.impl;
 
 import java.util.regex.Pattern;
 
-import com.github.kubesys.kubernetes.api.model.AbstractLifecycle;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineNetwork;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineNetworkList;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineNetworkSpec;
@@ -44,7 +43,7 @@ public class VirtualMachineNetworkImpl extends AbstractImpl<VirtualMachineNetwor
 	}
 	
 	@Override
-	public AbstractLifecycle getLifecycle() {
+	public Object getLifecycle() {
 		return new Lifecycle();
 	}
 
@@ -78,7 +77,7 @@ public class VirtualMachineNetworkImpl extends AbstractImpl<VirtualMachineNetwor
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
 		return create(getModel(), createMetadata(name, nodeName, eventId), 
-				createSpec(nodeName, createLifecycle(createBridge, eventId)));
+				createSpec(nodeName, createLifecycle(createBridge)));
 	}
 
 	public boolean deleteBridge(String name, DeleteBridge deleteBridge) throws Exception {
@@ -90,7 +89,7 @@ public class VirtualMachineNetworkImpl extends AbstractImpl<VirtualMachineNetwor
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
-		return delete(name, updateMetadata(name, eventId), deleteBridge, eventId);
+		return delete(name, updateMetadata(name, eventId), deleteBridge);
 	}
 
 	public boolean deleteBridge(String name, String nodeName, DeleteBridge deleteBridge) throws Exception {
@@ -112,7 +111,7 @@ public class VirtualMachineNetworkImpl extends AbstractImpl<VirtualMachineNetwor
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
-		return update(name, updateMetadata(name, eventId), setBridgeVlan, eventId);
+		return update(name, updateMetadata(name, eventId), setBridgeVlan);
 	}
 
 	public boolean setBridgeVlan(String name, String nodeName, SetBridgeVlan setBridgeVlan) throws Exception {
@@ -134,7 +133,7 @@ public class VirtualMachineNetworkImpl extends AbstractImpl<VirtualMachineNetwor
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
-		return update(name, updateMetadata(name, eventId), delBridgeVlan, eventId);
+		return update(name, updateMetadata(name, eventId), delBridgeVlan);
 	}
 
 	public boolean delBridgeVlan(String name, String nodeName, DelBridgeVlan delBridgeVlan) throws Exception {
@@ -156,7 +155,7 @@ public class VirtualMachineNetworkImpl extends AbstractImpl<VirtualMachineNetwor
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
-		return update(name, updateMetadata(name, eventId), bindPortVlan, eventId);
+		return update(name, updateMetadata(name, eventId), bindPortVlan);
 	}
 
 	public boolean bindPortVlan(String name, String nodeName, BindPortVlan bindPortVlan) throws Exception {
@@ -178,7 +177,7 @@ public class VirtualMachineNetworkImpl extends AbstractImpl<VirtualMachineNetwor
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
-		return update(name, updateMetadata(name, eventId), unbindPortVlan, eventId);
+		return update(name, updateMetadata(name, eventId), unbindPortVlan);
 	}
 
 	public boolean unbindPortVlan(String name, String nodeName, UnbindPortVlan unbindPortVlan) throws Exception {
@@ -209,7 +208,7 @@ public class VirtualMachineNetworkImpl extends AbstractImpl<VirtualMachineNetwor
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
 		return create(getModel(), createMetadata(name, nodeName, eventId), 
-				createSpec(nodeName, createLifecycle(createSwitch, eventId)));
+				createSpec(nodeName, createLifecycle(createSwitch)));
 	}
 
 	public boolean deleteSwitch(String name, DeleteSwitch deleteSwitch) throws Exception {
@@ -221,7 +220,7 @@ public class VirtualMachineNetworkImpl extends AbstractImpl<VirtualMachineNetwor
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
-		return delete(name, updateMetadata(name, eventId), deleteSwitch, eventId);
+		return delete(name, updateMetadata(name, eventId), deleteSwitch);
 	}
 
 	public boolean deleteSwitch(String name, String nodeName, DeleteSwitch deleteSwitch) throws Exception {
@@ -243,7 +242,7 @@ public class VirtualMachineNetworkImpl extends AbstractImpl<VirtualMachineNetwor
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
-		return update(name, updateMetadata(name, eventId), modifySwitch, eventId);
+		return update(name, updateMetadata(name, eventId), modifySwitch);
 	}
 
 	public boolean modifySwitch(String name, String nodeName, ModifySwitch modifySwitch) throws Exception {
@@ -274,7 +273,7 @@ public class VirtualMachineNetworkImpl extends AbstractImpl<VirtualMachineNetwor
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
 		return create(getModel(), createMetadata(name, nodeName, eventId), 
-				createSpec(nodeName, createLifecycle(createAddress, eventId)));
+				createSpec(nodeName, createLifecycle(createAddress)));
 	}
 
 	public boolean deleteAddress(String name, DeleteAddress deleteAddress) throws Exception {
@@ -286,7 +285,7 @@ public class VirtualMachineNetworkImpl extends AbstractImpl<VirtualMachineNetwor
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
-		return delete(name, updateMetadata(name, eventId), deleteAddress, eventId);
+		return delete(name, updateMetadata(name, eventId), deleteAddress);
 	}
 
 	public boolean deleteAddress(String name, String nodeName, DeleteAddress deleteAddress) throws Exception {
@@ -308,7 +307,7 @@ public class VirtualMachineNetworkImpl extends AbstractImpl<VirtualMachineNetwor
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
-		return update(name, updateMetadata(name, eventId), modifyAddress, eventId);
+		return update(name, updateMetadata(name, eventId), modifyAddress);
 	}
 
 	public boolean modifyAddress(String name, String nodeName, ModifyAddress modifyAddress) throws Exception {

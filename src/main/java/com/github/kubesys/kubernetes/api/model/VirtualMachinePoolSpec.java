@@ -5,6 +5,7 @@ package com.github.kubesys.kubernetes.api.model;
 
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle;
 import com.github.kubesys.kubernetes.api.model.virtualmachinepool.Pool;
 
 import io.fabric8.kubernetes.api.model.KubernetesResource;
@@ -26,6 +27,8 @@ public class VirtualMachinePoolSpec extends ExtendedCustomResourceDefinitionSpec
 
 	protected Pool pool;
 
+	protected Lifecycle lifecycle;
+	
 	public VirtualMachinePoolSpec() {
 
 	}
@@ -38,5 +41,12 @@ public class VirtualMachinePoolSpec extends ExtendedCustomResourceDefinitionSpec
 		this.pool = pool;
 	}
 
+	public Lifecycle getLifecycle() {
+		return lifecycle;
+	}
+
+	public void setLifecycle(Lifecycle lifecycle) {
+		this.lifecycle = lifecycle;
+	}
 
 }

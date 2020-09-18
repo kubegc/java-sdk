@@ -4,6 +4,10 @@
 package com.uit.cloud.kubernetes;
 
 import com.alibaba.fastjson.JSON;
+import com.github.kubesys.kubernetes.api.model.VirtualMachineBackup;
+import com.github.kubesys.kubernetes.api.model.VirtualMachineBackupList;
+
+import java.util.*;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -14,12 +18,10 @@ import com.alibaba.fastjson.JSON;
  * @since   2019/9/3
  *
  */
-public class GetVirtualMachineDiskTest {
+public class GetVirtualMachineBackupTest {
 	
 	public static void main(String[] args) throws Exception {
-		System.out.println(AbstractTest
-				.getVMByName("cloudinit"));
-		System.out.println(JSON.toJSONString(AbstractTest.getVMDiskByName("cloudinit").getSpec().getVolume(), true));
+		System.out.println(AbstractTest.getVMBByName("vmbackup2"));
 	}
 	
 }

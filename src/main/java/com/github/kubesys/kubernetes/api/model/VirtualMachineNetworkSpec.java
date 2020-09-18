@@ -6,6 +6,7 @@ package com.github.kubesys.kubernetes.api.model;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Data;
+import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle;
 
 import io.fabric8.kubernetes.api.model.KubernetesResource;
 
@@ -27,6 +28,8 @@ public class VirtualMachineNetworkSpec extends ExtendedCustomResourceDefinitionS
 	
 	protected Data data;
 	
+	protected Lifecycle lifecycle;
+	
 	public VirtualMachineNetworkSpec() {
 
 	}
@@ -45,6 +48,14 @@ public class VirtualMachineNetworkSpec extends ExtendedCustomResourceDefinitionS
 
 	public void setData(Data data) {
 		this.data = data;
+	}
+
+	public Lifecycle getLifecycle() {
+		return lifecycle;
+	}
+
+	public void setLifecycle(Lifecycle lifecycle) {
+		this.lifecycle = lifecycle;
 	}
 
 }

@@ -1,29 +1,26 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
-import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle;
+import com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle;
 
 public class RestoreDiskTest {
     public static void main(String[] args) throws Exception {
 
         ExtendedKubernetesClient client = AbstractTest.getClient();
-        boolean successful = client.virtualMachineDisks()
-                .restoreDisk("vmbackupdisktest1", "vm.node25", getBackupVM());
+        boolean successful = client.virtualMachinePools()
+                .restoreDisk("migratepoolnodepool22", "vm.node22", getBackupVM());
         System.out.println(successful);
     }
 
     public static Lifecycle.RestoreDisk getBackupVM() {
         Lifecycle.RestoreDisk restoreDisk = new Lifecycle.RestoreDisk();
-        restoreDisk.setDomain("vmbackuptest");
-        restoreDisk.setPool("3915282a12dd4c34a0ae565d3ba2da41");
-        restoreDisk.setVersion("backup2");
-        restoreDisk.setNewname("vmbackupdisktest1backup2");
-        restoreDisk.setTarget("233041549cb44e5a83eba623716f122f");
-        restoreDisk.setTargetDomain("vmbackuptest");
-//        restoreDisk.setRemote("172.16.1.214");
-//        restoreDisk.setPort("21");
-//        restoreDisk.setUsername("ftpuser");
-//        restoreDisk.setPassword("ftpuser");
+        restoreDisk.setDomain("crail");
+        restoreDisk.setPool("migratepoolnodepool22");
+        restoreDisk.setVol("crail");
+        restoreDisk.setVersion("diskbackup1");
+        restoreDisk.setNewname("vmbackupdisk1restore1");
+        restoreDisk.setTarget("migratepoolnodepool22");
+        restoreDisk.setTargetDomain("crail");
         return restoreDisk;
     }
 }

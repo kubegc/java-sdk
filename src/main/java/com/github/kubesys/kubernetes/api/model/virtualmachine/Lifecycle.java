@@ -12,7 +12,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.github.kubesys.kubernetes.annotations.ClassDescriber;
 import com.github.kubesys.kubernetes.annotations.FunctionDescriber;
 import com.github.kubesys.kubernetes.annotations.ParameterDescriber;
-import com.github.kubesys.kubernetes.api.model.AbstractLifecycle;
 import com.github.kubesys.kubernetes.utils.AnnotationUtils;
 import com.github.kubesys.kubernetes.utils.RegExpUtils;
 
@@ -26,7 +25,7 @@ import com.github.kubesys.kubernetes.utils.RegExpUtils;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 @ClassDescriber(value = "VirtualMachine", desc = "虚拟机是指安装了OS的磁盘")
-public class Lifecycle implements AbstractLifecycle {
+public class Lifecycle {
 
 	@FunctionDescriber(shortName = "通过ISO装虚拟机", description = "通过光驱安装云OS，光驱必须存在"
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = "", exception = AnnotationUtils.DESC_FUNCTION_EXEC)
@@ -1739,6 +1738,8 @@ public class Lifecycle implements AbstractLifecycle {
 		@Pattern(regexp = RegExpUtils.UUID_PATTERN)
 		protected String metadata;
 
+		@ParameterDescriber(required = false, description = "安装操作系统时光驱是否属于livecd类型", constraint = "取值范围：true/false", example = "true")
+		@Pattern(regexp = RegExpUtils.BOOL_TYPE_PATTERN)
 		protected String livecd;
 
 		protected String sound;
@@ -3625,7 +3626,6 @@ public class Lifecycle implements AbstractLifecycle {
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-	@Deprecated
 	public static class BatchDeprecatedACL {
 		
 		protected List<DeprecatedACL> deprecatedACLs;
