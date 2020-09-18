@@ -226,7 +226,7 @@ public class RegExpUtils {
 	public final static String NETWORK_TYPE_PATTERN = "type=("+ SWITCH_TYPE_PATTERN +")," + IP_SWITCH_PATTERN + "(,model=" + NETWORK_MODEL_PATTERN +")?" + "(,inbound=" + NET_QoS_PATTERN +")?" + "(,outbound=" + NET_QoS_PATTERN +")?" + "(,mac=" + MAC_PATTERN +")?";
 	
 	@FieldDescriber("设置虚拟机启动顺序，hd表示硬盘，cdrom表示光驱")
-	public final static String BOOT_PATTERN = "hd|cdrom";
+	public final static String BOOT_PATTERN = "hd|cdrom|hd,cdrom";
 	
 	@FieldDescriber("DNS类型，多个IP，以,号分开，如果多个，外面需要大括号")
 	public final static String DNS_PATTERN = "("+ IP_PATTERN + ")|(\"\\{" + IP_PATTERN + "," + IP_PATTERN + "(," + IP_PATTERN +")*\\}\")";

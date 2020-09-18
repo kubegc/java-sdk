@@ -219,6 +219,27 @@ public class Lifecycle {
 	@FunctionDescriber(shortName = "备份虚拟机", description = "备份虚拟机，"
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected BackupVM backupVM;
+
+
+	@FunctionDescriber(shortName = "恢复虚拟机", description = "恢复虚拟机，"
+			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected RestoreVM restoreVM;
+
+	@FunctionDescriber(shortName = "删除远程备份", description = "删除远程备份，"
+			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected DeleteRemoteBackup deleteRemoteBackup;
+
+	@FunctionDescriber(shortName = "拉取远程备份", description = "拉取远程备份，"
+			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected PullRemoteBackup pullRemoteBackup;
+
+	@FunctionDescriber(shortName = "上传备份", description = "上传备份，"
+			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected PushRemoteBackup pushRemoteBackup;
+
+	@FunctionDescriber(shortName = "删除本地备份", description = "删除本地备份，"
+			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	protected DeleteVMBackup deleteVMBackup;
 	
 	@FunctionDescriber(shortName = "设备透传", description = "设备透传，"
 			+ AnnotationUtils.DESC_FUNCTION_DESC, prerequisite = AnnotationUtils.DESC_FUNCTION_VM, exception = AnnotationUtils.DESC_FUNCTION_EXEC)
@@ -250,6 +271,14 @@ public class Lifecycle {
 
 	public void setUnplugDisk(UnplugDisk unplugDisk) {
 		this.unplugDisk = unplugDisk;
+	}
+
+	public PushRemoteBackup getPushRemoteBackup() {
+		return pushRemoteBackup;
+	}
+
+	public void setPushRemoteBackup(PushRemoteBackup pushRemoteBackup) {
+		this.pushRemoteBackup = pushRemoteBackup;
 	}
 
 	public AutoStartVM getAutoStartVM() {
@@ -292,12 +321,44 @@ public class Lifecycle {
 		this.exportVM = exportVM;
 	}
 
+	public DeleteRemoteBackup getDeleteRemoteBackup() {
+		return deleteRemoteBackup;
+	}
+
+	public void setDeleteRemoteBackup(DeleteRemoteBackup deleteRemoteBackup) {
+		this.deleteRemoteBackup = deleteRemoteBackup;
+	}
+
+	public PullRemoteBackup getPullRemoteBackup() {
+		return pullRemoteBackup;
+	}
+
+	public void setPullRemoteBackup(PullRemoteBackup pullRemoteBackup) {
+		this.pullRemoteBackup = pullRemoteBackup;
+	}
+
+	public DeleteVMBackup getDeleteVMBackup() {
+		return deleteVMBackup;
+	}
+
+	public void setDeleteVMBackup(DeleteVMBackup deleteVMBackup) {
+		this.deleteVMBackup = deleteVMBackup;
+	}
+
 	public BackupVM getBackupVM() {
 		return backupVM;
 	}
 
 	public void setBackupVM(BackupVM backupVM) {
 		this.backupVM = backupVM;
+	}
+
+	public RestoreVM getRestoreVM() {
+		return restoreVM;
+	}
+
+	public void setRestoreVM(RestoreVM restoreVM) {
+		this.restoreVM = restoreVM;
 	}
 
 	public MigrateVMDisk getMigrateVMDisk() {
@@ -1677,6 +1738,8 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.UUID_PATTERN)
 		protected String metadata;
 
+		@ParameterDescriber(required = false, description = "安装操作系统时光驱是否属于livecd类型", constraint = "取值范围：true/false", example = "true")
+		@Pattern(regexp = RegExpUtils.BOOL_TYPE_PATTERN)
 		protected String livecd;
 
 		protected String sound;
@@ -3912,6 +3975,354 @@ public class Lifecycle {
 		}
 	}
 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class RestoreVM {
+		@ParameterDescriber(required = true, description = "备份主机使用的存储池", constraint = "备份主机使用的存储池", example = "61024b305b5c463b80bceee066077079")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String pool;
+
+		@ParameterDescriber(required = true, description = "备份记录的版本号", constraint = "备份记录的版本号", example = "13024b305b5c463b80bceee066077079")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String version;
+
+		@ParameterDescriber(required = false, description = "备份虚拟机所有的盘，否则只备份系统盘，需要注意的是恢复带有数据云盘的记录时，数据云盘必须还挂载在该虚拟机上",
+				constraint = "备份虚拟机所有的盘，否则只备份系统盘，需要注意的是恢复带有数据云盘的记录时，数据云盘必须还挂载在该虚拟机上", example = "true")
+		protected boolean all;
+
+		@ParameterDescriber(required = false, description = "新建虚拟机的名字", constraint = "新建虚拟机的名字", example = "13024b305b5c463b80bceee066077079")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String newname;
+
+		@ParameterDescriber(required = false, description = "新建虚拟机时所使用的存储池", constraint = "新建虚拟机所使用的存储池", example = "13024b305b5c463b80bceee066077079")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String target;
+
+		public String getPool() {
+			return pool;
+		}
+
+		public void setPool(String pool) {
+			this.pool = pool;
+		}
+
+		public String getVersion() {
+			return version;
+		}
+
+		public void setVersion(String version) {
+			this.version = version;
+		}
+
+		public boolean getAll() {
+			return all;
+		}
+
+		public void setAll(boolean all) {
+			this.all = all;
+		}
+
+		public String getNewname() {
+			return newname;
+		}
+
+		public void setNewname(String newname) {
+			this.newname = newname;
+		}
+
+		public String getTarget() {
+			return target;
+		}
+
+		public void setTarget(String target) {
+			this.target = target;
+		}
+	}
+
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class DeleteVMBackup {
+		@ParameterDescriber(required = true, description = "备份主机使用的存储池", constraint = "备份主机使用的存储池", example = "61024b305b5c463b80bceee066077079")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String pool;
+
+		@ParameterDescriber(required = true, description = "备份记录的版本号", constraint = "备份记录的版本号", example = "13024b305b5c463b80bceee066077079")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String version;
+
+		public String getPool() {
+			return pool;
+		}
+
+		public void setPool(String pool) {
+			this.pool = pool;
+		}
+
+		public String getVersion() {
+			return version;
+		}
+
+		public void setVersion(String version) {
+			this.version = version;
+		}
+	}
+
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class DeleteRemoteBackup {
+		@ParameterDescriber(required = false, description = "仅删除该云主机的云盘备份", constraint = "仅删除该云主机的云盘备份", example = "61024b305b5c463b80bceee066077079")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String vol;
+
+		@ParameterDescriber(required = true, description = "备份记录的版本号", constraint = "备份记录的版本号", example = "13024b305b5c463b80bceee066077079")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String version;
+
+		@ParameterDescriber(required = false, description = "远程备份的ftp主机ip", constraint = "远程备份的ftp主机ip", example = "172.16.1.214")
+		@Pattern(regexp = RegExpUtils.IP_PATTERN)
+		protected String remote;
+
+		@ParameterDescriber(required = false, description = "远程备份的ftp主机端口", constraint = "远程备份的ftp主机端口", example = "21")
+		@Pattern(regexp = RegExpUtils.PORT_PATTERN)
+		protected String port;
+
+		@ParameterDescriber(required = false, description = "远程备份的ftp用户名", constraint = "ftpuser", example = "ftpuser")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String username;
+
+		@ParameterDescriber(required = false, description = "远程备份的ftp密码", constraint = "ftpuser", example = "ftpuser")
+		@Pattern(regexp = RegExpUtils.PASSWORD_PATTERN)
+		protected String password;
+
+		public String getVol() {
+			return vol;
+		}
+
+		public void setVol(String vol) {
+			this.vol = vol;
+		}
+
+		public String getVersion() {
+			return version;
+		}
+
+		public void setVersion(String version) {
+			this.version = version;
+		}
+
+		public String getRemote() {
+			return remote;
+		}
+
+		public void setRemote(String remote) {
+			this.remote = remote;
+		}
+
+		public String getPort() {
+			return port;
+		}
+
+		public void setPort(String port) {
+			this.port = port;
+		}
+
+		public String getUsername() {
+			return username;
+		}
+
+		public void setUsername(String username) {
+			this.username = username;
+		}
+
+		public String getPassword() {
+			return password;
+		}
+
+		public void setPassword(String password) {
+			this.password = password;
+		}
+	}
+
+
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class PullRemoteBackup {
+
+		@ParameterDescriber(required = true, description = "拉取备份后使用的存储池", constraint = "拉取备份后使用的存储池", example = "61024b305b5c463b80bceee066077079")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String pool;
+
+		@ParameterDescriber(required = false, description = "仅拉取该云主机的云盘备份", constraint = "仅拉取云盘备份", example = "61024b305b5c463b80bceee066077079")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String vol;
+
+		@ParameterDescriber(required = true, description = "备份记录的版本号", constraint = "备份记录的版本号", example = "13024b305b5c463b80bceee066077079")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String version;
+
+		@ParameterDescriber(required = true, description = "远程备份的ftp主机ip", constraint = "远程备份的ftp主机ip", example = "172.16.1.214")
+		@Pattern(regexp = RegExpUtils.IP_PATTERN)
+		protected String remote;
+
+		@ParameterDescriber(required = true, description = "远程备份的ftp主机端口", constraint = "远程备份的ftp主机端口", example = "21")
+		@Pattern(regexp = RegExpUtils.PORT_PATTERN)
+		protected String port;
+
+		@ParameterDescriber(required = true, description = "远程备份的ftp用户名", constraint = "ftpuser", example = "ftpuser")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String username;
+
+		@ParameterDescriber(required = true, description = "远程备份的ftp密码", constraint = "ftpuser", example = "ftpuser")
+		@Pattern(regexp = RegExpUtils.PASSWORD_PATTERN)
+		protected String password;
+
+		public String getPool() {
+			return pool;
+		}
+
+		public void setPool(String pool) {
+			this.pool = pool;
+		}
+
+		public String getVol() {
+			return vol;
+		}
+
+		public void setVol(String vol) {
+			this.vol = vol;
+		}
+
+		public String getVersion() {
+			return version;
+		}
+
+		public void setVersion(String version) {
+			this.version = version;
+		}
+
+		public String getRemote() {
+			return remote;
+		}
+
+		public void setRemote(String remote) {
+			this.remote = remote;
+		}
+
+		public String getPort() {
+			return port;
+		}
+
+		public void setPort(String port) {
+			this.port = port;
+		}
+
+		public String getUsername() {
+			return username;
+		}
+
+		public void setUsername(String username) {
+			this.username = username;
+		}
+
+		public String getPassword() {
+			return password;
+		}
+
+		public void setPassword(String password) {
+			this.password = password;
+		}
+	}
+
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class PushRemoteBackup {
+
+		@ParameterDescriber(required = true, description = "备份使用的存储池", constraint = "备份使用的存储池", example = "61024b305b5c463b80bceee066077079")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String pool;
+
+		@ParameterDescriber(required = false, description = "仅上传该云主机的云盘备份", constraint = "仅上传该云主机的云盘备份", example = "61024b305b5c463b80bceee066077079")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String vol;
+
+		@ParameterDescriber(required = true, description = "备份记录的版本号", constraint = "备份记录的版本号", example = "13024b305b5c463b80bceee066077079")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String version;
+
+		@ParameterDescriber(required = true, description = "远程备份的ftp主机ip", constraint = "远程备份的ftp主机ip", example = "172.16.1.214")
+		@Pattern(regexp = RegExpUtils.IP_PATTERN)
+		protected String remote;
+
+		@ParameterDescriber(required = true, description = "远程备份的ftp主机端口", constraint = "远程备份的ftp主机端口", example = "21")
+		@Pattern(regexp = RegExpUtils.PORT_PATTERN)
+		protected String port;
+
+		@ParameterDescriber(required = true, description = "远程备份的ftp用户名", constraint = "ftpuser", example = "ftpuser")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String username;
+
+		@ParameterDescriber(required = true, description = "远程备份的ftp密码", constraint = "ftpuser", example = "ftpuser")
+		@Pattern(regexp = RegExpUtils.PASSWORD_PATTERN)
+		protected String password;
+
+		public String getPool() {
+			return pool;
+		}
+
+		public void setPool(String pool) {
+			this.pool = pool;
+		}
+
+		public String getVol() {
+			return vol;
+		}
+
+		public void setVol(String vol) {
+			this.vol = vol;
+		}
+
+		public String getVersion() {
+			return version;
+		}
+
+		public void setVersion(String version) {
+			this.version = version;
+		}
+
+		public String getRemote() {
+			return remote;
+		}
+
+		public void setRemote(String remote) {
+			this.remote = remote;
+		}
+
+		public String getPort() {
+			return port;
+		}
+
+		public void setPort(String port) {
+			this.port = port;
+		}
+
+		public String getUsername() {
+			return username;
+		}
+
+		public void setUsername(String username) {
+			this.username = username;
+		}
+
+		public String getPassword() {
+			return password;
+		}
+
+		public void setPassword(String password) {
+			this.password = password;
+		}
+	}
+
+	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class PassthroughDevice {
