@@ -22,16 +22,20 @@ public class ChangeNumberOfCPUTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.changeNumberOfCPU("cloudinit1", get());
+				.changeNumberOfCPU("centos", get());
 //				.plugDisk("vm003", getPlugCdrom());
 		System.out.println(successful);
 	}
 	
 	public static ChangeNumberOfCPU get() {
 		ChangeNumberOfCPU cpu = new ChangeNumberOfCPU();
-		cpu.setCount("1");
-		cpu.setLive(true);
+		cpu.setCount("6");
+		cpu.setLive(false);
 		cpu.setConfig(true);
+		cpu.setMaximum(true);
+		cpu.setCores("6");
+		cpu.setThreads("1");
+		cpu.setSockets("1");
 		return cpu;
 	}
 }

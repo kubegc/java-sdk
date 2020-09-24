@@ -196,8 +196,8 @@ public class RegExpUtils {
 	@FieldDescriber("配置虚拟交换机，source是必填，ip和switch是选填")
 	public final static String IP_SWITCH_PATTERN      = "source=(virbr0|br-native|br-int|" + NAME_PATTERN + ")(,ip=" + IP_PATTERN + ")?(,switch=([a-z0-9-.]{4,32}))?";
 	
-	@FieldDescriber("VCPU高级配置，允许绑定具体物理CPU，但cpuset是选填的")
-	public final static String VCPUSET_PATTERN      = VCPU_PATTERN + "(,cpuset=\\d{1,3}((,|-)\\d{1,3})*)?" + ",maxvcpus=40";
+	@FieldDescriber("VCPU高级配置，选填参数依次是：cpuset允许绑定具体物理CPU、maxvcpus最大vcpu个数、cores核数、sockets插槽数、threads线程数")
+	public final static String VCPUSET_PATTERN      = VCPU_PATTERN + "(,cpuset=\\d{1,3}((,|-)\\d{1,3})*)?" + "(,maxvcpus=[1-9](\\d{1})?)" + "(,cores=[1-9](\\d{1})?)" + "(,sockets=[1-9](\\d{1})?)" + "(,threads=[1-9](\\d{1})?)";
 	
 	@FieldDescriber("配置基于vnc或者spice协议的虚拟机远程访问，密码是可选择的，为4-16位密码，是小写字母、数字和中划线组合")
 	public final static String GRAPHICS_PATTERN     = "(vnc|spice),listen=0.0.0.0(,password=([a-z0-9-.]{4,16}))?";

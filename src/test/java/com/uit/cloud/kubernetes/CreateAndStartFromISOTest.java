@@ -23,7 +23,7 @@ public class CreateAndStartFromISOTest {
 		CreateAndStartVMFromISO createAndStartVMFromISO = get();
 		// name
 		boolean successful = client.virtualMachines()
-				.createAndStartVMFromISO("crailcompute1", "vm.node22", createAndStartVMFromISO, "123");
+				.createAndStartVMFromISO("centos", "vm.node22", createAndStartVMFromISO, "123");
 		System.out.println(successful);
 	}
 	
@@ -32,7 +32,7 @@ public class CreateAndStartFromISOTest {
 		
 		CreateAndStartVMFromISO createAndStartVMFromISO = new CreateAndStartVMFromISO();
 		// default value
-		createAndStartVMFromISO.setMetadata("uuid=321746ed-c17a-49d0-b83c-1c797811e031");
+		createAndStartVMFromISO.setMetadata("uuid=321746ed-c17a-49d0-b83c-1c797811e032");
 		createAndStartVMFromISO.setVirt_type("kvm"); 
 		// @see https://github.com/uit-plus/api/blob/master/src/main/java/com/github/uitplus/utils/OSDistroUtils.java
 		createAndStartVMFromISO.setOs_variant("centos7.0");
@@ -44,7 +44,7 @@ public class CreateAndStartFromISOTest {
 		// cdrom
 //		createAndStartVMFromISO.setCdrom("/var/lib/libvirt/iso/f045e85ed4f84034907f60172891c72b.iso");
 		// Disk and QoS for 1 disk and many disks
-		createAndStartVMFromISO.setDisk("/var/lib/libvirt/cstor/170dd9accdd174caced76b0db2223/170dd9accdd174caced76b0db2223/crailcompute1/crailcompute1,read_bytes_sec=1024000000,write_bytes_sec=1024000000 " + getOtherCDROMs());
+		createAndStartVMFromISO.setDisk("/var/lib/libvirt/cstor/170dd9accdd174caced76b0db2230/170dd9accdd174caced76b0db2230/centos7/centos7,target=vda,read_bytes_sec=1024000000,write_bytes_sec=1024000000 " + getOtherCDROMs());
 		
 		/*
 		 * libivrt default bridge
@@ -116,8 +116,8 @@ public class CreateAndStartFromISOTest {
 
 
 	protected static void calculationSpecification(CreateAndStartVMFromISO createAndStartVMFromISO) {
-		createAndStartVMFromISO.setMemory("1024");    
-		createAndStartVMFromISO.setVcpus("1" + getCPUSet("1-4,6,8"));
+		createAndStartVMFromISO.setMemory("2048");    
+		createAndStartVMFromISO.setVcpus("2" + getCPUSet("1-4,6,8") + ",maxvcpus=40"+",cores=40"+",sockets=1"+",threads=1");
 	}
 	
 	protected static String getCPUSet(String cpuset) {

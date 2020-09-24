@@ -1166,6 +1166,54 @@ public class Lifecycle {
 
 		@ParameterDescriber(required = false, description = "修改虚拟机CPU状态", constraint = AnnotationUtils.DESC_BOOLEAN, example = "true")
 		protected Boolean guest;
+		
+		@ParameterDescriber(required = false, description = "最大vcpu数量，重启后生效", constraint = "1-100个", example = "16")
+		@Pattern(regexp = RegExpUtils.BOOL_TYPE_PATTERN)
+		protected Boolean maximum;
+		
+		@ParameterDescriber(required = false, description = "当设置最大vcpu数量时为必填参数，设置cpu核数", constraint = "约束条件：最大vcpu数量=cpu核数×cpu插槽数×cpu线程数", example = "16")
+		@Pattern(regexp = RegExpUtils.VCPU_PATTERN)
+		protected String cores;
+		
+		@ParameterDescriber(required = false, description = "当设置最大vcpu数量时为必填参数，设置cpu插槽数", constraint = "约束条件：最大vcpu数量=cpu核数×cpu插槽数×cpu线程数", example = "1")
+		@Pattern(regexp = RegExpUtils.VCPU_PATTERN)
+		protected String sockets;
+		
+		@ParameterDescriber(required = false, description = "当设置最大vcpu数量时为必填参数，设置cpu线程数", constraint = "约束条件：最大vcpu数量=cpu核数×cpu插槽数×cpu线程数", example = "1")
+		@Pattern(regexp = RegExpUtils.VCPU_PATTERN)
+		protected String threads;
+
+		public String getCores() {
+			return cores;
+		}
+
+		public void setCores(String cores) {
+			this.cores = cores;
+		}
+
+		public String getSockets() {
+			return sockets;
+		}
+
+		public void setSockets(String sockets) {
+			this.sockets = sockets;
+		}
+
+		public String getThreads() {
+			return threads;
+		}
+
+		public void setThreads(String threads) {
+			this.threads = threads;
+		}
+
+		public Boolean getMaximum() {
+			return maximum;
+		}
+
+		public void setMaximum(Boolean maximum) {
+			this.maximum = maximum;
+		}
 
 		public ChangeNumberOfCPU() {
 
@@ -1849,7 +1897,7 @@ public class Lifecycle {
 		@Pattern(regexp = RegExpUtils.OS_PATTERN)
 		protected String os_variant;
 
-		@ParameterDescriber(required = true, description = "虚拟机CPU个数，及其物理CPU绑定关系", constraint = "0~100", example = "2,cpuset=1-4")
+		@ParameterDescriber(required = true, description = "虚拟机CPU个数，选填参数依次是：cpuset允许绑定具体物理CPU、maxvcpus最大vcpu个数、cores核数、sockets插槽数、threads线程数", constraint = "约束条件：最大vcpu数量=cpu核数×cpu插槽数×cpu线程数", example = "2,cpuset=1-4,maxvcpus=40,cores=40,sockets=1,threads=1")
 		@Pattern(regexp = RegExpUtils.VCPUSET_PATTERN)
 		protected String vcpus;
 
@@ -2260,7 +2308,7 @@ public class Lifecycle {
 		}
 
 		public void setVcpus(String vcpus) {
-			this.vcpus = vcpus + ",maxvcpus=40";
+			this.vcpus = vcpus;
 		}
 
 		public String getVcpus() {

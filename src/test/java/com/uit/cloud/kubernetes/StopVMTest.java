@@ -22,7 +22,7 @@ public class StopVMTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.stopVM("wywtest", new StopVM());
+				.stopVM("centos", new StopVM());
 		System.out.println(successful);
 	}
 	
