@@ -31,9 +31,9 @@ public class CreateVMLocalfsPoolTest {
 		
 		//dir
 		createPool.setType("localfs");
-		createPool.setContent("vmdi");
+		createPool.setContent("vmd");
 		createPool.setAutostart(true);
-        createPool.setUrl("/mnt/localfs/pooldir");
+        createPool.setUrl("/mnt/localfs/pooldir"); 
 		createPool.setUuid("170zzca5fd174fccafee76b0d7fc2d35");
 		// uus
 //		createPool.setType("uus");

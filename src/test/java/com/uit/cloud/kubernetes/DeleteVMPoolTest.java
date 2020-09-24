@@ -22,13 +22,13 @@ public class DeleteVMPoolTest {
 
 		ExtendedKubernetesClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachinePools()
-				.deletePool("migratepoolnodepool32", getPool(), "123");
+				.deletePool("pooldir1", getPool(), "123");
 		System.out.println(successful);
 	}
 
 	protected static Lifecycle.DeletePool getPool() {
 		Lifecycle.DeletePool deletePool = new Lifecycle.DeletePool();
-		deletePool.setType("vdiskfs");
+		deletePool.setType("localfs");
 		return deletePool;
 	}
 	
