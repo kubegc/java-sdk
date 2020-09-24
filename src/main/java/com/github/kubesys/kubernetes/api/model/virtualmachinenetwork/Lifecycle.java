@@ -336,7 +336,7 @@ public class Lifecycle {
 		protected String mtu;
 		
 		@ParameterDescriber(required = false, description = "域名服务器", constraint = "IP地址", example = "192.168.5.5")
-		@Pattern(regexp = RegExpUtils.DNS_PATTERN)
+//		@Pattern(regexp = RegExpUtils.DNS_PATTERN)
 		protected String dnsServer;
 		
 		@ParameterDescriber(required = false, description = "DHCP地址", constraint = "IP", example = "192.168.5.5")
