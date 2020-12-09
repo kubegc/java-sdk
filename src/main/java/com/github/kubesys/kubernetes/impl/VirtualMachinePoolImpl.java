@@ -397,4 +397,26 @@ public class VirtualMachinePoolImpl extends AbstractImpl<VirtualMachinePool, Vir
 		updateHost(name, nodeName);
 		return deleteVMDiskBackup(name, deleteVMDiskBackup, eventId);
 	}
+
+	public boolean deleteRemoteBackupServer(String name, DeleteRemoteBackupServer deleteRemoteBackupServer) throws Exception {
+		return deleteRemoteBackupServer(name, deleteRemoteBackupServer, null);
+	}
+
+	public boolean deleteRemoteBackupServer(String name, DeleteRemoteBackupServer deleteRemoteBackupServer, String eventId) throws Exception {
+		Pattern pattern = Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return update(name, updateMetadata(name, eventId), deleteRemoteBackupServer);
+	}
+
+	public boolean deleteRemoteBackupServer(String name, String nodeName, DeleteRemoteBackupServer deleteRemoteBackupServer) throws Exception {
+		updateHost(name, nodeName);
+		return deleteRemoteBackupServer(name, deleteRemoteBackupServer, null);
+	}
+
+	public boolean deleteRemoteBackupServer(String name, String nodeName, DeleteRemoteBackupServer deleteRemoteBackupServer, String eventId) throws Exception {
+		updateHost(name, nodeName);
+		return deleteRemoteBackupServer(name, deleteRemoteBackupServer, eventId);
+	}
 }

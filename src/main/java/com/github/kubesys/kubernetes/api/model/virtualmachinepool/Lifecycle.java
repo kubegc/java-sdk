@@ -112,6 +112,13 @@ public class Lifecycle {
 			exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	@Deprecated
 	protected DeleteVMDiskBackup deleteVMDiskBackup;
+
+	@FunctionDescriber(shortName = "删除远程ftp备份服务器", description = "删除远程ftp备份服务器，"
+			+ AnnotationUtils.DESC_FUNCTION_DESC,
+			prerequisite = AnnotationUtils.DESC_FUNCTION_VMD,
+			exception = AnnotationUtils.DESC_FUNCTION_EXEC)
+	@Deprecated
+	protected DeleteRemoteBackupServer deleteRemoteBackupServer;
 	
 //	@FunctionDescriber(shortName = "反注册存储池", description = "反注册存储池，将存储池信息从libvirt里面注销"
 //			+ AnnotationUtils.DESC_FUNCTION_DESC,
@@ -119,6 +126,14 @@ public class Lifecycle {
 //		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 //	protected UnregisterPool unregisterPool;
 
+
+	public DeleteRemoteBackupServer getDeleteRemoteBackupServer() {
+		return deleteRemoteBackupServer;
+	}
+
+	public void setDeleteRemoteBackupServer(DeleteRemoteBackupServer deleteRemoteBackupServer) {
+		this.deleteRemoteBackupServer = deleteRemoteBackupServer;
+	}
 
 	public RestoreDisk getRestoreDisk() {
 		return restoreDisk;
@@ -1628,5 +1643,58 @@ public class Lifecycle {
 		public void setVersion(String version) {
 			this.version = version;
 		}
+	}
+
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+	public static class DeleteRemoteBackupServer {
+		@ParameterDescriber(required = true, description = "远程备份的ftp主机ip", constraint = "远程备份的ftp主机ip", example = "172.16.1.214")
+		@Pattern(regexp = RegExpUtils.IP_PATTERN)
+		protected String remote;
+
+		@ParameterDescriber(required = true, description = "远程备份的ftp主机端口", constraint = "远程备份的ftp主机端口", example = "21")
+		@Pattern(regexp = RegExpUtils.PORT_PATTERN)
+		protected String port;
+
+		@ParameterDescriber(required = true, description = "远程备份的ftp用户名", constraint = "ftpuser", example = "ftpuser")
+		@Pattern(regexp = RegExpUtils.NAME_PATTERN)
+		protected String username;
+
+		@ParameterDescriber(required = true, description = "远程备份的ftp密码", constraint = "ftpuser", example = "ftpuser")
+		@Pattern(regexp = RegExpUtils.PASSWORD_PATTERN)
+		protected String password;
+
+		public String getRemote() {
+			return remote;
+		}
+
+		public void setRemote(String remote) {
+			this.remote = remote;
+		}
+
+		public String getPort() {
+			return port;
+		}
+
+		public void setPort(String port) {
+			this.port = port;
+		}
+
+		public String getUsername() {
+			return username;
+		}
+
+		public void setUsername(String username) {
+			this.username = username;
+		}
+
+		public String getPassword() {
+			return password;
+		}
+
+		public void setPassword(String password) {
+			this.password = password;
+		}
+
 	}
 }
