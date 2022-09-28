@@ -1,12 +1,12 @@
 package com.uit.cloud.kubernetes;
 
-import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
+import com.github.kubesys.kubernetes.KubeStackClient;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle;
 
 public class BackupDiskTest {
     public static void main(String[] args) throws Exception {
 
-        ExtendedKubernetesClient client = AbstractTest.getClient();
+        KubeStackClient client = AbstractTest.getClient();
         boolean successful = client.virtualMachineDisks()
                 .backupDisk("e8c9b41664584253afa43592d5efeafb", "vm.node22", getBackupVM());
         System.out.println(successful);

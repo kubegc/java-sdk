@@ -3,7 +3,7 @@
  */
 package com.uit.cloud.kubernetes;
 
-import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
+import com.github.kubesys.kubernetes.KubeStackClient;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisksnapshot.Lifecycle.DeleteDiskExternalSnapshot;
 
 /**
@@ -20,7 +20,7 @@ public class DeleteDiskExternalSnapshotTest {
 	
 	public static void main(String[] args) throws Exception {
 
-		ExtendedKubernetesClient client = AbstractTest.getClient();
+		KubeStackClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineDiskSnapshots()
 				.deleteDiskExternalSnapshot("vmbackuptestdisk1.1", get());
 		System.out.println(successful);

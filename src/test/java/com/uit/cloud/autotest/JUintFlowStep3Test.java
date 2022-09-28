@@ -16,9 +16,8 @@ import java.util.Set;
 
 import javax.validation.constraints.Pattern;
 
-import com.alibaba.fastjson.JSON;
 import com.github.kubesys.henry.AbstractTest;
-import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
+import com.github.kubesys.kubernetes.KubeStackClient;
 import com.github.kubesys.kubernetes.annotations.ParameterDescriber;
 import com.github.kubesys.kubernetes.api.model.VirtualMachine;
 import com.github.kubesys.kubernetes.api.model.VirtualMachineDisk;
@@ -391,7 +390,7 @@ public class JUintFlowStep3Test {
 	 *                    Kubernetes connect
 	 * 
 	 **********************************************************************/
-	protected ExtendedKubernetesClient client;
+	protected KubeStackClient client;
 	
 	public JUintFlowStep3Test() {
 		try {

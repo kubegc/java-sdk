@@ -3,7 +3,7 @@
  */
 package com.uit.cloud.kubernetes;
 
-import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
+import com.github.kubesys.kubernetes.KubeStackClient;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.PassthroughDevice;
 
 /**
@@ -20,7 +20,7 @@ public class PassthroughDeviceTest {
 	
 	public static void main(String[] args) throws Exception {
 
-		ExtendedKubernetesClient client = AbstractTest.getClient();
+		KubeStackClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
 				.passthroughDevice("gputest", passthroughDevice());
 		System.out.println(successful);

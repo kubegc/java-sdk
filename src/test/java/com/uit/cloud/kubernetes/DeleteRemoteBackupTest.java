@@ -1,12 +1,12 @@
 package com.uit.cloud.kubernetes;
 
-import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
+import com.github.kubesys.kubernetes.KubeStackClient;
 import com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle;
 
 public class DeleteRemoteBackupTest {
     public static void main(String[] args) throws Exception {
 
-        ExtendedKubernetesClient client = AbstractTest.getClient();
+        KubeStackClient client = AbstractTest.getClient();
         boolean successful = client.virtualMachinePools()
                 .deleteRemoteBackup("migratepoolnodepool22", "vm.node22", getDeleteRemoteBackup());
         System.out.println(successful);

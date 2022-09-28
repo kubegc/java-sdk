@@ -6,7 +6,7 @@ package com.uit.cloud.kubernetes;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSON;
-import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
+import com.github.kubesys.kubernetes.KubeStackClient;
 import com.github.kubesys.kubernetes.api.model.VirtualMachine;
 
 import io.fabric8.kubernetes.api.model.Status;
@@ -29,7 +29,7 @@ public class UpdateStatus {
 	
 	public static void main(String[] args) throws Exception {
 
-		ExtendedKubernetesClient client = AbstractTest.getClient();
+		KubeStackClient client = AbstractTest.getClient();
 		System.out.println(JSON.toJSONString(client.virtualMachines().get("vm006"), true));
 //		VirtualMachine vm = client.virtualMachines().get("wyw1234");
 //		Status status = vm.getSpec().getStatus();

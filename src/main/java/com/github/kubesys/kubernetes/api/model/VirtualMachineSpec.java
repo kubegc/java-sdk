@@ -3,12 +3,9 @@
  */
 package com.github.kubesys.kubernetes.api.model;
 
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.github.kubesys.kubernetes.api.model.KubeModel.AbstractSpec;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Domain;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle;
-
-import io.fabric8.kubernetes.api.model.KubernetesResource;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -22,14 +19,8 @@ import io.fabric8.kubernetes.api.model.KubernetesResource;
  * VirtualMachineImage, VirtualMachineSnapshot, VirtualMachineNetwork
  * 
  */
-@JsonDeserialize(using = JsonDeserializer.None.class)
-public class VirtualMachineSpec extends ExtendedCustomResourceDefinitionSpec implements KubernetesResource {
+public class VirtualMachineSpec extends AbstractSpec {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -5134652268821098029L;
-	
 
 	protected Domain domain;
 

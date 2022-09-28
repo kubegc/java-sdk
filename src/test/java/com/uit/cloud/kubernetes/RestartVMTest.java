@@ -3,7 +3,7 @@
  */
 package com.uit.cloud.kubernetes;
 
-import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
+import com.github.kubesys.kubernetes.KubeStackClient;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.RebootVM;
 
 /**
@@ -20,7 +20,7 @@ public class RestartVMTest {
 	
 	public static void main(String[] args) throws Exception {
 
-		ExtendedKubernetesClient client = AbstractTest.getClient();
+		KubeStackClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
 				.rebootVM("vmtest111", new RebootVM());
 		System.out.println(successful);

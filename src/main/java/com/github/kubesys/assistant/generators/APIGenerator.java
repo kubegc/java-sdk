@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.kubesys.kubernetes.annotations.ClassDescriber;
 import com.github.kubesys.kubernetes.annotations.FunctionDescriber;
 import com.github.kubesys.kubernetes.annotations.ParameterDescriber;
@@ -22,6 +22,7 @@ import com.github.kubesys.kubernetes.annotations.ParameterDescriber;
  */
 public class APIGenerator {
 	
+	@SuppressWarnings("deprecation")
 	public static void main(String[] args) throws Exception {
 		
 		StringBuffer sb = new StringBuffer();
@@ -134,7 +135,7 @@ public class APIGenerator {
 			sb.append("```").append("\n");
 			Object obj = Class.forName("com.github.kubesys.kubernetes.api.model." + parent.value()).newInstance();
 			JSONGenerator.instance(obj);
-			sb.append(JSON.toJSONString(obj, true)).append("\n");
+			sb.append(new ObjectMapper().writeValueAsString(obj)).append("\n");
 			sb.append("```").append("\n");
 			i++;
 		}

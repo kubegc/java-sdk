@@ -3,7 +3,7 @@
  */
 package com.uit.cloud.kubernetes;
 
-import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
+import com.github.kubesys.kubernetes.KubeStackClient;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CreateAndStartVMFromISO;
 
 /**
@@ -19,7 +19,7 @@ public class CreateAndStartFromISOTest {
 	
 	
 	public static void main(String[] args) throws Exception {
-		ExtendedKubernetesClient client = AbstractTest.getClient();
+		KubeStackClient client = AbstractTest.getClient();
 		CreateAndStartVMFromISO createAndStartVMFromISO = get();
 		// name
 		boolean successful = client.virtualMachines()

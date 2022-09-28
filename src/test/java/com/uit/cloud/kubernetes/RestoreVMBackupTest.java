@@ -1,12 +1,12 @@
 package com.uit.cloud.kubernetes;
 
-import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
+import com.github.kubesys.kubernetes.KubeStackClient;
 import com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle;
 
 public class RestoreVMBackupTest {
     public static void main(String[] args) throws Exception {
 
-        ExtendedKubernetesClient client = AbstractTest.getClient();
+        KubeStackClient client = AbstractTest.getClient();
         boolean successful = client.virtualMachinePools()
                 .restoreVMBackup("migratenodepool22", "vm.node22", getRestoreVM());
         System.out.println(successful);

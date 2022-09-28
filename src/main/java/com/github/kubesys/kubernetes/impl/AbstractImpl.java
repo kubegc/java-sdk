@@ -15,25 +15,19 @@ import java.util.logging.Logger;
 
 import javax.validation.constraints.Pattern;
 
-import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
-import com.github.kubesys.kubernetes.ExtendedKubernetesConstants;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.kubesys.kubernetes.KubeStackClient;
 import com.github.kubesys.kubernetes.annotations.ParameterDescriber;
-import com.github.kubesys.kubernetes.api.model.ExtendedCustomResourceDefinitionSpec;
+import com.github.kubesys.kubernetes.api.model.KubeModel;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ResetVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StopVMForce;
 import com.github.kubesys.kubernetes.utils.RegExpUtils;
 
-import io.fabric8.kubernetes.api.model.HasMetadata;
-import io.fabric8.kubernetes.api.model.ObjectMeta;
-import io.fabric8.kubernetes.client.dsl.FilterWatchListDeletable;
-import io.fabric8.kubernetes.client.dsl.Gettable;
-import io.fabric8.kubernetes.client.dsl.MixedOperation;
-
 /**
- * @author  wuheng@otcaix.iscas.ac.cn
+ * @author  wuheng@iscas.ac.cn
  * 
- * @version 1.0.0
- * @since   2019/9/1
+ * @version 2.0.0
+ * @since   2022.9.28
  * 
  * <p>
  * <code>AbstarctImpl<code> is used for selecting a optimal
@@ -52,22 +46,20 @@ public abstract class AbstractImpl<R, S, T> {
 	/**
 	 * client
 	 */
-	@SuppressWarnings("rawtypes")
-	protected MixedOperation client;
+	protected final KubeStackClient client;
 	
 	/**
 	 * resource type
 	 */
-	protected String type;
+	protected final String kind;
 
 	/**
 	 * @param client         the client can manage the lifecyle of the specified 
 	 * @param type           resource type, such as VirtualMachine, VirtualMachinePool
 	 */
-	public AbstractImpl() {
-		String classname = getClass().getSimpleName();
-		this.type = classname.substring(0, classname.length() - "Impl".length());
-		this.client = ExtendedKubernetesClient.crdClients.get(type);
+	public AbstractImpl(KubeStackClient client, String kind) {
+		this.client = client;
+		this.kind = kind;
 	}
 
 	/**
@@ -79,9 +71,11 @@ public abstract class AbstractImpl<R, S, T> {
 	 * @throws Exception       create resource fail
 	 */
 	@SuppressWarnings("unchecked")
-	public boolean create(HasMetadata object) throws Exception {
-		client.create(object);
-		m_logger.log(Level.INFO, "create "+ type + " "
+	public boolean create(KubeModel object) throws Exception {
+		client.createResource(
+				new ObjectMapper().readTree(
+						new ObjectMapper().writeValueAsString(object)));
+		m_logger.log(Level.INFO, "create "+ kind + " "
 					+ object.getMetadata().getName() + " successful.");
 		return true;
 	}
@@ -94,10 +88,11 @@ public abstract class AbstractImpl<R, S, T> {
 	 * @return                  true or an exception
 	 * @throws Exception        delete resource fail
 	 */
-	@SuppressWarnings("unchecked")
-	public boolean delete(HasMetadata object) throws Exception {
-		client.delete(object);
-		m_logger.log(Level.INFO, "delete " + type + " " 
+	public boolean delete(KubeModel object) throws Exception {
+		client.deleteResource(
+				new ObjectMapper().readTree(
+						new ObjectMapper().writeValueAsString(object)));
+		m_logger.log(Level.INFO, "delete " + kind + " " 
 					+ object.getMetadata().getName() + " successful.");
 		return true;
 	}
@@ -111,10 +106,11 @@ public abstract class AbstractImpl<R, S, T> {
 	 * @return                   true or an exception
 	 * @throws Exception         update resource fail
 	 */
-	@SuppressWarnings("unchecked")
-	public boolean update(HasMetadata object) throws Exception {
-		client.createOrReplace(object);
-		m_logger.log(Level.INFO, type + ": update " 
+	public boolean update(KubeModel object) throws Exception {
+		client.updateResource(
+				new ObjectMapper().readTree(
+						new ObjectMapper().writeValueAsString(object)));
+		m_logger.log(Level.INFO, kind + ": update " 
 					+ object.getMetadata().getName() + " successful.");
 		return true;
 	}
@@ -129,10 +125,9 @@ public abstract class AbstractImpl<R, S, T> {
 	 * @return                   true or an exception
 	 * @throws Exception         update resource fail
 	 */
-	@SuppressWarnings("unchecked")
-	protected boolean update(String operator, HasMetadata object) throws Exception {
+	protected boolean update(String operator, KubeModel object) throws Exception {
 		client.createOrReplace(object);
-		m_logger.log(Level.INFO, type + ": " + operator + " " 
+		m_logger.log(Level.INFO, kind + ": " + operator + " " 
 					+ object.getMetadata().getName() + " successful.");
 		return true;
 	}
@@ -142,7 +137,6 @@ public abstract class AbstractImpl<R, S, T> {
 	 * @param name            resource name, the .metadata.name
 	 * @return                the object, or null, or throw an exception
 	 */
-	@SuppressWarnings("unchecked")
 	public R get(String name)  {
 		java.util.regex.Pattern pattern = java.util.regex.Pattern.compile(RegExpUtils.NAME_PATTERN);
 		if (!pattern.matcher(name).matches()) {

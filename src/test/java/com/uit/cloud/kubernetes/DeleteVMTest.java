@@ -3,7 +3,7 @@
  */
 package com.uit.cloud.kubernetes;
 
-import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
+import com.github.kubesys.kubernetes.KubeStackClient;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.DeleteVM;
 
 
@@ -18,7 +18,7 @@ public class DeleteVMTest {
 	
 	public static void main(String[] args) throws Exception {
 
-		ExtendedKubernetesClient client = com.uit.cloud.kubernetes.AbstractTest.getClient();
+		KubeStackClient client = com.uit.cloud.kubernetes.AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
 				.deleteVM("centos", 
 						new DeleteVM(), "123");

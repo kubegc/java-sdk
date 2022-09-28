@@ -5,16 +5,12 @@ import java.util.Date;
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 
-import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
+import com.github.kubesys.kubernetes.KubeStackClient;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CreateAndStartVMFromISO;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.DeleteVM;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CreateDiskFromDiskImage;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.DeleteDisk;
 import com.uit.cloud.kubernetes.AbstractTest;
-
-import io.fabric8.kubernetes.api.model.Event;
-import io.fabric8.kubernetes.client.KubernetesClientException;
-import io.fabric8.kubernetes.client.Watcher;
 
 public class ConcurrentTest {
 
@@ -81,7 +77,7 @@ public class ConcurrentTest {
 
 		public void jobCreateDisk() throws Exception {
 
-			ExtendedKubernetesClient client = AbstractTest.getClient();
+			KubeStackClient client = AbstractTest.getClient();
 			boolean successful = client.virtualMachineDisks().createDiskFromDiskImage("disk"+this.name, this.node,
 					getCreateDiskFromDiskImage(), this.id);
 			System.out.println(successful);
@@ -90,7 +86,7 @@ public class ConcurrentTest {
 
 		public void jobCreateVM() throws Exception {
 
-			ExtendedKubernetesClient client = AbstractTest.getClient();
+			KubeStackClient client = AbstractTest.getClient();
 			// name
 			boolean successful = client.virtualMachines().createAndStartVMFromISO("vm"+this.name, this.node,
 					getCreateAndStartVMFromISO("disk"+this.name), this.id);
@@ -100,21 +96,21 @@ public class ConcurrentTest {
 
 		public void jobDeleteVM() throws Exception {
 
-			ExtendedKubernetesClient client = AbstractTest.getClient();
+			KubeStackClient client = AbstractTest.getClient();
 			boolean successful = client.virtualMachines().deleteVM("vm"+this.name, new DeleteVM(), this.id);
 			System.out.println(successful);
 		}
 		
 		public void jobDeleteDisk() throws Exception {
 
-			ExtendedKubernetesClient client = AbstractTest.getClient();
+			KubeStackClient client = AbstractTest.getClient();
 			boolean successful = client.virtualMachineDisks()
 					.deleteDisk("disk"+this.name, getDeleteDisk(), this.id);
 			System.out.println(successful);
 		}
 		
 		public void jobEventHandler(String eventType,String eventId) throws Exception {
-			ExtendedKubernetesClient client = AbstractTest.getClient();
+			KubeStackClient client = AbstractTest.getClient();
 			client.events().withField("reason", eventType).watch(new Watcher<Event>() {
 
 				@Override

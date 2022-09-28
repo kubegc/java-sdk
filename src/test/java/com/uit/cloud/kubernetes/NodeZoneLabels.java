@@ -8,7 +8,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
+import com.github.kubesys.kubernetes.KubeStackClient;
 
 import io.fabric8.kubernetes.api.model.Node;
 
@@ -26,7 +26,7 @@ public class NodeZoneLabels {
 	
 	public static void main(String[] args) throws Exception {
 
-		ExtendedKubernetesClient client = AbstractTest.getClient();
+		KubeStackClient client = AbstractTest.getClient();
 		Node[] nodes = client.nodes().list().getItems().toArray(new Node[] {});
 		
 		sortByMinimumCPUUsage(nodes);

@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
+import com.github.kubesys.kubernetes.KubeStackClient;
 
 import io.fabric8.kubernetes.api.model.Node;
 import io.fabric8.kubernetes.api.model.NodeCondition;
@@ -44,12 +44,12 @@ public class NodeSelectorImpl {
 	/**
 	 * client
 	 */
-	protected final ExtendedKubernetesClient client;
+	protected final KubeStackClient client;
 	
 	/**
 	 * @param client  client
 	 */
-	public NodeSelectorImpl(ExtendedKubernetesClient client) {
+	public NodeSelectorImpl(KubeStackClient client) {
 		super();
 		this.client = client;
 	}

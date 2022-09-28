@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * @version 1.0.0
@@ -32,7 +32,7 @@ public class JSONGenerator {
 		list.add("com.github.kubesys.kubernetes.api.model.virtualmachinebackup.Lifecycle");
 	}
 	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({ "rawtypes", "unchecked", "deprecation" })
 	protected static void instance(Object obj) throws Exception {
 		Class<? extends Object> clazz = obj.getClass();
 		for (Field field : clazz.getDeclaredFields()) {
@@ -103,7 +103,7 @@ public class JSONGenerator {
 		for (String name : list) {
 			Object obj = Class.forName(name).newInstance();
 			instance(obj);
-			System.out.println(JSON.toJSONString(obj, true));
+			System.out.println(new ObjectMapper().writeValueAsString(obj));
 		}
 	}
 	

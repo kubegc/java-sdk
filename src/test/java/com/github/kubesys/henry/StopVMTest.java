@@ -3,7 +3,7 @@
  */
 package com.github.kubesys.henry;
 
-import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
+import com.github.kubesys.kubernetes.KubeStackClient;
 import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StopVMForce;
 
 /**
@@ -18,7 +18,7 @@ public class StopVMTest {
 	
 	public static void main(String[] args) throws Exception {
 
-		ExtendedKubernetesClient client = com.uit.cloud.kubernetes.AbstractTest.getClient();
+		KubeStackClient client = com.uit.cloud.kubernetes.AbstractTest.getClient();
 		System.out.println(client.virtualMachines().stopVMForce(
 				"650646e8c17a49d0b83c1c797811e081", new StopVMForce(), "eventid-stop"));
 	}

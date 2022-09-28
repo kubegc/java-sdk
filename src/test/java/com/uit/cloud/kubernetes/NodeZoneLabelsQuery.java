@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
+import com.github.kubesys.kubernetes.KubeStackClient;
 
 import io.fabric8.kubernetes.api.model.Node;
 
@@ -25,7 +25,7 @@ public class NodeZoneLabelsQuery {
 	
 	public static void main(String[] args) throws Exception {
 
-		ExtendedKubernetesClient client = AbstractTest.getClient();
+		KubeStackClient client = AbstractTest.getClient();
 		Map<String, String> labels = new HashMap<String, String>();
 		// 可以添加多个标签
 		labels.put("zone", "rackA");

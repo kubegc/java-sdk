@@ -5,11 +5,8 @@ package com.github.kubesys.henry;
 
 import java.util.Map;
 
-import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
+import com.github.kubesys.kubernetes.KubeStackClient;
 import com.github.kubesys.kubernetes.api.model.VirtualMachine;
-
-import io.fabric8.kubernetes.client.KubernetesClientException;
-import io.fabric8.kubernetes.client.Watcher;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -23,7 +20,7 @@ public class ListenVMTest {
 	
 	public static void main(String[] args) throws Exception {
 
-		ExtendedKubernetesClient client = AbstractTest.getClient();
+		KubeStackClient client = AbstractTest.getClient();
 		client.watchVirtualMachines(new Watcher<VirtualMachine>() {
 
 			@Override

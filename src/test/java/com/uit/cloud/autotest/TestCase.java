@@ -3,8 +3,6 @@
  */
 package com.uit.cloud.autotest;
 
-import com.alibaba.fastjson.JSON;
-
 /**
  * @author  wuheng@otcaix.iscas.ac.cn
  * 

@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
 
 import com.alibaba.fastjson.JSON;
-import com.github.kubesys.kubernetes.ExtendedKubernetesClient;
+import com.github.kubesys.kubernetes.KubeStackClient;
 
 import io.fabric8.kubernetes.api.builder.Visitor;
 import io.fabric8.kubernetes.api.model.HasMetadata;
@@ -31,7 +31,7 @@ public class JSONImpl implements ParameterNamespaceListVisitFromServerGetDeleteR
 	
 	protected final HasMetadata object;
 	
-	public JSONImpl(ExtendedKubernetesClient client, String kind, String jsonStr) throws Exception {
+	public JSONImpl(KubeStackClient client, String kind, String jsonStr) throws Exception {
 		super();
 		Method method = client.getClass().getMethod(getMethodName(kind));
 		this.impl = (AbstractImpl) method.invoke(client);

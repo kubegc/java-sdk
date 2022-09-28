@@ -3,9 +3,9 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.github.kubesys</groupId>
-	<artifactId>kubernetes-ext-client</artifactId>
-	<version>1.7.0</version>
+	<groupId>com.github.kubestack</groupId>
+	<artifactId>kubestack-client</artifactId>
+	<version>2.0.0</version>
 	<packaging>jar</packaging>
 
 	<name>kubernetes-client</name>
@@ -23,25 +23,27 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>io.fabric8</groupId>
+			<groupId>io.github.kubesys</groupId>
 			<artifactId>kubernetes-client</artifactId>
-			<version>4.6.3</version>
+			<version>2.2.0</version>
 		</dependency>
-		<dependency>
-			<groupId>com.alibaba</groupId>
-			<artifactId>fastjson</artifactId>
-			<version>1.2.62</version>
-		</dependency>
+		<!-- https://mvnrepository.com/artifact/javax.validation/validation-api -->
 		<dependency>
 			<groupId>javax.validation</groupId>
 			<artifactId>validation-api</artifactId>
 			<version>2.0.1.Final</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/io.fabric8/kubernetes-model-core -->
+		<dependency>
+			<groupId>io.fabric8</groupId>
+			<artifactId>kubernetes-model-core</artifactId>
+			<version>6.1.1</version>
+		</dependency>
 	</dependencies>
 
 	<build>
 		<plugins>
-		<plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.3</version>
@@ -58,16 +60,9 @@
 
 	<repositories>
 		<repository>
-			<id>maven-ali</id>
-			<url>http://maven.aliyun.com/nexus/content/groups/public//</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-				<updatePolicy>always</updatePolicy>
-				<checksumPolicy>fail</checksumPolicy>
-			</snapshots>
+			<id>pdos-repos</id>
+			<name>PDOS Releases</name>
+			<url>http://120.46.180.58:31016/repository/maven-public/</url>
 		</repository>
 	</repositories>
 </project>

@@ -3,26 +3,18 @@
  */
 package com.github.kubesys.kubernetes.api.model;
 
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.github.kubesys.kubernetes.api.model.KubeModel.AbstractSpec;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisksnapshot.Lifecycle;
 import com.github.kubesys.kubernetes.api.model.virtualmachinedisksnapshot.Volume;
 
-import io.fabric8.kubernetes.api.model.KubernetesResource;
-
 /**
- * @author wuheng@otcaix.iscas.ac.cn
+ * @author wuheng@iscas.ac.cn
  * 
- * @version 1.2.0
- * @since   2019/9/4
+ * @version 2.0.0
+ * @since   2022.9.28
  **/
-@JsonDeserialize(using = JsonDeserializer.None.class)
-public class VirtualMachineDiskSnapshotSpec extends ExtendedCustomResourceDefinitionSpec implements KubernetesResource {
+public class VirtualMachineDiskSnapshotSpec extends AbstractSpec {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1171174592223281364L;
 
 	protected Volume volume;
 
