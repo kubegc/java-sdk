@@ -4,8 +4,8 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.KubeStackClient;
-import com.github.kubesys.kubernetes.api.specs.items.virtualmachine.Lifecycle.InjectSshKey;
-import com.github.kubesys.kubernetes.api.specs.items.virtualmachine.Lifecycle.UnplugNIC;
+import com.github.kubesys.kubernetes.api.specs.virtualmachine.Lifecycle.InjectSshKey;
+import com.github.kubesys.kubernetes.api.specs.virtualmachine.Lifecycle.UnplugNIC;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn

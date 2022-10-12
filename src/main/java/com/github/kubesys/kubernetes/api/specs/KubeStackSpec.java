@@ -1,7 +1,7 @@
 /**
  * Copyright (2019, ) Institute of Software, Chinese Academy of Sciences
  */
-package com.github.kubesys.kubernetes.api;
+package com.github.kubesys.kubernetes.api.specs;
 
 import java.util.Map;
 

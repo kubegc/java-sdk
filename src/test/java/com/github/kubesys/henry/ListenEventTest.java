@@ -18,23 +18,23 @@ public class ListenEventTest {
 	
 	public static void main(String[] args) throws Exception {
 
-		KubeStackClient client = com.uit.cloud.kubernetes.AbstractTest.getClient();
-		client.events().watch(new Watcher<Event>() {
-
-			@Override
-			public void eventReceived(Action action, Event resource) {
-				if (!resource.getInvolvedObject().getKind().equals("VirtualMachine")
-					|| action != Action.MODIFIED)  {
-					return;
-				}
-				System.out.println(action + ":" + resource);
-			}
-
-			@Override
-			public void onClose(KubernetesClientException cause) {
-				// TODO Auto-generated method stub
-				
-			}});
+//		KubeStackClient client = com.uit.cloud.kubernetes.AbstractTest.getClient();
+//		client.events().watch(new Watcher<Event>() {
+//
+//			@Override
+//			public void eventReceived(Action action, Event resource) {
+//				if (!resource.getInvolvedObject().getKind().equals("VirtualMachine")
+//					|| action != Action.MODIFIED)  {
+//					return;
+//				}
+//				System.out.println(action + ":" + resource);
+//			}
+//
+//			@Override
+//			public void onClose(KubernetesClientException cause) {
+//				// TODO Auto-generated method stub
+//				
+//			}});
 	}
 	
 	

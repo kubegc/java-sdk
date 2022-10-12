@@ -5,22 +5,26 @@ package com.github.kubesys.kubernetes.impl;
 
 import java.util.regex.Pattern;
 
+import com.github.kubesys.kubernetes.KubeStackClient;
+import com.github.kubesys.kubernetes.api.models.VirtualMachineDiskSnapshot;
 import com.github.kubesys.kubernetes.api.specs.VirtualMachineDiskSnapshotSpec;
-import com.github.kubesys.kubernetes.api.specs.items.VirtualMachineDiskSnapshot;
-import com.github.kubesys.kubernetes.api.specs.items.VirtualMachineDiskSnapshotList;
-import com.github.kubesys.kubernetes.api.specs.items.virtualmachinedisksnapshot.Lifecycle;
-import com.github.kubesys.kubernetes.api.specs.items.virtualmachinedisksnapshot.Lifecycle.CreateDiskExternalSnapshot;
-import com.github.kubesys.kubernetes.api.specs.items.virtualmachinedisksnapshot.Lifecycle.DeleteDiskExternalSnapshot;
-import com.github.kubesys.kubernetes.api.specs.items.virtualmachinedisksnapshot.Lifecycle.RevertDiskExternalSnapshot;
+import com.github.kubesys.kubernetes.api.specs.virtualmachinedisksnapshot.Lifecycle;
+import com.github.kubesys.kubernetes.api.specs.virtualmachinedisksnapshot.Lifecycle.CreateDiskExternalSnapshot;
+import com.github.kubesys.kubernetes.api.specs.virtualmachinedisksnapshot.Lifecycle.DeleteDiskExternalSnapshot;
+import com.github.kubesys.kubernetes.api.specs.virtualmachinedisksnapshot.Lifecycle.RevertDiskExternalSnapshot;
 import com.github.kubesys.kubernetes.utils.RegExpUtils;
 
 /**
  * @author  wuheng@otcaix.iscas.ac.cn
  * 
- * @version 1.0.0
- * @since   2019/9/1
+ * @version 2.0.0
+ * @since   2022/10/22
  **/
-public class VirtualMachineDiskSnapshotImpl extends AbstractImpl<VirtualMachineDiskSnapshot, VirtualMachineDiskSnapshotList, VirtualMachineDiskSnapshotSpec> {
+public class VirtualMachineDiskSnapshotImpl extends AbstractImpl<VirtualMachineDiskSnapshot, VirtualMachineDiskSnapshotSpec> {
+
+	public VirtualMachineDiskSnapshotImpl(KubeStackClient client, String kind) {
+		super(client, kind);
+	}
 
 	@Override
 	public VirtualMachineDiskSnapshot getModel() {
@@ -38,11 +42,6 @@ public class VirtualMachineDiskSnapshotImpl extends AbstractImpl<VirtualMachineD
 		return new Lifecycle();
 	}
 
-
-	@Override
-	public VirtualMachineDiskSnapshotSpec getSpec(VirtualMachineDiskSnapshot r) {
-		return r.getSpec();
-	}
 
 	/*************************************************
 	 * 

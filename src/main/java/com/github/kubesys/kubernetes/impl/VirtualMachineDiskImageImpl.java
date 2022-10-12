@@ -5,23 +5,27 @@ package com.github.kubesys.kubernetes.impl;
 
 import java.util.regex.Pattern;
 
+import com.github.kubesys.kubernetes.KubeStackClient;
+import com.github.kubesys.kubernetes.api.models.VirtualMachineDiskImage;
 import com.github.kubesys.kubernetes.api.specs.VirtualMachineDiskImageSpec;
-import com.github.kubesys.kubernetes.api.specs.items.VirtualMachineDiskImage;
-import com.github.kubesys.kubernetes.api.specs.items.VirtualMachineDiskImageList;
-import com.github.kubesys.kubernetes.api.specs.items.virtualmachinediskimage.Lifecycle;
-import com.github.kubesys.kubernetes.api.specs.items.virtualmachinediskimage.Lifecycle.CreateDiskImage;
-import com.github.kubesys.kubernetes.api.specs.items.virtualmachinediskimage.Lifecycle.CreateDiskImageFromDisk;
-import com.github.kubesys.kubernetes.api.specs.items.virtualmachinediskimage.Lifecycle.DeleteDiskImage;
+import com.github.kubesys.kubernetes.api.specs.virtualmachinediskimage.Lifecycle;
+import com.github.kubesys.kubernetes.api.specs.virtualmachinediskimage.Lifecycle.CreateDiskImage;
+import com.github.kubesys.kubernetes.api.specs.virtualmachinediskimage.Lifecycle.CreateDiskImageFromDisk;
+import com.github.kubesys.kubernetes.api.specs.virtualmachinediskimage.Lifecycle.DeleteDiskImage;
 import com.github.kubesys.kubernetes.utils.RegExpUtils;
 
 /**
  * @author  wuheng@otcaix.iscas.ac.cn
  * 
- * @version 1.0.0
- * @since   2019/9/1
+ * @version 2.0.0
+ * @since   2022/10/22
  **/
-public class VirtualMachineDiskImageImpl extends AbstractImpl<VirtualMachineDiskImage, VirtualMachineDiskImageList, VirtualMachineDiskImageSpec> {
+public class VirtualMachineDiskImageImpl extends AbstractImpl<VirtualMachineDiskImage, VirtualMachineDiskImageSpec> {
 
+
+	public VirtualMachineDiskImageImpl(KubeStackClient client, String kind) {
+		super(client, kind);
+	}
 
 	@Override
 	public Object getLifecycle() {
@@ -36,11 +40,6 @@ public class VirtualMachineDiskImageImpl extends AbstractImpl<VirtualMachineDisk
 	@Override
 	public VirtualMachineDiskImageSpec getSpec() {
 		return new VirtualMachineDiskImageSpec();
-	}
-
-	@Override
-	public VirtualMachineDiskImageSpec getSpec(VirtualMachineDiskImage r) {
-		return r.getSpec();
 	}
 
 

@@ -3,9 +3,8 @@
  */
 package com.github.kubesys.kubernetes.api.specs;
 
-import com.github.kubesys.kubernetes.api.KubeStackSpec;
-import com.github.kubesys.kubernetes.api.specs.items.virtualmachinenetwork.Data;
-import com.github.kubesys.kubernetes.api.specs.items.virtualmachinenetwork.Lifecycle;
+import com.github.kubesys.kubernetes.api.specs.virtualmachinenetwork.Data;
+import com.github.kubesys.kubernetes.api.specs.virtualmachinenetwork.Lifecycle;
 
 /**
  * @author wuheng@iscas.ac.cn

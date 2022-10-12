@@ -5,9 +5,12 @@ package com.uit.cloud.kubernetes;
  */
 
 import com.github.kubesys.kubernetes.KubeStackClient;
-import com.github.kubesys.kubernetes.api.specs.items.*;
-
-import java.util.*;
+import com.github.kubesys.kubernetes.api.models.VirtualMachine;
+import com.github.kubesys.kubernetes.api.models.VirtualMachineDisk;
+import com.github.kubesys.kubernetes.api.models.VirtualMachineDiskImage;
+import com.github.kubesys.kubernetes.api.models.VirtualMachineImage;
+import com.github.kubesys.kubernetes.api.models.VirtualMachineNetwork;
+import com.github.kubesys.kubernetes.api.models.VirtualMachinePool;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -26,10 +29,6 @@ public class AbstractTest {
 
     public static VirtualMachine getVMByName(String name) throws Exception {
         return getClient().virtualMachines().get(name);
-    }
-
-    public static VirtualMachineBackup getVMBByName(String name) throws Exception {
-        return getClient().virtualMachineBackups().get(name);
     }
 
 

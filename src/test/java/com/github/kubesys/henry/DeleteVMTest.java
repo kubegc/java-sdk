@@ -4,7 +4,7 @@
 package com.github.kubesys.henry;
 
 import com.github.kubesys.kubernetes.KubeStackClient;
-import com.github.kubesys.kubernetes.api.specs.items.virtualmachine.Lifecycle.DeleteVM;
+import com.github.kubesys.kubernetes.api.specs.virtualmachine.Lifecycle.DeleteVM;
 
 
 /**

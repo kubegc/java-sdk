@@ -5,13 +5,13 @@ package com.github.kubesys.kubernetes.impl;
 
 import java.util.regex.Pattern;
 
+import com.github.kubesys.kubernetes.KubeStackClient;
+import com.github.kubesys.kubernetes.api.models.VirtualMachineImage;
 import com.github.kubesys.kubernetes.api.specs.VirtualMachineImageSpec;
-import com.github.kubesys.kubernetes.api.specs.items.VirtualMachineImage;
-import com.github.kubesys.kubernetes.api.specs.items.VirtualMachineImageList;
-import com.github.kubesys.kubernetes.api.specs.items.virtualmachineimage.Lifecycle;
-import com.github.kubesys.kubernetes.api.specs.items.virtualmachineimage.Lifecycle.ConvertImageToVM;
-import com.github.kubesys.kubernetes.api.specs.items.virtualmachineimage.Lifecycle.CreateImage;
-import com.github.kubesys.kubernetes.api.specs.items.virtualmachineimage.Lifecycle.DeleteImage;
+import com.github.kubesys.kubernetes.api.specs.virtualmachineimage.Lifecycle;
+import com.github.kubesys.kubernetes.api.specs.virtualmachineimage.Lifecycle.ConvertImageToVM;
+import com.github.kubesys.kubernetes.api.specs.virtualmachineimage.Lifecycle.CreateImage;
+import com.github.kubesys.kubernetes.api.specs.virtualmachineimage.Lifecycle.DeleteImage;
 import com.github.kubesys.kubernetes.utils.RegExpUtils;
 
 /**
@@ -20,7 +20,12 @@ import com.github.kubesys.kubernetes.utils.RegExpUtils;
  * @version 1.0.0
  * @since   2019/9/1
  **/
-public class VirtualMachineImageImpl extends AbstractImpl<VirtualMachineImage, VirtualMachineImageList, VirtualMachineImageSpec> {
+public class VirtualMachineImageImpl extends AbstractImpl<VirtualMachineImage, VirtualMachineImageSpec> {
+
+	public VirtualMachineImageImpl(KubeStackClient client, String kind) {
+		super(client, kind);
+		// TODO Auto-generated constructor stub
+	}
 
 	@Override
 	public VirtualMachineImage getModel() {
@@ -37,10 +42,6 @@ public class VirtualMachineImageImpl extends AbstractImpl<VirtualMachineImage, V
 		return new Lifecycle();
 	}
 
-	@Override
-	public VirtualMachineImageSpec getSpec(VirtualMachineImage r) {
-		return r.getSpec();
-	}
 
 	/*************************************************
 	 * 

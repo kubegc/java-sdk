@@ -15,9 +15,18 @@ package com.github.kubesys.kubernetes;
 public class KubeStackConstants {
 
 
-	public static String LABEL_VM_HA        = "kubestack.ha"; 
+	public static String LABEL_VM_HA          = "kubestack.label.ha"; 
 	
-	public static String LABEL_HOST         = "kubestack.host"; 
+	public static String LABEL_HOST           = "kubestack.label.host"; 
 	
-	public static String LABEL_EVENTID      = "kubestack.eventid"; 
+	public static String LABEL_EVENTID        = "kubestack.label.event.id"; 
+	
+	
+	public static String OPERATOR_UPDATE_HOST = "kubestack.operator.update.host";
+	
+	public static String OPERATOR_ADD_TAG     = "kubestack.operator.add.tag";
+	
+	public static String OPERATOR_DEL_TAG     = "kubestack.operator.del.tag";
+			
+			
 }

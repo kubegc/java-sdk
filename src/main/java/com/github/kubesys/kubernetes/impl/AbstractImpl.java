@@ -6,6 +6,7 @@ package com.github.kubesys.kubernetes.impl;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,12 +17,12 @@ import javax.validation.constraints.Pattern;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.deser.ValueInstantiator.Gettable;
 import com.github.kubesys.kubernetes.KubeStackClient;
 import com.github.kubesys.kubernetes.KubeStackConstants;
 import com.github.kubesys.kubernetes.annotations.ParameterDescriber;
-import com.github.kubesys.kubernetes.api.specs.items.virtualmachine.Lifecycle.ResetVM;
-import com.github.kubesys.kubernetes.api.specs.items.virtualmachine.Lifecycle.StopVMForce;
+import com.github.kubesys.kubernetes.api.specs.KubeStackSpec;
+import com.github.kubesys.kubernetes.api.specs.virtualmachine.Lifecycle.ResetVM;
+import com.github.kubesys.kubernetes.api.specs.virtualmachine.Lifecycle.StopVMForce;
 import com.github.kubesys.kubernetes.utils.RegExpUtils;
 
 import io.fabric8.kubernetes.api.model.HasMetadata;
@@ -104,6 +105,11 @@ public abstract class AbstractImpl<T, R> {
 		return (ObjectMeta) specMethod.invoke(object);
 	}
 	
+	protected KubeStackSpec spec(T object) throws Exception {
+		Method specMethod = object.getClass().getMethod("getSpec");
+		return (KubeStackSpec) specMethod.invoke(object);
+	}
+	
 	
 	/*******************************************************
 	 * 
@@ -127,27 +133,6 @@ public abstract class AbstractImpl<T, R> {
 	}
 	
 	
-	/*******************************************************
-	 * 
-	 *                Common operators
-	 * 
-	 ********************************************************/
-	/**
-	 * @param name                  metadata.name
-	 * @param nodeName              metadata.labels.host
-	 * @param eventId               metadata.labels.eventId
-	 * @return                      ObjectMeta  
-	 */
-	protected ObjectMeta createMetadata(String name, String nodeName, String eventId) {
-		ObjectMeta om = new ObjectMeta();
-		om.setName(name);
-		Map<String, String> labels = new HashMap<String, String>();
-		labels.put(KubeStackConstants.LABEL_HOST, nodeName);
-		labels.put(KubeStackConstants.LABEL_EVENTID, eventId);
-		om.setLabels(labels);
-		return om;
-	}
-	
 	
 	/**
 	 * Here, resource can be VirtualMachine, VirtualMachinePool, 
@@ -157,7 +142,6 @@ public abstract class AbstractImpl<T, R> {
 	 * @return                 true or an exception
 	 * @throws Exception       create resource fail
 	 */
-	@SuppressWarnings("unchecked")
 	public boolean create(T object) throws Exception {
 		client.createResource(objectToJson(object));
 		m_logger.log(Level.INFO, "create "+ kind + " "
@@ -196,23 +180,47 @@ public abstract class AbstractImpl<T, R> {
 		return true;
 	}
 	
-//	/**
-//	 * 
-//	 * Here, resource can be VirtualMachine, VirtualMachinePool, 
-//	 * VirtualMachineDisk, VirtualMachineSnapshot, and so on
-//	 *  
-//	 * @param operator           lifecyle except for 'Create' and 'Delete'
-//	 * @param object             resource object
-//	 * @return                   true or an exception
-//	 * @throws Exception         update resource fail
-//	 */
-//	protected boolean update(String operator, KubeStackModel<T> object) throws Exception {
-//		client.updateResource(objectToJson(object));
-//		m_logger.log(Level.INFO, kind + ": " + operator + " " 
-//					+ object.getMetadata().getName() + " successful.");
-//		return true;
-//	}
+	/**
+	 * 
+	 * Here, resource can be VirtualMachine, VirtualMachinePool, 
+	 * VirtualMachineDisk, VirtualMachineSnapshot, and so on
+	 *  
+	 * @param operator           lifecyle except for 'Create' and 'Delete'
+	 * @param object             resource object
+	 * @return                   true or an exception
+	 * @throws Exception         update resource fail
+	 */
+	protected boolean update(String operator, T object) throws Exception {
+		client.updateResource(objectToJson(object));
+		m_logger.log(Level.INFO, kind + ": " + operator + " " 
+					+ meta(object).getName() + " successful.");
+		return true;
+	}
 	
+	/**
+	 * @param name                    name
+	 * @param om                      ObjectMeta
+	 * @param operator                operator
+	 * @return                        true or an exception
+	 * @throws Exception              exception
+	 */
+	public boolean delete(String name, ObjectMeta om, Object operator) throws Exception {
+		
+		T r = get(name);
+		if (r == null) {
+			throw new RuntimeException(kind + " " + name + " is not exist");
+		}
+		
+		KubeStackSpec t = spec(r);
+		Method glf = t.getClass().getMethod("getLifecycle");
+		Object gva = glf.invoke(t);
+		if (gva != null) {
+			delete(r);
+			return true;
+		}
+		
+		return update(name, om, operator);
+	}
 
 //	
 //	/**
@@ -225,24 +233,23 @@ public abstract class AbstractImpl<T, R> {
 //				.get(ExtendedKubernetesConstants.LABEL_EVENTID);
 //	}
 	
-	/**
-	 * @return                  list all resource, or null, or throw an exception
-	 */
+//	/**
+//	 * @return                  list all resource, or null, or throw an exception
+//	 */
 //	@SuppressWarnings("unchecked")
-//	public S list() {
-//		return (S) client.list();
+//	public List<T> list() {
+//		return client.listResources(this.kind).get("items");
 //	}
-//	
-	/**
-	 * list all resources with the specified labels
-	 * 
-	 * @param  labels          resource labels, the .metadata.labels
-	 * @return                 all resource, or null, or throw an exception
-	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public S list(Map<String, String> labels) {
-		return (S) ((FilterWatchListDeletable) client.withLabels(labels)).list();
-	}
+//	/**
+//	 * list all resources with the specified labels
+//	 * 
+//	 * @param  labels          resource labels, the .metadata.labels
+//	 * @return                 all resource, or null, or throw an exception
+//	 */
+//	@SuppressWarnings({ "rawtypes", "unchecked" })
+//	public S list(Map<String, String> labels) {
+//		return (S) ((FilterWatchListDeletable) client.withLabels(labels)).list();
+//	}
 	
 	
 	
@@ -254,7 +261,7 @@ public abstract class AbstractImpl<T, R> {
 	 */
 	public boolean updateHost(String name, String hostname) throws Exception {
 		
-		R res = get(name);
+		T res = get(name);
 		HasMetadata metadata = (HasMetadata)res;
 		Map<String, String> tags = metadata.getMetadata().getLabels();
 		tags = (tags == null) ? new HashMap<String, String>() : tags;
@@ -266,14 +273,14 @@ public abstract class AbstractImpl<T, R> {
 		
 		Method nodeMethod = spec.getClass().getMethod("setNodeName", String.class);
 		nodeMethod.invoke(spec, hostname);
-		boolean sucess = update(ExtendedKubernetesConstants.OPERATOR_UPDATE_HOST, metadata);
+		boolean sucess = update(KubeStackConstants.OPERATOR_UPDATE_HOST, res);
 		
 		if (!sucess) {
 			throw new Exception("Target " + hostname + " is unreachable.");
 		}
 		
 		while(true) {
-			R res2 = get(name);
+			T res2 = get(name);
 			HasMetadata metadata2 = (HasMetadata)res2;
 			Map<String, String> tags2 = metadata2.getMetadata().getLabels();
 			tags2 = (tags2 == null) ? new HashMap<String, String>() : tags2;
@@ -296,7 +303,7 @@ public abstract class AbstractImpl<T, R> {
 	 */
 	public boolean updateHostAndPower(String name, String hostname, String power) throws Exception {
 		
-		R res = get(name);
+		T res = get(name);
 		HasMetadata metadata = (HasMetadata)res;
 		Map<String, String> tags = metadata.getMetadata().getLabels();
 		tags = (tags == null) ? new HashMap<String, String>() : tags;
@@ -312,14 +319,14 @@ public abstract class AbstractImpl<T, R> {
 		Method powerMethod = spec.getClass().getMethod("setPowerstate", String.class);
 		powerMethod.invoke(spec, power);
 		
-		boolean sucess = update(ExtendedKubernetesConstants.OPERATOR_UPDATE_HOST, metadata);
+		boolean sucess = update(KubeStackConstants.OPERATOR_UPDATE_HOST, res);
 		
 		if (!sucess) {
 			throw new Exception("Target " + hostname + " is unreachable.");
 		}
 		
 		while(true) {
-			R res2 = get(name);
+			T res2 = get(name);
 			HasMetadata metadata2 = (HasMetadata)res2;
 			Map<String, String> tags2 = metadata2.getMetadata().getLabels();
 			tags2 = (tags2 == null) ? new HashMap<String, String>() : tags2;
@@ -342,9 +349,9 @@ public abstract class AbstractImpl<T, R> {
 	 */
 	public boolean addTag(String name, String key, String value) throws Exception {
 
-		R res = get(name);
+		T res = get(name);
 		if (res == null) {
-			m_logger.log(Level.SEVERE, type + " " + name 
+			m_logger.log(Level.SEVERE, kind + " " + name 
 				+ " not exist so that we cannot add this tag.");
 			return false;
 		}
@@ -353,7 +360,7 @@ public abstract class AbstractImpl<T, R> {
 		Map<String, String> tags = metadata.getMetadata().getLabels();
 		tags = (tags == null) ? new HashMap<String, String>() : tags;
 		tags.put(key, value);
-		return update(ExtendedKubernetesConstants.OPERATOR_ADD_TAG, metadata);
+		return update(KubeStackConstants.OPERATOR_ADD_TAG, res);
 	}
 	
 	/**
@@ -364,9 +371,9 @@ public abstract class AbstractImpl<T, R> {
 	 */
 	public boolean addTags(String name, Map<String, String> labels) throws Exception {
 
-		R res = get(name);
+		T res = get(name);
 		if (res == null) {
-			m_logger.log(Level.SEVERE, type + " " + name 
+			m_logger.log(Level.SEVERE, kind + " " + name 
 				+ " not exist so that we cannot add this tag.");
 			return false;
 		}
@@ -375,7 +382,7 @@ public abstract class AbstractImpl<T, R> {
 		Map<String, String> tags = metadata.getMetadata().getLabels();
 		tags = (tags == null) ? new HashMap<String, String>() : tags;
 		tags.putAll(labels);
-		return update(ExtendedKubernetesConstants.OPERATOR_ADD_TAG, metadata);
+		return update(KubeStackConstants.OPERATOR_ADD_TAG, res);
 	}
 
 	
@@ -387,9 +394,9 @@ public abstract class AbstractImpl<T, R> {
 	 */
 	public boolean deleteTags(String name, List<String> keys) throws Exception {
 
-		R res = get(name);
+		T res = get(name);
 		if (res == null) {
-			m_logger.log(Level.SEVERE, type + " " + name + " not exist.");
+			m_logger.log(Level.SEVERE, kind + " " + name + " not exist.");
 			return false;
 		}
 
@@ -400,7 +407,7 @@ public abstract class AbstractImpl<T, R> {
 				tags.remove(key);
 			}
 		}
-		return update(ExtendedKubernetesConstants.OPERATOR_DEL_TAG, metadata);
+		return update(KubeStackConstants.OPERATOR_DEL_TAG, res);
 	}
 	
 	/**
@@ -411,16 +418,16 @@ public abstract class AbstractImpl<T, R> {
 	 */
 	public boolean deleteTag(String name, String key) throws Exception {
 
-		R res = get(name);
+		T res = get(name);
 		if (res == null) {
-			m_logger.log(Level.SEVERE, type + " " + name + " not exist.");
+			m_logger.log(Level.SEVERE, kind + " " + name + " not exist.");
 			return false;
 		}
 
 		HasMetadata metadata = (HasMetadata)res;
 		Map<String, String> tags = metadata.getMetadata().getLabels();
 		if (tags != null) {	tags.remove(key);}
-		return update(ExtendedKubernetesConstants.OPERATOR_DEL_TAG, metadata);
+		return update(KubeStackConstants.OPERATOR_DEL_TAG, res);
 	}
 	
 	/**
@@ -437,23 +444,23 @@ public abstract class AbstractImpl<T, R> {
 		return this.kind;
 	}
 	
-//	/**
-//	 * @return                     all support cmds
-//	 * @throws Exception           an exception
-//	 */
-//	public List<String> getSupportCmds() throws Exception {
-//		String rootPkg = ExtendedCustomResourceDefinitionSpec.class.getPackage().getName();
-//		String fullPkg = rootPkg + "." + type.toLowerCase();
-//		String className = fullPkg + ".Lifecycle";
-//		Class<?> clazz = Class.forName(className);
-//		
-//		List<String> cmds = new ArrayList<String>();
-//		for (Field f : clazz.getDeclaredFields()) {
-//			cmds.add(f.getName());
-//		}
-//		
-//		return cmds;
-//	}
+	/**
+	 * @return                     all support cmds
+	 * @throws Exception           an exception
+	 */
+	public List<String> getSupportCmds() throws Exception {
+		String rootPkg = KubeStackSpec.class.getPackage().getName();
+		String fullPkg = rootPkg + "." + kind.toLowerCase();
+		String className = fullPkg + ".Lifecycle";
+		Class<?> clazz = Class.forName(className);
+		
+		List<String> cmds = new ArrayList<String>();
+		for (Field f : clazz.getDeclaredFields()) {
+			cmds.add(f.getName());
+		}
+		
+		return cmds;
+	}
 	
 	/******************************************************
 	 * 
@@ -495,16 +502,16 @@ public abstract class AbstractImpl<T, R> {
 	 * @return                        true or an exception
 	 * @throws Exception
 	 */
-	public boolean update(R r, Object operator) throws Exception {
+	public boolean update(T r, Object operator) throws Exception {
 		
-		T t = getSpec(r);
+		KubeStackSpec t = spec(r);
 		Object lifecycle = createLifecycle(operator);
 		
 		// t.setLifecycle(lifecycle)
 		Method setLifecycle = t.getClass().getMethod("setLifecycle", lifecycle.getClass());
 		setLifecycle.invoke(t, lifecycle);
 		
-		return update(operator.getClass().getSimpleName(), (HasMetadata) r);
+		return update(operator.getClass().getSimpleName(), r);
 	}
 	/**
 	 * @param name                    name
@@ -543,18 +550,18 @@ public abstract class AbstractImpl<T, R> {
 
 	protected boolean doUpdate(String name, ObjectMeta om, Object operator)
 			throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, Exception {
-		R r = get(name);
+		T r = get(name);
 		if (r == null) {
-			throw new RuntimeException(type + " " + name + " is not exist");
+			throw new RuntimeException(kind + " " + name + " is not exist");
 		}
 		
-		T t = getSpec(r);
+		KubeStackSpec t = spec(r);
 		if (!operator.getClass().getSimpleName().equals(StopVMForce.class.getSimpleName())
 				&& !operator.getClass().getSimpleName().equals(ResetVM.class.getSimpleName())) {
 			Method glf = t.getClass().getMethod("getLifecycle");
 			Object gva = glf.invoke(t);
 			if (gva != null) {
-				throw new RuntimeException(type + " " + name + " is now under processing");
+				throw new RuntimeException(kind + " " + name + " is now under processing");
 			}
 		}
 		
@@ -572,33 +579,10 @@ public abstract class AbstractImpl<T, R> {
 		Method setMeta = r.getClass().getMethod("setMetadata", ObjectMeta.class);
 		setMeta.invoke(r, om);
 		
-		return update(operator.getClass().getSimpleName(), (HasMetadata) r);
+		return update(operator.getClass().getSimpleName(), r);
 	}
 	
-	/**
-	 * @param name                    name
-	 * @param om                      ObjectMeta
-	 * @param operator                operator
-	 * @return                        true or an exception
-	 * @throws Exception              exception
-	 */
-	public boolean delete(String name, ObjectMeta om, Object operator) throws Exception {
-		
-		R r = get(name);
-		if (r == null) {
-			throw new RuntimeException(type + " " + name + " is not exist");
-		}
-		
-		T t = getSpec(r);
-		Method glf = t.getClass().getMethod("getLifecycle");
-		Object gva = glf.invoke(t);
-		if (gva != null) {
-			delete((HasMetadata) r);
-			return true;
-		}
-		
-		return update(name, om, operator);
-	}
+	
 	
 	/*************************************************
 	 * 
@@ -701,4 +685,19 @@ public abstract class AbstractImpl<T, R> {
 		return om;
 	}
 	
+	/**
+	 * @param name                  metadata.name
+	 * @param nodeName              metadata.labels.host
+	 * @param eventId               metadata.labels.eventId
+	 * @return                      ObjectMeta  
+	 */
+	protected ObjectMeta createMetadata(String name, String nodeName, String eventId) {
+		ObjectMeta om = new ObjectMeta();
+		om.setName(name);
+		Map<String, String> labels = new HashMap<String, String>();
+		labels.put(KubeStackConstants.LABEL_HOST, nodeName);
+		labels.put(KubeStackConstants.LABEL_EVENTID, eventId);
+		om.setLabels(labels);
+		return om;
+	}
 }

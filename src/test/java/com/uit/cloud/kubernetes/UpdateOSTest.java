@@ -4,7 +4,7 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.KubeStackClient;
-import com.github.kubesys.kubernetes.api.specs.items.virtualmachine.Lifecycle.UpdateOS;
+import com.github.kubesys.kubernetes.api.specs.virtualmachine.Lifecycle.UpdateOS;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn

@@ -3,9 +3,8 @@
  */
 package com.github.kubesys.kubernetes.api.specs;
 
-import com.github.kubesys.kubernetes.api.KubeStackSpec;
-import com.github.kubesys.kubernetes.api.specs.items.virtualmachinepool.Lifecycle;
-import com.github.kubesys.kubernetes.api.specs.items.virtualmachinepool.Pool;
+import com.github.kubesys.kubernetes.api.specs.virtualmachinepool.Lifecycle;
+import com.github.kubesys.kubernetes.api.specs.virtualmachinepool.Pool;
 
 /**
  * @author wuheng@iscas.ac.cn

@@ -4,7 +4,7 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.KubeStackClient;
-import com.github.kubesys.kubernetes.api.specs.items.virtualmachinedisksnapshot.Lifecycle.RevertDiskExternalSnapshot;
+import com.github.kubesys.kubernetes.api.specs.virtualmachinedisksnapshot.Lifecycle.RevertDiskExternalSnapshot;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn

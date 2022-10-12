@@ -27,9 +27,9 @@ public class NodeZoneLabels {
 	public static void main(String[] args) throws Exception {
 
 		KubeStackClient client = AbstractTest.getClient();
-		Node[] nodes = client.nodes().list().getItems().toArray(new Node[] {});
+//		Node[] nodes = client.nodes().list().getItems().toArray(new Node[] {});
 		
-		sortByMinimumCPUUsage(nodes);
+//		sortByMinimumCPUUsage(nodes);
 //		Map<String, String> labels = node.getMetadata().getLabels();
 //		// 可以添加多个标签
 //		labels = (labels == null) ? new HashMap<String, String>() : labels;

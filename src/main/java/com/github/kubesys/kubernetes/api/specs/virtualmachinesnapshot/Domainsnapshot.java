@@ -1,15 +1,15 @@
 /**
  * Copyright (2019, ) Institute of Software, Chinese Academy of Sciences
  */
-package com.github.kubesys.kubernetes.api.specs.items.virtualmachinesnapshot;
+package com.github.kubesys.kubernetes.api.specs.virtualmachinesnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.github.kubesys.kubernetes.api.specs.items.virtualmachine.Domain;
-import com.github.kubesys.kubernetes.api.specs.items.virtualmachine.Domain.Name;
+import com.github.kubesys.kubernetes.api.specs.virtualmachine.Domain;
+import com.github.kubesys.kubernetes.api.specs.virtualmachine.Domain.Name;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn

@@ -4,7 +4,7 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.KubeStackClient;
-import com.github.kubesys.kubernetes.api.specs.items.virtualmachinedisk.Lifecycle.DeleteCloudInitUserDataImage;
+import com.github.kubesys.kubernetes.api.specs.virtualmachinedisk.Lifecycle.DeleteCloudInitUserDataImage;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn

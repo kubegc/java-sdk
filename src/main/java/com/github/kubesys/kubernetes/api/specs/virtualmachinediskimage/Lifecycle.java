@@ -1,7 +1,7 @@
 /**
  * Copyright (2019, ) Institute of Software, Chinese Academy of Sciences
  */
-package com.github.kubesys.kubernetes.api.specs.items.virtualmachinediskimage;
+package com.github.kubesys.kubernetes.api.specs.virtualmachinediskimage;
 
 import javax.validation.constraints.Pattern;
 

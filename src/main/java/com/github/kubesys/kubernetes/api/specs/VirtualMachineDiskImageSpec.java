@@ -3,9 +3,8 @@
  */
 package com.github.kubesys.kubernetes.api.specs;
 
-import com.github.kubesys.kubernetes.api.KubeStackSpec;
-import com.github.kubesys.kubernetes.api.specs.items.virtualmachinediskimage.Lifecycle;
-import com.github.kubesys.kubernetes.api.specs.items.virtualmachinediskimage.Volume;
+import com.github.kubesys.kubernetes.api.specs.virtualmachinediskimage.Lifecycle;
+import com.github.kubesys.kubernetes.api.specs.virtualmachinediskimage.Volume;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn

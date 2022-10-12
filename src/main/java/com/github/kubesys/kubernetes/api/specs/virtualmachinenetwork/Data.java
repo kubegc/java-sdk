@@ -1,7 +1,7 @@
 /**
  * Copyright (2019, ) Institute of Software, Chinese Academy of Sciences
  */
-package com.github.kubesys.kubernetes.api.specs.items.virtualmachinenetwork;
+package com.github.kubesys.kubernetes.api.specs.virtualmachinenetwork;
 
 import java.util.List;
 

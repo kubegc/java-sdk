@@ -8,6 +8,13 @@ import java.io.File;
 import java.util.logging.Logger;
 
 import com.github.kubesys.kubernetes.api.models.VirtualMachine;
+import com.github.kubesys.kubernetes.api.models.VirtualMachineDisk;
+import com.github.kubesys.kubernetes.api.models.VirtualMachineDiskImage;
+import com.github.kubesys.kubernetes.api.models.VirtualMachineDiskSnapshot;
+import com.github.kubesys.kubernetes.api.models.VirtualMachineImage;
+import com.github.kubesys.kubernetes.api.models.VirtualMachineNetwork;
+import com.github.kubesys.kubernetes.api.models.VirtualMachinePool;
+import com.github.kubesys.kubernetes.api.models.VirtualMachineSnapshot;
 import com.github.kubesys.kubernetes.impl.VirtualMachineDiskImageImpl;
 import com.github.kubesys.kubernetes.impl.VirtualMachineDiskImpl;
 import com.github.kubesys.kubernetes.impl.VirtualMachineDiskSnapshotImpl;
@@ -101,7 +108,7 @@ public class KubeStackClient extends KubernetesClient {
 	 * @return        VirtualMachineDisks
 	 */
 	public VirtualMachineDiskImpl virtualMachineDisks() {
-		return new VirtualMachineDiskImpl();
+		return new VirtualMachineDiskImpl(this, VirtualMachineDisk.class.getSimpleName());
 	}
 
 	
@@ -118,7 +125,7 @@ public class KubeStackClient extends KubernetesClient {
 	 * @return        VirtualMachineDiskImages
 	 */
 	public VirtualMachineDiskImageImpl virtualMachineDiskImages() {
-		return new VirtualMachineDiskImageImpl();
+		return new VirtualMachineDiskImageImpl(this, VirtualMachineDiskImage.class.getSimpleName());
 	}
 	
 	/**
@@ -133,7 +140,7 @@ public class KubeStackClient extends KubernetesClient {
 	 * @return        VirtualMachineDiskSnapshots
 	 */
 	public VirtualMachineDiskSnapshotImpl virtualMachineDiskSnapshots() {
-		return new VirtualMachineDiskSnapshotImpl();
+		return new VirtualMachineDiskSnapshotImpl(this, VirtualMachineDiskSnapshot.class.getSimpleName());
 	}
 	
 	/**
@@ -148,7 +155,7 @@ public class KubeStackClient extends KubernetesClient {
 	 * @return        VirtualMachineImages
 	 */
 	public VirtualMachineImageImpl virtualMachineImages() {
-		return new VirtualMachineImageImpl();
+		return new VirtualMachineImageImpl(this, VirtualMachineImage.class.getSimpleName());
 	}
 	
 	/**
@@ -163,7 +170,7 @@ public class KubeStackClient extends KubernetesClient {
 	 * @return        VirtualMachineNetworks
 	 */
 	public VirtualMachineNetworkImpl virtualMachineNetworks() {
-		return new VirtualMachineNetworkImpl();
+		return new VirtualMachineNetworkImpl(this, VirtualMachineNetwork.class.getSimpleName());
 	}
 	
 	/**
@@ -180,7 +187,7 @@ public class KubeStackClient extends KubernetesClient {
 	 * @return        VirtualMachinePools
 	 */
 	public VirtualMachinePoolImpl virtualMachinePools() {
-		return new VirtualMachinePoolImpl();
+		return new VirtualMachinePoolImpl(this, VirtualMachinePool.class.getSimpleName());
 	}
 	
 	/**
@@ -195,7 +202,7 @@ public class KubeStackClient extends KubernetesClient {
 	 * @return        VirtualMachineSnapshots
 	 */
 	public VirtualMachineSnapshotImpl virtualMachineSnapshots() {
-		return new VirtualMachineSnapshotImpl();
+		return new VirtualMachineSnapshotImpl(this, VirtualMachineSnapshot.class.getSimpleName());
 	}
 	
 	/**

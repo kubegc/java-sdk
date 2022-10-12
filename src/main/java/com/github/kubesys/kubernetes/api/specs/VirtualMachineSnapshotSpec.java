@@ -3,9 +3,8 @@
  */
 package com.github.kubesys.kubernetes.api.specs;
 
-import com.github.kubesys.kubernetes.api.KubeStackSpec;
-import com.github.kubesys.kubernetes.api.specs.items.virtualmachinesnapshot.Domainsnapshot;
-import com.github.kubesys.kubernetes.api.specs.items.virtualmachinesnapshot.Lifecycle;
+import com.github.kubesys.kubernetes.api.specs.virtualmachinesnapshot.Domainsnapshot;
+import com.github.kubesys.kubernetes.api.specs.virtualmachinesnapshot.Lifecycle;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn

@@ -1,7 +1,7 @@
 /**
  * Copyright (2019, ) Institute of Software, Chinese Academy of Sciences
  */
-package com.github.kubesys.kubernetes.api.specs.items.virtualmachinediskimage;
+package com.github.kubesys.kubernetes.api.specs.virtualmachinedisksnapshot;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -15,7 +15,14 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
  **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-public class Volume extends com.github.kubesys.kubernetes.api.specs.items.virtualmachinedisk.Volume {
+public class Volume extends com.github.kubesys.kubernetes.api.specs.virtualmachinedisk.Volume {
+    protected String snapshot;
 
-	
+    public String getSnapshot() {
+        return snapshot;
+    }
+
+    public void setSnapshot(String snapshot) {
+        this.snapshot = snapshot;
+    }
 }

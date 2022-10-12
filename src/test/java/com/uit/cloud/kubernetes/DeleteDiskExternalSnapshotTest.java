@@ -4,7 +4,7 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.KubeStackClient;
-import com.github.kubesys.kubernetes.api.specs.items.virtualmachinedisksnapshot.Lifecycle.DeleteDiskExternalSnapshot;
+import com.github.kubesys.kubernetes.api.specs.virtualmachinedisksnapshot.Lifecycle.DeleteDiskExternalSnapshot;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn

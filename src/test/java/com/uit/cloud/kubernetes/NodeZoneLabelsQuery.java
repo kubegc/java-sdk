@@ -30,7 +30,7 @@ public class NodeZoneLabelsQuery {
 		// 可以添加多个标签
 		labels.put("zone", "rackA");
 		// 得到相同zone的所有机器
-		List<Node> nodes = client.nodes().withLabels(labels).list().getItems();
+//		List<Node> nodes = client.nodes().withLabels(labels).list().getItems();
 	}
 
 }

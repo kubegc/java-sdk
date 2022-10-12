@@ -5,16 +5,6 @@ package com.uit.cloud.kubernetes;
 
 import java.util.Map;
 
-import com.alibaba.fastjson.JSON;
-import com.github.kubesys.kubernetes.KubeStackClient;
-import com.github.kubesys.kubernetes.api.specs.items.VirtualMachine;
-
-import io.fabric8.kubernetes.api.model.Status;
-import io.fabric8.kubernetes.client.utils.URLUtils;
-import okhttp3.MediaType;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-
 /**
  * @author wuheng@otcaix.iscas.ac.cn
  * @author wuyuewen@otcaix.iscas.ac.cn
@@ -29,8 +19,8 @@ public class UpdateStatus {
 	
 	public static void main(String[] args) throws Exception {
 
-		KubeStackClient client = AbstractTest.getClient();
-		System.out.println(JSON.toJSONString(client.virtualMachines().get("vm006"), true));
+//		KubeStackClient client = AbstractTest.getClient();
+//		System.out.println(JSON.toJSONString(client.virtualMachines().get("vm006"), true));
 //		VirtualMachine vm = client.virtualMachines().get("wyw1234");
 //		Status status = vm.getSpec().getStatus();
 //		Map<String, Object> statusProps = status.getAdditionalProperties();	

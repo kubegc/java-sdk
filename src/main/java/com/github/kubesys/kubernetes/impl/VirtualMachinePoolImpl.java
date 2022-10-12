@@ -5,11 +5,26 @@ package com.github.kubesys.kubernetes.impl;
 
 import java.util.regex.Pattern;
 
+import com.github.kubesys.kubernetes.KubeStackClient;
+import com.github.kubesys.kubernetes.api.models.VirtualMachinePool;
 import com.github.kubesys.kubernetes.api.specs.VirtualMachinePoolSpec;
-import com.github.kubesys.kubernetes.api.specs.items.VirtualMachinePool;
-import com.github.kubesys.kubernetes.api.specs.items.VirtualMachinePoolList;
-import com.github.kubesys.kubernetes.api.specs.items.virtualmachinepool.Lifecycle;
-import com.github.kubesys.kubernetes.api.specs.items.virtualmachinepool.Lifecycle.*;
+import com.github.kubesys.kubernetes.api.specs.virtualmachinepool.Lifecycle;
+import com.github.kubesys.kubernetes.api.specs.virtualmachinepool.Lifecycle.AutoStartPool;
+import com.github.kubesys.kubernetes.api.specs.virtualmachinepool.Lifecycle.CleanVMBackup;
+import com.github.kubesys.kubernetes.api.specs.virtualmachinepool.Lifecycle.CleanVMRemoteBackup;
+import com.github.kubesys.kubernetes.api.specs.virtualmachinepool.Lifecycle.CreatePool;
+import com.github.kubesys.kubernetes.api.specs.virtualmachinepool.Lifecycle.DeletePool;
+import com.github.kubesys.kubernetes.api.specs.virtualmachinepool.Lifecycle.DeleteRemoteBackup;
+import com.github.kubesys.kubernetes.api.specs.virtualmachinepool.Lifecycle.DeleteRemoteBackupServer;
+import com.github.kubesys.kubernetes.api.specs.virtualmachinepool.Lifecycle.DeleteVMBackup;
+import com.github.kubesys.kubernetes.api.specs.virtualmachinepool.Lifecycle.DeleteVMDiskBackup;
+import com.github.kubesys.kubernetes.api.specs.virtualmachinepool.Lifecycle.PullRemoteBackup;
+import com.github.kubesys.kubernetes.api.specs.virtualmachinepool.Lifecycle.PushRemoteBackup;
+import com.github.kubesys.kubernetes.api.specs.virtualmachinepool.Lifecycle.RestoreDisk;
+import com.github.kubesys.kubernetes.api.specs.virtualmachinepool.Lifecycle.RestoreVMBackup;
+import com.github.kubesys.kubernetes.api.specs.virtualmachinepool.Lifecycle.ScanVMBackup;
+import com.github.kubesys.kubernetes.api.specs.virtualmachinepool.Lifecycle.StartPool;
+import com.github.kubesys.kubernetes.api.specs.virtualmachinepool.Lifecycle.StopPool;
 import com.github.kubesys.kubernetes.utils.RegExpUtils;
 
 /**
@@ -18,7 +33,12 @@ import com.github.kubesys.kubernetes.utils.RegExpUtils;
  * @version 1.0.0
  * @since   2019/9/1
  **/
-public class VirtualMachinePoolImpl extends AbstractImpl<VirtualMachinePool, VirtualMachinePoolList, VirtualMachinePoolSpec> {
+public class VirtualMachinePoolImpl extends AbstractImpl<VirtualMachinePool, VirtualMachinePoolSpec> {
+
+	public VirtualMachinePoolImpl(KubeStackClient client, String kind) {
+		super(client, kind);
+		// TODO Auto-generated constructor stub
+	}
 
 	@Override
 	public VirtualMachinePool getModel() {
@@ -33,12 +53,6 @@ public class VirtualMachinePoolImpl extends AbstractImpl<VirtualMachinePool, Vir
 	@Override
 	public Object getLifecycle() {
 		return new Lifecycle();
-	}
-
-	
-	@Override
-	public VirtualMachinePoolSpec getSpec(VirtualMachinePool r) {
-		return r.getSpec();
 	}
 
 	/*************************************************

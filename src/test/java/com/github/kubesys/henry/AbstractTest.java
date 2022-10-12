@@ -4,6 +4,7 @@
 package com.github.kubesys.henry;
 
 import com.github.kubesys.kubernetes.KubeStackClient;
+import com.github.kubesys.kubernetes.api.models.VirtualMachine;
 
 
 /**

@@ -3,8 +3,23 @@
  */
 package com.github.kubesys.assistant.generators;
 
+import com.github.kubesys.kubernetes.api.models.VirtualMachine;
+import com.github.kubesys.kubernetes.api.models.VirtualMachineDisk;
+import com.github.kubesys.kubernetes.api.models.VirtualMachineDiskImage;
+import com.github.kubesys.kubernetes.api.models.VirtualMachineDiskSnapshot;
+import com.github.kubesys.kubernetes.api.models.VirtualMachineImage;
+import com.github.kubesys.kubernetes.api.models.VirtualMachineNetwork;
+import com.github.kubesys.kubernetes.api.models.VirtualMachinePool;
+import com.github.kubesys.kubernetes.api.models.VirtualMachineSnapshot;
 import com.github.kubesys.kubernetes.impl.AbstractImpl;
+import com.github.kubesys.kubernetes.impl.VirtualMachineDiskImageImpl;
+import com.github.kubesys.kubernetes.impl.VirtualMachineDiskImpl;
+import com.github.kubesys.kubernetes.impl.VirtualMachineDiskSnapshotImpl;
+import com.github.kubesys.kubernetes.impl.VirtualMachineImageImpl;
 import com.github.kubesys.kubernetes.impl.VirtualMachineImpl;
+import com.github.kubesys.kubernetes.impl.VirtualMachineNetworkImpl;
+import com.github.kubesys.kubernetes.impl.VirtualMachinePoolImpl;
+import com.github.kubesys.kubernetes.impl.VirtualMachineSnapshotImpl;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -19,7 +34,7 @@ public class MethodGenerator {
 
 	public static String generate(Object obj) throws Exception {
 		StringBuffer sb = new StringBuffer();
-		AbstractImpl<?> impl = (AbstractImpl<?>) obj;
+		AbstractImpl<?, ?> impl = (AbstractImpl<?, ?>) obj;
 		for (String cmd : impl.getSupportCmds()) {
 			if (cmd.startsWith("create") && !cmd.startsWith("createDiskSnapshot")) {
 				sb.append("\tpublic boolean " + cmd +"(String name, " 
@@ -105,14 +120,14 @@ public class MethodGenerator {
 	}
 	
 	public static void main(String[] args) throws Exception {
-//		System.out.println(generate(new VirtualMachineDiskImpl()));
-//		System.out.println(generate(new VirtualMachineDiskSnapshotImpl()));
-		System.out.println(generate(new VirtualMachineImpl()));
-//		System.out.println(generate(new VirtualMachinePoolImpl()));
-//		System.out.println(generate(new VirtualMachineImageImpl()));
-//		System.out.println(generate(new VirtualMachineSnapshotImpl()));
-//		System.out.println(generate(new VirtualMachineNetworkImpl()));
-//		System.out.println(generate(new VirtualMachineDiskImageImpl()));
+		System.out.println(generate(new VirtualMachineDiskImpl(null, VirtualMachineDisk.class.getSimpleName())));
+		System.out.println(generate(new VirtualMachineDiskSnapshotImpl(null, VirtualMachineDiskSnapshot.class.getSimpleName())));
+		System.out.println(generate(new VirtualMachineImpl(null, VirtualMachine.class.getSimpleName())));
+		System.out.println(generate(new VirtualMachinePoolImpl(null, VirtualMachinePool.class.getSimpleName())));
+		System.out.println(generate(new VirtualMachineImageImpl(null, VirtualMachineImage.class.getSimpleName())));
+		System.out.println(generate(new VirtualMachineSnapshotImpl(null, VirtualMachineSnapshot.class.getSimpleName())));
+		System.out.println(generate(new VirtualMachineNetworkImpl(null, VirtualMachineNetwork.class.getSimpleName())));
+		System.out.println(generate(new VirtualMachineDiskImageImpl(null, VirtualMachineDiskImage.class.getSimpleName())));
 	}
 	
 	public static String getClassName(String name) {

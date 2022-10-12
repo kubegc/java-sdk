@@ -1,7 +1,7 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.KubeStackClient;
-import com.github.kubesys.kubernetes.api.specs.items.virtualmachinedisk.Lifecycle;
+import com.github.kubesys.kubernetes.api.specs.virtualmachinedisk.Lifecycle;
 
 public class BackupDiskTest {
     public static void main(String[] args) throws Exception {

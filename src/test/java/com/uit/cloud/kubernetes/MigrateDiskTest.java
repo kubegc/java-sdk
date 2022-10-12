@@ -4,8 +4,8 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.KubeStackClient;
-import com.github.kubesys.kubernetes.api.specs.items.virtualmachinedisk.Lifecycle;
-import com.github.kubesys.kubernetes.api.specs.items.virtualmachinedisk.Lifecycle.CloneDisk;
+import com.github.kubesys.kubernetes.api.specs.virtualmachinedisk.Lifecycle;
+import com.github.kubesys.kubernetes.api.specs.virtualmachinedisk.Lifecycle.CloneDisk;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn

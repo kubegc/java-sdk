@@ -4,7 +4,7 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.KubeStackClient;
-import com.github.kubesys.kubernetes.api.specs.items.virtualmachine.Lifecycle.ResetVM;
+import com.github.kubesys.kubernetes.api.specs.virtualmachine.Lifecycle.ResetVM;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn

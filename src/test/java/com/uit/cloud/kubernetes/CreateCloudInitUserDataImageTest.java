@@ -4,7 +4,7 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.KubeStackClient;
-import com.github.kubesys.kubernetes.api.specs.items.virtualmachinedisk.Lifecycle.CreateCloudInitUserDataImage;
+import com.github.kubesys.kubernetes.api.specs.virtualmachinedisk.Lifecycle.CreateCloudInitUserDataImage;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn

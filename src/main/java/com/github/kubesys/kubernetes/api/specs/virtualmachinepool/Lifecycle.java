@@ -1,7 +1,7 @@
 /**
  * Copyright (2019, ) Institute of Software, Chinese Academy of Sciences
  */
-package com.github.kubesys.kubernetes.api.specs.items.virtualmachinepool;
+package com.github.kubesys.kubernetes.api.specs.virtualmachinepool;
 
 import javax.validation.constraints.Pattern;
 
