@@ -6,7 +6,6 @@ package com.github.kubesys.kubernetes.impl;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,13 +14,18 @@ import java.util.logging.Logger;
 
 import javax.validation.constraints.Pattern;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.deser.ValueInstantiator.Gettable;
 import com.github.kubesys.kubernetes.KubeStackClient;
+import com.github.kubesys.kubernetes.KubeStackConstants;
 import com.github.kubesys.kubernetes.annotations.ParameterDescriber;
-import com.github.kubesys.kubernetes.api.models.KubeStackModel;
 import com.github.kubesys.kubernetes.api.specs.items.virtualmachine.Lifecycle.ResetVM;
 import com.github.kubesys.kubernetes.api.specs.items.virtualmachine.Lifecycle.StopVMForce;
 import com.github.kubesys.kubernetes.utils.RegExpUtils;
+
+import io.fabric8.kubernetes.api.model.HasMetadata;
+import io.fabric8.kubernetes.api.model.ObjectMeta;
 
 /**
  * @author  wuheng@iscas.ac.cn
@@ -36,7 +40,7 @@ import com.github.kubesys.kubernetes.utils.RegExpUtils;
  * VirtualMachineDisk, VirtualMachineSnapshot, and so on
  * 
  **/
-public abstract class AbstractImpl<T> {
+public abstract class AbstractImpl<T, R> {
 
 	/**
 	 * m_logger
@@ -62,6 +66,89 @@ public abstract class AbstractImpl<T> {
 		this.kind = kind;
 	}
 
+	private static JsonNode objectToJson(Object obj) throws Exception {
+		return new ObjectMapper().readTree(
+				new ObjectMapper().writeValueAsString(obj));
+	}
+	
+	
+	/*******************************************************
+	 * 
+	 *                Framework
+	 * 
+	 ********************************************************/
+	/**
+	 * @return                   Model, see fabric8 example
+	 */
+	protected abstract T getModel();
+	
+	/**
+	 * @return                   Spec, see fabric8 example
+	 */
+	protected abstract R getSpec();
+	
+	/**
+	 * @return                   Lifecycle, see fabric8 example
+	 */
+	protected abstract Object getLifecycle();
+	
+	
+	/*******************************************************
+	 * 
+	 *                Extract 
+	 * 
+	 ********************************************************/
+	
+	protected ObjectMeta meta(T object) throws Exception {
+		Method specMethod = object.getClass().getMethod("getMetadata");
+		return (ObjectMeta) specMethod.invoke(object);
+	}
+	
+	
+	/*******************************************************
+	 * 
+	 *                Core
+	 * 
+	 ********************************************************/
+	
+	/**
+	 * 
+	 * @param name            resource name, the .metadata.name
+	 * @return                the object, or null, or throw an exception
+	 * @throws Exception 
+	 */
+	@SuppressWarnings("unchecked")
+	public T get(String name) throws Exception  {
+		java.util.regex.Pattern pattern = java.util.regex.Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return (T) client.getResource(this.kind, name);
+	}
+	
+	
+	/*******************************************************
+	 * 
+	 *                Common operators
+	 * 
+	 ********************************************************/
+	/**
+	 * @param name                  metadata.name
+	 * @param nodeName              metadata.labels.host
+	 * @param eventId               metadata.labels.eventId
+	 * @return                      ObjectMeta  
+	 */
+	protected ObjectMeta createMetadata(String name, String nodeName, String eventId) {
+		ObjectMeta om = new ObjectMeta();
+		om.setName(name);
+		Map<String, String> labels = new HashMap<String, String>();
+		labels.put(KubeStackConstants.LABEL_HOST, nodeName);
+		labels.put(KubeStackConstants.LABEL_EVENTID, eventId);
+		om.setLabels(labels);
+		return om;
+	}
+	
+	
 	/**
 	 * Here, resource can be VirtualMachine, VirtualMachinePool, 
 	 * VirtualMachineDisk, VirtualMachineSnapshot, and so on
@@ -71,12 +158,10 @@ public abstract class AbstractImpl<T> {
 	 * @throws Exception       create resource fail
 	 */
 	@SuppressWarnings("unchecked")
-	public boolean create(KubeStackModel<T> object) throws Exception {
-		client.createResource(
-				new ObjectMapper().readTree(
-						new ObjectMapper().writeValueAsString(object)));
+	public boolean create(T object) throws Exception {
+		client.createResource(objectToJson(object));
 		m_logger.log(Level.INFO, "create "+ kind + " "
-					+ object.getMetadata().getName() + " successful.");
+					+ meta(object).getName() + " successful.");
 		return true;
 	}
 
@@ -88,12 +173,10 @@ public abstract class AbstractImpl<T> {
 	 * @return                  true or an exception
 	 * @throws Exception        delete resource fail
 	 */
-	public boolean delete(KubeStackModel<T> object) throws Exception {
-		client.deleteResource(
-				new ObjectMapper().readTree(
-						new ObjectMapper().writeValueAsString(object)));
+	public boolean delete(T object) throws Exception {
+		client.deleteResource(objectToJson(object));
 		m_logger.log(Level.INFO, "delete " + kind + " " 
-					+ object.getMetadata().getName() + " successful.");
+					+ meta(object).getName() + " successful.");
 		return true;
 	}
 
@@ -106,63 +189,50 @@ public abstract class AbstractImpl<T> {
 	 * @return                   true or an exception
 	 * @throws Exception         update resource fail
 	 */
-	public boolean update(KubeStackModel<T> object) throws Exception {
-		client.updateResource(
-				new ObjectMapper().readTree(
-						new ObjectMapper().writeValueAsString(object)));
+	public boolean update(T object) throws Exception {
+		client.updateResource(objectToJson(object));
 		m_logger.log(Level.INFO, kind + ": update " 
-					+ object.getMetadata().getName() + " successful.");
+					+ meta(object).getName() + " successful.");
 		return true;
 	}
 	
-	/**
-	 * 
-	 * Here, resource can be VirtualMachine, VirtualMachinePool, 
-	 * VirtualMachineDisk, VirtualMachineSnapshot, and so on
-	 *  
-	 * @param operator           lifecyle except for 'Create' and 'Delete'
-	 * @param object             resource object
-	 * @return                   true or an exception
-	 * @throws Exception         update resource fail
-	 */
-	protected boolean update(String operator, KubeStackModel<T> object) throws Exception {
-		client.createOrReplace(object);
-		m_logger.log(Level.INFO, kind + ": " + operator + " " 
-					+ object.getMetadata().getName() + " successful.");
-		return true;
-	}
+//	/**
+//	 * 
+//	 * Here, resource can be VirtualMachine, VirtualMachinePool, 
+//	 * VirtualMachineDisk, VirtualMachineSnapshot, and so on
+//	 *  
+//	 * @param operator           lifecyle except for 'Create' and 'Delete'
+//	 * @param object             resource object
+//	 * @return                   true or an exception
+//	 * @throws Exception         update resource fail
+//	 */
+//	protected boolean update(String operator, KubeStackModel<T> object) throws Exception {
+//		client.updateResource(objectToJson(object));
+//		m_logger.log(Level.INFO, kind + ": " + operator + " " 
+//					+ object.getMetadata().getName() + " successful.");
+//		return true;
+//	}
 	
-	/**
-	 * 
-	 * @param name            resource name, the .metadata.name
-	 * @return                the object, or null, or throw an exception
-	 */
-	public R get(String name)  {
-		java.util.regex.Pattern pattern = java.util.regex.Pattern.compile(RegExpUtils.NAME_PATTERN);
-		if (!pattern.matcher(name).matches()) {
-			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
-		}
-		return ((Gettable<R>) client.withName(name)).get();
-	}
-	
-	/**
-	 * @param name          resource name, the .metadata.name
-	 * @return              the object, or null, or throw an exception
-	 */
-	public String getEventId(String name) {
-		R resource = get(name);
-		return ((HasMetadata)resource).getMetadata().getLabels()
-				.get(ExtendedKubernetesConstants.LABEL_EVENTID);
-	}
+
+//	
+//	/**
+//	 * @param name          resource name, the .metadata.name
+//	 * @return              the object, or null, or throw an exception
+//	 */
+//	public String getEventId(String name) {
+//		R resource = get(name);
+//		return ((HasMetadata)resource).getMetadata().getLabels()
+//				.get(ExtendedKubernetesConstants.LABEL_EVENTID);
+//	}
 	
 	/**
 	 * @return                  list all resource, or null, or throw an exception
 	 */
-	@SuppressWarnings("unchecked")
-	public S list() {
-		return (S) client.list();
-	}
-	
+//	@SuppressWarnings("unchecked")
+//	public S list() {
+//		return (S) client.list();
+//	}
+//	
 	/**
 	 * list all resources with the specified labels
 	 * 
@@ -364,52 +434,26 @@ public abstract class AbstractImpl<T> {
 	 * @return                  kind
 	 */
 	public String getKind() {
-		return type;
+		return this.kind;
 	}
 	
-	/**
-	 * @return                     all support cmds
-	 * @throws Exception           an exception
-	 */
-	public List<String> getSupportCmds() throws Exception {
-		String rootPkg = ExtendedCustomResourceDefinitionSpec.class.getPackage().getName();
-		String fullPkg = rootPkg + "." + type.toLowerCase();
-		String className = fullPkg + ".Lifecycle";
-		Class<?> clazz = Class.forName(className);
-		
-		List<String> cmds = new ArrayList<String>();
-		for (Field f : clazz.getDeclaredFields()) {
-			cmds.add(f.getName());
-		}
-		
-		return cmds;
-	}
-	
-	/*******************************************************
-	 * 
-	 *                Framework
-	 * 
-	 ********************************************************/
-	/**
-	 * @return                   Model, see fabric8 example
-	 */
-	public abstract R getModel();
-	
-	/**
-	 * @return                   Spec, see fabric8 example
-	 */
-	public abstract T getSpec();
-	
-	/**
-	 * @param t                  model
-	 * @return                   spec, see fabric8 example
-	 */
-	public abstract T getSpec(R r);
-	
-	/**
-	 * @return                   Lifecycle, see fabric8 example
-	 */
-	public abstract Object getLifecycle();
+//	/**
+//	 * @return                     all support cmds
+//	 * @throws Exception           an exception
+//	 */
+//	public List<String> getSupportCmds() throws Exception {
+//		String rootPkg = ExtendedCustomResourceDefinitionSpec.class.getPackage().getName();
+//		String fullPkg = rootPkg + "." + type.toLowerCase();
+//		String className = fullPkg + ".Lifecycle";
+//		Class<?> clazz = Class.forName(className);
+//		
+//		List<String> cmds = new ArrayList<String>();
+//		for (Field f : clazz.getDeclaredFields()) {
+//			cmds.add(f.getName());
+//		}
+//		
+//		return cmds;
+//	}
 	
 	/******************************************************
 	 * 
@@ -417,31 +461,31 @@ public abstract class AbstractImpl<T> {
 	 * 
 	 *******************************************************/
 	/**
-	 * @param r                  model
+	 * @param model              model
 	 * @param om                 objectMeta
 	 * @param spec               spec
 	 * @return                   true, or an exception
 	 * @throws Exception         exception  
 	 */
-	protected boolean create(R r, ObjectMeta om, T spec) throws Exception {
+	protected boolean create(T model, ObjectMeta om, R spec) throws Exception {
 		
 		// r.setApiVersion(apiversion)
-		Method setVersion = r.getClass().getMethod("setApiVersion", String.class);
-		setVersion.invoke(r, getAPIVersion());
+		Method setVersion = model.getClass().getMethod("setApiVersion", String.class);
+		setVersion.invoke(model, getAPIVersion());
 		
 		// r.setKind(kind)
-		Method setKind = r.getClass().getMethod("setKind", String.class);
-		setKind.invoke(r, getKind());
+		Method setKind = model.getClass().getMethod("setKind", String.class);
+		setKind.invoke(model, getKind());
 		
 		// r.setMetadata(metadata)
-		Method setMeta = r.getClass().getMethod("setMetadata", ObjectMeta.class);
-		setMeta.invoke(r, om);
+		Method setMeta = model.getClass().getMethod("setMetadata", ObjectMeta.class);
+		setMeta.invoke(model, om);
 		
 		// r.setSpec(spec)
-		Method setSpec = r.getClass().getMethod("setSpec", spec.getClass());
-		setSpec.invoke(r, spec);
+		Method setSpec = model.getClass().getMethod("setSpec", spec.getClass());
+		setSpec.invoke(model, spec);
 		
-		return create((HasMetadata) r);
+		return create(model);
 	}
 	
 	
@@ -568,8 +612,8 @@ public abstract class AbstractImpl<T> {
 	 * @return                     Spec, or an exception
 	 * @throws Exception           exception
 	 */
-	public T createSpec(String nodeName, Object lifecycle) throws Exception {
-		T t = getSpec();
+	public R createSpec(String nodeName, Object lifecycle) throws Exception {
+		R t = getSpec();
 		if (nodeName != null) {
 			// t.setNodeName(nodeName)
 			Method setNode = t.getClass().getMethod("setNodeName", String.class);
@@ -635,22 +679,7 @@ public abstract class AbstractImpl<T> {
 		return lifecycle;
 	}
 	
-	/**
-	 * @param name                  metadata.name
-	 * @param nodeName              metadata.labels.host
-	 * @param eventId               metadata.labels.eventId
-	 * @return                      ObjectMeta  
-	 */
-	protected ObjectMeta createMetadata(String name, String nodeName, String eventId) {
-		ObjectMeta om = new ObjectMeta();
-		om.setName(name);
-		Map<String, String> labels = new HashMap<String, String>();
-		labels.put(ExtendedKubernetesConstants.LABEL_HOST, nodeName);
-		labels.put(ExtendedKubernetesConstants.LABEL_EVENTID, eventId);
-		om.setLabels(labels);
-		return om;
-	}
-	
+
 	/**
 	 * @param name                      name
 	 * @param eventId                   eventId
@@ -658,16 +687,16 @@ public abstract class AbstractImpl<T> {
 	 * @throws Exception 
 	 */
 	protected ObjectMeta updateMetadata(String name, String eventId) throws Exception {
-		R r = get(name);
+		T r = get(name);
 		if (r == null) {
-			throw new RuntimeException(type + " " + name + " is not exist");
+			throw new RuntimeException(kind + " " + name + " is not exist");
 		}
 
 		Method m = r.getClass().getMethod("getMetadata");
 		ObjectMeta om = (ObjectMeta) m.invoke(r);
 		Map<String, String> labels = om.getLabels();
 		labels = (labels == null) ? new HashMap<String, String>() : labels;
-		labels.put(ExtendedKubernetesConstants.LABEL_EVENTID, eventId);
+		labels.put(KubeStackConstants.LABEL_EVENTID, eventId);
 		om.setLabels(labels);
 		return om;
 	}

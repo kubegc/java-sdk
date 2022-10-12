@@ -7,7 +7,7 @@ package com.github.kubesys.kubernetes;
 import java.io.File;
 import java.util.logging.Logger;
 
-import com.github.kubesys.kubernetes.impl.NodeSelectorImpl;
+import com.github.kubesys.kubernetes.api.models.VirtualMachine;
 import com.github.kubesys.kubernetes.impl.VirtualMachineDiskImageImpl;
 import com.github.kubesys.kubernetes.impl.VirtualMachineDiskImpl;
 import com.github.kubesys.kubernetes.impl.VirtualMachineDiskSnapshotImpl;
@@ -85,7 +85,7 @@ public class KubeStackClient extends KubernetesClient {
 	 * @return        VirtualMachines
 	 */
 	public VirtualMachineImpl virtualMachines() {
-		return new VirtualMachineImpl();
+		return new VirtualMachineImpl(this, VirtualMachine.class.getSimpleName());
 	}
 	
 	/**
@@ -204,13 +204,6 @@ public class KubeStackClient extends KubernetesClient {
 	 */
 	public void watchVirtualMachineSnapshots(KubernetesWatcher watcher) throws Exception {
 		this.watchResources(KIND_VIRTUALMACHINE_SNAPSHOT, watcher);
-	}
-	
-	/**
-	 * @return NodeSelector
-	 */
-	public NodeSelectorImpl getNodeSelector() {
-		return new NodeSelectorImpl(this);
 	}
 	
 	/**

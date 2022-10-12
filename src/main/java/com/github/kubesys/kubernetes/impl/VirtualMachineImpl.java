@@ -10,6 +10,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import com.github.kubesys.kubernetes.KubeStackClient;
+import com.github.kubesys.kubernetes.KubeStackConstants;
+import com.github.kubesys.kubernetes.api.models.VirtualMachine;
 import com.github.kubesys.kubernetes.api.specs.VirtualMachineSpec;
 import com.github.kubesys.kubernetes.api.specs.items.virtualmachine.Lifecycle;
 import com.github.kubesys.kubernetes.api.specs.items.virtualmachine.Lifecycle.AddACL;
@@ -71,27 +74,10 @@ import com.github.kubesys.kubernetes.utils.RegExpUtils;
  * @since   2019/9/1
  **/
 @SuppressWarnings("deprecation")
-public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMachineList, VirtualMachineSpec> {
+public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMachineSpec> {
 
-
-	@Override
-	public VirtualMachine getModel() {
-		return new VirtualMachine();
-	}
-
-	@Override
-	public VirtualMachineSpec getSpec() {
-		return new VirtualMachineSpec();
-	}
-
-	@Override
-	public Object getLifecycle() {
-		return new Lifecycle();
-	}
-
-	@Override
-	public VirtualMachineSpec getSpec(VirtualMachine r) {
-		return r.getSpec();
+	public VirtualMachineImpl(KubeStackClient client, String kind) {
+		super(client, kind);
 	}
 
 	/**
@@ -99,7 +85,7 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 	 * @throws Exception exception
 	 */
 	public boolean setHA(String name) throws Exception {
-		return this.addTag(name, ExtendedKubernetesConstants.LABEL_VM_HA, String.valueOf(true));
+		return this.addTag(name, KubeStackConstants.LABEL_VM_HA, String.valueOf(true));
 	}
 	
 	/**
@@ -109,7 +95,7 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 	 */
 	public boolean setHA(String name, Map<String, String>  labels) throws Exception {
 		Map<String, String> tags = new HashMap<String, String>();
-		tags.put(ExtendedKubernetesConstants.LABEL_VM_HA, "true");
+		tags.put(KubeStackConstants.LABEL_VM_HA, "true");
 		tags.putAll(labels);
 		return this.addTags(name, labels);
 	}
@@ -119,7 +105,7 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 	 * @throws Exception exception
 	 */
 	public boolean unsetHA(String name) throws Exception {
-		return deleteTag(name, ExtendedKubernetesConstants.LABEL_VM_HA);
+		return deleteTag(name, KubeStackConstants.LABEL_VM_HA);
 	}
 	
 	/**
@@ -129,7 +115,7 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 	 */
 	public boolean unsetHA(String name, List<String>  keys) throws Exception {
 		List<String> tags = new ArrayList<String>();
-		tags.add(ExtendedKubernetesConstants.LABEL_VM_HA);
+		tags.add(KubeStackConstants.LABEL_VM_HA);
 		tags.addAll(keys);
 		return deleteTags(name, tags);
 	}
@@ -1240,6 +1226,21 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 	public boolean autoStartVM(String name, String nodeName, AutoStartVM autoStartVM, String eventId) throws Exception {
 		updateHost(name, nodeName);
 		return autoStartVM(name, autoStartVM, eventId);
+	}
+
+	@Override
+	protected VirtualMachine getModel() {
+		return new VirtualMachine();
+	}
+
+	@Override
+	protected VirtualMachineSpec getSpec() {
+		return new VirtualMachineSpec();
+	}
+
+	@Override
+	protected Object getLifecycle() {
+		return new Lifecycle();
 	}
 
 }
