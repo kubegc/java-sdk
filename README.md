@@ -7,6 +7,7 @@ Note: kubeext-jdk is a heavy work in progress.
 - wuheng@iscas.ac.cn
 - wuyuewen@iscas.ac.cn
 - zhujianxing21@otcaix.iscas.ac.cn
+- guohao21@otcaix.iscas.ac.cn
 
 
 ![avatar](docs/images/arch.png)
@@ -29,6 +30,17 @@ resources alongside all other resources Kubernetes provides:
 - VirtualMachineNetwork:   kubectl get vmn
 
 **Note:** KubeStack is a heavy work in progress.
+
+## 2.2 resources
+
+- [API](docs/API.md)
+- Lifecycle
+  - [VirtualMachine](docs/conf/vm.json)
+  - [VirtualMachineDisk](docs/conf/vmd.json)
+  - [VirtualMachineDiskImage](docs/conf/vmdi.json)
+  - [VirtualMachineNetwork](docs/conf/vmn.json)
+  - [VirtualMachineImage](docs/conf/vmi.json)
+  - [VirtualMachinePool](docs/conf/vmp.json)
 
 # 3 roadmap
 

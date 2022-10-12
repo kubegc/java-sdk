@@ -11,6 +11,16 @@ import java.util.Set;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.github.kubestack.client.api.models.VirtualMachine;
+import io.github.kubestack.client.api.models.VirtualMachineDisk;
+import io.github.kubestack.client.api.models.VirtualMachineDiskImage;
+import io.github.kubestack.client.api.models.VirtualMachineDiskSnapshot;
+import io.github.kubestack.client.api.models.VirtualMachineImage;
+import io.github.kubestack.client.api.models.VirtualMachineNetwork;
+import io.github.kubestack.client.api.models.VirtualMachinePool;
+import io.github.kubestack.client.api.models.VirtualMachineSnapshot;
+import io.github.kubestack.client.api.specs.KubeStackSpec;
+
 /**
  * @version 1.0.0
  * @since   2019/9/3
@@ -21,15 +31,18 @@ public class JSONGenerator {
 	public final static List<String> list = new ArrayList<String>();
 	
 	static {
-		list.add("com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle");
-		list.add("com.github.kubesys.kubernetes.api.model.virtualmachineimage.Lifecycle");
-		list.add("com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle");
-		list.add("com.github.kubesys.kubernetes.api.model.virtualmachinediskimage.Lifecycle");
-		list.add("com.github.kubesys.kubernetes.api.model.virtualmachinedisksnapshot.Lifecycle");
-		list.add("com.github.kubesys.kubernetes.api.model.virtualmachinesnapshot.Lifecycle");
-		list.add("com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle");
-		list.add("com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle");
-		list.add("com.github.kubesys.kubernetes.api.model.virtualmachinebackup.Lifecycle");
+		list.add(toPackage(VirtualMachine.class));
+		list.add(toPackage(VirtualMachineImage.class));
+		list.add(toPackage(VirtualMachineDisk.class));
+		list.add(toPackage(VirtualMachineDiskImage.class));
+		list.add(toPackage(VirtualMachineDiskSnapshot.class));
+		list.add(toPackage(VirtualMachineSnapshot.class));
+		list.add(toPackage(VirtualMachinePool.class));
+		list.add(toPackage(VirtualMachineNetwork.class));
+	}
+	
+	static String toPackage(Class<?> clz) {
+		return KubeStackSpec.class.getPackageName() + "." + clz.getSimpleName().toLowerCase() + ".Lifecycle";
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked", "deprecation" })

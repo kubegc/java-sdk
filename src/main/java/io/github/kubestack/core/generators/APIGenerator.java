@@ -10,6 +10,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.github.kubestack.client.api.models.KubeStackModel;
 import io.github.kubestack.core.annotations.ClassDescriber;
 import io.github.kubestack.core.annotations.FunctionDescriber;
 import io.github.kubestack.core.annotations.ParameterDescriber;
@@ -29,7 +30,7 @@ public class APIGenerator {
 		StringBuffer sb = new StringBuffer();
 		
 		sb.append("# 文档简介").append("\n\n")
-			.append("\t本文档用于说明基于Kubernetes的虚拟机生命周期如何管理, 项目地址：https://github.com/kubesys/kubeext-jdk.\n");
+			.append("\t本文档用于说明基于Kubernetes的虚拟机生命周期如何管理, 项目地址：https://github.com/kube-stack/java-sdk.\n");
 		
 		sb.append("\t").append("本文有两种通用的约束:\n");
 		sb.append("\t\t").append("(1)名称：只允许小写字母和、数字、中划线和圆点组合，4-100位\n");
@@ -134,7 +135,7 @@ public class APIGenerator {
 			}
 			sb.append("## **返回值:**").append("\n\n");
 			sb.append("```").append("\n");
-			Object obj = Class.forName("com.github.kubesys.kubernetes.api.model." + parent.value()).newInstance();
+			Object obj = Class.forName(KubeStackModel.class.getPackageName() + "." + parent.value()).newInstance();
 			JSONGenerator.instance(obj);
 			sb.append(new ObjectMapper().writeValueAsString(obj)).append("\n");
 			sb.append("```").append("\n");

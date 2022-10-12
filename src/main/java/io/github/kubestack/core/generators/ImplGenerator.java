@@ -30,7 +30,7 @@ import io.github.kubestack.client.impl.VirtualMachineSnapshotImpl;
  * generating methods for the subclass of <code>AbstractImpl<code>, such as <code>VirtualMachineImpl<code>,
  * <code>VirtualMachinePoolImpl<code>, and so one 
  */
-public class MethodGenerator {
+public class ImplGenerator {
 
 	public static String generate(Object obj) throws Exception {
 		StringBuffer sb = new StringBuffer();
