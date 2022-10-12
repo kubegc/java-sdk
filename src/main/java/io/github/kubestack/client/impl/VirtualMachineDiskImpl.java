@@ -29,6 +29,7 @@ import io.github.kubestack.core.utils.RegExpUtils;
  * @version 1.0.0
  * @since   2019/9/1
  **/
+@SuppressWarnings("deprecation")
 public class VirtualMachineDiskImpl extends AbstractImpl<VirtualMachineDisk, VirtualMachineDiskSpec> {
 
 	public VirtualMachineDiskImpl(KubeStackClient client, String kind) {

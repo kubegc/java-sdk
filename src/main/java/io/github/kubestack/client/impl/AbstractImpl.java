@@ -3,6 +3,7 @@
  */
 package io.github.kubestack.client.impl;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -129,7 +130,7 @@ public abstract class AbstractImpl<T, R> {
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
-		return (T) client.getResource(this.kind, name);
+		return (T) client.getResource(this.kind, "default", name);
 	}
 	
 	
@@ -221,6 +222,16 @@ public abstract class AbstractImpl<T, R> {
 		
 		return update(name, om, operator);
 	}
+	
+	/**
+	 * @return                  list all resource, or null, or throw an exception
+	 * @throws  
+	 */
+	public List<T> list() throws Exception {
+		Class<?> clz = getModel().getClass();
+		return new ObjectMapper().readerForListOf(clz).readValue(
+				client.listResources(this.kind).get("items"));
+	}
 
 //	
 //	/**
@@ -233,13 +244,7 @@ public abstract class AbstractImpl<T, R> {
 //				.get(ExtendedKubernetesConstants.LABEL_EVENTID);
 //	}
 	
-//	/**
-//	 * @return                  list all resource, or null, or throw an exception
-//	 */
-//	@SuppressWarnings("unchecked")
-//	public List<T> list() {
-//		return client.listResources(this.kind).get("items");
-//	}
+
 //	/**
 //	 * list all resources with the specified labels
 //	 * 

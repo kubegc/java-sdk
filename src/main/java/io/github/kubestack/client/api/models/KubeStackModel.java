@@ -3,6 +3,9 @@
  */
 package io.github.kubestack.client.api.models;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import io.fabric8.kubernetes.api.model.ObjectMeta;
 import io.fabric8.kubernetes.api.model.Status;
 
@@ -13,6 +16,8 @@ import io.fabric8.kubernetes.api.model.Status;
  * @since   2022.9.28
  * 
  **/
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 public abstract class KubeStackModel<T> {
 
 	/**

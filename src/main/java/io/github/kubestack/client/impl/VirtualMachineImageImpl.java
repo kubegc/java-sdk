@@ -20,6 +20,7 @@ import io.github.kubestack.core.utils.RegExpUtils;
  * @version 1.0.0
  * @since   2019/9/1
  **/
+@SuppressWarnings("deprecation")
 public class VirtualMachineImageImpl extends AbstractImpl<VirtualMachineImage, VirtualMachineImageSpec> {
 
 	public VirtualMachineImageImpl(KubeStackClient client, String kind) {

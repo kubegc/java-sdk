@@ -5,6 +5,10 @@ package io.github.kubestack.client.api.specs;
 
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import io.fabric8.kubernetes.api.model.Affinity;
 
 /**
@@ -14,6 +18,8 @@ import io.fabric8.kubernetes.api.model.Affinity;
  * @since 2022.9.28
  * 
  **/
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 public abstract class KubeStackSpec {
 
 	/**
@@ -25,16 +31,19 @@ public abstract class KubeStackSpec {
 	/**
 	 * advanced scheduling policy based on node name
 	 */
+	@JsonIgnoreProperties(ignoreUnknown = true)
 	protected String nodeName;
 
 	/**
 	 * advanced scheduling policy based on node selector
 	 */
+	@JsonIgnoreProperties(ignoreUnknown = true)
 	protected Map<String, String> nodeSelector;
 
 	/**
 	 * affinity and anti-affinity
 	 */
+	@JsonIgnoreProperties(ignoreUnknown = true)
 	protected Affinity affinity;
 
 	public String getNodeName() {

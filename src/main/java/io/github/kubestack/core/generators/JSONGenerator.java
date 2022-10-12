@@ -112,6 +112,7 @@ public class JSONGenerator {
 							+ name.substring(1);
 	}
 	
+	@SuppressWarnings("deprecation")
 	public static void main(String[] args) throws Exception {
 		for (String name : list) {
 			Object obj = Class.forName(name).newInstance();

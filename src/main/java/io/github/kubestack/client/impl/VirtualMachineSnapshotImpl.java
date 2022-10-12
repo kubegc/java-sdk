@@ -23,6 +23,7 @@ import io.github.kubestack.core.utils.RegExpUtils;
  * @version 1.0.0
  * @since   2019/9/1
  **/
+@SuppressWarnings("deprecation")
 public class VirtualMachineSnapshotImpl extends AbstractImpl<VirtualMachineSnapshot, VirtualMachineSnapshotSpec> {
 
 	public VirtualMachineSnapshotImpl(KubeStackClient client, String kind) {

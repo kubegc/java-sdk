@@ -3,6 +3,10 @@
  */
 package io.github.kubestack.client.api.specs;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import io.github.kubestack.client.api.specs.virtualmachinepool.Lifecycle;
 import io.github.kubestack.client.api.specs.virtualmachinepool.Pool;
 
@@ -12,6 +16,9 @@ import io.github.kubestack.client.api.specs.virtualmachinepool.Pool;
  * @version 2.0.0
  * @since   2022.9.28
  **/
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class VirtualMachinePoolSpec extends KubeStackSpec {
 
 	protected Pool pool;
