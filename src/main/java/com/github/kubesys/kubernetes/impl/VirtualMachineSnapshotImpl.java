@@ -6,15 +6,15 @@ package com.github.kubesys.kubernetes.impl;
 
 import java.util.regex.Pattern;
 
-import com.github.kubesys.kubernetes.api.model.VirtualMachineSnapshot;
-import com.github.kubesys.kubernetes.api.model.VirtualMachineSnapshotList;
-import com.github.kubesys.kubernetes.api.model.VirtualMachineSnapshotSpec;
-import com.github.kubesys.kubernetes.api.model.virtualmachinesnapshot.Lifecycle;
-import com.github.kubesys.kubernetes.api.model.virtualmachinesnapshot.Lifecycle.CopySnapshot;
-import com.github.kubesys.kubernetes.api.model.virtualmachinesnapshot.Lifecycle.CreateSnapshot;
-import com.github.kubesys.kubernetes.api.model.virtualmachinesnapshot.Lifecycle.DeleteSnapshot;
-import com.github.kubesys.kubernetes.api.model.virtualmachinesnapshot.Lifecycle.MergeSnapshot;
-import com.github.kubesys.kubernetes.api.model.virtualmachinesnapshot.Lifecycle.RevertVirtualMachine;
+import com.github.kubesys.kubernetes.api.specs.VirtualMachineSnapshotSpec;
+import com.github.kubesys.kubernetes.api.specs.items.VirtualMachineSnapshot;
+import com.github.kubesys.kubernetes.api.specs.items.VirtualMachineSnapshotList;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachinesnapshot.Lifecycle;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachinesnapshot.Lifecycle.CopySnapshot;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachinesnapshot.Lifecycle.CreateSnapshot;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachinesnapshot.Lifecycle.DeleteSnapshot;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachinesnapshot.Lifecycle.MergeSnapshot;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachinesnapshot.Lifecycle.RevertVirtualMachine;
 import com.github.kubesys.kubernetes.utils.RegExpUtils;
 
 /**

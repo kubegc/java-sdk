@@ -5,11 +5,11 @@ package com.github.kubesys.kubernetes.impl;
 
 import java.util.regex.Pattern;
 
-import com.github.kubesys.kubernetes.api.model.VirtualMachinePool;
-import com.github.kubesys.kubernetes.api.model.VirtualMachinePoolList;
-import com.github.kubesys.kubernetes.api.model.VirtualMachinePoolSpec;
-import com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle;
-import com.github.kubesys.kubernetes.api.model.virtualmachinepool.Lifecycle.*;
+import com.github.kubesys.kubernetes.api.specs.VirtualMachinePoolSpec;
+import com.github.kubesys.kubernetes.api.specs.items.VirtualMachinePool;
+import com.github.kubesys.kubernetes.api.specs.items.VirtualMachinePoolList;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachinepool.Lifecycle;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachinepool.Lifecycle.*;
 import com.github.kubesys.kubernetes.utils.RegExpUtils;
 
 /**

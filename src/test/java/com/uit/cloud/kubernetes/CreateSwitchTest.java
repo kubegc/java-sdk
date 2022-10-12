@@ -4,8 +4,8 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.KubeStackClient;
-import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.CreateBridge;
-import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.CreateSwitch;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachinenetwork.Lifecycle.CreateBridge;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachinenetwork.Lifecycle.CreateSwitch;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn

@@ -4,7 +4,7 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.KubeStackClient;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ChangeNumberOfCPU;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachine.Lifecycle.ChangeNumberOfCPU;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn

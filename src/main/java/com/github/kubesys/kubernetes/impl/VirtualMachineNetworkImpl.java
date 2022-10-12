@@ -5,22 +5,22 @@ package com.github.kubesys.kubernetes.impl;
 
 import java.util.regex.Pattern;
 
-import com.github.kubesys.kubernetes.api.model.VirtualMachineNetwork;
-import com.github.kubesys.kubernetes.api.model.VirtualMachineNetworkList;
-import com.github.kubesys.kubernetes.api.model.VirtualMachineNetworkSpec;
-import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle;
-import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.BindPortVlan;
-import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.CreateAddress;
-import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.CreateBridge;
-import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.CreateSwitch;
-import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.DelBridgeVlan;
-import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.DeleteAddress;
-import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.DeleteBridge;
-import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.DeleteSwitch;
-import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.ModifyAddress;
-import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.ModifySwitch;
-import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.SetBridgeVlan;
-import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.UnbindPortVlan;
+import com.github.kubesys.kubernetes.api.specs.VirtualMachineNetworkSpec;
+import com.github.kubesys.kubernetes.api.specs.items.VirtualMachineNetwork;
+import com.github.kubesys.kubernetes.api.specs.items.VirtualMachineNetworkList;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachinenetwork.Lifecycle;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachinenetwork.Lifecycle.BindPortVlan;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachinenetwork.Lifecycle.CreateAddress;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachinenetwork.Lifecycle.CreateBridge;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachinenetwork.Lifecycle.CreateSwitch;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachinenetwork.Lifecycle.DelBridgeVlan;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachinenetwork.Lifecycle.DeleteAddress;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachinenetwork.Lifecycle.DeleteBridge;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachinenetwork.Lifecycle.DeleteSwitch;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachinenetwork.Lifecycle.ModifyAddress;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachinenetwork.Lifecycle.ModifySwitch;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachinenetwork.Lifecycle.SetBridgeVlan;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachinenetwork.Lifecycle.UnbindPortVlan;
 import com.github.kubesys.kubernetes.utils.RegExpUtils;
 
 /**

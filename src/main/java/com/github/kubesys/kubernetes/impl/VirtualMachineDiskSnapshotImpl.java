@@ -5,13 +5,13 @@ package com.github.kubesys.kubernetes.impl;
 
 import java.util.regex.Pattern;
 
-import com.github.kubesys.kubernetes.api.model.VirtualMachineDiskSnapshot;
-import com.github.kubesys.kubernetes.api.model.VirtualMachineDiskSnapshotList;
-import com.github.kubesys.kubernetes.api.model.VirtualMachineDiskSnapshotSpec;
-import com.github.kubesys.kubernetes.api.model.virtualmachinedisksnapshot.Lifecycle;
-import com.github.kubesys.kubernetes.api.model.virtualmachinedisksnapshot.Lifecycle.CreateDiskExternalSnapshot;
-import com.github.kubesys.kubernetes.api.model.virtualmachinedisksnapshot.Lifecycle.DeleteDiskExternalSnapshot;
-import com.github.kubesys.kubernetes.api.model.virtualmachinedisksnapshot.Lifecycle.RevertDiskExternalSnapshot;
+import com.github.kubesys.kubernetes.api.specs.VirtualMachineDiskSnapshotSpec;
+import com.github.kubesys.kubernetes.api.specs.items.VirtualMachineDiskSnapshot;
+import com.github.kubesys.kubernetes.api.specs.items.VirtualMachineDiskSnapshotList;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachinedisksnapshot.Lifecycle;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachinedisksnapshot.Lifecycle.CreateDiskExternalSnapshot;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachinedisksnapshot.Lifecycle.DeleteDiskExternalSnapshot;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachinedisksnapshot.Lifecycle.RevertDiskExternalSnapshot;
 import com.github.kubesys.kubernetes.utils.RegExpUtils;
 
 /**

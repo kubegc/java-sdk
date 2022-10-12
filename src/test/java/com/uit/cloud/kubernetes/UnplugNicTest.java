@@ -4,7 +4,7 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.KubeStackClient;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.UnplugNIC;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachine.Lifecycle.UnplugNIC;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn

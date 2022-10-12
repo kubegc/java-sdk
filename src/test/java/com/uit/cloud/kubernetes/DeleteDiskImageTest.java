@@ -4,7 +4,7 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.KubeStackClient;
-import com.github.kubesys.kubernetes.api.model.virtualmachinediskimage.Lifecycle.DeleteDiskImage;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachinediskimage.Lifecycle.DeleteDiskImage;
 
 
 /**

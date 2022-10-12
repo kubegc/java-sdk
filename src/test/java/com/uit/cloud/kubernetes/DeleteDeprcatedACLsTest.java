@@ -5,7 +5,7 @@ package com.uit.cloud.kubernetes;
 
 
 import com.github.kubesys.kubernetes.KubeStackClient;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.DeprecatedACL;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachine.Lifecycle.DeprecatedACL;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn

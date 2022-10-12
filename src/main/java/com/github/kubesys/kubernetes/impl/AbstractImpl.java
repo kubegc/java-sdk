@@ -18,9 +18,9 @@ import javax.validation.constraints.Pattern;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.kubesys.kubernetes.KubeStackClient;
 import com.github.kubesys.kubernetes.annotations.ParameterDescriber;
-import com.github.kubesys.kubernetes.api.model.KubeModel;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ResetVM;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StopVMForce;
+import com.github.kubesys.kubernetes.api.models.KubeStackModel;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachine.Lifecycle.ResetVM;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachine.Lifecycle.StopVMForce;
 import com.github.kubesys.kubernetes.utils.RegExpUtils;
 
 /**
@@ -36,7 +36,7 @@ import com.github.kubesys.kubernetes.utils.RegExpUtils;
  * VirtualMachineDisk, VirtualMachineSnapshot, and so on
  * 
  **/
-public abstract class AbstractImpl<R, S, T> {
+public abstract class AbstractImpl<T> {
 
 	/**
 	 * m_logger
@@ -71,7 +71,7 @@ public abstract class AbstractImpl<R, S, T> {
 	 * @throws Exception       create resource fail
 	 */
 	@SuppressWarnings("unchecked")
-	public boolean create(KubeModel object) throws Exception {
+	public boolean create(KubeStackModel<T> object) throws Exception {
 		client.createResource(
 				new ObjectMapper().readTree(
 						new ObjectMapper().writeValueAsString(object)));
@@ -88,7 +88,7 @@ public abstract class AbstractImpl<R, S, T> {
 	 * @return                  true or an exception
 	 * @throws Exception        delete resource fail
 	 */
-	public boolean delete(KubeModel object) throws Exception {
+	public boolean delete(KubeStackModel<T> object) throws Exception {
 		client.deleteResource(
 				new ObjectMapper().readTree(
 						new ObjectMapper().writeValueAsString(object)));
@@ -106,7 +106,7 @@ public abstract class AbstractImpl<R, S, T> {
 	 * @return                   true or an exception
 	 * @throws Exception         update resource fail
 	 */
-	public boolean update(KubeModel object) throws Exception {
+	public boolean update(KubeStackModel<T> object) throws Exception {
 		client.updateResource(
 				new ObjectMapper().readTree(
 						new ObjectMapper().writeValueAsString(object)));
@@ -125,7 +125,7 @@ public abstract class AbstractImpl<R, S, T> {
 	 * @return                   true or an exception
 	 * @throws Exception         update resource fail
 	 */
-	protected boolean update(String operator, KubeModel object) throws Exception {
+	protected boolean update(String operator, KubeStackModel<T> object) throws Exception {
 		client.createOrReplace(object);
 		m_logger.log(Level.INFO, kind + ": " + operator + " " 
 					+ object.getMetadata().getName() + " successful.");

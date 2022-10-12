@@ -5,13 +5,13 @@ package com.github.kubesys.kubernetes.impl;
 
 import java.util.regex.Pattern;
 
-import com.github.kubesys.kubernetes.api.model.VirtualMachineDiskImage;
-import com.github.kubesys.kubernetes.api.model.VirtualMachineDiskImageList;
-import com.github.kubesys.kubernetes.api.model.VirtualMachineDiskImageSpec;
-import com.github.kubesys.kubernetes.api.model.virtualmachinediskimage.Lifecycle;
-import com.github.kubesys.kubernetes.api.model.virtualmachinediskimage.Lifecycle.CreateDiskImage;
-import com.github.kubesys.kubernetes.api.model.virtualmachinediskimage.Lifecycle.CreateDiskImageFromDisk;
-import com.github.kubesys.kubernetes.api.model.virtualmachinediskimage.Lifecycle.DeleteDiskImage;
+import com.github.kubesys.kubernetes.api.specs.VirtualMachineDiskImageSpec;
+import com.github.kubesys.kubernetes.api.specs.items.VirtualMachineDiskImage;
+import com.github.kubesys.kubernetes.api.specs.items.VirtualMachineDiskImageList;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachinediskimage.Lifecycle;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachinediskimage.Lifecycle.CreateDiskImage;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachinediskimage.Lifecycle.CreateDiskImageFromDisk;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachinediskimage.Lifecycle.DeleteDiskImage;
 import com.github.kubesys.kubernetes.utils.RegExpUtils;
 
 /**

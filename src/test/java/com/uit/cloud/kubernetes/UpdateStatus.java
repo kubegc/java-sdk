@@ -7,7 +7,7 @@ import java.util.Map;
 
 import com.alibaba.fastjson.JSON;
 import com.github.kubesys.kubernetes.KubeStackClient;
-import com.github.kubesys.kubernetes.api.model.VirtualMachine;
+import com.github.kubesys.kubernetes.api.specs.items.VirtualMachine;
 
 import io.fabric8.kubernetes.api.model.Status;
 import io.fabric8.kubernetes.client.utils.URLUtils;

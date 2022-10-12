@@ -4,7 +4,7 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.KubeStackClient;
-import com.github.kubesys.kubernetes.api.model.virtualmachinenetwork.Lifecycle.SetBridgeVlan;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachinenetwork.Lifecycle.SetBridgeVlan;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn

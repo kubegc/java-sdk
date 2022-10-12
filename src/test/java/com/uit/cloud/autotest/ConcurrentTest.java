@@ -6,10 +6,10 @@ import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 
 import com.github.kubesys.kubernetes.KubeStackClient;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.CreateAndStartVMFromISO;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.DeleteVM;
-import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CreateDiskFromDiskImage;
-import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.DeleteDisk;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachine.Lifecycle.CreateAndStartVMFromISO;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachine.Lifecycle.DeleteVM;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachinedisk.Lifecycle.CreateDiskFromDiskImage;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachinedisk.Lifecycle.DeleteDisk;
 import com.uit.cloud.kubernetes.AbstractTest;
 
 public class ConcurrentTest {

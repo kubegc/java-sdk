@@ -19,7 +19,7 @@ public class MethodGenerator {
 
 	public static String generate(Object obj) throws Exception {
 		StringBuffer sb = new StringBuffer();
-		AbstractImpl<?, ?, ?> impl = (AbstractImpl<?, ?, ?>) obj;
+		AbstractImpl<?> impl = (AbstractImpl<?>) obj;
 		for (String cmd : impl.getSupportCmds()) {
 			if (cmd.startsWith("create") && !cmd.startsWith("createDiskSnapshot")) {
 				sb.append("\tpublic boolean " + cmd +"(String name, " 

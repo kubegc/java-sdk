@@ -9,9 +9,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Domain;
-import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Volume;
-import com.github.kubesys.kubernetes.api.model.virtualmachinesnapshot.Domainsnapshot;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachine.Domain;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachinedisk.Volume;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachinesnapshot.Domainsnapshot;
 
 
 /**

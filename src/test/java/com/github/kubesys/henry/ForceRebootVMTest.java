@@ -4,7 +4,7 @@
 package com.github.kubesys.henry;
 
 import com.github.kubesys.kubernetes.KubeStackClient;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.ResetVM;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachine.Lifecycle.ResetVM;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn

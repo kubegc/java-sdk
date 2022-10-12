@@ -5,22 +5,22 @@ package com.github.kubesys.kubernetes.impl;
 
 import java.util.regex.Pattern;
 
-import com.github.kubesys.kubernetes.api.model.VirtualMachineDisk;
-import com.github.kubesys.kubernetes.api.model.VirtualMachineDiskList;
-import com.github.kubesys.kubernetes.api.model.VirtualMachineDiskSpec;
-import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle;
-import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.BackupDisk;
-import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CloneDisk;
-import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CreateCloudInitUserDataImage;
-import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CreateDisk;
-import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CreateDiskFromDiskImage;
-import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.CreateDiskInternalSnapshot;
-import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.DeleteCloudInitUserDataImage;
-import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.DeleteDisk;
-import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.DeleteDiskInternalSnapshot;
-import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.MigrateDisk;
-import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.ResizeDisk;
-import com.github.kubesys.kubernetes.api.model.virtualmachinedisk.Lifecycle.RevertDiskInternalSnapshot;
+import com.github.kubesys.kubernetes.api.specs.VirtualMachineDiskSpec;
+import com.github.kubesys.kubernetes.api.specs.items.VirtualMachineDisk;
+import com.github.kubesys.kubernetes.api.specs.items.VirtualMachineDiskList;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachinedisk.Lifecycle;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachinedisk.Lifecycle.BackupDisk;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachinedisk.Lifecycle.CloneDisk;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachinedisk.Lifecycle.CreateCloudInitUserDataImage;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachinedisk.Lifecycle.CreateDisk;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachinedisk.Lifecycle.CreateDiskFromDiskImage;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachinedisk.Lifecycle.CreateDiskInternalSnapshot;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachinedisk.Lifecycle.DeleteCloudInitUserDataImage;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachinedisk.Lifecycle.DeleteDisk;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachinedisk.Lifecycle.DeleteDiskInternalSnapshot;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachinedisk.Lifecycle.MigrateDisk;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachinedisk.Lifecycle.ResizeDisk;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachinedisk.Lifecycle.RevertDiskInternalSnapshot;
 import com.github.kubesys.kubernetes.utils.RegExpUtils;
 
 /**

@@ -4,9 +4,9 @@
 package com.uit.cloud.kubernetes;
 
 import com.alibaba.fastjson.JSON;
-import com.github.kubesys.kubernetes.api.model.VirtualMachineBackup;
-import com.github.kubesys.kubernetes.api.model.VirtualMachineBackupList;
-import com.github.kubesys.kubernetes.api.model.virtualmachinebackup.Backup;
+import com.github.kubesys.kubernetes.api.specs.items.VirtualMachineBackup;
+import com.github.kubesys.kubernetes.api.specs.items.VirtualMachineBackupList;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachinebackup.Backup;
 
 import java.util.ArrayList;
 import java.util.List;

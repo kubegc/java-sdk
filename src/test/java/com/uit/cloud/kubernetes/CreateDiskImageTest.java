@@ -4,7 +4,7 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.KubeStackClient;
-import com.github.kubesys.kubernetes.api.model.virtualmachinediskimage.Lifecycle.CreateDiskImage;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachinediskimage.Lifecycle.CreateDiskImage;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn

@@ -6,7 +6,7 @@ package com.github.kubesys.henry;
 import java.util.Map;
 
 import com.github.kubesys.kubernetes.KubeStackClient;
-import com.github.kubesys.kubernetes.api.model.VirtualMachine;
+import com.github.kubesys.kubernetes.api.specs.items.VirtualMachine;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn

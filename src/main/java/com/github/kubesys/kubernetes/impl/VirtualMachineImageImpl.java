@@ -5,13 +5,13 @@ package com.github.kubesys.kubernetes.impl;
 
 import java.util.regex.Pattern;
 
-import com.github.kubesys.kubernetes.api.model.VirtualMachineImage;
-import com.github.kubesys.kubernetes.api.model.VirtualMachineImageList;
-import com.github.kubesys.kubernetes.api.model.VirtualMachineImageSpec;
-import com.github.kubesys.kubernetes.api.model.virtualmachineimage.Lifecycle;
-import com.github.kubesys.kubernetes.api.model.virtualmachineimage.Lifecycle.ConvertImageToVM;
-import com.github.kubesys.kubernetes.api.model.virtualmachineimage.Lifecycle.CreateImage;
-import com.github.kubesys.kubernetes.api.model.virtualmachineimage.Lifecycle.DeleteImage;
+import com.github.kubesys.kubernetes.api.specs.VirtualMachineImageSpec;
+import com.github.kubesys.kubernetes.api.specs.items.VirtualMachineImage;
+import com.github.kubesys.kubernetes.api.specs.items.VirtualMachineImageList;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachineimage.Lifecycle;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachineimage.Lifecycle.ConvertImageToVM;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachineimage.Lifecycle.CreateImage;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachineimage.Lifecycle.DeleteImage;
 import com.github.kubesys.kubernetes.utils.RegExpUtils;
 
 /**

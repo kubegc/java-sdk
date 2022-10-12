@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.github.kubesys.kubernetes.KubeStackClient;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.BatchDeprecatedACL;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.DeprecatedACL;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachine.Lifecycle.BatchDeprecatedACL;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachine.Lifecycle.DeprecatedACL;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn

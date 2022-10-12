@@ -4,7 +4,7 @@
 package com.github.kubesys.henry;
 
 import com.github.kubesys.kubernetes.KubeStackClient;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle.StopVMForce;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachine.Lifecycle.StopVMForce;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn

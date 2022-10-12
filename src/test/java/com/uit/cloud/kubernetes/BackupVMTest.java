@@ -1,7 +1,7 @@
 package com.uit.cloud.kubernetes;
 
 import com.github.kubesys.kubernetes.KubeStackClient;
-import com.github.kubesys.kubernetes.api.model.virtualmachine.Lifecycle;
+import com.github.kubesys.kubernetes.api.specs.items.virtualmachine.Lifecycle;
 
 public class BackupVMTest {
     public static void main(String[] args) throws Exception {
