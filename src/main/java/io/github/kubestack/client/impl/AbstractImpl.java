@@ -236,6 +236,20 @@ public abstract class AbstractImpl<T, R> {
 				client.listResources(this.kind).get("items"));
 	}
 
+	
+	/**
+	 * list all resources with the specified labels
+	 * 
+	 * @param  labels          resource labels, the .metadata.labels
+	 * @return                 all resource, or null, or throw an exception
+	 * @throws Exception 
+	 */
+	public List<T> list(Map<String, String> labels) throws Exception {
+		Class<?> clz = getModel().getClass();
+		return new ObjectMapper().readerForListOf(clz).readValue(
+				client.listResources(this.kind).get("items"));
+	}
+	
 //	
 //	/**
 //	 * @param name          resource name, the .metadata.name
@@ -248,19 +262,6 @@ public abstract class AbstractImpl<T, R> {
 //	}
 	
 
-//	/**
-//	 * list all resources with the specified labels
-//	 * 
-//	 * @param  labels          resource labels, the .metadata.labels
-//	 * @return                 all resource, or null, or throw an exception
-//	 */
-//	@SuppressWarnings({ "rawtypes", "unchecked" })
-//	public S list(Map<String, String> labels) {
-//		return (S) ((FilterWatchListDeletable) client.withLabels(labels)).list();
-//	}
-	
-	
-	
 	/**
 	 * @param name                   name
 	 * @param hostname               hostbame
