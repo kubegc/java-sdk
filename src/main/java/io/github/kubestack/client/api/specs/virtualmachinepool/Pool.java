@@ -37,11 +37,14 @@ public class Pool {
 	
 	protected String capacity;
 	
+	@Deprecated
 	protected String path;
 
 	protected String poolname;
 
 	protected String pool;
+	
+	protected String url;
 
 	public String getPool() {
 		return pool;
@@ -149,6 +152,14 @@ public class Pool {
 
 	public void setPath(String path) {
 		this.path = path;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 }

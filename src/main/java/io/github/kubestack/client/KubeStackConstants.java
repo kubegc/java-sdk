@@ -14,6 +14,8 @@ package io.github.kubestack.client;
  */
 public class KubeStackConstants {
 
+	
+	public static String CRD_APIVERSION       = "doslab.io/v1";
 
 	public static String LABEL_VM_HA          = "kubestack.label.ha"; 
 	

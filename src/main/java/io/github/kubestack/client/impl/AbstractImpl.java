@@ -439,7 +439,7 @@ public abstract class AbstractImpl<T, R> {
 	 * @return                  api version
 	 */
 	public String getAPIVersion() {
-		return "cloudplus.io/v1alpha3";
+		return KubeStackConstants.CRD_APIVERSION;
 	}
 	
 	/**
@@ -494,7 +494,7 @@ public abstract class AbstractImpl<T, R> {
 		setMeta.invoke(model, om);
 		
 		// r.setSpec(spec)
-		Method setSpec = model.getClass().getMethod("setSpec", spec.getClass());
+		Method setSpec = model.getClass().getMethod("setSpec", Object.class);
 		setSpec.invoke(model, spec);
 		
 		return create(model);
