@@ -12,6 +12,16 @@ import io.github.kubestack.client.api.specs.VirtualMachineNetworkSpec;
  * @since   2022.10.12
  * 
  **/
-public class VirtualMachineNetwork extends KubeStackModel<VirtualMachineNetworkSpec> {
+public class VirtualMachineNetwork extends KubeStackModel {
 
+	protected VirtualMachineNetworkSpec spec;
+
+	public VirtualMachineNetworkSpec getSpec() {
+		return spec;
+	}
+
+	public void setSpec(VirtualMachineNetworkSpec spec) {
+		this.spec = spec;
+	}
+	
 }

@@ -319,4 +319,9 @@ public class VirtualMachineNetworkImpl extends AbstractImpl<VirtualMachineNetwor
 		return modifyAddress(name, modifyAddress, eventId);
 	}
 
+	@Override
+	protected Class<?> getModelClass() {
+		return VirtualMachineNetwork.class;
+	}
+
 }

@@ -433,4 +433,9 @@ public class VirtualMachinePoolImpl extends AbstractImpl<VirtualMachinePool, Vir
 		updateHost(name, nodeName);
 		return deleteRemoteBackupServer(name, deleteRemoteBackupServer, eventId);
 	}
+
+	@Override
+	protected Class<?> getModelClass() {
+		return VirtualMachinePool.class;
+	}
 }

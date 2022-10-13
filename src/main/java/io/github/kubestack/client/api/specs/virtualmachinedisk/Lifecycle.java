@@ -244,7 +244,7 @@ public class Lifecycle {
 
 
 		@ParameterDescriber(required = true, description = "云盘空间大小,1G到1T", constraint = "1000000000-999999999999（单位：Byte）", example = "‭10,737,418,240‬")
-		@Pattern(regexp = RegExpUtils.DISK_SIZE_PATTERN)
+//		@Pattern(regexp = RegExpUtils.DISK_SIZE_PATTERN)
 		protected String capacity;
 
 		public CreateDisk() {

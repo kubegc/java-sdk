@@ -1243,4 +1243,9 @@ public class VirtualMachineImpl extends AbstractImpl<VirtualMachine, VirtualMach
 		return new Lifecycle();
 	}
 
+	@Override
+	protected Class<?> getModelClass() {
+		return VirtualMachine.class;
+	}
+
 }

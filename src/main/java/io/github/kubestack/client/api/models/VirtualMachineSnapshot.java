@@ -12,6 +12,16 @@ import io.github.kubestack.client.api.specs.VirtualMachineSnapshotSpec;
  * @since   2022.10.12
  * 
  **/
-public class VirtualMachineSnapshot extends KubeStackModel<VirtualMachineSnapshotSpec> {
+public class VirtualMachineSnapshot extends KubeStackModel {
 
+	protected VirtualMachineSnapshotSpec spec;
+
+	public VirtualMachineSnapshotSpec getSpec() {
+		return spec;
+	}
+
+	public void setSpec(VirtualMachineSnapshotSpec spec) {
+		this.spec = spec;
+	}
+	
 }

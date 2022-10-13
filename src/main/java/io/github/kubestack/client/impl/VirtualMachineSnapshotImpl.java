@@ -160,4 +160,9 @@ public class VirtualMachineSnapshotImpl extends AbstractImpl<VirtualMachineSnaps
 		updateHost(name, nodeName);
 		return mergeSnapshot(name, mergeSnapshot, eventId);
 	}
+
+	@Override
+	protected Class<?> getModelClass() {
+		return VirtualMachineSnapshot.class;
+	}
 }

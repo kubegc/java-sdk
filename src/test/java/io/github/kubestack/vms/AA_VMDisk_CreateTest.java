@@ -22,7 +22,7 @@ public class AA_VMDisk_CreateTest {
 
 		KubeStackClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineDisks()
-				.createDisk("backuptest1", "vm.node133", get(), "abc");
+				.createDisk("henryvmd", "vm.node133", get(), "abc");
 		System.out.println(successful);
 	}
 
@@ -30,8 +30,8 @@ public class AA_VMDisk_CreateTest {
 		CreateDisk createDisk = new CreateDisk();
 		createDisk.setPool("pooltest");
 		// bytes 10G
-		Long size = 30L*1024*1024*1024;
-		createDisk.setCapacity(String.valueOf(size));
+//		Long size = 10L*1024*1024*1024;
+		createDisk.setCapacity("10G");
 		createDisk.setFormat("qcow2");
 		createDisk.setType("localfs");
 		return createDisk;

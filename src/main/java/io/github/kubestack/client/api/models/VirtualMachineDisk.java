@@ -12,6 +12,16 @@ import io.github.kubestack.client.api.specs.VirtualMachineDiskSpec;
  * @since   2022.10.12
  * 
  **/
-public class VirtualMachineDisk extends KubeStackModel<VirtualMachineDiskSpec> {
+public class VirtualMachineDisk extends KubeStackModel {
 
+	protected VirtualMachineDiskSpec spec;
+
+	public VirtualMachineDiskSpec getSpec() {
+		return spec;
+	}
+
+	public void setSpec(VirtualMachineDiskSpec spec) {
+		this.spec = spec;
+	}
+	
 }

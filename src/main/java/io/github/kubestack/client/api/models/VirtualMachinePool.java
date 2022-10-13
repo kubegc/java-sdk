@@ -12,6 +12,16 @@ import io.github.kubestack.client.api.specs.VirtualMachinePoolSpec;
  * @since   2022.10.12
  * 
  **/
-public class VirtualMachinePool extends KubeStackModel<VirtualMachinePoolSpec> {
+public class VirtualMachinePool extends KubeStackModel {
 
+	protected VirtualMachinePoolSpec spec;
+
+	public VirtualMachinePoolSpec getSpec() {
+		return spec;
+	}
+
+	public void setSpec(VirtualMachinePoolSpec spec) {
+		this.spec = spec;
+	}
+	
 }

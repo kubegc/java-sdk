@@ -18,7 +18,7 @@ import io.fabric8.kubernetes.api.model.Status;
  **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
-public abstract class KubeStackModel<T> {
+public abstract class KubeStackModel {
 
 	/**
 	 * serialVersionUID
@@ -32,8 +32,6 @@ public abstract class KubeStackModel<T> {
 	protected String kind;
 	
 	protected ObjectMeta metadata;
-	
-	protected T spec;
 	
 	protected Status status;
 
@@ -68,14 +66,6 @@ public abstract class KubeStackModel<T> {
 
 	public void setStatus(Status status) {
 		this.status = status;
-	}
-
-	public T getSpec() {
-		return spec;
-	}
-
-	public void setSpec(T spec) {
-		this.spec = spec;
 	}
 
 }

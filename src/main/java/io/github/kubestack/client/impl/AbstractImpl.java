@@ -58,6 +58,9 @@ public abstract class AbstractImpl<T, R> {
 	 * resource type
 	 */
 	protected final String kind;
+	
+	
+	protected abstract Class<?> getModelClass();
 
 	/**
 	 * @param client         the client can manage the lifecyle of the specified 
@@ -130,7 +133,7 @@ public abstract class AbstractImpl<T, R> {
 		if (!pattern.matcher(name).matches()) {
 			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
 		}
-		return (T) client.getResource(this.kind, "default", name);
+		return (T) new ObjectMapper().convertValue(client.getResource(this.kind, "default", name), getModelClass());
 	}
 	
 	
@@ -494,7 +497,7 @@ public abstract class AbstractImpl<T, R> {
 		setMeta.invoke(model, om);
 		
 		// r.setSpec(spec)
-		Method setSpec = model.getClass().getMethod("setSpec", Object.class);
+		Method setSpec = model.getClass().getMethod("setSpec", spec.getClass());
 		setSpec.invoke(model, spec);
 		
 		return create(model);

@@ -112,4 +112,9 @@ public class VirtualMachineDiskImageImpl extends AbstractImpl<VirtualMachineDisk
 		updateHost(name, nodeName);
 		return deleteDiskImage(name, deleteDiskImage, eventId);
 	}
+
+	@Override
+	protected Class<?> getModelClass() {
+		return VirtualMachineDiskImage.class;
+	}
 }

@@ -25,7 +25,6 @@ public class VirtualMachineImageImpl extends AbstractImpl<VirtualMachineImage, V
 
 	public VirtualMachineImageImpl(KubeStackClient client, String kind) {
 		super(client, kind);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -113,6 +112,11 @@ public class VirtualMachineImageImpl extends AbstractImpl<VirtualMachineImage, V
 	public boolean convertImageToVM(String name, String nodeName, ConvertImageToVM convertImageToVM, String eventId) throws Exception {
 		updateHost(name, nodeName);
 		return convertImageToVM(name, convertImageToVM, eventId);
+	}
+
+	@Override
+	protected Class<?> getModelClass() {
+		return VirtualMachineImage.class;
 	}
 
 }

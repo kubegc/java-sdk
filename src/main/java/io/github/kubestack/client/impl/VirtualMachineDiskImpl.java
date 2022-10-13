@@ -319,4 +319,9 @@ public class VirtualMachineDiskImpl extends AbstractImpl<VirtualMachineDisk, Vir
 		return deleteCloudInitUserDataImage(name, deleteCloudInitUserDataImage, eventId);
 	}
 
+	@Override
+	protected Class<?> getModelClass() {
+		return VirtualMachineDisk.class;
+	}
+
 }

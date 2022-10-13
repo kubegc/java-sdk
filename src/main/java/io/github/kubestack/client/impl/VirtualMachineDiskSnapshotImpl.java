@@ -112,4 +112,9 @@ public class VirtualMachineDiskSnapshotImpl extends AbstractImpl<VirtualMachineD
 		updateHost(name, nodeName);
 		return deleteDiskExternalSnapshot(name, deleteDiskExternalSnapshot, eventId);
 	}
+
+	@Override
+	protected Class<?> getModelClass() {
+		return VirtualMachineDiskSnapshot.class;
+	}
 }
