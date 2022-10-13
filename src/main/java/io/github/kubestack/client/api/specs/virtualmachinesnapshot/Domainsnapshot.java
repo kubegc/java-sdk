@@ -6,6 +6,7 @@ package io.github.kubestack.client.api.specs.virtualmachinesnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
@@ -19,6 +20,7 @@ import io.github.kubestack.client.api.specs.virtualmachine.Domain.Name;
  **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Domainsnapshot {
 	
 	protected Cookie cookie;

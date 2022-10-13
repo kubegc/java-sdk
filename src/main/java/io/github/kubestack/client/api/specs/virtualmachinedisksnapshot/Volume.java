@@ -3,6 +3,7 @@
  */
 package io.github.kubestack.client.api.specs.virtualmachinedisksnapshot;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
@@ -15,6 +16,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
  **/
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Volume extends io.github.kubestack.client.api.specs.virtualmachinedisk.Volume {
     protected String snapshot;
 
