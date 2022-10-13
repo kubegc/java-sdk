@@ -41,6 +41,7 @@ resources alongside all other resources Kubernetes provides:
   - [VirtualMachineNetwork](docs/conf/vmn.json)
   - [VirtualMachineImage](docs/conf/vmi.json)
   - [VirtualMachinePool](docs/conf/vmp.json)
+- [examples](src/test/java/io/github/kubestack/vms)
 
 # 3 roadmap
 
