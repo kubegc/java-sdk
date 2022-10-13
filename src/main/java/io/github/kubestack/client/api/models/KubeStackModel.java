@@ -33,8 +33,6 @@ public abstract class KubeStackModel {
 	
 	protected ObjectMeta metadata;
 	
-	protected Status status;
-
 	public String getApiVersion() {
 		return apiVersion;
 	}
@@ -57,15 +55,6 @@ public abstract class KubeStackModel {
 
 	public void setMetadata(ObjectMeta metadata) {
 		this.metadata = metadata;
-	}
-
-
-	public Status getStatus() {
-		return status;
-	}
-
-	public void setStatus(Status status) {
-		this.status = status;
 	}
 
 }

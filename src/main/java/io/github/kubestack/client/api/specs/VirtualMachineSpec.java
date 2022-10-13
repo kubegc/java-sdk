@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+import io.fabric8.kubernetes.api.model.Status;
 import io.github.kubestack.client.api.specs.virtualmachine.Domain;
 import io.github.kubestack.client.api.specs.virtualmachine.Lifecycle;
 
@@ -34,6 +35,8 @@ public class VirtualMachineSpec extends KubeStackSpec {
 	
 	protected String powerstate;
 	
+	protected Status status;
+	
 	public VirtualMachineSpec() {
 
 	}
@@ -60,6 +63,14 @@ public class VirtualMachineSpec extends KubeStackSpec {
 
 	public void setPowerstate(String powerstate) {
 		this.powerstate = powerstate;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 	
 }

@@ -12,10 +12,10 @@ import io.github.kubestack.client.api.specs.VirtualMachineSpec;
  * @since   2022.10.12
  * 
  **/
-public class VirtualMachine extends KubeStackModel {
+public class VirtualMachine extends VirtualMachineModel {
 
 	protected VirtualMachineSpec spec;
-
+	
 	public VirtualMachineSpec getSpec() {
 		return spec;
 	}

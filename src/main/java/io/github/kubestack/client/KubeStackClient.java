@@ -7,6 +7,7 @@ package io.github.kubestack.client;
 import java.io.File;
 import java.util.logging.Logger;
 
+import io.github.kubestack.client.api.models.Node;
 import io.github.kubestack.client.api.models.VirtualMachine;
 import io.github.kubestack.client.api.models.VirtualMachineDisk;
 import io.github.kubestack.client.api.models.VirtualMachineDiskImage;
@@ -15,6 +16,7 @@ import io.github.kubestack.client.api.models.VirtualMachineImage;
 import io.github.kubestack.client.api.models.VirtualMachineNetwork;
 import io.github.kubestack.client.api.models.VirtualMachinePool;
 import io.github.kubestack.client.api.models.VirtualMachineSnapshot;
+import io.github.kubestack.client.impl.NodeImpl;
 import io.github.kubestack.client.impl.VirtualMachineDiskImageImpl;
 import io.github.kubestack.client.impl.VirtualMachineDiskImpl;
 import io.github.kubestack.client.impl.VirtualMachineDiskSnapshotImpl;
@@ -283,5 +285,30 @@ public class KubeStackClient extends KubernetesClient {
 	public VirtualMachineNetworkImpl getVirtualMachineNetworkImpl() {
 		return virtualMachineNetworks();
 	}
+	
+	//--------------------------------------------------------
+	
+	/**
+	 * @return        VirtualMachines
+	 */
+	public NodeImpl nodes() {
+		return new NodeImpl(this, Node.class.getSimpleName());
+	}
 
+	/**
+	 * @return        VirtualMachinePools
+	 * @throws Exception 
+	 */
+	public void watchNodes(KubernetesWatcher watcher) throws Exception {
+		this.watchResources(Node.class.getSimpleName(), watcher);
+	}
+	
+	/**
+	 * the same as  'virtualMachineNetworks'
+	 * 
+	 * @return                    virtualMachineNetworks
+	 */
+	public NodeImpl getNodeImpl() {
+		return nodes();
+	}
 }

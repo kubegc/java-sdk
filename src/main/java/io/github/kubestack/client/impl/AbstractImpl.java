@@ -136,6 +136,20 @@ public abstract class AbstractImpl<T, R> {
 		return (T) new ObjectMapper().convertValue(client.getResource(this.kind, "default", name), getModelClass());
 	}
 	
+	/**
+	 * 
+	 * @param name            resource name, the .metadata.name
+	 * @return                the object, or null, or throw an exception
+	 * @throws Exception 
+	 */
+	public Object get(Class<?> clz, String name) throws Exception  {
+		java.util.regex.Pattern pattern = java.util.regex.Pattern.compile(RegExpUtils.NAME_PATTERN);
+		if (!pattern.matcher(name).matches()) {
+			throw new IllegalArgumentException("the length must be between 4 and 100, and it can only includes a-z, 0-9 and -.");
+		}
+		return new ObjectMapper().convertValue(client.getResource(clz.getSimpleName(), "default", name), clz);
+	}
+	
 	
 	
 	/**
@@ -248,6 +262,18 @@ public abstract class AbstractImpl<T, R> {
 		Class<?> clz = getModel().getClass();
 		return new ObjectMapper().readerForListOf(clz).readValue(
 				client.listResources(this.kind).get("items"));
+	}
+	
+	/**
+	 * list all resources with the specified labels
+	 * 
+	 * @param  labels          resource labels, the .metadata.labels
+	 * @return                 all resource, or null, or throw an exception
+	 * @throws Exception 
+	 */
+	public List<?> list(Class<?> clz, Map<String, String> labels) throws Exception {
+		return new ObjectMapper().readerForListOf(clz).readValue(
+				client.listResources(clz.getSimpleName()).get("items"));
 	}
 	
 //	
