@@ -19,7 +19,8 @@ public class KubeStackConstants {
 
 	public static String LABEL_VM_HA          = "kubestack.label.ha"; 
 	
-	public static String LABEL_HOST           = "kubestack.label.host"; 
+//	public static String LABEL_HOST           = "kubestack.label.host"; 
+	public static String LABEL_HOST           = "host"; 
 	
 	public static String LABEL_EVENTID        = "kubestack.label.event.id"; 
 	
