@@ -18,7 +18,7 @@ public class StopVMTest {
 	
 	public static void main(String[] args) throws Exception {
 
-		KubeStackClient client = io.github.kubestack.vms.AbstractTest.getClient();
+		KubeStackClient client = io.github.kubestack.AbstractTest.getClient();
 		System.out.println(client.virtualMachines().stopVMForce(
 				"650646e8c17a49d0b83c1c797811e081", new StopVMForce(), "eventid-stop"));
 	}

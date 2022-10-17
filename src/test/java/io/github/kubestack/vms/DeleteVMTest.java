@@ -18,7 +18,7 @@ public class DeleteVMTest {
 	
 	public static void main(String[] args) throws Exception {
 
-		KubeStackClient client = io.github.kubestack.vms.AbstractTest.getClient();
+		KubeStackClient client = io.github.kubestack.AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
 				.deleteVM("centos", 
 						new DeleteVM(), "123");

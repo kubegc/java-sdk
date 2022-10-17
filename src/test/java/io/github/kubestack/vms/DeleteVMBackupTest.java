@@ -1,5 +1,6 @@
 package io.github.kubestack.vms;
 
+import io.github.kubestack.AbstractTest;
 import io.github.kubestack.client.KubeStackClient;
 import io.github.kubestack.client.api.specs.virtualmachinepool.Lifecycle;
 

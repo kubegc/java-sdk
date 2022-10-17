@@ -1,7 +1,7 @@
 /*
  * Copyright (2019, ) Institute of Software, Chinese Academy of Sciences
  */
-package io.github.kubestack.vms;
+package io.github.kubestack.funcs;
 
 import io.github.kubestack.AbstractTest;
 import io.github.kubestack.client.KubeStackClient;
@@ -16,25 +16,24 @@ import io.github.kubestack.client.api.specs.virtualmachinedisk.Lifecycle.CreateD
  * @since   2019/9/3
  *
  */
-public class AA_VMDisk_CreateTest {
+public class Func128_CreateDiskTest {
 	
 	
 	public static void main(String[] args) throws Exception {
 
 		KubeStackClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineDisks()
-				.createDisk("henryvmd", "vm.node133", get(), "abc");
+				.createDisk("test-disk-uuid-0001", "vm.node131", get(), "abc");
 		System.out.println(successful);
 	}
 
 	protected static CreateDisk get() {
 		CreateDisk createDisk = new CreateDisk();
-		createDisk.setPool("pooltest");
+		createDisk.setPool("migratenodepool22");
 		// bytes 10G
-//		Long size = 10L*1024*1024*1024;
 		createDisk.setCapacity("10G");
 		createDisk.setFormat("qcow2");
-		createDisk.setType("localfs");
+		createDisk.setType("nfs");
 		return createDisk;
 	}
 }

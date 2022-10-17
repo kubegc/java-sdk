@@ -18,7 +18,7 @@ public class AA_VMPool_GetAllTest {
 	
 	public static void main(String[] args) throws Exception {
 
-		KubeStackClient client = io.github.kubestack.vms.AbstractTest.getClient();
+		KubeStackClient client = io.github.kubestack.AbstractTest.getClient();
 		for (VirtualMachinePool vmp : client.virtualMachinePools().list()) {
 			System.out.println(vmp.getMetadata().getName() + ":" + vmp.getSpec().getPool().getUrl());
 		}

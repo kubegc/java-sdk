@@ -17,7 +17,7 @@ public class CreateAndStartFromISOTest {
 	
 	
 	public static void main(String[] args) throws Exception {
-		KubeStackClient client = io.github.kubestack.vms.AbstractTest.getClient();
+		KubeStackClient client = io.github.kubestack.AbstractTest.getClient();
 		CreateAndStartVMFromISO createAndStartVMFromISO = get();
 		// name
 		boolean successful = client.virtualMachines()

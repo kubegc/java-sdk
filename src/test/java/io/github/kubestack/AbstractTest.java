@@ -1,4 +1,4 @@
-package io.github.kubestack.vms;
+package io.github.kubestack;
 
 import java.io.File;
 

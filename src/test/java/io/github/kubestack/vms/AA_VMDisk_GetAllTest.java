@@ -18,7 +18,7 @@ public class AA_VMDisk_GetAllTest {
 	
 	public static void main(String[] args) throws Exception {
 
-		KubeStackClient client = io.github.kubestack.vms.AbstractTest.getClient();
+		KubeStackClient client = io.github.kubestack.AbstractTest.getClient();
 		for (VirtualMachineDisk vmd : client.virtualMachineDisks().list()) {
 			System.out.println(vmd.getMetadata().getName() + ":" + vmd.getSpec().getVolume().getCurrent());
 		}

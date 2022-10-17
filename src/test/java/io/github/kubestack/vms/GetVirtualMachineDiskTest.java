@@ -3,6 +3,8 @@
  */
 package io.github.kubestack.vms;
 
+import io.github.kubestack.AbstractTest;
+
 /**
  * @author wuheng@otcaix.iscas.ac.cn
  * @author wuyuewen@otcaix.iscas.ac.cn

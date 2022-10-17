@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import io.fabric8.kubernetes.api.model.Node;
+import io.github.kubestack.AbstractTest;
 import io.github.kubestack.client.KubeStackClient;
 
 /**

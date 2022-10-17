@@ -6,6 +6,7 @@ package io.github.kubestack.vms;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.kubestack.AbstractTest;
 import io.github.kubestack.client.KubeStackClient;
 import io.github.kubestack.client.api.specs.virtualmachine.Lifecycle.BatchDeprecatedACL;
 import io.github.kubestack.client.api.specs.virtualmachine.Lifecycle.DeprecatedACL;

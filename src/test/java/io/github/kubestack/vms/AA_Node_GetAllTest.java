@@ -18,7 +18,7 @@ public class AA_Node_GetAllTest {
 	
 	public static void main(String[] args) throws Exception {
 
-		KubeStackClient client = io.github.kubestack.vms.AbstractTest.getClient();
+		KubeStackClient client = io.github.kubestack.AbstractTest.getClient();
 		for (Node vm : client.nodes().list()) {
 			System.out.println(vm.getMetadata().getName() + ":" + vm.getStatus().getConditions());
 		}

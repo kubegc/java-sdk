@@ -20,7 +20,7 @@ public class AA_VMDisk_DeleteTest {
 	
 	public static void main(String[] args) throws Exception {
 
-		KubeStackClient client = io.github.kubestack.vms.AbstractTest.getClient();
+		KubeStackClient client = io.github.kubestack.AbstractTest.getClient();
 		System.out.println(client.virtualMachineDisks().get("henryvmd"));
 		VirtualMachineDisk vmd = client.virtualMachineDisks().get("henryvmd");
 		System.out.println(vmd);

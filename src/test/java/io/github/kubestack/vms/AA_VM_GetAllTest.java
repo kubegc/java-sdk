@@ -18,7 +18,7 @@ public class AA_VM_GetAllTest {
 	
 	public static void main(String[] args) throws Exception {
 
-		KubeStackClient client = io.github.kubestack.vms.AbstractTest.getClient();
+		KubeStackClient client = io.github.kubestack.AbstractTest.getClient();
 		for (VirtualMachine vm : client.virtualMachines().list()) {
 			System.out.println(vm.getMetadata().getName() + ":" + vm.getSpec().getPowerstate());
 		}

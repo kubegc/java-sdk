@@ -17,7 +17,7 @@ public class AA_Node_GetByNameTest {
 	
 	public static void main(String[] args) throws Exception {
 
-		KubeStackClient client = io.github.kubestack.vms.AbstractTest.getClient();
+		KubeStackClient client = io.github.kubestack.AbstractTest.getClient();
 		System.out.println(client.nodes().get("vm.node133").getMetadata().getName());
 	}
 	
