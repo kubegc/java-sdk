@@ -19,13 +19,13 @@ import io.github.kubestack.client.api.specs.virtualmachinepool.Lifecycle;
  * @since   2019/9/3
  *
  */
-public class Func000_StopLocalfsPoolTest {
+public class Func000_DeleteLocalfsPoolTest {
 	
 	public static void main(String[] args) throws Exception {
 
 		KubeStackClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachinePools()
-				.deletePool("diskpool", getPool());
+				.deletePool("diskpool2", getPool());
 		System.out.println(successful);
 	}
 

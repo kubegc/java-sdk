@@ -22,7 +22,7 @@ public class Func000_CreateVMLocalfsPoolTest {
 
 		KubeStackClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachinePools()
-				.createPool("diskpool", "vm.node131", getPool(), "123");
+				.createPool("testdiskpool", "vm.node131", getPool(), "123");
 		System.out.println(successful);
 	}
 
@@ -33,7 +33,7 @@ public class Func000_CreateVMLocalfsPoolTest {
 		createPool.setType("dir");
 		createPool.setContent("vmd");
 		createPool.setAutostart(true);
-        createPool.setUrl("/mnt/localfs/diskpool2"); 
+        createPool.setUrl("/mnt/localfs/test/diskpool"); 
 //		createPool.setUuid("170zzca5fd174fccafee76b0d7fc2d35");
 		// uus
 //		createPool.setType("uus");
