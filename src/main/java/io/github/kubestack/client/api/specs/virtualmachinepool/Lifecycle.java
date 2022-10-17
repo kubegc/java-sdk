@@ -6,6 +6,7 @@ package io.github.kubestack.client.api.specs.virtualmachinepool;
 import javax.validation.constraints.Pattern;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import io.github.kubestack.core.annotations.ClassDescriber;
@@ -240,14 +241,6 @@ public class Lifecycle {
 		this.startPool = startPool;
 	}
 
-//	public RegisterPool getRegisterPool() {
-//		return registerPool;
-//	}
-//
-//	public void setRegisterPool(RegisterPool registerPool) {
-//		this.registerPool = registerPool;
-//	}
-
 	public StopPool getStopPool() {
 		return stopPool;
 	}
@@ -272,14 +265,6 @@ public class Lifecycle {
 		this.showPool = showPool;
 	}
 
-	//	public UnregisterPool getUnregisterPool() {
-//		return unregisterPool;
-//	}
-//
-//	public void setUnregisterPool(UnregisterPool unregisterPool) {
-//		this.unregisterPool = unregisterPool;
-//	}
-	
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
@@ -313,7 +298,7 @@ public class Lifecycle {
 	@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 	public static class CreatePool {
 
-		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是localfs，uus，nfs，glusterfs, vdiskfs之一", example = "localfs")
+		@ParameterDescriber(required = true, description = "存储池的类型", constraint = "只能是dir，uus，nfs，glusterfs, vdiskfs之一", example = "dir")
 		@Pattern(regexp = RegExpUtils.POOL_TYPE_PATTERN)
 		protected String type;
 		
@@ -333,7 +318,8 @@ public class Lifecycle {
 		protected String opt;
 
 		@ParameterDescriber(required = true, description = "cstor存储池的名字，与挂载路径有关", constraint = "对所有类型必填，由数字和字母组成", example = "07098ca5fd174fccafed76b0d7fccde4")
-		@Pattern(regexp = RegExpUtils.POOL_UUID)
+//		@Pattern(regexp = RegExpUtils.POOL_UUID)
+		@Deprecated
 		protected String uuid;
 
 		protected String source_dev;
@@ -341,6 +327,7 @@ public class Lifecycle {
 		protected String source_name;
 
 		@ParameterDescriber(required = false, description = "创建存储池后是否设置为自动打开", constraint = "true或false", example = "true")
+		@JsonProperty("auto-start")
 		protected boolean autostart;
 
 //		@ParameterDescriber(required = false, description = "创建nfs或glusterfs存储池时的挂载路径，不填则默认在/var/lib/libvirt/cstor目录下挂载", constraint = "/nfs/pool", example = "/nfs/pool")
@@ -389,18 +376,11 @@ public class Lifecycle {
 			return uuid;
 		}
 
+		@Deprecated
 		public void setUuid(String uuid) {
 			this.uuid = uuid;
 		}
 
-
-//		public String getPath() {
-//			return path;
-//		}
-//
-//		public void setPath(String path) {
-//			this.path = path;
-//		}
 
 		public String getForce() {
 			return force;
@@ -457,14 +437,6 @@ public class Lifecycle {
 		public void setSource_name(String source_name) {
 			this.source_name = source_name;
 		}
-
-//		public String getTarget() {
-//			return target;
-//		}
-//
-//		public void setTarget(String target) {
-//			this.target = target;
-//		}
 
 		public String getSource_format() {
 			return source_format;

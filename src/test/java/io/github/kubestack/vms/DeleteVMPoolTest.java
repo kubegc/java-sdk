@@ -23,7 +23,7 @@ public class DeleteVMPoolTest {
 
 		KubeStackClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachinePools()
-				.deletePool("pooldir1", getPool(), "123");
+				.deletePool("testpool", getPool(), "123");
 		System.out.println(successful);
 	}
 

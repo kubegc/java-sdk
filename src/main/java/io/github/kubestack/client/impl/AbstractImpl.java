@@ -72,8 +72,10 @@ public abstract class AbstractImpl<T, R> {
 	}
 
 	private static JsonNode objectToJson(Object obj) throws Exception {
-		return new ObjectMapper().readTree(
+		JsonNode json = new ObjectMapper().readTree(
 				new ObjectMapper().writeValueAsString(obj));
+		System.out.println(json.toPrettyString());
+		return json;
 	}
 	
 	

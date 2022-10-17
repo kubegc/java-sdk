@@ -18,24 +18,23 @@ import io.github.kubestack.client.api.specs.virtualmachinepool.Lifecycle;
  */
 public class Func000_CreateVMLocalfsPoolTest {
 	
-	
 	public static void main(String[] args) throws Exception {
 
 		KubeStackClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachinePools()
-				.createPool("testpool", "vm.node131", getPool(), "123");
+				.createPool("diskpool", "vm.node131", getPool(), "123");
 		System.out.println(successful);
 	}
 
-	protected static Lifecycle.CreatePool getPool() {
+	protected static Lifecycle.CreatePool getPool() throws Exception {
 		Lifecycle.CreatePool createPool = new Lifecycle.CreatePool();
 		
 		//dir
-		createPool.setType("localfs");
+		createPool.setType("dir");
 		createPool.setContent("vmd");
 		createPool.setAutostart(true);
-        createPool.setUrl("/mnt/localfs/pooldir"); 
-		createPool.setUuid("170zzca5fd174fccafee76b0d7fc2d35");
+        createPool.setUrl("/mnt/localfs/diskpool2"); 
+//		createPool.setUuid("170zzca5fd174fccafee76b0d7fc2d35");
 		// uus
 //		createPool.setType("uus");
 //		createPool.setUrl("uus-iscsi-independent://admin:admin@192.168.3.10:7000/p1/4/2/0/32/0/3");

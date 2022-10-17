@@ -16,7 +16,7 @@ import io.github.kubestack.client.api.specs.virtualmachine.Lifecycle.CreateAndSt
  * @since   2019/9/3
  *
  */
-public class Func113_CreateAndStartFromISOTest {
+public class Func001_CreateAndStartFromISOTest {
 	
 	
 	public static void main(String[] args) throws Exception {
