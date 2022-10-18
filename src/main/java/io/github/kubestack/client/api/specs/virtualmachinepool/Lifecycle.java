@@ -45,11 +45,6 @@ public class Lifecycle {
 		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
 	protected StartPool startPool;
 	
-//	@FunctionDescriber(shortName = "注册存储池", description = "注册存储池，将挂载的存储信息注册到Libvirt中，适用与采用外部存储池情况，与CreatePool等价"
-//			+ AnnotationUtils.DESC_FUNCTION_DESC,
-//		prerequisite = AnnotationUtils.DESC_FUNCTION_VMP,
-//		exception = AnnotationUtils.DESC_FUNCTION_EXEC)
-//	protected RegisterPool registerPool;
 	
 	@FunctionDescriber(shortName = "停止存储池", description = "停止存储池，将存储池状态设置为Inactive，适用libvirt指令创建存储池情况。" 
 			+ AnnotationUtils.DESC_FUNCTION_DESC, 

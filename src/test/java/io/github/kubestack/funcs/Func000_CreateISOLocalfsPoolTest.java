@@ -16,13 +16,13 @@ import io.github.kubestack.client.api.specs.virtualmachinepool.Lifecycle;
  * @since   2019/9/3
  *
  */
-public class Func000_CreateVMLocalfsPoolTest {
+public class Func000_CreateISOLocalfsPoolTest {
 	
 	public static void main(String[] args) throws Exception {
 
 		KubeStackClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachinePools()
-				.createPool("disks", "vm.node131", getPool(), "123");
+				.createPool("isos", "vm.node131", getPool(), "123");
 		System.out.println(successful);
 	}
 
@@ -31,9 +31,9 @@ public class Func000_CreateVMLocalfsPoolTest {
 		
 		//dir
 		createPool.setType("dir");
-		createPool.setContent("vmd");
+		createPool.setContent("iso");
 		createPool.setAutostart(true);
-        createPool.setUrl("/mnt/localfs/test/diskpool"); 
+        createPool.setUrl("/var/lib/libvirt/test/isos"); 
 //		createPool.setUuid("170zzca5fd174fccafee76b0d7fc2d35");
 		// uus
 //		createPool.setType("uus");
