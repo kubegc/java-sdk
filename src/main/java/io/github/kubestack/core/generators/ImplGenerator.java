@@ -3,23 +3,23 @@
  */
 package io.github.kubestack.core.generators;
 
-import io.github.kubestack.client.api.models.VirtualMachine;
-import io.github.kubestack.client.api.models.VirtualMachineDisk;
-import io.github.kubestack.client.api.models.VirtualMachineDiskImage;
-import io.github.kubestack.client.api.models.VirtualMachineDiskSnapshot;
-import io.github.kubestack.client.api.models.VirtualMachineImage;
-import io.github.kubestack.client.api.models.VirtualMachineNetwork;
-import io.github.kubestack.client.api.models.VirtualMachinePool;
-import io.github.kubestack.client.api.models.VirtualMachineSnapshot;
+import io.github.kubestack.client.api.models.vms.VirtualMachine;
+import io.github.kubestack.client.api.models.vms.VirtualMachineDisk;
+import io.github.kubestack.client.api.models.vms.VirtualMachineDiskImage;
+import io.github.kubestack.client.api.models.vms.VirtualMachineDiskSnapshot;
+import io.github.kubestack.client.api.models.vms.VirtualMachineImage;
+import io.github.kubestack.client.api.models.vms.VirtualMachineNetwork;
+import io.github.kubestack.client.api.models.vms.VirtualMachinePool;
+import io.github.kubestack.client.api.models.vms.VirtualMachineSnapshot;
 import io.github.kubestack.client.impl.AbstractImpl;
-import io.github.kubestack.client.impl.VirtualMachineDiskImageImpl;
-import io.github.kubestack.client.impl.VirtualMachineDiskImpl;
-import io.github.kubestack.client.impl.VirtualMachineDiskSnapshotImpl;
-import io.github.kubestack.client.impl.VirtualMachineImageImpl;
-import io.github.kubestack.client.impl.VirtualMachineImpl;
-import io.github.kubestack.client.impl.VirtualMachineNetworkImpl;
-import io.github.kubestack.client.impl.VirtualMachinePoolImpl;
-import io.github.kubestack.client.impl.VirtualMachineSnapshotImpl;
+import io.github.kubestack.client.impl.vms.VirtualMachineDiskImageImpl;
+import io.github.kubestack.client.impl.vms.VirtualMachineDiskImpl;
+import io.github.kubestack.client.impl.vms.VirtualMachineDiskSnapshotImpl;
+import io.github.kubestack.client.impl.vms.VirtualMachineImageImpl;
+import io.github.kubestack.client.impl.vms.VirtualMachineImpl;
+import io.github.kubestack.client.impl.vms.VirtualMachineNetworkImpl;
+import io.github.kubestack.client.impl.vms.VirtualMachinePoolImpl;
+import io.github.kubestack.client.impl.vms.VirtualMachineSnapshotImpl;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn

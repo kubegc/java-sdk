@@ -5,7 +5,7 @@ package io.github.kubestack.vms;
 
 import io.github.kubestack.AbstractTest;
 import io.github.kubestack.client.KubeStackClient;
-import io.github.kubestack.client.api.specs.virtualmachinedisksnapshot.Lifecycle.RevertDiskExternalSnapshot;
+import io.github.kubestack.client.api.specs.vms.virtualmachinedisksnapshot.Lifecycle.RevertDiskExternalSnapshot;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn

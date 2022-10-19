@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.github.kubestack.AbstractTest;
 import io.github.kubestack.client.KubeStackClient;
-import io.github.kubestack.client.api.specs.virtualmachinepool.Lifecycle;
+import io.github.kubestack.client.api.specs.vms.virtualmachinepool.Lifecycle;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn

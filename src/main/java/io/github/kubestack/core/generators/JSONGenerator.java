@@ -11,14 +11,14 @@ import java.util.Set;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import io.github.kubestack.client.api.models.VirtualMachine;
-import io.github.kubestack.client.api.models.VirtualMachineDisk;
-import io.github.kubestack.client.api.models.VirtualMachineDiskImage;
-import io.github.kubestack.client.api.models.VirtualMachineDiskSnapshot;
-import io.github.kubestack.client.api.models.VirtualMachineImage;
-import io.github.kubestack.client.api.models.VirtualMachineNetwork;
-import io.github.kubestack.client.api.models.VirtualMachinePool;
-import io.github.kubestack.client.api.models.VirtualMachineSnapshot;
+import io.github.kubestack.client.api.models.vms.VirtualMachine;
+import io.github.kubestack.client.api.models.vms.VirtualMachineDisk;
+import io.github.kubestack.client.api.models.vms.VirtualMachineDiskImage;
+import io.github.kubestack.client.api.models.vms.VirtualMachineDiskSnapshot;
+import io.github.kubestack.client.api.models.vms.VirtualMachineImage;
+import io.github.kubestack.client.api.models.vms.VirtualMachineNetwork;
+import io.github.kubestack.client.api.models.vms.VirtualMachinePool;
+import io.github.kubestack.client.api.models.vms.VirtualMachineSnapshot;
 import io.github.kubestack.client.api.specs.KubeStackSpec;
 
 /**
@@ -42,7 +42,7 @@ public class JSONGenerator {
 	}
 	
 	static String toPackage(Class<?> clz) {
-		return KubeStackSpec.class.getPackageName() + "." + clz.getSimpleName().toLowerCase() + ".Lifecycle";
+		return KubeStackSpec.class.getPackageName() + ".vms." + clz.getSimpleName().toLowerCase() + ".Lifecycle";
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked", "deprecation" })
@@ -94,15 +94,18 @@ public class JSONGenerator {
 				}
 				m.invoke(obj, list);
 			} else {
-				
-				if (typename.equals(obj.getClass().getTypeName())) {
-					System.out.println("Warning: infinite loop for" + typename);
-					continue;
+				try {
+					if (typename.equals(obj.getClass().getTypeName())) {
+						System.out.println("Warning: infinite loop for" + typename);
+						continue;
+					}
+					
+					Object param = Class.forName(typename).newInstance();
+					m.invoke(obj, param);
+					instance(param);
+				} catch (Exception ex) {
+					
 				}
-				
-				Object param = Class.forName(typename).newInstance();
-				m.invoke(obj, param);
-				instance(param);
 			}
 		}
 	}

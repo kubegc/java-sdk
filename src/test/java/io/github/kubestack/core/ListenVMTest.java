@@ -6,7 +6,7 @@ package io.github.kubestack.core;
 import java.util.Map;
 
 import io.github.kubestack.client.KubeStackClient;
-import io.github.kubestack.client.api.models.VirtualMachine;
+import io.github.kubestack.client.api.models.vms.VirtualMachine;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn

@@ -5,7 +5,7 @@ package io.github.kubestack.funcs;
 
 import io.github.kubestack.AbstractTest;
 import io.github.kubestack.client.KubeStackClient;
-import io.github.kubestack.client.api.specs.virtualmachinepool.Lifecycle;
+import io.github.kubestack.client.api.specs.vms.virtualmachinepool.Lifecycle;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -33,7 +33,7 @@ public class Func000_CreateVMLocalfsPoolTest {
 		createPool.setType("dir");
 		createPool.setContent("vmd");
 		createPool.setAutostart(true);
-        createPool.setUrl("/mnt/localfs/test/diskpool"); 
+        createPool.setUrl("/var/lib/libvirt/test/disks"); 
 //		createPool.setUuid("170zzca5fd174fccafee76b0d7fc2d35");
 		// uus
 //		createPool.setType("uus");

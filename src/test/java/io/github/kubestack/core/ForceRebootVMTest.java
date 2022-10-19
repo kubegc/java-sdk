@@ -4,7 +4,7 @@
 package io.github.kubestack.core;
 
 import io.github.kubestack.client.KubeStackClient;
-import io.github.kubestack.client.api.specs.virtualmachine.Lifecycle.ResetVM;
+import io.github.kubestack.client.api.specs.vms.virtualmachine.Lifecycle.ResetVM;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn

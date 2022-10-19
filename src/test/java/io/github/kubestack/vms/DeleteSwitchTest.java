@@ -5,7 +5,7 @@ package io.github.kubestack.vms;
 
 import io.github.kubestack.AbstractTest;
 import io.github.kubestack.client.KubeStackClient;
-import io.github.kubestack.client.api.specs.virtualmachinenetwork.Lifecycle.DeleteSwitch;
+import io.github.kubestack.client.api.specs.vms.virtualmachinenetwork.Lifecycle.DeleteSwitch;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn

@@ -162,7 +162,7 @@ public class RegExpUtils {
 	public final static String VM_AGENT_OS_TYPE_PATTERN = "linux|windows";
 	
 	@FieldDescriber("存储池类型，只能是localfs,uus,nfs,glusterfs,vdiskfs之一")
-	public final static String POOL_TYPE_PATTERN = "dir|uus|nfs|glusterfs|vdiskfs";
+	public final static String POOL_TYPE_PATTERN = "localfs|dir|uus|nfs|glusterfs|vdiskfs";
 
 	@FieldDescriber("True或False")
 	public final static String BOOL_TYPE_PATTERN = "True|False";

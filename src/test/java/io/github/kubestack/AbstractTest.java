@@ -3,12 +3,12 @@ package io.github.kubestack;
 import java.io.File;
 
 import io.github.kubestack.client.KubeStackClient;
-import io.github.kubestack.client.api.models.VirtualMachine;
-import io.github.kubestack.client.api.models.VirtualMachineDisk;
-import io.github.kubestack.client.api.models.VirtualMachineDiskImage;
-import io.github.kubestack.client.api.models.VirtualMachineImage;
-import io.github.kubestack.client.api.models.VirtualMachineNetwork;
-import io.github.kubestack.client.api.models.VirtualMachinePool;
+import io.github.kubestack.client.api.models.vms.VirtualMachine;
+import io.github.kubestack.client.api.models.vms.VirtualMachineDisk;
+import io.github.kubestack.client.api.models.vms.VirtualMachineDiskImage;
+import io.github.kubestack.client.api.models.vms.VirtualMachineImage;
+import io.github.kubestack.client.api.models.vms.VirtualMachineNetwork;
+import io.github.kubestack.client.api.models.vms.VirtualMachinePool;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn

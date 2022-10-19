@@ -9,9 +9,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import io.github.kubestack.client.api.specs.virtualmachine.Domain;
-import io.github.kubestack.client.api.specs.virtualmachinedisk.Volume;
-import io.github.kubestack.client.api.specs.virtualmachinesnapshot.Domainsnapshot;
+import io.github.kubestack.client.api.specs.vms.virtualmachine.Domain;
+import io.github.kubestack.client.api.specs.vms.virtualmachinedisk.Volume;
+import io.github.kubestack.client.api.specs.vms.virtualmachinesnapshot.Domainsnapshot;
 
 
 /**

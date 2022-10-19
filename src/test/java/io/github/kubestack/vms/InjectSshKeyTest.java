@@ -5,8 +5,8 @@ package io.github.kubestack.vms;
 
 import io.github.kubestack.AbstractTest;
 import io.github.kubestack.client.KubeStackClient;
-import io.github.kubestack.client.api.specs.virtualmachine.Lifecycle.InjectSshKey;
-import io.github.kubestack.client.api.specs.virtualmachine.Lifecycle.UnplugNIC;
+import io.github.kubestack.client.api.specs.vms.virtualmachine.Lifecycle.InjectSshKey;
+import io.github.kubestack.client.api.specs.vms.virtualmachine.Lifecycle.UnplugNIC;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn

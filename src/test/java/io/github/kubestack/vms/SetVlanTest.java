@@ -5,7 +5,7 @@ package io.github.kubestack.vms;
 
 import io.github.kubestack.AbstractTest;
 import io.github.kubestack.client.KubeStackClient;
-import io.github.kubestack.client.api.specs.virtualmachinenetwork.Lifecycle.SetBridgeVlan;
+import io.github.kubestack.client.api.specs.vms.virtualmachinenetwork.Lifecycle.SetBridgeVlan;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn

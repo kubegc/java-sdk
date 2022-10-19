@@ -6,7 +6,7 @@ package io.github.kubestack.vms;
 
 import io.github.kubestack.AbstractTest;
 import io.github.kubestack.client.KubeStackClient;
-import io.github.kubestack.client.api.specs.virtualmachine.Lifecycle.DeprecatedACL;
+import io.github.kubestack.client.api.specs.vms.virtualmachine.Lifecycle.DeprecatedACL;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn

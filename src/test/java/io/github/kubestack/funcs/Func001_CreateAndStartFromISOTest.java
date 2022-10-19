@@ -5,7 +5,7 @@ package io.github.kubestack.funcs;
 
 import io.github.kubestack.AbstractTest;
 import io.github.kubestack.client.KubeStackClient;
-import io.github.kubestack.client.api.specs.virtualmachine.Lifecycle.CreateAndStartVMFromISO;
+import io.github.kubestack.client.api.specs.vms.virtualmachine.Lifecycle.CreateAndStartVMFromISO;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -24,7 +24,7 @@ public class Func001_CreateAndStartFromISOTest {
 		CreateAndStartVMFromISO createAndStartVMFromISO = get();
 		// name
 		boolean successful = client.virtualMachines()
-				.createAndStartVMFromISO("centos", "vm.node22", createAndStartVMFromISO, "123");
+				.createAndStartVMFromISO("centos", "vm.node131", createAndStartVMFromISO, "123");
 		System.out.println(successful);
 	}
 	
@@ -45,7 +45,7 @@ public class Func001_CreateAndStartFromISOTest {
 		// cdrom
 //		createAndStartVMFromISO.setCdrom("/var/lib/libvirt/iso/f045e85ed4f84034907f60172891c72b.iso");
 		// Disk and QoS for 1 disk and many disks
-		createAndStartVMFromISO.setDisk("/var/lib/libvirt/cstor/170dd9accdd174caced76b0db2230/170dd9accdd174caced76b0db2230/centos7/centos7,target=vda,read_bytes_sec=1024000000,write_bytes_sec=1024000000 " + getOtherCDROMs());
+		createAndStartVMFromISO.setDisk("/var/lib/libvirt/test/disks/mydisk/mydisk.qcow2,target=vda,read_bytes_sec=1024000000,write_bytes_sec=1024000000 " + getOtherCDROMs());
 		
 		/*
 		 * libivrt default bridge
@@ -131,7 +131,7 @@ public class Func001_CreateAndStartFromISOTest {
 	}
 	
 	protected static String getOtherCDROMs() {
-		return "--disk /var/lib/libvirt/iso/CentOS-7-x86-64-DVD-1503-01.iso,device=cdrom,perms=ro";
+		return "--disk /var/lib/libvirt/test/isos/centos7-minimal-1511.iso,device=cdrom,perms=ro";
 	}
 	
 	protected static String nameToUUID(String name) {

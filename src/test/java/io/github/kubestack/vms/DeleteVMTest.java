@@ -4,7 +4,7 @@
 package io.github.kubestack.vms;
 
 import io.github.kubestack.client.KubeStackClient;
-import io.github.kubestack.client.api.specs.virtualmachine.Lifecycle.DeleteVM;
+import io.github.kubestack.client.api.specs.vms.virtualmachine.Lifecycle.DeleteVM;
 
 
 /**

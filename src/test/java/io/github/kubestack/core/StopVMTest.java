@@ -4,7 +4,7 @@
 package io.github.kubestack.core;
 
 import io.github.kubestack.client.KubeStackClient;
-import io.github.kubestack.client.api.specs.virtualmachine.Lifecycle.StopVMForce;
+import io.github.kubestack.client.api.specs.vms.virtualmachine.Lifecycle.StopVMForce;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn

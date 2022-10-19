@@ -5,8 +5,8 @@ package io.github.kubestack.vms;
 
 import io.github.kubestack.AbstractTest;
 import io.github.kubestack.client.KubeStackClient;
-import io.github.kubestack.client.api.specs.virtualmachinenetwork.Lifecycle.CreateBridge;
-import io.github.kubestack.client.api.specs.virtualmachinenetwork.Lifecycle.CreateSwitch;
+import io.github.kubestack.client.api.specs.vms.virtualmachinenetwork.Lifecycle.CreateBridge;
+import io.github.kubestack.client.api.specs.vms.virtualmachinenetwork.Lifecycle.CreateSwitch;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn

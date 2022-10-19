@@ -4,7 +4,7 @@
 package io.github.kubestack.vms;
 
 import io.github.kubestack.client.KubeStackClient;
-import io.github.kubestack.client.api.models.VirtualMachineDisk;
+import io.github.kubestack.client.api.models.vms.VirtualMachineDisk;
 
 
 /**

@@ -5,7 +5,7 @@ package io.github.kubestack.vms;
 
 import io.github.kubestack.AbstractTest;
 import io.github.kubestack.client.KubeStackClient;
-import io.github.kubestack.client.api.specs.virtualmachinedisk.Lifecycle.CreateDisk;
+import io.github.kubestack.client.api.specs.vms.virtualmachinedisk.Lifecycle.CreateDisk;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn

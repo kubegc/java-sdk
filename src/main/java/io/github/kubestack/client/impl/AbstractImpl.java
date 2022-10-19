@@ -23,8 +23,8 @@ import io.fabric8.kubernetes.api.model.ObjectMeta;
 import io.github.kubestack.client.KubeStackClient;
 import io.github.kubestack.client.KubeStackConstants;
 import io.github.kubestack.client.api.specs.KubeStackSpec;
-import io.github.kubestack.client.api.specs.virtualmachine.Lifecycle.ResetVM;
-import io.github.kubestack.client.api.specs.virtualmachine.Lifecycle.StopVMForce;
+import io.github.kubestack.client.api.specs.vms.virtualmachine.Lifecycle.ResetVM;
+import io.github.kubestack.client.api.specs.vms.virtualmachine.Lifecycle.StopVMForce;
 import io.github.kubestack.core.annotations.ParameterDescriber;
 import io.github.kubestack.core.utils.RegExpUtils;
 
@@ -486,7 +486,7 @@ public abstract class AbstractImpl<T, R> {
 	 */
 	public List<String> getSupportCmds() throws Exception {
 		String rootPkg = KubeStackSpec.class.getPackage().getName();
-		String fullPkg = rootPkg + "." + kind.toLowerCase();
+		String fullPkg = rootPkg + ".vms." + kind.toLowerCase();
 		String className = fullPkg + ".Lifecycle";
 		Class<?> clazz = Class.forName(className);
 		

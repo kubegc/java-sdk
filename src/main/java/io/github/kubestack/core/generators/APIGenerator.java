@@ -135,7 +135,7 @@ public class APIGenerator {
 			}
 			sb.append("## **返回值:**").append("\n\n");
 			sb.append("```").append("\n");
-			Object obj = Class.forName(KubeStackModel.class.getPackageName() + "." + parent.value()).newInstance();
+			Object obj = Class.forName(KubeStackModel.class.getPackageName() + ".vms." + parent.value()).newInstance();
 			JSONGenerator.instance(obj);
 			sb.append(new ObjectMapper().writeValueAsString(obj)).append("\n");
 			sb.append("```").append("\n");
