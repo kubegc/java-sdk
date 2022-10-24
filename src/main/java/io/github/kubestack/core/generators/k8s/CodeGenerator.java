@@ -5,12 +5,13 @@ package io.github.kubestack.core.generators.k8s;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 
 import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.api.model.KubernetesResource;
 import io.fabric8.kubernetes.api.model.Node;
+import io.github.kubestack.client.impl.k8s.NodeImpl;
 import io.github.kubestack.core.utils.ClassUtils;
+import io.github.kubesys.client.KubernetesWatcher;
 
 /**
  * @author wuheng@iscas.ac.cn
@@ -29,9 +30,33 @@ public class CodeGenerator {
 		for (Class<?> c : ClassUtils.scan(CORE_MODEL)) {
 			if (isModel(c)) {
 //				writeModel(c);
-				writeImpl(c);
+//				writeImpl(c);
+				writeClient(c);
 			}
 		}
+	}
+	
+	//---------------------------------------------------------------------------
+	
+	static String CLIENT_TEMP = "	/**\r\n"
+			+ "	 * @return        XXX\r\n"
+			+ "	 */\r\n"
+			+ "	public XXXImpl YYYs() {\r\n"
+			+ "		return new XXXImpl(this, XXX.class.getSimpleName());\r\n"
+			+ "	}\r\n"
+			+ "\r\n"
+			+ "	/**\r\n"
+			+ "	 * @return        watch YYYs\r\n"
+			+ "	 * @throws Exception \r\n"
+			+ "	 */\r\n"
+			+ "	public void watchXXXs(KubernetesWatcher watcher) throws Exception {\r\n"
+			+ "		this.watchResources(XXX.class.getSimpleName(), watcher);\r\n"
+			+ "	}\n";
+	
+	public static void writeClient(Class<?> c) throws Exception {
+		System.out.println(CLIENT_TEMP
+				.replaceAll("XXX", c.getSimpleName())
+				.replaceAll("YYY", c.getSimpleName().toLowerCase()));
 	}
 	
 	//---------------------------------------------------------------------------
