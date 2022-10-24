@@ -1,7 +1,7 @@
 /*
  * Copyright (2019, ) Institute of Software, Chinese Academy of Sciences
  */
-package io.github.kubestack.core.generators;
+package io.github.kubestack.core.generators.vms;
 
 import io.github.kubestack.client.api.models.vms.VirtualMachine;
 import io.github.kubestack.client.api.models.vms.VirtualMachineDisk;

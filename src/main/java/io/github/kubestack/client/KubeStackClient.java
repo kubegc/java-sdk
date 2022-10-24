@@ -7,7 +7,7 @@ package io.github.kubestack.client;
 import java.io.File;
 import java.util.logging.Logger;
 
-import io.github.kubestack.client.api.models.Node;
+import io.github.kubestack.client.api.models.k8s.Node;
 import io.github.kubestack.client.api.models.vms.VirtualMachine;
 import io.github.kubestack.client.api.models.vms.VirtualMachineDisk;
 import io.github.kubestack.client.api.models.vms.VirtualMachineDiskImage;
@@ -16,7 +16,7 @@ import io.github.kubestack.client.api.models.vms.VirtualMachineImage;
 import io.github.kubestack.client.api.models.vms.VirtualMachineNetwork;
 import io.github.kubestack.client.api.models.vms.VirtualMachinePool;
 import io.github.kubestack.client.api.models.vms.VirtualMachineSnapshot;
-import io.github.kubestack.client.impl.NodeImpl;
+import io.github.kubestack.client.impl.k8s.NodeImpl;
 import io.github.kubestack.client.impl.vms.VirtualMachineDiskImageImpl;
 import io.github.kubestack.client.impl.vms.VirtualMachineDiskImpl;
 import io.github.kubestack.client.impl.vms.VirtualMachineDiskSnapshotImpl;

@@ -1,7 +1,7 @@
 /*
  * Copyright (2019, ) Institute of Software, Chinese Academy of Sciences
  */
-package io.github.kubestack.core.generators;
+package io.github.kubestack.core.generators.vms;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

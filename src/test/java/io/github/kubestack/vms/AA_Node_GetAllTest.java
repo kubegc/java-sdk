@@ -4,7 +4,7 @@
 package io.github.kubestack.vms;
 
 import io.github.kubestack.client.KubeStackClient;
-import io.github.kubestack.client.api.models.Node;
+import io.github.kubestack.client.api.models.k8s.Node;
 
 
 /**

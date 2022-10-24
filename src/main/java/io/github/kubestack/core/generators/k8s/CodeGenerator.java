@@ -1,0 +1,115 @@
+/*
+ * Copyright (2019, ) Institute of Software, Chinese Academy of Sciences
+ */
+package io.github.kubestack.core.generators.k8s;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import io.fabric8.kubernetes.api.model.HasMetadata;
+import io.fabric8.kubernetes.api.model.Node;
+import io.github.kubestack.core.utils.ClassUtils;
+
+/**
+ * @author wuheng@iscas.ac.cn
+ * 
+ * @version 2.0.0
+ * @since   202/10/18
+ *
+ */
+public class CodeGenerator {
+	
+	
+	static String CORE_MODEL = Node.class.getPackageName();
+
+	static String MODEL_PATH = "src/main/java/io/github/kubestack/client/api/models/k8s";
+	
+	static String MODEL_TEMP = "/**\r\n"
+			+ " * Copyright (2019, ) Institute of Software, Chinese Academy of Sciences\r\n"
+			+ " */\r\n"
+			+ "package io.github.kubestack.client.api.models.k8s;\r\n"
+			+ "\r\n"
+			+ "import io.github.kubestack.client.api.models.KubeStackModel;\r\n"
+			+ "\r\n"
+			+ "/**\r\n"
+			+ " * @author wuheng@iscas.ac.cn\r\n"
+			+ " * \r\n"
+			+ " * @version 2.0.0\r\n"
+			+ " * @since   2022.10.12\r\n"
+			+ " * \r\n"
+			+ " **/\r\n"
+			+ "public class XXX extends KubeStackModel {\r\n"
+			+ "\r\n"
+			+ "	XXXSPEC\r\n"
+			+ "	\r\n"
+			+ "	XXXSTATUS\r\n"
+			+ "	\r\n"
+			+ "}";
+	
+	static String MODEL_TEMP_SPEC = "protected io.fabric8.kubernetes.api.model.XXXSpec spec;\r\n"
+			+ "\r\n"
+			+ "	public io.fabric8.kubernetes.api.model.XXXSpec getSpec() {\r\n"
+			+ "		return spec;\r\n"
+			+ "	}\r\n"
+			+ "\r\n"
+			+ "	public void setSpec(io.fabric8.kubernetes.api.model.XXXSpec spec) {\r\n"
+			+ "		this.spec = spec;\r\n"
+			+ "	}";
+	
+	static String MODEL_TEMP_STATUS = "protected io.fabric8.kubernetes.api.model.XXXStatus status;\r\n"
+			+ "	\r\n"
+			+ "	public io.fabric8.kubernetes.api.model.XXXStatus getStatus() {\r\n"
+			+ "		return status;\r\n"
+			+ "	}\r\n"
+			+ "\r\n"
+			+ "	public void setStatus(io.fabric8.kubernetes.api.model.XXXStatus status) {\r\n"
+			+ "		this.status = status;\r\n"
+			+ "	}";
+	
+	public static void main(String[] args) throws Exception {
+		for (Class<?> c : ClassUtils.scan(CORE_MODEL)) {
+			if (isResource(c)) {
+				writeModel(c);
+			}
+		}
+	}
+	
+	public static boolean isResource(Class<?> c) {
+		for (Class<?> item : c.getInterfaces()) {
+			if (item.getName().equals(HasMetadata.class.getName())) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static void writeModel(Class<?> c) throws Exception {
+		String name = c.getSimpleName();
+		File java = new File(MODEL_PATH, name + ".java");
+		System.out.println("generating " + java);
+		
+		String str = MODEL_TEMP.replace("XXX", name);
+		
+		try {
+			Class.forName(c.getPackageName() + "." + name + "Spec");
+			String specStr = MODEL_TEMP_SPEC.replaceAll("XXX", name);
+			str = str.replace(name + "SPEC", specStr);
+		} catch (Exception ex) {
+			str = str.replace(name + "SPEC", "");
+		}
+		
+		try {
+			Class.forName(c.getPackageName() + "." + name + "Status");
+			String statusStr = MODEL_TEMP_STATUS.replaceAll("XXX", name);
+			str = str.replace(name + "STATUS", statusStr);
+		} catch (Exception ex) {
+			str = str.replace(name + "STATUS", "");
+		}
+		
+		FileWriter fw = new FileWriter(java);
+		fw.write(str);
+		fw.close();
+	}
+	
+}
