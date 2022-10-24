@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import io.fabric8.kubernetes.api.model.HasMetadata;
+import io.fabric8.kubernetes.api.model.KubernetesResource;
 import io.fabric8.kubernetes.api.model.Node;
 import io.github.kubestack.core.utils.ClassUtils;
 
@@ -23,6 +24,18 @@ public class CodeGenerator {
 	
 	static String CORE_MODEL = Node.class.getPackageName();
 
+	
+	public static void main(String[] args) throws Exception {
+		for (Class<?> c : ClassUtils.scan(CORE_MODEL)) {
+			if (isModel(c)) {
+//				writeModel(c);
+				writeImpl(c);
+			}
+		}
+	}
+	
+	//---------------------------------------------------------------------------
+	
 	static String MODEL_PATH = "src/main/java/io/github/kubestack/client/api/models/k8s";
 	
 	static String MODEL_TEMP = "/**\r\n"
@@ -67,15 +80,7 @@ public class CodeGenerator {
 			+ "		this.status = status;\r\n"
 			+ "	}";
 	
-	public static void main(String[] args) throws Exception {
-		for (Class<?> c : ClassUtils.scan(CORE_MODEL)) {
-			if (isResource(c)) {
-				writeModel(c);
-			}
-		}
-	}
-	
-	public static boolean isResource(Class<?> c) {
+	public static boolean isModel(Class<?> c) {
 		for (Class<?> item : c.getInterfaces()) {
 			if (item.getName().equals(HasMetadata.class.getName())) {
 				return true;
@@ -105,6 +110,76 @@ public class CodeGenerator {
 			str = str.replace(name + "STATUS", statusStr);
 		} catch (Exception ex) {
 			str = str.replace(name + "STATUS", "");
+		}
+		
+		FileWriter fw = new FileWriter(java);
+		fw.write(str);
+		fw.close();
+	}
+	
+	//---------------------------------------------------------------------------
+	static String IMPL_PATH = "src/main/java/io/github/kubestack/client/impl/k8s";
+	
+	static String IMPL_TEMP = "/**\r\n"
+			+ " * Copyright (2019, ) Institute of Software, Chinese Academy of Sciences\r\n"
+			+ " */\r\n"
+			+ "package io.github.kubestack.client.impl.k8s;\r\n"
+			+ "\r\n"
+			+ "\r\n"
+			+ "import io.github.kubestack.client.KubeStackClient;\r\n"
+			+ "import io.github.kubestack.client.impl.AbstractImpl;\r\n"
+			+ "\r\n"
+			+ "/**\r\n"
+			+ " * @author  wuheng@otcaix.iscas.ac.cn\r\n"
+			+ " * \r\n"
+			+ " * @version 2.0.0\r\n"
+			+ " * @since   2022/10/24\r\n"
+			+ " **/\r\n"
+			+ "public class XXXImpl extends AbstractImpl<YYY, ZZZ> {\r\n"
+			+ "\r\n"
+			+ "	public XXXImpl(KubeStackClient client, String kind) {\r\n"
+			+ "		super(client, kind);\r\n"
+			+ "	}\r\n"
+			+ "\r\n"
+			+ "\r\n"
+			+ "	@Override\r\n"
+			+ "	protected YYY getModel() {\r\n"
+			+ "		return new YYY();\r\n"
+			+ "	}\r\n"
+			+ "\r\n"
+			+ "	@Override\r\n"
+			+ "	protected ZZZ getSpec() {\r\n"
+			+ "		return AAA;\r\n"
+			+ "	}\r\n"
+			+ "\r\n"
+			+ "	@Override\r\n"
+			+ "	protected Object getLifecycle() {\r\n"
+			+ "		return null;\r\n"
+			+ "	}\r\n"
+			+ "\r\n"
+			+ "	@Override\r\n"
+			+ "	protected Class<?> getModelClass() {\r\n"
+			+ "		return YYY.class;\r\n"
+			+ "	}\r\n"
+			+ "\r\n"
+			+ "}";
+	
+	public static void writeImpl(Class<?> c) throws Exception {
+		String name = c.getSimpleName();
+		File java = new File(IMPL_PATH, name + "Impl.java");
+		System.out.println("generating " + java);
+		
+		String str = IMPL_TEMP.replace("XXX", name);
+		
+		str = str.replaceAll("YYY", "io.github.kubestack.client.api.models.k8s." + name);
+		
+		try {
+			Class.forName(c.getPackageName() + "." + name + "Spec");
+			str = str.replaceAll("ZZZ", c.getPackageName() + "." + name + "Spec");
+			str = str.replaceAll("AAA", "new " + c.getName() + "Spec()");
+		} catch (Exception ex) {
+			str = str.replaceAll("ZZZ", KubernetesResource.class.getName());
+			str = str.replaceAll("AAA", "null");
 		}
 		
 		FileWriter fw = new FileWriter(java);
