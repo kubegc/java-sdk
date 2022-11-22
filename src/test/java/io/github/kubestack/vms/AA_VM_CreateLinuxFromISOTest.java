@@ -16,7 +16,7 @@ import io.github.kubestack.client.api.specs.vms.virtualmachine.Lifecycle.CreateA
  * @since   2019/9/3
  *
  */
-public class CreateAndStartFromISOTest {
+public class AA_VM_CreateLinuxFromISOTest {
 	
 	
 	public static void main(String[] args) throws Exception {
@@ -24,7 +24,7 @@ public class CreateAndStartFromISOTest {
 		CreateAndStartVMFromISO createAndStartVMFromISO = get();
 		// name
 		boolean successful = client.virtualMachines()
-				.createAndStartVMFromISO("centos", "vm.node22", createAndStartVMFromISO, "123");
+				.createAndStartVMFromISO("centos", "vm.node131", createAndStartVMFromISO, "123");
 		System.out.println(successful);
 	}
 	
