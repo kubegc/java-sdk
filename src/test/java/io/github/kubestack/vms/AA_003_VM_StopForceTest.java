@@ -5,7 +5,7 @@ package io.github.kubestack.vms;
 
 import io.github.kubestack.AbstractTest;
 import io.github.kubestack.client.KubeStackClient;
-import io.github.kubestack.client.api.specs.vms.virtualmachine.Lifecycle.RebootVM;
+import io.github.kubestack.client.api.specs.vms.virtualmachine.Lifecycle.StopVMForce;
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
@@ -16,15 +16,15 @@ import io.github.kubestack.client.api.specs.vms.virtualmachine.Lifecycle.RebootV
  * @since   2019/9/3
  *
  */
-public class AA_VM_RestartTest {
+public class AA_003_VM_StopForceTest {
 	
 	
 	public static void main(String[] args) throws Exception {
 
 		KubeStackClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.rebootVM("vmtest111", new RebootVM());
+				.stopVMForce("centos", new StopVMForce());
 		System.out.println(successful);
 	}
-
+	
 }

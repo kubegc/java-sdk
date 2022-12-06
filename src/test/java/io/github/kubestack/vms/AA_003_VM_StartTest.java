@@ -16,7 +16,7 @@ import io.github.kubestack.client.api.specs.vms.virtualmachine.Lifecycle.StartVM
  * @since   2019/9/3
  *
  */
-public class AA_VM_StartTest {
+public class AA_003_VM_StartTest {
 	
 	
 	public static void main(String[] args) throws Exception {

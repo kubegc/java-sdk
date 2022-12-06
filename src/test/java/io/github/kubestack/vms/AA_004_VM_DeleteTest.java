@@ -3,27 +3,25 @@
  */
 package io.github.kubestack.vms;
 
-import io.github.kubestack.AbstractTest;
 import io.github.kubestack.client.KubeStackClient;
-import io.github.kubestack.client.api.specs.vms.virtualmachine.Lifecycle.StopVM;
+import io.github.kubestack.client.api.specs.vms.virtualmachine.Lifecycle.DeleteVM;
+
 
 /**
  * @author wuheng@otcaix.iscas.ac.cn
- * @author wuyuewen@otcaix.iscas.ac.cn
- * @author liuhe@otcaix.iscas.ac.cn
- * 
- * @version 1.3.0
- * @since   2019/9/3
+ * @since  2019/7/15
  *
+ * This code is used to manage CustomResource's lifecycle,
+ * such as VirtualMachine
  */
-public class AA_VM_StopTest {
-	
+public class AA_004_VM_DeleteTest {
 	
 	public static void main(String[] args) throws Exception {
 
-		KubeStackClient client = AbstractTest.getClient();
+		KubeStackClient client = io.github.kubestack.AbstractTest.getClient();
 		boolean successful = client.virtualMachines()
-				.stopVM("centos", new StopVM());
+				.deleteVM("centos", 
+						new DeleteVM(), "123");
 		System.out.println(successful);
 	}
 	

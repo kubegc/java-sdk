@@ -4,7 +4,6 @@
 package io.github.kubestack.vms;
 
 import io.github.kubestack.client.KubeStackClient;
-import io.github.kubestack.client.api.models.k8s.Node;
 
 
 /**
@@ -14,14 +13,12 @@ import io.github.kubestack.client.api.models.k8s.Node;
  * This code is used to manage CustomResource's lifecycle,
  * such as VirtualMachine
  */
-public class AA_Node_GetAllTest {
+public class AA_001_VM_GetUuidTest {
 	
 	public static void main(String[] args) throws Exception {
 
 		KubeStackClient client = io.github.kubestack.AbstractTest.getClient();
-		for (Node no : client.nodes().list()) {
-			System.out.println(no.getMetadata().getName() + ":" + no.getStatus().getConditions());
-		}
+		System.out.println(client.virtualMachines().get("test").getMetadata().getUid());
 	}
 	
 }

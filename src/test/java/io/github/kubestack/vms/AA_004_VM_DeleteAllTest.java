@@ -4,6 +4,8 @@
 package io.github.kubestack.vms;
 
 import io.github.kubestack.client.KubeStackClient;
+import io.github.kubestack.client.api.models.vms.VirtualMachine;
+import io.github.kubestack.client.api.specs.vms.virtualmachine.Lifecycle.DeleteVM;
 
 
 /**
@@ -13,12 +15,17 @@ import io.github.kubestack.client.KubeStackClient;
  * This code is used to manage CustomResource's lifecycle,
  * such as VirtualMachine
  */
-public class AA_VM_GetKindTest {
+public class AA_004_VM_DeleteAllTest {
 	
 	public static void main(String[] args) throws Exception {
 
 		KubeStackClient client = io.github.kubestack.AbstractTest.getClient();
-		System.out.println(client.virtualMachines().getKind());
+		for (VirtualMachine vm : client.virtualMachines().list()) {
+			boolean successful = client.virtualMachines()
+					.deleteVM(vm.getMetadata().getName(), 
+							new DeleteVM(), "123");
+			System.out.println(successful);
+		}
 	}
 	
 }

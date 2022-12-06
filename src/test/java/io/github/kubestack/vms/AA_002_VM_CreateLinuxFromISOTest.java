@@ -16,7 +16,7 @@ import io.github.kubestack.client.api.specs.vms.virtualmachine.Lifecycle.CreateA
  * @since   2019/9/3
  *
  */
-public class AA_VM_CreateLinuxFromISOTest {
+public class AA_002_VM_CreateLinuxFromISOTest {
 	
 	
 	public static void main(String[] args) throws Exception {

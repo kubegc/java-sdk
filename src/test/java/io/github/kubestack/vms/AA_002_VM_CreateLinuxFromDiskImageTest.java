@@ -16,14 +16,14 @@ import io.github.kubestack.client.api.specs.vms.virtualmachinedisk.Lifecycle.Cre
  * @since   2019/9/3
  *
  */
-public class AA_VM_CreateWindowsFromDiskImageTest {
+public class AA_002_VM_CreateLinuxFromDiskImageTest {
 	
 	
 	public static void main(String[] args) throws Exception {
 
 		KubeStackClient client = AbstractTest.getClient();
 		boolean successful = client.virtualMachineDisks()
-				.createDiskFromDiskImage("win10bak", "vm.node131", get(), "abc");
+				.createDiskFromDiskImage("centosbak", "vm.node131", get(), "abc");
 		System.out.println(successful);
 	}
 
@@ -33,7 +33,7 @@ public class AA_VM_CreateWindowsFromDiskImageTest {
 		// create a volume in this pool
 		createDisk.setTargetPool("3915282a12dd4c34a0ae565d3ba2da41");
 		// vm disk image name
-		createDisk.setSource("/var/lib/libvirt/nfs/win10.qcow2");
+		createDisk.setSource("/var/lib/libvirt/nfs/centos.qcow2");
 //		createDisk.setFull_copy(true);
 		return createDisk;
 	}

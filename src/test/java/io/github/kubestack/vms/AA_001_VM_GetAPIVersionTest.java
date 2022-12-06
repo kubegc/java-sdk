@@ -13,7 +13,7 @@ import io.github.kubestack.client.KubeStackClient;
  * This code is used to manage CustomResource's lifecycle,
  * such as VirtualMachine
  */
-public class AA_VM_GetAPIVersionTest {
+public class AA_001_VM_GetAPIVersionTest {
 	
 	public static void main(String[] args) throws Exception {
 
