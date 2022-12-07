@@ -13,7 +13,7 @@ import io.github.kubestack.client.KubeStackClient;
  * This code is used to manage CustomResource's lifecycle,
  * such as VirtualMachine
  */
-public class AA_VMDiskImage_GetKindTest {
+public class AA_006_VMDiskImage_GetKindTest {
 	
 	public static void main(String[] args) throws Exception {
 

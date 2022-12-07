@@ -4,6 +4,7 @@
 package io.github.kubestack.vms;
 
 import io.github.kubestack.client.KubeStackClient;
+import io.github.kubestack.client.api.specs.vms.virtualmachinediskimage.Volume;
 
 
 /**
@@ -13,12 +14,13 @@ import io.github.kubestack.client.KubeStackClient;
  * This code is used to manage CustomResource's lifecycle,
  * such as VirtualMachine
  */
-public class AA_VMDiskImage_GetByNameTest {
+public class AA_008_VMDiskImage_SetVolumeTest {
 	
 	public static void main(String[] args) throws Exception {
 
 		KubeStackClient client = io.github.kubestack.AbstractTest.getClient();
-		System.out.println(client.virtualMachineDiskImages().get("disktest"));
+		Volume vol = client.virtualMachineDiskImages().get("test1").getSpec().getVolume();
+		client.virtualMachineDiskImages().get("test").getSpec().setVolume(vol);
 	}
 	
 }

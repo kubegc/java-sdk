@@ -14,13 +14,13 @@ import io.github.kubestack.client.api.models.vms.VirtualMachineDiskImage;
  * This code is used to manage CustomResource's lifecycle,
  * such as VirtualMachine
  */
-public class AA_VMDiskImage_GetAllTest {
+public class AA_010_VMDiskImage_GetByKindTest {
 	
 	public static void main(String[] args) throws Exception {
 
 		KubeStackClient client = io.github.kubestack.AbstractTest.getClient();
 		for (VirtualMachineDiskImage vmdi : client.virtualMachineDiskImages().list()) {
-			System.out.println(vmdi.getMetadata().getName() + ":" + vmdi.getSpec().getVolume().getCurrent());
+			System.out.println(vmdi.getMetadata().getName() + ":" + vmdi.getKind());
 		}
 	}
 	
