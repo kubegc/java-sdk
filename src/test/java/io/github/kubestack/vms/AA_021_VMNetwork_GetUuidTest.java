@@ -13,12 +13,12 @@ import io.github.kubestack.client.KubeStackClient;
  * This code is used to manage CustomResource's lifecycle,
  * such as VirtualMachine
  */
-public class AA_VMNetwork_GetAPIVersionTest {
+public class AA_021_VMNetwork_GetUuidTest {
 	
 	public static void main(String[] args) throws Exception {
 
 		KubeStackClient client = io.github.kubestack.AbstractTest.getClient();
-		System.out.println(client.virtualMachineNetworks().getAPIVersion());
+		System.out.println(client.virtualMachineNetworks().get("test").getMetadata().getUid());
 	}
 	
 }

@@ -4,6 +4,7 @@
 package io.github.kubestack.vms;
 
 import io.github.kubestack.client.KubeStackClient;
+import io.github.kubestack.client.api.models.vms.VirtualMachineNetwork;
 
 
 /**
@@ -13,12 +14,14 @@ import io.github.kubestack.client.KubeStackClient;
  * This code is used to manage CustomResource's lifecycle,
  * such as VirtualMachine
  */
-public class AA_VMNetwork_GetByNameTest {
+public class AA_025_VMNetwork_GetByKindTest {
 	
 	public static void main(String[] args) throws Exception {
 
 		KubeStackClient client = io.github.kubestack.AbstractTest.getClient();
-		System.out.println(client.virtualMachineNetworks().get("disktest"));
+		for (VirtualMachineNetwork vmn : client.virtualMachineNetworks().list()) {
+			System.out.println(vmn.getKind());
+		}
 	}
 	
 }
