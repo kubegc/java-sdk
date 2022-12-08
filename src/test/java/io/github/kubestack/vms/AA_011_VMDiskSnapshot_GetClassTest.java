@@ -4,7 +4,6 @@
 package io.github.kubestack.vms;
 
 import io.github.kubestack.client.KubeStackClient;
-import io.github.kubestack.client.api.models.vms.VirtualMachineDiskSnapshot;
 
 
 /**
@@ -14,14 +13,12 @@ import io.github.kubestack.client.api.models.vms.VirtualMachineDiskSnapshot;
  * This code is used to manage CustomResource's lifecycle,
  * such as VirtualMachine
  */
-public class AA_VMDiskSnapshot_GetAllTest {
+public class AA_011_VMDiskSnapshot_GetClassTest {
 	
 	public static void main(String[] args) throws Exception {
 
 		KubeStackClient client = io.github.kubestack.AbstractTest.getClient();
-		for (VirtualMachineDiskSnapshot vmdsn : client.virtualMachineDiskSnapshots().list()) {
-			System.out.println(vmdsn.getMetadata().getName() + ":" + vmdsn.getSpec().getVolume().getCurrent());
-		}
+		System.out.println(client.virtualMachineDiskSnapshots().get("test").getClass());
 	}
 	
 }

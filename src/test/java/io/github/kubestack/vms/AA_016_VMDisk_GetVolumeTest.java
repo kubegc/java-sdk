@@ -13,12 +13,12 @@ import io.github.kubestack.client.KubeStackClient;
  * This code is used to manage CustomResource's lifecycle,
  * such as VirtualMachine
  */
-public class AA_VMDiskSnapshot_GetKindTest {
+public class AA_016_VMDisk_GetVolumeTest {
 	
 	public static void main(String[] args) throws Exception {
 
 		KubeStackClient client = io.github.kubestack.AbstractTest.getClient();
-		System.out.println(client.virtualMachineDiskSnapshots().getKind());
+		System.out.println(client.virtualMachineDisks().get("test").getSpec().getVolume());
 	}
 	
 }

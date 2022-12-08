@@ -16,7 +16,7 @@ import io.github.kubestack.client.api.specs.vms.virtualmachinedisk.Lifecycle.Cre
  * @since   2019/9/3
  *
  */
-public class AA_VMDisk_CreateTest {
+public class AA_017_VMDisk_CreateOnNfsTest {
 	
 	
 	public static void main(String[] args) throws Exception {
@@ -34,7 +34,7 @@ public class AA_VMDisk_CreateTest {
 //		Long size = 10L*1024*1024*1024;
 		createDisk.setCapacity("10G");
 		createDisk.setFormat("qcow2");
-		createDisk.setType("localfs");
+		createDisk.setType("nfs");
 		return createDisk;
 	}
 }
