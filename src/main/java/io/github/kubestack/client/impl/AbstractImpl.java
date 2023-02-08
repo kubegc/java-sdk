@@ -59,12 +59,10 @@ public abstract class AbstractImpl<T, R> {
 	protected final String kind;
 	
 	
-	protected abstract Class<?> getModelClass();
-
 	/**
-	 * @param client         the client can manage the lifecyle of the specified 
-	 * @param type           resource type, such as VirtualMachine, VirtualMachinePool
-	 */
+     * @param client the client can manage the lifecyle of the specified
+     * @param type resource type, such as VirtualMachine, VirtualMachinePool
+     */
 	public AbstractImpl(KubeStackClient client, String kind) {
 		this.client = client;
 		this.kind = kind;
@@ -76,6 +74,8 @@ public abstract class AbstractImpl<T, R> {
 		System.out.println(json.toPrettyString());
 		return json;
 	}
+
+    protected abstract Class<?> getModelClass();
 	
 	
 	/*******************************************************
@@ -83,6 +83,7 @@ public abstract class AbstractImpl<T, R> {
 	 *                Framework
 	 * 
 	 ********************************************************/
+
 	/**
 	 * @return                   Model, see fabric8 example
 	 */
@@ -625,7 +626,7 @@ public abstract class AbstractImpl<T, R> {
 	 *              Utils
 	 * 
 	 *************************************************/
-	
+
 	/**
 	 * @param nodeName             nodeName
 	 * @param lifecycle            lifecycle
@@ -645,9 +646,30 @@ public abstract class AbstractImpl<T, R> {
 			Method setLifecycle = t.getClass().getMethod("setLifecycle", lifecycle.getClass());
 			setLifecycle.invoke(t, lifecycle);
 		}
-		
+
 		return t;
 	}
+
+    /**
+     * @param nodeName nodeName
+     * @param lifecycle lifecycle
+     * @return Spec, or an exception
+     * @throws Exception exception
+     */
+    public R createSpec(Object lifecycle, Object secretRef) throws Exception {
+        R t = getSpec();
+        // t.setLifecycle(lifecycle)
+        if (lifecycle != null) {
+            Method setLifecycle = t.getClass().getMethod("setLifecycle", lifecycle.getClass());
+            setLifecycle.invoke(t, lifecycle);
+        }
+
+        if (secretRef != null) {
+            Method setSecretRef = t.getClass().getMethod("setSecretRef", secretRef.getClass());
+            setSecretRef.invoke(t, secretRef);
+        }
+        return t;
+    }
 	
 	/**
 	 * @param operator               operator

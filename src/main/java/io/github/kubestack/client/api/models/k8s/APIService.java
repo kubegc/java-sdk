@@ -2,7 +2,6 @@
  * Copyright (2019, ) Institute of Software, Chinese Academy of Sciences
  */
 package io.github.kubestack.client.api.models.k8s;
-
 import io.github.kubestack.client.api.models.KubeStackModel;
 
 /**

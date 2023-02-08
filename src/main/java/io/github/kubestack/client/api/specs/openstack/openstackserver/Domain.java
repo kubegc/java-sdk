@@ -1,17 +1,19 @@
 package io.github.kubestack.client.api.specs.openstack.openstackserver;
 
-import com.fasterxml.jackson.annotation.*;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 /**
- * @Description OpenstackServer Json @Date 2023/2/7 14:47 @Author guohao
+ * @Description OpenstackServer Json
+ * @Date 2023/2/7 14:47
+ * @Author guohao
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
@@ -91,81 +93,36 @@ public class Domain {
 
     public static void main(String[] args) {
         // language=JSON
-        String jsonString =
-                "{\n"
-                        + "  \"OS-DCF:diskConfig\":\"MANUAL\",\n"
-                        + "  \"OS-EXT-AZ:availability_zone\":\"nova\",\n"
-                        + "  \"OS-EXT-SRV-ATTR:host\":\"openstack\",\n"
-                        + "  \"OS-EXT-SRV-ATTR:hypervisor_hostname\":\"openstack\",\n"
-                        + "  \"OS-EXT-SRV-ATTR:instance_name\":\"instance-0000001d\",\n"
-                        + "  \"OS-EXT-STS:power_state\":1,\n"
-                        + "  \"OS-EXT-STS:task_state\":null,\n"
-                        + "  \"OS-EXT-STS:vm_state\":\"active\",\n"
-                        + "  \"OS-SRV-USG:launched_at\":\"2023-02-07T07:07:53.000000\",\n"
-                        + "  \"OS-SRV-USG:terminated_at\":null,\n"
-                        + "  \"accessIPv4\":\"\",\n"
-                        + "  \"accessIPv6\":\"\",\n"
-                        + "  \"addresses\":{\n"
-                        + "    \"public\":[\n"
-                        + "      {\n"
-                        + "        \"OS-EXT-IPS-MAC:mac_addr\":\"fa:16:3e:13:bc:ba\",\n"
-                        + "        \"OS-EXT-IPS:type\":\"fixed\",\n"
-                        + "        \"addr\":\"172.24.4.226\",\n"
-                        + "        \"version\":4\n"
-                        + "      }\n"
-                        + "    ]\n"
-                        + "  },\n"
-                        + "  \"config_drive\":\"\",\n"
-                        + "  \"created\":\"2023-02-07T07:07:16Z\",\n"
-                        + "  \"flavor\":{\n"
-                        + "    \"id\":\"3\",\n"
-                        + "    \"links\":[\n"
-                        + "      {\n"
-                        + "        \"href\":\"http://133.133.135.136:8774/aac94320146c464ab84146e35aa61c77/flavors/3\",\n"
-                        + "        \"rel\":\"bookmark\"\n"
-                        + "      }\n"
-                        + "    ]\n"
-                        + "  },\n"
-                        + "  \"hostId\":\"ab4a15f58126be6dfe9896dc9495ba8e4f9613d9395294f982f9c500\",\n"
-                        + "  \"id\":\"65992d97-a29c-4b6c-b2b4-c12e5bfd475f\",\n"
-                        + "  \"image\":{\n"
-                        + "    \"id\":\"952b386b-6f30-46f6-b019-f522b157aa3a\",\n"
-                        + "    \"links\":[\n"
-                        + "      {\n"
-                        + "        \"href\":\"http://133.133.135.136:8774/aac94320146c464ab84146e35aa61c77/images/952b386b-6f30-46f6-b019-f522b157aa3a\",\n"
-                        + "        \"rel\":\"bookmark\"\n"
-                        + "      }\n"
-                        + "    ]\n"
-                        + "  },\n"
-                        + "  \"key_name\":null,\n"
-                        + "  \"links\":[\n"
-                        + "    {\n"
-                        + "      \"href\":\"http://133.133.135.136:8774/v2.1/aac94320146c464ab84146e35aa61c77/servers/65992d97-a29c-4b6c-b2b4-c12e5bfd475f\",\n"
-                        + "      \"rel\":\"self\"\n"
-                        + "    },\n"
-                        + "    {\n"
-                        + "      \"href\":\"http://133.133.135.136:8774/aac94320146c464ab84146e35aa61c77/servers/65992d97-a29c-4b6c-b2b4-c12e5bfd475f\",\n"
-                        + "      \"rel\":\"bookmark\"\n"
-                        + "    }\n"
-                        + "  ],\n"
-                        + "  \"metadata\":{\n"
-                        + "\n"
-                        + "  },\n"
-                        + "  \"name\":\"test-create\",\n"
-                        + "  \"os-extended-volumes:volumes_attached\":[\n"
-                        + "\n"
-                        + "  ],\n"
-                        + "  \"progress\":0,\n"
-                        + "  \"security_groups\":[\n"
-                        + "    {\n"
-                        + "      \"name\":\"default\"\n"
-                        + "    }\n"
-                        + "  ],\n"
-                        + "  \"status\":\"ACTIVE\",\n"
-                        + "  \"tenant_id\":\"aac94320146c464ab84146e35aa61c77\",\n"
-                        + "  \"updated\":\"2023-02-07T07:07:53Z\",\n"
-                        + "  \"user_id\":\"f8db2401acfb4c3b98400dac8fa22207\"\n"
-                        + "}";
+        String jsonString = "{\n" + "  \"OS-DCF:diskConfig\":\"MANUAL\",\n"
+            + "  \"OS-EXT-AZ:availability_zone\":\"nova\",\n" + "  \"OS-EXT-SRV-ATTR:host\":\"openstack\",\n"
+            + "  \"OS-EXT-SRV-ATTR:hypervisor_hostname\":\"openstack\",\n"
+            + "  \"OS-EXT-SRV-ATTR:instance_name\":\"instance-0000001d\",\n" + "  \"OS-EXT-STS:power_state\":1,\n"
+            + "  \"OS-EXT-STS:task_state\":null,\n" + "  \"OS-EXT-STS:vm_state\":\"active\",\n"
+            + "  \"OS-SRV-USG:launched_at\":\"2023-02-07T07:07:53.000000\",\n"
+            + "  \"OS-SRV-USG:terminated_at\":null,\n" + "  \"accessIPv4\":\"\",\n" + "  \"accessIPv6\":\"\",\n"
+            + "  \"addresses\":{\n" + "    \"public\":[\n" + "      {\n"
+            + "        \"OS-EXT-IPS-MAC:mac_addr\":\"fa:16:3e:13:bc:ba\",\n"
+            + "        \"OS-EXT-IPS:type\":\"fixed\",\n" + "        \"addr\":\"172.24.4.226\",\n"
+            + "        \"version\":4\n" + "      }\n" + "    ]\n" + "  },\n" + "  \"config_drive\":\"\",\n"
+            + "  \"created\":\"2023-02-07T07:07:16Z\",\n" + "  \"flavor\":{\n" + "    \"id\":\"3\",\n"
+            + "    \"links\":[\n" + "      {\n"
+            + "        \"href\":\"http://133.133.135.136:8774/aac94320146c464ab84146e35aa61c77/flavors/3\",\n"
+            + "        \"rel\":\"bookmark\"\n" + "      }\n" + "    ]\n" + "  },\n"
+            + "  \"hostId\":\"ab4a15f58126be6dfe9896dc9495ba8e4f9613d9395294f982f9c500\",\n"
+            + "  \"id\":\"65992d97-a29c-4b6c-b2b4-c12e5bfd475f\",\n" + "  \"image\":{\n"
+            + "    \"id\":\"952b386b-6f30-46f6-b019-f522b157aa3a\",\n" + "    \"links\":[\n" + "      {\n"
+            + "        \"href\":\"http://133.133.135.136:8774/aac94320146c464ab84146e35aa61c77/images/952b386b-6f30-46f6-b019-f522b157aa3a\",\n"
+            + "        \"rel\":\"bookmark\"\n" + "      }\n" + "    ]\n" + "  },\n" + "  \"key_name\":null,\n"
+            + "  \"links\":[\n" + "    {\n"
+            + "      \"href\":\"http://133.133.135.136:8774/v2.1/aac94320146c464ab84146e35aa61c77/servers/65992d97-a29c-4b6c-b2b4-c12e5bfd475f\",\n"
+            + "      \"rel\":\"self\"\n" + "    },\n" + "    {\n"
+            + "      \"href\":\"http://133.133.135.136:8774/aac94320146c464ab84146e35aa61c77/servers/65992d97-a29c-4b6c-b2b4-c12e5bfd475f\",\n"
+            + "      \"rel\":\"bookmark\"\n" + "    }\n" + "  ],\n" + "  \"metadata\":{\n" + "\n" + "  },\n"
+            + "  \"name\":\"test-create\",\n" + "  \"os-extended-volumes:volumes_attached\":[\n" + "\n" + "  ],\n"
+            + "  \"progress\":0,\n" + "  \"security_groups\":[\n" + "    {\n" + "      \"name\":\"default\"\n"
+            + "    }\n" + "  ],\n" + "  \"status\":\"ACTIVE\",\n"
+            + "  \"tenant_id\":\"aac94320146c464ab84146e35aa61c77\",\n" + "  \"updated\":\"2023-02-07T07:07:53Z\",\n"
+            + "  \"user_id\":\"f8db2401acfb4c3b98400dac8fa22207\"\n" + "}";
         ObjectMapper mapper = new ObjectMapper();
         try {
             Domain openstackServerDomain1 = mapper.readValue(jsonString, Domain.class);
@@ -448,22 +405,21 @@ public class Domain {
         /** The server is currently being rebuilt */
         REBUILD,
         /**
-         * The server is suspended, either by request or necessity. This status appears for only the
-         * following hypervisors: XenServer/XCP, KVM, and ESXi. Administrative users may suspend an
-         * instance if it is infrequently used or to perform system maintenance. When you suspend an
-         * instance, its VM state is stored on disk, all memory is written to disk, and the virtual
-         * machine is stopped. Suspending an instance is similar to placing a device in hibernation;
-         * memory and vCPUs become available to create other instances.
+         * The server is suspended, either by request or necessity. This status appears for only the following
+         * hypervisors: XenServer/XCP, KVM, and ESXi. Administrative users may suspend an instance if it is infrequently
+         * used or to perform system maintenance. When you suspend an instance, its VM state is stored on disk, all
+         * memory is written to disk, and the virtual machine is stopped. Suspending an instance is similar to placing a
+         * device in hibernation; memory and vCPUs become available to create other instances.
          */
         SUSPENDED,
         /**
-         * In a paused state, the state of the server is stored in RAM. A paused server continues to
-         * run in frozen state.
+         * In a paused state, the state of the server is stored in RAM. A paused server continues to run in frozen
+         * state.
          */
         PAUSED,
         /**
-         * Server is performing the differential copy of data that changed during its initial copy.
-         * Server is down for this stage.
+         * Server is performing the differential copy of data that changed during its initial copy. Server is down for
+         * this stage.
          */
         RESIZE,
         /**
@@ -471,20 +427,19 @@ public class Domain {
          */
         VERIFY_RESIZE,
         /**
-         * The resize or migration of a server failed for some reason. The destination server is
-         * being cleaned up and the original source server is restarting.
+         * The resize or migration of a server failed for some reason. The destination server is being cleaned up and
+         * the original source server is restarting.
          */
         REVERT_RESIZE,
         /** The password is being reset on the server. */
         PASSWORD,
         /**
-         * The server is in a soft reboot state. A reboot command was passed to the operating
-         * system.
+         * The server is in a soft reboot state. A reboot command was passed to the operating system.
          */
         REBOOT,
         /**
-         * The server is hard rebooting. This is equivalent to pulling the power plug on a physical
-         * server, plugging it back in, and rebooting it.
+         * The server is hard rebooting. This is equivalent to pulling the power plug on a physical server, plugging it
+         * back in, and rebooting it.
          */
         HARD_REBOOT,
         /** The server is permanently deleted. */
@@ -496,8 +451,7 @@ public class Domain {
         /** The server is powered off and the disk image still persists. */
         STOPPED,
         /**
-         * The virtual machine (VM) was powered down by the user, but not through the OpenStack
-         * Compute API.
+         * The virtual machine (VM) was powered down by the user, but not through the OpenStack Compute API.
          */
         SHUTOFF,
         /** The server is currently being migrated */
@@ -505,15 +459,14 @@ public class Domain {
         /** The server is shelved */
         SHELVED,
         /**
-         * The server is shelved_offloaded, server removed from the hypervisor to minimize resource
-         * usage.
+         * The server is shelved_offloaded, server removed from the hypervisor to minimize resource usage.
          */
         SHELVED_OFFLOADED,
         /** The server is in rescue mode */
         RESCUE,
         /**
-         * OpenStack4j could not find a Status mapping for the current reported Status. File an
-         * issue indicating the missing state
+         * OpenStack4j could not find a Status mapping for the current reported Status. File an issue indicating the
+         * missing state
          */
         UNRECOGNIZED;
 
@@ -521,7 +474,8 @@ public class Domain {
         public static Status forValue(String value) {
             if (value != null) {
                 for (Status s : Status.values()) {
-                    if (s.name().equalsIgnoreCase(value)) return s;
+                    if (s.name().equalsIgnoreCase(value))
+                        return s;
                 }
             }
             return Status.UNRECOGNIZED;
@@ -534,12 +488,12 @@ public class Domain {
     }
 
     enum DiskConfig {
-        MANUAL,
-        AUTO;
+        MANUAL, AUTO;
 
         @JsonCreator
         public static DiskConfig forValue(String value) {
-            if (value != null && value.equalsIgnoreCase("auto")) return DiskConfig.AUTO;
+            if (value != null && value.equalsIgnoreCase("auto"))
+                return DiskConfig.AUTO;
             return DiskConfig.MANUAL;
         }
     }
@@ -859,7 +813,8 @@ public class Domain {
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class IdResourceEntity {
 
-        @JsonProperty protected String id;
+        @JsonProperty
+        protected String id;
 
         public IdResourceEntity() {}
 

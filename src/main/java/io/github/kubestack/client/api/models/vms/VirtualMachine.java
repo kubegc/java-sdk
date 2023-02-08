@@ -15,7 +15,7 @@ import io.github.kubestack.client.api.specs.vms.VirtualMachineSpec;
 public class VirtualMachine extends VirtualMachineModel {
 
 	protected VirtualMachineSpec spec;
-	
+
 	public VirtualMachineSpec getSpec() {
 		return spec;
 	}
