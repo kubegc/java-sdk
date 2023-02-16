@@ -1,15 +1,18 @@
 package io.github.kubestack.openstack;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import io.github.kubestack.AbstractTest;
 import io.github.kubestack.client.KubeStackClient;
 import io.github.kubestack.client.api.specs.openstack.SecretRef;
 import io.github.kubestack.client.api.specs.openstack.openstackserver.Lifecycle;
 
 /**
- * @Date 2023/2/9 11:09
+ * @Date 2023/2/9 10:43
  * @Author guohao
  **/
-public class CC_002_VM_CreateServerWithAvailabilityZone {
+public class AA_002_VM_CreateServerWithNetworkTest {
     public static void main(String[] args) throws Exception {
         KubeStackClient client = AbstractTest.getClient();
         Lifecycle.CreateServer createServer = get();
@@ -21,11 +24,15 @@ public class CC_002_VM_CreateServerWithAvailabilityZone {
         Lifecycle.CreateServer createServer = new Lifecycle.CreateServer();
         Lifecycle.CreateServer.Opts createOpts = createServer.getOpts();
 
-        createOpts.setName("test-create-az");
+        createOpts.setName("test-create-network");
         createOpts.setImageRef("952b386b-6f30-46f6-b019-f522b157aa3a");
         createOpts.setFlavorRef("3");
 
-        createOpts.setAvailabilityZone("nova");
+        Lifecycle.CreateServer.Opts.NovaNetworkCreate netwrok =
+            new Lifecycle.CreateServer.Opts().NewNovaNetworkCreate();
+        netwrok.setUUID("a3176333-3df6-480f-af2b-dc5e02ea1aa0");
+        netwrok.setTag("test");
+        createOpts.setNetworks(new ArrayList<>(Arrays.asList(netwrok)));
         return createServer;
     }
 

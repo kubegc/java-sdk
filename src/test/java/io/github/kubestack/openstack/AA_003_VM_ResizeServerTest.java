@@ -6,27 +6,25 @@ import io.github.kubestack.client.api.specs.openstack.SecretRef;
 import io.github.kubestack.client.api.specs.openstack.openstackserver.Lifecycle;
 
 /**
- * @Date 2023/2/9 10:46
+ * @Description //同步调用没有通过
+ * @Date 2023/2/10 17:02
  * @Author guohao
  **/
-public class CC_002_VM_CreateServerWithAdminPass {
+public class AA_003_VM_ResizeServerTest {
     public static void main(String[] args) throws Exception {
         KubeStackClient client = AbstractTest.getClient();
-        Lifecycle.CreateServer createServer = get();
-        boolean successful = client.openstackServers().createServer("test-create-sdk", get(), getSecretRef());
+        String id = client.openstackServers().get("test-create-sdk").getSpec().getId();
+        boolean successful = client.openstackServers().resizeServer("test-create-sdk", get(id));
         System.out.println(successful);
     }
 
-    public static Lifecycle.CreateServer get() {
-        Lifecycle.CreateServer createServer = new Lifecycle.CreateServer();
-        Lifecycle.CreateServer.Opts createOpts = createServer.getOpts();
-
-        createOpts.setName("test-create-adminpass");
-        createOpts.setImageRef("952b386b-6f30-46f6-b019-f522b157aa3a");
-        createOpts.setFlavorRef("3");
-
-        createOpts.setAdminPass("111111");
-        return createServer;
+    public static Lifecycle.ResizeServer get(String id) {
+        Lifecycle.ResizeServer resizeServer = new Lifecycle.ResizeServer();
+        resizeServer.setId(id);
+        Lifecycle.ResizeServer.Opts opts = new Lifecycle.ResizeServer.Opts();
+        opts.setFlavorRef("4");
+        resizeServer.setOpts(opts);
+        return resizeServer;
     }
 
     public static SecretRef getSecretRef() {
