@@ -312,7 +312,7 @@ public class Lifecycle {
 		@ParameterDescriber(required = false, description = "nfs、gfs挂载参数或uus的创建选项，为存储类型为uus和nfs、gfs时必填，本地存储和vdiskfs不填", constraint = "当type为nfs、gfs类型时，作为挂载参数", example = "nolock")
 		protected String opt;
 
-		@ParameterDescriber(required = true, description = "cstor存储池的名字，与挂载路径有关", constraint = "对所有类型必填，由数字和字母组成", example = "07098ca5fd174fccafed76b0d7fccde4")
+		@ParameterDescriber(required = false, description = "cstor存储池的名字，与挂载路径有关", constraint = "对所有类型必填，由数字和字母组成", example = "07098ca5fd174fccafed76b0d7fccde4")
 //		@Pattern(regexp = RegExpUtils.POOL_UUID)
 		@Deprecated
 		protected String uuid;
